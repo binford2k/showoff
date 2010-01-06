@@ -1,11 +1,7 @@
 require 'rubygems'
-require 'sinatra/base'
+require 'sinatra'
 
-class ShowOff < Sinatra::Base
-
-  get '/' do
-    "ShowOff" + options.dir
-  end
-  
+get '/' do
+  erb :index
 end
 
