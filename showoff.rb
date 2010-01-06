@@ -1,10 +1,10 @@
 require 'rubygems'
-require 'sinatra'
+require 'sinatra/base'
 
-class ShowOff < Sinatra::Default
-  
+class ShowOff < Sinatra::Base
+
   get '/' do
-    "ShowOff"
+    "ShowOff" + options.dir
   end
   
 end

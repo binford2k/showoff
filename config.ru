@@ -1,3 +1,3 @@
 #! /usr/bin/env ruby
 require 'showoff'
-ShowOff.run! 
+ShowOff.run!({:dir => 'preso'})
