@@ -42,15 +42,15 @@ function loadSlides() {
 
 function setupMenu() {
   newMenu = $("<ul id=\"nMenu\">")
-  for(i = 1; i <= slideTotal; i++) {
+  var currSlide = 0
+  slides.each(function(s, elem) {
+    shortTxt = $(elem).text().substr(0, 2dc0)
+    currSlide += 1
     item = $("<li>")
-    choice = $("<a rel=\"" + (i - 1) + "\" href=\"#\">Menu Item " + i + "</a>")
-    choice.click(function() {
-      alert(i)
-    })
+    choice = $("<a rel=\"" + (currSlide - 1) + "\" href=\"#\">" + currSlide + '. ' + shortTxt + "</a>")
     item.append(choice)
     newMenu.append(item)
-  }
+  })
   $('#navigation').html(newMenu)
   $('#navmenu').menu({ 
     content: $('#navigation').html() 
