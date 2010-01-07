@@ -3,21 +3,39 @@ body { font-family: Helvetica, Arial, sans-serif; }
 #preso { 
     border: 2px solid #aaa;
     width: 1024px;
-    height: 768px;
+    height: 738px;
+    margin-left:auto; 
+    margin-right:auto;
+}
+#footer { 
+    background: #eee;
+    padding: 3px;
+    width: 1024px;
+    height: 30px;
     margin-left:auto; 
     margin-right:auto;
 }
 
 .slide {
-    margin-left:auto; 
-    margin-right:auto;
 }
 
-h1 { font-size: 5em; }
-h2 { font-size: 3em; }
-h3 { font-size: 2em; }
+h1 { font-size: 5em; text-align: center;}
+h2 { font-size: 3em; text-align: center; }
+h3 { font-size: 2em; text-align: center; }
 
-pre { font-size: 3em; }
+pre { margin-left: 50px; font-size: 3em; }
+
+.hidden { position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden; }
+
+.fg-button { clear:left; margin:0 4px 40px 20px; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
+.fg-button .ui-icon { position: absolute; top: 50%; margin-top: -8px; left: 50%; margin-left: -8px; }
+a.fg-button { float:left; }
+.fg-button-icon-right { padding-right: 2.1em; }
+.fg-button-icon-right .ui-icon { left: auto; right: .2em; margin-left: 0; }
+
+.fg-button.ui-state-loading .ui-icon { background: url(spinner_bar.gif) no-repeat 0 0; }
+
+#navmenu { position: absolute; top: 10px; left: 10px; width: 50px; }
 
 .code .c { color: #999988; font-style: italic } /* Comment */
 .code .err { color: #a61717; background-color: #e3d2d2 } /* Error */

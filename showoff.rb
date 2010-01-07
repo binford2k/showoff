@@ -12,13 +12,21 @@ helpers do
     Dir.glob("#{section}/**/*")
   end
 
-  def process_markdown(content)
+  def process_markdown(name, content)
     slides = content.split('!SLIDE')
     slides.map! { |s| s.strip }
     slides.delete('')
     md = ''
+    if slides.size > 1
+      seq = 1
+    end
     slides.each do |slide|
-      md += "<div class=\"slide\">\n"
+      if seq
+        md += "<div class=\"slide\" ref=\"#{name}/#{seq.to_s}\">\n"
+        seq += 1
+      else
+        md += "<div class=\"slide\" ref=\"#{name}\">\n"
+      end
       md += MakersMark::Generator.new(slide).to_html rescue ''
       md += "</div>\n"
     end
@@ -44,7 +52,8 @@ get '/slides' do
     files = files.select { |f| f =~ /.md/ }
     data = ''
     files.each do |f|
-      data += process_markdown(File.read(f))
+      fname = f.gsub(options.pres_dir + '/', '').gsub('.md', '')
+      data += process_markdown(fname, File.read(f))
     end
   end
   data

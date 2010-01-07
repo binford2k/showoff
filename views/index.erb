@@ -10,18 +10,24 @@
 	<link rel="stylesheet" href="css/showoff.css" type="text/css"/>
 
 	<script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script>
+  <script type="text/javascript" src="/js/fg.menu.js"></script> 
 	<script type="text/javascript" src="/js/showoff.js"></script>
+  
+  <link type="text/css" href="/css/fg.menu.css" media="screen" rel="stylesheet" /> 
+  <link type="text/css" href="/css/theme/ui.all.css" media="screen" rel="stylesheet" /> 
 
   <script type="text/javascript">
-    $(document).ready(function(){
-       // Your code here
-       setupPreso()
-     });
+  $(function(){
+    setupPreso()
+  });
   </script>
-  
 </head>
 
 <body>
+  
+
+<a tabindex="0" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="navmenu"><span class="ui-icon ui-icon-triangle-1-s"></span>slides</a> 
+<div id="navigation" class="hidden"></div>
 
 <div id="preso">loading presentation...</div>
 <div id="footer">

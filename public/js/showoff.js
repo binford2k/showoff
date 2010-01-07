@@ -30,6 +30,7 @@ function loadSlides() {
   $("#slides").load("/slides", false, function(){
     slides = $('#slides > .slide')
     slideTotal = slides.size()
+    setupMenu()
     if (slidesLoaded) {
       showSlide()
     } else {
@@ -37,6 +38,28 @@ function loadSlides() {
       slidesLoaded = true
     }
    })
+}
+
+function setupMenu() {
+  newMenu = $("<ul id=\"nMenu\">")
+  for(i = 1; i <= slideTotal; i++) {
+    item = $("<li>")
+    choice = $("<a rel=\"" + (i - 1) + "\" href=\"#\">Menu Item " + i + "</a>")
+    choice.click(function() {
+      alert(i)
+    })
+    item.append(choice)
+    newMenu.append(item)
+  }
+  $('#navigation').html(newMenu)
+  $('#navmenu').menu({ 
+    content: $('#navigation').html() 
+  });
+}
+
+function gotoSlide(slideNum) {
+  slidenum = parseInt(slideNum)
+  showSlide()
 }
 
 function showFirstSlide() {
