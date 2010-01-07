@@ -5,6 +5,7 @@ var slidenum = 0
 var slideTotal = 0
 var slides
 var totalslides = 0
+var slidesLoaded = false
 
 function setupPreso() {
   if (preso_started)
@@ -21,17 +22,21 @@ function setupPreso() {
   /* window.onresize  = resized; */
   /* window.onscroll = scrolled; */
   /* window.onunload = unloaded; */
+
 }
 
 function loadSlides() {
-  /* TODO: load slide data from site */
   $('#slides').hide();
-  slides = $('#slides > .slide')
-  slideTotal = slides.size()
-
-  /* TODO: build table of contents and hide */
-
-  showFirstSlide()
+  $("#slides").load("/slides", false, function(){
+    slides = $('#slides > .slide')
+    slideTotal = slides.size()
+    if (slidesLoaded) {
+      showSlide()
+    } else {
+      showFirstSlide()
+      slidesLoaded = true
+    }
+   })
 }
 
 function showFirstSlide() {
@@ -46,8 +51,12 @@ function showSlide() {
   if(slidenum > (slideTotal - 1)) {
     slidenum = slideTotal - 1
   }
-  $("#preso").html(slides.eq(slidenum).html())
+  $("#preso").html(slides.eq(slidenum).clone())
   $("#slideInfo").text((slidenum + 1) + ' / ' + slideTotal)
+  curr_slide = $("#preso > .slide")
+  var slide_height = curr_slide.height()
+  var mar_top = (0.5 * parseFloat($("#preso").height())) - (0.5 * parseFloat(slide_height))
+  $("#preso > .slide").css('margin-top', mar_top)
 }
 
 //  See e.g. http://www.quirksmode.org/js/events/keys.html for keycodes
@@ -75,12 +84,10 @@ function keyDown(event)
     }
     else if (key == 82) // R for reload
     {
-    }
-    else if (key == 189 || key == 109)  // - for smaller fonts
-    {
-    }
-    else if (key == 187 || key == 191 || key == 107)  // = +  for larger fonts
-    {
+      if (confirm('really reload slides?')) {
+        loadSlides()
+        showSlide()
+      }
     }
     else if (key == 84 || key == 67)  // T or C for table of contents
     {
