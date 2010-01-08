@@ -244,6 +244,7 @@ function Menu(caller, options){
 	this.chooseItem = function(item){
 		menu.kill();
 		gotoSlide($(item).attr('rel'));
+		$('#navmenu').hide();
 	};
 };
 

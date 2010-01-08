@@ -84,6 +84,8 @@ function ListMenuItem(t, s)
 }
 
 function setupMenu() {
+  $('#navmenu').hide();
+
   var currSlide = 0
   var menu = new ListMenu()
   
@@ -158,6 +160,7 @@ function keyDown(event)
     }
     else if (key == 84 || key == 67)  // T or C for table of contents
     {
+      $('#navmenu').toggle();
     }
     else if (key == 72) // H for help
     {
