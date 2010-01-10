@@ -27,16 +27,30 @@ helpers do
       else
         md += "<div class=\"slide\" ref=\"#{name}\">\n"
       end
-      md += MakersMark::Generator.new(slide).to_html rescue ''
+      sl = MakersMark::Generator.new(slide).to_html rescue ''
+      sl = update_image_paths(name, sl)
+      md += sl
       md += "</div>\n"
     end
     md
   end
 
+  def update_image_paths(path, slide)
+    paths = path.split('/')
+    paths.pop
+    path = paths.join('/')
+    slide.gsub(/img src=\"(.*)\"/, 'img src="/image/' + path + '/\1"') 
+  end
 end
 
 get '/' do
   erb :index
+end
+
+get '/image/*' do
+  puts img_file = params[:splat].join('/')
+  img = File.join(options.pres_dir, img_file)
+  send_file img
 end
 
 get '/slides' do

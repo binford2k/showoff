@@ -1,4 +1,4 @@
-body { font-family: Helvetica, Arial, sans-serif; }
+body { font-family: "Gill Sans", Helvetica, Arial, sans-serif; }
 
 #preso { 
     border: 2px solid #aaa;
@@ -19,9 +19,9 @@ body { font-family: Helvetica, Arial, sans-serif; }
 .slide {
 }
 
-h1 { font-size: 5em; text-align: center;}
-h2 { font-size: 3em; text-align: center; }
-h3 { font-size: 2em; text-align: center; }
+h1 { font-size: 5em; font-weight: normal; text-align: center;}
+h2 { font-size: 3em; font-weight: normal; text-align: center; }
+h3 { font-size: 2em; font-weight: normal; text-align: center; }
 
 pre { margin-left: 50px; font-size: 3em; }
 

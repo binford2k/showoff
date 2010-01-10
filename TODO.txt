@@ -6,8 +6,9 @@ X read in main presentation config file
 X go through simple text slides in default order
 X syntax highlighted code
 - show images
+X slide menu (jump around)
+- incremental bullets / images
 - command line interactions
-- slide menu (jump around)
 - simple transitions
 - simple animations (image from A to B)
 - presenter tools
