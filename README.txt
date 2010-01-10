@@ -4,7 +4,7 @@ ShowOff Presentation Software
 ShowOff is a Sinatra web app that reads simple configuration files for a
 presentation.  It is sort of like a Keynote web app engine.  I am using it
 to do all my talks in 2010, because I have a deep hatred in my heart for
-Keynote and yet it is the best in the field.
+Keynote and yet it is by far the best in the field.
 
 The idea is that you setup your slide files in section subdirectories and
 then startup the showoff server in that directory.  It will read in your
@@ -34,3 +34,23 @@ remove sections easily.
 It will also optionally broadcast itself on Bonjour so people can download 
 slides, code samples or other supplementary material.
 
+Why Not S5 or Slidy or Slidedown?
+=================================
+
+S5 and Slidy are really cool, and I was going to use them, but mainly I wanted
+something more dynamic.  I wanted Slidy + Slidedown, where I could write my
+slideshows in a structured format in sections, where the sections could easily
+be moved around and between presentations and could be written in Markdown. I
+also like the idea of having interactive presentation system and didn't need
+half the features of S5/Slidy (style based print view, auto-scaling, themes,
+etc).
+
+Requirements
+============
+
+* Ruby (duh)
+* Sinatra (and thus Rack)
+* BlueCloth
+* Makers-Mark
+* Pygments 
+* Firefox or Chrome to present

@@ -117,8 +117,9 @@ function Menu(caller, options){
 			
 			var menuType = ($(event.target).parents('div').is('.fg-menu-flyout')) ? 'flyout' : 'ipod' ;
 			
+			// vi bindings
 			switch(e) {
-				case 37: // left arrow 
+				case 72: // left arrow 
 					if (menuType == 'flyout') {
 						$(event.target).trigger('mouseout');
 						if ($('.'+options.flyOutOnState).size() > 0) { $('.'+options.flyOutOnState).trigger('mouseover'); };
@@ -135,7 +136,7 @@ function Menu(caller, options){
 					return false;
 					break;
 					
-				case 38: // up arrow 
+				case 75: // up arrow 
 					if ($(event.target).is('.' + options.linkHover)) {	
 						var prevLink = $(event.target).parent().prev().find('a:eq(0)');						
 						if (prevLink.size() > 0) {
@@ -147,7 +148,7 @@ function Menu(caller, options){
 					return false;
 					break;
 					
-				case 39: // right arrow 
+				case 76: // right arrow 
 					if ($(event.target).is('.fg-menu-indicator')) {						
 						if (menuType == 'flyout') {
 							$(event.target).next().find('a:eq(0)').trigger('mouseover');
@@ -162,7 +163,7 @@ function Menu(caller, options){
 					return false;
 					break;
 					
-				case 40: // down arrow 
+				case 74: // down arrow 
 					if ($(event.target).is('.' + options.linkHover)) {
 						var nextLink = $(event.target).parent().next().find('a:eq(0)');						
 						if (nextLink.size() > 0) {							

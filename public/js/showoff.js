@@ -6,6 +6,7 @@ var slideTotal = 0
 var slides
 var totalslides = 0
 var slidesLoaded = false
+var incrSteps = 0
 
 function setupPreso() {
   if (preso_started)
@@ -37,50 +38,6 @@ function loadSlides() {
       slidesLoaded = true
     }
    })
-}
-
-function ListMenu()
-{
-  this.typeName = 'ListMenu'
-  this.itemLength = 0;
-  this.items = new Array();
-  this.addItem = function (key, text, slide) {
-    if (key.length > 1) {
-      thisKey = key.shift()
-      if (!this.items[thisKey]) {
-        this.items[thisKey] = new ListMenu
-      }
-      this.items[thisKey].addItem(key, text, slide)
-    } else {
-      thisKey = key.shift()
-      this.items[thisKey] = new ListMenuItem(text, slide)
-    }
-  }
-  this.getList = function() {
-    var newMenu = $("<ul>")
-    for(var i in this.items) {
-      var item = this.items[i]
-      var domItem = $("<li>")
-      if (item.typeName == 'ListMenu') {
-        choice = $("<a href=\"#\">" + i + "</a>")
-        domItem.append(choice)
-        domItem.append(item.getList())
-      }
-      if (item.typeName == 'ListMenuItem') {
-        choice = $("<a rel=\"" + (item.slide - 1) + "\" href=\"#\">" + item.slide + '. ' + item.textName + "</a>")
-        domItem.append(choice)
-      }
-      newMenu.append(domItem)
-    }
-    return newMenu      
-  }
-}
-
-function ListMenuItem(t, s)
-{
-  this.typeName = "ListMenuItem"
-  this.slide = s
-  this.textName = t
 }
 
 function setupMenu() {
@@ -160,11 +117,56 @@ function keyDown(event)
     }
     else if (key == 84 || key == 67)  // T or C for table of contents
     {
-      $('#navmenu').toggle();
+      $('#navmenu').toggle().trigger('click');
     }
     else if (key == 72) // H for help
     {
     }
 
     return true
+}
+
+
+function ListMenu()
+{
+  this.typeName = 'ListMenu'
+  this.itemLength = 0;
+  this.items = new Array();
+  this.addItem = function (key, text, slide) {
+    if (key.length > 1) {
+      thisKey = key.shift()
+      if (!this.items[thisKey]) {
+        this.items[thisKey] = new ListMenu
+      }
+      this.items[thisKey].addItem(key, text, slide)
+    } else {
+      thisKey = key.shift()
+      this.items[thisKey] = new ListMenuItem(text, slide)
+    }
+  }
+  this.getList = function() {
+    var newMenu = $("<ul>")
+    for(var i in this.items) {
+      var item = this.items[i]
+      var domItem = $("<li>")
+      if (item.typeName == 'ListMenu') {
+        choice = $("<a href=\"#\">" + i + "</a>")
+        domItem.append(choice)
+        domItem.append(item.getList())
+      }
+      if (item.typeName == 'ListMenuItem') {
+        choice = $("<a rel=\"" + (item.slide - 1) + "\" href=\"#\">" + item.slide + '. ' + item.textName + "</a>")
+        domItem.append(choice)
+      }
+      newMenu.append(domItem)
+    }
+    return newMenu      
+  }
+}
+
+function ListMenuItem(t, s)
+{
+  this.typeName = "ListMenuItem"
+  this.slide = s
+  this.textName = t
 }
