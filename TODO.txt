@@ -5,12 +5,12 @@ X startup server
 X read in main presentation config file
 X go through simple text slides in default order
 X syntax highlighted code
-- show images
+X show images
 X slide menu (jump around)
 - incremental bullets / images
 - command line interactions
-- simple transitions
 - simple animations (image from A to B)
+- simple transitions
 - presenter tools
   - show/hide timer
   - warning when time is up or pace is too slow

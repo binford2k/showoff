@@ -19,6 +19,26 @@ body { font-family: "Gill Sans", Helvetica, Arial, sans-serif; }
 .slide {
 }
 
+.center img {
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.bullets ul {
+    display: block;
+    height: 600px;
+    font-size: 3em;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 1em;
+    text-indent: -1em;
+}
+.bullets ul li {
+    text-align: center;
+    padding: 25px;
+}
+
 h1 { font-size: 5em; font-weight: normal; text-align: center;}
 h2 { font-size: 3em; font-weight: normal; text-align: center; }
 h3 { font-size: 2em; font-weight: normal; text-align: center; }

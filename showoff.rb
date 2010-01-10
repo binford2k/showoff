@@ -14,18 +14,20 @@ helpers do
 
   def process_markdown(name, content)
     slides = content.split('!SLIDE')
-    slides.map! { |s| s.strip }
     slides.delete('')
     md = ''
     if slides.size > 1
       seq = 1
     end
     slides.each do |slide|
+      lines = slide.split("\n")
+      classes = lines.shift
+      slide = lines.join("\n")
       if seq
-        md += "<div class=\"slide\" ref=\"#{name}/#{seq.to_s}\">\n"
+        md += "<div class=\"slide #{classes}\" ref=\"#{name}/#{seq.to_s}\">\n"
         seq += 1
       else
-        md += "<div class=\"slide\" ref=\"#{name}\">\n"
+        md += "<div class=\"slide #{classes}\" ref=\"#{name}\">\n"
       end
       sl = MakersMark::Generator.new(slide).to_html rescue ''
       sl = update_image_paths(name, sl)
@@ -39,7 +41,7 @@ helpers do
     paths = path.split('/')
     paths.pop
     path = paths.join('/')
-    slide.gsub(/img src=\"(.*)\"/, 'img src="/image/' + path + '/\1"') 
+    slide.gsub(/img src=\"(.*?)\"/, 'img src="/image/' + path + '/\1"') 
   end
 end
 
@@ -48,7 +50,7 @@ get '/' do
 end
 
 get '/image/*' do
-  puts img_file = params[:splat].join('/')
+  img_file = params[:splat].join('/')
   img = File.join(options.pres_dir, img_file)
   send_file img
 end
