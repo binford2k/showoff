@@ -9,6 +9,7 @@ var slidesLoaded = false
 var incrSteps = 0
 var incrElem
 var incrCurr = 0
+var incrCode = false
 
 function setupPreso() {
   if (preso_started)
@@ -95,9 +96,16 @@ function showSlide() {
 
 function determineIncremental()
 {
+  incrCurr = 0
+  incrCode = false
   incrElem = $("#preso > .incremental > ul > li")
   incrSteps = incrElem.size()
-  incrCurr = 0
+  if(incrSteps == 0) {
+    // also look for commandline
+    incrElem = $("#preso > .incremental > pre > code > code")
+    incrSteps = incrElem.size()
+    incrCode = true
+  }
   incrElem.each(function(s, elem) {
     $(elem).hide()
   })
@@ -109,7 +117,12 @@ function nextStep()
     slidenum++
     showSlide()
   } else {
-    incrElem.eq(incrCurr).show()
+    elem = incrElem.eq(incrCurr)
+    if (incrCode && elem.hasClass('command')) {
+      incrElem.eq(incrCurr).show().jTypeWriter({duration:1.0})
+    } else {
+      incrElem.eq(incrCurr).show()
+    }
     incrCurr++
   }
 }

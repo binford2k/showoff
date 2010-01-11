@@ -8,7 +8,8 @@ X syntax highlighted code
 X show images
 X slide menu (jump around)
 X incremental bullets 
-- command line interactions
+X command line interactions
+- simple highlighting (highlight region of slide)
 - simple animations (image from A to B)
 - simple transitions
 - presenter tools

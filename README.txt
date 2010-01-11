@@ -53,4 +53,5 @@ Requirements
 * BlueCloth
 * Makers-Mark
 * Pygments 
+* Nokogiri
 * Firefox or Chrome to present

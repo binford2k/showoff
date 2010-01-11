@@ -15,11 +15,12 @@ helpers do
   def process_markdown(name, content)
     slides = content.split('!SLIDE')
     slides.delete('')
-    md = ''
+    final = ''
     if slides.size > 1
       seq = 1
     end
     slides.each do |slide|
+      md = ''
       lines = slide.split("\n")
       classes = lines.shift
       slide = lines.join("\n")
@@ -33,8 +34,9 @@ helpers do
       sl = update_image_paths(name, sl)
       md += sl
       md += "</div>\n"
+      final += update_commandline_code(md)
     end
-    md
+    final
   end
 
   def update_image_paths(path, slide)
@@ -42,6 +44,29 @@ helpers do
     paths.pop
     path = paths.join('/')
     slide.gsub(/img src=\"(.*?)\"/, 'img src="/image/' + path + '/\1"') 
+  end
+  
+  def update_commandline_code(slide)
+    html = Nokogiri::XML.parse(slide)
+    html.css('.commandline > pre > code').each do |code|
+      out = code.text
+      lines = out.split(/^\$(.*?)$/)
+      lines.delete('')
+      code.content = ''
+      while(lines.size > 0) do
+        command = lines.shift
+        result = lines.shift
+        c = Nokogiri::XML::Node.new('code', html)
+        c.set_attribute('class', 'command')
+        c.content = '$' + command
+        code << c
+        c = Nokogiri::XML::Node.new('code', html)
+        c.set_attribute('class', 'result')
+        c.content = result
+        code << c
+      end
+    end
+    html.root.to_s
   end
 end
 
