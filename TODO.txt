@@ -7,7 +7,7 @@ X go through simple text slides in default order
 X syntax highlighted code
 X show images
 X slide menu (jump around)
-- incremental bullets / images
+X incremental bullets 
 - command line interactions
 - simple animations (image from A to B)
 - simple transitions

@@ -7,6 +7,8 @@ var slides
 var totalslides = 0
 var slidesLoaded = false
 var incrSteps = 0
+var incrElem
+var incrCurr = 0
 
 function setupPreso() {
   if (preso_started)
@@ -77,12 +79,39 @@ function showSlide() {
   if(slidenum > (slideTotal - 1)) {
     slidenum = slideTotal - 1
   }
+
+  // TODO: calculate and set the height margins on slide load, not here
+
   $("#preso").html(slides.eq(slidenum).clone())
   $("#slideInfo").text((slidenum + 1) + ' / ' + slideTotal)
   curr_slide = $("#preso > .slide")
   var slide_height = curr_slide.height()
   var mar_top = (0.5 * parseFloat($("#preso").height())) - (0.5 * parseFloat(slide_height))
   $("#preso > .slide").css('margin-top', mar_top)
+
+  // determine if there are incremental bullets to show
+  determineIncremental()
+}
+
+function determineIncremental()
+{
+  incrElem = $("#preso > .incremental > ul > li")
+  incrSteps = incrElem.size()
+  incrCurr = 0
+  incrElem.each(function(s, elem) {
+    $(elem).hide()
+  })
+}
+
+function nextStep()
+{
+  if (incrCurr >= incrSteps) {
+    slidenum++
+    showSlide()
+  } else {
+    incrElem.eq(incrCurr).show()
+    incrCurr++
+  }
 }
 
 //  See e.g. http://www.quirksmode.org/js/events/keys.html for keycodes
@@ -95,8 +124,7 @@ function keyDown(event)
 
     if (key == 32) // space bar
     {
-      slidenum++
-      showSlide()
+      nextStep()
     }
     else if (key == 37) // Left arrow
     {
@@ -105,8 +133,7 @@ function keyDown(event)
     }
     else if (key == 39) // Right arrow
     {
-      slidenum++
-      showSlide()
+      nextStep()
     }
     else if (key == 82) // R for reload
     {
