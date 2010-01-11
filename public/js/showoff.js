@@ -78,9 +78,11 @@ function showFirstSlide() {
 function showSlide() {
   if(slidenum < 0) {
     slidenum = 0
+    return
   }
   if(slidenum > (slideTotal - 1)) {
     slidenum = slideTotal - 1
+    return
   }
 
   // TODO: calculate and set the height margins on slide load, not here
@@ -182,7 +184,7 @@ function keyDown(event)
     {
       $('#navmenu').toggle().trigger('click')
     }
-    else if (key == 72) // H for help
+    else if (key == 90) // z for help
     {
       $('#help').toggle()
     }
