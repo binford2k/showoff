@@ -10,6 +10,7 @@ var incrSteps = 0
 var incrElem
 var incrCurr = 0
 var incrCode = false
+var debugMode = false
 
 function setupPreso() {
   if (preso_started)
@@ -20,6 +21,7 @@ function setupPreso() {
   preso_started = true
 
   loadSlides()
+  doDebugStuff()
 
   // bind event handlers
   document.onkeydown = keyDown
@@ -127,6 +129,20 @@ function nextStep()
   }
 }
 
+function doDebugStuff()
+{
+  if (debugMode) {
+    $('#debugInfo').show()
+    debug('debug mode on')
+  } else {
+    $('#debugInfo').hide()    
+  }
+}
+
+function debug(data)
+{
+  $('#debugInfo').text(data)
+}
 //  See e.g. http://www.quirksmode.org/js/events/keys.html for keycodes
 function keyDown(event)
 {
@@ -135,9 +151,16 @@ function keyDown(event)
     if (event.ctrlKey || event.altKey || event.metaKey)
        return true;
 
+    debug('key: ' + key)
+
     if (key == 32) // space bar
     {
       nextStep()
+    }
+    else if (key == 68) // 'd' for debug
+    {
+      debugMode = !debugMode
+      doDebugStuff()
     }
     else if (key == 37) // Left arrow
     {
@@ -157,12 +180,16 @@ function keyDown(event)
     }
     else if (key == 84 || key == 67)  // T or C for table of contents
     {
-      $('#navmenu').toggle().trigger('click');
+      $('#navmenu').toggle().trigger('click')
     }
     else if (key == 72) // H for help
     {
+      $('#help').toggle()
     }
-
+    else if (key == 70) // f for footer
+    {
+      $('#footer').toggle()
+    }
     return true
 }
 

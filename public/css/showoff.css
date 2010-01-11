@@ -44,11 +44,11 @@ body { font-family: "Gill Sans", Helvetica, Arial, sans-serif; }
 }
 
 .commandline code.command {
-    color: #600;
+    color: #000;
 }
 
 .commandline code.result {
-    color: #333;
+    color: #444;
 }
 
 h1 { font-size: 5em; font-weight: normal; text-align: center;}
@@ -58,6 +58,20 @@ h3 { font-size: 2em; font-weight: normal; text-align: center; }
 pre { margin-left: 50px; font-size: 3em; }
 
 .hidden { position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden; }
+#debugInfo { margin-left: 30px; }
+
+#help {
+    background: #9f9;
+    position: absolute;
+    right: 80px;
+    display: none;
+}
+#help table tr td.key {
+    text-align: right;
+    border-right: 2px solid #8b8;
+    padding-right: 4px;
+    font-weight: bold;
+}
 
 .fg-button { clear:left; margin:0 4px 40px 20px; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
 .fg-button .ui-icon { position: absolute; top: 50%; margin-top: -8px; left: 50%; margin-left: -8px; }
