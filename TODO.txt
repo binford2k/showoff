@@ -9,6 +9,7 @@ X show images
 X slide menu (jump around)
 X incremental bullets 
 X command line interactions
+- cmd line tool to help create slides
 - simple highlighting (highlight region of slide)
 - simple animations (image from A to B)
 - simple transitions

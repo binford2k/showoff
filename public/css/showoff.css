@@ -6,6 +6,7 @@ body { font-family: "Gill Sans", Helvetica, Arial, sans-serif; }
     height: 738px;
     margin-left:auto; 
     margin-right:auto;
+    overflow:hidden;
 }
 #footer { 
     background: #eee;
@@ -17,6 +18,7 @@ body { font-family: "Gill Sans", Helvetica, Arial, sans-serif; }
 }
 
 .slide {
+    border: 1px solid #fff;
 }
 
 .center img {
