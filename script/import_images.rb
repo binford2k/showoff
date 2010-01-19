@@ -21,15 +21,16 @@ path = ARGV[2]
 if File.exists?(preso)
   Dir.chdir(preso) do
     # make the new directory
-    Dir.mkdir(section)
+    Dir.mkdir(section) rescue nil
     Dir.chdir(section) do
-      Dir.mkdir('img')
+      Dir.mkdir('img') rescue nil
       # copy all the images into img dir
       FileUtils.cp_r(path, "img")
       files = Dir.glob("img/**/*")
 
       # create the slides file
-      filenm = "#{section}.md"
+      filen = section.split('/').last
+      filenm = "#{filen}.md"
       File.open(filenm, 'w+') do |f|
         files.each do |img|
           if File.file?(img)
