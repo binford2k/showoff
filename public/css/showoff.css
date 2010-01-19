@@ -1,17 +1,19 @@
 body { font-family: "Gill Sans", Helvetica, Arial, sans-serif; }
 
 #preso { 
-    border: 1px solid #aaa;
-    width: 1024px;
-    height: 738px;
+    margin: 0;
+    padding: 0;
+    width: 1000px;
+    height: 730px;
     margin-left:auto; 
     margin-right:auto;
     overflow:hidden;
 }
 #footer { 
     background: #eee;
+    margin: 0;
     padding: 3px;
-    width: 1024px;
+    width: 1000px;
     height: 30px;
     margin-left:auto; 
     margin-right:auto;
@@ -41,6 +43,20 @@ body { font-family: "Gill Sans", Helvetica, Arial, sans-serif; }
     padding: 25px;
 }
 
+.smbullets ul {
+    display: block;
+    height: 600px;
+    font-size: 2em;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 1em;
+    text-indent: -1em;
+}
+.smbullets ul li {
+    text-align: center;
+    padding: 10px;
+}
+
 .commandline pre {
     font-size: 2em;
 }
@@ -57,6 +73,11 @@ body { font-family: "Gill Sans", Helvetica, Arial, sans-serif; }
     white-space: pre;
     font-family: monospace;
     font-size: 3em;
+}
+
+.code {
+    white-space: pre;
+    font-family: monospace;
 }
 
 .subsection {
