@@ -89,6 +89,10 @@ body { font-family: "Gill Sans", Helvetica, Arial, sans-serif; }
     font-size: 80%;
 }
 
+.smaller {
+    font-size: 70%;
+}
+
 h1 { font-size: 5em; font-weight: normal; text-align: center;}
 h2 { font-size: 3em; font-weight: normal; text-align: center; }
 h3 { font-size: 2em; font-weight: normal; text-align: center; }
