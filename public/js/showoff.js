@@ -38,6 +38,7 @@ function loadSlides() {
     setupMenu()
     if (slidesLoaded) {
       showSlide()
+      alert('slides loaded')
     } else {
       showFirstSlide()
       slidesLoaded = true
@@ -177,7 +178,6 @@ function keyDown(event)
     {
       if (confirm('really reload slides?')) {
         loadSlides()
-	alert('reloaded')
         showSlide()
       }
     }
