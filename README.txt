@@ -12,6 +12,7 @@ showoff.json file for which sections go in which order and then will give
 you a URL to present from.
 
 It can:
+(warning - not all implemented yet)
 
  * show simple text
  * show images
@@ -24,8 +25,7 @@ It can:
  * show audience questions / comments (twitter or direct)
  * let audience members go back / catch up as you talk
  * let audience members vote on sections (?)
-
-You can also call up a menu of sections/slides at any time to jump around.
+ * call up a menu of sections/slides at any time to jump around.
 
 Some of the nice things are that you can easily version control it, you 
 can easily move sections between presentations, and you can rearrange or 
@@ -33,6 +33,14 @@ remove sections easily.
 
 It will also optionally broadcast itself on Bonjour so people can download 
 slides, code samples or other supplementary material.
+
+Example Presentation
+====================
+
+Right now it comes with an example presentation (my LinuxConf.au talk)
+that will probably change or go away at some point.  I would like this
+to eventually be a general tool rather than having the presentation in
+the showoff repo.  Eventually.
 
 Why Not S5 or Slidy or Slidedown?
 =================================
