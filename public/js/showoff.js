@@ -177,6 +177,7 @@ function keyDown(event)
     {
       if (confirm('really reload slides?')) {
         loadSlides()
+	alert('reloaded')
         showSlide()
       }
     }
