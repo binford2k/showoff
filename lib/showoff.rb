@@ -13,8 +13,8 @@ require 'pp'
 
 class ShowOff < Sinatra::Application
 
-  set :views, File.dirname(__FILE__) + '/views'
-  set :public, File.dirname(__FILE__) + '/public'
+  set :views, File.dirname(__FILE__) + '/../views'
+  set :public, File.dirname(__FILE__) + '/../public'
   set :pres_dir, 'example'
 
   def initialize(app=nil)
