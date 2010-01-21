@@ -89,7 +89,5 @@ Requirements
 * Ruby (duh)
 * Sinatra (and thus Rack)
 * BlueCloth
-* Makers-Mark
-* Pygments 
 * Nokogiri
 * Firefox or Chrome to present
