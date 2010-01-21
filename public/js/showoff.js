@@ -43,6 +43,7 @@ function loadSlides() {
       showFirstSlide()
       slidesLoaded = true
     }
+    sh_highlightDocument()
    })
 }
 

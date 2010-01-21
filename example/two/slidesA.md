@@ -1,13 +1,19 @@
-!SLIDE
+!SLIDE subsection
 
-# Third Slide #
+# Subsection Slide #
 
-!SLIDE bullets incremental
+!SLIDE ruby
 
-# Fourth Slide #
+# Code Slide #
 
-* something
-* something else
-* a third thing
-* a fourth thing
-* a fifth thing
+	@@@ ruby
+	require 'sinatra/base'
+
+	class MyApp < Sinatra::Base
+	  set :sessions, true
+	  set :foo, 'bar'
+
+	  get '/' do
+	    'Hello world!'
+	  end
+	end

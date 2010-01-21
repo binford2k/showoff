@@ -1,10 +1,10 @@
 !SLIDE
 
-# Third Slide #
+# First Slide #
 
 !SLIDE bullets incremental
 
-# Fourth Slide #
+# Second Slide #
 
 * something
 * something else

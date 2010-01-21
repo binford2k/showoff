@@ -66,6 +66,19 @@ class ShowOff < Sinatra::Application
     
     def update_commandline_code(slide)
       html = Nokogiri::XML.parse(slide)
+      
+      html.css('pre').each do |pre|
+        pre.css('code').each do |code|
+          out = code.text
+          lines = out.split("\n")
+          if lines.first[0, 3] == '@@@'
+            lang = lines.shift.gsub('@@@', '').strip
+            pre.set_attribute('class', 'sh_' + lang)
+            code.content = lines.join("\n")
+          end
+        end
+      end
+
       html.css('.commandline > pre > code').each do |code|
         out = code.text
         lines = out.split(/^\$(.*?)$/)
