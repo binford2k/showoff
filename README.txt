@@ -16,6 +16,7 @@ It can:
  * show simple text
  * show images
  * show syntax highlighted code
+ * bullets with incremental advancing
  * re-enact command line interactions
  * call up a menu of sections/slides at any time to jump around
 
