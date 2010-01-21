@@ -36,13 +36,22 @@ Some of the nice things are that you can easily version control it, you
 can easily move sections between presentations, and you can rearrange or 
 remove sections easily. 
 
+Usage
+====================
+
+To try ShowOff, clone this repo and run ./bin/showoff, which will start
+up the Sinatra server and serve the examples/ directory. Eventually this
+will be gemified and you can run it in any ShowOff directory.
+
 Real World Usage
 ====================
 
 So far, showoff has been used in the following presentations:
 
-* LinuxConf.au 2010 - Wrangling Git - Scott Chacon
+* LinuxConf.au 2010 - Wrangling Git - Scott Chacon 
+  http://github.com/schacon/showoff-lca2010
 
+If you use it for something, please let me know.
 
 Future Plans
 ====================
