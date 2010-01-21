@@ -17,6 +17,10 @@ It can:
  * show images
  * show syntax highlighted code
  * re-enact command line interactions
+ * call up a menu of sections/slides at any time to jump around
+
+It might will can:
+
  * do simple transitions (instant, fade, slide in)
  * show a timer - elapsed / remaining
  * perform simple animations of images moving between keyframes
@@ -24,15 +28,14 @@ It can:
  * show audience questions / comments (twitter or direct)
  * let audience members go back / catch up as you talk
  * let audience members vote on sections (?)
+ * broadcast itself on Bonjour 
+ * let audience members download slides, code samples or other supplementary material
 
-You can also call up a menu of sections/slides at any time to jump around.
 
 Some of the nice things are that you can easily version control it, you 
 can easily move sections between presentations, and you can rearrange or 
 remove sections easily. 
 
-It will also optionally broadcast itself on Bonjour so people can download 
-slides, code samples or other supplementary material.
 
 Why Not S5 or Slidy or Slidedown?
 =================================
