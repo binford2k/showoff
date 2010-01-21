@@ -38,6 +38,7 @@ function loadSlides() {
     setupMenu()
     if (slidesLoaded) {
       showSlide()
+      alert('slides loaded')
     } else {
       showFirstSlide()
       slidesLoaded = true

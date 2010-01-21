@@ -31,11 +31,18 @@ It might will can:
  * broadcast itself on Bonjour 
  * let audience members download slides, code samples or other supplementary material
 
-
 Some of the nice things are that you can easily version control it, you 
 can easily move sections between presentations, and you can rearrange or 
 remove sections easily. 
 
+
+Example Presentation
+====================
+
+Right now it comes with an example presentation (my LinuxConf.au talk)
+that will probably change or go away at some point.  I would like this
+to eventually be a general tool rather than having the presentation in
+the showoff repo.  Eventually.
 
 Why Not S5 or Slidy or Slidedown?
 =================================

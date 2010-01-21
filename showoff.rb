@@ -9,7 +9,9 @@ set :pres_dir, 'preso'
 helpers do
   def load_section_files(section)
     section = File.join(options.pres_dir, section)
-    Dir.glob("#{section}/**/*")
+    files = Dir.glob("#{section}/**/*").sort
+    pp files
+    files
   end
 
   def process_markdown(name, content)
@@ -88,6 +90,7 @@ get '/slides' do
     order = order.map { |s| s['section'] }
     order.each do |section|
       files << load_section_files(section)
+
     end
     files = files.flatten
     files = files.select { |f| f =~ /.md/ }
