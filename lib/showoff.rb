@@ -2,13 +2,19 @@ require 'rubygems'
 require 'sinatra/base'
 require 'json'
 require 'nokogiri'
-require 'bluecloth'
+
+begin 
+  require 'rdiscount'
+rescue LoadError
+  require 'bluecloth'
+  Markdown = BlueCloth
+end
 require 'pp'
 
 class ShowOff < Sinatra::Application
 
-  set :views, File.dirname(__FILE__) + '/views'
-  set :public, File.dirname(__FILE__) + '/public'
+  set :views, File.dirname(__FILE__) + '/../views'
+  set :public, File.dirname(__FILE__) + '/../public'
   set :pres_dir, 'example'
 
   def initialize(app=nil)
@@ -48,7 +54,7 @@ class ShowOff < Sinatra::Application
         else
           md += "<div class=\"slide #{classes}\" ref=\"#{name}\">\n"
         end
-        sl = BlueCloth.new(slide).to_html 
+        sl = Markdown.new(slide).to_html 
         sl = update_image_paths(name, sl)
         md += sl
         md += "</div>\n"
