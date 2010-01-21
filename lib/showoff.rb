@@ -19,7 +19,7 @@ class ShowOff < Sinatra::Application
 
   def initialize(app=nil)
     super(app)
-    puts dir = File.expand_path(File.dirname(__FILE__))
+    puts dir = File.expand_path(File.join(File.dirname(__FILE__), '..'))
     if Dir.pwd == dir
       options.pres_dir = dir + '/example'
     else
