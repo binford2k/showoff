@@ -35,14 +35,32 @@ Some of the nice things are that you can easily version control it, you
 can easily move sections between presentations, and you can rearrange or 
 remove sections easily. 
 
+Real World Usage
+====================
 
-Example Presentation
+So far, showoff has been used in the following presentations:
+
+* LinuxConf.au 2010 - Wrangling Git - Scott Chacon
+
+
+Future Plans
 ====================
 
 Right now it comes with an example presentation (my LinuxConf.au talk)
 that will probably change or go away at some point.  I would like this
 to eventually be a general tool rather than having the presentation in
-the showoff repo.  Eventually.
+the showoff repo.  Eventually.  So you would install showoff as a gem
+and then have just the presentation as your git repo (or whatever) and
+run 'showoff' in the repo to start the presentation.
+
+I really want this to evolve into a dynamic presentation software server,
+that gives the audience a lot of interaction into the presentation - 
+helping them decide dynamically what the content of the presentation is,
+ask questions without interupting the presenter, etc.  I want the audience
+to be able to download a dynamically generated PDF of either the actual
+talk that was given, or all the available slides, plus supplementary 
+material. And I want the presenter (me) to be able to push each 
+presentation to Heroku or GitHub pages for archiving super easily.
 
 Why Not S5 or Slidy or Slidedown?
 =================================
