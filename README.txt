@@ -49,7 +49,7 @@ Real World Usage
 So far, showoff has been used in the following presentations:
 
 * LinuxConf.au 2010 - Wrangling Git - Scott Chacon 
-  http://github.com/schacon/showoff-lca2010
+  http://github.com/schacon/showoff-wrangling-git
 
 If you use it for something, please let me know.
 
