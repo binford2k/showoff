@@ -16,6 +16,7 @@ TODO
   - notes view (quick polling)
 - audience interface
   - slide download / git clone
+  - pdf download
   - questions / comments system
   - audience vote-based presentation builder, results live view
 
