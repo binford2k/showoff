@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra/base'
 require 'json'
 require 'nokogiri'
+require 'showoff_utils'
 
 begin 
   require 'rdiscount'
