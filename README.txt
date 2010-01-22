@@ -51,6 +51,9 @@ So far, showoff has been used in the following presentations:
 * LinuxConf.au 2010 - Wrangling Git - Scott Chacon 
   http://github.com/schacon/showoff-wrangling-git
 
+* SF Ruby Meetup - Resque! - Chris Wanstrath
+  http://github.com/defunkt/ruby-meetup-resque
+
 If you use it for something, please let me know.
 
 Future Plans
