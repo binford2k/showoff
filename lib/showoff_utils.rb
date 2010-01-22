@@ -25,7 +25,7 @@ class ShowOffUtils
       File.open('showoff.json', 'w+') do |f|
         f.puts '[ {"section":"one"} ]'
       end
-      
+
       # print help
       puts "done. run 'showoff serve' in #{dirname}/ dir to see slideshow"""
     end
@@ -79,7 +79,7 @@ HELP
 usage: showoff create (directory)
 
 this command helps start a new showoff presentation by setting up the
-proper directory structure for you.  it takes the directory name you would 
+proper directory structure for you.  it takes the directory name you would
 like showoff to create for you.
 
 HELP
