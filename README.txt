@@ -39,14 +39,22 @@ remove sections easily.
 Usage
 ====================
 
-To try ShowOff, clone this repo and run ./bin/showoff, which will start
-up the Sinatra server and serve the examples/ directory. Eventually this
-will be gemified and you can run it in any ShowOff directory.
+ShowOff is meant to be run in a ShowOff formatted repository - that means that it has
+a showoff.json file and a number of sections (subdirectories) with markdown files for
+the slides you're presenting.
+
+  $ gem install showoff
+  $ git clone (showoff-repo)
+  $ cd (showoff-repo)
+  $ showoff
+
+If you run 'showoff' in the ShowOff directory itself, it will show an example presentation
+from the 'example' subdirectory, so you can see what it's like.
 
 Real World Usage
 ====================
 
-So far, showoff has been used in the following presentations:
+So far, ShowOff has been used in the following presentations:
 
 * LinuxConf.au 2010 - Wrangling Git - Scott Chacon 
   http://github.com/schacon/showoff-wrangling-git
@@ -54,17 +62,10 @@ So far, showoff has been used in the following presentations:
 * SF Ruby Meetup - Resque! - Chris Wanstrath
   http://github.com/defunkt/ruby-meetup-resque
 
-If you use it for something, please let me know.
+If you use it for something, please let me know so I can add it.
 
 Future Plans
 ====================
-
-Right now it comes with an example presentation (my LinuxConf.au talk)
-that will probably change or go away at some point.  I would like this
-to eventually be a general tool rather than having the presentation in
-the showoff repo.  Eventually.  So you would install showoff as a gem
-and then have just the presentation as your git repo (or whatever) and
-run 'showoff' in the repo to start the presentation.
 
 I really want this to evolve into a dynamic presentation software server,
 that gives the audience a lot of interaction into the presentation - 
