@@ -2,12 +2,12 @@ ShowOff Presentation Software
 =============================
 
 ShowOff is a Sinatra web app that reads simple configuration files for a
-presentation.  It is sort of like a Keynote web app engine.  I am using it
-to do all my talks in 2010, because I have a deep hatred in my heart for
-Keynote and yet it is by far the best in the field.
+presentation.  It is sort of like a Keynote web app engine - think S5 + 
+Slidedown.  I am using it to do all my talks in 2010, because I have a deep 
+hatred in my heart for Keynote and yet it is by far the best in the field.
 
-The idea is that you setup your slide files in section subdirectories and
-then startup the showoff server in that directory.  It will read in your
+The idea is that you setup your markdown slide files in section subdirectories
+and then startup the showoff server in that directory.  It will read in your
 showoff.json file for which sections go in which order and then will give 
 you a URL to present from.
 
@@ -39,17 +39,71 @@ remove sections easily.
 Usage
 ====================
 
-ShowOff is meant to be run in a ShowOff formatted repository - that means that it has
-a showoff.json file and a number of sections (subdirectories) with markdown files for
-the slides you're presenting.
+ShowOff is meant to be run in a ShowOff formatted repository - that means that
+it has a showoff.json file and a number of sections (subdirectories) with markdown files for the slides you're presenting.
 
   $ gem install showoff
   $ git clone (showoff-repo)
   $ cd (showoff-repo)
-  $ showoff
+  $ showoff serve
 
-If you run 'showoff' in the ShowOff directory itself, it will show an example presentation
-from the 'example' subdirectory, so you can see what it's like.
+If you run 'showoff' in the ShowOff directory itself, it will show an example 
+presentation from the 'example' subdirectory, so you can see what it's like.
+
+Slide Format
+====================
+
+You can break your slides up into sections of however many subdirectories deep
+you need.  ShowOff will recursively check all the directories mentioned in
+your showoff.json file for any markdown files (.md).  Each markdown file can
+have any number of slides in it, seperating each slide with the '!SLIDE'
+keyword and optional slide styles.
+
+For example, if you run 'showoff create my_new_pres' it will create a new 
+starter presentation for you with one .md file at one/slide.md which will have
+the following contents:
+
+  !SLIDE
+
+  # My Presentation #
+
+  !SLIDE bullets incremental
+
+  # Bullet Points #
+
+  * first point
+  * second point
+  * third point
+
+That represents two slides, one with just a large title and one with three
+bullets that are incrementally updated when the slide is shown. In order for
+ShowOff to see those slides, your showoff.json file needs to look something 
+like this:
+
+  [ 
+    {"section":"one"} 
+  ]
+
+If you have multiple sections in your talk, you can make this json array 
+include all the sections you want to show in which order you want to show 
+them.
+
+Some useful styles for each slide are:
+
+* center - centers images on a slide
+* bullets - sizes and seperates bullets properly (fits up to 5, generally)
+* smbullets - sizes and seperates more bullets (smaller, closer together)
+* subsection - creates a different background for titles
+* command - monospaces h1 title slides
+* commandline - for pasted commandline sections 
+    (needs leading '$' for commands, then output on subsequent lines)
+* code - monospaces everything on the slide
+* incremental - can be used with 'bullets' and 'commandline' styles,
+    will incrementally update elements on arrow key rather than switch slides
+* small - make all slide text 80%
+* smaller - make all slide text 70%
+
+Check out the example directory included to see examples of most of these.
 
 Real World Usage
 ====================
