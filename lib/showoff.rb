@@ -112,10 +112,10 @@ class ShowOff < Sinatra::Application
     erb :index
   end
 
-  get '/image/*' do
-    img_file = params[:splat].join('/')
-    img = File.join(options.pres_dir, img_file)
-    send_file img
+  get %r{(?:image|file)/(.*)} do
+    path = params[:captures].first
+    full_path = File.join(options.pres_dir, path)
+    send_file full_path
   end
 
   get '/slides' do
