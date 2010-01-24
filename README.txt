@@ -8,7 +8,7 @@ Keynote and yet it is by far the best in the field.
 
 The idea is that you setup your slide files in section subdirectories and
 then startup the showoff server in that directory.  It will read in your
-showoff.json file for which sections go in which order and then will give 
+showoff.json file for which sections go in which order and then will give
 you a URL to present from.
 
 It can:
@@ -29,12 +29,12 @@ It might will can:
  * show audience questions / comments (twitter or direct)
  * let audience members go back / catch up as you talk
  * let audience members vote on sections (?)
- * broadcast itself on Bonjour 
+ * broadcast itself on Bonjour
  * let audience members download slides, code samples or other supplementary material
 
-Some of the nice things are that you can easily version control it, you 
-can easily move sections between presentations, and you can rearrange or 
-remove sections easily. 
+Some of the nice things are that you can easily version control it, you
+can easily move sections between presentations, and you can rearrange or
+remove sections easily.
 
 Usage
 ====================
@@ -51,12 +51,21 @@ the slides you're presenting.
 If you run 'showoff' in the ShowOff directory itself, it will show an example presentation
 from the 'example' subdirectory, so you can see what it's like.
 
+You can manage the presentation with the following keys:
+
+ * space, cursor right: next slide
+ * cursor left: previous slide
+ * d: debug mode
+ * c: table of contents (vi)
+ * f: toggle footer
+ * z: toggle help (this)
+
 Real World Usage
 ====================
 
 So far, ShowOff has been used in the following presentations:
 
-* LinuxConf.au 2010 - Wrangling Git - Scott Chacon 
+* LinuxConf.au 2010 - Wrangling Git - Scott Chacon
   http://github.com/schacon/showoff-wrangling-git
 
 * SF Ruby Meetup - Resque! - Chris Wanstrath
@@ -68,12 +77,12 @@ Future Plans
 ====================
 
 I really want this to evolve into a dynamic presentation software server,
-that gives the audience a lot of interaction into the presentation - 
+that gives the audience a lot of interaction into the presentation -
 helping them decide dynamically what the content of the presentation is,
 ask questions without interupting the presenter, etc.  I want the audience
 to be able to download a dynamically generated PDF of either the actual
-talk that was given, or all the available slides, plus supplementary 
-material. And I want the presenter (me) to be able to push each 
+talk that was given, or all the available slides, plus supplementary
+material. And I want the presenter (me) to be able to push each
 presentation to Heroku or GitHub pages for archiving super easily.
 
 Why Not S5 or Slidy or Slidedown?
