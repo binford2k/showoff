@@ -77,7 +77,7 @@ function showFirstSlide() {
   showSlide()
 }
 
-function showSlide() {
+function showSlide(back_step) {
   if(slidenum < 0) {
     slidenum = 0
     return
@@ -96,8 +96,11 @@ function showSlide() {
   var mar_top = (0.5 * parseFloat($("#preso").height())) - (0.5 * parseFloat(slide_height))
   $("#preso > .slide").css('margin-top', mar_top)
 
-  // determine if there are incremental bullets to show
-  determineIncremental()
+  if(!back_step) {
+    // determine if there are incremental bullets to show
+    // unless we are moving backward
+    determineIncremental()
+  }
 }
 
 function determineIncremental()
@@ -169,7 +172,7 @@ function keyDown(event)
     else if (key == 37) // Left arrow
     {
       slidenum--
-      showSlide()
+      showSlide(true) // We show the slide fully loaded
     }
     else if (key == 39) // Right arrow
     {
