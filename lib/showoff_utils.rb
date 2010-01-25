@@ -48,7 +48,7 @@ class ShowOffUtils
     # create config.ru file
     File.open('config.ru', 'w+') do |f|
       f.puts 'require "showoff"'
-      f.puts 'ShowOff.run!'
+      f.puts 'run ShowOff.new'
     end if !File.exists?('config.ru')
 
     `heroku create #{name}`
