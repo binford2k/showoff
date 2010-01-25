@@ -29,12 +29,12 @@ It might will can:
  * show audience questions / comments (twitter or direct)
  * let audience members go back / catch up as you talk
  * let audience members vote on sections (?)
- * broadcast itself on Bonjour 
+ * broadcast itself on Bonjour
  * let audience members download slides, code samples or other supplementary material
 
-Some of the nice things are that you can easily version control it, you 
-can easily move sections between presentations, and you can rearrange or 
-remove sections easily. 
+Some of the nice things are that you can easily version control it, you
+can easily move sections between presentations, and you can rearrange or
+remove sections easily.
 
 Usage
 ====================
@@ -105,12 +105,21 @@ Some useful styles for each slide are:
 
 Check out the example directory included to see examples of most of these.
 
+You can manage the presentation with the following keys:
+
+ * space, cursor right: next slide
+ * cursor left: previous slide
+ * d: debug mode
+ * c: table of contents (vi)
+ * f: toggle footer
+ * z: toggle help 
+
 Real World Usage
 ====================
 
 So far, ShowOff has been used in the following presentations:
 
-* LinuxConf.au 2010 - Wrangling Git - Scott Chacon 
+* LinuxConf.au 2010 - Wrangling Git - Scott Chacon
   http://github.com/schacon/showoff-wrangling-git
 
 * SF Ruby Meetup - Resque! - Chris Wanstrath
@@ -122,12 +131,12 @@ Future Plans
 ====================
 
 I really want this to evolve into a dynamic presentation software server,
-that gives the audience a lot of interaction into the presentation - 
+that gives the audience a lot of interaction into the presentation -
 helping them decide dynamically what the content of the presentation is,
 ask questions without interupting the presenter, etc.  I want the audience
 to be able to download a dynamically generated PDF of either the actual
-talk that was given, or all the available slides, plus supplementary 
-material. And I want the presenter (me) to be able to push each 
+talk that was given, or all the available slides, plus supplementary
+material. And I want the presenter (me) to be able to push each
 presentation to Heroku or GitHub pages for archiving super easily.
 
 Why Not S5 or Slidy or Slidedown?
