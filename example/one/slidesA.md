@@ -1,4 +1,4 @@
-!SLIDE
+!SLIDE title-slide
 
 # First Slide #
 

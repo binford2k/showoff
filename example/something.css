@@ -3,3 +3,7 @@
 h1 {
   color: red;
 }
+
+.title-slide h1 {
+  color: blue;
+}
