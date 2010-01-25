@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name              = "showoff"
-  s.version           = "0.0.1"
-  s.date              = "2010-01-21"
+  s.version           = "0.0.2"
+  s.date              = "2010-01-26"
   s.summary           = "The best damn presentation software a developer could ever love."
   s.homepage          = "http://github.com/schacon/showoff"
   s.email             = "schacon@gmail.com"
@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.has_rdoc          = false
   s.require_path      = "lib"
   s.executables       = %w( showoff )
-  s.files             = %w( README.txt Rakefile )
+  s.files             = %w( README.txt Rakefile LICENSE )
   s.files            += Dir.glob("lib/**/*")
   s.files            += Dir.glob("bin/**/*")
   s.files            += Dir.glob("views/**/*")
