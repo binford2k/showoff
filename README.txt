@@ -157,4 +157,5 @@ Requirements
 * Sinatra (and thus Rack)
 * BlueCloth
 * Nokogiri
+* json
 * Firefox or Chrome to present
