@@ -208,8 +208,9 @@ function keyDown(event)
 }
 
 
-function ListMenu()
+function ListMenu(s)
 {
+  this.slide = s
   this.typeName = 'ListMenu'
   this.itemLength = 0;
   this.items = new Array();
@@ -217,7 +218,7 @@ function ListMenu()
     if (key.length > 1) {
       thisKey = key.shift()
       if (!this.items[thisKey]) {
-        this.items[thisKey] = new ListMenu
+        this.items[thisKey] = new ListMenu(slide)
       }
       this.items[thisKey].addItem(key, text, slide)
     } else {
@@ -231,7 +232,7 @@ function ListMenu()
       var item = this.items[i]
       var domItem = $("<li>")
       if (item.typeName == 'ListMenu') {
-        choice = $("<a href=\"#\">" + i + "</a>")
+        choice = $("<a rel=\"" + (item.slide - 1) + "\" href=\"#\">" + i + "</a>")
         domItem.append(choice)
         domItem.append(item.getList())
       }
