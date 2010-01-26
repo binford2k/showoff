@@ -69,7 +69,9 @@ function setupMenu() {
 
 function gotoSlide(slideNum) {
   slidenum = parseInt(slideNum)
-  showSlide()
+  if (!isNaN(slidenum)) {
+    showSlide()
+  }
 }
 
 function showFirstSlide() {
