@@ -123,7 +123,7 @@ So far, ShowOff has been used in the following presentations:
   http://github.com/schacon/showoff-wrangling-git
 
 * SF Ruby Meetup - Resque! - Chris Wanstrath
-  http://github.com/defunkt/ruby-meetup-resque
+  http://github.com/defunkt/sfruby-meetup-resque
 
 If you use it for something, please let me know so I can add it.
 
