@@ -1,10 +1,15 @@
-body { font-family: "Gill Sans", Helvetica, Arial, sans-serif; }
+body {
+    font-family: "Gill Sans", Helvetica, Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
 
 #preso { 
     margin: 0;
     padding: 0;
-    width: 1000px;
-    height: 730px;
+    width: 1020px;
+    height: 740px;
     margin-left:auto; 
     margin-right:auto;
     overflow:hidden;
@@ -12,9 +17,9 @@ body { font-family: "Gill Sans", Helvetica, Arial, sans-serif; }
 #footer { 
     background: #eee;
     margin: 0;
-    padding: 3px;
-    width: 1000px;
-    height: 30px;
+    padding: 2px;
+    width: 1018px;
+    height: 22px;
     margin-left:auto; 
     margin-right:auto;
 }
