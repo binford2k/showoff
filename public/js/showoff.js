@@ -78,10 +78,12 @@ function showFirstSlide() {
 }
 
 function showSlide(back_step) {
+
   if(slidenum < 0) {
     slidenum = 0
     return
   }
+
   if(slidenum > (slideTotal - 1)) {
     slidenum = slideTotal - 1
     return
@@ -100,6 +102,9 @@ function showSlide(back_step) {
     // determine if there are incremental bullets to show
     // unless we are moving backward
     determineIncremental()
+  } else {
+    incrCurr = 0
+    incrSteps = 0
   }
 }
 
