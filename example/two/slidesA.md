@@ -2,7 +2,7 @@
 
 # Subsection Slide #
 
-!SLIDE ruby
+!SLIDE
 
 # Code Slide #
 

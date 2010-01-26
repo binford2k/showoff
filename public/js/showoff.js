@@ -43,7 +43,7 @@ function loadSlides() {
       showFirstSlide()
       slidesLoaded = true
     }
-    sh_highlightDocument()
+    sh_highlightDocument('/js/sh_lang/', '.min.js')
    })
 }
 

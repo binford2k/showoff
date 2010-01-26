@@ -4,8 +4,6 @@ TODO
 - showoff add
   - add new slide/section
   - add slides of images directory (refactor script/import_images.rb)
-- more shjs lang highlighting, auto load
-- load custom css dynamically with sections
 - simple highlighting (highlight region of slide)
 - simple animations (image from A to B)
 - simple transitions
