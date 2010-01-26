@@ -51,13 +51,12 @@ class ShowOffUtils
       f.puts 'run ShowOff.new'
     end if !File.exists?('config.ru')
 
-    `heroku create #{name}`
-
     puts "herokuized. run something like this to launch your heroku presentation:
 
-      $ git add .gems config.ru
-      $ git commit -m 'herokuized'
-      $ git push heroku master
+      heroku create #{name}
+      git add .gems config.ru
+      git commit -m 'herokuized'
+      git push heroku master
     "
   end
 
