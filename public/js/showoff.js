@@ -94,11 +94,13 @@ function showSlide(back_step) {
   // TODO: calculate and set the height margins on slide load, not here
 
   $("#preso").html(slides.eq(slidenum).clone())
-  $("#slideInfo").text((slidenum + 1) + ' / ' + slideTotal)
   curr_slide = $("#preso > .slide")
   var slide_height = curr_slide.height()
   var mar_top = (0.5 * parseFloat($("#preso").height())) - (0.5 * parseFloat(slide_height))
   $("#preso > .slide").css('margin-top', mar_top)
+
+  percent = Math.ceil(((slidenum + 1) / slideTotal) * 100)
+  $("#slideInfo").text((slidenum + 1) + '/' + slideTotal + '  - ' + percent + '%')
 
   if(!back_step) {
     // determine if there are incremental bullets to show
