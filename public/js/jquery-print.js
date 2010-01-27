@@ -62,15 +62,15 @@
     var r = /["\\\x00-\x1f\x7f-\x9f]/g;
     
     var str = r.test(value)
-      ? '"' + value.replace(r, function (a) {
+      ? value.replace(r, function (a) {
           var c = character_substitutions[a];
           if (c) return c;
           c = a.charCodeAt();
           return '\\u00' + Math.floor(c / 16).toString(16) + (c % 16).toString(16);
-        }) + '"'
-      : '"' + value + '"';
+        })
+      : value;
     if (str.length > opts.max_string)
-      return str.slice(0, opts.max_string + 1) + '..."';
+      return str.slice(0, opts.max_string + 1) + '...';
     else
       return str;
   }

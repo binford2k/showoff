@@ -268,11 +268,31 @@ var print = function(text) {
   _results.click(removeResults);
 };
 
-$('.sh_javaScript code').live("click", function() {
+var executeJavaScript = function() {
   result = null;
   var codeDiv = $(this);
   codeDiv.addClass("executing");
   eval(codeDiv.text());
   setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
   if (result != null) print(result);
-});
+};
+
+var executeRuby = function() {
+  result = null;
+  var codeDiv = $(this);
+  codeDiv.addClass("executing");
+  $.ajax({
+    type: 'POST',
+    url: "/code",
+    data: {code: codeDiv.text()},
+    success: function(data) {
+	  result = data;
+	  if (result) print(result);
+	},
+    dataType: 'html'
+  });
+  setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
+};
+
+$('.sh_javaScript code').live("click", executeJavaScript);
+$('.sh_ruby code').live("click", executeRuby);
