@@ -204,6 +204,10 @@ function keyDown(event)
     {
       $('#footer').toggle()
     }
+	else if (key == 27) // esc
+	{
+		removeResults();
+	}
     return true
 }
 
@@ -252,3 +256,23 @@ function ListMenuItem(t, s)
   this.slide = s
   this.textName = t
 }
+
+var removeResults = function() {
+  $('.results').remove();	
+};
+
+var print = function(text) {
+  removeResults();
+  var _results = $('<div>').addClass('results').text($.print(text));
+  $('body').append(_results);
+  _results.click(removeResults);
+};
+
+$('.sh_javaScript code').live("click", function() {
+  result = null;
+  var codeDiv = $(this);
+  codeDiv.addClass("executing");
+  eval(codeDiv.text());
+  setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
+  if (result != null) print(result);
+});

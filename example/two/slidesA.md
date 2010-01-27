@@ -17,3 +17,11 @@
 	    'Hello world!'
 	  end
 	end
+	
+
+!SLIDE
+
+# Executable JavaScript #
+
+	@@@ javaScript
+	result = 3 + 3;
