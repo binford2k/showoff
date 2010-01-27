@@ -110,6 +110,8 @@ function showSlide(back_step) {
     incrCurr = 0
     incrSteps = 0
   }
+
+  removeResults()
 }
 
 function determineIncremental()
@@ -296,5 +298,5 @@ var executeRuby = function() {
   setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
 };
 
-$('.sh_javaScript code').live("click", executeJavaScript);
-$('.sh_ruby code').live("click", executeRuby);
+$('.execute > .sh_javaScript code').live("click", executeJavaScript);
+$('.execute > .sh_ruby code').live("click", executeRuby);

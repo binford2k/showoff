@@ -19,14 +19,14 @@
 	end
 	
 
-!SLIDE
+!SLIDE execute
 
 # Executable JavaScript #
 
 	@@@ javaScript
 	result = 3 + 3;
 	
-!SLIDE
+!SLIDE execute
 
 # Executable Ruby #
 
