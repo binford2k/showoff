@@ -19,6 +19,7 @@ It can:
  * bullets with incremental advancing
  * re-enact command line interactions
  * call up a menu of sections/slides at any time to jump around
+ * execute javascript or ruby live and display results
 
 It might will can:
 
@@ -102,6 +103,8 @@ Some useful styles for each slide are:
     will incrementally update elements on arrow key rather than switch slides
 * small - make all slide text 80%
 * smaller - make all slide text 70%
+* execute - on ruby or js highlighted code slides, you can click on the code
+    to execute it and display the results on the slide
 
 Check out the example directory included to see examples of most of these.
 
