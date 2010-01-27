@@ -206,6 +206,10 @@ function keyDown(event)
     {
       $('#footer').toggle()
     }
+	else if (key == 27) // esc
+	{
+		removeResults();
+	}
     return true
 }
 
@@ -254,3 +258,43 @@ function ListMenuItem(t, s)
   this.slide = s
   this.textName = t
 }
+
+var removeResults = function() {
+  $('.results').remove();	
+};
+
+var print = function(text) {
+  removeResults();
+  var _results = $('<div>').addClass('results').text($.print(text));
+  $('body').append(_results);
+  _results.click(removeResults);
+};
+
+var executeJavaScript = function() {
+  result = null;
+  var codeDiv = $(this);
+  codeDiv.addClass("executing");
+  eval(codeDiv.text());
+  setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
+  if (result != null) print(result);
+};
+
+var executeRuby = function() {
+  result = null;
+  var codeDiv = $(this);
+  codeDiv.addClass("executing");
+  $.ajax({
+    type: 'POST',
+    url: "/code",
+    data: {code: codeDiv.text()},
+    success: function(data) {
+	  result = data;
+	  if (result) print(result);
+	},
+    dataType: 'html'
+  });
+  setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
+};
+
+$('.sh_javaScript code').live("click", executeJavaScript);
+$('.sh_ruby code').live("click", executeRuby);

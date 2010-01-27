@@ -189,3 +189,21 @@ a.fg-button { float:left; }
 .code .vg { color: #008080 } /* Name.Variable.Global */
 .code .vi { color: #008080 } /* Name.Variable.Instance */
 .code .il { color: #009999 } /* Literal.Number.Integer.Long */
+
+.results { 
+  background-color:#002200;
+  color:#00AA00;
+  font-size:2em;
+  border:2px solid black;
+  position: fixed;
+  top:0px;
+  width:100%;
+  padding:15px;
+  margin:0px;
+  font-family: monospace;
+}
+
+.executing {
+  color:#0000FF !important;
+  background-color: yellow;
+}

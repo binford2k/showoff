@@ -146,5 +146,10 @@ class ShowOff < Sinatra::Application
     end
     data
   end
+  
+  post '/code' do 
+    rv = eval(params[:code])
+    return rv.to_s
+  end
 
 end

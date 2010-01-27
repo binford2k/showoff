@@ -17,3 +17,20 @@
 	    'Hello world!'
 	  end
 	end
+	
+
+!SLIDE
+
+# Executable JavaScript #
+
+	@@@ javaScript
+	result = 3 + 3;
+	
+!SLIDE
+
+# Executable Ruby #
+
+	@@@ ruby
+	x = 2
+	3.times { x = x * x }
+	x
