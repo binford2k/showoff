@@ -1,6 +1,10 @@
 TODO
 =================
 
+- static output
+  - single html file
+  - pdf
+- showoff.json in each subdir
 - showoff add
   - add new slide/section
   - add slides of images directory (refactor script/import_images.rb)
@@ -13,7 +17,7 @@ TODO
   - notes view (quick polling)
 - audience interface
   - slide download / git clone
-  - pdf download
+  - static version download
   - questions / comments system
   - audience vote-based presentation builder, results live view
 - simple animations (image from A to B)
