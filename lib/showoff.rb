@@ -46,7 +46,7 @@ class ShowOff < Sinatra::Application
     end
 
     def process_markdown(name, content)
-      slides = content.split('!SLIDE')
+      slides = content.split(/^!SLIDE/)
       slides.delete('')
       final = ''
       if slides.size > 1
