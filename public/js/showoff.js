@@ -272,31 +272,11 @@ var print = function(text) {
   _results.click(removeResults);
 };
 
-var executeJavaScript = function() {
+$('.sh_javaScript code').live("click", function() {
   result = null;
   var codeDiv = $(this);
   codeDiv.addClass("executing");
   eval(codeDiv.text());
   setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
   if (result != null) print(result);
-};
-
-var executeRuby = function() {
-  result = null;
-  var codeDiv = $(this);
-  codeDiv.addClass("executing");
-  $.ajax({
-    type: 'POST',
-    url: "/code",
-    data: {code: codeDiv.text()},
-    success: function(data) {
-	  result = data;
-	  if (result) print(result);
-	},
-    dataType: 'html'
-  });
-  setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
-};
-
-$('.execute > .sh_javaScript code').live("click", executeJavaScript);
-$('.execute > .sh_ruby code').live("click", executeRuby);
+});

@@ -25,12 +25,3 @@
 
 	@@@ javaScript
 	result = 3 + 3;
-	
-!SLIDE execute
-
-# Executable Ruby #
-
-	@@@ ruby
-	x = 2
-	3.times { x = x * x }
-	x

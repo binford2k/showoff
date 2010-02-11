@@ -103,7 +103,7 @@ Some useful styles for each slide are:
     will incrementally update elements on arrow key rather than switch slides
 * small - make all slide text 80%
 * smaller - make all slide text 70%
-* execute - on ruby or js highlighted code slides, you can click on the code
+* execute - on js highlighted code slides, you can click on the code
     to execute it and display the results on the slide
 
 Check out the example directory included to see examples of most of these.
@@ -127,6 +127,12 @@ So far, ShowOff has been used in the following presentations:
 
 * SF Ruby Meetup - Resque! - Chris Wanstrath
   http://github.com/defunkt/sfruby-meetup-resque
+
+* RORO Sydney Talk, Feb 2010 - Beyond Actions - Dave Bolton
+  http://github.com/lightningdb/roro-syd-beyond-actions
+
+* LRUG's February meeting - Showing Off with Ruby - Joel Chippindale
+  http://github.com/mocoso/showing-off-with-ruby
 
 If you use it for something, please let me know so I can add it.
 
