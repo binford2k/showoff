@@ -99,7 +99,7 @@ function showSlide(back_step) {
   var mar_top = (0.5 * parseFloat($("#preso").height())) - (0.5 * parseFloat(slide_height))
   $("#preso > .slide").css('margin-top', mar_top)
 
-  percent = Math.ceil(((slidenum + 1) / slideTotal) * 100)
+  percent = getSlidePercent()
   $("#slideInfo").text((slidenum + 1) + '/' + slideTotal + '  - ' + percent + '%')
 
   if(!back_step) {
@@ -112,6 +112,11 @@ function showSlide(back_step) {
   }
 
   removeResults()
+}
+
+function getSlidePercent()
+{
+  return Math.ceil(((slidenum + 1) / slideTotal) * 100)
 }
 
 function determineIncremental()
