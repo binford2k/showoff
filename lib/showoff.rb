@@ -4,6 +4,12 @@ require 'json'
 require 'nokogiri'
 require 'showoff_utils'
 
+begin
+  require 'prawn'
+rescue LoadError
+  puts 'pdf generation disabled - install prawn'
+end
+
 begin 
   require 'rdiscount'
 rescue LoadError
@@ -45,7 +51,7 @@ class ShowOff < Sinatra::Application
       Dir.glob("#{options.pres_dir}/*.js").map { |path| File.basename(path) }
     end
 
-    def process_markdown(name, content)
+    def process_markdown(name, content, wrap = false)
       slides = content.split(/^!SLIDE/)
       slides.delete('')
       final = ''
@@ -57,6 +63,7 @@ class ShowOff < Sinatra::Application
         lines = slide.split("\n")
         classes = lines.shift
         slide = lines.join("\n")
+        md += '<div class="' + wrap + '">' if wrap
         if seq
           md += "<div class=\"slide #{classes}\" ref=\"#{name}/#{seq.to_s}\">\n"
           seq += 1
@@ -67,6 +74,7 @@ class ShowOff < Sinatra::Application
         sl = update_image_paths(name, sl)
         md += sl
         md += "</div>\n"
+        md += "</div>\n" if wrap
         final += update_commandline_code(md)
       end
       final
@@ -114,6 +122,26 @@ class ShowOff < Sinatra::Application
       end
       html.root.to_s
     end
+    
+    def get_slides_html(wrap = false)
+      index = File.join(options.pres_dir, 'showoff.json')
+      files = []
+      if File.exists?(index)
+        order = JSON.parse(File.read(index))
+        order = order.map { |s| s['section'] }
+        order.each do |section|
+          files << load_section_files(section)
+        end
+        files = files.flatten
+        files = files.select { |f| f =~ /.md/ }
+        data = ''
+        files.each do |f|
+          fname = f.gsub(options.pres_dir + '/', '').gsub('.md', '')
+          data += process_markdown(fname, File.read(f), wrap)
+        end
+      end
+      data
+    end
   end
 
   get '/' do
@@ -127,24 +155,24 @@ class ShowOff < Sinatra::Application
   end
 
   get '/slides' do
-    index = File.join(options.pres_dir, 'showoff.json')
-    files = []
-    if File.exists?(index)
-      order = JSON.parse(File.read(index))
-      order = order.map { |s| s['section'] }
-      order.each do |section|
-        files << load_section_files(section)
+    get_slides_html
+  end
 
+  get '/onepage' do
+    @slides = get_slides_html('preso')
+    erb :onepage
+  end
+
+  get '/pdf' do
+    begin
+      pdf_file = "/tmp/presentation.pdf"
+      Prawn::Document.generate(pdf_file, :page_layout => :landscape) do
+        text "Hello There"
       end
-      files = files.flatten
-      files = files.select { |f| f =~ /.md/ }
-      data = ''
-      files.each do |f|
-        fname = f.gsub(options.pres_dir + '/', '').gsub('.md', '')
-        data += process_markdown(fname, File.read(f))
-      end
+      send_file pdf_file
+    rescue
+      'prawn not available'
     end
-    data
   end
 
 end
