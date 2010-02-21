@@ -148,7 +148,7 @@ class ShowOff < Sinatra::Application
       css_content = '<style type="text/css">'
       csses.each do |css_file|
         if pre
-          css_file = File.join(pre, css_file) 
+          css_file = File.join(File.dirname(__FILE__), '..', pre, css_file) 
         else
           css_file = File.join(options.pres_dir, css_file) 
         end
@@ -162,7 +162,7 @@ class ShowOff < Sinatra::Application
       js_content = '<script type="text/javascript">'
       jses.each do |js_file|
         if pre
-          js_file = File.join(pre, js_file) 
+          js_file = File.join(File.dirname(__FILE__), '..', pre, js_file) 
         else
           js_file = File.join(options.pres_dir, js_file) 
         end

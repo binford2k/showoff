@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name              = "showoff"
-  s.version           = "0.0.7"
+  s.version           = "0.1.0"
   s.date              = "2010-01-26"
   s.summary           = "The best damn presentation software a developer could ever love."
   s.homepage          = "http://github.com/schacon/showoff"
