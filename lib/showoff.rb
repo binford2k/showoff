@@ -6,6 +6,7 @@ require 'showoff_utils'
 
 begin
   require 'prawn'
+  require 'princely'
 rescue LoadError
   puts 'pdf generation disabled - install prawn'
 end
@@ -142,6 +143,35 @@ class ShowOff < Sinatra::Application
       end
       data
     end
+
+    def inline_css(csses, pre = nil)
+      css_content = '<style type="text/css">'
+      csses.each do |css_file|
+        if pre
+          css_file = File.join(pre, css_file) 
+        else
+          css_file = File.join(options.pres_dir, css_file) 
+        end
+        css_content += File.read(css_file)
+      end
+      css_content += '</style>'
+      css_content
+    end
+
+    def inline_js(jses, pre = nil)
+      js_content = '<script type="text/javascript">'
+      jses.each do |js_file|
+        if pre
+          js_file = File.join(pre, js_file) 
+        else
+          js_file = File.join(options.pres_dir, js_file) 
+        end
+        js_content += File.read(js_file)
+      end
+      js_content += '</script>'
+      js_content
+    end
+
   end
 
   get '/' do
@@ -164,15 +194,12 @@ class ShowOff < Sinatra::Application
   end
 
   get '/pdf' do
-    begin
-      pdf_file = "/tmp/presentation.pdf"
-      Prawn::Document.generate(pdf_file, :page_layout => :landscape) do
-        text "Hello There"
-      end
-      send_file pdf_file
-    rescue
-      'prawn not available'
-    end
+    @slides = get_slides_html('preso')
+    @no_js = true
+    html = erb :onepage
+    p = Princely.new
+    p.pdf_from_string_to_file(html, '/tmp/preso.pdf')
+    send_file '/tmp/preso.pdf'
   end
 
 end

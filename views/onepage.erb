@@ -7,29 +7,24 @@
 
 	<title>Presentation</title>
 
-	<link rel="stylesheet" href="css/showoff.css" type="text/css"/>
-	<link rel="stylesheet" href="css/onepage.css" type="text/css"/>
-
-	<script type="text/javascript" src="/js/jquery-1.4.min.js"></script>
-	<script type="text/javascript" src="/js/jquery-print.js"></script>	
-	<script type="text/javascript" src="/js/showoff.js"></script>
-
-  <script type="text/javascript" src="/js/sh_main.min.js"></script>
-  <script type="text/javascript" src="/js/onepage.js"></script>
-
-  <link type="text/css" href="/css/theme/ui.all.css" media="screen" rel="stylesheet" /> 
-  <link type="text/css" href="/css/sh_style.css" rel="stylesheet" >
-
+  <% if @no_js %>
+    <%= inline_css(['pdf.css'], 'public/css') %>
+  <% else %>
+    <%= inline_css(['onepage.css'], 'public/css') %>
+  <% end %>
+  <%= inline_css(['showoff.css', 'theme/ui.all.css', 'sh_style.css'], 'public/css') %>
   <% css_files.each do |css_file| %>
-    <link rel="stylesheet" href="file/<%= css_file %>" type="text/css"/>
+    <%= inline_css(css_file) %>
   <% end %>
 
-  <script type="text/javascript">
-  $(function(){
-    setupOnePage()
-  });
-  </script>
-
+  <% if !@no_js %>
+    <%= inline_js(['jquery-1.4.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'sh_main.min.js'], 'public/js') %>
+    <script type="text/javascript">
+    $(function(){
+      setupOnePage()
+    });
+    </script>
+  <% end %>
 </head>
 
 <body>

@@ -1,11 +1,12 @@
 .preso { 
-    margin: 10px;
+    margin: 0;
     padding: 0;
-    width: 1020px;
+    width: 100%;
     height: 740px;
     margin-left:auto; 
     margin-right:auto;
     overflow:hidden;
-    border: 1px solid #333;
     page-break-after: always
 }
+
+@page { size: A4 landscape }

@@ -14,7 +14,7 @@ pre.sh_sourceCode .sh_specialchar { color: pink; font-family: monospace; }  /* e
 pre.sh_sourceCode .sh_comment { color: brown; font-style: italic; }         /* comments */
 pre.sh_sourceCode .sh_number { color: purple; }                             /* literal numbers */
 pre.sh_sourceCode .sh_preproc { color: darkblue; font-weight: bold; }       /* e.g., #include, import */
-pre.sh_sourceCode .sh_symbol { color: darkred; }                            /* e.g., <, >, + */
+pre.sh_sourceCode .sh_symbol { color: darkred; }                            /* */
 pre.sh_sourceCode .sh_function { color: black; font-weight: bold; }         /* function calls and declarations */
 pre.sh_sourceCode .sh_cbracket { color: red; }                              /* block brackets (e.g., {, }) */
 pre.sh_sourceCode .sh_todo { font-weight: bold; background-color: cyan; }   /* TODO and FIXME */
