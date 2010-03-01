@@ -134,6 +134,15 @@ So far, ShowOff has been used in the following presentations:
 * LRUG's February meeting - Showing Off with Ruby - Joel Chippindale
   http://github.com/mocoso/showing-off-with-ruby
 
+* PyCon 2010 - Hg and Git; Can't we all just get along? - Scott Chacon
+  http://github.com/schacon/pycon-hg-git
+
+* PdxJs Tech Talk - Asynchronous Coding For My Tiny Ruby Brain - Rick Olson
+  http://github.com/technoweenie/pdxjs-twitter-node
+
+* RORO Perth Talk - Rails 3; A Brief Introduction — Darcy Laycock
+  http://github.com/Sutto/roro-perth-rails-3
+
 If you use it for something, please let me know so I can add it.
 
 Future Plans
