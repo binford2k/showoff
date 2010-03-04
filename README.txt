@@ -2,13 +2,13 @@ ShowOff Presentation Software
 =============================
 
 ShowOff is a Sinatra web app that reads simple configuration files for a
-presentation.  It is sort of like a Keynote web app engine - think S5 + 
-Slidedown.  I am using it to do all my talks in 2010, because I have a deep 
+presentation.  It is sort of like a Keynote web app engine - think S5 +
+Slidedown.  I am using it to do all my talks in 2010, because I have a deep
 hatred in my heart for Keynote and yet it is by far the best in the field.
 
 The idea is that you setup your markdown slide files in section subdirectories
 and then startup the showoff server in that directory.  It will read in your
-showoff.json file for which sections go in which order and then will give 
+showoff.json file for which sections go in which order and then will give
 you a URL to present from.
 
 It can:
@@ -48,7 +48,7 @@ it has a showoff.json file and a number of sections (subdirectories) with markdo
   $ cd (showoff-repo)
   $ showoff serve
 
-If you run 'showoff' in the ShowOff directory itself, it will show an example 
+If you run 'showoff' in the ShowOff directory itself, it will show an example
 presentation from the 'example' subdirectory, so you can see what it's like.
 
 Slide Format
@@ -60,7 +60,7 @@ your showoff.json file for any markdown files (.md).  Each markdown file can
 have any number of slides in it, seperating each slide with the '!SLIDE'
 keyword and optional slide styles.
 
-For example, if you run 'showoff create my_new_pres' it will create a new 
+For example, if you run 'showoff create my_new_pres' it will create a new
 starter presentation for you with one .md file at one/slide.md which will have
 the following contents:
 
@@ -78,15 +78,15 @@ the following contents:
 
 That represents two slides, one with just a large title and one with three
 bullets that are incrementally updated when the slide is shown. In order for
-ShowOff to see those slides, your showoff.json file needs to look something 
+ShowOff to see those slides, your showoff.json file needs to look something
 like this:
 
-  [ 
-    {"section":"one"} 
+  [
+    {"section":"one"}
   ]
 
-If you have multiple sections in your talk, you can make this json array 
-include all the sections you want to show in which order you want to show 
+If you have multiple sections in your talk, you can make this json array
+include all the sections you want to show in which order you want to show
 them.
 
 Some useful styles for each slide are:
@@ -96,7 +96,7 @@ Some useful styles for each slide are:
 * smbullets - sizes and seperates more bullets (smaller, closer together)
 * subsection - creates a different background for titles
 * command - monospaces h1 title slides
-* commandline - for pasted commandline sections 
+* commandline - for pasted commandline sections
     (needs leading '$' for commands, then output on subsequent lines)
 * code - monospaces everything on the slide
 * incremental - can be used with 'bullets' and 'commandline' styles,
@@ -115,7 +115,7 @@ You can manage the presentation with the following keys:
  * d: debug mode
  * c: table of contents (vi)
  * f: toggle footer
- * z: toggle help 
+ * z: toggle help
 
 Real World Usage
 ====================
@@ -142,6 +142,9 @@ So far, ShowOff has been used in the following presentations:
 
 * RORO Perth Talk - Rails 3; A Brief Introduction — Darcy Laycock
   http://github.com/Sutto/roro-perth-rails-3
+
+* PDXRB Tech Talk - Here's Sinatra - Jesse Cooke
+  http://github.com/jc00ke/pdxrb_sinatra
 
 If you use it for something, please let me know so I can add it.
 
