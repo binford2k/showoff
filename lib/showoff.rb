@@ -3,13 +3,7 @@ require 'sinatra/base'
 require 'json'
 require 'nokogiri'
 require 'showoff_utils'
-
-begin
-  require 'prawn'
-  require 'princely'
-rescue LoadError
-  puts 'pdf generation disabled - install prawn'
-end
+require 'princely'
 
 begin 
   require 'rdiscount'
