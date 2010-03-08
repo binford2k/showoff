@@ -94,11 +94,15 @@ function showSlide(back_step) {
   // TODO: calculate and set the height margins on slide load, not here
 
   $("#preso").html(slides.eq(slidenum).clone())
-  curr_slide = $("#preso > .slide")
-  var slide_height = curr_slide.height()
-  var mar_top = (0.5 * parseFloat($("#preso").height())) - (0.5 * parseFloat(slide_height))
-  $("#preso > .slide").css('margin-top', mar_top)
-
+  if ($("#preso > .slide").is('.full-screen')) {
+    $("#preso").css('margin', 0);
+  } else {
+    curr_slide = $("#preso > .slide")
+    var slide_height = curr_slide.height()
+    var mar_top = (0.5 * parseFloat($("#preso").height())) - (0.5 * parseFloat(slide_height))
+    $("#preso").css('margin', "0 auto");
+    $("#preso > .slide").css('margin-top', mar_top)
+  }
   percent = getSlidePercent()
   $("#slideInfo").text((slidenum + 1) + '/' + slideTotal + '  - ' + percent + '%')
 
