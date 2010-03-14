@@ -6,16 +6,17 @@ body {
     background: #fff;
     width: 1020px;
     height: 740px;
-    margin-left:auto; 
+    margin-left:auto;
     margin-right:auto;
     overflow:hidden;
 }
-#footer { 
+
+#footer {
     background: #eee;
     padding: 2px;
     width: 1010px;
     height: 20px;
-    margin-left:auto; 
+    margin-left:auto;
     margin-right:auto;
 }
 
@@ -26,8 +27,6 @@ body {
 }
 
 .bullets ul {
-    display: block;
-    height: 600px;
     font-size: 3em;
 }
 .bullets ul li {
@@ -36,8 +35,6 @@ body {
 }
 
 .smbullets ul {
-    display: block;
-    height: 600px;
     font-size: 2em;
 }
 .smbullets ul li {
@@ -177,7 +174,7 @@ a.fg-button { float:left; }
 .code .vi { color: #008080 } /* Name.Variable.Instance */
 .code .il { color: #009999 } /* Literal.Number.Integer.Long */
 
-.results { 
+.results {
   background-color:#002200;
   color:#00AA00;
   font-size:2em;
