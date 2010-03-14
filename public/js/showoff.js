@@ -54,8 +54,9 @@ function setupMenu() {
   var menu = new ListMenu()
   
   slides.each(function(s, elem) {
-    shortTxt = $(elem).text().substr(0, 20)
-    path = $(elem).attr('ref').split('/')
+    content = $(elem).children(".content")
+    shortTxt = $(content).text().substr(0, 20)
+    path = $(content).attr('ref').split('/')
     currSlide += 1
     menu.addItem(path, shortTxt, currSlide)
   })
@@ -94,10 +95,9 @@ function showSlide(back_step) {
   // TODO: calculate and set the height margins on slide load, not here
 
   $("#preso").html(slides.eq(slidenum).clone())
-  curr_slide = $("#preso > .slide")
-  var slide_height = curr_slide.height()
-  var mar_top = (0.5 * parseFloat($("#preso").height())) - (0.5 * parseFloat(slide_height))
-  $("#preso > .slide").css('margin-top', mar_top)
+  var slide_content = $("#preso > .slide > .content")
+  var mar_top = (0.5 * parseFloat($("#preso").height())) - (0.5 * parseFloat(slide_content.height()))
+  slide_content.css('margin-top', mar_top)
 
   percent = getSlidePercent()
   $("#slideInfo").text((slidenum + 1) + '/' + slideTotal + '  - ' + percent + '%')
@@ -123,11 +123,11 @@ function determineIncremental()
 {
   incrCurr = 0
   incrCode = false
-  incrElem = $("#preso > .incremental > ul > li")
+  incrElem = $("#preso > .slide > .incremental > ul > li")
   incrSteps = incrElem.size()
   if(incrSteps == 0) {
     // also look for commandline
-    incrElem = $("#preso > .incremental > pre > code > code")
+    incrElem = $("#preso > .slide > .incremental > pre > code > code")
     incrSteps = incrElem.size()
     incrCode = true
   }

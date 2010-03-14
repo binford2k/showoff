@@ -2,7 +2,8 @@ body {
     font-family: "Gill Sans", Helvetica, Arial, sans-serif;
 }
 
-#preso { 
+#preso, .slide {
+    background: #fff;
     width: 1020px;
     height: 740px;
     margin-left:auto; 
@@ -16,10 +17,6 @@ body {
     height: 20px;
     margin-left:auto; 
     margin-right:auto;
-}
-
-.slide {
-    border: 1px solid #fff;
 }
 
 .center img {
