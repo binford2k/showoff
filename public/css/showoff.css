@@ -89,6 +89,7 @@ h1, h2, h3 {
 pre { margin-left: 40px; font-size: 2.8em; }
 
 .hidden { position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden; }
+.offscreen { position:absolute; top:0; left:-9999px; overflow:hidden; }
 #debugInfo { margin-left: 30px; }
 
 #help {
@@ -96,12 +97,17 @@ pre { margin-left: 40px; font-size: 2.8em; }
     position: absolute;
     right: 80px;
     display: none;
+    z-index: 2147483647; //max, see http://www.puidokas.com/max-z-index/
 }
 #help table tr td.key {
     text-align: right;
     border-right: 2px solid #8b8;
     padding-right: 4px;
     font-weight: bold;
+}
+
+.fg-menu-container {
+    z-index: 2147483647; //max, see http://www.puidokas.com/max-z-index/
 }
 
 .fg-button { clear:left; margin:0 4px 40px 20px; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }

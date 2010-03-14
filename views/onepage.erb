@@ -20,7 +20,7 @@
   <% if !@no_js %>
     <%= inline_js(['jquery-1.4.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'sh_main.min.js'], 'public/js') %>
     <script type="text/javascript">
-    $(function(){
+    $(document).ready(function() {
       setupOnePage()
     });
     </script>
