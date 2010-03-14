@@ -12,7 +12,7 @@
   <% else %>
     <%= inline_css(['onepage.css'], 'public/css') %>
   <% end %>
-  <%= inline_css(['showoff.css', 'theme/ui.all.css', 'sh_style.css'], 'public/css') %>
+  <%= inline_css(['reset.css', 'showoff.css', 'theme/ui.all.css', 'sh_style.css'], 'public/css') %>
   <% css_files.each do |css_file| %>
     <%= inline_css(css_file) %>
   <% end %>
