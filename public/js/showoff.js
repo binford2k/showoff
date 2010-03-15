@@ -52,9 +52,8 @@ function initializePresentation() {
   slides = $('#preso > .slide')
   slideTotal = slides.size()
 
-  //setup jquery cycle with default show/hide transition
+  //setup manual jquery cycle
   $('#preso').cycle({
-    fx: 'none',
     timeout: 0
   })
 
@@ -131,8 +130,8 @@ function showSlide(back_step) {
   }
 
   currentSlide = slides.eq(slidenum)
-
-  $('#preso').cycle(slidenum)
+  var transition = currentSlide.attr('data-transition')
+  $('#preso').cycle(slidenum, transition)
 
   percent = getSlidePercent()
   $("#slideInfo").text((slidenum + 1) + '/' + slideTotal + '  - ' + percent + '%')

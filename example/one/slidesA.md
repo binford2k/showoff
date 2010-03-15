@@ -2,7 +2,7 @@
 
 # First Slide #
 
-!SLIDE bullets incremental
+!SLIDE bullets incremental transition=fade
 
 # Second Slide #
 
@@ -12,6 +12,6 @@
 * a fourth thing
 * a fifth thing
 
-!SLIDE center
+!SLIDE center transition=scrollUp
 
 ![octocat](octocat.png)

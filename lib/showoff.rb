@@ -55,15 +55,24 @@ class ShowOff < Sinatra::Application
       end
       slides.each do |slide|
         md = ''
+        # extract content classes
         lines = slide.split("\n")
-        classes = lines.shift
+        content_classes = lines.shift.split
         slide = lines.join("\n")
-        md += '<div class="slide">'
+        # add content class too
+        content_classes.unshift "content"
+        # extract transition, defaulting to none
+        transition = 'none'
+        content_classes.delete_if { |x| x =~ /^transition=(.+)/ && transition = $1 }
+        puts "classes: #{content_classes.inspect}"
+        puts "transition: #{transition}"
+        # create html
+        md += "<div class=\"slide\" data-transition=\"#{transition}\">"
         if seq
-          md += "<div class=\"content #{classes}\" ref=\"#{name}/#{seq.to_s}\">\n"
+          md += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}/#{seq.to_s}\">\n"
           seq += 1
         else
-          md += "<div class=\"content #{classes}\" ref=\"#{name}\">\n"
+          md += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
         sl = Markdown.new(slide).to_html 
         sl = update_image_paths(name, sl)
