@@ -886,8 +886,12 @@ $.fn.cycle.defaults = {
 //
 $.fn.cycle.transitions.none = function($cont, $slides, opts) {
 	opts.fxFn = function(curr,next,opts,after){
+		opts.cssBefore = { top: 0, left: 0 };
+		$.fn.cycle.commonReset(curr,next,opts);
+		$(next).css(opts.cssBefore);
 		$(next).show();
 		$(curr).hide();
+		if (opts.cssAfter) $(curr).css(opts.cssAfter);
 		after();
 	};
 }
