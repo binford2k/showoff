@@ -32,35 +32,41 @@ function setupPreso() {
 }
 
 function loadSlides() {
-  //load through #slides offscreen and copy back into #preso when prepared
+  //load slides offscreen, wait for images and then initialize
   $("#slides").load("/slides", false, function(){
-    //center
-    centerSlides($('#slides > .slide'))
-
-    //copy into presentation area
-    $("#preso").empty()
-    $('#slides > .slide').appendTo($("#preso"))
-
-    //populate vars
-    slides = $('#preso > .slide')
-    slideTotal = slides.size()
-
-    //setup jquery cycle with default show/hide transition
-    $('#preso').cycle({
-      fx: 'none',
-      timeout: 0
-    });
-
-    setupMenu()
-    if (slidesLoaded) {
-      showSlide()
-      alert('slides loaded')
-    } else {
-      showFirstSlide()
-      slidesLoaded = true
-    }
-    sh_highlightDocument('/js/sh_lang/', '.min.js')
+    $("#slides img").batchImageLoad({
+			loadingCompleteCallback: initializePresentation
+		})
   })
+}
+
+function initializePresentation() {
+  //center slides offscreen
+  centerSlides($('#slides > .slide'))
+
+  //copy into presentation area
+  $("#preso").empty()
+  $('#slides > .slide').appendTo($("#preso"))
+
+  //populate vars
+  slides = $('#preso > .slide')
+  slideTotal = slides.size()
+
+  //setup jquery cycle with default show/hide transition
+  $('#preso').cycle({
+    fx: 'none',
+    timeout: 0
+  })
+
+  setupMenu()
+  if (slidesLoaded) {
+    showSlide()
+    alert('slides loaded')
+  } else {
+    showFirstSlide()
+    slidesLoaded = true
+  }
+  sh_highlightDocument('/js/sh_lang/', '.min.js')
 }
 
 function centerSlides(slides) {

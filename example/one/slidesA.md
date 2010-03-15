@@ -11,3 +11,7 @@
 * a third thing
 * a fourth thing
 * a fifth thing
+
+!SLIDE center
+
+![octocat](octocat.png)
