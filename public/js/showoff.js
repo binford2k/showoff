@@ -131,6 +131,9 @@ function showSlide(back_step) {
 
   currentSlide = slides.eq(slidenum)
   var transition = currentSlide.attr('data-transition')
+  if (back_step) {
+    transition = 'none'
+  }
   $('#preso').cycle(slidenum, transition)
 
   percent = getSlidePercent()

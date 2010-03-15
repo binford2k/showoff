@@ -1,7 +1,6 @@
 TODO
 =================
 
-- no transition on the back key
 - can have showoff.json in each subdir
 - showoff add
   - add new slide/section
