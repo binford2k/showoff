@@ -20,10 +20,10 @@ It can:
  * re-enact command line interactions
  * call up a menu of sections/slides at any time to jump around
  * execute javascript or ruby live and display results
+ * do simple transitions (instant, fade, slide in)
 
 It might will can:
 
- * do simple transitions (instant, fade, slide in)
  * show a timer - elapsed / remaining
  * perform simple animations of images moving between keyframes
  * show syncronized, hidden notes on another browser (like an iphone)
@@ -68,7 +68,7 @@ the following contents:
 
   # My Presentation #
 
-  !SLIDE bullets incremental
+  !SLIDE bullets incremental transition=fade
 
   # Bullet Points #
 
@@ -76,10 +76,10 @@ the following contents:
   * second point
   * third point
 
-That represents two slides, one with just a large title and one with three
-bullets that are incrementally updated when the slide is shown. In order for
-ShowOff to see those slides, your showoff.json file needs to look something
-like this:
+That represents two slides, the first contains just a large title, and the
+second is faded into view showing the title and three bullets that are then
+incrementally shown. In order for ShowOff to see those slides, your 
+showoff.json file needs to look something like this:
 
   [
     {"section":"one"}
@@ -107,6 +107,43 @@ Some useful styles for each slide are:
     to execute it and display the results on the slide
 
 Check out the example directory included to see examples of most of these.
+
+Transitions can be supplied through the use of transition=tname on the !SLIDE
+definition, where tname is one of the following supported transitions:
+
+ * blindX
+ * blindY
+ * blindZ
+ * cover
+ * curtainX
+ * curtainY
+ * fade
+ * fadeZoom
+ * growX
+ * growY
+ * none (this is the default)
+ * scrollUp
+ * scrollDown
+ * scrollLeft
+ * scrollRight
+ * scrollHorz
+ * scrollVert
+ * shuffle
+ * slideX
+ * slideY
+ * toss
+ * turnUp
+ * turnDown
+ * turnLeft
+ * turnRight
+ * uncover
+ * wipe
+ * zoom
+
+The transitions are provided by jQuery Cycle plugin. See
+http://www.malsup.com/jquery/cycle/browser.html to view the effects and 
+http://www.malsup.com/jquery/cycle/adv2.html for how to add
+custom effects.
 
 You can manage the presentation with the following keys:
 
