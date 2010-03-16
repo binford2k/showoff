@@ -1,31 +1,23 @@
 body {
     font-family: "Gill Sans", Helvetica, Arial, sans-serif;
-    padding: 0;
-    margin: 0;
-    border: 0;
 }
 
-#preso { 
-    margin: 0;
-    padding: 0;
+#preso, .slide {
+    background: #fff;
     width: 1020px;
     height: 740px;
-    margin-left:auto; 
+    margin-left:auto;
     margin-right:auto;
     overflow:hidden;
 }
-#footer { 
+
+#footer {
     background: #eee;
-    margin: 0;
     padding: 2px;
     width: 1010px;
     height: 20px;
-    margin-left:auto; 
+    margin-left:auto;
     margin-right:auto;
-}
-
-.slide {
-    border: 1px solid #fff;
 }
 
 .center img {
@@ -35,13 +27,7 @@ body {
 }
 
 .bullets ul {
-    display: block;
-    height: 600px;
     font-size: 3em;
-    list-style: none;
-    margin-left: 0;
-    padding-left: 1em;
-    text-indent: -1em;
 }
 .bullets ul li {
     text-align: center;
@@ -49,13 +35,7 @@ body {
 }
 
 .smbullets ul {
-    display: block;
-    height: 600px;
     font-size: 2em;
-    list-style: none;
-    margin-left: 0;
-    padding-left: 1em;
-    text-indent: -1em;
 }
 .smbullets ul li {
     text-align: center;
@@ -102,9 +82,14 @@ h1 { font-size: 5em; font-weight: normal; text-align: center;}
 h2 { font-size: 3em; font-weight: normal; text-align: center; }
 h3 { font-size: 2em; font-weight: normal; text-align: center; }
 
+h1, h2, h3 {
+  margin: 0.5em 0;
+}
+
 pre { margin-left: 40px; font-size: 2.8em; }
 
 .hidden { position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden; }
+.offscreen { position:absolute; top:0; left:-9999px; overflow:hidden; }
 #debugInfo { margin-left: 30px; }
 
 #help {
@@ -112,12 +97,17 @@ pre { margin-left: 40px; font-size: 2.8em; }
     position: absolute;
     right: 80px;
     display: none;
+    z-index: 2147483647; //max, see http://www.puidokas.com/max-z-index/
 }
 #help table tr td.key {
     text-align: right;
     border-right: 2px solid #8b8;
     padding-right: 4px;
     font-weight: bold;
+}
+
+.fg-menu-container {
+    z-index: 2147483647; //max, see http://www.puidokas.com/max-z-index/
 }
 
 .fg-button { clear:left; margin:0 4px 40px 20px; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
@@ -190,7 +180,7 @@ a.fg-button { float:left; }
 .code .vi { color: #008080 } /* Name.Variable.Instance */
 .code .il { color: #009999 } /* Literal.Number.Integer.Long */
 
-.results { 
+.results {
   background-color:#002200;
   color:#00AA00;
   font-size:2em;

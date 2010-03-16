@@ -1,19 +1,12 @@
 TODO
 =================
 
-- static output
-  - single html file
-  - pdf
-- showoff.json in each subdir
+- can have showoff.json in each subdir
 - showoff add
   - add new slide/section
   - add slides of images directory (refactor script/import_images.rb)
 - simple highlighting (highlight region of slide / click to highlight)
-- simple transitions
 - presenter tools
-  - show/hide timer
-  - warning when time is up or pace is too slow
-    - part of plugin system of things that can be running outside of slideshow
   - notes view (quick polling)
 - audience interface
   - slide download / git clone

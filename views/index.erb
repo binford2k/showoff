@@ -7,9 +7,12 @@
 
 	<title>Presentation</title>
 
+	<link rel="stylesheet" href="css/reset.css" type="text/css"/>
 	<link rel="stylesheet" href="css/showoff.css" type="text/css"/>
 
 	<script type="text/javascript" src="/js/jquery-1.4.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.cycle.all.js"></script>
+	<script type="text/javascript" src="/js/jquery.batchImageLoad.js"></script>
 	<script type="text/javascript" src="/js/jquery-print.js"></script>	
   <script type="text/javascript" src="/js/fg.menu.js"></script> 
 	<script type="text/javascript" src="/js/showoff.js"></script>
@@ -30,8 +33,8 @@
   <% end %>
 
   <script type="text/javascript">
-  $(function(){
-    setupPreso()
+  $(document).ready(function() {
+    setupPreso();
   });
   </script>
 </head>
@@ -59,7 +62,7 @@
   <span id="debugInfo"></span>
 </div>
 
-<div id="slides"></div>
+<div id="slides" class="offscreen"></div>
 
 </body>
 </html>

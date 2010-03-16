@@ -46,7 +46,7 @@ class ShowOff < Sinatra::Application
       Dir.glob("#{options.pres_dir}/*.js").map { |path| File.basename(path) }
     end
 
-    def process_markdown(name, content, wrap = false)
+    def process_markdown(name, content)
       slides = content.split(/^!SLIDE/)
       slides.delete('')
       final = ''
@@ -55,21 +55,30 @@ class ShowOff < Sinatra::Application
       end
       slides.each do |slide|
         md = ''
+        # extract content classes
         lines = slide.split("\n")
-        classes = lines.shift
+        content_classes = lines.shift.split
         slide = lines.join("\n")
-        md += '<div class="' + wrap + '">' if wrap
+        # add content class too
+        content_classes.unshift "content"
+        # extract transition, defaulting to none
+        transition = 'none'
+        content_classes.delete_if { |x| x =~ /^transition=(.+)/ && transition = $1 }
+        puts "classes: #{content_classes.inspect}"
+        puts "transition: #{transition}"
+        # create html
+        md += "<div class=\"slide\" data-transition=\"#{transition}\">"
         if seq
-          md += "<div class=\"slide #{classes}\" ref=\"#{name}/#{seq.to_s}\">\n"
+          md += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}/#{seq.to_s}\">\n"
           seq += 1
         else
-          md += "<div class=\"slide #{classes}\" ref=\"#{name}\">\n"
+          md += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
         sl = Markdown.new(slide).to_html 
         sl = update_image_paths(name, sl)
         md += sl
         md += "</div>\n"
-        md += "</div>\n" if wrap
+        md += "</div>\n"
         final += update_commandline_code(md)
       end
       final
@@ -118,7 +127,7 @@ class ShowOff < Sinatra::Application
       html.root.to_s
     end
     
-    def get_slides_html(wrap = false)
+    def get_slides_html
       index = File.join(options.pres_dir, 'showoff.json')
       files = []
       if File.exists?(index)
@@ -132,7 +141,7 @@ class ShowOff < Sinatra::Application
         data = ''
         files.each do |f|
           fname = f.gsub(options.pres_dir + '/', '').gsub('.md', '')
-          data += process_markdown(fname, File.read(f), wrap)
+          data += process_markdown(fname, File.read(f))
         end
       end
       data
@@ -183,12 +192,12 @@ class ShowOff < Sinatra::Application
   end
 
   get '/onepage' do
-    @slides = get_slides_html('preso')
+    @slides = get_slides_html
     erb :onepage
   end
 
   get '/pdf' do
-    @slides = get_slides_html('preso')
+    @slides = get_slides_html
     @no_js = true
     html = erb :onepage
     p = Princely.new

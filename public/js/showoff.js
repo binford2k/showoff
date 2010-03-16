@@ -4,6 +4,7 @@ var preso_started = false
 var slidenum = 0
 var slideTotal = 0
 var slides
+var currentSlide
 var totalslides = 0
 var slidesLoaded = false
 var incrSteps = 0
@@ -31,20 +32,56 @@ function setupPreso() {
 }
 
 function loadSlides() {
-  $('#slides').hide();
+  //load slides offscreen, wait for images and then initialize
   $("#slides").load("/slides", false, function(){
-    slides = $('#slides > .slide')
-    slideTotal = slides.size()
-    setupMenu()
-    if (slidesLoaded) {
-      showSlide()
-      alert('slides loaded')
-    } else {
-      showFirstSlide()
-      slidesLoaded = true
-    }
-    sh_highlightDocument('/js/sh_lang/', '.min.js')
-   })
+    $("#slides img").batchImageLoad({
+			loadingCompleteCallback: initializePresentation
+		})
+  })
+}
+
+function initializePresentation() {
+  //center slides offscreen
+  centerSlides($('#slides > .slide'))
+
+  //copy into presentation area
+  $("#preso").empty()
+  $('#slides > .slide').appendTo($("#preso"))
+
+  //populate vars
+  slides = $('#preso > .slide')
+  slideTotal = slides.size()
+
+  //setup manual jquery cycle
+  $('#preso').cycle({
+    timeout: 0
+  })
+
+  setupMenu()
+  if (slidesLoaded) {
+    showSlide()
+    alert('slides loaded')
+  } else {
+    showFirstSlide()
+    slidesLoaded = true
+  }
+  sh_highlightDocument('/js/sh_lang/', '.min.js')
+}
+
+function centerSlides(slides) {
+  slides.each(function(s, slide) {
+    centerSlide(slide)
+  })
+}
+
+function centerSlide(slide) {
+  var slide_content = $(slide).children(".content").first()
+  var height = slide_content.height()
+  var mar_top = (0.5 * parseFloat($(slide).height())) - (0.5 * parseFloat(height))
+  if (mar_top < 0) {
+    mar_top = 0
+  }
+  slide_content.css('margin-top', mar_top)
 }
 
 function setupMenu() {
@@ -52,16 +89,17 @@ function setupMenu() {
 
   var currSlide = 0
   var menu = new ListMenu()
-  
+
   slides.each(function(s, elem) {
-    shortTxt = $(elem).text().substr(0, 20)
-    path = $(elem).attr('ref').split('/')
+    content = $(elem).children(".content")
+    shortTxt = $(content).text().substr(0, 20)
+    path = $(content).attr('ref').split('/')
     currSlide += 1
     menu.addItem(path, shortTxt, currSlide)
   })
 
   $('#navigation').html(menu.getList())
-  $('#navmenu').menu({ 
+  $('#navmenu').menu({
     content: $('#navigation').html(),
     flyOut: true
   });
@@ -91,18 +129,13 @@ function showSlide(back_step) {
     return
   }
 
-  // TODO: calculate and set the height margins on slide load, not here
-
-  $("#preso").html(slides.eq(slidenum).clone())
-  if ($("#preso > .slide").is('.full-screen')) {
-    $("#preso").css('margin', 0);
-  } else {
-    curr_slide = $("#preso > .slide")
-    var slide_height = curr_slide.height()
-    var mar_top = (0.5 * parseFloat($("#preso").height())) - (0.5 * parseFloat(slide_height))
-    $("#preso").css('margin', "0 auto");
-    $("#preso > .slide").css('margin-top', mar_top)
+  currentSlide = slides.eq(slidenum)
+  var transition = currentSlide.attr('data-transition')
+  if (back_step) {
+    transition = 'none'
   }
+  $('#preso').cycle(slidenum, transition)
+
   percent = getSlidePercent()
   $("#slideInfo").text((slidenum + 1) + '/' + slideTotal + '  - ' + percent + '%')
 
@@ -127,11 +160,11 @@ function determineIncremental()
 {
   incrCurr = 0
   incrCode = false
-  incrElem = $("#preso > .incremental > ul > li")
+  incrElem = currentSlide.find(".incremental > ul > li")
   incrSteps = incrElem.size()
   if(incrSteps == 0) {
     // also look for commandline
-    incrElem = $("#preso > .incremental > pre > code > code")
+    incrElem = currentSlide.find(".incremental > pre > code > code")
     incrSteps = incrElem.size()
     incrCode = true
   }
@@ -162,7 +195,7 @@ function doDebugStuff()
     $('#debugInfo').show()
     debug('debug mode on')
   } else {
-    $('#debugInfo').hide()    
+    $('#debugInfo').hide()
   }
 }
 
@@ -259,7 +292,7 @@ function ListMenu(s)
       }
       newMenu.append(domItem)
     }
-    return newMenu      
+    return newMenu
   }
 }
 
@@ -271,7 +304,7 @@ function ListMenuItem(t, s)
 }
 
 var removeResults = function() {
-  $('.results').remove();	
+  $('.results').remove();
 };
 
 var print = function(text) {
