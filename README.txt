@@ -92,7 +92,7 @@ them.
 Some useful styles for each slide are:
 
 * center - centers images on a slide
-* full-screen - allows an image to take up the whole slide
+* full-page - allows an image to take up the whole slide
 * bullets - sizes and seperates bullets properly (fits up to 5, generally)
 * smbullets - sizes and seperates more bullets (smaller, closer together)
 * subsection - creates a different background for titles

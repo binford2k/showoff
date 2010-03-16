@@ -130,11 +130,22 @@ function showSlide(back_step) {
   }
 
   currentSlide = slides.eq(slidenum)
+
   var transition = currentSlide.attr('data-transition')
-  if (back_step) {
+  var fullPage = currentSlide.find(".content").is('.full-page');
+
+  if (back_step || fullPage) {
     transition = 'none'
   }
+
   $('#preso').cycle(slidenum, transition)
+
+  if (fullPage) {
+    $('#preso').css({'width' : '100%', 'overflow' : 'visible'});
+    currentSlide.css({'width' : '100%', 'text-align' : 'center', 'overflow' : 'visible'});
+  } else {
+    $('#preso').css({'width' : '1020px', 'overflow' : 'hidden'});
+  }
 
   percent = getSlidePercent()
   $("#slideInfo").text((slidenum + 1) + '/' + slideTotal + '  - ' + percent + '%')

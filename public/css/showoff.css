@@ -197,15 +197,3 @@ a.fg-button { float:left; }
   color:#0000FF !important;
   background-color: yellow;
 }
-
-.full-screen {
-  position:absolute;
-  text-align:center;
-  width:100%;
-  border:none;
-}
-
-.full-screen p {
-  margin:0;
-  padding:0;
-}
