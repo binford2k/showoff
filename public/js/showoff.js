@@ -12,6 +12,7 @@ var incrElem
 var incrCurr = 0
 var incrCode = false
 var debugMode = false
+var gotoSlidenum = 0
 
 function setupPreso() {
   if (preso_started)
@@ -223,6 +224,19 @@ function keyDown(event)
        return true;
 
     debug('key: ' + key)
+
+    if (key >= 48 && key <= 57) // 0 - 9
+    {
+      gotoSlidenum = gotoSlidenum * 10 + (key - 48);
+      return true;
+    }
+    if (key == 13 && gotoSlidenum > 0)
+    {
+      debug('go to ' + gotoSlidenum);
+      slidenum = gotoSlidenum - 1;
+      showSlide(true);
+    }
+    gotoSlidenum = 0;
 
     if (key == 32) // space bar
     {
