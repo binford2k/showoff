@@ -191,6 +191,7 @@ a.fg-button { float:left; }
   padding:15px;
   margin:0px;
   font-family: monospace;
+  z-index: 2147483647; //max, see http://www.puidokas.com/max-z-index/
 }
 
 .executing {
