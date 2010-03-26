@@ -4,6 +4,8 @@ require 'json'
 require 'nokogiri'
 require 'showoff_utils'
 require 'princely'
+require 'ftools'
+
 
 begin 
   require 'rdiscount'
@@ -174,12 +176,53 @@ class ShowOff < Sinatra::Application
       js_content += '</script>'
       js_content
     end
+    
+    def index
+      erb :index
+    end
+
+    def slides
+      get_slides_html
+    end
+
+    def onepage
+      @slides = get_slides_html
+      erb :onepage
+    end
+
+    def pdf
+      @slides = get_slides_html
+      @no_js = true
+      html = erb :onepage
+      p = Princely.new
+      p.pdf_from_string_to_file(html, '/tmp/preso.pdf')
+      File.new('/tmp/preso.pdf')
+    end
 
   end
+  
+  
+   def self.static(args)
+      name = args.shift || "Presentation"
+      what = args.shift || "onepage"  
+      
+      # Nasty hack to get the actual ShowOff module
+      showoff = ShowOff.new
+      while !showoff.is_a?(ShowOff)
+        showoff = showoff.instance_variable_get(:@app)
+      end
+      
+      data = showoff.send(what)
+      if data.is_a?(File)
+        File.cp(data.path, "#{name}.pdf")
+      else
+        file = File.new("#{name}.html", "w")
+        file.puts(data)
+        file.close
+      end
+    end
+  
 
-  get '/' do
-    erb :index
-  end
 
   get %r{(?:image|file)/(.*)} do
     path = params[:captures].first
@@ -187,22 +230,17 @@ class ShowOff < Sinatra::Application
     send_file full_path
   end
 
-  get '/slides' do
-    get_slides_html
+  get %r{/(.*)} do
+     what = params[:captures].first
+     what = 'index' if "" == what 
+     data = send(what)
+     if data.is_a?(File)
+       send_file data.path
+     else
+       data
+     end
   end
 
-  get '/onepage' do
-    @slides = get_slides_html
-    erb :onepage
-  end
-
-  get '/pdf' do
-    @slides = get_slides_html
-    @no_js = true
-    html = erb :onepage
-    p = Princely.new
-    p.pdf_from_string_to_file(html, '/tmp/preso.pdf')
-    send_file '/tmp/preso.pdf'
-  end
+ 
 
 end
