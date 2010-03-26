@@ -1,22 +1,24 @@
 class ShowOffUtils
 
-  def self.create(dirname)
+  def self.create(dirname,create_samples)
     Dir.mkdir(dirname) if !File.exists?(dirname)
     Dir.chdir(dirname) do
-      # create section
-      Dir.mkdir('one')
+      if create_samples
+        # create section
+        Dir.mkdir('one')
 
-      # create markdown file
-      File.open('one/slide.md', 'w+') do |f|
-        f.puts "!SLIDE"
-        f.puts "# My Presentation #"
-        f.puts
-        f.puts "!SLIDE bullets incremental"
-        f.puts "# Bullet Points #"
-        f.puts
-        f.puts "* first point"
-        f.puts "* second point"
-        f.puts "* third point"
+        # create markdown file
+        File.open('one/slide.md', 'w+') do |f|
+          f.puts "!SLIDE"
+          f.puts "# My Presentation #"
+          f.puts
+          f.puts "!SLIDE bullets incremental"
+          f.puts "# Bullet Points #"
+          f.puts
+          f.puts "* first point"
+          f.puts "* second point"
+          f.puts "* third point"
+        end
       end
 
       # create showoff.json
@@ -24,8 +26,11 @@ class ShowOffUtils
         f.puts '[ {"section":"one"} ]'
       end
 
-      # print help
-      puts "done. run 'showoff serve' in #{dirname}/ dir to see slideshow"""
+      if create_samples
+        puts "done. run 'showoff serve' in #{dirname}/ dir to see slideshow"
+      else
+        puts "done. add slides, modify showoff.json and then run 'showoff serve' in #{dirname}/ dir to see slideshow"
+      end
     end
   end
 

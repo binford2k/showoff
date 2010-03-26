@@ -10,10 +10,14 @@ include GLI
 desc 'Create new showoff presentation'
 arg_name 'dir_name'
 long_desc 'This command helps start a new showoff presentation by setting up the proper directory structure for you.  it takes the directory name you would like showoff to create for you.'
-command :create do |c|
+command [:create,:init] do |c|
+
+  c.desc 'Don''t create sample slides'
+  c.switch [:n,:nosamples]
+
   c.action do |global_options,options,args|
     raise "dir_name is required" if args.empty?
-    ShowOffUtils.create(args[0])
+    ShowOffUtils.create(args[0],!options[:n])
   end
 end
 
@@ -29,8 +33,13 @@ end
 
 desc 'Serves the showoff presentation in the current directory'
 command :serve do |c|
+
+  c.desc 'Port on which to run'
+  c.default_value "9090"
+  c.flag [:p,:port]
+
   c.action do |global_options,options,args|
-    ShowOff.run! :host => 'localhost', :port => 9090
+    ShowOff.run! :host => 'localhost', :port => options[:p].to_i
   end
 end
 
