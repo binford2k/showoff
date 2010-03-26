@@ -2,17 +2,54 @@
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'showoff'
-command = ARGV[0]
+require 'rubygems'
+require 'gli'
 
-case command
-when 'create'
-  ShowOffUtils.create
-when 'add'
-  ShowOffUtils.add_slide
-when 'heroku'
-  ShowOffUtils.heroku
-when 'serve'
-  ShowOff.run! :host => 'localhost', :port => 9090
-else
-  ShowOffUtils.help
+include GLI
+
+desc 'Create new showoff presentation'
+arg_name 'dir_name'
+long_desc 'This command helps start a new showoff presentation by setting up the proper directory structure for you.  it takes the directory name you would like showoff to create for you.'
+command :create do |c|
+  c.action do |global_options,options,args|
+    raise "dir_name is required" if args.empty?
+    ShowOffUtils.create(args[0])
+  end
 end
+
+desc 'Setup your presentation to serve on Heroku'
+arg_name 'heroku_name'
+long_desc 'Creates the .gems file and config.ru file needed to push a showoff pres to heroku.  it will then run ''heroku create'' for you to register the new project on heroku and add the remote for you.  then all you need to do is commit the new created files and run ''git push heroku'' to deploy.'
+command :heroku do |c|
+  c.action do |global_options,options,args|
+    raise "heroku_name is required" if args.empty?
+    ShowOffUtils.heroku(args[0])
+  end
+end
+
+desc 'Serves the showoff presentation in the current directory'
+command :serve do |c|
+  c.action do |global_options,options,args|
+    ShowOff.run! :host => 'localhost', :port => 9090
+  end
+end
+
+pre do |global,command,options,args|
+  # Pre logic here
+  # Return true to proceed; false to abourt and not call the
+  # chosen command
+  true
+end
+
+post do |global,command,options,args|
+  # Post logic here
+end
+
+on_error do |exception|
+  # Error logic here
+  # return false to skip default error handling
+  true
+end
+
+GLI.run(ARGV)
+

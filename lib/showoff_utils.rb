@@ -1,8 +1,6 @@
 class ShowOffUtils
 
-  def self.create
-    dirname = ARGV[1]
-    return help('create') if !dirname
+  def self.create(dirname)
     Dir.mkdir(dirname) if !File.exists?(dirname)
     Dir.chdir(dirname) do
       # create section
@@ -31,9 +29,7 @@ class ShowOffUtils
     end
   end
 
-  def self.heroku
-    name = ARGV[1]
-    return help('heroku') if !name
+  def self.heroku(name)
     if !File.exists?('showoff.json')
       puts "fail. not a showoff directory"
       return false
@@ -59,39 +55,4 @@ class ShowOffUtils
       git push heroku master
     "
   end
-
-  def self.help(verb = nil)
-    verb = ARGV[1] if !verb
-    case verb
-    when 'heroku'
-      puts <<-HELP
-usage: showoff heroku (heroku-name)
-
-creates the .gems file and config.ru file needed to push a showoff pres to
-heroku.  it will then run 'heroku create' for you to register the new project
-on heroku and add the remote for you.  then all you need to do is commit the
-new created files and run 'git push heroku' to deploy.
-
-HELP
-    when 'create'
-      puts <<-HELP
-usage: showoff create (directory)
-
-this command helps start a new showoff presentation by setting up the
-proper directory structure for you.  it takes the directory name you would
-like showoff to create for you.
-
-HELP
-    else
-      puts <<-HELP
-usage: showoff (command)
-
-commands:
-  serve   serves a showoff presentation from the current directory
-  create  generates a new showoff presentation layout
-  heroku  sets up your showoff presentation to push to heroku
-HELP
-    end
-  end
-
 end
