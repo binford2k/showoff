@@ -48,7 +48,7 @@ class ShowOff < Sinatra::Application
       Dir.glob("#{options.pres_dir}/*.js").map { |path| File.basename(path) }
     end
 
-    def process_markdown(name, content)
+    def process_markdown(name, content, static=false)
       slides = content.split(/^!SLIDE/)
       slides.delete('')
       final = ''
@@ -77,7 +77,7 @@ class ShowOff < Sinatra::Application
           md += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
         sl = Markdown.new(slide).to_html 
-        sl = update_image_paths(name, sl)
+        sl = update_image_paths(name, sl, static)
         md += sl
         md += "</div>\n"
         md += "</div>\n"
@@ -86,11 +86,15 @@ class ShowOff < Sinatra::Application
       final
     end
 
-    def update_image_paths(path, slide)
+    def update_image_paths(path, slide, static=false)
       paths = path.split('/')
       paths.pop
       path = paths.join('/')
-      slide.gsub(/img src=\"(.*?)\"/, 'img src="/image/' + path + '/\1"') 
+      if static
+        slide.gsub(/img src=\"(.*?)\"/, 'img src="file://'+options.pres_dir+'/' + path + '/\1"') 
+      else
+        slide.gsub(/img src=\"(.*?)\"/, 'img src="/image/' + path + '/\1"') 
+      end
     end
     
     def update_commandline_code(slide)
@@ -129,7 +133,7 @@ class ShowOff < Sinatra::Application
       html.root.to_s
     end
     
-    def get_slides_html
+    def get_slides_html(static=false)
       index = File.join(options.pres_dir, 'showoff.json')
       files = []
       if File.exists?(index)
@@ -143,7 +147,7 @@ class ShowOff < Sinatra::Application
         data = ''
         files.each do |f|
           fname = f.gsub(options.pres_dir + '/', '').gsub('.md', '')
-          data += process_markdown(fname, File.read(f))
+          data += process_markdown(fname, File.read(f),static)
         end
       end
       data
@@ -181,17 +185,17 @@ class ShowOff < Sinatra::Application
       erb :index
     end
 
-    def slides
-      get_slides_html
+    def slides(static=false)
+      get_slides_html(static)
     end
 
-    def onepage
-      @slides = get_slides_html
+    def onepage(static=false)
+      @slides = get_slides_html(static)
       erb :onepage
     end
 
-    def pdf
-      @slides = get_slides_html
+    def pdf(static=false)
+      @slides = get_slides_html(static)
       @no_js = true
       html = erb :onepage
       p = Princely.new
@@ -212,7 +216,7 @@ class ShowOff < Sinatra::Application
         showoff = showoff.instance_variable_get(:@app)
       end
       
-      data = showoff.send(what)
+      data = showoff.send(what, true)
       if data.is_a?(File)
         File.cp(data.path, "#{name}.pdf")
       else
