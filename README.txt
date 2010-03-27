@@ -51,6 +51,19 @@ it has a showoff.json file and a number of sections (subdirectories) with markdo
 If you run 'showoff' in the ShowOff directory itself, it will show an example
 presentation from the 'example' subdirectory, so you can see what it's like.
 
+Alternatively you can generate a static version of your presentation by either
+
+  $ showoff static <name> 
+
+Which will generate a file called <name>.html
+
+Or
+
+$ showoff static <name> pdf
+
+Which will generate a file called <name>.pdf
+
+
 Slide Format
 ====================
 
