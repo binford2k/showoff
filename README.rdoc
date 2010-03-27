@@ -173,7 +173,7 @@ When in a showoff directory, creates a new slide in slide_dir that is numbered t
 ==== Options
 These options are specified *after* the command.
 
-[<tt>-n, --nonumber</tt>] Dont number the slide, use the given name verbatime
+[<tt>-n, --nonumber</tt>] Dont number the slide, use the given name verbatim
 [<tt>-s, --source=path to file</tt>] Include code from the given file as the slide body
 === <tt>create dir_name</tt>
 
@@ -182,7 +182,7 @@ Create new showoff presentation
 *Aliases*
 * <tt><b>init</b></tt>
 
-This command helps start a new showoff presentation by setting up the proper directory structure for you.  it takes the directory name you would like showoff to create for you.
+This command helps start a new showoff presentation by setting up the proper directory structure for you.  It takes the directory name you would like showoff to create for you.
 
 ==== Options
 These options are specified *after* the command.
@@ -203,10 +203,6 @@ Serves the showoff presentation in the current directory
 
 
 
-==== Options
-These options are specified *after* the command.
-
-[<tt>-p, --port=arg</tt>] Port on which to run <i>( default: <tt>9090</tt>)</i>
 ==== Options
 These options are specified *after* the command.
 

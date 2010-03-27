@@ -9,7 +9,7 @@ include GLI
 
 desc 'Create new showoff presentation'
 arg_name 'dir_name'
-long_desc 'This command helps start a new showoff presentation by setting up the proper directory structure for you.  it takes the directory name you would like showoff to create for you.'
+long_desc 'This command helps start a new showoff presentation by setting up the proper directory structure for you.  It takes the directory name you would like showoff to create for you.'
 command [:create,:init] do |c|
 
   c.desc 'Don''t create sample slides'
@@ -51,7 +51,7 @@ desc 'Add a new slide at the end in a given dir'
 arg_name 'slide_dir slide_name [title]'
 long_desc 'When in a showoff directory, creates a new slide in slide_dir that is numbered to come after the current last slide and will contain ''slide_name'' in its name.  If you have two slides already: one/01_intro.md and one/02_about.md, `showoff add one foo` will create the slide one/03_foo.md.  Further, you can include source code by giving the -s option and the path to the file; showoff will do its best to guess the language.'
 command [:add,:new] do |c|
-  c.desc 'Don''t number the slide, use the given name verbatime'
+  c.desc 'Don''t number the slide, use the given name verbatim'
   c.switch [:n,:nonumber]
 
   c.desc 'Include code from the given file as the slide body'
