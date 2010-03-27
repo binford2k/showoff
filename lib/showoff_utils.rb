@@ -54,6 +54,11 @@ class ShowOffUtils
     "
   end
 
+  # Makes a slide as a string.
+  # [title] title of the slide
+  # [classes] any "classes" to include, such as 'smaller', 'transition', etc.
+  # [content] slide content.  Currently, if this is an array, it will make a bullet list.  Otherwise
+  #           the string value of this will be put in the slide as-is
   def self.make_slide(title,classes="",content=nil)
     slide = "!SLIDE #{classes}\n"
     slide << "# #{title} #\n"
@@ -68,12 +73,25 @@ class ShowOffUtils
     slide
   end
 
-
+  # Adds a new slide to a given dir, giving it a number such that it falls after all slides
+  # in that dir.  
+  # Options are:
+  # [:dir] - dir where we put the slide (required)
+  # [:name] - name of the file (without the number prefix, required)
+  # [:title] - title in the slide (optional).  If not specified the source file name is
+  # used.  If THAT is not specified, uses the value of +:name+.
+  # [:code] - path to a source file to use as content (optional)
+  # [:number] - true if numbering should be done, false if not
   def self.add_slide(options)
+
+    raise "slide_dir is required" if options[:dir].nil?
+    raise "slide_name is required" if options[:name].nil?
     raise "No such dir #{options[:dir]}" if !File.exists?(options[:dir])
+
     title = determine_title(options[:title],options[:name],options[:code])
     filename = determine_filename(options[:dir],options[:name],options[:number])
     write_file(filename,options[:code],title)
+
   end
 
   def self.write_file(filename,code,title)
@@ -92,18 +110,23 @@ class ShowOffUtils
   def self.determine_filename(slide_dir,slide_name,number)
     filename = "#{slide_dir}/#{slide_name}.md"
     if number
-      max = 0
-      Dir.open(slide_dir).each do |file|
-        if file =~ /(\d+).*\.md/
-          num = $1.to_i
-          max = num if num > max
-        end
-      end
-      max += 1
-      max = "0#{max}" if max < 10
+      max = find_next_number(slide_dir)
       filename = "#{slide_dir}/#{max}_#{slide_name}.md"
     end
     filename
+  end
+
+  def self.find_next_number(slide_dir)
+    max = 0
+    Dir.open(slide_dir).each do |file|
+      if file =~ /(\d+).*\.md/
+        num = $1.to_i
+        max = num if num > max
+      end
+    end
+    max += 1
+    max = "0#{max}" if max < 10
+    max
   end
 
   def self.determine_title(title,slide_name,code)
@@ -143,7 +166,8 @@ class ShowOffUtils
   EXTENSIONS =  { 
     'pl' => 'perl',
     'rb' => 'ruby',
-    'erl' => 'erlang'
+    'erl' => 'erlang',
+    # so not exhaustive, but probably good enough for now
   }
 
   def self.lang(source_file)

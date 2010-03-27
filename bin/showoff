@@ -62,8 +62,6 @@ command [:add,:new] do |c|
     slide_dir = args.shift
     slide_name = args.shift
     title = args.join(" ")
-    raise "slide_dir is required" if slide_dir.nil?
-    raise "slide_name is required" if slide_name.nil?
     ShowOffUtils.add_slide(:dir => slide_dir,:name => slide_name,:title => title, :number => !options[:n], :code => options[:s])
   end
 end
