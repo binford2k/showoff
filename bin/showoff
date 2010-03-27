@@ -15,9 +15,13 @@ command [:create,:init] do |c|
   c.desc 'Don''t create sample slides'
   c.switch [:n,:nosamples]
 
+  c.desc 'sample slide directory name'
+  c.default_value 'one'
+  c.flag [:d,:slidedir]
+
   c.action do |global_options,options,args|
     raise "dir_name is required" if args.empty?
-    ShowOffUtils.create(args[0],!options[:n])
+    ShowOffUtils.create(args[0],!options[:n],options[:d])
   end
 end
 
@@ -43,6 +47,27 @@ command :serve do |c|
   end
 end
 
+desc 'Add a new slide at the end in a given dir'
+arg_name 'slide_dir slide_name [title]'
+long_desc 'When in a showoff directory, creates a new slide in slide_dir that is numbered to come after the current last slide and will contain ''slide_name'' in its name.  If you have two slides already: one/01_intro.md and one/02_about.md, `showoff add one foo` will create the slide one/03_foo.md.  Further, you can include source code by giving the -s option and the path to the file; showoff will do its best to guess the language.'
+command [:add,:new] do |c|
+  c.desc 'Don''t number the slide, use the given name verbatime'
+  c.switch [:n,:nonumber]
+
+  c.desc 'Include code from the given file as the slide body'
+  c.arg_name 'path to file'
+  c.flag [:s,:source]
+
+  c.action do |global_options,options,args|
+    slide_dir = args.shift
+    slide_name = args.shift
+    title = args.join(" ")
+    raise "slide_dir is required" if slide_dir.nil?
+    raise "slide_name is required" if slide_name.nil?
+    ShowOffUtils.add_slide(:dir => slide_dir,:name => slide_name,:title => title, :number => !options[:n], :code => options[:s])
+  end
+end
+
 pre do |global,command,options,args|
   # Pre logic here
   # Return true to proceed; false to abourt and not call the
@@ -55,6 +80,7 @@ post do |global,command,options,args|
 end
 
 on_error do |exception|
+  raise exception
   # Error logic here
   # return false to skip default error handling
   true
