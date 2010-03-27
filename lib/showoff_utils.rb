@@ -116,6 +116,8 @@ class ShowOffUtils
     filename
   end
 
+  # Finds the next number in the given dir to
+  # name a slide as the last slide in the dir.
   def self.find_next_number(slide_dir)
     max = 0
     Dir.open(slide_dir).each do |file|
@@ -137,6 +139,8 @@ class ShowOffUtils
     title
   end
 
+  # Determines a more optimal value for the size (e.g. small vs. smaller)
+  # based upon the size of the code being formatted.
   def self.adjust_size(lines,width)
     size = ""
     # These values determined empircally
@@ -144,11 +148,14 @@ class ShowOffUtils
     size = "small" if lines > 15
     size = "smaller" if width > 57
     size = "smaller" if lines > 19
-    puts "warning, your lines are too long and the code may be cut off" if width > 65 
+    puts "warning, some lines are too long and the code may be cut off" if width > 65 
     puts "warning, your code is too long and the code may be cut off" if lines > 23
     size
   end
 
+  # Reads the code from the source file, returning 
+  # the code, indented for markdown, as well as the number of lines
+  # and the width of the largest line
   def self.read_code(source_file)
     code = "    @@@ #{lang(source_file)}\n"
     lines = 0
