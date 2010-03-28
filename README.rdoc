@@ -145,6 +145,20 @@ You can manage the presentation with the following keys:
 * f: toggle footer
 * z: toggle help
 
+= Editor integration
+
+The "add slide" feature can allow you to add the necessary boilerplate from your editor.  If you are using vim, you can
+
+    !showoff add -t code Check This Code
+
+And your buffer will get
+
+    !SLIDE 
+    # Check This Code #
+        @@@ Ruby
+        code_here()
+
+added where your cursor was.  Binding this to a keybinding can allow you to add new slides quickly.
 
 = Command Line Interface
 
