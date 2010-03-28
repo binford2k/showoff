@@ -98,17 +98,17 @@ class ShowOffUtils
   def self.add_slide(options)
 
     raise "No such dir #{options[:dir]}" if options[:dir] && !File.exists?(options[:dir])
-    options[:name] = 'new_slide' if !options[:name]
 
     options[:type] = 'code' if options[:code]
 
     title = determine_title(options[:title],options[:name],options[:code])
+
+    options[:name] = 'new_slide' if !options[:name]
+
     size,source = determine_size_and_source(options[:code])
-    if TYPES[options[:type]]
-      slide = TYPES[options[:type]].call(title,size,source)
-    else
-      slide = TYPES[:default].call(title,size,source,type)
-    end
+    type = options[:type] || :default
+    slide = TYPES[type].call(title,size,source)
+
     if options[:dir]
       filename = determine_filename(options[:dir],options[:name],options[:number])
       write_file(filename,slide)
