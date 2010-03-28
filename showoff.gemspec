@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.has_rdoc          = false
   s.require_path      = "lib"
   s.executables       = %w( showoff )
-  s.files             = %w( README.txt Rakefile LICENSE )
+  s.files             = %w( README.rdoc Rakefile LICENSE )
   s.files            += Dir.glob("lib/**/*")
   s.files            += Dir.glob("bin/**/*")
   s.files            += Dir.glob("views/**/*")
