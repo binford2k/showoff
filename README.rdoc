@@ -161,20 +161,23 @@ You can manage the presentation with the following keys:
 [<tt>heroku</tt>] Setup your presentation to serve on Heroku
 [<tt>serve</tt>] Serves the showoff presentation in the current directory
 
-=== <tt>add slide_dir slide_name [title]</tt>
+=== <tt>add [title]</tt>
 
 Add a new slide at the end in a given dir
 
 *Aliases*
 * <tt><b>new</b></tt>
 
-When in a showoff directory, creates a new slide in slide_dir that is numbered to come after the current last slide and will contain slide_name in its name.  If you have two slides already: one/01_intro.md and one/02_about.md, `showoff add one foo` will create the slide one/03_foo.md.  Further, you can include source code by giving the -s option and the path to the file; showoff will do its best to guess the language.
+Outputs or creates a new slide.  With -d and -n, a new slide is created in the given dir, numbered to appear as the last slide in that dir (use -u to avoid numbering).  Without those, outputs the slide markdown to stdout (useful for shelling out from your editor). You may also specify a source file to use for a code slide
 
 ==== Options
 These options are specified *after* the command.
 
-[<tt>-n, --nonumber</tt>] Dont number the slide, use the given name verbatim
+[<tt>-d, --dir=dir</tt>] Slide dir (where to put a new slide file)
+[<tt>-n, --name=basename</tt>] Slide name (name of the new slide file)
 [<tt>-s, --source=path to file</tt>] Include code from the given file as the slide body
+[<tt>-t, --style, --type=valid showoff style/type</tt>] Slide Type/Style <i>( default: <tt>title</tt>)</i>
+[<tt>-u, --nonumber</tt>] Dont number the slide, use the given name verbatim
 === <tt>create dir_name</tt>
 
 Create new showoff presentation

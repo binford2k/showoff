@@ -48,21 +48,37 @@ command :serve do |c|
 end
 
 desc 'Add a new slide at the end in a given dir'
-arg_name 'slide_dir slide_name [title]'
-long_desc 'When in a showoff directory, creates a new slide in slide_dir that is numbered to come after the current last slide and will contain ''slide_name'' in its name.  If you have two slides already: one/01_intro.md and one/02_about.md, `showoff add one foo` will create the slide one/03_foo.md.  Further, you can include source code by giving the -s option and the path to the file; showoff will do its best to guess the language.'
+arg_name '[title]'
+long_desc 'Outputs or creates a new slide.  With -d and -n, a new slide is created in the given dir, numbered to appear as the last slide in that dir (use -u to avoid numbering).  Without those, outputs the slide markdown to stdout (useful for shelling out from your editor). You may also specify a source file to use for a code slide'
 command [:add,:new] do |c|
   c.desc 'Don''t number the slide, use the given name verbatim'
-  c.switch [:n,:nonumber]
+  c.switch [:u,:nonumber]
 
   c.desc 'Include code from the given file as the slide body'
   c.arg_name 'path to file'
   c.flag [:s,:source]
 
+  c.desc 'Slide Type/Style'
+  c.arg_name 'valid showoff style/type'
+  c.default_value 'title'
+  c.flag [:t,:type,:style]
+
+  c.desc 'Slide dir (where to put a new slide file)'
+  c.arg_name 'dir'
+  c.flag [:d,:dir]
+
+  c.desc 'Slide name (name of the new slide file)'
+  c.arg_name 'basename'
+  c.flag [:n,:name]
+
   c.action do |global_options,options,args|
-    slide_dir = args.shift
-    slide_name = args.shift
     title = args.join(" ")
-    ShowOffUtils.add_slide(:dir => slide_dir,:name => slide_name,:title => title, :number => !options[:n], :code => options[:s])
+    ShowOffUtils.add_slide(:dir => options[:d],
+                           :name => options[:n],
+                           :title => title,
+                           :number => !options[:m],
+                           :code => options[:s],
+                           :type => options[:t])
   end
 end
 

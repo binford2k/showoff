@@ -73,36 +73,69 @@ class ShowOffUtils
     slide
   end
 
+  TYPES = {
+    :default => lambda { |t,size,source,type| make_slide(t,"#{size} #{type}",source) },
+    'title' => lambda { |t,size,dontcare| make_slide(t,size) },
+    'bullets' => lambda { |t,size,dontcare| make_slide(t,"#{size} bullets incremental",["bullets","go","here"])},
+    'smbullets' => lambda { |t,size,dontcare| make_slide(t,"#{size} smbullets incremental",["bullets","go","here","and","here"])},
+    'code' => lambda { |t,size,src| make_slide(t,size,blank?(src) ? "    @@@ Ruby\n    code_here()" : src) },
+    'commandline' => lambda { |t,size,dontcare| make_slide(t,"#{size} commandline","    $ command here\n    output here")},
+    'full-page' => lambda { |t,size,dontcare| make_slide(t,"#{size} full-page","![Image Description](image/ref.png)")},
+  }
+
+
   # Adds a new slide to a given dir, giving it a number such that it falls after all slides
   # in that dir.  
   # Options are:
-  # [:dir] - dir where we put the slide (required)
-  # [:name] - name of the file (without the number prefix, required)
-  # [:title] - title in the slide (optional).  If not specified the source file name is
-  # used.  If THAT is not specified, uses the value of +:name+.
-  # [:code] - path to a source file to use as content (optional)
+  # [:dir] - dir where we put the slide (if omitted, slide is output to $stdout)
+  # [:name] - name of the file, without the number prefix. (if omitted, a default is used)
+  # [:title] - title in the slide.  If not specified the source file name is
+  #            used.  If THAT is not specified, uses the value of +:name+.  If THAT is not
+  #            specified, a suitable default is used
+  # [:code] - path to a source file to use as content (force :type to be 'code')
   # [:number] - true if numbering should be done, false if not
+  # [:type] - the type of slide to create
   def self.add_slide(options)
 
-    raise "slide_dir is required" if options[:dir].nil?
-    raise "slide_name is required" if options[:name].nil?
-    raise "No such dir #{options[:dir]}" if !File.exists?(options[:dir])
+    raise "No such dir #{options[:dir]}" if options[:dir] && !File.exists?(options[:dir])
+    options[:name] = 'new_slide' if !options[:name]
+
+    options[:type] = 'code' if options[:code]
 
     title = determine_title(options[:title],options[:name],options[:code])
-    filename = determine_filename(options[:dir],options[:name],options[:number])
-    write_file(filename,options[:code],title)
+    size,source = determine_size_and_source(options[:code])
+    if TYPES[options[:type]]
+      slide = TYPES[options[:type]].call(title,size,source)
+    else
+      slide = TYPES[:default].call(title,size,source,type)
+    end
+    if options[:dir]
+      filename = determine_filename(options[:dir],options[:name],options[:number])
+      write_file(filename,slide)
+    else
+      puts slide
+      puts
+    end
 
   end
 
-  def self.write_file(filename,code,title)
+  def self.blank?(string) 
+    string.nil? || string.strip.length == 0
+  end
+
+  def self.determine_size_and_source(code)
+    size = ""
+    source = ""
+    if code
+      source,lines,width = read_code(code)
+      size = adjust_size(lines,width)
+    end
+    [size,source]
+  end
+
+  def self.write_file(filename,slide)
     File.open(filename,'w') do |file|
-      size = ""
-      source = ""
-      if code
-        source,lines,width = read_code(code)
-        size = adjust_size(lines,width)
-      end
-      file.puts make_slide(title,size,source)
+      file.puts slide
     end
     puts "Wrote #{filename}"
   end
@@ -132,10 +165,11 @@ class ShowOffUtils
   end
 
   def self.determine_title(title,slide_name,code)
-    if title.nil? || title.strip.length == 0
+    if blank?(title)
       title = slide_name 
       title = File.basename(code) if code
     end
+    title = "Title here" if blank?(title)
     title
   end
 
