@@ -53,15 +53,15 @@ presentation from the 'example' subdirectory, so you can see what it's like.
 
 Alternatively you can generate a static version of your presentation by either
 
-  $ showoff static <name> 
+  $ showoff static
 
-Which will generate a file called <name>.html
+Which will generate a static directory with an index.html and all other necessary files.
 
 Or
 
-$ showoff static <name> pdf
+$ showoff static pdf
 
-Which will generate a file called <name>.pdf
+Which will generate a file called <name>.pdf where <name> is the name of the subdirectory.
 
 
 Slide Format
