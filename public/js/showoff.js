@@ -11,8 +11,7 @@ var incrSteps = 0
 var incrElem
 var incrCurr = 0
 var incrCode = false
-//var debugMode = false
-var debugMode = true
+var debugMode = false
 
 
 function setupPreso(load_slides, prefix) {
