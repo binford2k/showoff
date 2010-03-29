@@ -14,7 +14,7 @@ when 'heroku'
 when 'serve'
   ShowOff.run! :host => 'localhost', :port => 9090
 when 'static' 
-  ShowOff.static(ARGV.dup)
+  ShowOff.do_static(ARGV)
 else
   ShowOffUtils.help
 end

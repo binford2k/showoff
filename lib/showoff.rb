@@ -181,7 +181,11 @@ class ShowOff < Sinatra::Application
       js_content
     end
     
-    def index
+    def index(static=false)
+      if static
+        @slides = get_slides_html(static)
+        @asset_path = "public"
+      end
       erb :index
     end
 
@@ -206,9 +210,9 @@ class ShowOff < Sinatra::Application
   end
   
   
-   def self.static(args)
+   def self.do_static(args)
       name = args.shift || "Presentation"
-      what = args.shift || "onepage"  
+      what = args.shift || "index"  
       
       # Nasty hack to get the actual ShowOff module
       showoff = ShowOff.new
