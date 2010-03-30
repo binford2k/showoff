@@ -233,12 +233,12 @@ function keyDown(event)
       debugMode = !debugMode
       doDebugStuff()
     }
-    else if (key == 37) // Left arrow
+    else if (key == 37 || key == 33) // Left arrow or page up
     {
       slidenum--
       showSlide(true) // We show the slide fully loaded
     }
-    else if (key == 39) // Right arrow
+    else if (key == 39 || key == 34) // Right arrow or page down
     {
       nextStep()
     }
