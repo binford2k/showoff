@@ -4,6 +4,8 @@ require 'json'
 require 'nokogiri'
 require 'showoff_utils'
 require 'princely'
+require 'ftools'
+
 
 begin 
   require 'rdiscount'
@@ -18,16 +20,19 @@ class ShowOff < Sinatra::Application
   set :views, File.dirname(__FILE__) + '/../views'
   set :public, File.dirname(__FILE__) + '/../public'
   set :pres_dir, 'example'
-
+  
   def initialize(app=nil)
     super(app)
     puts dir = File.expand_path(File.join(File.dirname(__FILE__), '..'))
     if Dir.pwd == dir
       options.pres_dir = dir + '/example'
+      @root_path = "."
     else
       options.pres_dir = Dir.pwd
+      @root_path = ".."
     end
     puts options.pres_dir
+    @pres_name = options.pres_dir.split('/').pop
   end
 
   helpers do
@@ -46,7 +51,7 @@ class ShowOff < Sinatra::Application
       Dir.glob("#{options.pres_dir}/*.js").map { |path| File.basename(path) }
     end
 
-    def process_markdown(name, content)
+    def process_markdown(name, content, static=false)
       slides = content.split(/^!SLIDE/)
       slides.delete('')
       final = ''
@@ -75,7 +80,7 @@ class ShowOff < Sinatra::Application
           md += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
         sl = Markdown.new(slide).to_html 
-        sl = update_image_paths(name, sl)
+        sl = update_image_paths(name, sl, static)
         md += sl
         md += "</div>\n"
         md += "</div>\n"
@@ -84,11 +89,15 @@ class ShowOff < Sinatra::Application
       final
     end
 
-    def update_image_paths(path, slide)
+    def update_image_paths(path, slide, static=false)
       paths = path.split('/')
       paths.pop
       path = paths.join('/')
-      slide.gsub(/img src=\"(.*?)\"/, 'img src="/image/' + path + '/\1"') 
+      if static
+        slide.gsub(/img src=\"(.*?)\"/, 'img src="file://'+options.pres_dir+'/static/' + path + '/\1"') 
+      else
+        slide.gsub(/img src=\"(.*?)\"/, 'img src="/image/' + path + '/\1"') 
+      end
     end
     
     def update_commandline_code(slide)
@@ -127,7 +136,7 @@ class ShowOff < Sinatra::Application
       html.root.to_s
     end
     
-    def get_slides_html
+    def get_slides_html(static=false)
       index = File.join(options.pres_dir, 'showoff.json')
       files = []
       if File.exists?(index)
@@ -141,7 +150,7 @@ class ShowOff < Sinatra::Application
         data = ''
         files.each do |f|
           fname = f.gsub(options.pres_dir + '/', '').gsub('.md', '')
-          data += process_markdown(fname, File.read(f))
+          data += process_markdown(fname, File.read(f),static)
         end
       end
       data
@@ -174,12 +183,73 @@ class ShowOff < Sinatra::Application
       js_content += '</script>'
       js_content
     end
+    
+    def index(static=false)
+      if static
+        @slides = get_slides_html(static)
+        @asset_path = "."
+      end
+      erb :index
+    end
+
+    def slides(static=false)
+      get_slides_html(static)
+    end
+
+    def onepage(static=false)
+      @slides = get_slides_html(static)
+      erb :onepage
+    end
+
+    def pdf(static=false)
+      @slides = get_slides_html(static)
+      @no_js = true
+      html = erb :onepage
+      p = Princely.new
+      # TODO make a random filename
+      p.pdf_from_string_to_file(html, '/tmp/preso.pdf')
+      File.new('/tmp/preso.pdf')
+    end
 
   end
+  
+  
+   def self.do_static(args)
+      what = args.shift || "index"  
+      
+      # Nasty hack to get the actual ShowOff module
+      showoff = ShowOff.new
+      while !showoff.is_a?(ShowOff)
+        showoff = showoff.instance_variable_get(:@app)
+      end
+      name = showoff.instance_variable_get(:@pres_name)
+      path = showoff.instance_variable_get(:@root_path)
+      data = showoff.send(what, true)
+      if data.is_a?(File)
+        File.cp(data.path, "#{name}.pdf")
+      else
+        out  = "#{path}/#{name}/static"
+        # First make a directory
+        File.makedirs("#{out}")
+        # Then write the html
+        file = File.new("#{out}/index.html", "w")
+        file.puts(data)
+        file.close
+        # Now copy all the js and css
+        ["js", "css"].each { |dir|
+          FileUtils.copy_entry("#{path}/public/#{dir}", "#{out}/#{dir}")
+        }
+        # And copy the directory
+        Dir.glob("#{path}/#{name}/*").each { |subpath| 
+          base = File.basename(subpath)
+          next if "static" == base
+          next unless File.directory?(subpath) || base.match(/\.(css|js)$/)
+          FileUtils.copy_entry(subpath, "#{out}/#{base}")
+        }
+      end
+    end
+  
 
-  get '/' do
-    erb :index
-  end
 
   get %r{(?:image|file)/(.*)} do
     path = params[:captures].first
@@ -187,22 +257,17 @@ class ShowOff < Sinatra::Application
     send_file full_path
   end
 
-  get '/slides' do
-    get_slides_html
+  get %r{/(.*)} do
+     what = params[:captures].first
+     what = 'index' if "" == what 
+     data = send(what)
+     if data.is_a?(File)
+       send_file data.path
+     else
+       data
+     end
   end
 
-  get '/onepage' do
-    @slides = get_slides_html
-    erb :onepage
-  end
-
-  get '/pdf' do
-    @slides = get_slides_html
-    @no_js = true
-    html = erb :onepage
-    p = Princely.new
-    p.pdf_from_string_to_file(html, '/tmp/preso.pdf')
-    send_file '/tmp/preso.pdf'
-  end
+ 
 
 end

@@ -13,7 +13,8 @@ var incrCurr = 0
 var incrCode = false
 var debugMode = false
 
-function setupPreso() {
+
+function setupPreso(load_slides, prefix) {
   if (preso_started)
   {
      alert("already started")
@@ -21,7 +22,9 @@ function setupPreso() {
   }
   preso_started = true
 
-  loadSlides()
+ 
+  loadSlides(load_slides, prefix)
+
   doDebugStuff()
 
   // bind event handlers
@@ -31,16 +34,22 @@ function setupPreso() {
   /* window.onunload = unloaded; */
 }
 
-function loadSlides() {
+function loadSlides(load_slides, prefix) { 
   //load slides offscreen, wait for images and then initialize
-  $("#slides").load("/slides", false, function(){
-    $("#slides img").batchImageLoad({
-			loadingCompleteCallback: initializePresentation
+  if (load_slides) {
+  	$("#slides").load("/slides", false, function(){
+    	$("#slides img").batchImageLoad({
+			loadingCompleteCallback: initializePresentation(prefix)
 		})
-  })
+  	})
+  } else {
+	$("#slides img").batchImageLoad({
+		loadingCompleteCallback: initializePresentation(prefix)
+	})
+  }
 }
 
-function initializePresentation() {
+function initializePresentation(prefix) {
   //center slides offscreen
   centerSlides($('#slides > .slide'))
 
@@ -65,7 +74,7 @@ function initializePresentation() {
     showFirstSlide()
     slidesLoaded = true
   }
-  sh_highlightDocument('/js/sh_lang/', '.min.js')
+  sh_highlightDocument(prefix+'/js/sh_lang/', '.min.js')
 }
 
 function centerSlides(slides) {

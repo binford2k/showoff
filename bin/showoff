@@ -2,7 +2,7 @@
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'showoff'
-command = ARGV[0]
+command = ARGV.shift
 
 case command
 when 'create'
@@ -13,6 +13,8 @@ when 'heroku'
   ShowOffUtils.heroku
 when 'serve'
   ShowOff.run! :host => 'localhost', :port => 9090
+when 'static' 
+  ShowOff.do_static(ARGV)
 else
   ShowOffUtils.help
 end
