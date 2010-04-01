@@ -111,7 +111,6 @@ class ShowOff < Sinatra::Application
         if w && h
           src << %( width="#{w}" height="#{h}")
         end
-        puts src
         src
       end
     end
