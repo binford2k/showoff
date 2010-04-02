@@ -136,6 +136,12 @@ function determineIncremental()
   })
 }
 
+function prevStep()
+{
+  slidenum--
+  showSlide(true) // We show the slide fully loaded
+}
+
 function nextStep()
 {
   if (incrCurr >= incrSteps) {
@@ -158,7 +164,7 @@ function doDebugStuff()
     $('#debugInfo').show()
     debug('debug mode on')
   } else {
-    $('#debugInfo').hide()    
+    $('#debugInfo').hide()
   }
 }
 
@@ -187,8 +193,7 @@ function keyDown(event)
     }
     else if (key == 37) // Left arrow
     {
-      slidenum--
-      showSlide(true) // We show the slide fully loaded
+      prevStep()
     }
     else if (key == 39) // Right arrow
     {
