@@ -169,10 +169,9 @@ function showSlide(back_step) {
     incrSteps = 0
   }
 
-  $('.content').swipe({
-    swipeLeft:  swipeLeft,
-    swipeRight: swipeRight
-  });
+  $('body').addSwipeEvents().
+    bind('swipeleft',  swipeLeft).
+    bind('swiperight', swipeRight)
   removeResults()
 }
 
