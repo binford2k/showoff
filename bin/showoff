@@ -42,8 +42,12 @@ command :serve do |c|
   c.default_value "9090"
   c.flag [:p,:port]
 
+  c.desc 'Host or ip to run on'
+  c.default_value "localhost"
+  c.flag [:h,:host]
+
   c.action do |global_options,options,args|
-    ShowOff.run! :host => 'localhost', :port => options[:p].to_i
+    ShowOff.run! :host => options[:h], :port => options[:p].to_i
   end
 end
 
