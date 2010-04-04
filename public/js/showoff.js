@@ -1,5 +1,7 @@
 /* ShowOff JS Logic */
 
+var ShowOff = {};
+
 var preso_started = false
 var slidenum = 0
 var slideTotal = 0
@@ -112,6 +114,7 @@ function showSlide(back_step) {
   }
 
   removeResults()
+  ShowOff.Client.sendToClients(slidenum)
 }
 
 function getSlidePercent()
@@ -155,6 +158,7 @@ function nextStep()
       incrElem.eq(incrCurr).show()
     }
     incrCurr++
+    ShowOff.Client.sendToClients('next')
   }
 }
 
