@@ -169,6 +169,9 @@ function showSlide(back_step) {
     incrSteps = 0
   }
 
+  $('body').addSwipeEvents().
+    bind('swipeleft',  swipeLeft).
+    bind('swiperight', swipeRight)
   removeResults()
 }
 
@@ -208,6 +211,11 @@ function nextStep()
     }
     incrCurr++
   }
+}
+
+function prevStep() {
+  slidenum--
+  showSlide(true) // We show the slide fully loaded
 }
 
 function doDebugStuff()
@@ -258,8 +266,7 @@ function keyDown(event)
     }
     else if (key == 37 || key == 33) // Left arrow or page up
     {
-      slidenum--
-      showSlide(true) // We show the slide fully loaded
+      prevStep()
     }
     else if (key == 39 || key == 34) // Right arrow or page down
     {
@@ -291,6 +298,13 @@ function keyDown(event)
     return true
 }
 
+function swipeLeft() {
+  prevStep()
+}
+
+function swipeRight() {
+  nextStep()
+}
 
 function ListMenu(s)
 {
