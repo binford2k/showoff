@@ -108,14 +108,13 @@ class ShowOff < Sinatra::Application
       paths = path.split('/')
       paths.pop
       path = paths.join('/')
+      replacement_prefix = static ?
+        %(img src="file://#{options.pres_dir}/static/#{path}) :
+        %(img src="/image/#{path})
       slide.gsub(/img src=\"(.*?)\"/) do |s|
         img_path = File.join(path, $1)
-        w, h = get_image_size(img_path)
-        if static
-          src = 'img src="file://'+options.pres_dir+'/static/' + %(#{img_path}")
-        else
-          src = 'img src="/image/' + %(#{img_path}")
-        end
+        w, h     = get_image_size(img_path)
+        src      = %(#{replacement_prefix}/#{$1}")
         if w && h
           src << %( width="#{w}" height="#{h}")
         end
@@ -123,18 +122,18 @@ class ShowOff < Sinatra::Application
       end
     end
 
-  if defined?(Magick)
-    def get_image_size(path)
-      if !cached_image_size.key?(path)
-        img = Magick::Image.ping(path).first
-        cached_image_size[path] = [img.columns, img.rows]
+    if defined?(Magick)
+      def get_image_size(path)
+        if !cached_image_size.key?(path)
+          img = Magick::Image.ping(path).first
+          cached_image_size[path] = [img.columns, img.rows]
+        end
+        cached_image_size[path]
       end
-      cached_image_size[path]
+    else
+      def get_image_size(path)
+      end
     end
-  else
-    def get_image_size(path)
-    end
-  end
 
     def update_commandline_code(slide)
       html = Nokogiri::XML.parse(slide)
