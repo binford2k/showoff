@@ -275,5 +275,6 @@ etc).
 * BlueCloth
 * Nokogiri
 * json
+* GLI gem
 * Firefox or Chrome to present
 

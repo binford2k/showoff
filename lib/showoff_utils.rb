@@ -37,6 +37,7 @@ class ShowOffUtils
       f.puts "bluecloth"
       f.puts "nokogiri"
       f.puts "showoff"
+      f.puts "gli"
     end if !File.exists?('.gems')
 
     # create config.ru file
