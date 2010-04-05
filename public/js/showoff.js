@@ -1,5 +1,7 @@
 /* ShowOff JS Logic */
 
+var ShowOff = {};
+
 var preso_started = false
 var slidenum = 0
 var slideTotal = 0
@@ -173,6 +175,7 @@ function showSlide(back_step) {
     bind('swipeleft',  swipeLeft).
     bind('swiperight', swipeRight)
   removeResults()
+  ShowOff.Client.sendToClients(slidenum)
 }
 
 function getSlidePercent()
@@ -197,6 +200,12 @@ function determineIncremental()
   })
 }
 
+function prevStep()
+{
+  slidenum--
+  showSlide(true) // We show the slide fully loaded
+}
+
 function nextStep()
 {
   if (incrCurr >= incrSteps) {
@@ -210,6 +219,7 @@ function nextStep()
       incrElem.eq(incrCurr).show()
     }
     incrCurr++
+    ShowOff.Client.sendToClients('next')
   }
 }
 

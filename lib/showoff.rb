@@ -6,6 +6,18 @@ require 'showoff_utils'
 require 'princely'
 require 'ftools'
 
+begin
+  require 'RMagick'
+rescue LoadError
+  puts 'image sizing disabled - install RMagick'
+end
+
+begin
+  require 'prawn'
+  require 'princely'
+rescue LoadError
+  puts 'pdf generation disabled - install prawn'
+end
 
 begin 
   require 'rdiscount'
@@ -16,6 +28,8 @@ end
 require 'pp'
 
 class ShowOff < Sinatra::Application
+
+  attr_reader :cached_image_size
 
   set :views, File.dirname(__FILE__) + '/../views'
   set :public, File.dirname(__FILE__) + '/../public'
@@ -31,6 +45,7 @@ class ShowOff < Sinatra::Application
       options.pres_dir = Dir.pwd
       @root_path = ".."
     end
+    @cached_image_size = {}
     puts options.pres_dir
     @pres_name = options.pres_dir.split('/').pop
   end
@@ -93,13 +108,34 @@ class ShowOff < Sinatra::Application
       paths = path.split('/')
       paths.pop
       path = paths.join('/')
-      if static
-        slide.gsub(/img src=\"(.*?)\"/, 'img src="file://'+options.pres_dir+'/static/' + path + '/\1"') 
-      else
-        slide.gsub(/img src=\"(.*?)\"/, 'img src="/image/' + path + '/\1"') 
+      slide.gsub(/img src=\"(.*?)\"/) do |s|
+        img_path = File.join(path, $1)
+        w, h = get_image_size(img_path)
+        if static
+          src = 'img src="file://'+options.pres_dir+'/static/' + %(#{img_path}")
+        else
+          src = 'img src="/image/' + %(#{img_path}")
+        end
+        if w && h
+          src << %( width="#{w}" height="#{h}")
+        end
+        src
       end
     end
-    
+
+  if defined?(Magick)
+    def get_image_size(path)
+      if !cached_image_size.key?(path)
+        img = Magick::Image.ping(path).first
+        cached_image_size[path] = [img.columns, img.rows]
+      end
+      cached_image_size[path]
+    end
+  else
+    def get_image_size(path)
+    end
+  end
+
     def update_commandline_code(slide)
       html = Nokogiri::XML.parse(slide)
       
