@@ -4,7 +4,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
 	<title>Presentation</title>
 
   <% if @no_js %>
@@ -18,7 +17,7 @@
   <% end %>
 
   <% if !@no_js %>
-    <%= inline_js(['jquery-1.4.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'sh_main.min.js'], 'public/js') %>
+    <%= inline_js(['jquery-1.4.min.js', 'jquery.jswipe.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'sh_main.min.js'], 'public/js') %>
     <script type="text/javascript">
     $(document).ready(function() {
       setupOnePage()
