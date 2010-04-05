@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.has_rdoc          = false
   s.require_path      = "lib"
   s.executables       = %w( showoff )
-  s.files             = %w( README.txt Rakefile LICENSE )
+  s.files             = %w( README.rdoc Rakefile LICENSE )
   s.files            += Dir.glob("lib/**/*")
   s.files            += Dir.glob("bin/**/*")
   s.files            += Dir.glob("views/**/*")
@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.add_dependency      "bluecloth"
   s.add_dependency      "nokogiri"
   s.add_dependency      "json"
+  s.add_dependency      ("gli",">= 1.1.0")
   s.description       = <<-desc
   ShowOff is a Sinatra web app that reads simple configuration files for a
   presentation.  It is sort of like a Keynote web app engine.  I am using it

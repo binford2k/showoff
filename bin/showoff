@@ -2,19 +2,102 @@
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'showoff'
-command = ARGV.shift
+require 'rubygems'
+require 'gli'
 
-case command
-when 'create'
-  ShowOffUtils.create
-when 'add'
-  ShowOffUtils.add_slide
-when 'heroku'
-  ShowOffUtils.heroku
-when 'serve'
-  ShowOff.run! :host => 'localhost', :port => 9090
-when 'static' 
-  ShowOff.do_static(ARGV)
-else
-  ShowOffUtils.help
+include GLI
+
+desc 'Create new showoff presentation'
+arg_name 'dir_name'
+long_desc 'This command helps start a new showoff presentation by setting up the proper directory structure for you.  It takes the directory name you would like showoff to create for you.'
+command [:create,:init] do |c|
+
+  c.desc 'Don''t create sample slides'
+  c.switch [:n,:nosamples]
+
+  c.desc 'sample slide directory name'
+  c.default_value 'one'
+  c.flag [:d,:slidedir]
+
+  c.action do |global_options,options,args|
+    raise "dir_name is required" if args.empty?
+    ShowOffUtils.create(args[0],!options[:n],options[:d])
+  end
 end
+
+desc 'Setup your presentation to serve on Heroku'
+arg_name 'heroku_name'
+long_desc 'Creates the .gems file and config.ru file needed to push a showoff pres to heroku.  it will then run ''heroku create'' for you to register the new project on heroku and add the remote for you.  then all you need to do is commit the new created files and run ''git push heroku'' to deploy.'
+command :heroku do |c|
+  c.action do |global_options,options,args|
+    raise "heroku_name is required" if args.empty?
+    ShowOffUtils.heroku(args[0])
+  end
+end
+
+desc 'Serves the showoff presentation in the current directory'
+command :serve do |c|
+
+  c.desc 'Port on which to run'
+  c.default_value "9090"
+  c.flag [:p,:port]
+
+  c.action do |global_options,options,args|
+    ShowOff.run! :host => 'localhost', :port => options[:p].to_i
+  end
+end
+
+desc 'Add a new slide at the end in a given dir'
+arg_name '[title]'
+long_desc 'Outputs or creates a new slide.  With -d and -n, a new slide is created in the given dir, numbered to appear as the last slide in that dir (use -u to avoid numbering).  Without those, outputs the slide markdown to stdout (useful for shelling out from your editor). You may also specify a source file to use for a code slide'
+command [:add,:new] do |c|
+  c.desc 'Don''t number the slide, use the given name verbatim'
+  c.switch [:u,:nonumber]
+
+  c.desc 'Include code from the given file as the slide body'
+  c.arg_name 'path to file'
+  c.flag [:s,:source]
+
+  c.desc 'Slide Type/Style'
+  c.arg_name 'valid showoff style/type'
+  c.default_value 'title'
+  c.flag [:t,:type,:style]
+
+  c.desc 'Slide dir (where to put a new slide file)'
+  c.arg_name 'dir'
+  c.flag [:d,:dir]
+
+  c.desc 'Slide name (name of the new slide file)'
+  c.arg_name 'basename'
+  c.flag [:n,:name]
+
+  c.action do |global_options,options,args|
+    title = args.join(" ")
+    ShowOffUtils.add_slide(:dir => options[:d],
+                           :name => options[:n],
+                           :title => title,
+                           :number => !options[:m],
+                           :code => options[:s],
+                           :type => options[:t])
+  end
+end
+
+pre do |global,command,options,args|
+  # Pre logic here
+  # Return true to proceed; false to abourt and not call the
+  # chosen command
+  true
+end
+
+post do |global,command,options,args|
+  # Post logic here
+end
+
+on_error do |exception|
+  raise exception
+  # Error logic here
+  # return false to skip default error handling
+  true
+end
+
+GLI.run(ARGV)
