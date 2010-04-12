@@ -249,8 +249,8 @@ class ShowOff < Sinatra::Application
   end
   
   
-   def self.do_static(args)
-      what = args.shift || "index"  
+   def self.do_static(what)
+      what = "index" if !what
       
       # Nasty hack to get the actual ShowOff module
       showoff = ShowOff.new
@@ -271,11 +271,12 @@ class ShowOff < Sinatra::Application
         file.puts(data)
         file.close
         # Now copy all the js and css
+        my_path = File.join( File.dirname(__FILE__), '..', 'public')
         ["js", "css"].each { |dir|
-          FileUtils.copy_entry("#{path}/public/#{dir}", "#{out}/#{dir}")
+          FileUtils.copy_entry("#{my_path}/#{dir}", "#{out}/#{dir}")
         }
         # And copy the directory
-        Dir.glob("#{path}/#{name}/*").each { |subpath| 
+        Dir.glob("#{my_path}/#{name}/*").each { |subpath| 
           base = File.basename(subpath)
           next if "static" == base
           next unless File.directory?(subpath) || base.match(/\.(css|js)$/)
