@@ -297,7 +297,7 @@ function keyDown(event)
     {
       $('#help').toggle()
     }
-    else if (key == 70) // f for footer
+    else if (key == 66 || key == 70) // f for footer (also "b" which is what kensington remote "stop" button sends
     {
       $('#footer').toggle()
     }
