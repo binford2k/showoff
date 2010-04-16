@@ -162,7 +162,7 @@ custom effects.
 You can manage the presentation with the following keys:
 
  * space, cursor right: next slide
- * cursor left: previous slide
+ * shift+space, cursor left: previous slide
  * d: debug mode
  * c: table of contents (vi)
  * f: toggle footer
