@@ -15,6 +15,7 @@ var incrCurr = 0
 var incrCode = false
 var debugMode = false
 var gotoSlidenum = 0
+var shiftKeyActive = false
 
 
 function setupPreso(load_slides, prefix) {
@@ -32,6 +33,7 @@ function setupPreso(load_slides, prefix) {
 
   // bind event handlers
   document.onkeydown = keyDown
+  document.onkeyup = keyUp
   /* window.onresize  = resized; */
   /* window.onscroll = scrolled; */
   /* window.onunload = unloaded; */
@@ -250,7 +252,7 @@ function keyDown(event)
     if (event.ctrlKey || event.altKey || event.metaKey)
        return true;
 
-    debug('key: ' + key)
+    debug('keyDown: ' + key)
 
     if (key >= 48 && key <= 57) // 0 - 9
     {
@@ -265,9 +267,14 @@ function keyDown(event)
     }
     gotoSlidenum = 0;
 
+    if (key == 16) // shift key
+    {
+      shiftKeyActive = true;
+    }
     if (key == 32) // space bar
     {
-      nextStep()
+      if (shiftKeyActive) { prevStep() }
+      else                { nextStep() }
     }
     else if (key == 68) // 'd' for debug
     {
@@ -307,6 +314,16 @@ function keyDown(event)
 	}
     return true
 }
+
+function keyUp(event) {
+  var key = event.keyCode;
+  debug('keyUp: ' + key);
+  if (key == 16) // shift key
+  {
+    shiftKeyActive = false;
+  }
+}
+
 
 function swipeLeft() {
   prevStep()
