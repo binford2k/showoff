@@ -293,14 +293,16 @@ class ShowOff < Sinatra::Application
   end
 
   get %r{/(.*)} do
-     what = params[:captures].first
-     what = 'index' if "" == what 
-     data = send(what)
-     if data.is_a?(File)
-       send_file data.path
-     else
-       data
-     end
+    what = params[:captures].first
+    what = 'index' if "" == what 
+    if (what != "favicon.ico")
+      data = send(what)
+      if data.is_a?(File)
+        send_file data.path
+      else
+        data
+      end
+    end
   end
 
  
