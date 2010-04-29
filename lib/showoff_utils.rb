@@ -16,7 +16,7 @@ class ShowOffUtils
 
       # create showoff.json
       File.open('showoff.json', 'w+') do |f|
-        f.puts '[ {"section":"#{dir}"} ]'
+        f.puts "[ {\"section\":\"#{dir}\"} ]"
       end
 
       if create_samples
