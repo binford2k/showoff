@@ -1,4 +1,5 @@
 class ShowOffUtils
+  SHOWOFF_JSON_FILE = 'showoff.json'
 
   def self.create(dirname,create_samples,dir='one')
     Dir.mkdir(dirname) if !File.exists?(dirname)
@@ -15,20 +16,20 @@ class ShowOffUtils
       end
 
       # create showoff.json
-      File.open('showoff.json', 'w+') do |f|
+      File.open(SHOWOFF_JSON_FILE, 'w+') do |f|
         f.puts '[ {"section":"#{dir}"} ]'
       end
 
       if create_samples
         puts "done. run 'showoff serve' in #{dirname}/ dir to see slideshow"
       else
-        puts "done. add slides, modify showoff.json and then run 'showoff serve' in #{dirname}/ dir to see slideshow"
+        puts "done. add slides, modify #{SHOWOFF_JSON_FILE} and then run 'showoff serve' in #{dirname}/ dir to see slideshow"
       end
     end
   end
 
   def self.heroku(name)
-    if !File.exists?('showoff.json')
+    if !File.exists?(SHOWOFF_JSON_FILE)
       puts "fail. not a showoff directory"
       return false
     end
@@ -98,7 +99,7 @@ class ShowOffUtils
   # [:type] - the type of slide to create
   def self.add_slide(options)
 
-    raise "No such dir #{options[:dir]}" if options[:dir] && !File.exists?(options[:dir])
+    add_new_options[:dir](options[:dir]) if options[:dir] && !File.exists?(options[:dir])
 
     options[:type] = 'code' if options[:code]
 
@@ -118,6 +119,20 @@ class ShowOffUtils
       puts
     end
 
+  end
+
+  # Adds the given directory to this presentation, appending it to
+  # the end of showoff.json as well
+  def self.add_new_dir(dir)
+    puts "Creating #{dir}..."
+    Dir.mkdir dir 
+
+    showoff_json = JSON.parse(File.read(SHOWOFF_JSON_FILE))
+    showoff_json << { "section" => dir }
+    File.open(SHOWOFF_JSON_FILE,'w') do |file|
+      file.puts JSON.generate(showoff_json)
+    end
+    puts "#{SHOWOFF_JSON_FILE} updated"
   end
 
   def self.blank?(string) 
