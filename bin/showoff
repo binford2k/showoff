@@ -43,6 +43,7 @@ command :serve do |c|
   c.flag [:p,:port]
 
   c.action do |global_options,options,args|
+    raise "fail. not a showoff directory" if !File.exists?(ShowOffUtils::SHOWOFF_JSON_FILE)
     ShowOff.run! :host => 'localhost', :port => options[:p].to_i
   end
 end
@@ -94,7 +95,6 @@ post do |global,command,options,args|
 end
 
 on_error do |exception|
-  raise exception
   # Error logic here
   # return false to skip default error handling
   true
