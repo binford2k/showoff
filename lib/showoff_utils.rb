@@ -99,7 +99,7 @@ class ShowOffUtils
   # [:type] - the type of slide to create
   def self.add_slide(options)
 
-    add_new_options[:dir](options[:dir]) if options[:dir] && !File.exists?(options[:dir])
+    add_new_options(options[:dir]) if options[:dir] && !File.exists?(options[:dir])
 
     options[:type] = 'code' if options[:code]
 
