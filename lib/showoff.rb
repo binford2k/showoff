@@ -172,7 +172,7 @@ class ShowOff < Sinatra::Application
     end
     
     def get_slides_html(static=false)
-      index = File.join(options.pres_dir, 'showoff.json')
+      index = File.join(options.pres_dir, ShowOffUtils::SHOWOFF_JSON_FILE )
       files = []
       if File.exists?(index)
         order = JSON.parse(File.read(index))
