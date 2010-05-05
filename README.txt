@@ -162,7 +162,7 @@ custom effects.
 You can manage the presentation with the following keys:
 
  * space, cursor right: next slide
- * cursor left: previous slide
+ * shift+space, cursor left: previous slide
  * d: debug mode
  * c: table of contents (vi)
  * f: toggle footer
@@ -188,6 +188,10 @@ So far, ShowOff has been used in the following presentations:
 * PyCon 2010 - Hg and Git; Can't we all just get along? - Scott Chacon
   http://github.com/schacon/pycon-hg-git
 
+* ScotRUG lightning talks, February 2010 - Bankjob & Associates - Drew Neil
+  http://github.com/nelstrom/bankjob_and_associates
+  http://bankjob-and-associates.heroku.com/
+
 * PdxJs Tech Talk - Asynchronous Coding For My Tiny Ruby Brain - Rick Olson
   http://github.com/technoweenie/pdxjs-twitter-node
 
@@ -196,6 +200,10 @@ So far, ShowOff has been used in the following presentations:
 
 * PDXRB Tech Talk - Here's Sinatra - Jesse Cooke
   http://github.com/jc00ke/pdxrb_sinatra
+
+* Edinburgh TechMeetup, April 2010 - HTML5 Video - Drew Neil
+  http://github.com/nelstrom/html5_video_presentation
+  http://html5-video-slides.heroku.com/
 
 If you use it for something, please let me know so I can add it.
 
