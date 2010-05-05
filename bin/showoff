@@ -82,6 +82,15 @@ command [:add,:new] do |c|
   end
 end
 
+desc 'Generate static version of presentation'
+arg_name 'name'
+long_desc 'Creates a static, one page version of the presentation as {name}.html'
+command [:static] do |c|
+  c.action do |global_options,options,args|
+    ShowOff.do_static(args[0])
+  end
+end
+
 pre do |global,command,options,args|
   # Pre logic here
   # Return true to proceed; false to abourt and not call the
