@@ -177,6 +177,13 @@ function showSlide(back_step) {
     bind('swipeleft',  swipeLeft).
     bind('swiperight', swipeRight)
   removeResults()
+
+  return getCurrentNotes()
+}
+
+function getCurrentNotes() 
+{
+  return currentSlide.find("p.notes").text()
 }
 
 function getSlidePercent()
@@ -204,14 +211,14 @@ function determineIncremental()
 function prevStep()
 {
   slidenum--
-  showSlide(true) // We show the slide fully loaded
+  return showSlide(true) // We show the slide fully loaded
 }
 
 function nextStep()
 {
   if (incrCurr >= incrSteps) {
     slidenum++
-    showSlide()
+    return showSlide()
   } else {
     elem = incrElem.eq(incrCurr)
     if (incrCode && elem.hasClass('command')) {
@@ -225,7 +232,7 @@ function nextStep()
 
 function prevStep() {
   slidenum--
-  showSlide(true) // We show the slide fully loaded
+  return showSlide(true) // We show the slide fully loaded
 }
 
 function doDebugStuff()
@@ -251,7 +258,7 @@ function keyDown(event)
        return true;
 
     debug('keyDown: ' + key)
-
+ 
     if (key >= 48 && key <= 57) // 0 - 9
     {
       gotoSlidenum = gotoSlidenum * 10 + (key - 48);
@@ -304,13 +311,18 @@ function keyDown(event)
     }
     else if (key == 66 || key == 70) // f for footer (also "b" which is what kensington remote "stop" button sends
     {
-      $('#footer').toggle()
+      toggleFooter()
     }
 	else if (key == 27) // esc
 	{
 		removeResults();
 	}
     return true
+}
+
+function toggleFooter() 
+{
+  $('#footer').toggle()
 }
 
 function keyUp(event) {
@@ -324,11 +336,11 @@ function keyUp(event) {
 
 
 function swipeLeft() {
-  prevStep()
+  nextStep()
 }
 
 function swipeRight() {
-  nextStep()
+  prevStep()
 }
 
 function ListMenu(s)
