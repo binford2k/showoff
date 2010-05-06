@@ -205,6 +205,10 @@ So far, ShowOff has been used in the following presentations:
   http://github.com/nelstrom/html5_video_presentation
   http://html5-video-slides.heroku.com/
 
+* Red Dirt Ruby Conference May 2010 - Plain Old Tokyo Storage - Jeremy Hinegardner
+  http://github.com/copiousfreetime/plain-old-tokyo-storage-presentation
+  http://plain-old-tokyo-storage.heroku.com/
+
 If you use it for something, please let me know so I can add it.
 
 Future Plans
