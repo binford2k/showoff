@@ -13,10 +13,9 @@ rescue LoadError
 end
 
 begin
-  require 'prawn'
   require 'princely'
 rescue LoadError
-  puts 'pdf generation disabled - install prawn'
+  puts 'pdf generation disabled - install princely'
 end
 
 begin 
