@@ -47,7 +47,6 @@ command :serve do |c|
   c.flag [:h,:host]
 
   c.action do |global_options,options,args|
-    raise "fail. not a showoff directory" if !File.exists?(ShowOffUtils::SHOWOFF_JSON_FILE)
     ShowOff.run! :host => options[:h], :port => options[:p].to_i
   end
 end
