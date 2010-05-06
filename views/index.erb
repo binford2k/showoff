@@ -16,19 +16,13 @@
 
   <script type="text/javascript" src="<%= @asset_path %>/js/jquery.doubletap-0.1.js"></script>
 
-  <script type="text/javascript" src="<%= @asset_path %>/js/jquery.uuid.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>/js/jquery.cookie.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>/js/jquery.ws-0.3pre.js"></script>
-
-  <script type="text/javascript" src="<%= @asset_path %>/js/fg.menu.js"></script> 
+  <script type="text/javascript" src="<%= @asset_path %>/js/fg.menu.js"></script>
   <script type="text/javascript" src="<%= @asset_path %>/js/showoff.js"></script>
   <script type="text/javascript" src="<%= @asset_path %>/js/jTypeWriter.js"> </script>
   <script type="text/javascript" src="<%= @asset_path %>/js/sh_main.min.js"></script>
 
-  <!--script type="text/javascript" src="<%= @asset_path %>/js/showoff.client.js"></script-->
-
-  <link type="text/css" href="<%= @asset_path %>/css/fg.menu.css" media="screen" rel="stylesheet" /> 
-  <link type="text/css" href="<%= @asset_path %>/css/theme/ui.all.css" media="screen" rel="stylesheet" /> 
+  <link type="text/css" href="<%= @asset_path %>/css/fg.menu.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="<%= @asset_path %>/css/theme/ui.all.css" media="screen" rel="stylesheet" />
   <link type="text/css" href="<%= @asset_path %>/css/sh_style.css" rel="stylesheet" >
 
   <% css_files.each do |css_file| %>
@@ -42,17 +36,14 @@
   <script type="text/javascript">
   $(function(){
     setupPreso(<%= @slides.nil? ? "true" : "false"%>, '<%= @asset_path %>');
-    // experimental showoff web socket support
-    // ShowOff.Client.create().
-    //   watchPresentation('localhost', 3840, 'abc')
   });
   </script>
 </head>
 
 <body>
-  
 
-<a tabindex="0" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="navmenu"><span class="ui-icon ui-icon-triangle-1-s"></span>slides</a> 
+
+<a tabindex="0" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="navmenu"><span class="ui-icon ui-icon-triangle-1-s"></span>slides</a>
 <div id="navigation" class="hidden"></div>
 
 <div id="help">
@@ -75,7 +66,7 @@
 </div>
 
 <div id="slides" class="offscreen" <%= 'style="display:none;"' if @slides %>>
-<%= @slides %>	
+<%= @slides %>
 </div>
 
 </body>

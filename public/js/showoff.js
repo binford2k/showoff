@@ -177,7 +177,6 @@ function showSlide(back_step) {
     bind('swipeleft',  swipeLeft).
     bind('swiperight', swipeRight)
   removeResults()
-  ShowOff.Client.sendToClients(slidenum)
 }
 
 function getSlidePercent()
@@ -221,7 +220,6 @@ function nextStep()
       incrElem.eq(incrCurr).show()
     }
     incrCurr++
-    ShowOff.Client.sendToClients('next')
   }
 }
 
