@@ -181,6 +181,11 @@ function showSlide(back_step) {
   return getCurrentNotes()
 }
 
+function getSlideProgress()
+{
+  return (slidenum + 1) + '/' + slideTotal
+}
+
 function getCurrentNotes() 
 {
   return currentSlide.find("p.notes").text()

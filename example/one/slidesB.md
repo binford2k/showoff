@@ -1,4 +1,5 @@
 !SLIDE
+.notes notes for my slide
 
 	@@@ javascript
 	function setupPreso() {
