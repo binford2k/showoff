@@ -18,7 +18,7 @@ rescue LoadError
   puts 'pdf generation disabled - install princely'
 end
 
-begin 
+begin
   require 'rdiscount'
 rescue LoadError
   require 'bluecloth'
@@ -33,7 +33,7 @@ class ShowOff < Sinatra::Application
   set :views, File.dirname(__FILE__) + '/../views'
   set :public, File.dirname(__FILE__) + '/../public'
   set :pres_dir, 'example'
-  
+
   def initialize(app=nil)
     super(app)
     puts dir = File.expand_path(File.join(File.dirname(__FILE__), '..'))
@@ -93,7 +93,7 @@ class ShowOff < Sinatra::Application
         else
           md += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
-        sl = Markdown.new(slide).to_html 
+        sl = Markdown.new(slide).to_html
         sl = update_image_paths(name, sl, static)
         md += sl
         md += "</div>\n"
@@ -136,7 +136,7 @@ class ShowOff < Sinatra::Application
 
     def update_commandline_code(slide)
       html = Nokogiri::XML.parse(slide)
-      
+
       html.css('pre').each do |pre|
         pre.css('code').each do |code|
           out = code.text
@@ -169,14 +169,12 @@ class ShowOff < Sinatra::Application
       end
       html.root.to_s
     end
-    
+
     def get_slides_html(static=false)
-      index = File.join(options.pres_dir, ShowOffUtils::SHOWOFF_JSON_FILE )
+      sections = ShowOffUtils.showoff_sections(options.pres_dir)
       files = []
-      if File.exists?(index)
-        order = JSON.parse(File.read(index))
-        order = order.map { |s| s['section'] }
-        order.each do |section|
+      if sections
+        sections.each do |section|
           files << load_section_files(section)
         end
         files = files.flatten
@@ -194,9 +192,9 @@ class ShowOff < Sinatra::Application
       css_content = '<style type="text/css">'
       csses.each do |css_file|
         if pre
-          css_file = File.join(File.dirname(__FILE__), '..', pre, css_file) 
+          css_file = File.join(File.dirname(__FILE__), '..', pre, css_file)
         else
-          css_file = File.join(options.pres_dir, css_file) 
+          css_file = File.join(options.pres_dir, css_file)
         end
         css_content += File.read(css_file)
       end
@@ -208,16 +206,16 @@ class ShowOff < Sinatra::Application
       js_content = '<script type="text/javascript">'
       jses.each do |js_file|
         if pre
-          js_file = File.join(File.dirname(__FILE__), '..', pre, js_file) 
+          js_file = File.join(File.dirname(__FILE__), '..', pre, js_file)
         else
-          js_file = File.join(options.pres_dir, js_file) 
+          js_file = File.join(options.pres_dir, js_file)
         end
         js_content += File.read(js_file)
       end
       js_content += '</script>'
       js_content
     end
-    
+
     def index(static=false)
       if static
         @slides = get_slides_html(static)
@@ -246,11 +244,11 @@ class ShowOff < Sinatra::Application
     end
 
   end
-  
-  
+
+
    def self.do_static(what)
       what = "index" if !what
-      
+
       # Nasty hack to get the actual ShowOff module
       showoff = ShowOff.new
       while !showoff.is_a?(ShowOff)
@@ -275,7 +273,7 @@ class ShowOff < Sinatra::Application
           FileUtils.copy_entry("#{my_path}/#{dir}", "#{out}/#{dir}")
         }
         # And copy the directory
-        Dir.glob("#{my_path}/#{name}/*").each { |subpath| 
+        Dir.glob("#{my_path}/#{name}/*").each { |subpath|
           base = File.basename(subpath)
           next if "static" == base
           next unless File.directory?(subpath) || base.match(/\.(css|js)$/)
@@ -283,7 +281,7 @@ class ShowOff < Sinatra::Application
         }
       end
     end
-  
+
 
 
   get %r{(?:image|file)/(.*)} do
@@ -293,8 +291,9 @@ class ShowOff < Sinatra::Application
   end
 
   get %r{/(.*)} do
+    @title = 'testing'
     what = params[:captures].first
-    what = 'index' if "" == what 
+    what = 'index' if "" == what
     if (what != "favicon.ico")
       data = send(what)
       if data.is_a?(File)
@@ -305,6 +304,6 @@ class ShowOff < Sinatra::Application
     end
   end
 
- 
+
 
 end

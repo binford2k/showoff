@@ -1,4 +1,8 @@
-[
-  {"section":"one"},
-  {"section":"two"}
-]
+{
+  "name": "Something",
+  "description": "Example Presentation",
+  "sections": [
+    {"section":"one"},
+    {"section":"two"}
+  ]
+}

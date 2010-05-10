@@ -17,7 +17,7 @@ class ShowOffUtils
 
       # create showoff.json
       File.open(SHOWOFF_JSON_FILE, 'w+') do |f|
-        f.puts "[ {\"section\":\"#{dir}\"} ]"
+        f.puts "{ \"name\": \"My Preso\", \"sections\": [ {\"section\":\"#{dir}\"} ]}"
       end
 
       if create_samples
@@ -87,7 +87,7 @@ class ShowOffUtils
 
 
   # Adds a new slide to a given dir, giving it a number such that it falls after all slides
-  # in that dir.  
+  # in that dir.
   # Options are:
   # [:dir] - dir where we put the slide (if omitted, slide is output to $stdout)
   # [:name] - name of the file, without the number prefix. (if omitted, a default is used)
@@ -125,7 +125,7 @@ class ShowOffUtils
   # the end of showoff.json as well
   def self.add_new_dir(dir)
     puts "Creating #{dir}..."
-    Dir.mkdir dir 
+    Dir.mkdir dir
 
     showoff_json = JSON.parse(File.read(SHOWOFF_JSON_FILE))
     showoff_json << { "section" => dir }
@@ -135,7 +135,7 @@ class ShowOffUtils
     puts "#{SHOWOFF_JSON_FILE} updated"
   end
 
-  def self.blank?(string) 
+  def self.blank?(string)
     string.nil? || string.strip.length == 0
   end
 
@@ -182,7 +182,7 @@ class ShowOffUtils
 
   def self.determine_title(title,slide_name,code)
     if blank?(title)
-      title = slide_name 
+      title = slide_name
       title = File.basename(code) if code
     end
     title = "Title here" if blank?(title)
@@ -198,12 +198,12 @@ class ShowOffUtils
     size = "small" if lines > 15
     size = "smaller" if width > 57
     size = "smaller" if lines > 19
-    puts "warning, some lines are too long and the code may be cut off" if width > 65 
+    puts "warning, some lines are too long and the code may be cut off" if width > 65
     puts "warning, your code is too long and the code may be cut off" if lines > 23
     size
   end
 
-  # Reads the code from the source file, returning 
+  # Reads the code from the source file, returning
   # the code, indented for markdown, as well as the number of lines
   # and the width of the largest line
   def self.read_code(source_file)
@@ -211,7 +211,7 @@ class ShowOffUtils
     lines = 0
     width = 0
     File.open(source_file) do |code_file|
-      code_file.readlines.each do |line| 
+      code_file.readlines.each do |line|
         code += "    #{line}"
         lines += 1
         width = line.length if line.length > width
@@ -220,7 +220,23 @@ class ShowOffUtils
     [code,lines,width]
   end
 
-  EXTENSIONS =  { 
+  def self.showoff_sections(dir = '.')
+    index = File.join(dir, ShowOffUtils::SHOWOFF_JSON_FILE )
+    order = nil
+    if File.exists?(index)
+      data = JSON.parse(File.read(index))
+      pp data
+      if data.is_a?(Hash)
+        order = data['sections']
+      else
+        order = data
+      end
+      order = order.map { |s| s['section'] }
+    end
+    order
+  end
+
+  EXTENSIONS =  {
     'pl' => 'perl',
     'rb' => 'ruby',
     'erl' => 'erlang',
