@@ -29,7 +29,7 @@
 
 # Write your own slides #
 
-Using [markdown](http://daringfireball.net/projects/markdown/)
+## Using [markdown](http://daringfireball.net/projects/markdown/)
 
     !SLIDE
     

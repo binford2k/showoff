@@ -99,8 +99,14 @@ class ShowOff < Sinatra::Application
         md += "</div>\n"
         md += "</div>\n"
         final += update_commandline_code(md)
+        final = update_p_classes(final)
       end
       final
+    end
+
+    # find any lines that start with a <p>.(something) and turn them into <p class="something">
+    def update_p_classes(markdown)
+      markdown.gsub(/<p>\.(.*?) /, '<p class="\1">')
     end
 
     def update_image_paths(path, slide, static=false)
