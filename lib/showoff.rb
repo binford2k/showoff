@@ -76,7 +76,7 @@ class ShowOff < Sinatra::Application
         md = ''
         # extract content classes
         lines = slide.split("\n")
-        content_classes = lines.shift.split
+        content_classes = lines.shift.split rescue []
         slide = lines.join("\n")
         # add content class too
         content_classes.unshift "content"
@@ -228,6 +228,37 @@ class ShowOff < Sinatra::Application
         @asset_path = "."
       end
       erb :index
+    end
+
+    def clean_link(href)
+      if href && href[0, 1] == '/'
+        href = href[1, href.size]
+      end
+      href
+    end
+
+    def assets_needed
+      assets = ["index", "slides"]
+
+      index = erb :index
+      html = Nokogiri::XML.parse(index)
+      html.css('head link').each do |link|
+        href = clean_link(link['href'])
+        assets << href if href
+      end
+      html.css('head script').each do |link|
+        href = clean_link(link['src'])
+        assets << href if href
+      end
+
+      slides = get_slides_html
+      html = Nokogiri::XML.parse("<slides>" + slides + "</slides>")
+      html.css('img').each do |link|
+        href = clean_link(link['src'])
+        assets << href if href
+      end
+
+      assets.join("\n")
     end
 
     def slides(static=false)
