@@ -302,8 +302,8 @@ function keyDown(event)
     else if (key == 82) // R for reload
     {
       if (confirm('really reload slides?')) {
-        loadSlides()
-        showSlide()
+        loadSlides(true, "");
+        showSlide();
       }
     }
     else if (key == 84 || key == 67)  // T or C for table of contents
