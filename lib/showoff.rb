@@ -328,7 +328,7 @@ class ShowOff < Sinatra::Application
   end
 
   get %r{/(.*)} do
-    @title = 'testing'
+    @title = ShowOffUtils.showoff_title
     what = params[:captures].first
     what = 'index' if "" == what
     if (what != "favicon.ico")
