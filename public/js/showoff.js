@@ -399,7 +399,7 @@ var removeResults = function() {
 
 var print = function(text) {
   removeResults();
-  var _results = $('<div>').addClass('results').text($.print(text));
+  var _results = $('<div>').addClass('results').html($.print(text, {max_string:500}));
   $('body').append(_results);
   _results.click(removeResults);
 };
