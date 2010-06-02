@@ -269,13 +269,20 @@ function keyDown(event)
       gotoSlidenum = gotoSlidenum * 10 + (key - 48);
       return true;
     }
-    if (key == 13 && gotoSlidenum > 0)
-    {
-      debug('go to ' + gotoSlidenum);
-      slidenum = gotoSlidenum - 1;
-      showSlide(true);
+
+    if (key == 13){
+        if (gotoSlidenum > 0) {
+            debug('go to ' + gotoSlidenum);
+            slidenum = gotoSlidenum - 1;
+            showSlide(true);
+            gotoSlidenum = 0;
+        } else {
+            debug('executeCode');
+            executeCode.call($('.sh_javaScript code:visible'));
+        }
+
     }
-    gotoSlidenum = 0;
+
 
     if (key == 16) // shift key
     {
@@ -404,11 +411,12 @@ var print = function(text) {
   _results.click(removeResults);
 };
 
-$('.sh_javaScript code').live("click", function() {
-  result = null;
-  var codeDiv = $(this);
-  codeDiv.addClass("executing");
-  eval(codeDiv.text());
-  setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
-  if (result != null) print(result);
-});
+function executeCode () {
+    result = null;
+    var codeDiv = $(this);
+    codeDiv.addClass("executing");
+    eval(codeDiv.text());
+    setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
+    if (result != null) print(result);
+}
+$('.sh_javaScript code').live("click", executeCode);
