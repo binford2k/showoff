@@ -5,8 +5,8 @@
         //nothing to do
     };
     CORE.out = function(output){
-        result = result || "";
-        result = result + '<br>'+output+'</br>';
+        result = result || '';
+        result = result + '<p>' + output + '</p>';
     };
 
     return CORE;
