@@ -11,13 +11,15 @@ var CORE = function(){
                 return this;
             }
         };
-
+        Function.method('inherits', function(Parent){
+            this.prototype = new Parent();
+            return this;
+        });
         Array.method('each', function(f, index){
             for (var i=0; i<this.length; i++){
                 f(this[i], i);
             }
         });
-
         Array.method('reduce', function(f, value){
             this.each(function(item){
                 value = f(item, value);
@@ -34,6 +36,11 @@ var CORE = function(){
             });
             return contains;
         });
+        Object.create = function(o){
+            var F = function(){};
+            f.prototype = o;
+            return new F();
+        };
     };
 
     modifyLanguage();
