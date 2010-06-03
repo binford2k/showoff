@@ -53,6 +53,19 @@ var CORE = function(){
 
         require : function(toImport){
             this.out("'require' not implemented!");
+        },
+
+        debug : function(a, deep){
+            this.out( a + ', typeof ' + typeof a);
+            for (var name in a){
+                if (deep || (a.hasOwnProperty(name))){
+                    if (typeof a[name] === 'function'){
+                        this.out(name + ': [a method]');
+                    } else {
+                        this.out(name + ':' + a[name]);
+                    }
+                }
+            }
         }
     };
 }();
