@@ -41,6 +41,14 @@ var CORE = function(){
             F.prototype = o;
             return new F();
         };
+        Object.mixin = function(obj,mixin){
+            for (name in mixin){
+                if (mixin.hasOwnProperty(name)){
+                    obj[name] = mixin[name];
+                }
+            }
+            return obj;
+        };
     };
 
     modifyLanguage();
