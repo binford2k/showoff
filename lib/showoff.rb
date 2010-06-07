@@ -194,6 +194,10 @@ class ShowOff < Sinatra::Application
       data
     end
 
+    def get_presentation_name()
+        ShowOffUtils.showoff_name(options.pres_dir)
+    end
+
     def inline_css(csses, pre = nil)
       css_content = '<style type="text/css">'
       csses.each do |css_file|
@@ -328,7 +332,7 @@ class ShowOff < Sinatra::Application
   end
 
   get %r{/(.*)} do
-    @title = 'testing'
+    @title = get_presentation_name
     what = params[:captures].first
     what = 'index' if "" == what
     if (what != "favicon.ico")

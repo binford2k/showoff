@@ -236,6 +236,19 @@ class ShowOffUtils
     order
   end
 
+  def self.showoff_name(dir = '.')
+    index = File.join(dir, ShowOffUtils::SHOWOFF_JSON_FILE )
+    name = 'A Showoff Presentation'
+    if File.exists?(index)
+      data = JSON.parse(File.read(index))
+      pp data
+      if data.is_a?(Hash)
+        name = data['name']
+      end
+    end
+    name
+  end
+
   EXTENSIONS =  {
     'pl' => 'perl',
     'rb' => 'ruby',
