@@ -17,6 +17,8 @@ var debugMode = false
 var gotoSlidenum = 0
 var shiftKeyActive = false
 
+var loadSlidesBool
+var loadSlidesPrefix
 
 function setupPreso(load_slides, prefix) {
   if (preso_started)
@@ -26,8 +28,9 @@ function setupPreso(load_slides, prefix) {
   }
   preso_started = true
 
- 
-  loadSlides(load_slides, prefix)
+  loadSlidesBool = load_slides
+  loadSlidesPrefix = prefix
+  loadSlides(loadSlidesBool, loadSlidesPrefix)
 
   doDebugStuff()
 
@@ -39,7 +42,7 @@ function setupPreso(load_slides, prefix) {
   /* window.onunload = unloaded; */
 }
 
-function loadSlides(load_slides, prefix) { 
+function loadSlides(load_slides, prefix) {
   //load slides offscreen, wait for images and then initialize
   if (load_slides) {
   	$("#slides").load("/slides", false, function(){
@@ -186,7 +189,7 @@ function getSlideProgress()
   return (slidenum + 1) + '/' + slideTotal
 }
 
-function getCurrentNotes() 
+function getCurrentNotes()
 {
   return currentSlide.find("p.notes").text()
 }
@@ -263,7 +266,7 @@ function keyDown(event)
        return true;
 
     debug('keyDown: ' + key)
- 
+
     if (key >= 48 && key <= 57) // 0 - 9
     {
       gotoSlidenum = gotoSlidenum * 10 + (key - 48);
@@ -302,7 +305,7 @@ function keyDown(event)
     else if (key == 82) // R for reload
     {
       if (confirm('really reload slides?')) {
-        loadSlides()
+        loadSlides(loadSlidesBool, loadSlidesPrefix)
         showSlide()
       }
     }
@@ -325,7 +328,7 @@ function keyDown(event)
     return true
 }
 
-function toggleFooter() 
+function toggleFooter()
 {
   $('#footer').toggle()
 }
