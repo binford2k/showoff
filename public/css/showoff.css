@@ -1,23 +1,25 @@
-body {
-    font-family: "Gill Sans", Helvetica, Arial, sans-serif;
-}
+@media screen {
+  body {
+      font-family: "Gill Sans", Helvetica, Arial, sans-serif;
+  }
 
-#preso, .slide {
-    background: #fff;
-    width: 1020px;
-    height: 740px;
-    margin-left:auto;
-    margin-right:auto;
-    overflow:hidden;
-}
+  #preso, .slide {
+      background: #fff;
+      width: 1020px;
+      height: 740px;
+      margin-left:auto;
+      margin-right:auto;
+      overflow:hidden;
+  }
 
-#footer {
-    background: #eee;
-    padding: 2px;
-    width: 1010px;
-    height: 20px;
-    margin-left:auto;
-    margin-right:auto;
+  #footer {
+      background: #eee;
+      padding: 2px;
+      width: 1010px;
+      height: 20px;
+      margin-left:auto;
+      margin-right:auto;
+  }
 }
 
 /* iPhone */
@@ -255,4 +257,45 @@ a.fg-button { float:left; }
 .executing {
   color:#0000FF !important;
   background-color: yellow;
+}
+
+/** Print **/
+@media print {
+  body {
+    font-size: 70%;
+  }
+  
+  #preso, .slide {
+    border: 1px solid #999;
+  }
+  
+  .slide .center {
+    width: 600px;
+    height: 600px;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  #preso, .slide {
+      background: #fff;
+      width: 600px;
+      height: 600px;
+      margin-left:auto;
+      margin-right:auto;
+      overflow:hidden;
+  }
+
+  #footer {
+      background: #eee;
+      padding: 2px;
+      width: 590px;
+      height: 20  px;
+      margin-left:auto;
+      margin-right:auto;
+  }
+  
+  pre, code {
+    font-family: Monaco, monospace;
+  }
 }
