@@ -21,3 +21,8 @@ pkg
 
 ## PROJECT::SPECIFIC
 dist
+
+## IntelliJ IDEA
+*.ipr
+*.iml
+*.iws
