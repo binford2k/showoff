@@ -79,9 +79,10 @@ function initializePresentation(prefix) {
     showSlide()
     alert('slides loaded')
   } else {
-    showFirstSlide()
+    showFirstSlide();
     slidesLoaded = true
   }
+  setupSlideParamsCheck();
   sh_highlightDocument(prefix+'/js/sh_lang/', '.min.js')
 }
 
@@ -122,6 +123,31 @@ function setupMenu() {
   });
 }
 
+function checkSlideParameter() {
+  if (slideParam = currentSlideFromParams()) {
+    slidenum = slideParam;
+  }
+}
+
+function currentSlideFromParams() {
+  var result;
+  if (result = window.location.hash.match(/#([0-9]+)/)) {
+    return result[result.length - 1] - 1;
+  }
+}
+
+function setupSlideParamsCheck() {
+  var check = function() {
+    var currentSlide = currentSlideFromParams();
+    if (slidenum != currentSlide) {
+      slidenum = currentSlide;
+      showSlide();
+    }
+    setTimeout(check, 100);
+  }
+  setTimeout(check, 100);
+}
+
 function gotoSlide(slideNum) {
   slidenum = parseInt(slideNum)
   if (!isNaN(slidenum)) {
@@ -131,6 +157,7 @@ function gotoSlide(slideNum) {
 
 function showFirstSlide() {
   slidenum = 0
+  checkSlideParameter();
   showSlide()
 }
 
@@ -175,7 +202,7 @@ function showSlide(back_step) {
     incrCurr = 0
     incrSteps = 0
   }
-
+  location.hash = slidenum + 1;
   $('body').addSwipeEvents().
     bind('swipeleft',  swipeLeft).
     bind('swiperight', swipeRight)
