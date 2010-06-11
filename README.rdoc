@@ -250,6 +250,11 @@ So far, ShowOff has been used in the following presentations:
 
 If you use it for something, please let me know so I can add it.
 
+= Editor Support
+
+* TextMate Bundle - Showoff.tmdbundle - Dr Nic Williams
+  http://github.com/drnic/Showoff.tmbundle
+
 = Future Plans
 
 I really want this to evolve into a dynamic presentation software server,
