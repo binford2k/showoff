@@ -244,6 +244,9 @@ So far, ShowOff has been used in the following presentations:
   http://github.com/Sutto/roro-perth-rails-3
 * PDXRB Tech Talk - Here's Sinatra - Jesse Cooke
   http://github.com/jc00ke/pdxrb_sinatra
+* Red Dirt Ruby Conference May 2010 - Plain Old Tokyo Storage - Jeremy Hinegardner
+  http://github.com/copiousfreetime/plain-old-tokyo-storage-presentation
+  http://plain-old-tokyo-storage.heroku.com/
 
 If you use it for something, please let me know so I can add it.
 
