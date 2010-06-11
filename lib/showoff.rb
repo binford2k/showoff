@@ -114,7 +114,7 @@ class ShowOff < Sinatra::Application
       paths.pop
       path = paths.join('/')
       replacement_prefix = static ?
-        %(img src="file://#{options.pres_dir}/static/#{path}) :
+        %(img src="file://#{options.pres_dir}/#{path}) :
         %(img src="/image/#{path})
       slide.gsub(/img src=\"(.*?)\"/) do |s|
         img_path = File.join(path, $1)
@@ -188,7 +188,7 @@ class ShowOff < Sinatra::Application
         data = ''
         files.each do |f|
           fname = f.gsub(options.pres_dir + '/', '').gsub('.md', '')
-          data += process_markdown(fname, File.read(f),static)
+          data += process_markdown(fname, File.read(f), static)
         end
       end
       data
