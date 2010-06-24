@@ -20,6 +20,7 @@ It can:
 * call up a menu of sections/slides at any time to jump around
 * execute javascript or ruby live and display results
 * do simple transitions (instant, fade, slide in)
+* show a pre-show slideshow while you wait to start
 
 It might will can:
 
@@ -31,6 +32,7 @@ It might will can:
 * let audience members vote on sections (?)
 * broadcast itself on Bonjour
 * let audience members download slides, code samples or other supplementary material
+* let you write on the slide with your mouse, madden-style via canvas
 
 Some of the nice things are that you can easily version control it, you
 can easily move sections between presentations, and you can rearrange or
@@ -144,6 +146,15 @@ You can manage the presentation with the following keys:
 * c: table of contents (vi)
 * f: toggle footer
 * z: toggle help
+* p: toggle preshow
+
+= Preshow
+
+If you want to show a slideshow while you wait to speak, you can run a preshow.  Add a `_preshow` directory
+to your project (I use a symlink, so I don't have to add all the images into Git), put a bunch of images in the `_preshow` directory and optionally add a `preshow.json` file that provides descriptions for any of the images.
+If you then press 'p' at the beginning of your presentation, it will prompt you for a number of minutes until
+you start.  Then it will count down the time until then, flipping through your pictures to entertain the 
+audience in the meantime.  Press 'p' again to stop, or wait until the timer runs out.
 
 = Editor integration
 
@@ -226,7 +237,7 @@ These options are specified *after* the command.
 [<tt>-p, --port=arg</tt>] Port on which to run <i>( default: <tt>9090</tt>)</i>
 = Real World Usage
 
-So far, ShowOff has been used in the following presentations:
+So far, ShowOff has been used in the following presentations (and many others):
 
 * LinuxConf.au 2010 - Wrangling Git - Scott Chacon
   http://github.com/schacon/showoff-wrangling-git
