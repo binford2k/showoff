@@ -65,6 +65,10 @@ class ShowOff < Sinatra::Application
       Dir.glob("#{options.pres_dir}/*.js").map { |path| File.basename(path) }
     end
 
+    def preshow_files
+      Dir.glob("#{options.pres_dir}/_preshow/*").map { |path| File.basename(path) }.to_json
+    end
+
     def process_markdown(name, content, static=false)
       slides = content.split(/^!SLIDE/)
       slides.delete('')
