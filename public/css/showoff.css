@@ -262,7 +262,7 @@ a.fg-button { float:left; }
 
 #tips, #preshow_timer {
   display:inline;
-  background-color:#002200;
+  background-color:#000;
   color:#fff;
   font-size:3em;
   border:2px solid black;
