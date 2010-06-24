@@ -243,7 +243,7 @@ a.fg-button { float:left; }
 
 .results {
   background-color:#002200;
-  color:#00AA00;
+  color:#000;
   font-size:2em;
   border:2px solid black;
   position: fixed;

@@ -470,7 +470,7 @@ var preshow_imagesTotal = 0;
 function runPreShow() {
 	if(preshow_running) { return false }
 	var minutes = prompt("Minutes from now to start")
-	preshow_secondsLeft = parseFloat(minutes) // * 60
+	preshow_secondsLeft = parseFloat(minutes) * 60
 	toggleFooter()
 	$.getJSON("preshow_files", false, function(data) {
 		$('#preso').after("<div id='preshow'></div><div id='tips'></div><div id='preshow_timer'></div>")
@@ -509,8 +509,15 @@ function startPreShow() {
 }
 
 function addPreShowTips() {
-	$('#preshow_timer').text(preshow_secondsLeft + ' to go-time')
+	time = secondsToTime(preshow_secondsLeft)
+	$('#preshow_timer').text(time + ' to go-time')
 	$('#tips').text(tmpImg.attr("src"))
+}
+
+function secondsToTime(sec) {
+	min = Math.floor(sec / 60)
+	sec = sec - (min * 60)
+	return min + ":" + sec
 }
 
 function stopPreShow() {
@@ -531,8 +538,9 @@ function nextPreShowImage() {
 	}
 
 	$("#preso").empty()
-	tmpImg = preshow_images.eq(preshow_current).clone()		
+	tmpImg = preshow_images.eq(preshow_current).clone()
 	$(tmpImg).attr('width', '1020')
+	$(tmpImg).css({'overflow' : 'visible'});
 	$("#preso").html(tmpImg)
 }
 
