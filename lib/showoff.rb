@@ -323,8 +323,6 @@ class ShowOff < Sinatra::Application
       end
     end
 
-
-
   get %r{(?:image|file)/(.*)} do
     path = params[:captures].first
     full_path = File.join(options.pres_dir, path)

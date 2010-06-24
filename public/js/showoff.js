@@ -461,11 +461,13 @@ $('.sh_javaScript code').live("click", executeCode);
 
 var preshow_seconds = 0;
 var preshow_secondsLeft = 0;
+var preshow_secondsPer = 8;
 var preshow_running = false;
 var preshow_timerRunning = false;
 var preshow_current = 0;
 var preshow_images;
 var preshow_imagesTotal = 0;
+var preshow_des;
 
 function runPreShow() {
 	if(preshow_running) { return false }
@@ -475,7 +477,14 @@ function runPreShow() {
 	$.getJSON("preshow_files", false, function(data) {
 		$('#preso').after("<div id='preshow'></div><div id='tips'></div><div id='preshow_timer'></div>")
 		$.each(data, function(i, n) {
-			$('#preshow').append('<img src="/file/_preshow/' + n + '"/>')
+			if(n == "preshow.json") {
+				// has a descriptions file
+				$.getJSON("/file/_preshow/preshow.json", false, function(data) {
+					preshow_des = data
+				})
+			} else {
+				$('#preshow').append('<img ref="' + n + '" src="/file/_preshow/' + n + '"/>')				
+			}
 		})
 		startPreShow()
 	})
@@ -498,7 +507,7 @@ function startPreShow() {
 		if (preshow_secondsLeft < 0) {
 			stopPreShow()
 		}
-        if (preshow_seconds == 2) {
+        if (preshow_seconds == preshow_secondsPer) {
           preshow_seconds = 0
           nextPreShowImage()
         }
@@ -511,12 +520,21 @@ function startPreShow() {
 function addPreShowTips() {
 	time = secondsToTime(preshow_secondsLeft)
 	$('#preshow_timer').text(time + ' to go-time')
-	$('#tips').text(tmpImg.attr("src"))
+	var des = preshow_des[tmpImg.attr("ref")]
+	if(des) {
+		$('#tips').show()
+		$('#tips').text(des)
+	} else {
+		$('#tips').hide()
+	}
 }
 
 function secondsToTime(sec) {
 	min = Math.floor(sec / 60)
 	sec = sec - (min * 60)
+	if(sec < 10) {
+		sec = "0" + sec
+	}
 	return min + ":" + sec
 }
 
@@ -540,7 +558,6 @@ function nextPreShowImage() {
 	$("#preso").empty()
 	tmpImg = preshow_images.eq(preshow_current).clone()
 	$(tmpImg).attr('width', '1020')
-	$(tmpImg).css({'overflow' : 'visible'});
 	$("#preso").html(tmpImg)
 }
 
