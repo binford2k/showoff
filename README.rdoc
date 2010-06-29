@@ -247,6 +247,8 @@ So far, ShowOff has been used in the following presentations:
 * Red Dirt Ruby Conference May 2010 - Plain Old Tokyo Storage - Jeremy Hinegardner
   http://github.com/copiousfreetime/plain-old-tokyo-storage-presentation
   http://plain-old-tokyo-storage.heroku.com/
+* Lambda Lounge - JavaScript Functions : The Good Parts - Idioms for Encapsulation and Inheritance - Scott Bale
+  http://github.com/scottbale/JavaScript-Function-Idioms
 
 If you use it for something, please let me know so I can add it.
 
