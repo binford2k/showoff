@@ -284,7 +284,8 @@ function debug(data)
 {
   $('#debugInfo').text(data)
 }
-//  See e.g. http://www.quirksmode.org/js/events/keys.html for keycodes
+
+//  See e.g. http://www.quirksmode.org/js/keys.html for keycodes
 function keyDown(event)
 {
     var key = event.keyCode;
