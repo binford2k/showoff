@@ -265,11 +265,6 @@ function nextStep()
   }
 }
 
-function prevStep() {
-  slidenum--
-  return showSlide(true) // We show the slide fully loaded
-}
-
 function doDebugStuff()
 {
   if (debugMode) {
