@@ -207,6 +207,8 @@ function showSlide(back_step) {
     bind('swiperight', swipeRight)
   removeResults()
 
+  $(currentSlide).find(".content").trigger("showoff:show");
+
   return getCurrentNotes()
 }
 
@@ -244,12 +246,25 @@ function determineIncremental()
 
 function prevStep()
 {
+
+  var event = jQuery.Event("showoff:prev");
+  $(currentSlide).find(".content").trigger(event);
+  if (event.isDefaultPrevented()) {
+      return;
+  }
+
   slidenum--
   return showSlide(true) // We show the slide fully loaded
 }
 
 function nextStep()
 {
+  var event = jQuery.Event("showoff:next");
+  $(currentSlide).find(".content").trigger(event);
+  if (event.isDefaultPrevented()) {
+      return;
+  }
+
   if (incrCurr >= incrSteps) {
     slidenum++
     return showSlide()

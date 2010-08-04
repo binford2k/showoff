@@ -76,7 +76,7 @@ the following contents:
 
 That represents two slides, the first contains just a large title, and the
 second is faded into view showing the title and three bullets that are then
-incrementally shown. In order for ShowOff to see those slides, your 
+incrementally shown. In order for ShowOff to see those slides, your
 showoff.json file needs to look something like this:
 
     [
@@ -156,6 +156,63 @@ If you then press 'p' at the beginning of your presentation, it will prompt you 
 you start.  Then it will count down the time until then, flipping through your pictures to entertain the 
 audience in the meantime.  Press 'p' again to stop, or wait until the timer runs out.
 
+= Custom JavaScript
+
+To insert custom JavaScript into your presentation you can either place it into
+a file (with extension .js) into the root directory of your presentation or you
+can embed a <script>-element directly into your slides. This JavaScript will be
+executed—as usually—as soon as it is loaded.
+
+If you want to trigger some JavaScript as soon as a certain page is shown or
+when you switch to the next or previous slide, you can bind a callback to a
+custom event:
+
+* *showoff:show* will be triggered as soon as you enter a page
+* *showoff:next* will be triggered when you switch to the next page
+* *showoff:prev* will be triggered when you switch to the previous page
+
+These events are triggered on the "div.content" child of the slide, so you must
+add a custom and unique class to your SLIDE to identify it:
+
+    !SLIDE custom_and_unique_class
+    # 1st Example h1
+    <script>
+    // bind to custom event
+    $(".custom_and_unique_class").bind("showoff:show", function (event) {
+      // animate the h1
+      var h1 = $(event.target).find("h1");
+      h1.delay(500)
+        .slideUp(300, function () { $(this).css({textDecoration: "line-through"}); })
+        .slideDown(300);
+    });
+    </script>
+
+This will bind an event handler for *showoff:show* to your slide. The
+h1-element will be animated, as soon as this event is triggered on that slide.
+
+If you bind an event handler to the custom events *showoff:next* or
+*showoff:prev*, you can prevent the default action (that is switching to the
+appropriate slide) by calling *event.preventDefault()*:
+
+    !SLIDE prevent_default
+    # 2nd Example h1
+    <script>
+    $(".prevent_default").bind("showoff:next", function (event) {
+      var h1 = $(event.target).find("h1");
+      if (h1.css("text-decoration") === "none") {
+        event.preventDefault();
+        h1.css({textDecoration: "line-through"})
+      }
+    });
+    </script>
+
+This will bind an event handler for *showoff:next* to your slide. When you press
+the right arrow key the first time, the h1-element will be decorated. When you
+press the right array key another time, you will switch to the next slide.
+
+The same applies to the *showoff:prev* event, of course.
+
+
 = Editor integration
 
 The "add slide" feature can allow you to add the necessary boilerplate from your editor.  If you are using vim, you can
@@ -164,7 +221,7 @@ The "add slide" feature can allow you to add the necessary boilerplate from your
 
 And your buffer will get
 
-    !SLIDE 
+    !SLIDE
     # Check This Code #
         @@@ Ruby
         code_here()

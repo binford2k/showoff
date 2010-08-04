@@ -3,6 +3,7 @@
   "description": "Example Presentation",
   "sections": [
     {"section":"one"},
-    {"section":"two"}
+    {"section":"two"},
+    {"section":"three"}
   ]
 }
