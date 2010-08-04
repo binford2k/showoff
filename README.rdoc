@@ -258,6 +258,11 @@ So far, ShowOff has been used in the following presentations (and many others):
 * Red Dirt Ruby Conference May 2010 - Plain Old Tokyo Storage - Jeremy Hinegardner
   http://github.com/copiousfreetime/plain-old-tokyo-storage-presentation
   http://plain-old-tokyo-storage.heroku.com/
+* Lambda Lounge - JavaScript Functions : The Good Parts - Idioms for Encapsulation and Inheritance - Scott Bale
+  http://github.com/scottbale/JavaScript-Function-Idioms
+* Open Source Bridge 2010 - Creating a low-cost clustered virtualization environment w/ Ganeti - Lance Albertson
+  http://github.com/ramereth/presentation-ganeti
+* RailsConf 2010 - Domain-driven Test-assisted Production Rails Crisis Interventions - Rick Bradley http://railsconf2010.rickbradley.com/ http://github.com/rick/presentation_railsconf_2010
 
 If you use it for something, please let me know so I can add it.
 
