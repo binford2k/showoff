@@ -87,10 +87,16 @@ class ShowOff < Sinatra::Application
         # extract transition, defaulting to none
         transition = 'none'
         content_classes.delete_if { |x| x =~ /^transition=(.+)/ && transition = $1 }
+        # extract id, defaulting to none
+        id = nil
+        content_classes.delete_if { |x| x =~ /^#([\w-]+)/ && id = $1 }
+        puts "id: #{id}" if id
         puts "classes: #{content_classes.inspect}"
         puts "transition: #{transition}"
         # create html
-        md += "<div class=\"slide\" data-transition=\"#{transition}\">"
+        md += "<div"
+        md += " id=\"#{id}\"" if id
+        md += " class=\"slide\" data-transition=\"#{transition}\">"
         if seq
           md += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}/#{seq.to_s}\">\n"
           seq += 1
