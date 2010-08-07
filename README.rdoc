@@ -138,6 +138,25 @@ definition, where tname is one of the following supported transitions:
 
 The transitions are provided by jQuery Cycle plugin. See http://www.malsup.com/jquery/cycle/browser.html to view the effects and http://www.malsup.com/jquery/cycle/adv2.html for how to add custom effects.
 
+Charts can be specified through the use of chart=cname on the !SLIDE definition,
+where cname is one of the following supported chart types:
+
+* pie
+* bar (both single and multi-series versions)
+* stacked
+* line
+* area
+
+Data for the chart is taken from a table on the slide itself.  Because you cannot
+arbitarily create 'th' elements using the markdown table syntax, the code looks for
+'em' elements within the table cells ('td' elements).  These 'em' elements are
+used for naming series and value points.  All other cells are assumed to be point
+values for each series.
+
+It sounds complicated but if you look at section 'four' of the example it should
+more sense!  Note, to get table markdown support you need to have installed the
+kramdown gem.
+
 You can manage the presentation with the following keys:
 
 * space, cursor right: next slide
