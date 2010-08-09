@@ -328,6 +328,9 @@ If you use it for something, please let me know so I can add it.
 * TextMate Bundle - Showoff.tmdbundle - Dr Nic Williams
   http://github.com/drnic/Showoff.tmbundle
 
+* Emacs major-mode - showoff-mode - Nick Parker
+  http://github.com/developernotes/showoff-mode
+
 = Future Plans
 
 I really want this to evolve into a dynamic presentation software server,
