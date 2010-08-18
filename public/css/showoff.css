@@ -12,6 +12,11 @@
       overflow:hidden;
   }
 
+  .slide .chart {
+    height: 580px;
+    margin: 0 auto;
+  }
+
   #footer {
       background: #eee;
       padding: 2px;
