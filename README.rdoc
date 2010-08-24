@@ -287,11 +287,18 @@ Setup your presentation to serve on Heroku
 Serves the showoff presentation in the current directory
 
 
-
 ==== Options
 These options are specified *after* the command.
 
 [<tt>-p, --port=arg</tt>] Port on which to run <i>( default: <tt>9090</tt>)</i>
+
+=== ZSH completion
+You can complete commands and options in ZSH, by installing a script:
+
+    mkdir -p $HOME/.zsh/Completion
+    cp script/_showoff $HOME/.zsh/Completion
+    echo 'fpath=(~/.zsh/Completion $fpath)' >> $HOME/.zshrc
+
 = Real World Usage
 
 So far, ShowOff has been used in the following presentations (and many others):
