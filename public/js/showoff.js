@@ -481,8 +481,8 @@ var preshow_imagesTotal = 0;
 var preshow_des;
 
 function runPreShow() {
-	if(preshow_running) { 
-		stopPreShow() 
+	if(preshow_running) {
+		stopPreShow()
 	} else {
 		var minutes = prompt("Minutes from now to start")
 		preshow_secondsLeft = parseFloat(minutes) * 60
@@ -496,7 +496,7 @@ function runPreShow() {
 						preshow_des = data
 					})
 				} else {
-					$('#preshow').append('<img ref="' + n + '" src="/file/_preshow/' + n + '"/>')				
+					$('#preshow').append('<img ref="' + n + '" src="/file/_preshow/' + n + '"/>')
 				}
 			})
 			startPreShow()
@@ -554,11 +554,11 @@ function secondsToTime(sec) {
 
 function stopPreShow() {
 	preshow_running = false
-	
+
 	$('#preshow').remove()
 	$('#tips').remove()
 	$('#preshow_timer').remove()
-	
+
 	toggleFooter()
 	loadSlides(loadSlidesBool, loadSlidesPrefix);
 }
