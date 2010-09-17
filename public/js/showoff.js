@@ -58,6 +58,9 @@ function loadSlides(load_slides, prefix) {
 }
 
 function initializePresentation(prefix) {
+	// unhide for height to work in static mode
+	$("#slides").show();
+
 	//center slides offscreen
 	centerSlides($('#slides > .slide'))
 
