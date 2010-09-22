@@ -128,7 +128,7 @@ class ShowOffUtils
     Dir.mkdir dir
 
     showoff_json = JSON.parse(File.read(SHOWOFF_JSON_FILE))
-    showoff_json << { "section" => dir }
+    showoff_json["section"] = dir
     File.open(SHOWOFF_JSON_FILE,'w') do |file|
       file.puts JSON.generate(showoff_json)
     end
