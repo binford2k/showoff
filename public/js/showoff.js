@@ -58,6 +58,8 @@ function loadSlides(load_slides, prefix) {
 }
 
 function initializePresentation(prefix) {
+  $("#slides").show();
+
   //center slides offscreen
   centerSlides($('#slides > .slide'))
 
