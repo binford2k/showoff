@@ -380,3 +380,6 @@ etc).
 * GLI gem
 * Firefox or Chrome to present
 
+= Contributing
+
+See the CONTRIB.txt file for how to contribute to this project
