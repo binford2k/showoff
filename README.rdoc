@@ -306,11 +306,18 @@ Setup your presentation to serve on Heroku
 Serves the showoff presentation in the current directory
 
 
-
 ==== Options
 These options are specified *after* the command.
 
 [<tt>-p, --port=arg</tt>] Port on which to run <i>( default: <tt>9090</tt>)</i>
+
+=== ZSH completion
+You can complete commands and options in ZSH, by installing a script:
+
+    mkdir -p $HOME/.zsh/Completion
+    cp script/_showoff $HOME/.zsh/Completion
+    echo 'fpath=(~/.zsh/Completion $fpath)' >> $HOME/.zshrc
+
 = Real World Usage
 
 So far, ShowOff has been used in the following presentations (and many others):
@@ -338,7 +345,13 @@ So far, ShowOff has been used in the following presentations (and many others):
   http://github.com/scottbale/JavaScript-Function-Idioms
 * Open Source Bridge 2010 - Creating a low-cost clustered virtualization environment w/ Ganeti - Lance Albertson
   http://github.com/ramereth/presentation-ganeti
-* RailsConf 2010 - Domain-driven Test-assisted Production Rails Crisis Interventions - Rick Bradley http://railsconf2010.rickbradley.com/ http://github.com/rick/presentation_railsconf_2010
+* RailsConf 2010 - Domain-driven Test-assisted Production Rails Crisis Interventions - Rick Bradley
+  http://railsconf2010.rickbradley.com/ http://github.com/rick/presentation_railsconf_2010
+* WebWorkersCamp - 25 promising projects in 50 minutes - Bruno Michel
+  http://github.com/nono/Presentations/tree/master/20100703_25_promising_projects_in_50_minutes/
+* 11th Libre Software Meeting 2010 - Ruby 1.9, The future of Ruby? - Bruno Michel
+  http://github.com/nono/Presentations/tree/master/20100708_RMLL_Ruby_1.9/
+
 
 If you use it for something, please let me know so I can add it.
 

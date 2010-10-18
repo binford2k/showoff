@@ -4,7 +4,7 @@ require 'json'
 require 'nokogiri'
 require 'showoff_utils'
 require 'princely'
-require 'ftools'
+require 'fileutils'
 
 begin
   require 'RMagick'
@@ -36,6 +36,7 @@ rescue LoadError
   end
 end
 require 'pp'
+
 
 class ShowOff < Sinatra::Application
 
@@ -325,7 +326,7 @@ class ShowOff < Sinatra::Application
       else
         out  = "#{path}/#{name}/static"
         # First make a directory
-        File.makedirs("#{out}")
+        FileUtils.makedirs("#{out}")
         # Then write the html
         file = File.new("#{out}/index.html", "w")
         file.puts(data)
@@ -364,7 +365,5 @@ class ShowOff < Sinatra::Application
       end
     end
   end
-
-
 
 end
