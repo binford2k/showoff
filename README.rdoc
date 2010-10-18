@@ -260,6 +260,7 @@ added where your cursor was.  Binding this to a keybinding can allow you to add 
 [<tt>create</tt>] Create new showoff presentation
 [<tt>help</tt>] Shows list of commands or help for one command
 [<tt>heroku</tt>] Setup your presentation to serve on Heroku
+[<tt>heroku_secure</tt>] Setup your presentation to serve on Heroku with password protection
 [<tt>serve</tt>] Serves the showoff presentation in the current directory
 
 === <tt>add [title]</tt>
@@ -300,6 +301,10 @@ Shows list of commands or help for one command
 === <tt>heroku heroku_name</tt>
 
 Setup your presentation to serve on Heroku
+
+=== <tt>heroku_secure heroku_name password</tt>
+
+Setup your presentation to serve on Heroku with password protection using HTTP Authentication
 
 === <tt>serve </tt>
 
