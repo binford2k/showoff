@@ -93,7 +93,7 @@ command [:add,:new] do |c|
     ShowOffUtils.add_slide(:dir => options[:d],
                            :name => options[:n],
                            :title => title,
-                           :number => !options[:m],
+                           :number => !options[:u],
                            :code => options[:s],
                            :type => options[:t])
   end
