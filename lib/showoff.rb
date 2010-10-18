@@ -235,6 +235,7 @@ class ShowOff < Sinatra::Application
 
     def index(static=false)
       if static
+        @title = ShowOffUtils.showoff_title
         @slides = get_slides_html(static)
         @asset_path = "."
       end
@@ -349,5 +350,4 @@ class ShowOff < Sinatra::Application
       end
     end
   end
-
 end
