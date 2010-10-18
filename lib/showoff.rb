@@ -19,21 +19,10 @@ rescue LoadError
 end
 
 begin
-  require 'kramdown'
-  Markdown = Kramdown::Document
-
-  puts 'Using kramdown for markdown parsing'
+  require 'rdiscount'
 rescue LoadError
-  begin
-    require 'rdiscount'
-
-    puts 'Using rdiscount for markdown parsing'
-  rescue LoadError
-    require 'bluecloth'
-    Markdown = BlueCloth
-
-    puts 'Using bluecloth for markdown parsing'
-  end
+  require 'bluecloth'
+  Markdown = BlueCloth
 end
 require 'pp'
 
@@ -99,16 +88,12 @@ class ShowOff < Sinatra::Application
         # extract transition, defaulting to none
         transition = 'none'
         content_classes.delete_if { |x| x =~ /^transition=(.+)/ && transition = $1 }
-        # extract chart, defaulting to nil
-        chart = nil
-        content_classes.delete_if { |x| x =~ /^chart=(.+)/ && chart = $1 }
         # extract id, defaulting to none
         id = nil
         content_classes.delete_if { |x| x =~ /^#([\w-]+)/ && id = $1 }
         puts "id: #{id}" if id
         puts "classes: #{content_classes.inspect}"
         puts "transition: #{transition}"
-        puts "chart: #{chart}"
         # create html
         md += "<div"
         md += " id=\"#{id}\"" if id
@@ -122,7 +107,6 @@ class ShowOff < Sinatra::Application
         sl = Markdown.new(slide).to_html
         sl = update_image_paths(name, sl, static)
         md += sl
-        md += "<div class=\"chart\" data-chart=\"#{chart}\"></div>" unless chart.nil?
         md += "</div>\n"
         md += "</div>\n"
         final += update_commandline_code(md)

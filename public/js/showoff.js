@@ -47,27 +47,14 @@ function loadSlides(load_slides, prefix) {
   if (load_slides) {
   	$("#slides").load("/slides", false, function(){
     	$("#slides img").batchImageLoad({
-			loadingCompleteCallback: initializeCharts(prefix)
+			loadingCompleteCallback: initializePresentation(prefix)
 		})
   	})
   } else {
 	$("#slides img").batchImageLoad({
-		loadingCompleteCallback: initializeCharts(prefix)
+		loadingCompleteCallback: initializePresentation(prefix)
 	})
   }
-}
-
-function initializeCharts(prefix) {
-  $("#slides .chart").each(function(index,element) {
-    chart = $(element);
-    table = $('table', chart.parent());
-    table.hide();
-
-    // Apply the chart based on the type from the element
-    chartType = chart.attr('data-chart');
-    chartHandlers[chartType](chart, table);
-  });
-  initializePresentation(prefix);
 }
 
 function initializePresentation(prefix) {
