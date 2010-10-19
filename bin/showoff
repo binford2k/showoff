@@ -25,26 +25,18 @@ command [:create,:init] do |c|
   end
 end
 
-desc 'Same as heroku create, but also adds password protection'
-arg_name 'heroku_name password'
-long_desc 'Creates the .gems file and config.ru file needed to push a showoff pres to heroku with password protection.  it will then run ''heroku create'' for you to register the new project on heroku and add the remote for you.  then all you need to do is commit the new created files and run ''git push heroku'' to deploy.'
-command :heroku_secure do |c|
-  c.action do |global_options,options,args|
-		p args
-    raise "heroku_name is required" if args.empty?
-    raise "password is required" if args.length == 1
-    ShowOffUtils.heroku_secure(args[0], args[1])
-  end
-end
-
 desc 'Serves the showoff presentation in the current directory'
 desc 'Setup your presentation to serve on Heroku'
 arg_name 'heroku_name'
-long_desc 'Creates the .gems file and config.ru file needed to push a showoff pres to heroku.  it will then run ''heroku create'' for you to register the new project on heroku and add the remote for you.  then all you need to do is commit the new created files and run ''git push heroku'' to deploy.'
+long_desc 'Creates the .gems file and config.ru file needed to push a showoff pres to heroku.  It will then run ''heroku create'' for you to register the new project on heroku and add the remote for you.  Then all you need to do is commit the new created files and run ''git push heroku'' to deploy.'
 command :heroku do |c|
+
+  c.desc 'add password protection to your heroku site'
+  c.flag [:p,:password]
+
   c.action do |global_options,options,args|
     raise "heroku_name is required" if args.empty?
-    ShowOffUtils.heroku(args[0])
+    ShowOffUtils.heroku(args[0], options[:p])
   end
 end
 

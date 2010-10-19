@@ -29,7 +29,10 @@ class ShowOffUtils
   end
 
 	# Setup presentation to run on Heroku
-  def self.heroku(name)
+  #
+  # name - String containing herokku name
+  # password - String containing password to protect your heroku site; nil means no password protection
+  def self.heroku(name,password=nil)
     if !File.exists?(SHOWOFF_JSON_FILE)
       puts "fail. not a showoff directory"
       return false
@@ -40,48 +43,22 @@ class ShowOffUtils
       f.puts "nokogiri"
       f.puts "showoff"
       f.puts "gli"
+      f.puts "rack" unless password.nil?
     end if !File.exists?('.gems')
 
     # create config.ru file
     File.open('config.ru', 'w+') do |f|
       f.puts 'require "showoff"'
-      f.puts 'run ShowOff.new'
-    end if !File.exists?('config.ru')
-
-    puts "herokuized. run something like this to launch your heroku presentation:
-
-      heroku create #{name}
-      git add .gems config.ru
-      git commit -m 'herokuized'
-      git push heroku master
-    "
-  end
-
-	# Setup the presentation to run on Heroku with password protection
-  def self.heroku_secure(name, password)
-    if !File.exists?(SHOWOFF_JSON_FILE)
-      puts "fail. not a showoff directory"
-      return false
-    end
-    # create .gems file
-    File.open('.gems', 'w+') do |f|
-      f.puts "bluecloth"
-      f.puts "nokogiri"
-      f.puts "showoff"
-      f.puts "gli"
-      f.puts "rack"
-    end if !File.exists?('.gems')
-
-    # create config.ru file
-    File.open('config.ru', 'w+') do |f|
-      f.puts 'require "rack"'
-      f.puts 'require "showoff"'
-			f.puts 'showoff_app = ShowOff.new'
-			f.puts 'protected_showoff = Rack::Auth::Basic.new(showoff_app) do |username, password|'
-			f.puts	"\tpassword == '#{password}'"
-			f.puts 'end'
-			f.puts 'run protected_showoff'
-
+      if password.nil?
+        f.puts 'run ShowOff.new'
+      else
+        f.puts 'require "rack"'
+        f.puts 'showoff_app = ShowOff.new'
+        f.puts 'protected_showoff = Rack::Auth::Basic.new(showoff_app) do |username, password|'
+        f.puts	"\tpassword == '#{password}'"
+        f.puts 'end'
+        f.puts 'run protected_showoff'
+      end
     end if !File.exists?('config.ru')
 
     puts "herokuized. run something like this to launch your heroku presentation:
