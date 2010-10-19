@@ -28,46 +28,63 @@ class ShowOffUtils
     end
   end
 
+  HEROKU_GEMS_FILE = '.gems'
+  HEROKU_CONFIG_FILE = 'config.ru'
+
 	# Setup presentation to run on Heroku
   #
   # name - String containing herokku name
+  # force - boolean if .gems and config.ru should be overwritten if they don't exist
   # password - String containing password to protect your heroku site; nil means no password protection
-  def self.heroku(name,password=nil)
+  def self.heroku(name,force,password=nil)
     if !File.exists?(SHOWOFF_JSON_FILE)
       puts "fail. not a showoff directory"
       return false
     end
-    # create .gems file
-    File.open('.gems', 'w+') do |f|
-      f.puts "bluecloth"
-      f.puts "nokogiri"
-      f.puts "showoff"
-      f.puts "gli"
-      f.puts "rack" unless password.nil?
-    end if !File.exists?('.gems')
 
-    # create config.ru file
-    File.open('config.ru', 'w+') do |f|
-      f.puts 'require "showoff"'
-      if password.nil?
-        f.puts 'run ShowOff.new'
-      else
-        f.puts 'require "rack"'
-        f.puts 'showoff_app = ShowOff.new'
-        f.puts 'protected_showoff = Rack::Auth::Basic.new(showoff_app) do |username, password|'
-        f.puts	"\tpassword == '#{password}'"
-        f.puts 'end'
-        f.puts 'run protected_showoff'
+    modified_something = false
+
+    if !File.exists?(HEROKU_GEMS_FILE) || force
+      modified_something = true
+      File.open('.gems', 'w+') do |f|
+        f.puts "bluecloth"
+        f.puts "nokogiri"
+        f.puts "showoff"
+        f.puts "gli"
+        f.puts "rack" unless password.nil?
       end
-    end if !File.exists?('config.ru')
+    else
+      puts "#{HEROKU_GEMS_FILE} exists; not overwriting (see showoff help heroku)"
+    end
 
-    puts "herokuized. run something like this to launch your heroku presentation:
+    if !File.exists?(HEROKU_CONFIG_FILE) || force
+      modified_something = true
+      File.open('config.ru', 'w+') do |f|
+        f.puts 'require "showoff"'
+        if password.nil?
+          f.puts 'run ShowOff.new'
+        else
+          f.puts 'require "rack"'
+          f.puts 'showoff_app = ShowOff.new'
+          f.puts 'protected_showoff = Rack::Auth::Basic.new(showoff_app) do |username, password|'
+          f.puts	"\tpassword == '#{password}'"
+          f.puts 'end'
+          f.puts 'run protected_showoff'
+        end
+      end
+    else
+      puts "#{HEROKU_CONFIG_FILE} exists; not overwriting (see showoff help heroku)"
+    end
+
+    if modified_something
+      puts "herokuized. run something like this to launch your heroku presentation:
 
       heroku create #{name}
       git add .gems config.ru
       git commit -m 'herokuized'
       git push heroku master
-    "
+      "
+    end
   end
 
   # Makes a slide as a string.

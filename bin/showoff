@@ -34,9 +34,12 @@ command :heroku do |c|
   c.desc 'add password protection to your heroku site'
   c.flag [:p,:password]
 
+  c.desc 'force overwrite of existing .gems and config.ru files if they exist'
+  c.switch [:f,:force]
+
   c.action do |global_options,options,args|
     raise "heroku_name is required" if args.empty?
-    ShowOffUtils.heroku(args[0], options[:p])
+    ShowOffUtils.heroku(args[0],options[:f],options[:p])
   end
 end
 
