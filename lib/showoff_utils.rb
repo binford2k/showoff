@@ -28,6 +28,7 @@ class ShowOffUtils
     end
   end
 
+	# Setup presentation to run on Heroku
   def self.heroku(name)
     if !File.exists?(SHOWOFF_JSON_FILE)
       puts "fail. not a showoff directory"
@@ -45,6 +46,42 @@ class ShowOffUtils
     File.open('config.ru', 'w+') do |f|
       f.puts 'require "showoff"'
       f.puts 'run ShowOff.new'
+    end if !File.exists?('config.ru')
+
+    puts "herokuized. run something like this to launch your heroku presentation:
+
+      heroku create #{name}
+      git add .gems config.ru
+      git commit -m 'herokuized'
+      git push heroku master
+    "
+  end
+
+	# Setup the presentation to run on Heroku with password protection
+  def self.heroku_secure(name, password)
+    if !File.exists?(SHOWOFF_JSON_FILE)
+      puts "fail. not a showoff directory"
+      return false
+    end
+    # create .gems file
+    File.open('.gems', 'w+') do |f|
+      f.puts "bluecloth"
+      f.puts "nokogiri"
+      f.puts "showoff"
+      f.puts "gli"
+      f.puts "rack"
+    end if !File.exists?('.gems')
+
+    # create config.ru file
+    File.open('config.ru', 'w+') do |f|
+      f.puts 'require "rack"'
+      f.puts 'require "showoff"'
+			f.puts 'showoff_app = ShowOff.new'
+			f.puts 'protected_showoff = Rack::Auth::Basic.new(showoff_app) do |username, password|'
+			f.puts	"\tpassword == '#{password}'"
+			f.puts 'end'
+			f.puts 'run protected_showoff'
+
     end if !File.exists?('config.ru')
 
     puts "herokuized. run something like this to launch your heroku presentation:
@@ -128,7 +165,7 @@ class ShowOffUtils
     Dir.mkdir dir
 
     showoff_json = JSON.parse(File.read(SHOWOFF_JSON_FILE))
-    showoff_json << { "section" => dir }
+    showoff_json["section"] = dir
     File.open(SHOWOFF_JSON_FILE,'w') do |file|
       file.puts JSON.generate(showoff_json)
     end
