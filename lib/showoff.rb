@@ -269,8 +269,14 @@ class ShowOff < Sinatra::Application
         href = clean_link(link['src'])
         assets << href if href
       end
+      
+      css = Dir.glob("#{options.public}/**/*.css").map { |path| path.gsub(options.public + '/', '') }
+      assets << css
 
-      assets.join("\n")
+      js = Dir.glob("#{options.public}/**/*.js").map { |path| path.gsub(options.public + '/', '') }
+      assets << js
+
+      assets.uniq.join("\n")      
     end
 
     def slides(static=false)
