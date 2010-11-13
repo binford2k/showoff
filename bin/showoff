@@ -28,18 +28,21 @@ end
 desc 'Serves the showoff presentation in the current directory'
 desc 'Setup your presentation to serve on Heroku'
 arg_name 'heroku_name'
-long_desc 'Creates the .gems file and config.ru file needed to push a showoff pres to heroku.  It will then run ''heroku create'' for you to register the new project on heroku and add the remote for you.  Then all you need to do is commit the new created files and run ''git push heroku'' to deploy.'
+long_desc 'Creates the Gemfile and config.ru file needed to push a showoff pres to heroku.  It will then run ''heroku create'' for you to register the new project on heroku and add the remote for you.  Then all you need to do is commit the new created files and run ''git push heroku'' to deploy.'
 command :heroku do |c|
 
   c.desc 'add password protection to your heroku site'
   c.flag [:p,:password]
 
-  c.desc 'force overwrite of existing .gems and config.ru files if they exist'
+  c.desc 'force overwrite of existing Gemfile/.gems and config.ru files if they exist'
   c.switch [:f,:force]
+
+  c.desc 'Use older-style .gems file instead of bundler-style Gemfile'
+  c.switch [:g,:dotgems]
 
   c.action do |global_options,options,args|
     raise "heroku_name is required" if args.empty?
-    ShowOffUtils.heroku(args[0],options[:f],options[:p])
+    ShowOffUtils.heroku(args[0],options[:f],options[:p],options[:g])
   end
 end
 

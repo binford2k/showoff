@@ -283,12 +283,13 @@ Shows list of commands or help for one command
 
 Setup your presentation to serve on Heroku
 
-Creates the .gems file and config.ru file needed to push a showoff pres to heroku.  It will then run heroku create for you to register the new project on heroku and add the remote for you.  Then all you need to do is commit the new created files and run git push heroku to deploy.
+Creates the Gemfile and config.ru file needed to push a showoff pres to heroku.  It will then run heroku create for you to register the new project on heroku and add the remote for you.  Then all you need to do is commit the new created files and run git push heroku to deploy.
 
 ==== Options
 These options are specified *after* the command.
 
-[<tt>-f, --force</tt>] force overwrite of existing .gems and config.ru files if they exist
+[<tt>-f, --force</tt>] force overwrite of existing Gemfile/.gems and config.ru files if they exist
+[<tt>-g, --dotgems</tt>] Use older-style .gems file instead of bundler-style Gemfile
 [<tt>-p, --password=arg</tt>] add password protection to your heroku site
 === <tt>serve </tt>
 
