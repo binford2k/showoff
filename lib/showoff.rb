@@ -13,12 +13,6 @@ rescue LoadError
 end
 
 begin
-  require 'princely'
-rescue LoadError
-  puts 'pdf generation disabled - install princely'
-end
-
-begin
   require 'pdfkit'
 rescue LoadError
   puts 'pdf generation disabled - install PDFKit'
@@ -239,6 +233,10 @@ class ShowOff < Sinatra::Application
       js_content
     end
 
+    def inline_all_js(jses_directory)
+       inline_js(Dir.entries(File.join(File.dirname(__FILE__), '..', jses_directory)).find_all{|filename| filename.length > 2 }, jses_directory)
+    end
+
     def index(static=false)
       if static
         @title = ShowOffUtils.showoff_title
@@ -298,27 +296,14 @@ class ShowOff < Sinatra::Application
       @slides = get_slides_html(static)
       @no_js = false
       html = erb :onepage
-#      p = Princely.new
       # TODO make a random filename
-#      p.pdf_from_string_to_file(html, '/tmp/preso.pdf')
-#      File.new('/tmp/preso.pdf')
-
 
       # PDFKit.new takes the HTML and any options for wkhtmltopdf
       # run `wkhtmltopdf --extended-help` for a full list of options
       kit = PDFKit.new(html, :page_size => 'Letter', :orientation => 'Landscape')
-#      kit.stylesheets << '/css/showoff.css'
-
-      # Git an inline PDF
-#      pdf = kit.to_pdf
 
       # Save the PDF to a file
       file = kit.to_file('/tmp/preso.pdf')
-
-      # Add any kind of option through meta tags
-#      PDFKit.new('<html><head><meta name="pdfkit-page_size" content="Letter")
-
-
     end
 
   end
