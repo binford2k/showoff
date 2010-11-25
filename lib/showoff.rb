@@ -292,7 +292,7 @@ class ShowOff < Sinatra::Application
       erb :onepage
     end
 
-    def pdf(static=false)
+    def pdf(static=true)
       @slides = get_slides_html(static)
       @no_js = false
       html = erb :onepage
