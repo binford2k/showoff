@@ -379,6 +379,7 @@ etc).
 * json
 * GLI gem
 * Firefox or Chrome to present
+* PDFKit (optional, for generating PDF of presentation) https://github.com/jdpace/PDFKit
 
 = Contributing
 
