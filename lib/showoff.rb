@@ -125,7 +125,7 @@ class ShowOff < Sinatra::Application
       paths.pop
       path = paths.join('/')
       replacement_prefix = static ?
-        %(img src="file://#{options.pres_dir}/#{path}) :
+        %(img src="./file/#{path}) :
         %(img src="/image/#{path})
       slide.gsub(/img src=\"(.*?)\"/) do |s|
         img_path = File.join(path, $1)
@@ -237,7 +237,7 @@ class ShowOff < Sinatra::Application
       if static
         @title = ShowOffUtils.showoff_title
         @slides = get_slides_html(static)
-        @asset_path = "."
+        @asset_path = "./"
       end
       erb :index
     end
@@ -317,7 +317,7 @@ class ShowOff < Sinatra::Application
       else
         out  = "#{path}/#{name}/static"
         # First make a directory
-        FileUtils.makedirs("#{out}")
+        FileUtils.makedirs(out)
         # Then write the html
         file = File.new("#{out}/index.html", "w")
         file.puts(data)
@@ -334,6 +334,23 @@ class ShowOff < Sinatra::Application
           next unless File.directory?(subpath) || base.match(/\.(css|js)$/)
           FileUtils.copy_entry(subpath, "#{out}/#{base}")
         }
+
+        # Set up file dir
+        file_dir = File.join(out, 'file')
+        FileUtils.makedirs(file_dir)
+        pres_dir = showoff.options.pres_dir
+
+        # ..., copy all user-defined styles and javascript files
+        Dir.glob("#{pres_dir}/*.{css,js}").each { |path|
+          FileUtils.copy(path, File.join(file_dir, File.basename(path)))
+        }
+
+        # ... and copy all needed image files
+        data.scan(/img src=\".\/file\/(.*?)\"/).flatten.each do |path|
+          dir = File.dirname(path)
+          FileUtils.makedirs(File.join(file_dir, dir))
+          FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+        end
       end
     end
 
