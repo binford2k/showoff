@@ -9,13 +9,13 @@ require 'fileutils'
 begin
   require 'RMagick'
 rescue LoadError
-  puts 'image sizing disabled - install RMagick'
+  $stderr.puts 'image sizing disabled - install RMagick'
 end
 
 begin
   require 'princely'
 rescue LoadError
-  puts 'pdf generation disabled - install princely'
+  $stderr.puts 'pdf generation disabled - install princely'
 end
 
 begin
