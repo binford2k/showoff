@@ -47,8 +47,8 @@ ShowOff is meant to be run in a ShowOff formatted repository - that means that i
     $ cd (showoff-repo)
     $ showoff serve
 
-If you run 'showoff' in the ShowOff directory itself, it will show an example
-presentation from the 'example' subdirectory, so you can see what it's like.
+If you run 'showoff' in the example subdirectory of ShowOff itself, it will 
+show an example presentation, so you can see what it's like.
 
 = Slide Format
 
