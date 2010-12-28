@@ -29,14 +29,16 @@ class ShowOffUtils
   end
 
   HEROKU_GEMS_FILE = '.gems'
+  HEROKU_BUNDLER_GEMS_FILE = 'Gemfile'
   HEROKU_CONFIG_FILE = 'config.ru'
 
 	# Setup presentation to run on Heroku
   #
-  # name - String containing herokku name
-  # force - boolean if .gems and config.ru should be overwritten if they don't exist
-  # password - String containing password to protect your heroku site; nil means no password protection
-  def self.heroku(name,force,password=nil)
+  # name         - String containing heroku name
+  # force        - boolean if .gems/Gemfile and config.ru should be overwritten if they don't exist
+  # password     - String containing password to protect your heroku site; nil means no password protection
+  # use_dot_gems - boolea that, if true, indicates we should use the old, deprecated .gems file instead of Bundler
+  def self.heroku(name,force,password,use_dot_gems)
     if !File.exists?(SHOWOFF_JSON_FILE)
       puts "fail. not a showoff directory"
       return false
@@ -44,44 +46,46 @@ class ShowOffUtils
 
     modified_something = false
 
-    if !File.exists?(HEROKU_GEMS_FILE) || force
-      modified_something = true
-      File.open('.gems', 'w+') do |f|
-        f.puts "bluecloth"
-        f.puts "nokogiri"
-        f.puts "showoff"
-        f.puts "gli"
-        f.puts "rack" unless password.nil?
-      end
+    if use_dot_gems
+      modified_something = create_gems_file(HEROKU_GEMS_FILE,
+                                            !password.nil?,
+                                            force,
+                                            lambda{ |gem| gem })
     else
-      puts "#{HEROKU_GEMS_FILE} exists; not overwriting (see showoff help heroku)"
+      modified_something = create_gems_file(HEROKU_BUNDLER_GEMS_FILE,
+                                            !password.nil?,
+                                            force,
+                                            lambda{ |gem| "gem '#{gem}'" },
+                                            lambda{ "source :rubygems" })
     end
 
-    if !File.exists?(HEROKU_CONFIG_FILE) || force
+    create_file_if_needed(HEROKU_CONFIG_FILE,force) do |file|
       modified_something = true
-      File.open('config.ru', 'w+') do |f|
-        f.puts 'require "showoff"'
-        if password.nil?
-          f.puts 'run ShowOff.new'
-        else
-          f.puts 'require "rack"'
-          f.puts 'showoff_app = ShowOff.new'
-          f.puts 'protected_showoff = Rack::Auth::Basic.new(showoff_app) do |username, password|'
-          f.puts	"\tpassword == '#{password}'"
-          f.puts 'end'
-          f.puts 'run protected_showoff'
-        end
+      file.puts 'require "showoff"'
+      if password.nil?
+        file.puts 'run ShowOff.new'
+      else
+        file.puts 'require "rack"'
+        file.puts 'showoff_app = ShowOff.new'
+        file.puts 'protected_showoff = Rack::Auth::Basic.new(showoff_app) do |username, password|'
+        file.puts	"\tpassword == '#{password}'"
+        file.puts 'end'
+        file.puts 'run protected_showoff'
       end
-    else
-      puts "#{HEROKU_CONFIG_FILE} exists; not overwriting (see showoff help heroku)"
     end
 
     if modified_something
       puts "herokuized. run something like this to launch your heroku presentation:
 
-      heroku create #{name}
-      git add .gems config.ru
-      git commit -m 'herokuized'
+      heroku create #{name}"
+
+      if use_dot_gems
+      puts "        git add #{HEROKU_GEMS_FILE} #{HEROKU_CONFIG_FILE}"
+      else
+      puts "      bundle install
+      git add Gemfile.lock #{HEROKU_GEMS_FILE} #{HEROKU_CONFIG_FILE}"
+      end
+      puts "      git commit -m 'herokuized'
       git push heroku master
       "
     end
@@ -286,5 +290,53 @@ class ShowOffUtils
   def self.lang(source_file)
     ext = File.extname(source_file).gsub(/^\./,'')
     EXTENSIONS[ext] || ext
+  end
+
+  REQUIRED_GEMS = %w(bluecloth nokogiri showoff gli)
+
+  # Creates the file that lists the gems for heroku
+  #
+  # filename  - String name of the file
+  # password  - Boolean to indicate if we are setting a password
+  # force     - Boolean to indicate if we should overwrite the existing file
+  # formatter - Proc/lambda that takes 1 argument, the gem name, and formats it for the file
+  #             This is so we can support both the old .gems and the new bundler Gemfile
+  # header    - Proc/lambda that creates any header information in the file
+  #
+  # Returns a boolean indicating that we had to create the file or not.
+  def self.create_gems_file(filename,password,force,formatter,header=nil)
+    create_file_if_needed(filename,force) do |file|
+      file.puts header.call unless header.nil?
+      REQUIRED_GEMS.each { |gem| file.puts formatter.call(gem) }
+      file.puts formatter.call("rack") if password
+    end
+  end
+
+  # Creates the given filename if it doesn't exist or if force is true
+  #
+  # filename - String name of the file to create
+  # force    - if true, the file will always be created, if false, only create
+  #            if it's not there
+  # block    - takes a block that will be given the file handle to write
+  #            data into the file IF it's being created
+  #
+  # Examples
+  #
+  #   create_file_if_needed("config.ru",false) do |file|
+  #     file.puts "require 'showoff'"
+  #     file.puts "run ShowOff.new"
+  #   end
+  #
+  # Returns true if the file was created
+  def self.create_file_if_needed(filename,force)
+    if !File.exists?(filename) || force
+      File.open(filename, 'w+') do |f|
+        yield f
+      end
+      true
+    else
+      puts "#{filename} exists; not overwriting (see showoff help heroku)"
+      false
+    end
   end
 end
