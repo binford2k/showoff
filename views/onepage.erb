@@ -18,6 +18,7 @@
 
   <% if !@no_js %>
     <%= inline_js(['jquery-1.4.2.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'sh_main.min.js', 'core.js', 'showoffcore.js'], 'public/js') %>
+    <%= inline_all_js('public/js/sh_lang') %>
     <script type="text/javascript">
     $(document).ready(function() {
       setupOnePage()
