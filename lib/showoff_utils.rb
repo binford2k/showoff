@@ -91,6 +91,25 @@ class ShowOffUtils
     end
   end
 
+  # generate a static version of the site into the gh-pages branch
+  def self.github
+    puts "Generating static content"
+    ShowOff.do_static(nil)
+    `git add static`
+    sha = `git write-tree`.chomp
+    tree_sha = `git rev-parse #{sha}:static`.chomp
+    `git read-tree HEAD`  # reset staging to last-commit
+    ghp_sha = `git rev-parse gh-pages 2>/dev/null`.chomp
+    extra = ghp_sha != 'gh-pages' ? "-p #{ghp_sha}" : ''
+    commit_sha = `echo 'static presentation' | git commit-tree #{tree_sha} #{extra}`.chomp
+    `git update-ref refs/heads/gh-pages #{commit_sha}`
+    puts "I've updated your 'gh-pages' branch with the static version of your presentation."
+    puts "Push it to GitHub to publish it. Probably something like:"
+    puts
+    puts "  git push origin gh-pages"
+    puts
+  end
+
   # Makes a slide as a string.
   # [title] title of the slide
   # [classes] any "classes" to include, such as 'smaller', 'transition', etc.

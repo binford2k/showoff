@@ -276,6 +276,7 @@ added where your cursor was.  Binding this to a keybinding can allow you to add 
 [<tt>create</tt>] Create new showoff presentation
 [<tt>help</tt>] Shows list of commands or help for one command
 [<tt>heroku</tt>] Setup your presentation to serve on Heroku
+[<tt>github</tt>] Setup your presentation to serve on GitHub Pages
 [<tt>serve</tt>] Serves the showoff presentation in the current directory
 [<tt>static</tt>] Generate static version of presentation
 
@@ -319,6 +320,10 @@ Shows list of commands or help for one command
 Setup your presentation to serve on Heroku
 
 Creates the Gemfile and config.ru file needed to push a showoff pres to heroku.  It will then run heroku create for you to register the new project on heroku and add the remote for you.  Then all you need to do is commit the new created files and run git push heroku to deploy.
+
+=== <tt>github</tt>
+
+Generates a static version of your site and puts it in a gh-pages branch for static serving on GitHub.
 
 ==== Options
 These options are specified *after* the command.
