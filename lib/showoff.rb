@@ -26,8 +26,9 @@ rescue LoadError
 end
 require 'pp'
 
-
 class ShowOff < Sinatra::Application
+
+  Version = VERSION = '0.3.4'
 
   attr_reader :cached_image_size
 
