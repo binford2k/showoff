@@ -125,7 +125,7 @@ class ShowOff < Sinatra::Application
       paths.pop
       path = paths.join('/')
       replacement_prefix = static ?
-        %(img src="./file/#{path}) :
+        %(img src="file://#{options.pres_dir}/#{path}) :
         %(img src="/image/#{path})
       slide.gsub(/img src=\"(.*?)\"/) do |s|
         img_path = File.join(path, $1)
@@ -321,7 +321,7 @@ class ShowOff < Sinatra::Application
       path = showoff.instance_variable_get(:@root_path)
       data = showoff.send(what, true)
       if data.is_a?(File)
-        File.cp(data.path, "#{name}.pdf")
+        FileUtils.cp(data.path, "#{name}.pdf")
       else
         out  = "#{path}/#{name}/static"
         # First make a directory
