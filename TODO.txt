@@ -3,7 +3,6 @@ TODO
 
 - can have showoff.json in each subdir
 - showoff add
-  - add new slide/section
   - add slides of images directory (refactor script/import_images.rb)
 - simple highlighting (highlight region of slide / click to highlight)
 - presenter tools
@@ -14,5 +13,3 @@ TODO
   - questions / comments system
   - audience vote-based presentation builder, results live view
 - simple animations (image from A to B)
-
-- preshow (vacation slides and countdown)
