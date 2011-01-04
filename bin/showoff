@@ -7,13 +7,7 @@ require 'gli'
 
 include GLI
 
-desc 'Show ShowOff version'
-long_desc 'This command shows the currently installed version of ShowOff'
-command [:version] do |c|
-  c.action do |global_options,options,args|
-    puts "ShowOff Version " + ShowOff::Version
-  end
-end
+version ShowOff::Version 
 
 desc 'Create new showoff presentation'
 arg_name 'dir_name'
@@ -139,4 +133,4 @@ on_error do |exception|
   true
 end
 
-GLI.run(ARGV)
+exit GLI.run(ARGV)
