@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency      "bluecloth"
   s.add_dependency      "nokogiri"
   s.add_dependency      "json"
-  s.add_dependency      ("gli",">= 1.1.1")
+  s.add_dependency      ("gli",">= 1.2.5")
   s.description       = <<-desc
   ShowOff is a Sinatra web app that reads simple configuration files for a
   presentation.  It is sort of like a Keynote web app engine.  I am using it
