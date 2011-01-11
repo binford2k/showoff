@@ -322,7 +322,7 @@ class ShowOff < Sinatra::Application
       path = showoff.instance_variable_get(:@root_path)
       data = showoff.send(what, true)
       if data.is_a?(File)
-        File.cp(data.path, "#{name}.pdf")
+        FileUtils.cp(data.path, "#{name}.pdf")
       else
         out  = "#{path}/#{name}/static"
         # First make a directory
