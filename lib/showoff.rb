@@ -9,19 +9,20 @@ require 'fileutils'
 begin
   require 'RMagick'
 rescue LoadError
-  $stderr.puts 'image sizing disabled - install RMagick'
+  $stderr.puts 'image sizing disabled - install rmagick'
 end
 
 begin
   require 'pdfkit'
 rescue LoadError
-  $stderr.puts 'pdf generation disabled - install PDFKit'
+  $stderr.puts 'pdf generation disabled - install pdfkit'
 end
 
 begin
   require 'rdiscount'
 rescue LoadError
   require 'bluecloth'
+  Object.send(:remove_const,:Markdown)
   Markdown = BlueCloth
 end
 require 'pp'
