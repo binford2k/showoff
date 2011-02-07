@@ -29,6 +29,7 @@
       font-size:14px;
       position:relative;
       top:-24px;
+      z-index: 16;
       margin:0 auto;
       -webkit-border-top-left-radius: 3px;
       -webkit-border-top-right-radius: 3px;
@@ -193,7 +194,7 @@ a.fg-button { float:left; }
 
 .fg-button.ui-state-loading .ui-icon { background: url(spinner_bar.gif) no-repeat 0 0; }
 
-#navmenu { position: absolute; top: 10px; left: 10px; width: 50px; }
+#navmenu { position: absolute; top: 10px; left: 10px; width: 50px; z-index: 16; }
 
 .code .c { color: #999988; font-style: italic } /* Comment */
 .code .err { color: #a61717; background-color: #e3d2d2 } /* Error */
