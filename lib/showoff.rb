@@ -73,7 +73,7 @@ class ShowOff < Sinatra::Application
     end
 
     def process_markdown(name, content, static=false)
-      slides = content.split(/^!SLIDE/)
+      slides = content.split(/^<?!SLIDE/)
       slides.delete('')
       final = ''
       if slides.size > 1
@@ -83,7 +83,7 @@ class ShowOff < Sinatra::Application
         md = ''
         # extract content classes
         lines = slide.split("\n")
-        content_classes = lines.shift.split rescue []
+        content_classes = lines.shift.strip.chomp('>').split rescue []
         slide = lines.join("\n")
         # add content class too
         content_classes.unshift "content"

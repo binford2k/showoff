@@ -55,7 +55,7 @@ show an example presentation, so you can see what it's like.
 You can break your slides up into sections of however many subdirectories deep
 you need.  ShowOff will recursively check all the directories mentioned in
 your showoff.json file for any markdown files (.md).  Each markdown file can
-have any number of slides in it, seperating each slide with the '!SLIDE'
+have any number of slides in it, separating each slide with the '!SLIDE'
 keyword and optional slide styles.
 
 For example, if you run 'showoff create my_new_pres' it will create a new
@@ -87,12 +87,18 @@ If you have multiple sections in your talk, you can make this json array
 include all the sections you want to show in which order you want to show
 them.
 
+If you want to keep the ability to emit an HTML document from your 
+Markdown source file -- say, for a TextMate preview or a GitHub rendering
+-- you can use angle brackets around the `!SLIDE` keyword and styles, e.g.
+
+    <!SLIDE bullets incremental transition=fade>
+
 Some useful styles for each slide are:
 
 * center - centers images on a slide
 * full-page - allows an image to take up the whole slide
-* bullets - sizes and seperates bullets properly (fits up to 5, generally)
-* smbullets - sizes and seperates more bullets (smaller, closer together)
+* bullets - sizes and separates bullets properly (fits up to 5, generally)
+* smbullets - sizes and separates more bullets (smaller, closer together)
 * subsection - creates a different background for titles
 * command - monospaces h1 title slides
 * commandline - for pasted commandline sections (needs leading '$' for commands, then output on subsequent lines)
@@ -247,6 +253,17 @@ is your preference. An example of adding some styling is here.
 
 Note that the example above uses CSS3 styling with ::+after+ and the +content+
 -attribute to add an image to the slides.
+
+= Language highlighting
+
+Showoff uses {shjs}[http://shjs.sourceforge.net/] to highlight code blocks.
+If you begin a code block with three @-signs followed by a 
+{programming language name}[http://shjs.sourceforge.net/doc/documentation.html], 
+that line will be stripped and the rest of the block will become sparkly
+and colorful.
+
+    @@@ ruby
+    10.times { puts "Whee!" }
 
 = Editor integration
 
