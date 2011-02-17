@@ -18,6 +18,8 @@ coverage
 rdoc
 pkg
 *.gem
+.bundle
+Gemfile.lock
 
 ## PROJECT::SPECIFIC
 dist
