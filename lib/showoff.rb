@@ -2,9 +2,11 @@ require 'rubygems'
 require 'sinatra/base'
 require 'json'
 require 'nokogiri'
-require 'showoff_utils'
-require 'princely'
 require 'fileutils'
+
+here = File.expand_path(File.dirname(__FILE__))
+require "#{here}/showoff_utils"
+require "#{here}/princely"
 
 begin
   require 'RMagick'
