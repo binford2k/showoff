@@ -12,9 +12,7 @@
     <%= inline_css(['onepage.css'], 'public/css') %>
   <% end %>
   <%= inline_css(['reset.css', 'showoff.css', 'theme/ui.all.css', 'sh_style.css'], 'public/css') %>
-  <% css_files.each do |css_file| %>
-    <%= inline_css(css_file) %>
-  <% end %>
+  <%= inline_css(css_files) %>
 
   <% if !@no_js %>
     <%= inline_js(['jquery-1.4.2.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'sh_main.min.js', 'core.js', 'showoffcore.js'], 'public/js') %>

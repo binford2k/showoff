@@ -190,8 +190,6 @@ function showSlide(back_step) {
 	if (fullPage) {
 		$('#preso').css({'width' : '100%', 'overflow' : 'visible'});
 		currentSlide.css({'width' : '100%', 'text-align' : 'center', 'overflow' : 'visible'});
-	} else {
-		$('#preso').css({'width' : '1020px', 'overflow' : 'hidden'});
 	}
 
 	percent = getSlidePercent()

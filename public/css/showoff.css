@@ -1,24 +1,42 @@
 @media screen {
   body {
       font-family: "Gill Sans", Helvetica, Arial, sans-serif;
+      background:#333;
+      overflow:hidden;
+      margin:0;
+      padding:0;
   }
 
   #preso, .slide {
       background: #fff;
-      width: 1020px;
-      height: 740px;
+      width: 1024px;
+      height: 768px;
       margin-left:auto;
       margin-right:auto;
       overflow:hidden;
+      -webkit-box-shadow:0 0 25px rgba(0,0,0,0.35);
+      -moz-box-shadow:0 0 25px rgba(0,0,0,0.35);
+      box-shadow:0 0 25px rgba(0,0,0,0.35);
   }
 
   #footer {
-      background: #eee;
-      padding: 2px;
-      width: 1010px;
+      background: rgba(221,221,221,0.75);
+      color:#333;
+      padding: 2px 5px;
+      width: 1005px;
       height: 20px;
-      margin-left:auto;
-      margin-right:auto;
+      line-height:20px;
+      font-size:14px;
+      position:relative;
+      top:-24px;
+      z-index: 16;
+      margin:0 auto;
+      -webkit-border-top-left-radius: 3px;
+      -webkit-border-top-right-radius: 3px;
+      -moz-border-radius-topleft: 3px;
+      -moz-border-radius-topright: 3px;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
   }
 }
 
@@ -26,49 +44,45 @@
 /* Portrait */
 @media screen and (max-width: 320px)
 {
-  #preso { 
+  #preso {
       margin: 0;
       padding: 0;
       width: 320px;
       max-height: 356px;
-      margin-left:auto; 
+      margin-left:auto;
       margin-right:auto;
 /*      overflow:hidden;*/
   }
-  #footer { 
+  #footer {
       background: #eee;
       margin: 0;
       padding: 2px;
       width: 320px;
       height: 20px;
-      margin-left:auto; 
+      margin-left:auto;
       margin-right:auto;
   }
 }
 /* Landscape */
 @media screen and (max-width: 480px)
 {
-  #preso { 
+  #preso {
       margin: 0;
       padding: 0;
 /*      min-height: 320px;*/
       width: 480px;
-      margin-left:auto; 
+      margin-left:auto;
       margin-right:auto;
   }
-  #footer { 
+  #footer {
       background: #eee;
       margin: 0;
       padding: 2px;
       width: 480px;
       height: 20px;
-      margin-left:auto; 
+      margin-left:auto;
       margin-right:auto;
   }
-}
-
-.slide {
-    border: 1px solid #fff;
 }
 
 .center img {
@@ -149,6 +163,7 @@ pre { margin-left: 40px; font-size: 2.8em; }
 
 .notes { display: none }
 .hidden { position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden; }
+.buttonNav { display: none }
 .offscreen { position:absolute; top:0; left:-9999px; overflow:hidden; }
 #debugInfo { margin-left: 30px; }
 #preshow { display: none; }
@@ -179,7 +194,7 @@ a.fg-button { float:left; }
 
 .fg-button.ui-state-loading .ui-icon { background: url(spinner_bar.gif) no-repeat 0 0; }
 
-#navmenu { position: absolute; top: 10px; left: 10px; width: 50px; }
+#navmenu { position: absolute; top: 10px; left: 10px; width: 50px; z-index: 16; }
 
 .code .c { color: #999988; font-style: italic } /* Comment */
 .code .err { color: #a61717; background-color: #e3d2d2 } /* Error */
@@ -287,11 +302,11 @@ a.fg-button { float:left; }
   body {
     font-size: 70%;
   }
-  
+
   #preso, .slide {
     border: 1px solid #999;
   }
-  
+
   .slide .center {
     width: 600px;
     height: 600px;
@@ -299,7 +314,7 @@ a.fg-button { float:left; }
     text-align: center;
     vertical-align: middle;
   }
-  
+
   #preso, .slide {
       background: #fff;
       width: 600px;
@@ -317,7 +332,7 @@ a.fg-button { float:left; }
       margin-left:auto;
       margin-right:auto;
   }
-  
+
   pre, code {
     font-family: Monaco, monospace;
   }

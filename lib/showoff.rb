@@ -9,26 +9,27 @@ require 'fileutils'
 begin
   require 'RMagick'
 rescue LoadError
-  $stderr.puts 'image sizing disabled - install RMagick'
+  $stderr.puts 'image sizing disabled - install rmagick'
 end
 
 begin
   require 'pdfkit'
 rescue LoadError
-  $stderr.puts 'pdf generation disabled - install PDFKit'
+  $stderr.puts 'pdf generation disabled - install pdfkit'
 end
 
 begin
   require 'rdiscount'
 rescue LoadError
   require 'bluecloth'
+  Object.send(:remove_const,:Markdown)
   Markdown = BlueCloth
 end
 require 'pp'
 
 class ShowOff < Sinatra::Application
 
-  Version = VERSION = '0.3.4'
+  Version = VERSION = '0.4.0'
 
   attr_reader :cached_image_size
 
@@ -126,7 +127,7 @@ class ShowOff < Sinatra::Application
       paths.pop
       path = paths.join('/')
       replacement_prefix = static ?
-        %(img src="file://#{options.pres_dir}/#{path}) :
+        %(img src="./file/#{path}) :
         %(img src="/image/#{path})
       slide.gsub(/img src=\"(.*?)\"/) do |s|
         img_path = File.join(path, $1)
