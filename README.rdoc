@@ -346,6 +346,10 @@ These options are specified *after* the command.
 
 Generate static version of presentation
 
+=== PDF
+Append a "/pdf" to the end of your presentation URL, and a PDF will be generated within the browser. For example,
+http://localhost:9090/pdf
+
 === ZSH completion
 You can complete commands and options in ZSH, by installing a script:
 
