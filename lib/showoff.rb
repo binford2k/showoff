@@ -364,6 +364,11 @@ class ShowOff < Sinatra::Application
       end
     end
 
+  get '/eval_ruby' do
+    code = params[:code]
+    eval(code).to_s
+  end
+
   get %r{(?:image|file)/(.*)} do
     path = params[:captures].first
     full_path = File.join(options.pres_dir, path)
