@@ -22,7 +22,7 @@
 
 # Executable JavaScript #
 
-	@@@ javaScript
+	@@@ javascript
 	result = 3 + 3;
 
 !SLIDE
