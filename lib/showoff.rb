@@ -50,6 +50,11 @@ class ShowOff < Sinatra::Application
     @cached_image_size = {}
     puts options.pres_dir
     @pres_name = options.pres_dir.split('/').pop
+    require_ruby_files
+  end
+
+  def require_ruby_files
+    Dir.glob("#{options.pres_dir}/*.rb").map { |path| require path }
   end
 
   helpers do
@@ -67,6 +72,7 @@ class ShowOff < Sinatra::Application
     def js_files
       Dir.glob("#{options.pres_dir}/*.js").map { |path| File.basename(path) }
     end
+
 
     def preshow_files
       Dir.glob("#{options.pres_dir}/_preshow/*").map { |path| File.basename(path) }.to_json
