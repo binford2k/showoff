@@ -250,10 +250,20 @@ Note that the example above uses CSS3 styling with ::+after+ and the +content+
 
 = Custom Ruby Files
 
-If you want to have executable Ruby code on your slides, you may need
-supporting libraries when you evaluate the code. You can do this by putting
-Ruby files (*.rb) into the root directory of the presentation then they will be
-required when the presentation loads.
+If you want to have executable Ruby code on your slides you must set the
+envrionment variable ENV['SHOWOFF_EVAL_RUBY']. This can be done with
+
+    export SHOWOFF_EVAL_RUBY=1
+
+or
+
+    # On Heroku
+    heroku config:add SHOWOFF_EVAL_RUBY=1
+
+
+If you need supporting libraries when you evaluate the code. You can do this by
+putting Ruby files (*.rb) into the root directory of the presentation then they
+will be required when the presentation loads.
 
 
 = Editor integration
