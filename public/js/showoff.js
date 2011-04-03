@@ -336,11 +336,11 @@ function keyDown(event)
 			gotoSlidenum = 0;
 		} else {
 			debug('executeCode');
-            var $jsCode = $('.sh_javascript code:visible')
+            var $jsCode = $('.execute .sh_javascript code:visible')
             if ($jsCode.length > 0) {
                 executeCode.call($jsCode);
             } 
-            var $rubyCode = $('.sh_ruby code:visible')
+            var $rubyCode = $('.execute .sh_ruby code:visible')
             if ($rubyCode.length > 0) {
                 executeRuby.call($rubyCode);
             }
@@ -502,7 +502,7 @@ function executeCode () {
 	setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
 	if (result != null) print(result);
 }
-$('.sh_javascript code').live("click", executeCode);
+$('.execute .sh_javascript code').live("click", executeCode);
 
 function executeRuby () {
 	var codeDiv = $(this);
@@ -512,7 +512,7 @@ function executeRuby () {
         codeDiv.removeClass("executing");
     });
 }
-$('.sh_ruby code').live("click", executeRuby);
+$('.execute .sh_ruby code').live("click", executeRuby);
 
 
 /********************
