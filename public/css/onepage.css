@@ -5,6 +5,7 @@
       padding: 0;
       width: 1020px;
       height: 740px;
+      max-height: 740px !important;
       margin-left:auto; 
       margin-right:auto;
       overflow:hidden;
