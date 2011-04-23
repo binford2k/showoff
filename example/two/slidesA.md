@@ -22,8 +22,15 @@
 
 # Executable JavaScript #
 
-	@@@ javaScript
+	@@@ javascript
 	result = 3 + 3;
+
+!SLIDE execute
+
+# Executable Ruby #
+
+	@@@ ruby
+	result = [1, 2, 3].map { |n| n*7 }
 
 !SLIDE
 

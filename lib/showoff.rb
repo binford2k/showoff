@@ -52,6 +52,11 @@ class ShowOff < Sinatra::Application
     @cached_image_size = {}
     puts options.pres_dir
     @pres_name = options.pres_dir.split('/').pop
+    require_ruby_files
+  end
+
+  def require_ruby_files
+    Dir.glob("#{options.pres_dir}/*.rb").map { |path| require path }
   end
 
   helpers do
@@ -69,6 +74,7 @@ class ShowOff < Sinatra::Application
     def js_files
       Dir.glob("#{options.pres_dir}/*.js").map { |path| File.basename(path) }
     end
+
 
     def preshow_files
       Dir.glob("#{options.pres_dir}/_preshow/*").map { |path| File.basename(path) }.to_json
@@ -164,7 +170,7 @@ class ShowOff < Sinatra::Application
           lines = out.split("\n")
           if lines.first[0, 3] == '@@@'
             lang = lines.shift.gsub('@@@', '').strip
-            pre.set_attribute('class', 'sh_' + lang)
+            pre.set_attribute('class', 'sh_' + lang.downcase)
             code.content = lines.join("\n")
           end
         end
@@ -365,6 +371,18 @@ class ShowOff < Sinatra::Application
         end
       end
     end
+
+   def eval_ruby code
+     eval(code).to_s
+   rescue => e
+     e.message
+   end
+
+  get '/eval_ruby' do
+    return eval_ruby(params[:code]) if ENV['SHOWOFF_EVAL_RUBY']
+
+    return "Ruby Evaluation is off. To turn it on set ENV['SHOWOFF_EVAL_RUBY']"
+  end
 
   get %r{(?:image|file)/(.*)} do
     path = params[:captures].first
