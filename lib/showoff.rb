@@ -199,7 +199,7 @@ class ShowOff < Sinatra::Application
           files << load_section_files(section)
         end
         files = files.flatten
-        files = files.select { |f| f =~ /.md/ }
+        files = files.select { |f| f =~ /.md$/ }
         data = ''
         files.each do |f|
           fname = f.gsub(options.pres_dir + '/', '').gsub('.md', '')
