@@ -369,6 +369,18 @@ class ShowOff < Sinatra::Application
           FileUtils.makedirs(File.join(file_dir, dir))
           FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
         end
+        # copy images from css too
+        Dir.glob("#{pres_dir}/*.css").each do |css_path|
+          File.open(css_path) do |file|
+            data = file.read
+            data.scan(/url\((.*)\)/).flatten.each do |path|
+              p path
+              dir = File.dirname(path)
+              FileUtils.makedirs(File.join(file_dir, dir))
+              FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+            end
+          end
+        end
       end
     end
 
