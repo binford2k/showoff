@@ -99,18 +99,18 @@
   vertical-align: middle;
 }
 
-.bullets ul {
+.bullets > ul {
     font-size: 3em;
 }
-.bullets ul li {
+.bullets > ul > li {
     text-align: center;
     padding: 25px;
 }
 
-.smbullets ul {
+.smbullets > ul {
     font-size: 2em;
 }
-.smbullets ul li {
+.smbullets > ul > li {
     text-align: center;
     padding: 10px;
 }
