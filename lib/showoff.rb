@@ -81,6 +81,12 @@ class ShowOff < Sinatra::Application
     end
 
     def process_markdown(name, content, static=false, pdf=false)
+
+      # if there are no !SLIDE markers, then make every H1 define a new slide
+      unless content =~ /^\<?!SLIDE/m
+        content = content.gsub(/^# /m, "<!SLIDE bullets>\n# ")
+      end
+
       slides = content.split(/^<?!SLIDE/)
       slides.delete('')
       final = ''
