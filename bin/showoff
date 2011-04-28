@@ -66,9 +66,13 @@ command :serve do |c|
   c.desc 'Host or ip to run on'
   c.default_value "localhost"
   c.flag [:h,:host]
+  
+  c.desc 'Presentation directory'
+  c.default_value "."
+  c.arg_name "pres_dir"
 
   c.action do |global_options,options,args|
-    ShowOff.run! :host => options[:h], :port => options[:p].to_i
+    ShowOff.run! :host => options[:h], :port => options[:p].to_i, :pres_dir => args[0]
   end
 end
 
