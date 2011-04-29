@@ -286,6 +286,8 @@ class ShowOffUtils
         order = data
       end
       order = order.map { |s| s['section'] }
+    else
+      order = ["."] # if there's no showoff.json file, make a boring one
     end
     order
   end
