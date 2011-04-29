@@ -85,6 +85,13 @@
   }
 }
 
+/* Plain text (nothing special in markdown) */
+p {
+  font-size: 18pt;
+  margin: 1em;
+}
+
+
 .center img {
     display:block;
     margin-left:auto;
@@ -114,6 +121,16 @@
     text-align: center;
     padding: 10px;
 }
+
+/* nested lists get their bullets back */
+.bullets ul ul {
+  list-style: disc;
+  margin: 50px 100px;
+  padding-left: 40px;
+  font-size: 18pt;
+  text-align: left;
+}
+
 
 .commandline pre {
     font-size: 2em;
