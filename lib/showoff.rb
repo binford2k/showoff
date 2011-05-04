@@ -49,6 +49,10 @@ class ShowOff < Sinatra::Application
       @root_path = ".."
     end
     options.pres_dir = File.expand_path(options.pres_dir)
+    if (options.pres_file)
+      puts "Using #{options.pres_file}"
+      ShowOffUtils.presentation_config_file = options.pres_file
+    end
     puts "Serving presentation from #{options.pres_dir}"
     @cached_image_size = {}
     @pres_name = options.pres_dir.split('/').pop

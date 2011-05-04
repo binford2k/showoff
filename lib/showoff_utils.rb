@@ -3,6 +3,10 @@ class ShowOffUtils
     @presentation_config_file ||= 'showoff.json'
   end
 
+  def self.presentation_config_file=(filename)
+    @presentation_config_file = filename
+  end
+
   def self.create(dirname,create_samples,dir='one')
     Dir.mkdir(dirname) if !File.exists?(dirname)
     Dir.chdir(dirname) do
