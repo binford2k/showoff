@@ -13,3 +13,5 @@ TODO
   - questions / comments system
   - audience vote-based presentation builder, results live view
 - simple animations (image from A to B)
+- squeeze-to-fit style
+- extract Version into a separate file, so we can include it in gemspec without pulling in the universe
