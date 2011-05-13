@@ -69,7 +69,7 @@ command :serve do |c|
   c.default_value "localhost"
   c.flag [:h,:host]  
 
-  c.desc 'Presentation file'
+  c.desc 'JSON file used to describe presentation'
   c.default_value "showoff.json"
   c.flag [:f, :pres_file]
 
