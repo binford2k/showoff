@@ -92,6 +92,29 @@ class ShowOff < Sinatra::Application
       end
 
       slides = content.split(/^<?!SLIDE/)
+
+      # every H1 defines a new slide, whether there's a !SLIDE before it or not
+      # todo: make this a CL option
+      # todo: unit test
+      # todo: extract Slide class
+      new_slides = slides.map do |slide|
+        if slide.match(/^# /)
+          out = []
+          parts = slide.strip.split(/^# /) # todo: use match
+          first = "#{parts.shift}\n# #{parts.shift}"
+          out << first
+          until parts.empty?
+            new_slide = "bullets\n# #{parts.shift}"
+            out << new_slide
+          end
+          out
+        else
+          slide  # there weren't any H1s in the slide
+        end
+      end.flatten.compact
+      slides = new_slides
+      ###
+
       slides.delete('')
       final = ''
       if slides.size > 1
