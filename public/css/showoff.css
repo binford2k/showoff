@@ -89,7 +89,7 @@
 /* plain (non-bullet) text */
 .content > p {
 	font-size: 2em;
-  margin: 1em;
+    margin: 1em;
 	text-align: center;
 }
 
@@ -107,8 +107,23 @@
   vertical-align: middle;
 }
 
-.bullets > ul {
+/* ironically, normal lists have bullets and 'bullets' lists don't */
+.content > ul {
+    list-style: disc;
 	font-size: 3em;
+	text-align: left;
+	padding-left: 40px;
+}
+.content > ul > li {
+    padding: 25px;
+    margin-left: 40px;
+}
+
+/* ironically, normal lists have bullets and 'bullets' lists don't */
+.bullets > ul {
+    list-style: none;
+	font-size: 3em;
+	padding-left: 0px;
 }
 .bullets > ul > li {
     text-align: center;
@@ -124,7 +139,7 @@
 }
 
 /* nested lists get their bullets back */
-.bullets ul ul {
+.content ul ul {
   list-style: disc;
   margin: 10px 100px;
   padding-left: 40px;
@@ -210,11 +225,11 @@ a.fg-button { float:left; }
 
 .fg-button.ui-state-loading .ui-icon { background: url(spinner_bar.gif) no-repeat 0 0; }
 
-#navmenu { 
-  position: absolute; 
-  top: 10px; 
-  left: 10px; 
-  width: 50px; 
+#navmenu {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px;
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
 }
 
