@@ -175,7 +175,7 @@ class ShowOff < Sinatra::Application
         pre.css('code').each do |code|
           out = code.text
           lines = out.split("\n")
-          if lines.first[0, 3] == '@@@'
+          if lines.first.strip[0, 3] == '@@@'
             lang = lines.shift.gsub('@@@', '').strip
             pre.set_attribute('class', 'sh_' + lang.downcase)
             code.content = lines.join("\n")
