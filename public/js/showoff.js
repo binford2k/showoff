@@ -244,7 +244,7 @@ function determineIncremental()
 		incrCode = true
 	}
 	incrElem.each(function(s, elem) {
-		$(elem).hide()
+		$(elem).css('visibility', 'hidden');
 	})
 }
 
@@ -275,9 +275,9 @@ function nextStep()
 	} else {
 		elem = incrElem.eq(incrCurr)
 		if (incrCode && elem.hasClass('command')) {
-			incrElem.eq(incrCurr).show().jTypeWriter({duration:1.0})
+			incrElem.eq(incrCurr).css('visibility', 'visible').jTypeWriter({duration:1.0})
 		} else {
-			incrElem.eq(incrCurr).show()
+			incrElem.eq(incrCurr).css('visibility', 'visible')
 		}
 		incrCurr++
 	}
