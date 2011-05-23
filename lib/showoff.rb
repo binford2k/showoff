@@ -84,50 +84,60 @@ class ShowOff < Sinatra::Application
       Dir.glob("#{options.pres_dir}/_preshow/*").map { |path| File.basename(path) }.to_json
     end
 
+    # todo: move more behavior into this class
+    class Slide
+      attr_reader :classes, :text
+      def initialize classes = ""
+        @classes = ["content"] + classes.strip.split
+        @text = ""
+      end
+      def <<(s)
+        @text << s
+        @text << "\n"
+      end
+      def empty?
+        @text.strip == ""
+      end
+    end
+
+
     def process_markdown(name, content, static=false, pdf=false)
 
       # if there are no !SLIDE markers, then make every H1 define a new slide
       unless content =~ /^\<?!SLIDE/m
-        content = content.gsub(/^# /m, "<!SLIDE bullets>\n# ")
+        content = content.gsub(/^# /m, "<!SLIDE>\n# ")
       end
 
-      slides = content.split(/^<?!SLIDE/)
-
-      # every H1 defines a new slide, whether there's a !SLIDE before it or not
-      # todo: make this a CL option
       # todo: unit test
-      # todo: extract Slide class
-      new_slides = slides.map do |slide|
-        if slide.match(/^# /)
-          out = []
-          parts = slide.strip.split(/^# /) # todo: use match
-          first = "#{parts.shift}\n# #{parts.shift}"
-          out << first
-          until parts.empty?
-            new_slide = "bullets\n# #{parts.shift}"
-            out << new_slide
-          end
-          out
+      lines = content.split("\n")
+      puts "#{name}: #{lines.length} lines"
+      slides = []
+      slides << (slide = Slide.new)
+      until lines.empty?
+        line = lines.shift
+        if line =~ /^<?!SLIDE(.*)>?/
+          slides << (slide = Slide.new($1))
+        elsif line =~ /^# / && !slide.empty?
+          # every H1 defines a new slide, unless there's a !SLIDE before it
+          # todo: make this a CL option
+          # todo: unit test
+          slides << (slide = Slide.new())
+          slide << line
         else
-          slide  # there weren't any H1s in the slide
+          slide << line
         end
-      end.flatten.compact
-      slides = new_slides
-      ###
+      end
 
-      slides.delete('')
+      slides.delete_if {|slide| slide.empty? }
+
       final = ''
       if slides.size > 1
         seq = 1
       end
       slides.each do |slide|
         md = ''
-        # extract content classes
-        lines = slide.split("\n")
-        content_classes = lines.shift.strip.chomp('>').split rescue []
-        slide = lines.join("\n")
-        # add content class too
-        content_classes.unshift "content"
+        content_classes = slide.classes
+
         # extract transition, defaulting to none
         transition = 'none'
         content_classes.delete_if { |x| x =~ /^transition=(.+)/ && transition = $1 }
@@ -144,7 +154,7 @@ class ShowOff < Sinatra::Application
         else
           md += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
-        sl = Markdown.new(slide).to_html
+        sl = Markdown.new(slide.text).to_html
         sl = update_image_paths(name, sl, static, pdf)
         md += sl
         md += "</div>\n"
