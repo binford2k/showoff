@@ -212,7 +212,7 @@ h1 { font-size: 5em; }
 h2 { font-size: 3em; }
 h3 { font-size: 2em; }
 
-pre { margin-left: 40px; }
+pre { margin: 1em 40px; padding: .25em; }
 
 .notes { display: none }
 .hidden { position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden; }
