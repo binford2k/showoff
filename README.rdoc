@@ -380,11 +380,17 @@ These options are specified *after* the command.
 
 Generate static version of presentation
 
-=== PDF
-Append a "/pdf" to the end of your presentation URL, and a PDF will be generated within the browser. For example,
-http://localhost:9090/pdf
+= PDF Output
 
 === ZSH completion
+Showoff can produce a PDF version of your presentation.  To do this, you must install a few things first:
+
+    gem install pdfkit
+
+You'll then need to install a version of wkhtmltopdf available at http://code.google.com/p/wkhtmltopdf and make sure that +wkhtmltopdf+ is in your path when you start showoff.
+
+Then, navigate to <tt>/pdf</tt> (e.g. http://localhost/pdf) of your presentation and a PDF will be generated with the browser.
+
 You can complete commands and options in ZSH, by installing a script:
 
     mkdir -p $HOME/.zsh/Completion
