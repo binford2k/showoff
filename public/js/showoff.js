@@ -86,7 +86,8 @@ function initializePresentation(prefix) {
 	}
 	setupSlideParamsCheck();
 	sh_highlightDocument(prefix+'/js/sh_lang/', '.min.js')
-	$(".preso").trigger("showoff:loaded");
+
+	$("#preso").trigger("showoff:loaded");
 }
 
 function centerSlides(slides) {
@@ -209,7 +210,8 @@ function showSlide(back_step) {
 		bind('swiperight', swipeRight)
 	removeResults()
 
-	$(currentSlide).find(".content").trigger("showoff:show");
+  var currentContent = $(currentSlide).find(".content")
+	currentContent.trigger("showoff:show");
 
 	return getCurrentNotes()
 }
@@ -223,7 +225,7 @@ function getCurrentNotes()
 {
   var notes = currentSlide.find("p.notes").text()
   $('#notesInfo').text(notes)
-	return notes 
+	return notes
 }
 
 function getSlidePercent()
@@ -337,7 +339,7 @@ function keyDown(event)
             var $jsCode = $('.execute .sh_javascript code:visible')
             if ($jsCode.length > 0) {
                 executeCode.call($jsCode);
-            } 
+            }
             var $rubyCode = $('.execute .sh_ruby code:visible')
             if ($rubyCode.length > 0) {
                 executeRuby.call($rubyCode);
