@@ -7,6 +7,8 @@ TODO
 - simple highlighting (highlight region of slide / click to highlight)
 - presenter tools
   - notes view (quick polling)
+  - preview column
+  - preview
 - audience interface
   - slide download / git clone
   - static version download

@@ -66,7 +66,11 @@ class ShowOff < Sinatra::Application
   helpers do
     def load_section_files(section)
       section = File.join(options.pres_dir, section)
-      files = Dir.glob("#{section}/**/*").sort
+      files = if File.directory? section
+        Dir.glob("#{section}/**/*").sort
+      else
+        [section]
+      end
       pp files
       files
     end

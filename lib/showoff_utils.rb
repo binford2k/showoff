@@ -282,20 +282,26 @@ class ShowOffUtils
 
   def self.showoff_sections(dir = '.')
     index = File.join(dir, ShowOffUtils.presentation_config_file)
-    order = nil
+    sections = nil
     if File.exists?(index)
       data = JSON.parse(File.read(index))
       pp data
       if data.is_a?(Hash)
-        order = data['sections']
+        sections = data['sections']
       else
-        order = data
+        sections = data
       end
-      order = order.map { |s| s['section'] }
+      sections = sections.map do |s|
+        if s.is_a? Hash
+          s['section']
+        else
+          s
+        end
+      end
     else
-      order = ["."] # if there's no showoff.json file, make a boring one
+      sections = ["."] # if there's no showoff.json file, make a boring one
     end
-    order
+    sections
   end
 
   def self.showoff_title(dir = '.')
