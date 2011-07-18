@@ -243,17 +243,22 @@ class ShowOff < Sinatra::Application
 
     def get_slides_html(static=false, pdf=false)
       sections = ShowOffUtils.showoff_sections(options.pres_dir)
-      files = []
       if sections
-        sections.each do |section|
-          files << load_section_files(section)
-        end
-        files = files.flatten
-        files = files.select { |f| f =~ /.md/ }
         data = ''
-        files.each do |f|
-          fname = f.gsub(options.pres_dir + '/', '').gsub('.md', '')
-          data += process_markdown(fname, File.read(f), static, pdf)
+        sections.each do |section|
+          if section =~ /^#/
+            name = section.each_line.first.gsub(/^#*/,'').strip
+            data << process_markdown(name, "<!SLIDE subsection>\n" + section, static, pdf)
+          else
+            files = []
+            files << load_section_files(section)
+            files = files.flatten
+            files = files.select { |f| f =~ /.md/ }
+            files.each do |f|
+              fname = f.gsub(options.pres_dir + '/', '').gsub('.md', '')
+              data << process_markdown(fname, File.read(f), static, pdf)
+            end
+          end
         end
       end
       data
