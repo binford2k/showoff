@@ -50,7 +50,7 @@ markdown files for the slides you're presenting.
     $ cd (showoff-repo)
     $ showoff serve
 
-If you run 'showoff' in the example subdirectory of ShowOff itself, it will 
+If you run 'showoff' in the example subdirectory of ShowOff itself, it will
 show an example presentation, so you can see what it's like.
 
 You can also run 'showoff serve' inside a section subdirectory. If there is no
@@ -91,7 +91,7 @@ incrementally shown. In order for ShowOff to see those slides, your
       "name": "Something",
       "description": "Example Presentation",
       "sections": [
-        {"section":"one"},
+        {"section":"one"}
       ]
     }
 
@@ -102,14 +102,14 @@ them.
 Instead of a hash, you can use a plain string as an entry in the `sections`
 section of `showoff.json`.
 
-And if that plain string starts with '#' then it is interpreted not as a 
+And if that plain string starts with '#' then it is interpreted not as a
 filename, but as markdown. This is used for inserting interstitial slides
-or notes -- for instance, Alex Chaffee's 
+or notes -- for instance, Alex Chaffee's
 [Ruby Notes](http://github.com/alexch/ruby_notes)
 uses it to insert lab instructions between lecture slide sections, which may
 vary from venue to venue.
 
-If you want to keep the ability to emit an HTML document from your 
+If you want to keep the ability to emit an HTML document from your
 Markdown source file -- say, for a TextMate preview or a GitHub rendering
 -- you can use angle brackets around the `!SLIDE` keyword and styles, e.g.
 
@@ -286,8 +286,8 @@ Note that the example above uses CSS3 styling with ::+after+ and the +content+
 = Language highlighting
 
 Showoff uses {shjs}[http://shjs.sourceforge.net/] to highlight code blocks.
-If you begin a code block with three @-signs followed by a 
-{programming language name}[http://shjs.sourceforge.net/doc/documentation.html], 
+If you begin a code block with three @-signs followed by a
+{programming language name}[http://shjs.sourceforge.net/doc/documentation.html],
 that line will be stripped and the rest of the block will become sparkly
 and colorful.
 
@@ -471,8 +471,11 @@ So far, ShowOff has been used in the following presentations (and many others):
   http://github.com/nono/Presentations/tree/master/20100703_25_promising_projects_in_50_minutes/
 * 11th Libre Software Meeting 2010 - Ruby 1.9, The future of Ruby? - Bruno Michel
   http://github.com/nono/Presentations/tree/master/20100708_RMLL_Ruby_1.9/
+<<<<<<< HEAD
 * Lone Star PHP 2011 - Drupal - Chris Christensen
   https://github.com/christianchristensen/Presentations/tree/master/20110611-lonestarphp-drupal
+=======
+>>>>>>> dd672170824864181ccea05234fc2871fccf008d
 * Railsbridge Open Workshops - Sarah Allen, Sarah Mei, and Alex Chaffee
   http://github.com/alexch/workshop
 
