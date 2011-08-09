@@ -461,6 +461,8 @@ So far, ShowOff has been used in the following presentations (and many others):
   https://github.com/christianchristensen/Presentations/tree/master/20110611-lonestarphp-drupal
 * Railsbridge Open Workshops - Sarah Allen, Sarah Mei, and Alex Chaffee
   http://github.com/alexch/workshop
+* SDRuby Lightning Talk - Readable Regexps - Ian Young
+  https://github.com/iangreenleaf/sdruby-lightningtalk-tregexp
 
 
 If you use it for something, please let me know so I can add it.
