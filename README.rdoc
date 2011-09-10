@@ -33,7 +33,7 @@ It might will can:
 * broadcast itself on Bonjour
 * let audience members download slides, code samples or other supplementary material
 * let you write on the slide with your mouse, madden-style via canvas
-* automatically resize text to fit screen
+* automatically resize text to fit screen [see Alex's shrink.js]
 
 Some of the nice things are that you can easily version control it, you
 can easily move sections between presentations, and you can rearrange or
@@ -50,7 +50,7 @@ markdown files for the slides you're presenting.
     $ cd (showoff-repo)
     $ showoff serve
 
-If you run 'showoff' in the example subdirectory of ShowOff itself, it will 
+If you run 'showoff' in the example subdirectory of ShowOff itself, it will
 show an example presentation, so you can see what it's like.
 
 You can also run 'showoff serve' inside a section subdirectory. If there is no
@@ -87,15 +87,29 @@ second is faded into view showing the title and three bullets that are then
 incrementally shown. In order for ShowOff to see those slides, your
 <tt>showoff.json</tt> file needs to look something like this:
 
-    [
-      {"section":"one"}
-    ]
+    {
+      "name": "Something",
+      "description": "Example Presentation",
+      "sections": [
+        {"section":"one"}
+      ]
+    }
 
 If you have multiple sections in your talk, you can make this json array
 include all the sections you want to show in which order you want to show
 them.
 
-If you want to keep the ability to emit an HTML document from your 
+Instead of a hash, you can use a plain string as an entry in the `sections`
+section of `showoff.json`.
+
+And if that plain string starts with '#' then it is interpreted not as a
+filename, but as markdown. This is used for inserting interstitial slides
+or notes -- for instance, Alex Chaffee's
+[Ruby Notes](http://github.com/alexch/ruby_notes)
+uses it to insert lab instructions between lecture slide sections, which may
+vary from venue to venue.
+
+If you want to keep the ability to emit an HTML document from your
 Markdown source file -- say, for a TextMate preview or a GitHub rendering
 -- you can use angle brackets around the `!SLIDE` keyword and styles, e.g.
 
@@ -272,8 +286,8 @@ Note that the example above uses CSS3 styling with ::+after+ and the +content+
 = Language highlighting
 
 Showoff uses {shjs}[http://shjs.sourceforge.net/] to highlight code blocks.
-If you begin a code block with three @-signs followed by a 
-{programming language name}[http://shjs.sourceforge.net/doc/documentation.html], 
+If you begin a code block with three @-signs followed by a
+{programming language name}[http://shjs.sourceforge.net/doc/documentation.html],
 that line will be stripped and the rest of the block will become sparkly
 and colorful.
 

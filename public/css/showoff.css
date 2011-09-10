@@ -89,8 +89,16 @@
 /* plain (non-bullet) text */
 .content > p {
 	font-size: 2em;
-  margin: 1em;
+    margin: 1em;
 	text-align: center;
+}
+
+.content > pre {
+    font-size: 300%;
+}
+.content > blockquote {
+    font-size: 250%;
+    margin: 2em;
 }
 
 .center img {
@@ -107,14 +115,43 @@
   vertical-align: middle;
 }
 
-.bullets > ul {
+/* numbered lists are numbered */
+.content ol {
+    margin-left: 40px;
 	font-size: 3em;
+	text-align: left;
+	padding-left: 40px;
+}
+.content ol > li {
+    list-style: decimal;
+    display: list-item;
+}
+
+
+/* ironically, normal lists have bullets and 'bullets' lists don't */
+.content > ul {
+    list-style: disc;
+}
+.content > ul {
+	font-size: 3em;
+	text-align: left;
+	padding-left: 40px;
+}
+.content > ul > li {
+    padding: .5em;
+    margin-left: 40px;
+}
+
+/* ironically, normal lists have bullets and 'bullets' lists don't */
+.bullets > ul {
+    list-style: none;
+	font-size: 3em;
+	padding-left: 0px;
 }
 .bullets > ul > li {
     text-align: center;
     padding: 25px;
 }
-
 .smbullets > ul {
     font-size: 2.5em;
 }
@@ -124,12 +161,13 @@
 }
 
 /* nested lists get their bullets back */
-.bullets ul ul {
+.content ul ul {
   list-style: disc;
-  margin: 10px 100px;
+  margin: 10px 10px;
   padding-left: 40px;
   text-align: left;
 }
+
 .bullets ul ul > li { font-size: 80%; }
 
 .commandline pre {
@@ -174,7 +212,7 @@ h1 { font-size: 5em; }
 h2 { font-size: 3em; }
 h3 { font-size: 2em; }
 
-pre { margin-left: 40px; font-size: 2.8em; }
+pre { margin: 1em 40px; padding: .25em; }
 
 .notes { display: none }
 .hidden { position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden; }
@@ -210,11 +248,11 @@ a.fg-button { float:left; }
 
 .fg-button.ui-state-loading .ui-icon { background: url(spinner_bar.gif) no-repeat 0 0; }
 
-#navmenu { 
-  position: absolute; 
-  top: 10px; 
-  left: 10px; 
-  width: 50px; 
+#navmenu {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px;
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
 }
 

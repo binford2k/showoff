@@ -212,7 +212,8 @@ function showSlide(back_step) {
 
 	removeResults();
 
-	$(currentSlide).find(".content").trigger("showoff:show");
+  var currentContent = $(currentSlide).find(".content")
+	currentContent.trigger("showoff:show");
 
 	return getCurrentNotes()
 }
@@ -226,7 +227,7 @@ function getCurrentNotes()
 {
   var notes = currentSlide.find("p.notes").text()
   $('#notesInfo').text(notes)
-	return notes 
+	return notes
 }
 
 function getSlidePercent()
@@ -247,7 +248,7 @@ function determineIncremental()
 		incrCode = true
 	}
 	incrElem.each(function(s, elem) {
-		$(elem).hide()
+		$(elem).css('visibility', 'hidden');
 	})
 }
 
@@ -278,9 +279,9 @@ function nextStep()
 	} else {
 		elem = incrElem.eq(incrCurr)
 		if (incrCode && elem.hasClass('command')) {
-			incrElem.eq(incrCurr).show().jTypeWriter({duration:1.0})
+			incrElem.eq(incrCurr).css('visibility', 'visible').jTypeWriter({duration:1.0})
 		} else {
-			incrElem.eq(incrCurr).show()
+			incrElem.eq(incrCurr).css('visibility', 'visible')
 		}
 		incrCurr++
 	}
@@ -340,7 +341,7 @@ function keyDown(event)
             var $jsCode = $('.execute .sh_javascript code:visible')
             if ($jsCode.length > 0) {
                 executeCode.call($jsCode);
-            } 
+            }
             var $rubyCode = $('.execute .sh_ruby code:visible')
             if ($rubyCode.length > 0) {
                 executeRuby.call($rubyCode);

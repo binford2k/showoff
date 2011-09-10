@@ -75,7 +75,11 @@ class ShowOff < Sinatra::Application
   helpers do
     def load_section_files(section)
       section = File.join(options.pres_dir, section)
-      files = Dir.glob("#{section}/**/*").sort
+      files = if File.directory? section
+        Dir.glob("#{section}/**/*").sort
+      else
+        [section]
+      end
       @logger.debug files
       files
     end
@@ -93,27 +97,60 @@ class ShowOff < Sinatra::Application
       Dir.glob("#{options.pres_dir}/_preshow/*").map { |path| File.basename(path) }.to_json
     end
 
+    # todo: move more behavior into this class
+    class Slide
+      attr_reader :classes, :text
+      def initialize classes = ""
+        @classes = ["content"] + classes.strip.chomp('>').split
+        @text = ""
+      end
+      def <<(s)
+        @text << s
+        @text << "\n"
+      end
+      def empty?
+        @text.strip == ""
+      end
+    end
+
+
     def process_markdown(name, content, static=false, pdf=false)
 
       # if there are no !SLIDE markers, then make every H1 define a new slide
       unless content =~ /^\<?!SLIDE/m
-        content = content.gsub(/^# /m, "<!SLIDE bullets>\n# ")
+        content = content.gsub(/^# /m, "<!SLIDE>\n# ")
       end
 
-      slides = content.split(/^<?!SLIDE/)
-      slides.delete('')
+      # todo: unit test
+      lines = content.split("\n")
+      puts "#{name}: #{lines.length} lines"
+      slides = []
+      slides << (slide = Slide.new)
+      until lines.empty?
+        line = lines.shift
+        if line =~ /^<?!SLIDE(.*)>?/
+          slides << (slide = Slide.new($1))
+        elsif line =~ /^# / && !slide.empty?
+          # every H1 defines a new slide, unless there's a !SLIDE before it
+          # todo: make this a CL option
+          # todo: unit test
+          slides << (slide = Slide.new())
+          slide << line
+        else
+          slide << line
+        end
+      end
+
+      slides.delete_if {|slide| slide.empty? }
+
       final = ''
       if slides.size > 1
         seq = 1
       end
       slides.each do |slide|
         md = ''
-        # extract content classes
-        lines = slide.split("\n")
-        content_classes = lines.shift.strip.chomp('>').split rescue []
-        slide = lines.join("\n")
-        # add content class too
-        content_classes.unshift "content"
+        content_classes = slide.classes
+
         # extract transition, defaulting to none
         transition = 'none'
         content_classes.delete_if { |x| x =~ /^transition=(.+)/ && transition = $1 }
@@ -133,7 +170,7 @@ class ShowOff < Sinatra::Application
         else
           md += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
-        sl = Markdown.new(slide).to_html
+        sl = Markdown.new(slide.text).to_html
         sl = update_image_paths(name, sl, static, pdf)
         md += sl
         md += "</div>\n"
@@ -193,7 +230,7 @@ class ShowOff < Sinatra::Application
         pre.css('code').each do |code|
           out = code.text
           lines = out.split("\n")
-          if lines.first[0, 3] == '@@@'
+          if lines.first.strip[0, 3] == '@@@'
             lang = lines.shift.gsub('@@@', '').strip
             pre.set_attribute('class', 'sh_' + lang.downcase)
             code.content = lines.join("\n")
@@ -232,18 +269,24 @@ class ShowOff < Sinatra::Application
     end
 
     def get_slides_html(static=false, pdf=false)
-      sections = ShowOffUtils.showoff_sections(options.pres_dir,@logger)
+      sections = ShowOffUtils.showoff_sections(options.pres_dir, @logger)
       files = []
       if sections
-        sections.each do |section|
-          files << load_section_files(section)
-        end
-        files = files.flatten
-        files = files.select { |f| f =~ /.md$/ }
         data = ''
-        files.each do |f|
-          fname = f.gsub(options.pres_dir + '/', '').gsub('.md', '')
-          data += process_markdown(fname, File.read(f), static, pdf)
+        sections.each do |section|
+          if section =~ /^#/
+            name = section.each_line.first.gsub(/^#*/,'').strip
+            data << process_markdown(name, "<!SLIDE subsection>\n" + section, static, pdf)
+          else
+            files = []
+            files << load_section_files(section)
+            files = files.flatten
+            files = files.select { |f| f =~ /.md/ }
+            files.each do |f|
+              fname = f.gsub(options.pres_dir + '/', '').gsub('.md', '')
+              data << process_markdown(fname, File.read(f), static, pdf)
+            end
+          end
         end
       end
       data
