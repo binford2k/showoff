@@ -32,7 +32,7 @@ end
 
 class ShowOff < Sinatra::Application
 
-  Version = VERSION = '0.5.1'
+  Version = VERSION = '0.6.0'
 
   attr_reader :cached_image_size
 
