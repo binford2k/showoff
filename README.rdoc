@@ -18,7 +18,7 @@ It can:
 * bullets with incremental advancing
 * re-enact command line interactions
 * call up a menu of sections/slides at any time to jump around
-* execute javascript or ruby live and display results
+* execute Javascript, Coffeescript or Ruby live and display results
 * do simple transitions (instant, fade, slide in)
 * show a pre-show slideshow while you wait to start
 
@@ -128,7 +128,7 @@ Some useful styles for each slide are:
 * incremental - can be used with 'bullets' and 'commandline' styles, will incrementally update elements on arrow key rather than switch slides
 * small - make all slide text 80%
 * smaller - make all slide text 70%
-* execute - on js highlighted code slides, you can click on the code to execute it and display the results on the slide
+* execute - on Javascript, Coffeescript and Ruby highlighted code slides, you can click on the code to execute it and display the results on the slide
 
 Check out the example directory included to see examples of most of these.
 
@@ -297,7 +297,7 @@ and colorful.
 = Custom Ruby Files
 
 If you want to have executable Ruby code on your slides you must set the
-envrionment variable ENV['SHOWOFF_EVAL_RUBY']. This can be done with
+environment variable ENV['SHOWOFF_EVAL_RUBY']. This can be done with
 
     export SHOWOFF_EVAL_RUBY=1
 
@@ -430,9 +430,13 @@ Showoff can produce a PDF version of your presentation.  To do this, you must in
 
     gem install pdfkit
 
-You'll then need to install a version of wkhtmltopdf available at http://code.google.com/p/wkhtmltopdf and make sure that +wkhtmltopdf+ is in your path when you start showoff.
+You'll then need to install a version of wkhtmltopdf available at the {wkhtmltopdf repo}[http://code.google.com/p/wkhtmltopdf/wiki/compilation] (or brew install wkhtmltopdf on a mac) and make sure that +wkhtmltopdf+ is in your path:
 
-Then, navigate to <tt>/pdf</tt> (e.g. http://localhost/pdf) of your presentation and a PDF will be generated with the browser.
+    export $PATH="/location/to/my/wkhtmltopdf/0.9.9:$PATH"
+
+
+
+Then restart showoff, and navigate to <tt>/pdf</tt> (e.g. http://localhost/pdf) of your presentation and a PDF will be generated with the browser.
 
 = Completion
 
