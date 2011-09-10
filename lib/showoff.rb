@@ -130,12 +130,6 @@ class ShowOff < Sinatra::Application
         line = lines.shift
         if line =~ /^<?!SLIDE(.*)>?/
           slides << (slide = Slide.new($1))
-        elsif line =~ /^# / && !slide.empty?
-          # every H1 defines a new slide, unless there's a !SLIDE before it
-          # todo: make this a CL option
-          # todo: unit test
-          slides << (slide = Slide.new())
-          slide << line
         else
           slide << line
         end
