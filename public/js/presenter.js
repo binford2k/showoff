@@ -3,26 +3,44 @@ var w = null;
 
 $(function(){
 	w = window.open('/');
+  // side menu accordian crap
+	$("#preso").bind("showoff:loaded", function (event) {
+		$(".menu > ul ul").hide()
+		$(".menu > ul a").click(function() {
+			if ($(this).next().is('ul')) {
+				$(this).next().toggle()
+			} else {
+				gotoSlide($(this).attr('rel'))
+				w.gotoSlide($(this).attr('rel'))
+				postSlide()
+			}
+			return false
+		}).next().hide()
+	})
 });
 
 function presPrevStep()
 {
 	prevStep()
 	w.prevStep()
-	showNotes()
+	postSlide()
 }
 
 function presNextStep()
 {
 	nextStep()
 	w.nextStep()
-	showNotes()
+	postSlide()
 }
 
-function showNotes()
+function postSlide()
 {
-	var notes = w.getCurrentNotes()
-	$('#notes').text(notes)
+	if(currentSlide) {
+		var notes = w.getCurrentNotes()
+		var fileName = currentSlide.children().first().attr('ref')
+		$('#notes').text(notes)
+		$('#slideFile').text(fileName)
+	}
 }
 
 //  See e.g. http://www.quirksmode.org/js/keys.html for keycodes

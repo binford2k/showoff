@@ -10,7 +10,13 @@ div.zoomed {
   font-size: 1.5em;
 }
 
-#progress { padding: 5px; }
+#progress {
+  padding: 10px;
+}
+#slideSource {
+  padding: 10px;
+  background: #9d9;
+}
 
 #preview {
   min-height: 430px;
@@ -39,4 +45,22 @@ div.zoomed {
   font-size: 1.5em;
   min-height: 150px;
   padding: 20px;
+}
+
+.menu {
+  height: 350px;
+  max-height: 350px;
+  overflow:auto;
+}
+
+.menu a {
+  display: block;
+  color: #000;
+}
+.menu > ul > li > ul {
+  padding-left: 20px;
+}
+.menu > ul > li > a {
+  padding: 10px;
+  background: #eee;
 }

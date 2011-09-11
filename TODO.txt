@@ -1,12 +1,32 @@
 TODO
 =================
 
+==
+
+- test suite
+- static, heroku, github, pdf, presenter, normal all working
+- pdf with notes
+- clean up js
+- clean up ruby
+- presenter view
+  - timer (time left, percent done, percent time done)
+  - menu / goto
+  - settings (footer, debug?)
+  - madden? 
+- track file each slide is from
+- editing slides
+- webpage
+- message on startup
+- fix heroku gem shit
+
+
+==
+
 - can have showoff.json in each subdir
 - showoff add
   - add slides of images directory (refactor script/import_images.rb)
 - simple highlighting (highlight region of slide / click to highlight)
 - presenter tools
-  - notes view (quick polling)
   - preview column
   - preview
 - audience interface

@@ -12,7 +12,6 @@
 <body>
 
 <a tabindex="0" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="navmenu"><span class="ui-icon ui-icon-triangle-1-s"></span>slides</a>
-<div id="navigation" class="hidden"></div>
 
 <div id="help">
   <table>
@@ -22,9 +21,7 @@
     <tr><td class="key">d</td><td>toggle debug mode</td></tr>
     <tr><td class="key">## &lt;ret&gt;</td><td>go to slide #</td></tr>
     <tr><td class="key">c, t</td><td>table of contents (vi)</td></tr>
-    <tr><td class="key">f</td><td>toggle footer</td></tr>
     <tr><td class="key">r</td><td>reload slides</td></tr>
-    <tr><td class="key">n</td><td>toggle notes</td></tr>
     <tr><td class="key">p</td><td>run preshow</td></tr>
   </table>
 </div>
@@ -42,13 +39,12 @@
     <div id="progress">
       Slide: <span id="slideInfo"></span>
     </div>
+    <div id="slideSource">
+      Source: <span id="slideFile"></span>
+    </div>
     <div id="debugInfo"></div>
     <div id="slidemenu">
-      <h2>Slides</h2>
-      <ul>
-        <li>Section 1</li>
-        <li>Section 2</li>
-      </ul>
+      <div id="navigation" class="menu"></div>
     </div>
   </div>
   <div id="preview" class="grid_8">
