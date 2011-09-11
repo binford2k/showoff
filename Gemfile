@@ -9,6 +9,8 @@ gem "parslet"
 
 group :development do
   gem "mg"
+  gem "turn"
+  gem "rack-test"
 end
 
 group :optional do

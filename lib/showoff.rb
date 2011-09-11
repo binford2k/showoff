@@ -7,7 +7,6 @@ require 'logger'
 
 here = File.expand_path(File.dirname(__FILE__))
 require "#{here}/showoff_utils"
-require "#{here}/princely"
 require "#{here}/commandline_parser"
 
 begin
