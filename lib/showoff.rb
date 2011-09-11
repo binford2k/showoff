@@ -327,6 +327,10 @@ class ShowOff < Sinatra::Application
       erb :index
     end
 
+    def presenter
+      erb :presenter
+    end
+
     def clean_link(href)
       if href && href[0, 1] == '/'
         href = href[1, href.size]

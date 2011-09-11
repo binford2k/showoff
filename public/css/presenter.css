@@ -1,0 +1,42 @@
+div.zoomed {
+  zoom: 50%;
+  -moz-transform: scale(50%);
+}
+
+#preso { margin-top: 20px; }
+
+#main h2 { 
+  text-align: left;
+  font-size: 1.5em;
+}
+
+#progress { padding: 5px; }
+
+#preview {
+  min-height: 430px;
+  background: #777;
+}
+
+#links {
+  background: #fff;
+  padding: 10px;
+  text-align: right;
+}
+#links a { color: #000; }
+
+#slidemenu {
+  background: #fff;
+  padding: 10px;
+}
+#slidemenu ul li {
+  padding: 5px;
+}
+
+#sidebar { background: #ddd; }
+
+#notes { 
+  background: #ff9;
+  font-size: 1.5em;
+  min-height: 150px;
+  padding: 20px;
+}

@@ -4,6 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <%= erb :header %>
+  <link rel="stylesheet" href="<%= @asset_path %>css/960.css" type="text/css"/>
+  <link rel="stylesheet" href="<%= @asset_path %>css/presenter.css" type="text/css"/>
+  <script type="text/javascript" src="<%= @asset_path %>js/presenter.js"></script>
 </head>
 
 <body>
@@ -26,16 +29,37 @@
   </table>
 </div>
 
-<div class="buttonNav">
-  <input type="submit" onClick="prevStep();" value="prev"/>
-  <input type="submit" onClick="nextStep();" value="next"/>
-</div>
-
-<div id="preso">loading presentation...</div>
-<div id="footer">
-  <span id="slideInfo"></span>
-  <span id="debugInfo"></span>
-  <span id="notesInfo"></span>
+<div id="main" class="container_12">
+  <div id="topbar" class="grid_12">
+    <div id="links">
+      <a href="/pdf">Generate PDF</a>
+      &nbsp; &nbsp;
+      <a href="/onepage">Single Page</a>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div id="sidebar" class="grid_4">
+    <div id="progress">
+      Slide: <span id="slideInfo"></span>
+    </div>
+    <div id="debugInfo"></div>
+    <div id="slidemenu">
+      <h2>Slides</h2>
+      <ul>
+        <li>Section 1</li>
+        <li>Section 2</li>
+      </ul>
+    </div>
+  </div>
+  <div id="preview" class="grid_8">
+    <div id="preso" class="zoomed">loading presentation...</div>
+  </div>
+  <div class="clear"></div>
+  <div id="bottom" class="grid_12">
+    <div id="notes">
+      my notes
+    </div>
+  </div>
 </div>
 
 <div id="slides" class="offscreen" <%= 'style="display:none;"' if @slides %>>

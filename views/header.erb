@@ -1,0 +1,40 @@
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title><%= @title %></title>
+
+  <meta name="viewport" content="width=device-width"/>
+
+  <link rel="stylesheet" href="<%= @asset_path %>css/reset.css" type="text/css"/>
+  <link rel="stylesheet" href="<%= @asset_path %>css/showoff.css" type="text/css"/>
+
+  <script type="text/javascript" src="<%= @asset_path %>js/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>js/jquery.cycle.all.js"></script>
+	<script type="text/javascript" src="<%= @asset_path %>js/jquery-print.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>js/jquery.batchImageLoad.js"></script>
+
+  <script type="text/javascript" src="<%= @asset_path %>js/jquery.doubletap-0.1.js"></script>
+
+  <script type="text/javascript" src="<%= @asset_path %>js/fg.menu.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>js/showoff.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>js/jTypeWriter.js"> </script>
+  <script type="text/javascript" src="<%= @asset_path %>js/sh_main.min.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>js/core.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>js/showoffcore.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>js/coffee-script.js"></script>
+
+  <link type="text/css" href="<%= @asset_path %>css/fg.menu.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="<%= @asset_path %>css/theme/ui.all.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="<%= @asset_path %>css/sh_style.css" rel="stylesheet" >
+
+  <% css_files.each do |css_file| %>
+    <link rel="stylesheet" href="file/<%= css_file %>" type="text/css"/>
+  <% end %>
+
+  <% js_files.each do |js_file| %>
+    <script type="text/javascript" src="file/<%= js_file %>"></script>
+  <% end %>
+
+  <script type="text/javascript">
+  $(function(){
+      setupPreso(<%= @slides.nil? ? "true" : "false"%>, '<%= @asset_path %>');
+  });
+  </script>

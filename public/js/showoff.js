@@ -309,6 +309,22 @@ function toggleNotes()
 	}
 }
 
+function executeAnyCode()
+{
+  var $jsCode = $('.execute .sh_javascript code:visible')
+  if ($jsCode.length > 0) {
+      executeCode.call($jsCode);
+  }
+  var $rubyCode = $('.execute .sh_ruby code:visible')
+  if ($rubyCode.length > 0) {
+      executeRuby.call($rubyCode);
+  }
+  var $coffeeCode = $('.execute .sh_coffeescript code:visible')
+  if ($coffeeCode.length > 0) {
+      executeCoffee.call($coffeeCode);
+  } 
+}
+
 function debug(data)
 {
 	$('#debugInfo').text(data)
@@ -338,20 +354,8 @@ function keyDown(event)
 			gotoSlidenum = 0;
 		} else {
 			debug('executeCode');
-            var $jsCode = $('.execute .sh_javascript code:visible')
-            if ($jsCode.length > 0) {
-                executeCode.call($jsCode);
-            }
-            var $rubyCode = $('.execute .sh_ruby code:visible')
-            if ($rubyCode.length > 0) {
-                executeRuby.call($rubyCode);
-            }
-            var $coffeeCode = $('.execute .sh_coffeescript code:visible')
-            if ($coffeeCode.length > 0) {
-                executeCoffee.call($coffeeCode);
-            } 
+			executeAnyCode();
 		}
-
 	}
 
 
@@ -410,7 +414,7 @@ function keyDown(event)
 	}
 	else if (key == 80) // 'p' for preshow
 	{
-		runPreShow();
+		togglePreShow();
 	}
 	return true
 }
@@ -539,7 +543,7 @@ var preshow_images;
 var preshow_imagesTotal = 0;
 var preshow_des = null;
 
-function runPreShow() {
+function togglePreShow() {
 	if(preshow_running) {
 		stopPreShow()
 	} else {
