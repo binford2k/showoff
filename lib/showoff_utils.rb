@@ -25,12 +25,6 @@ class ShowOffUtils
       File.open(ShowOffUtils.presentation_config_file, 'w+') do |f|
         f.puts "{ \"name\": \"My Preso\", \"sections\": [ {\"section\":\"#{dir}\"} ]}"
       end
-
-      if create_samples
-        puts "done. run 'showoff serve' in #{dirname}/ dir to see slideshow"
-      else
-        puts "done. add slides, modify #{ShowOffUtils.presentation_config_file} and then run 'showoff serve' in #{dirname}/ dir to see slideshow"
-      end
     end
   end
 
@@ -43,13 +37,8 @@ class ShowOffUtils
   # name         - String containing heroku name
   # force        - boolean if .gems/Gemfile and config.ru should be overwritten if they don't exist
   # password     - String containing password to protect your heroku site; nil means no password protection
-  # use_dot_gems - boolea that, if true, indicates we should use the old, deprecated .gems file instead of Bundler
-  def self.heroku(name,force,password,use_dot_gems)
-    if !File.exists?(ShowOffUtils.presentation_config_file)
-      puts "fail. not a showoff directory"
-      return false
-    end
-
+  # use_dot_gems - boolean that, if true, indicates we should use the old, deprecated .gems file instead of Bundler
+  def self.heroku(name, force = false, password = nil, use_dot_gems = false)
     modified_something = false
 
     if use_dot_gems
@@ -69,9 +58,13 @@ class ShowOffUtils
       modified_something = true
       file.puts 'require "showoff"'
       if password.nil?
+        file.puts "opt = {:verbose => false, :pres_dir => '.', :pres_file => 'showoff.json'}"
+        file.puts "ShowOff.set opt"
         file.puts 'run ShowOff.new'
       else
         file.puts 'require "rack"'
+        file.puts "opt = {:verbose => false, :pres_dir => '.', :pres_file => 'showoff.json'}"
+        file.puts "ShowOff.set opt"
         file.puts 'showoff_app = ShowOff.new'
         file.puts 'protected_showoff = Rack::Auth::Basic.new(showoff_app) do |username, password|'
         file.puts	"\tpassword == '#{password}'"
@@ -80,21 +73,7 @@ class ShowOffUtils
       end
     end
 
-    if modified_something
-      puts "herokuized. run something like this to launch your heroku presentation:
-
-      heroku create #{name}"
-
-      if use_dot_gems
-      puts "        git add #{HEROKU_GEMS_FILE} #{HEROKU_CONFIG_FILE}"
-      else
-      puts "      bundle install
-      git add Gemfile.lock #{HEROKU_GEMS_FILE} #{HEROKU_CONFIG_FILE}"
-      end
-      puts "      git commit -m 'herokuized'
-      git push heroku master
-      "
-    end
+    modified_something
   end
 
   # generate a static version of the site into the gh-pages branch
@@ -325,7 +304,7 @@ class ShowOffUtils
     EXTENSIONS[ext] || ext
   end
 
-  REQUIRED_GEMS = %w(bluecloth nokogiri showoff gli)
+  REQUIRED_GEMS = %w(bluecloth nokogiri showoff gli heroku)
 
   # Creates the file that lists the gems for heroku
   #

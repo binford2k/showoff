@@ -24,6 +24,11 @@ command [:create,:init] do |c|
   c.action do |global_options,options,args|
     raise "dir_name is required" if args.empty?
     ShowOffUtils.create(args[0],!options[:n],options[:d])
+    if !options[:n]
+      puts "done. run 'showoff serve' in #{dirname}/ dir to see slideshow"
+    else
+      puts "done. add slides, modify #{ShowOffUtils.presentation_config_file} and then run 'showoff serve' in #{dirname}/ dir to see slideshow"
+    end
   end
 end
 
@@ -52,7 +57,25 @@ command :heroku do |c|
 
   c.action do |global_options,options,args|
     raise "heroku_name is required" if args.empty?
-    ShowOffUtils.heroku(args[0],options[:f],options[:p],options[:g])
+    if ShowOffUtils.heroku(args[0],options[:f],options[:p],options[:g])
+      puts "herokuized. run something like this to launch your heroku presentation:
+
+      heroku create #{args[0]}"
+
+      if options[:g]
+      puts "        git add .gems config.ru"
+      else
+      puts "      bundle install"
+      puts "      git add Gemfile Gemfile.lock config.ru"
+      end
+      puts "      git commit -m 'herokuized'
+      git push heroku master
+      "
+
+      if options[:p]
+        puts "CAREFUL: you are commiting your access password - anyone with read access to the repo can access the preso\n\n"
+      end
+    end
   end
 end
 

@@ -5,6 +5,7 @@ require 'test/unit'
 require 'rubygems'
 require 'showoff'
 require 'rack/test'
+require 'tempfile'
 require 'pp'
 
 class Test::Unit::TestCase
@@ -31,4 +32,26 @@ def context(*args, &block)
   klass.class_eval &block
   ($contexts ||= []) << klass # make sure klass doesn't get GC'd
   klass
+end
+
+def in_temp_dir
+  file = Tempfile.new('dir')
+  dir = file.path
+  file.unlink
+  Dir.mkdir(dir)
+  Dir.chdir(dir) do
+    yield
+  end
+end
+
+def in_basic_dir
+  in_temp_dir do
+    ShowOffUtils.create('testing', true)
+    Dir.chdir 'testing' do
+      `git init`
+      `git add .`
+      `git commit -m 'init'`
+      yield
+    end
+  end
 end
