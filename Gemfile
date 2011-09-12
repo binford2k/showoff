@@ -11,6 +11,7 @@ group :development do
   gem "mg"
   gem "turn"
   gem "rack-test"
+  gem "pdf-inspector"
 end
 
 group :optional do

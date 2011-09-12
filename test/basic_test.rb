@@ -1,4 +1,5 @@
 require File.expand_path "../test_helper", __FILE__
+require 'pdf/inspector'
 
 context "ShowOff basic tests" do
 
@@ -41,13 +42,11 @@ context "ShowOff basic tests" do
   test "can create a pdf version" do
     get '/pdf'
     assert last_response.ok?
+
+    pages = PDF::Inspector::Page.analyze(last_response.body).pages.size
+    assert_equal 2, pages
+
     assert last_response.body.size > 5000
-  end
-
-  test "can create a static version" do
-  end
-
-  test "can create a github version" do
   end
 
 end
