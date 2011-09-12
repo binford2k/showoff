@@ -48,19 +48,13 @@ class ShowOff < Sinatra::Application
     @logger.debug(dir)
 
     showoff_dir = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-    if Dir.pwd == showoff_dir
-      options.pres_dir = "#{showoff_dir}/example"
-      @root_path = "."
-    else
-      options.pres_dir ||= Dir.pwd
-      @root_path = ".."
-    end
+    options.pres_dir ||= Dir.pwd
+    @root_path = ".."
+
     options.pres_dir = File.expand_path(options.pres_dir)
     if (options.pres_file)
-      puts "Using #{options.pres_file}"
       ShowOffUtils.presentation_config_file = options.pres_file
     end
-    puts "Serving presentation from #{options.pres_dir}"
     @cached_image_size = {}
     @logger.debug options.pres_dir
     @pres_name = options.pres_dir.split('/').pop
@@ -122,7 +116,7 @@ class ShowOff < Sinatra::Application
 
       # todo: unit test
       lines = content.split("\n")
-      puts "#{name}: #{lines.length} lines"
+      @logger.debug "#{name}: #{lines.length} lines"
       slides = []
       slides << (slide = Slide.new)
       until lines.empty?
