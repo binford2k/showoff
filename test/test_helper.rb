@@ -1,4 +1,5 @@
 dir = File.dirname(File.expand_path(__FILE__))
+$TEST_DIR = File.dirname(File.expand_path(__FILE__))
 $LOAD_PATH.unshift dir + '/../lib'
 $TESTING = true
 require 'test/unit'
@@ -48,6 +49,21 @@ def in_basic_dir
   in_temp_dir do
     ShowOffUtils.create('testing', true)
     Dir.chdir 'testing' do
+      ShowOff.pres_dir_current
+      `git init`
+      `git add .`
+      `git commit -m 'init'`
+      yield
+    end
+  end
+end
+
+def in_image_dir
+  in_temp_dir do
+    FileUtils.cp_r(File.join($TEST_DIR, 'fixtures/image'), '.')
+    Dir.chdir 'image' do
+      ShowOff.pres_dir_current
+      `git init`
       `git init`
       `git add .`
       `git commit -m 'init'`

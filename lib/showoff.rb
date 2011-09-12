@@ -38,6 +38,10 @@ class ShowOff < Sinatra::Application
   set :views, File.dirname(__FILE__) + '/../views'
   set :public, File.dirname(__FILE__) + '/../public'
 
+  set :verbose, false
+  set :pres_dir, '.'
+  set :pres_file, 'showoff.json'
+
   def initialize(app=nil)
     super(app)
     @logger = Logger.new(STDOUT)
@@ -49,7 +53,7 @@ class ShowOff < Sinatra::Application
 
     showoff_dir = File.expand_path(File.join(File.dirname(__FILE__), '..'))
     options.pres_dir ||= Dir.pwd
-    @root_path = ".."
+    @root_path = "."
 
     options.pres_dir = File.expand_path(options.pres_dir)
     if (options.pres_file)
@@ -59,6 +63,11 @@ class ShowOff < Sinatra::Application
     @logger.debug options.pres_dir
     @pres_name = options.pres_dir.split('/').pop
     require_ruby_files
+  end
+
+  def self.pres_dir_current
+    opt = {:pres_dir => Dir.pwd}
+    ShowOff.set opt
   end
 
   def require_ruby_files
@@ -401,7 +410,7 @@ class ShowOff < Sinatra::Application
       if data.is_a?(File)
         FileUtils.cp(data.path, "#{name}.pdf")
       else
-        out  = "#{path}/#{name}/static"
+        out = File.expand_path("#{path}/static")
         # First make a directory
         FileUtils.makedirs(out)
         # Then write the html

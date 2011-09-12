@@ -58,13 +58,9 @@ class ShowOffUtils
       modified_something = true
       file.puts 'require "showoff"'
       if password.nil?
-        file.puts "opt = {:verbose => false, :pres_dir => '.', :pres_file => 'showoff.json'}"
-        file.puts "ShowOff.set opt"
         file.puts 'run ShowOff.new'
       else
         file.puts 'require "rack"'
-        file.puts "opt = {:verbose => false, :pres_dir => '.', :pres_file => 'showoff.json'}"
-        file.puts "ShowOff.set opt"
         file.puts 'showoff_app = ShowOff.new'
         file.puts 'protected_showoff = Rack::Auth::Basic.new(showoff_app) do |username, password|'
         file.puts	"\tpassword == '#{password}'"
@@ -78,7 +74,6 @@ class ShowOffUtils
 
   # generate a static version of the site into the gh-pages branch
   def self.github
-    puts "Generating static content"
     ShowOff.do_static(nil)
     `git add static`
     sha = `git write-tree`.chomp
@@ -88,11 +83,6 @@ class ShowOffUtils
     extra = ghp_sha != 'gh-pages' ? "-p #{ghp_sha}" : ''
     commit_sha = `echo 'static presentation' | git commit-tree #{tree_sha} #{extra}`.chomp
     `git update-ref refs/heads/gh-pages #{commit_sha}`
-    puts "I've updated your 'gh-pages' branch with the static version of your presentation."
-    puts "Push it to GitHub to publish it. Probably something like:"
-    puts
-    puts "  git push origin gh-pages"
-    puts
   end
 
   # Makes a slide as a string.

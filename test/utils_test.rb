@@ -32,7 +32,6 @@ context "ShowOff Utils tests" do
   end
 
   test "can herokuize with password" do
-    files = []
     in_basic_dir do
       ShowOffUtils.heroku('test', false, 'pwpw')
       content = File.read('config.ru')
@@ -43,6 +42,13 @@ context "ShowOff Utils tests" do
 
   #  static       - Generate static version of presentation
   test "can create a static version" do
+    in_image_dir do
+      ShowOff.do_static(nil)
+      content = File.read('static/index.html')
+      assert_match 'My Presentation', content
+      assert_equal 2, content.scan(/div class="slide"/).size
+      assert_match 'img src="./file/one/chacon.jpg" width="300" height="300" alt="chacon"', content
+    end
   end
 
   #  github       - Puts your showoff presentation into a gh-pages branch

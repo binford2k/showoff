@@ -36,7 +36,13 @@ desc 'Puts your showoff presentation into a gh-pages branch'
 long_desc 'Generates a static version of your presentation into your gh-pages branch for publishing to GitHub Pages'
 command :github do |c|
   c.action do |global_options,options,args|
+    puts "Generating static content"
     ShowOffUtils.github
+    puts "I've updated your 'gh-pages' branch with the static version of your presentation."
+    puts "Push it to GitHub to publish it. Probably something like:"
+    puts
+    puts "  git push origin gh-pages"
+    puts
   end
 end
 
