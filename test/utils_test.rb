@@ -53,6 +53,15 @@ context "ShowOff Utils tests" do
 
   #  github       - Puts your showoff presentation into a gh-pages branch
   test "can create a github version" do
+    in_image_dir do
+      ShowOffUtils.github
+      files = `git ls-tree gh-pages`.chomp.split("\n")
+      assert_equal 4, files.size
+      content = `git cat-file -p gh-pages:index.html`
+      assert_match 'My Presentation', content
+      assert_equal 2, content.scan(/div class="slide"/).size
+      assert_match 'img src="./file/one/chacon.jpg" width="300" height="300" alt="chacon"', content
+    end
   end
 
 end
