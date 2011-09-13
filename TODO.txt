@@ -3,21 +3,16 @@ TODO
 
 ==
 
-- test suite
-- static, heroku, github, pdf, presenter, normal all working
 - pdf with notes
-- clean up js
-- clean up ruby
 - presenter view
   - timer (time left, percent done, percent time done)
-  - menu / goto
-  - settings (footer, debug?)
-  - madden? 
-- track file each slide is from
 - editing slides
 - webpage
-- message on startup
-- fix heroku gem shit
+
+--
+
+- clean up js
+- clean up ruby
 
 
 ==

@@ -36,11 +36,17 @@
   </div>
   <div class="clear"></div>
   <div id="sidebar" class="grid_4">
+    <div id="slideSource">
+      Source: <span id="slideFile"></span>
+    </div>
     <div id="progress">
       Slide: <span id="slideInfo"></span>
     </div>
-    <div id="slideSource">
-      Source: <span id="slideFile"></span>
+    <div id="timerSection">
+      Timer: 
+      <span id="minStart"><input type="text" size="2" id="timerMinutes"/> min <input type="button" id="startTimer" value="Start"></span>
+      <span id="timerInfo"></span>
+      <span id="minStop"><input type="button" id="stopTimer" value="Stop"></span>
     </div>
     <div id="debugInfo"></div>
     <div id="slidemenu">
