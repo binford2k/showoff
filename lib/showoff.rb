@@ -382,12 +382,25 @@ class ShowOff < Sinatra::Application
     def pdf(static=true)
       @slides = get_slides_html(static, true)
       @no_js = false
+
       html = erb :onepage
       # TODO make a random filename
 
+      # Process inline css and js for included images 
+      # The css uses relative paths for images and we prepend the file url
+      html.gsub!(/url\(([^\/].*?)\)/) do |s|
+        "url(file://#{options.pres_dir}/#{$1})"
+      end
+
+      # Todo fix javascript path
+
+
       # PDFKit.new takes the HTML and any options for wkhtmltopdf
       # run `wkhtmltopdf --extended-help` for a full list of options
-      kit = PDFKit.new(html, :page_size => 'Letter', :orientation => 'Landscape')
+      kit = PDFKit.new(html, 
+                       :page_size => 'Letter', # This should be configurable
+                       :orientation => 'Landscape', 
+                       :print_media_type => true )
 
       # Save the PDF to a file
       file = kit.to_file('/tmp/preso.pdf')
@@ -451,7 +464,7 @@ class ShowOff < Sinatra::Application
           File.open(css_path) do |file|
             data = file.read
             data.scan(/url\((.*)\)/).flatten.each do |path|
-              @logger.debug path
+              #@logger.debug path
               dir = File.dirname(path)
               FileUtils.makedirs(File.join(file_dir, dir))
               FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
