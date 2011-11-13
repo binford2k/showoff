@@ -98,13 +98,6 @@ function initializePresentation(prefix) {
 	    sh_highlightDocument();
 	}
 	$("#preso").trigger("showoff:loaded");
-
-        // Add any initialization hook there is provided
-        $.each(ShowOff.initCallbacks, function(idx, cb){
-	    if (typeof(cb) == "function")
-		cb();
-	});
-
 }
 
 function centerSlides(slides) {
