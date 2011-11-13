@@ -394,6 +394,11 @@ class ShowOff < Sinatra::Application
       if static
         @title = ShowOffUtils.showoff_title
         @slides = get_slides_html(static)
+
+        # Identify which languages to bundle for highlighting
+        @languages = []
+        @languages += @slides.scan(/<pre class="(sh_.*?\w)"/).uniq.map{ |w| "sh_lang/#{w[0]}.min.js"}
+
         @asset_path = "./"
       end
       erb :index
@@ -452,6 +457,10 @@ class ShowOff < Sinatra::Application
     def pdf(static=true)
       @slides = get_slides_html(static, true)
       @no_js = false
+
+      # Identify which languages to bundle for highlighting
+      @languages = []
+      @languages += @slides.scan(/<pre class="(sh_.*?\w)"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
 
       html = erb :onepage
       # TODO make a random filename
