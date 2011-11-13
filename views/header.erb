@@ -25,8 +25,10 @@
   <link type="text/css" href="<%= @asset_path %>css/theme/ui.all.css" media="screen" rel="stylesheet" />
   <link type="text/css" href="<%= @asset_path %>css/sh_style.css" rel="stylesheet" >
 
+<% if @languages %>
 <% @languages.each do |l| %>
    <script type="text/javascript" src="<%= @asset_path %>js/<%= l %>"></script>
+<% end %>
 <% end %>
 
   <% css_files.each do |css_file| %>
