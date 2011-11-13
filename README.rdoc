@@ -495,7 +495,20 @@ have to specify it in the slide header:
 You can place content anywhere in your template, but you have to
 explicitly mark the location using a special command:
 
-[###CONTENT###] is replaced by the slide content
+[~~~CONTENT~~~] is replaced by the slide content
+
+[~~~CURRENT_SLIDE~~~] is replaced by the current slide number
+
+[~~~NUM_SLIDES~~~] is replaced by the total number of slides
+
+[~~~CONFIG:*~~~] is replaced by any value (*) from the
+                 <tt>showoff.json</tt> configuration. This can be used to 
+		 specify an author, venue etc. A simple example would be
+		 <tt>~~~CONFIG:author~~~</tt>
+
+
+The usage of these replacements is not limited to templates, but
+anywhere in your slides. 
 
 == Template Hints
 

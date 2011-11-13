@@ -43,6 +43,7 @@ class ShowOff < Sinatra::Application
   set :pres_file, 'showoff.json'
   set :page_size, "Letter"
   set :pres_template, nil
+  set :showoff_config, nil
 
   def initialize(app=nil)
     super(app)
@@ -66,6 +67,9 @@ class ShowOff < Sinatra::Application
     # configuration JSON file
     if File.exists?(ShowOffUtils.presentation_config_file)
       showoff_json = JSON.parse(File.read(ShowOffUtils.presentation_config_file))
+      options.showoff_config = showoff_json
+      
+      # Set options for template and page size
       options.page_size = showoff_json["page-size"] || "Letter"
       options.pres_template = showoff_json["templates"] 
     end
@@ -201,13 +205,10 @@ class ShowOff < Sinatra::Application
           end
         end
 
-
         # Extract the content of the slide
         content = ""
-
         if seq
           content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}/#{seq.to_s}\">\n"
-          seq += 1
         else
           content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
@@ -218,14 +219,33 @@ class ShowOff < Sinatra::Application
 
         # Apply the template to the slide and replace the key with
         # content of the slide
-        md += template.gsub(/###CONTENT###/, content)
+        md += process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, content), seq, slides.size)
+
+        # Apply other configuration
 
         md += "</div>\n"
         final += update_commandline_code(md)
         final = update_p_classes(final)
+
+        seq += 1
       end
       final
     end
+
+    # This method processes the content of the slide and replaces
+    # content markers with their actual value information
+    def process_content_for_replacements(content, seq, num)
+      result = content.gsub("~~~CURRENT_SLIDE~~~", seq.to_s).
+        gsub("~~~NUM_SLIDES~~~", num.to_s)
+
+      # Now check for any kind of options
+      content.scan(/(~~~CONFIG:(.*?)~~~)/).each do |match|
+        result.gsub!(match[0], options.showoff_config[match[1]]) if options.showoff_config.key?(match[1])
+      end
+
+      result
+    end
+    
 
     # find any lines that start with a <p>.(something) and turn them into <p class="something">
     def update_p_classes(markdown)
@@ -443,7 +463,6 @@ class ShowOff < Sinatra::Application
       end
 
       # Todo fix javascript path
-
 
       # PDFKit.new takes the HTML and any options for wkhtmltopdf
       # run `wkhtmltopdf --extended-help` for a full list of options
