@@ -117,26 +117,6 @@ want to show them. Template configuration is done in
 <tt>showoff.json</tt> as well. 
 
 
-To configure your own template add an
-entry called "templates". This entry is an object where you can
-specify as many templates as you want. The default template is marked
-with the "default" key.
-
-     {
-      "name": "Something",
-      "description": "Example Presentation",
-      "templates" : {
-          "default" : "tpl1.tpl",
-	  "special" : "tpl2.tpl"
-      },    
-      "sections": [
-        {"section":"one"}
-      ]
-    }
-
-If the "default" key is not given, no template will be used for the
-default slide.
-
 Instead of a hash, you can use a plain string as an entry in the
 `sections` section of `showoff.json`. And if that plain string starts
 with '#' then it is interpreted not as a filename, but as
@@ -482,6 +462,49 @@ You'll then need to install a version of wkhtmltopdf available at the {wkhtmltop
 
 
 Then restart showoff, and navigate to <tt>/pdf</tt> (e.g. http://localhost/pdf) of your presentation and a PDF will be generated with the browser.
+
+= ShowOff Templates
+
+Templates can come handy if you need more than what you can achieve
+via CSS. To configure templates you'll have to specify them in the
+<tt>showoff.json</tt> by adding an entry called "templates". This
+entry is an object where you can specify as many templates as you
+want. The default template is marked with the "default" key.
+
+     {
+      "name": "Something",
+      "description": "Example Presentation",
+      "templates" : {
+          "default" : "tpl1.tpl",
+	  "special" : "tpl2.tpl"
+      },    
+      "sections": [
+        {"section":"one"}
+      ]
+    }
+
+If the "default" key is not given, no template will be used for the
+default slide. If you want to apply a certain layout to a slide you
+have to specify it in the slide header:
+
+     !SLIDE[tpl=special]
+     # Header
+
+== Template Commands
+
+You can place content anywhere in your template, but you have to
+explicitly mark the location using a special command:
+
+    * ###CONTENT### - is replaced by the slide content
+
+== Template Hints
+
+You can basically put everything you want into templates, but you
+should make sure that the CSS is applied fine. The best way to apply a
+custom layout is to create a container that uses absolute positioning
+and has width and height set to 100% which are then derived from the
+parent slide element.
+
 
 = Completion
 
