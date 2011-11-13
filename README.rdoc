@@ -495,7 +495,7 @@ have to specify it in the slide header:
 You can place content anywhere in your template, but you have to
 explicitly mark the location using a special command:
 
-    * ###CONTENT### - is replaced by the slide content
+[###CONTENT###] is replaced by the slide content
 
 == Template Hints
 
