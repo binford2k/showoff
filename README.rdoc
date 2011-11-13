@@ -84,7 +84,23 @@ the following contents:
 
 That represents two slides, the first contains just a large title, and the
 second is faded into view showing the title and three bullets that are then
-incrementally shown. In order for ShowOff to see those slides, your
+incrementally shown. In addition you can configure a certain template for 
+this slide overriding the default one:
+
+     !SLIDE[tpl=title]
+
+     # My Presentation #
+
+     !SLIDE bullets incremental
+
+     # Bullet Points #
+
+     * first point
+     * second point
+     * third point
+
+
+In order for ShowOff to see those slides, your
 <tt>showoff.json</tt> file needs to look something like this:
 
     {
@@ -95,19 +111,40 @@ incrementally shown. In order for ShowOff to see those slides, your
       ]
     }
 
-If you have multiple sections in your talk, you can make this json array
-include all the sections you want to show in which order you want to show
-them.
+If you have multiple sections in your talk, you can make this json
+array include all the sections you want to show in which order you
+want to show them. Template configuration is done in
+<tt>showoff.json</tt> as well. 
 
-Instead of a hash, you can use a plain string as an entry in the `sections`
-section of `showoff.json`.
 
-And if that plain string starts with '#' then it is interpreted not as a
-filename, but as markdown. This is used for inserting interstitial slides
-or notes -- for instance, Alex Chaffee's
-[Ruby Notes](http://github.com/alexch/ruby_notes)
-uses it to insert lab instructions between lecture slide sections, which may
-vary from venue to venue.
+To configure your own template add an
+entry called "templates". This entry is an object where you can
+specify as many templates as you want. The default template is marked
+with the "default" key.
+
+     {
+      "name": "Something",
+      "description": "Example Presentation",
+      "templates" : {
+          "default" : "tpl1.tpl",
+	  "special" : "tpl2.tpl"
+      },    
+      "sections": [
+        {"section":"one"}
+      ]
+    }
+
+If the "default" key is not given, no template will be used for the
+default slide.
+
+Instead of a hash, you can use a plain string as an entry in the
+`sections` section of `showoff.json`. And if that plain string starts
+with '#' then it is interpreted not as a filename, but as
+markdown. This is used for inserting interstitial slides or notes --
+for instance, Alex Chaffee's [Ruby
+Notes](http://github.com/alexch/ruby_notes) uses it to insert lab
+instructions between lecture slide sections, which may vary from venue
+to venue.
 
 If you want to keep the ability to emit an HTML document from your
 Markdown source file -- say, for a TextMate preview or a GitHub rendering

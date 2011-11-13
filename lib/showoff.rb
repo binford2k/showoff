@@ -41,6 +41,8 @@ class ShowOff < Sinatra::Application
   set :verbose, false
   set :pres_dir, '.'
   set :pres_file, 'showoff.json'
+  set :page_size, "Letter"
+  set :pres_template, nil
 
   def initialize(app=nil)
     super(app)
@@ -59,6 +61,18 @@ class ShowOff < Sinatra::Application
     if (options.pres_file)
       ShowOffUtils.presentation_config_file = options.pres_file
     end
+
+    # Load configuration for page size and template from the
+    # configuration JSON file
+    if File.exists?(ShowOffUtils.presentation_config_file)
+      showoff_json = JSON.parse(File.read(ShowOffUtils.presentation_config_file))
+      options.page_size = showoff_json["page-size"] || "Letter"
+      options.pres_template = showoff_json["templates"] 
+    end
+
+
+    @logger.debug options.pres_template
+
     @cached_image_size = {}
     @logger.debug options.pres_dir
     @pres_name = options.pres_dir.split('/').pop
@@ -101,9 +115,21 @@ class ShowOff < Sinatra::Application
 
     # todo: move more behavior into this class
     class Slide
-      attr_reader :classes, :text
-      def initialize classes = ""
-        @classes = ["content"] + classes.strip.chomp('>').split
+      attr_reader :classes, :text, :tpl
+      def initialize( context = "")
+
+        @tpl = "default"
+        @classes = ["content"]
+
+        # Parse the context string for options and content classes
+        if context and context.match(/(\[(.*?)\])?(.*)/)
+
+          options = ShowOffUtils.parse_options($2)
+          @tpl = options["tpl"] if options["tpl"]
+          @classes += $3.strip.chomp('>').split if $3
+
+        end
+
         @text = ""
       end
       def <<(s)
@@ -131,7 +157,8 @@ class ShowOff < Sinatra::Application
       until lines.empty?
         line = lines.shift
         if line =~ /^<?!SLIDE(.*)>?/
-          slides << (slide = Slide.new($1))
+          ctx = $1 ? $1.strip : $1
+          slides << (slide = Slide.new(ctx))
         else
           slide << line
         end
@@ -156,10 +183,23 @@ class ShowOff < Sinatra::Application
         @logger.debug "id: #{id}" if id
         @logger.debug "classes: #{content_classes.inspect}"
         @logger.debug "transition: #{transition}"
+        @logger.debug "tpl: #{slide.tpl} " if slide.tpl
         # create html
         md += "<div"
         md += " id=\"#{id}\"" if id
         md += " class=\"slide\" data-transition=\"#{transition}\">"
+
+
+        # Template handling
+        if options.pres_template
+          # We allow specifying a new template even when default is
+          # not given.
+          if options.pres_template.include?(slide.tpl) and
+              File.exists?(options.pres_template[slide.tpl])
+            md += File.open(options.pres_template[slide.tpl], "r").read()
+          end
+        end
+
         if seq
           md += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}/#{seq.to_s}\">\n"
           seq += 1
