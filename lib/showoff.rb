@@ -190,26 +190,36 @@ class ShowOff < Sinatra::Application
         md += " class=\"slide\" data-transition=\"#{transition}\">"
 
 
+        template = "###CONTENT###"
         # Template handling
         if options.pres_template
           # We allow specifying a new template even when default is
           # not given.
           if options.pres_template.include?(slide.tpl) and
               File.exists?(options.pres_template[slide.tpl])
-            md += File.open(options.pres_template[slide.tpl], "r").read()
+            template = File.open(options.pres_template[slide.tpl], "r").read()
           end
         end
 
+
+        # Extract the content of the slide
+        content = ""
+
         if seq
-          md += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}/#{seq.to_s}\">\n"
+          content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}/#{seq.to_s}\">\n"
           seq += 1
         else
-          md += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
+          content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
         sl = Markdown.new(slide.text).to_html
         sl = update_image_paths(name, sl, static, pdf)
-        md += sl
-        md += "</div>\n"
+        content += sl
+        content += "</div>\n"
+
+        # Apply the template to the slide and replace the key with
+        # content of the slide
+        md += template.gsub(/###CONTENT###/, content)
+
         md += "</div>\n"
         final += update_commandline_code(md)
         final = update_p_classes(final)
