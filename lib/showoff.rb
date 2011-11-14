@@ -36,7 +36,7 @@ class ShowOff < Sinatra::Application
   attr_reader :cached_image_size
 
   set :views, File.dirname(__FILE__) + '/../views'
-  set :public, File.dirname(__FILE__) + '/../public'
+  set :public_folder, File.dirname(__FILE__) + '/../public'
 
   set :verbose, false
   set :pres_dir, '.'
@@ -194,7 +194,7 @@ class ShowOff < Sinatra::Application
         md += " class=\"slide\" data-transition=\"#{transition}\">"
 
 
-        template = "###CONTENT###"
+        template = "~~~CONTENT~~~"
         # Template handling
         if options.pres_template
           # We allow specifying a new template even when default is
@@ -436,10 +436,10 @@ class ShowOff < Sinatra::Application
         assets << href if href
       end
 
-      css = Dir.glob("#{options.public}/**/*.css").map { |path| path.gsub(options.public + '/', '') }
+      css = Dir.glob("#{options.public_folder}/**/*.css").map { |path| path.gsub(options.public_folder + '/', '') }
       assets << css
 
-      js = Dir.glob("#{options.public}/**/*.js").map { |path| path.gsub(options.public + '/', '') }
+      js = Dir.glob("#{options.public_folder}/**/*.js").map { |path| path.gsub(options.public_folder + '/', '') }
       assets << js
 
       assets.uniq.join("\n")
@@ -577,6 +577,7 @@ class ShowOff < Sinatra::Application
     @title = ShowOffUtils.showoff_title
     what = params[:captures].first
     what = 'index' if "" == what
+
     if (what != "favicon.ico")
       data = send(what)
       if data.is_a?(File)
