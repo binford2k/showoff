@@ -274,21 +274,18 @@ class ShowOffUtils
   end
 
   def self.showoff_title(dir = '.')
-    index = File.join(dir, ShowOffUtils.presentation_config_file )
-    order = nil
-    if File.exists?(index)
-      data = JSON.parse(File.read(index))
-      data.is_a?(Hash) && data['name'] || "Presentation"
-    end
+    get_config_option(dir, 'name', "Presentation")
   end
 
   def self.showoff_pdf_options(dir = '.')
-    index = File.join(dir, ShowOffUtils.presentation_config_file )
-    order = nil
+    get_config_option(dir, 'pdf_options', {:page_size => 'Letter', :orientation => 'Landscape'})
+  end
+
+  def self.get_config_option(dir, option, default = nil)
+    index = File.join(dir, ShowOffUtils.presentation_config_file)
     if File.exists?(index)
       data = JSON.parse(File.read(index))
-      data.is_a?(Hash) && data['pdf_options'] || {:page_size => 'Letter',
-                                                  :orientation => 'Landscape'}
+      data.is_a?(Hash) && data[option] || default
     end
   end
 
