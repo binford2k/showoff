@@ -31,8 +31,6 @@ end
 
 class ShowOff < Sinatra::Application
 
-  Version = VERSION = '0.7.0'
-
   attr_reader :cached_image_size
 
   set :views, File.dirname(__FILE__) + '/../views'
@@ -188,7 +186,7 @@ class ShowOff < Sinatra::Application
       path = paths.join('/')
       replacement_prefix = static ?
         ( pdf ? %(img src="file://#{settings.pres_dir}/#{path}) : %(img src="./file/#{path}) ) :
-        %(img src="/image/#{path})
+        %(img src="#{@asset_path}image/#{path})
       slide.gsub(/img src=\"([^\/].*?)\"/) do |s|
         img_path = File.join(path, $1)
         w, h     = get_image_size(img_path)
@@ -203,7 +201,7 @@ class ShowOff < Sinatra::Application
     if defined?(Magick)
       def get_image_size(path)
         if !cached_image_size.key?(path)
-          img = Magick::Image.ping(path).first
+          img = Magick::Image.ping(File.join(@asset_path, path)).first
           # don't set a size for svgs so they can expand to fit their container
           if img.mime_type == 'image/svg+xml'
             cached_image_size[path] = [nil, nil]
@@ -406,6 +404,7 @@ class ShowOff < Sinatra::Application
       end
       name = showoff.instance_variable_get(:@pres_name)
       path = showoff.instance_variable_get(:@root_path)
+      logger = showoff.instance_variable_get(:@logger)
       data = showoff.send(what, true)
       if data.is_a?(File)
         FileUtils.cp(data.path, "#{name}.pdf")
@@ -451,7 +450,7 @@ class ShowOff < Sinatra::Application
           File.open(css_path) do |file|
             data = file.read
             data.scan(/url\((.*)\)/).flatten.each do |path|
-              @logger.debug path
+              logger.debug path
               dir = File.dirname(path)
               FileUtils.makedirs(File.join(file_dir, dir))
               FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
@@ -483,6 +482,7 @@ class ShowOff < Sinatra::Application
     @title = ShowOffUtils.showoff_title
     what = params[:captures].first
     what = 'index' if "" == what
+    @asset_path = (env['SCRIPT_NAME'] || '').gsub(/\/?$/, '/').gsub(/^\//, '')
     if (what != "favicon.ico")
       data = send(what)
       if data.is_a?(File)

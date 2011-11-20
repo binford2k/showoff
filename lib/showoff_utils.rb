@@ -278,14 +278,21 @@ class ShowOffUtils
   end
 
   def self.showoff_pdf_options(dir = '.')
-    get_config_option(dir, 'pdf_options', {:page_size => 'Letter', :orientation => 'Landscape'})
+    opts = get_config_option(dir, 'pdf_options', {:page_size => 'Letter', :orientation => 'Landscape'})
+    Hash[opts.map {|k, v| [k.to_sym, v]}] # keys must be symbols
   end
 
   def self.get_config_option(dir, option, default = nil)
     index = File.join(dir, ShowOffUtils.presentation_config_file)
     if File.exists?(index)
       data = JSON.parse(File.read(index))
-      data.is_a?(Hash) && data[option] || default
+      if data.is_a?(Hash)
+        if default.is_a?(Hash)
+          default.merge(data[option])
+        else
+          data[option] || default
+        end
+      end
     end
   end
 
