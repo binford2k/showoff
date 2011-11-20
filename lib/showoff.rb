@@ -55,6 +55,9 @@ class ShowOff < Sinatra::Application
     @logger.debug settings.pres_dir
     @pres_name = settings.pres_dir.split('/').pop
     require_ruby_files
+
+    # Default asset path
+    @asset_path = "./"
   end
 
   def self.pres_dir_current
