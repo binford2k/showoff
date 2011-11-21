@@ -59,15 +59,15 @@ class ShowOff < Sinatra::Application
     # configuration JSON file
     if File.exists?(ShowOffUtils.presentation_config_file)
       showoff_json = JSON.parse(File.read(ShowOffUtils.presentation_config_file))
-      options.showoff_config = showoff_json
+      settings.showoff_config = showoff_json
       
       # Set options for template and page size
-      options.page_size = showoff_json["page-size"] || "Letter"
-      options.pres_template = showoff_json["templates"] 
+      settings.page_size = showoff_json["page-size"] || "Letter"
+      settings.pres_template = showoff_json["templates"] 
     end
 
 
-    @logger.debug options.pres_template
+    @logger.debug settings.pres_template
 
     @cached_image_size = {}
     @logger.debug settings.pres_dir
@@ -192,12 +192,12 @@ class ShowOff < Sinatra::Application
 
         template = "~~~CONTENT~~~"
         # Template handling
-        if options.pres_template
+        if settings.pres_template
           # We allow specifying a new template even when default is
           # not given.
-          if options.pres_template.include?(slide.tpl) and
-              File.exists?(options.pres_template[slide.tpl])
-            template = File.open(options.pres_template[slide.tpl], "r").read()
+          if settings.pres_template.include?(slide.tpl) and
+              File.exists?(settings.pres_template[slide.tpl])
+            template = File.open(settings.pres_template[slide.tpl], "r").read()
           end
         end
 
@@ -236,7 +236,7 @@ class ShowOff < Sinatra::Application
       result = content.gsub("~~~CURRENT_SLIDE~~~", seq.to_s)
       # Now check for any kind of options
       content.scan(/(~~~CONFIG:(.*?)~~~)/).each do |match|
-        result.gsub!(match[0], options.showoff_config[match[1]]) if options.showoff_config.key?(match[1])
+        result.gsub!(match[0], settings.showoff_config[match[1]]) if settings.showoff_config.key?(match[1])
       end
 
       result
@@ -469,7 +469,7 @@ class ShowOff < Sinatra::Application
       # Process inline css and js for included images 
       # The css uses relative paths for images and we prepend the file url
       html.gsub!(/url\(([^\/].*?)\)/) do |s|
-        "url(file://#{options.pres_dir}/#{$1})"
+        "url(file://#{settings.pres_dir}/#{$1})"
       end
 
       # Todo fix javascript path
