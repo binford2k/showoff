@@ -657,5 +657,6 @@ function nextPreShowImage() {
  ********************/
 
 function togglePause() {
-  console.log('test');
+  $("#preso").toggle();
+  $("#pause-screen").toggle();
 }
