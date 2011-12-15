@@ -11,7 +11,7 @@ context "ShowOff Utils tests" do
       ShowOffUtils.create('testing', true)
       files = Dir.glob('testing/**/*')
     end
-    assert_equal ["testing/one", "testing/one/01_slide.md", "testing/showoff.json"], files
+    assert_equal %w(testing/one testing/one/01_slide.md testing/showoff.json), files.sort
   end
 
   #  heroku       - Setup your presentation to serve on Heroku
