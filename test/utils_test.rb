@@ -61,4 +61,17 @@ context "ShowOff Utils tests" do
     end
   end
 
+  test 'should obtain value for pause_msg setting' do
+    dir = File.join(File.dirname(__FILE__), 'fixtures', 'simple')
+    msg = ShowOffUtils.pause_msg(dir)
+
+    assert_match 'Test_paused', msg
+  end
+
+  test 'should obtain default value for pause_msg setting' do
+    msg = ShowOffUtils.pause_msg
+
+    assert_match 'PAUSED', msg
+  end
+
 end
