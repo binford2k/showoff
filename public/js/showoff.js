@@ -665,5 +665,5 @@ function nextPreShowImage() {
  ********************/
 
 function togglePause() {
-  $("#pause-screen").toggle();
+  $("#pauseScreen").toggle();
 }

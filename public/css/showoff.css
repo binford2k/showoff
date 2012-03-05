@@ -39,7 +39,7 @@
       border-top-right-radius: 3px;
       z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
   }
-  #pause-screen {
+  #pauseScreen {
       background: rgba(0, 0, 0, 0.85);
       width: 100%;
       height: 100%;
