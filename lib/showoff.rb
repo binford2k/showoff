@@ -383,7 +383,13 @@ class ShowOff < Sinatra::Application
         else
           js_file = File.join(settings.pres_dir, js_file)
         end
-        js_content += File.read(js_file)
+
+        begin
+          js_content += File.read(js_file)
+        rescue Errno::ENOENT
+          $stderr.puts "WARN: Failed to inline JS. No such file: #{js_file}"
+          next
+        end
       end
       js_content += '</script>'
       js_content
