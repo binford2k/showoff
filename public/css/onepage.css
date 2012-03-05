@@ -1,5 +1,9 @@
 /* Screen */
 @media screen {
+  body {
+    overflow: scroll;
+  }
+
   .slide {
       margin: 10px;
       padding: 0;
