@@ -49,6 +49,8 @@ context "ShowOff basic tests" do
 
       assert last_response.body.size > 5000
     end
+  else
+    $stderr.puts 'PDF creation test skipped - install pdfkit'
   end
 
 end
