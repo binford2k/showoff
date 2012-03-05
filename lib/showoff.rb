@@ -401,8 +401,7 @@ class ShowOff < Sinatra::Application
         @pause_msg = ShowOffUtils.pause_msg
 
         # Identify which languages to bundle for highlighting
-        @languages = []
-        @languages += @slides.scan(/<pre class="(sh_.*?\w)"/).uniq.map{ |w| "sh_lang/#{w[0]}.min.js"}
+        @languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "sh_lang/#{w[0]}.min.js"}
 
         @asset_path = "./"
       end
@@ -464,8 +463,7 @@ class ShowOff < Sinatra::Application
       @no_js = false
 
       # Identify which languages to bundle for highlighting
-      @languages = []
-      @languages += @slides.scan(/<pre class="(sh_.*?\w)"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
+      @languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
 
       html = erb :onepage
       # TODO make a random filename
