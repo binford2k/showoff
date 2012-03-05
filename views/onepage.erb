@@ -6,12 +6,12 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<title>Presentation</title>
 
+  <%= inline_css(['reset.css', 'showoff.css', 'theme/ui.all.css', 'sh_style.css'], 'public/css') %>
   <% if @no_js %>
     <%= inline_css(['pdf.css'], 'public/css') %>
   <% else %>
     <%= inline_css(['onepage.css'], 'public/css') %>
   <% end %>
-  <%= inline_css(['reset.css', 'showoff.css', 'theme/ui.all.css', 'sh_style.css'], 'public/css') %>
   <%= inline_css(css_files) %>
 
   <% if !@no_js %>
