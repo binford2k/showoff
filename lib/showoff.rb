@@ -12,13 +12,13 @@ require "#{here}/commandline_parser"
 begin
   require 'RMagick'
 rescue LoadError
-  $stderr.puts 'image sizing disabled - install rmagick'
+  $stderr.puts 'WARN: image sizing disabled - install rmagick'
 end
 
 begin
   require 'pdfkit'
 rescue LoadError
-  $stderr.puts 'pdf generation disabled - install pdfkit'
+  $stderr.puts 'WARN: pdf generation disabled - install pdfkit'
 end
 
 require 'tilt'
