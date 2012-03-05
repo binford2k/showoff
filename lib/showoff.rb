@@ -546,6 +546,7 @@ class ShowOff < Sinatra::Application
           File.open(css_path) do |file|
             data = file.read
             data.scan(/url\([\"\']?(.*?)[\"\']?\)/).flatten.each do |path|
+              next if path.match('^http')
               path.gsub!(/(\#.*)$/, '') # get rid of the anchor
               path.gsub!(/(\?.*)$/, '') # get rid of the query
               logger.debug path
