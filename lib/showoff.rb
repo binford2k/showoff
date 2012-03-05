@@ -77,8 +77,10 @@ class ShowOff < Sinatra::Application
     # Default asset path
     @asset_path = "./"
 
+    @pause_msg = ShowOffUtils.pause_msg
+
     # Initialize Markdown Configuration
-    MarkdownConfig::setup( settings.pres_dir )
+    MarkdownConfig::setup(settings.pres_dir)
   end
 
   def self.pres_dir_current

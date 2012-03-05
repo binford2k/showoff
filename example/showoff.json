@@ -5,6 +5,7 @@
   "templates" : {
       "special" : "simple.tpl"
   },
+  "pause_msg": "Paused !!!",
   "sections": [
     {"section":"one"},
     {"section":"two"},
