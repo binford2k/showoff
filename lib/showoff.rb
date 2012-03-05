@@ -77,8 +77,6 @@ class ShowOff < Sinatra::Application
     # Default asset path
     @asset_path = "./"
 
-    @pause_msg = ShowOffUtils.pause_msg
-
     # Initialize Markdown Configuration
     MarkdownConfig::setup(settings.pres_dir)
   end
@@ -401,6 +399,8 @@ class ShowOff < Sinatra::Application
         @title = ShowOffUtils.showoff_title
         @slides = get_slides_html(static)
 
+        @pause_msg = ShowOffUtils.pause_msg
+
         # Identify which languages to bundle for highlighting
         @languages = []
         @languages += @slides.scan(/<pre class="(sh_.*?\w)"/).uniq.map{ |w| "sh_lang/#{w[0]}.min.js"}
@@ -577,6 +577,7 @@ class ShowOff < Sinatra::Application
 
   get %r{/(.*)} do
     @title = ShowOffUtils.showoff_title
+    @pause_msg = ShowOffUtils.pause_msg
     what = params[:captures].first
     what = 'index' if "" == what
 
