@@ -510,18 +510,19 @@ engines.
 === Maruku
 
 When you prefer using Maruku as the markdown engine of choice for your
-presentation, you can use the Latex Math Mode features of
+presentation, you can use the LaTeX Math Mode features of
 maruku. First you need
 {BlahTex}[http://www.mediawiki.org/wiki/Extension:Blahtex] and then
 you need to configure your presentation as following:
 
-    { /* other config */,
-     "markdown" : "maruku",
-     "maruku" : {
-     	      "use_tex" : true,
-	      "png_dir" : "images", /*optional*/
-	      "html_png_url" : "/file/images/" /*optional*/
-       }
+     {
+         /* other configuration options */,
+         "markdown" : "maruku",
+         "maruku" : {
+             "use_tex" : true, /* required if you want to use LaTeX */
+             "png_dir" : "images", /* optional */
+             "html_png_url" : "/file/images/" /* optional */
+         }
      }
 
 
