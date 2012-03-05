@@ -262,7 +262,7 @@ class ShowOff < Sinatra::Application
       replacement_prefix = static ?
         ( pdf ? %(img src="file://#{settings.pres_dir}/#{path}) : %(img src="./file/#{path}) ) :
         %(img src="#{@asset_path}image/#{path})
-      slide.gsub(/img src=\"([^\/].*?)\"/) do |s|
+      slide.gsub(/img src=[\"\']([^\/].*?)[\"\']/) do |s|
         img_path = File.join(path, $1)
         w, h     = get_image_size(img_path)
         src      = %(#{replacement_prefix}/#{$1}")
@@ -537,7 +537,7 @@ class ShowOff < Sinatra::Application
         }
 
         # ... and copy all needed image files
-        data.scan(/img src=\".\/file\/(.*?)\"/).flatten.each do |path|
+        data.scan(/img src=[\"\'].\/file\/(.*?)[\"\']/).flatten.each do |path|
           dir = File.dirname(path)
           FileUtils.makedirs(File.join(file_dir, dir))
           FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
@@ -546,7 +546,7 @@ class ShowOff < Sinatra::Application
         Dir.glob("#{pres_dir}/*.css").each do |css_path|
           File.open(css_path) do |file|
             data = file.read
-            data.scan(/url\("?(.*?)"?\)/).flatten.each do |path|
+            data.scan(/url\([\"\']?(.*?)[\"\']?\)/).flatten.each do |path|
               path.gsub!(/(\#.*)$/, '') # get rid of the anchor
               path.gsub!(/(\?.*)$/, '') # get rid of the query
               logger.debug path
