@@ -100,13 +100,12 @@ array include all the sections you want to show in which order you
 want to show them. Template configuration is done in
 <tt>showoff.json</tt> as well.
 
-
 Instead of a hash, you can use a plain string as an entry in the
-`sections` section of `showoff.json`. And if that plain string starts
+<tt>sections</tt> section of <tt>showoff.json</tt>. And if that plain string starts
 with '#' then it is interpreted not as a filename, but as
 markdown. This is used for inserting interstitial slides or notes --
-for instance, Alex Chaffee's [Ruby
-Notes](http://github.com/alexch/ruby_notes) uses it to insert lab
+for instance, Alex Chaffee's {Ruby
+Notes}[http://github.com/alexch/ruby_notes] uses it to insert lab
 instructions between lecture slide sections, which may vary from venue
 to venue.
 
