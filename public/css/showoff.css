@@ -52,6 +52,7 @@
       font-size: 2em;
       padding: 1em;
       z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
+      text-align: center;
   }
 }
 
