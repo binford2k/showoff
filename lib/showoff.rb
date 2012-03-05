@@ -461,6 +461,7 @@ class ShowOff < Sinatra::Application
 
     def onepage(static=false)
       @slides = get_slides_html(static)
+      @languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
       erb :onepage
     end
 
