@@ -504,8 +504,14 @@ Then restart showoff, and navigate to <tt>/pdf</tt> (e.g. http://localhost/pdf) 
 == Markdown Engine
 
 It is possible to configure the markdown engine of your choice to use
-with showoff. This allows you to use special features of the different
-engines.
+with showoff. The following engines come preconfigured:
+
+* redcarpet (default)
+* bluecloth
+* maruku
+* rdiscount
+
+Configuring an engine (or overriding it's default configuration) allows you to access special features of that engine.
 
 === Maruku
 
@@ -524,17 +530,6 @@ you need to configure your presentation as following:
              "html_png_url" : "/file/images/" /* optional */
          }
      }
-
-
-=== Other Engines
-
-The following engines are preconfigured
-
-* redcarpet (default)
-* bluecloth
-* maruku
-* rdiscount
-
 
 = Completion
 
