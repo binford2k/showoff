@@ -78,7 +78,7 @@ class ShowOff < Sinatra::Application
     @asset_path = "./"
 
     # Initialize Markdown Configuration
-    MarkdownConfig::setup(settings.pres_dir)
+    #MarkdownConfig::setup(settings.pres_dir)
   end
 
   def self.pres_dir_current
@@ -145,7 +145,6 @@ class ShowOff < Sinatra::Application
 
 
     def process_markdown(name, content, static=false, pdf=false)
-
       # if there are no !SLIDE markers, then make every H1 define a new slide
       unless content =~ /^\<?!SLIDE/m
         content = content.gsub(/^# /m, "<!SLIDE>\n# ")

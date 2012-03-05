@@ -391,44 +391,43 @@ class ShowOffUtils
   end
 end
 
-# Load the configuration for the markdown engine form the showoff.json
+# Load the configuration for the markdown engine from the showoff.json
 # file
 module MarkdownConfig
- 
-  def self.setup( dir_name )
- 
+  def self.setup(dir_name)
     # Load markdown configuration
     case ShowOffUtils.showoff_markdown(dir_name)
+
     when 'rdiscount'
       Tilt.prefer Tilt::RDiscountTemplate, "markdown"
+
     when 'maruku'
- 
       Tilt.prefer Tilt::MarukuTemplate, "markdown"
       # Now check if we can go for latex mode
       require 'maruku'
       require 'maruku/ext/math'
-           
+
       # Load maruku options
       opts = ShowOffUtils.get_config_option(dir_name, 'maruku',
-                                            {'use_tex' => false,
+                                            { 'use_tex' => false,
                                               'png_dir' => 'images',
                                               'html_png_url' => '/file/images/'})
 
       if opts['use_tex']
-
         MaRuKu::Globals[:html_math_output_mathml] = false
         MaRuKu::Globals[:html_math_engine] = 'none'
-        
         MaRuKu::Globals[:html_math_output_png] = true
         MaRuKu::Globals[:html_png_engine] =  'blahtex'
         MaRuKu::Globals[:html_png_dir] = opts['png_dir']
         MaRuKu::Globals[:html_png_url] = opts['html_png_url']
       end
-           
+
     when 'bluecloth'
       Tilt.prefer Tilt::BlueClothTemplate, "markdown"
+
     else
       Tilt.prefer Tilt::RedcarpetTemplate, "markdown"
+
     end
   end
 end
