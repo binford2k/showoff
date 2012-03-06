@@ -300,7 +300,7 @@ class ShowOff < Sinatra::Application
           lines = out.split("\n")
           if lines.first.strip[0, 3] == '@@@'
             lang = lines.shift.gsub('@@@', '').strip
-            pre.set_attribute('class', 'sh_' + lang.downcase)
+            pre.set_attribute('class', 'sh_' + lang.downcase) if !lang.empty?
             code.content = lines.join("\n")
           end
         end
