@@ -467,7 +467,7 @@ class ShowOff < Sinatra::Application
 
     def pdf(static=true)
       @slides = get_slides_html(static, true)
-      @no_js = false
+      @inline = true
 
       # Identify which languages to bundle for highlighting
       @languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
@@ -475,7 +475,7 @@ class ShowOff < Sinatra::Application
       html = erb :onepage
       # TODO make a random filename
 
-      # Process inline css and js for included images 
+      # Process inline css and js for included images
       # The css uses relative paths for images and we prepend the file url
       html.gsub!(/url\([\"\']?(?!https?:\/\/)(.*?)[\"\']?\)/) do |s|
         "url(file://#{settings.pres_dir}/#{$1})"
