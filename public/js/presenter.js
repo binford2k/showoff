@@ -3,10 +3,12 @@ var w = null;
 
 $(function(){
 	w = window.open('/' + window.location.search);
+
 	// Give the slide window a handle to the presenter view window.
 	// This will let either window be made fullscreen and
 	// still process slide advance/rewinds correctly.
 	w.presenterView = window;
+
   // side menu accordian crap
 	$("#preso").bind("showoff:loaded", function (event) {
 		$(".menu > ul ul").hide()
@@ -20,7 +22,8 @@ $(function(){
 			}
 			return false
 		}).next().hide()
-	})
+	});
+
   $("#minStop").hide()
   $("#startTimer").click(function() { toggleTimer() })
   $("#stopTimer").click(function() { toggleTimer() })
@@ -35,11 +38,10 @@ function presPrevStep()
 
 function presNextStep()
 {
-        // TODO: figure out why these two lines are
-        // necessary. Something in the presenter view isn't correctly
-        // setting these variabls related to incremental slide display.
-        incrCurr = w.incrCurr
-        incrSteps = w.incrSteps
+  // read the variables set by our spawner
+  incrCurr = w.incrCurr
+  incrSteps = w.incrSteps
+
 	nextStep()
 	w.nextStep()
 	postSlide()
