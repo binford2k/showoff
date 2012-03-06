@@ -477,7 +477,7 @@ class ShowOff < Sinatra::Application
 
       # Process inline css and js for included images 
       # The css uses relative paths for images and we prepend the file url
-      html.gsub!(/url\([\"\']?(.*?)[\"\']?\)/) do |s|
+      html.gsub!(/url\([\"\']?(?!https?:\/\/)(.*?)[\"\']?\)/) do |s|
         "url(file://#{settings.pres_dir}/#{$1})"
       end
 
