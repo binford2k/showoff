@@ -1,6 +1,7 @@
 div.zoomed {
   zoom: 50%;
-  -moz-transform: scale(50%);
+  -moz-transform: scale(0.5);
+  -moz-transform-origin: 0 0;
 }
 
 #preso { margin-top: 20px; }
