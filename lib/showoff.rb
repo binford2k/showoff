@@ -146,6 +146,7 @@ class ShowOff < Sinatra::Application
 
     def process_markdown(name, content, static=false, pdf=false)
       # if there are no !SLIDE markers, then make every H1 define a new slide
+      content.force_encoding('UTF-8') if content.respond_to?(:force_encoding)
       unless content =~ /^\<?!SLIDE/m
         content = content.gsub(/^# /m, "<!SLIDE>\n# ")
       end
