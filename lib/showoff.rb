@@ -36,6 +36,7 @@ class ShowOff < Sinatra::Application
   set :page_size, "Letter"
   set :pres_template, nil
   set :showoff_config, nil
+  set :encoding, nil
 
   def initialize(app=nil)
     super(app)
@@ -145,8 +146,11 @@ class ShowOff < Sinatra::Application
 
 
     def process_markdown(name, content, static=false, pdf=false)
+      if settings.encoding and content.respond_to?(:force_encoding)
+        content.force_encoding(settings.encoding)
+      end
+
       # if there are no !SLIDE markers, then make every H1 define a new slide
-      content.force_encoding('UTF-8') if content.respond_to?(:force_encoding)
       unless content =~ /^\<?!SLIDE/m
         content = content.gsub(/^# /m, "<!SLIDE>\n# ")
       end
