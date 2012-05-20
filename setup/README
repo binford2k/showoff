@@ -1,0 +1,8 @@
+
+ - install virtualbox (https://www.virtualbox.org/)
+ - gem install vagrant
+ - vagrant box add ubuntu1110 http://timhuegdon.com/vagrant-boxes/ubuntu-11.10.box
+ - vagrant up
+ - vagrant ssh
+   % xvfb-run ...
+ - vagrant halt
