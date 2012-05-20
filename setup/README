@@ -1,8 +1,16 @@
 
  - install virtualbox (https://www.virtualbox.org/)
  - gem install vagrant
+ - cd setup
  - vagrant box add ubuntu1110 http://timhuegdon.com/vagrant-boxes/ubuntu-11.10.box
  - vagrant up
  - vagrant ssh
-   % xvfb-run ...
+   % cd pdf
+   % sh -x ./test.sh
+
+ (from the host machine, not inside the VM):
+
+ - open pdf/screenshot.pdf
+ 
+To shut down the VM:
  - vagrant halt
