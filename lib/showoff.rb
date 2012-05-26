@@ -211,6 +211,8 @@ class ShowOff < Sinatra::Application
           content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
         sl = Tilt[:markdown].new { slide.text }.render
+        sl = update_p_classes(sl)
+        sl = update_special_content(sl)
         sl = update_image_paths(name, sl, static, pdf)
         content += sl
         content += "</div>\n"
@@ -223,7 +225,6 @@ class ShowOff < Sinatra::Application
 
         md += "</div>\n"
         final += update_commandline_code(md)
-        final = update_p_classes(final)
 
         if seq
           seq += 1
@@ -252,6 +253,17 @@ class ShowOff < Sinatra::Application
     # find any lines that start with a <p>.(something) and turn them into <p class="something">
     def update_p_classes(markdown)
       markdown.gsub(/<p>\.(.*?) /, '<p class="\1">')
+    end
+
+    def update_special_content(content)
+      html = Nokogiri::HTML.parse(content)
+      container = html.css('p.notes').first
+      return content unless container
+
+      raw   = container.text
+      fixed = raw.gsub(/^\.notes ?/, '')
+
+      content.sub(/<p class="notes">.*?<\/p>/m, %Q[<p class="notes">#{fixed}</p>])
     end
 
     def update_image_paths(path, slide, static=false, pdf=false)
