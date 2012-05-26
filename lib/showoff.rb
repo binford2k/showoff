@@ -260,10 +260,13 @@ class ShowOff < Sinatra::Application
       container = doc.css('p.notes').first
       return content unless container
 
-      raw   = container.text
-      fixed = raw.gsub(/^\.notes ?/, '')
+      raw      = container.text
+      fixed    = raw.gsub(/^\.notes ?/, '')
+      markdown = Tilt[:markdown].new { fixed }.render
 
-      container.content = fixed
+      container.name       = 'div'
+      container.inner_html = markdown
+
       doc.to_html
     end
 

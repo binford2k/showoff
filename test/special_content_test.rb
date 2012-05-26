@@ -14,39 +14,53 @@ context "ShowOff Special Content tests" do
   end
 
   def get_notes(slide)
-    slide.css('p.notes')
+    slide.css('div.notes')
   end
 
   def get_notes_contents(slide)
-    get_notes(slide).text
+    container = get_notes(slide)
+    container.inner_html
   end
 
-  test 'converts `.notes` lines to notes-class paragraphs' do
-    slide = get_slide(1)
-    expected = 'Some notes for the first slide'
+  def assert_html_match(expected, actual)
+    assert_equal html_normalize(expected), html_normalize(actual)
+  end
 
-    assert_equal expected, get_notes_contents(slide)
+  def html_normalize(html)
+    doc = Nokogiri::HTML::DocumentFragment.parse html
+    doc.children.select(&:text?).each do |node|
+      node.content = ' ' if node.text.strip.empty?
+    end
+
+    doc.to_html.strip
+  end
+
+  test 'converts `.notes` lines to formatted notes-class divs' do
+    slide = get_slide(1)
+    expected = '<p>Some notes for the first slide</p>'
+
+    assert_html_match expected, get_notes_contents(slide)
   end
 
   test 'handles notes lines placed before slide content' do
     slide = get_slide(2)
-    expected = 'Some more notes, longer and more interesting I guess'
+    expected = '<p>Some more notes, longer and more interesting I guess</p>'
 
-    assert_equal expected, get_notes_contents(slide)
+    assert_html_match expected, get_notes_contents(slide)
   end
 
   test 'handles notes split across lines' do
     slide = get_slide(3)
-    expected = "Sometimes notes can go on and on and on and on and on\nand on and on, much longer than you need them to."
+    expected = "<p>Sometimes notes can go on and on and on and on and on\nand on and on, much longer than you need them to.</p>"
 
-    assert_equal expected, get_notes_contents(slide)
+    assert_html_match expected, get_notes_contents(slide)
   end
   
   test 'handles multi-line notes with the special-content marker repeated' do
     slide = get_slide(4)
-    expected = "Sometimes notes really do go on so long\nyou just have no idea what to do with them\nand you don't want to keep on saying .notes\nbut you can't find a way to make yourself stop."
+    expected = "<p>Sometimes notes really do go on so long\nyou just have no idea what to do with them\nand you don't want to keep on saying .notes\nbut you can't find a way to make yourself stop.</p>"
 
-    assert_equal expected, get_notes_contents(slide)
+    assert_html_match expected, get_notes_contents(slide)
   end
 
   test 'handles slides without notes' do
@@ -61,10 +75,15 @@ context "ShowOff Special Content tests" do
     assert_equal expected, get_notes_contents(slide)
   end
   
-  test 'handles multi-line notes with the special-content marker repeated' do
+  test 'handles multi-line notes with formatting' do
     slide = get_slide(7)
-    expected = "Sometimes notes have something interesting to say.\n\nAnd you just want to pause and think about it.\n\n  And think about it some more."
+    expected = "
+<p>Sometimes notes have something interesting to say.</p>
+<p>And you just want to pause and think about it.</p>
+<pre><code>And think about it some more.
+</code></pre>
+    "
 
-    assert_equal expected, get_notes_contents(slide)
+    assert_html_match expected, get_notes_contents(slide)
   end
 end
