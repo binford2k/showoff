@@ -50,7 +50,19 @@ div.zoomed {
   background: #ff9;
   font-size: 1.5em;
   min-height: 150px;
+  max-height: 250px;
+  overflow: auto;
   padding: 20px;
+}
+
+#notes ol, #notes ul {
+  padding-left: 1em;
+}
+#notes ol {
+  list-style-type: decimal;
+}
+#notes ul {
+  list-style-type: disc;
 }
 
 .menu {

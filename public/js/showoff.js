@@ -223,7 +223,7 @@ function showSlide(back_step) {
   var currentContent = $(currentSlide).find(".content")
 	currentContent.trigger("showoff:show");
 
-	var ret = getCurrentNotes();
+	var ret = setCurrentNotes();
 
   // Update presenter view, if we spawned one
 	if ('presenterView' in window) {
@@ -245,9 +245,28 @@ function getSlideProgress()
 
 function getCurrentNotes()
 {
+    var notes = currentSlide.find("div.notes");
+    return notes;
+}
+
+function getCurrentNotesText()
+{
+    var notes = getCurrentNotes();
+    return notes.text();
+}
+
+function setCurrentNotes()
+{
+    var notes = getCurrentNotesText();
+    $('#notesInfo').text(notes);
+    return notes;
+}
+
+function getCurrentNotes()
+{
   var notes = currentSlide.find("p.notes").text()
   $('#notesInfo').text(notes)
-	return notes
+  return notes
 }
 
 function getSlidePercent()

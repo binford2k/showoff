@@ -1,5 +1,6 @@
 getSlideProgress() - returns string '5/18'
-getCurrentNotes() - returns string of current notes
+getCurrentNotesText() - returns string of current notes
+getCurrentNotes() - returns HTMLElement of current notes
 gotoSlide(num)
 getSlidePercent() - returns int
 prevStep()

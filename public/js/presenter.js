@@ -52,7 +52,7 @@ function postSlide()
 	if(currentSlide) {
 		var notes = w.getCurrentNotes()
 		var fileName = currentSlide.children().first().attr('ref')
-		$('#notes').text(notes)
+		$('#notes').html(notes.html())
 		$('#slideFile').text(fileName)
 	}
 }
