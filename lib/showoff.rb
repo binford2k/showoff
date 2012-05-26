@@ -256,14 +256,15 @@ class ShowOff < Sinatra::Application
     end
 
     def update_special_content(content)
-      html = Nokogiri::HTML.parse(content)
-      container = html.css('p.notes').first
+      doc = Nokogiri::HTML::DocumentFragment.parse(content)
+      container = doc.css('p.notes').first
       return content unless container
 
       raw   = container.text
       fixed = raw.gsub(/^\.notes ?/, '')
 
-      content.sub(/<p class="notes">.*?<\/p>/m, %Q[<p class="notes">#{fixed}</p>])
+      container.content = fixed
+      doc.to_html
     end
 
     def update_image_paths(path, slide, static=false, pdf=false)
