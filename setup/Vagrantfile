@@ -1,7 +1,7 @@
 Vagrant::Config.run do |config|
   config.vm.box = "ubuntu1110"
 
-  config.vm.share_folder "pdf", "/home/vagrant/pdf", "pdf"
+  config.vm.share_folder "showup", "/home/vagrant/showup", "../"
 
   # ensure that `apt-get update` is run before puppet installs packages
   config.vm.provision :shell, :inline => "sudo apt-get update"
