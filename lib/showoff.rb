@@ -257,18 +257,22 @@ class ShowOff < Sinatra::Application
 
     def update_special_content(content)
       doc = Nokogiri::HTML::DocumentFragment.parse(content)
-      container = doc.css('p.notes').first
-      return content unless container
+      %w[notes handouts exercise].each { |mark|  update_special_content_mark(doc, mark) }
+      doc.to_html
+    end
+
+    def update_special_content_mark(doc, mark)
+      container = doc.css("p.#{mark}").first
+      return unless container
 
       raw      = container.text
-      fixed    = raw.gsub(/^\.notes ?/, '')
+      fixed    = raw.gsub(/^\.#{mark} ?/, '')
       markdown = Tilt[:markdown].new { fixed }.render
 
       container.name       = 'div'
       container.inner_html = markdown
-
-      doc.to_html
     end
+    private :update_special_content_mark
 
     def update_image_paths(path, slide, static=false, pdf=false)
       paths = path.split('/')

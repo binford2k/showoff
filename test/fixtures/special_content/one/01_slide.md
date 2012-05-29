@@ -43,3 +43,25 @@ and on and on, much longer than you need them to.
 .notes And you just want to pause and think about it.
 .notes
 .notes     And think about it some more.
+
+!SLIDE
+# The Works
+
+.notes Just some notes
+.notes nothing special to see here.
+
+.handouts Now here's something special for handouts:
+.handouts
+.handouts  * some item
+.handouts  * another item
+
+.extra This is just some extra fun. Nothing should happen here.
+.extra Seriously, this content is not that special.
+
+.exercise And if you want some exercises, just follow these steps
+.exercise
+.exercise  1. a step
+.exercise  2. another step
+.exercise  3. last step
+.exercise
+.exercise It's as simple as that.

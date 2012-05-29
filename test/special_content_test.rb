@@ -86,4 +86,38 @@ context "ShowOff Special Content tests" do
 
     assert_html_match expected, get_notes_contents(slide)
   end
+
+  test 'also does special-content conversion for .handouts' do
+    slide = get_slide(8)
+    expected = "
+<p>Now here's something special for handouts:</p>
+<ul>
+<li>some item</li>
+<li>another item</li>
+</ul>
+    "
+
+    assert_html_match expected, slide.css('div.handouts').inner_html
+  end
+
+  test 'also does special-content conversion for .exercise' do
+    slide = get_slide(8)
+    expected = "
+<p>And if you want some exercises, just follow these steps</p>
+<ol>
+<li>a step</li>
+<li>another step</li>
+<li>last step</li>
+</ol>
+<p>It's as simple as that.</p>
+"
+    assert_html_match expected, slide.css('div.exercise').inner_html
+  end
+
+  test 'does no conversion for other marks' do
+    slide = get_slide(8)
+    expected = "This is just some extra fun. Nothing should happen here.\n.extra Seriously, this content is not that special."
+
+    assert_equal expected, slide.css('p.extra').inner_html
+  end
 end
