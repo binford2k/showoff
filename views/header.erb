@@ -32,7 +32,8 @@
   <% end %>
 
   <% css_files.each do |css_file| %>
-    <link rel="alternate stylesheet" href="<%= @asset_path %>file/<%= css_file %>" type="text/css"/>
+    <% alternate = ShowOffUtils.default_style?(css_file) ? '' : 'alternate ' %>
+    <link rel="<%= alternate %>stylesheet" href="<%= @asset_path %>file/<%= css_file %>" type="text/css"/>
   <% end %>
 
   <% js_files.each do |js_file| %>
