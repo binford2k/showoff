@@ -82,4 +82,16 @@ context "ShowOff Utils tests" do
     assert_match 'PAUSED', msg
   end
 
+  test 'can obtain value for default style setting' do
+    dir = File.join(File.dirname(__FILE__), 'fixtures', 'style')
+    style = ShowOffUtils.default_style(dir)
+
+    assert_equal 'some_thing', style
+  end
+
+  test 'should have default value for default style setting' do
+    style = ShowOffUtils.default_style
+
+    assert_equal '', style
+  end
 end
