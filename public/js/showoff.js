@@ -727,6 +727,11 @@ function setCurrentStyle(style)
       el.rel = 'stylesheet';
     }
   });
+
+  if ('presenterView' in window) {
+    var pv = window.presenterView;
+    pv.setCurrentStyle(style);
+  }
 }
 
 function setupStyleMenu() {
