@@ -426,6 +426,10 @@ function keyDown(event)
 	{
 		$('#navmenu').toggle().trigger('click')
 	}
+	else if (key == 83)  // 's' for style
+	{
+		$('#stylemenu').toggle().trigger('click')
+	}
 	else if (key == 90 || key == 191) // z or ? for help
 	{
 		$('#help').toggle()
