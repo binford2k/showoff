@@ -211,6 +211,8 @@ class ShowOff < Sinatra::Application
           content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
         sl = Tilt[:markdown].new { slide.text }.render
+        sl = update_p_classes(sl)
+        sl = update_special_content(sl)
         sl = update_image_paths(name, sl, static, pdf)
         content += sl
         content += "</div>\n"
@@ -223,7 +225,6 @@ class ShowOff < Sinatra::Application
 
         md += "</div>\n"
         final += update_commandline_code(md)
-        final = update_p_classes(final)
 
         if seq
           seq += 1
@@ -253,6 +254,25 @@ class ShowOff < Sinatra::Application
     def update_p_classes(markdown)
       markdown.gsub(/<p>\.(.*?) /, '<p class="\1">')
     end
+
+    def update_special_content(content)
+      doc = Nokogiri::HTML::DocumentFragment.parse(content)
+      %w[notes handouts exercise].each { |mark|  update_special_content_mark(doc, mark) }
+      doc.to_html
+    end
+
+    def update_special_content_mark(doc, mark)
+      container = doc.css("p.#{mark}").first
+      return unless container
+
+      raw      = container.text
+      fixed    = raw.gsub(/^\.#{mark} ?/, '')
+      markdown = Tilt[:markdown].new { fixed }.render
+
+      container.name       = 'div'
+      container.inner_html = markdown
+    end
+    private :update_special_content_mark
 
     def update_image_paths(path, slide, static=false, pdf=false)
       paths = path.split('/')
