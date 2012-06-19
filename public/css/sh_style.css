@@ -64,3 +64,18 @@ pre.sh_sourceCode .sh_value { color: darkgreen; font-style: italic; }
 pre.sh_sourceCode .sh_section { color: black; font-weight: bold; }
 pre.sh_sourceCode .sh_paren { color: red; }
 pre.sh_sourceCode .sh_attribute { color: darkgreen; }
+
+/* for Puppet */
+pre.sh_sourceCode .sh_puppet_uri { color: blue; }
+pre.sh_sourceCode .sh_ensure { color: magenta; }
+pre.sh_sourceCode .sh_hashrocket { color: brown; }
+pre.sh_sourceCode .sh_param { color: purple; font-weight: bold; }
+pre.sh_sourceCode .sh_reference { color: orange; }
+
+/* for Puppet Output */
+pre.sh_sourceCode.sh_puppet_output { background-color: black; color: white; }
+pre.sh_sourceCode .sh_info { color: green; }
+pre.sh_sourceCode .sh_notice { color: cyan; }
+pre.sh_sourceCode .sh_warning { color: red; }
+
+
