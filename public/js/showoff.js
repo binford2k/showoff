@@ -263,13 +263,6 @@ function setCurrentNotes()
     return notes;
 }
 
-function getCurrentNotes()
-{
-  var notes = currentSlide.find("p.notes").text()
-  $('#notesInfo').text(notes)
-  return notes
-}
-
 function getSlidePercent()
 {
 	return Math.ceil(((slidenum + 1) / slideTotal) * 100)

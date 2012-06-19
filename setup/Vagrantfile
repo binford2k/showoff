@@ -21,4 +21,6 @@ Vagrant::Config.run do |config|
 
   # install ruby1.9.1 rubygems
   config.vm.provision :shell, :path => 'scripts/gems.sh'
+
+  config.vm.forward_port 9090, 9090
 end
