@@ -21,6 +21,7 @@ pkg
 *.gem
 .bundle
 Gemfile.lock
+.rvmrc
 
 ## PROJECT::SPECIFIC
 dist

@@ -302,7 +302,7 @@ class ShowOffUtils
   end
 
   def self.pause_msg(dir = '.')
-    get_config_option(dir, 'pause_msg', '')
+    get_config_option(dir, 'pause_msg', 'PAUSED')
   end
 
   def self.showoff_pdf_options(dir = '.')
