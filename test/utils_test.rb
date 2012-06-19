@@ -82,4 +82,34 @@ context "ShowOff Utils tests" do
     assert_match 'PAUSED', msg
   end
 
+  test 'can obtain value for default style setting' do
+    dir = File.join(File.dirname(__FILE__), 'fixtures', 'style')
+    style = ShowOffUtils.default_style(dir)
+
+    assert_equal 'some_thing', style
+  end
+
+  test 'should have default value for default style setting' do
+    style = ShowOffUtils.default_style
+
+    assert_equal '', style
+  end
+
+  test 'can indicate a style choice matching the default' do
+    dir = File.join(File.dirname(__FILE__), 'fixtures', 'style')
+
+    assert ShowOffUtils.default_style?('some_thing', dir)
+  end
+
+  test 'can indicate a style choice not matching the default' do
+    dir = File.join(File.dirname(__FILE__), 'fixtures', 'style')
+
+    assert !ShowOffUtils.default_style?('something_else', dir)
+  end
+
+  test 'can indicate a style choice matching the default after stripping away extra path information and extension' do
+    dir = File.join(File.dirname(__FILE__), 'fixtures', 'style')
+
+    assert ShowOffUtils.default_style?('some/long/path/to/some_thing.css', dir)
+  end
 end

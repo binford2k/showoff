@@ -263,7 +263,7 @@ a.fg-button { float:left; }
 
 .fg-button.ui-state-loading .ui-icon { background: url(spinner_bar.gif) no-repeat 0 0; }
 
-#navmenu {
+#navmenu, #stylemenu {
   position: absolute;
   top: 10px;
   left: 10px;
