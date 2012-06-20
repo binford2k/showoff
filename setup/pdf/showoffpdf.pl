@@ -9,6 +9,7 @@ s5pdf - Convert an S5 presentation to PDF
 s5pdf [OPTION]... URI [FILE]
 
     -s,        --show           show the presentation
+    -c FILE,   --css            css style sheet to apply to presentation
     -v,        --verbose        enable verbose mode
     -w WIDTH,  --width WIDHT    the width of the slides in pixels
     -h HEIGHT, --height HEIGHT  the height of the slides in pixels
@@ -52,6 +53,7 @@ sub main {
     GetOptions(
         'v|verbose'  => \my $verbose,
         's|show'     => \my $show,
+        'c|css=s'      => \my $css,
         'w|width=i'  => \my $width,
         'h|height=i' => \my $height,
         'z|zoom=i'   => \my $zoom,
@@ -65,6 +67,7 @@ sub main {
     $filename ||= 'showoff.pdf';
 
     $uri = "file://" . abs_path($uri) if -e $uri;
+    $css =~ s/\.css// if $css;
 
     # The default file name is based on their uri's filename
     $filename ||= sprintf "%s.pdf", fileparse(URI->new($uri)->path, qr/\.[^.]*/) || 's5';
@@ -76,7 +79,7 @@ sub main {
     # with the Perl script by writting data to the consolse.
     $view->execute_script(qq{
         function _is_end_of_slides () {
-            ret = (slidenum == slideTotal - 1) ? true : false ; 
+            ret = (slidenum == slideTotal - 1) ? true : false ;
             console.log("showoff-end-of-slides: " + ret);
             return ret;
         }
@@ -100,6 +103,7 @@ sub main {
         # This seem to happend is there's a newtwork error and we can't download
         # external stuff (e.g. facebook iframe). This timeout seems to help a bit.
         Glib::Idle->add(sub {
+            $view->execute_script("setCurrentStyle('$css')") if $css;
             $view->execute_script('toggleFooter();');
             $view->execute_script('_is_end_of_slides();');
         });
