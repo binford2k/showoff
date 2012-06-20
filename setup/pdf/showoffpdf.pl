@@ -61,16 +61,14 @@ sub main {
         'steps!'     => \$do_steps,
     ) or pod2usage(1);
 
-    my ($uri, $filename) = @ARGV;
+    $css =~ s/\.css// if $css;
 
-    $uri      ||= 'http://localhost:9090/';
+    my ($filename) = @ARGV;
+    my $uri      = 'http://localhost:9090/';
+
     $filename ||= 'showoff.pdf';
 
     $uri = "file://" . abs_path($uri) if -e $uri;
-    $css =~ s/\.css// if $css;
-
-    # The default file name is based on their uri's filename
-    $filename ||= sprintf "%s.pdf", fileparse(URI->new($uri)->path, qr/\.[^.]*/) || 's5';
 
     my $view = Gtk3::WebKit::WebView->new();
     $view->set('zoom-level', 1 + ($zoom/10)) if $zoom;
