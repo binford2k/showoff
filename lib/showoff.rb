@@ -257,7 +257,7 @@ class ShowOff < Sinatra::Application
 
     def update_special_content(content)
       doc = Nokogiri::HTML::DocumentFragment.parse(content)
-      %w[notes handouts exercise].each { |mark|  update_special_content_mark(doc, mark) }
+      %w[notes handouts solguide].each { |mark|  update_special_content_mark(doc, mark) }
       doc.to_html
     end
 
