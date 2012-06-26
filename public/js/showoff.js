@@ -647,7 +647,7 @@ function startPreShow() {
 
 function addPreShowTips() {
 	time = secondsToTime(preshow_secondsLeft)
-	$('#preshow_timer').text(time + ' to go-time')
+	$('#preshow_timer').text(time + ' to class start!')
 	var des = preshow_des && preshow_des[tmpImg.attr("ref")]
 	if(des) {
 		$('#tips').show()
