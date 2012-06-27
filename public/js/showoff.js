@@ -333,10 +333,26 @@ function doDebugStuff()
 {
 	if (debugMode) {
 		$('#debugInfo').show()
+        $('.slide .content').each(function(index) {
+            $(this).prepend('<div id="debugFilename">' + $(this).attr('ref') + '</div>');
+        });
 		debug('debug mode on')
 	} else {
 		$('#debugInfo').hide()
+		$('.content #debugFilename').remove()
 	}
+}
+
+function blankScreen()
+{
+    if ($('#screenblanker').length) { // if #screenblanker exists
+        $('#screenblanker').slideUp('normal', function() {
+            $('#screenblanker').remove();
+        });
+    } else {
+        $('body').prepend('<div id="screenblanker"></div>');
+        $('#screenblanker').slideDown();
+    }
 }
 
 var notesMode = false
@@ -446,7 +462,11 @@ function keyDown(event)
 	{
 		$('#help').toggle()
 	}
-	else if (key == 66 || key == 70) // f for footer (also "b" which is what kensington remote "stop" button sends
+	else if (key == 66) // b for blank, also what kensington remote "stop" button sends
+	{
+		blankScreen()
+	}
+    	else if (key == 70) // f for footer
 	{
 		toggleFooter()
 	}

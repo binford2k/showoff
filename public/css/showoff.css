@@ -235,7 +235,19 @@ pre { margin: 1em 40px; padding: .25em; }
 .offscreen { position:absolute; top:0; left:-9999px; overflow:hidden; }
 #debugInfo { margin-left: 30px; }
 #notesInfo { margin-left: 30px; display: none }
+#debugFilename {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    font-size: 12px;
+}
 #preshow { display: none; }
+/* define the screen blocking view */
+/* we define it as invisible because we use jQuery to animate its presentation */
+#screenblanker {
+  height: 100%;
+  display: none;
+}
 
 #help {
     background: #9f9;
