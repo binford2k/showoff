@@ -4,11 +4,11 @@ var w = null;
 $(function(){
 	w = window.open('/' + window.location.hash);
 	
-	if(!w) {    	
-    	// This allows the arrows to work even without a slave window
-    	w = window;
-	}
-	else {
+    if(!w) {
+        // This allows the arrows to work even without a slave window
+        w = window;
+    }
+    else {
     	// Give the slide window a handle to the presenter view window.
     	// This will let either window be made fullscreen and
     	// still process slide advance/rewinds correctly.
@@ -37,22 +37,33 @@ $(function(){
 
 function openSlave()
 {
-    w = window.open('/' + window.location.hash);
+    if(w = window || typeof(w) == 'undefined' || w.closed){
+        w = window.open('/' + window.location.hash);
+    } else {
+      // maybe we need to reset content?
+      w.location.href = '/' + window.location.hash;
+    }
+
+    // maintain the pointer back to the parent.
     w.presenterView = window;
 }
 
 function presPrevStep()
 {
-	prevStep()
-	w.prevStep()
-	postSlide()
+    if(!w.prevStep) { w = window; }
+
+    prevStep()
+    w.prevStep()
+    postSlide()
 }
 
 function presNextStep()
 {
-  // read the variables set by our spawner
-  incrCurr = w.incrCurr
-  incrSteps = w.incrSteps
+    if(!w.nextStep) { w = window; }
+
+    // read the variables set by our spawner
+    incrCurr = w.incrCurr
+    incrSteps = w.incrSteps
 
 	nextStep()
 	w.nextStep()
