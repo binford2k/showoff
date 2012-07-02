@@ -2,12 +2,18 @@
 var w = null;
 
 $(function(){
-	w = window.open('/' + window.location.search);
-
-	// Give the slide window a handle to the presenter view window.
-	// This will let either window be made fullscreen and
-	// still process slide advance/rewinds correctly.
-	w.presenterView = window;
+	w = window.open('/' + window.location.hash);
+	
+	if(!w) {    	
+    	// This allows the arrows to work even without a slave window
+    	w = window;
+	}
+	else {
+    	// Give the slide window a handle to the presenter view window.
+    	// This will let either window be made fullscreen and
+    	// still process slide advance/rewinds correctly.
+    	w.presenterView = window;
+	}
 
   // side menu accordian crap
 	$("#preso").bind("showoff:loaded", function (event) {
@@ -28,6 +34,12 @@ $(function(){
   $("#startTimer").click(function() { toggleTimer() })
   $("#stopTimer").click(function() { toggleTimer() })
 });
+
+function openSlave()
+{
+    w = window.open('/' + window.location.hash);
+    w.presenterView = window;
+}
 
 function presPrevStep()
 {
