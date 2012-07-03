@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <%= erb :header_mini %>
+</head>
+
+<body id="download">
+
+    <div id="preso">
+        <h1>File Downloads for <%= @title %></h1>
+        
+        <ul id="downloads">
+            <% if @downloads %>
+                <% @downloads.sort.map do |key, value| %>
+                    <% enabled, file, title = value %>
+                    <% if enabled %>
+                        <li><a href="/file/_files/<%= file %>">Slide <%= key %>: <%= title %>/<%= file %></a></li>
+                    <% end %>
+                <% end %>
+            <% end %>
+            
+        </ul>
+    </div>
+    <div id="footer">
+        <span id="debugInfo"></span>
+    </div>
+</body>
+</html>
