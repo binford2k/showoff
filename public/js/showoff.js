@@ -47,6 +47,9 @@ function setupPreso(load_slides, prefix) {
 		bind('tap', swipeLeft).         // next
 		bind('swipeleft', swipeLeft).   // next
 		bind('swiperight', swipeRight); // prev
+
+  // start analytics counter
+  startCounter()
 }
 
 function loadSlides(load_slides, prefix) {
@@ -297,7 +300,6 @@ function showIncremental(incr)
 
 function prevStep()
 {
-
 	var event = jQuery.Event("showoff:prev");
 	$(currentSlide).find(".content").trigger(event);
 	if (event.isDefaultPrevented()) {
@@ -812,4 +814,24 @@ function StyleListMenuItem(t)
 }
 /********************
  End Style-Picker Code
+ ********************/
+
+
+/********************
+ Analytics Code
+ ********************/
+
+function startCounter()
+{
+  // the download enabler relies on zero based counting.
+  var counter = function() {
+		$.get("/counter", { page: slidenum } );
+		countTimer = setTimeout(counter, 1000);
+	}
+	countTimer = setTimeout(counter, 1000);
+}
+
+
+/********************
+ End Analytics Code
  ********************/

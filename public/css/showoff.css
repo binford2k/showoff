@@ -1,6 +1,6 @@
 @media screen {
   body {
-			font-size: 100%;
+      font-size: 100%;
       font-family: "Gill Sans", Helvetica, Arial, sans-serif;
       background:#333;
       overflow:hidden;
@@ -386,6 +386,18 @@ a.fg-button { float:left; }
 
 #preshow_timer {
   bottom: 0px;
+}
+
+#download h1 {
+  font-size: 3em;
+}
+ul#downloads {
+    margin-left:  20%;
+    font-size: large;
+    list-style-type: disc;
+}
+ul#downloads li {
+    margin: 0.5em;
 }
 
 /** Print **/
