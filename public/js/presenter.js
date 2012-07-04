@@ -2,12 +2,15 @@
 var w = null;
 
 $(function(){
-	w = window.open('/' + window.location.search);
+  try {
+    w = window.open('/' + window.location.hash);
 
-	// Give the slide window a handle to the presenter view window.
-	// This will let either window be made fullscreen and
-	// still process slide advance/rewinds correctly.
-	w.presenterView = window;
+    // Give the slide window a handle to the presenter view window.
+    // This will let either window be made fullscreen and
+    // still process slide advance/rewinds correctly.
+    w.presenterView = window;
+	}
+	catch (e) { console.log('Slave window failed to open.') }
 
   // side menu accordian crap
 	$("#preso").bind("showoff:loaded", function (event) {
@@ -17,7 +20,7 @@ $(function(){
 				$(this).next().toggle()
 			} else {
 				gotoSlide($(this).attr('rel'))
-				w.gotoSlide($(this).attr('rel'))
+				try { w.gotoSlide($(this).attr('rel')) } catch (e) {}
 				postSlide()
 			}
 			return false
@@ -29,28 +32,48 @@ $(function(){
   $("#stopTimer").click(function() { toggleTimer() })
 });
 
+function openSlave()
+{
+    if(typeof(w) == 'undefined' || w.closed){
+        w = window.open('/' + window.location.hash);
+    } else {
+      // maybe we need to reset content?
+      w.location.href = '/' + window.location.hash;
+    }
+
+    // maintain the pointer back to the parent.
+    w.presenterView = window;
+}
+
 function presPrevStep()
 {
-	prevStep()
-	w.prevStep()
-	postSlide()
+    prevStep()
+    try { w.prevStep() } catch (e) {}
+    postSlide()
 }
 
 function presNextStep()
 {
-  // read the variables set by our spawner
-  incrCurr = w.incrCurr
-  incrSteps = w.incrSteps
-
+/*  // I don't know what the point of this bit was, but it's not needed.
+    // read the variables set by our spawner
+    incrCurr = w.incrCurr
+    incrSteps = w.incrSteps
+*/
 	nextStep()
-	w.nextStep()
+	try { w.nextStep() } catch (e) {}
 	postSlide()
 }
 
 function postSlide()
 {
 	if(currentSlide) {
-		var notes = w.getCurrentNotes()
+		try {
+		  // whuuuu?
+		  var notes = w.getCurrentNotes()
+		}
+		catch(e) {
+		  var notes = getCurrentNotes()
+		}
 		var fileName = currentSlide.children().first().attr('ref')
 		$('#notes').html(notes.html())
 		$('#slideFile').text(fileName)
@@ -74,18 +97,20 @@ function keyDown(event)
 	}
 
 	if (key == 13) {
-		if (gotoSlidenum > 0) {
-			debug('go to ' + gotoSlidenum);
-			slidenum = gotoSlidenum - 1;
-			showSlide(true);
-			w.slidenum = gotoSlidenum - 1;
-			w.showSlide(true);
-			gotoSlidenum = 0;
-		} else {
-			debug('executeCode');
-			executeAnyCode();
-			w.executeAnyCode();
-		}
+    if (gotoSlidenum > 0) {
+      debug('go to ' + gotoSlidenum);
+      slidenum = gotoSlidenum - 1;
+      showSlide(true);
+      try {
+        w.slidenum = gotoSlidenum - 1;
+        w.showSlide(true);
+      } catch (e) {}
+        gotoSlidenum = 0;
+    } else {
+      debug('executeCode');
+      executeAnyCode();
+      try { w.executeAnyCode(); } catch (e) {}
+    }
 	}
 
 	if (key == 16) // shift key
@@ -137,11 +162,11 @@ function keyDown(event)
 	else if (key == 27) // esc
 	{
 		removeResults();
-		w.removeResults();
+		try { w.removeResults(); } catch (e) {}
 	}
 	else if (key == 80) // 'p' for preshow
 	{
-		w.togglePreShow();
+		try { w.togglePreShow(); } catch (e) {}
 	}
 	return true
 }
@@ -210,5 +235,5 @@ function setProgressColor(progress) {
 var presSetCurrentStyle = setCurrentStyle;
 var setCurrentStyle = function(style, prop) {
   presSetCurrentStyle(style, false);
-  w.setCurrentStyle(style, false);
+  try { w.setCurrentStyle(style, false); } catch (e) {}
 }
