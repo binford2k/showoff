@@ -503,11 +503,12 @@ Then restart showoff, and navigate to <tt>/pdf</tt> (e.g. http://localhost/pdf) 
 == Markdown Engine
 
 It is possible to configure the markdown engine of your choice to use
-with showoff. The following engines come preconfigured:
+with showoff. The following engines are available:
 
 * redcarpet (default)
 * bluecloth
 * maruku
+* kramdown
 * rdiscount
 
 Configuring an engine (or overriding it's default configuration) allows you to access special features of that engine.
