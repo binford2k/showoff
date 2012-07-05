@@ -685,7 +685,9 @@ class ShowOff < Sinatra::Application
   end
 
   at_exit do
-    viewstats = File.new("viewstats.json", "w")
-    viewstats.write @@counter.to_json
+    if defined?(@@counter)
+      viewstats = File.new("viewstats.json", "w")
+      viewstats.write @@counter.to_json
+    end
   end
 end
