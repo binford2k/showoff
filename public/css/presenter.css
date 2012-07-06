@@ -87,3 +87,18 @@ div.zoomed {
 .tGreen  { background: #9d9; }
 .tRed    { background: #d99; }
 .tYellow { background: #dd9; }
+
+
+/* I want this view to like, actually work on multiple screen sizes... */
+#main { height: 100%; }
+#sidebar, #preview { height: 75%; min-height: 430px; }
+
+#slideSource { height: 8%; padding: 0; }
+#progress { height: 5%; padding: 0; }
+#timerSection { height: 5%; padding: 0; background-color: #ccc; border: none; }
+#slidemenu { height: 82%; padding: 0; }
+.menu { height: 100%; max-height: 100%; }
+
+#bottom { height: 10%; }
+#notes { height: 100%; min-height: 100%; max-height: 100%; font-size: 1em; }
+
