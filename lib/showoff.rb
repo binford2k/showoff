@@ -538,6 +538,25 @@ class ShowOff < Sinatra::Application
         end
       end
     end
+    
+    def stats(static=false)
+      if request.env['REMOTE_HOST'] == 'localhost'
+        # the presenter should have full stats
+        @counter = @@counter
+      end
+      
+      @all = Hash.new
+      @@counter.each do |slide, stats|
+        @all[slide] = 0
+        stats.map { |host, count| @all[slide] += count }
+      end
+      
+      # most and least five viewed slides
+      @least = @all.sort_by {|slide, time| time}[0..4]
+      @most = @all.sort_by {|slide, time| -time}[0..4]
+      
+      erb :stats
+    end
 
     def pdf(static=true)
       @slides = get_slides_html(static, true)
