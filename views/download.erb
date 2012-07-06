@@ -13,10 +13,13 @@
         
         <ul id="downloads">
             <% if @downloads %>
+                <%# [ enabled, slide name, [array, of, files] ] %>
                 <% @downloads.sort.map do |key, value| %>
-                    <% enabled, file, title = value %>
+                    <% enabled, title, files = value %>
                     <% if enabled %>
-                        <li><a href="/file/_files/<%= file %>">Slide <%= key %>: <%= title %>/<%= file %></a></li>
+                        <% files.each do |file| %>
+                          <li><a href="/file/_files/<%= file %>">Slide <%= key %>: <%= title %>/<%= file %></a></li>
+                        <% end %>
                     <% end %>
                 <% end %>
             <% end %>
