@@ -21,27 +21,31 @@
         
         <div id="least">
           <h3>Least viewed slides</h3>
-          <% max = @least.sort.reverse[2][1].to_f %>
-          <% timestr =  (max > 3599) ?  '%H:%M:%S' : '%M:%S' %>
-          <% @least.each do |slide, time| %>
-            <div class="row">
-              <span class="label">Slide <%= slide %>:</span>
-              <div class="bar" style="width: <%= (time/max)*100 %>%;"> </div>
-              <div class="time"><%= Time.at(time).gmtime.strftime(timestr) %></div>
-            </div>
+          <% if @least.size > 0 %>
+            <% max = @least.sort_by {|slide, time| -time}[0][1].to_f %>
+            <% timestr =  (max > 3599) ?  '%H:%M:%S' : '%M:%S' %>
+            <% @least.each do |slide, time| %>
+              <div class="row">
+                <span class="label">Slide <%= slide %>:</span>
+                <div class="bar" style="width: <%= (time/max)*100 %>%;"> </div>
+                <div class="time"><%= Time.at(time).gmtime.strftime(timestr) %></div>
+              </div>
+            <% end %>
           <% end %>
         </div>
         
         <div id="most">
           <h3>Most viewed slides</h3>
-          <% max = @most[0][1].to_f %>
-          <% timestr =  (max > 3599) ?  '%H:%M:%S' : '%M:%S' %>
-          <% @most.each do |slide, time| %>
-            <div class="row">
-              <span class="label">Slide <%= slide %>:</span>
-              <div class="bar" style="width: <%= (time/max)*100 %>%;"> :</div>
-              <div class="time"><%= Time.at(time).gmtime.strftime(timestr) %></div>
-            </div>
+          <% if @least.size > 0 %>
+            <% max = @most[0][1].to_f %>
+            <% timestr =  (max > 3599) ?  '%H:%M:%S' : '%M:%S' %>
+            <% @most.each do |slide, time| %>
+              <div class="row">
+                <span class="label">Slide <%= slide %>:</span>
+                <div class="bar" style="width: <%= (time/max)*100 %>%;"> :</div>
+                <div class="time"><%= Time.at(time).gmtime.strftime(timestr) %></div>
+              </div>
+            <% end %>
           <% end %>
         </div>
         
