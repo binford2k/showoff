@@ -45,6 +45,12 @@ function openSlave()
     w.presenterView = window;
 }
 
+function zoom(val)
+{
+  var n = val ? val + parseFloat($(".zoomed").css("zoom")) : 0.5;
+  $(".zoomed").css("zoom", n);
+}
+
 function presPrevStep()
 {
     prevStep()
