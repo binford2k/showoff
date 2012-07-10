@@ -30,7 +30,7 @@ $(document).ready(function(){
   $("#minStop").hide()
   $("#startTimer").click(function() { toggleTimer() })
   $("#stopTimer").click(function() { toggleTimer() })
-  
+
   /* zoom slide to match preview size, then set up resize handler. */
   zoom();
   $(window).resize(function() { zoom(); });
@@ -56,9 +56,9 @@ function zoom()
   var hPreview = parseFloat($("#preview").height());
   var wPreview = parseFloat($("#preview").width());
   var factor = parseFloat($("#zoomer").val());
-  
-  n =  Math.min(hPreview/hSlide, wPreview/wSlide) - 0.03;
-  
+
+  n =  Math.min(hPreview/hSlide, wPreview/wSlide) - 0.04;
+
   $(".zoomed").css("zoom", n*factor);
 }
 
