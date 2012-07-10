@@ -1,7 +1,7 @@
 // presenter js
 var w = null;
 
-$(function(){
+$(document).ready(function(){
   try {
     w = window.open('/' + window.location.hash);
 
@@ -30,6 +30,10 @@ $(function(){
   $("#minStop").hide()
   $("#startTimer").click(function() { toggleTimer() })
   $("#stopTimer").click(function() { toggleTimer() })
+  
+  /* zoom slide to match preview size, then set up resize handler. */
+  zoom();
+  $(window).resize(function() { zoom(); });
 });
 
 function openSlave()
@@ -45,10 +49,17 @@ function openSlave()
     w.presenterView = window;
 }
 
-function zoom(val)
+function zoom()
 {
-  var n = val ? val + parseFloat($(".zoomed").css("zoom")) : 0.5;
-  $(".zoomed").css("zoom", n);
+  var hSlide = parseFloat($("#preso").height());
+  var wSlide = parseFloat($("#preso").width());
+  var hPreview = parseFloat($("#preview").height());
+  var wPreview = parseFloat($("#preview").width());
+  var factor = parseFloat($("#zoomer").val());
+  
+  n =  Math.min(hPreview/hSlide, wPreview/wSlide) - 0.03;
+  
+  $(".zoomed").css("zoom", n*factor);
 }
 
 function presPrevStep()
