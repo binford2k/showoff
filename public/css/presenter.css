@@ -1,107 +1,149 @@
+/* Sizes must be defined for child elements to use them in fluid calculations. */
+#main { height: 100%; }
+
 div.zoomed {
   zoom: 50%;
   -moz-transform: scale(0.5);
   -moz-transform-origin: 0 0;
 }
 
-#preso { margin-top: 20px; }
+#preso { margin: 2%; }
 
 #main h2 { 
   text-align: left;
-  font-size: 1.5em;
+  font-size: 1em;
 }
 
-#timerSection {
-  padding: 15px 10px;
-  border-top: 1px solid #555;
-  border-bottom: 1px solid #555;
-}
-#progress {
-  padding: 10px;
-}
-#slideSource {
-  padding: 10px;
-  background: #ccc;
-}
-
-#preview {
-  min-height: 430px;
-  background: #777;
-}
-
-#links {
-  background: #fff;
-  padding: 10px;
+#topbar {
+  height: 5%;
+  background: #cfcfcf;
+  vertical-align: middle;
   text-align: right;
-}
-#links a { color: #000; }
-
-#slidemenu {
-  background: #fff;
-  padding: 10px;
-}
-#slidemenu ul li {
-  padding: 5px;
-}
-
-#sidebar { background: #ddd; }
-
-#notes { 
-  background: #ff9;
-  font-size: 1.5em;
-  min-height: 150px;
-  max-height: 250px;
-  overflow: auto;
-  padding: 20px;
-}
-
-#notes ol, #notes ul {
-  padding-left: 1em;
-}
-#notes ol {
-  list-style-type: decimal;
-}
-#notes ul {
-  list-style-type: disc;
-}
-
-.menu {
-  height: 350px;
-  max-height: 350px;
-  overflow:auto;
-}
-
-.menu a {
-  display: block;
   color: #000;
 }
-.menu > ul > li > ul {
-  padding-left: 20px;
+  #slideSource {
+    float: left;
+    margin: 0.25em 0 0 0.5em;
+  }
+  #links {
+    font-size: 80%;
+  }
+  #links a {
+    padding: 0.5em;
+  }
+
+
+#center {
+  height: 75%;
+  background-color: #fff;
 }
-.menu > ul > li > a {
-  padding: 10px;
-  background: #eee;
+  #sidebar {
+    width: 25%;
+    height: 100%;
+    float: left;
+    background-color: #ccc;
+  }
+    #timerSection {
+      height: 5%;
+      margin-left: 0.5em;
+    }
+    .tBlue   { background: #79d; }
+    .tGreen  { background: #9d9; }
+    .tRed    { background: #d99; }
+    .tYellow { background: #dd9; }
+    
+    #slidemenu {
+      height: 95%;
+      margin-right: 2px;
+      background-color: #fff;
+    }
+    #slidemenu ul li {
+      padding: 5px;
+    }
+    
+    .menu {
+      height: 100%;
+      max-height: 100%;
+      overflow:auto;
+    }
+    
+    .menu a {
+      display: block;
+      color: #000;
+      margin: 1px;
+      padding: 0.25em;     
+      -moz-border-radius: 0.25em;
+      -webkit-border-radius: 0.25em;
+      -khtml-border-radius: 0.25em;
+      border-radius: 0.25em;
+    }
+    .menu a:hover {
+      margin: 0;
+      border: 1px solid #ccc;
+      background-color: #dedede;
+    }
+    .menu > ul > li > ul {
+      padding-left: 20px;
+      font-size: 80%;
+    }
+    .menu > ul > li > a {
+      padding: 10px;
+      background: #eee;
+    }
+ 
+  
+  #preview {
+    width: 75%;
+    height: 95%;
+    float: right;
+    overflow: scroll;
+    background: #eee;
+  }
+  
+  #statusbar {
+    width: 75%;
+    height: 5%;
+    float: right;
+    clear: right;
+    vertical-align: middle;
+  }
+    #progress {
+      margin-left: 1em;
+    }
+    #debugInfo {
+      display: inline;
+    }
+    #zoomer {
+      float: right;
+    }
+
+
+#bottom {
+  height: 15%;
 }
 
-.tBlue   { background: #79d; }
-.tGreen  { background: #9d9; }
-.tRed    { background: #d99; }
-.tYellow { background: #dd9; }
+  #notes { 
+    background: #ff9;
+    font-size: 1em;
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    overflow: auto;
+    padding: 2em;
+  }
+  
+  #notes ol, #notes ul {
+    padding-left: 1em;
+  }
+  #notes ol {
+    list-style-type: decimal;
+  }
+  #notes ul {
+    list-style-type: disc;
+  }
 
 
-/* I want this view to like, actually work on multiple screen sizes... */
-#main { height: 100%; }
-#sidebar { height: 75%; min-height: 430px; }
-#preview { height: 75%; min-height: 430px; overflow: scroll; }
 
-#slideSource { height: 8%; padding: 0; }
-#progress { height: 5%; padding: 0; }
-#timerSection { height: 5%; padding: 0; background-color: #ccc; border: none; }
-#slidemenu { height: 82%; padding: 0; }
-.menu { height: 100%; max-height: 100%; }
-
-#bottom { height: 10%; }
-#notes { height: 100%; min-height: 100%; max-height: 100%; font-size: 1em; }
 
 a.controls {
   text-decoration: none;

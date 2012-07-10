@@ -4,7 +4,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <%= erb :header %>
-  <link rel="stylesheet" href="<%= @asset_path %>css/960.css" type="text/css"/>
   <link rel="stylesheet" href="<%= @asset_path %>css/presenter.css" type="text/css"/>
   <script type="text/javascript" src="<%= @asset_path %>js/presenter.js"></script>
 </head>
@@ -31,41 +30,40 @@
 
 <div id="main" class="container_12">
   <div id="topbar" class="grid_12">
-    <div id="links">
-      <a class="controls" href="javascript:zoom(-0.01);">-</a>
-      <a class="controls" href="javascript:zoom();">o</a>
-      <a class="controls" href="javascript:zoom(0.01);">+</a>
-      &nbsp; &nbsp;
-      <a href="javascript:openSlave();">Open Slave Window</a>
-      &nbsp; &nbsp;
-      <a href="/pdf">Generate PDF</a>
-      &nbsp; &nbsp;
-      <a href="/onepage">Single Page</a>
-    </div>
-  </div>
-  <div class="clear"></div>
-  <div id="sidebar" class="grid_4">
     <div id="slideSource">
       Source: <span id="slideFile"></span>
     </div>
-    <div id="progress">
-      Slide: <span id="slideInfo"></span>
+    <span id="links">
+      <a href="javascript:openSlave();">Open Slave Window</a>
+      <a href="/pdf">Generate PDF</a>
+      <a href="/onepage">Single Page</a>
+    </span>
+  </div>
+  
+  <div id="center">
+    <div id="sidebar" class="grid_4">
+      <div id="timerSection">
+        Timer: 
+        <span id="minStart"><input type="text" size="2" id="timerMinutes"/> min <input type="button" id="startTimer" value="Start"></span>
+        <span id="timerInfo"></span>
+        <span id="minStop"><input type="button" id="stopTimer" value="Stop"></span>
+      </div>
+      <div id="slidemenu">
+        <div id="navigation" class="menu"></div>
+      </div>
     </div>
-    <div id="timerSection">
-      Timer: 
-      <span id="minStart"><input type="text" size="2" id="timerMinutes"/> min <input type="button" id="startTimer" value="Start"></span>
-      <span id="timerInfo"></span>
-      <span id="minStop"><input type="button" id="stopTimer" value="Stop"></span>
+    <div id="preview" class="grid_8">
+      <div id="preso" class="zoomed">loading presentation...</div>
     </div>
-    <div id="debugInfo"></div>
-    <div id="slidemenu">
-      <div id="navigation" class="menu"></div>
+    <div id="statusbar">
+      <span id="progress">
+        Slide: <span id="slideInfo"></span>
+      </span>
+      <div id="debugInfo"></div>
+      <input id="zoomer" type="range" min="0.5" max="1.5" step="0.01" onchange="javascript:zoom();" />
     </div>
   </div>
-  <div id="preview" class="grid_8">
-    <div id="preso" class="zoomed">loading presentation...</div>
-  </div>
-  <div class="clear"></div>
+  
   <div id="bottom" class="grid_12">
     <div id="notes"></div>
   </div>
