@@ -526,8 +526,10 @@ class ShowOff < Sinatra::Application
     def ping(static=false)
       slide = request.params['page'].to_i
       remote = request.env['REMOTE_HOST']
-
-      logger.debug "Ping: #{remote} : #{slide}"
+      referer = request.env['HTTP_REFERER']
+      referer = referer ? referer.split('/').last : ''
+  
+      p "Ping: #{remote} : #{referer} : #{slide}"
 
       # Is this hit from the presenter?
       if remote == 'localhost'
@@ -537,12 +539,10 @@ class ShowOff < Sinatra::Application
           @@downloads[slide][0] = true
         end
         
-        # update the current slide pointer
-        @@current = slide
-        # return it to the client
-        # TODO: why doesn't the variable pass through to the client?
-        "Current slide: #{@@current}"
-
+        # update the current slide pointer if this is a ping from the instructor
+        if referer == 'presenter'
+          @@current = slide
+        end
       # otherwise, this is an audience viewer, so increment the slide view time counter
       else
         if not @@counter.has_key?(slide)
@@ -554,7 +554,10 @@ class ShowOff < Sinatra::Application
         else
           @@counter[slide][remote] = 1
         end
-      end
+        
+        # return current slide to the client
+        "#{@@current}"
+      end      
     end
     
     def stats(static=false)

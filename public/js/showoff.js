@@ -842,14 +842,15 @@ function startPing()
   // the download enabler relies on zero based counting
   var ping = function() {
   
-    // TODO: I forget the details of how the xmlhttprequest works...
-		$.get("/ping", { page: slidenum }, function() { console.log( this );} );
-		
-		// if we are in follow mode and on the index page, then update to
-		// whatever slide the presenter is on
-		if(followMode && window.location.pathname == '/') {
-  		//gotoSlide(current)
-		}
+		$.get("/ping", { page: slidenum }, function(data) {
+      // if we are in follow mode and on the index page, then update to
+      // whatever slide the presenter is on
+      if(followMode && window.location.pathname == '/') {
+        console.log(data);
+        gotoSlide(data);
+      }
+		});
+
 		countTimer = setTimeout(ping, 1000);
 	}
 	countTimer = setTimeout(ping, 1000);
