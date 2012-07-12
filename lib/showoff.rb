@@ -38,6 +38,7 @@ class ShowOff < Sinatra::Application
   set :showoff_config, nil
   set :downloads, nil
   set :counter, nil
+  set :current, 0
 
   def initialize(app=nil)
     super(app)
@@ -83,6 +84,9 @@ class ShowOff < Sinatra::Application
 
     # Page view time accumulator
     @@counter = Hash.new
+    
+    # The current slide that the presenter is viewing
+    @@current = 0
 
     # Initialize Markdown Configuration
     #MarkdownConfig::setup(settings.pres_dir)
@@ -519,18 +523,26 @@ class ShowOff < Sinatra::Application
       erb :download
     end
 
-    def counter(static=false)
+    def ping(static=false)
       slide = request.params['page'].to_i
       remote = request.env['REMOTE_HOST']
 
       logger.debug "Ping: #{remote} : #{slide}"
 
-      # check to see if we need to enable a download link
+      # Is this hit from the presenter?
       if remote == 'localhost'
+        # check to see if we need to enable a download link
         if @@downloads.has_key?(slide)
           logger.debug "Enabling file download for slide #{slide}"
           @@downloads[slide][0] = true
         end
+        
+        # update the current slide pointer
+        @@current = slide
+        # return it to the client
+        # TODO: why doesn't the variable pass through to the client?
+        "Current slide: #{@@current}"
+
       # otherwise, this is an audience viewer, so increment the slide view time counter
       else
         if not @@counter.has_key?(slide)

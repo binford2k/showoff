@@ -48,8 +48,8 @@ function setupPreso(load_slides, prefix) {
 		bind('swipeleft', swipeLeft).   // next
 		bind('swiperight', swipeRight); // prev
 
-  // start analytics counter
-  startCounter()
+  // start pinging the server
+  startPing()
 }
 
 function loadSlides(load_slides, prefix) {
@@ -369,6 +369,18 @@ function toggleNotes()
 	}
 }
 
+var followMode = false
+function toggleFollow()
+{
+  followMode = followMode ? false : true;
+  if(followMode) {
+    $("#followMode").show();
+    debug('follow mode on');
+  } else {
+    $("#followMode").toggle();
+  }
+}
+
 function executeAnyCode()
 {
   var $jsCode = $('.execute .sh_javascript code:visible')
@@ -468,9 +480,13 @@ function keyDown(event)
 	{
 		blankScreen()
 	}
-    	else if (key == 70) // f for footer
+  else if (key == 70) // f for footer
 	{
 		toggleFooter()
+	}
+	else if (key == 71) // g for follow mode
+	{
+  	toggleFollow()
 	}
 	else if (key == 78) // 'n' for notes
 	{
@@ -818,20 +834,28 @@ function StyleListMenuItem(t)
 
 
 /********************
- Analytics Code
+ Analytics and Follower Code
  ********************/
 
-function startCounter()
+function startPing()
 {
-  // the download enabler relies on zero based counting.
-  var counter = function() {
-		$.get("/counter", { page: slidenum } );
-		countTimer = setTimeout(counter, 1000);
+  // the download enabler relies on zero based counting
+  var ping = function() {
+  
+    // TODO: I forget the details of how the xmlhttprequest works...
+		$.get("/ping", { page: slidenum }, function() { console.log( this );} );
+		
+		// if we are in follow mode and on the index page, then update to
+		// whatever slide the presenter is on
+		if(followMode && window.location.pathname == '/') {
+  		//gotoSlide(current)
+		}
+		countTimer = setTimeout(ping, 1000);
 	}
-	countTimer = setTimeout(counter, 1000);
+	countTimer = setTimeout(ping, 1000);
 }
 
 
 /********************
- End Analytics Code
+ End Analytics and Follower Code
  ********************/
