@@ -545,14 +545,20 @@ class ShowOff < Sinatra::Application
         end
       # otherwise, this is an audience viewer, so increment the slide view time counter
       else
-        if not @@counter.has_key?(slide)
-          @@counter[slide] = Hash.new
-        end
-
-        if @@counter[slide].has_key?(remote)
-          @@counter[slide][remote] += 1
-        else
-          @@counter[slide][remote] = 1
+        # we only care about tracking viewing time that's not on the current slide
+        # (or on the previous slide, since we'll get at least one hit from the follower)
+        if slide != @@current and slide != @@current-1
+          # a bucket for this slide
+          if not @@counter.has_key?(slide)
+            @@counter[slide] = Hash.new
+          end
+  
+          # a counter for this viewer
+          if @@counter[slide].has_key?(remote)
+            @@counter[slide][remote] += 1
+          else
+            @@counter[slide][remote] = 1
+          end
         end
         
         # return current slide to the client
