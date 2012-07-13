@@ -526,20 +526,18 @@ class ShowOff < Sinatra::Application
     def ping(static=false)
       slide = request.params['page'].to_i
       remote = request.env['REMOTE_HOST']
-      referer = request.env['HTTP_REFERER']
-      referer = referer ? referer.split('/').last : ''
-  
-      p "Ping: #{remote} : #{referer} : #{slide}"
 
       # Is this hit from the presenter?
       if remote == 'localhost'
         # check to see if we need to enable a download link
         if @@downloads.has_key?(slide)
-          logger.debug "Enabling file download for slide #{slide}"
+          @logger.debug "Enabling file download for slide #{slide}"
           @@downloads[slide][0] = true
         end
         
         # update the current slide pointer if this is a ping from the instructor
+        referer = request.env['HTTP_REFERER']
+        referer = referer ? referer.split('/').last : ''
         if referer == 'presenter'
           @@current = slide
         end
