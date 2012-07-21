@@ -278,7 +278,7 @@ class ShowOff < Sinatra::Application
       container = doc.css("p.#{mark}").first
       return unless container
 
-      raw      = container.text
+      raw      = container.inner_html
       fixed    = raw.gsub(/^\.#{mark} ?/, '')
       markdown = Tilt[:markdown].new { fixed }.render
 
