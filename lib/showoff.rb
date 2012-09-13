@@ -105,7 +105,7 @@ class ShowOff < Sinatra::Application
 
 
     # Initialize Markdown Configuration
-    #MarkdownConfig::setup(settings.pres_dir)
+    MarkdownConfig::setup(settings.pres_dir)
   end
 
   def self.pres_dir_current
