@@ -173,6 +173,9 @@ class ShowOff < Sinatra::Application
       if settings.encoding and content.respond_to?(:force_encoding)
         content.force_encoding(settings.encoding)
       end
+      engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
+      @logger.debug "renderer: #{Tilt[:markdown].name}"
+      @logger.debug "render options: #{engine_options.inspect}"
 
       # if there are no !SLIDE markers, then make every H1 define a new slide
       unless content =~ /^\<?!SLIDE/m
@@ -274,7 +277,7 @@ class ShowOff < Sinatra::Application
 
         # Apply the template to the slide and replace the key to generate the content of the slide
         sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
-        sl = Tilt[:markdown].new { sl }.render
+        sl = Tilt[:markdown].new(nil, nil, engine_options) { sl }.render
         sl = update_p_classes(sl)
         sl = process_content_for_section_tags(sl)
         sl = update_special_content(sl, @slide_count, name) # TODO: deprecated

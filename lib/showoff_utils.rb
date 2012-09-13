@@ -323,6 +323,10 @@ class ShowOffUtils
     get_config_option(dir, "markdown", "redcarpet")
   end
 
+  def self.showoff_renderer_options(dir = '.', default_options = {})
+    opts = get_config_option(dir, showoff_markdown(dir))
+  end
+
   def self.get_config_option(dir, option, default = nil)
     index = File.join(dir, ShowOffUtils.presentation_config_file)
     if File.exists?(index)
@@ -417,10 +421,10 @@ module MarkdownConfig
       require 'maruku/ext/math'
 
       # Load maruku options
-      opts = ShowOffUtils.get_config_option(dir_name, 'maruku',
-                                            { 'use_tex' => false,
-                                              'png_dir' => 'images',
-                                              'html_png_url' => '/file/images/'})
+      opts = ShowOffUtils.showoff_renderer_options(dir_name,
+                                                   { 'use_tex' => false,
+                                                     'png_dir' => 'images',
+                                                     'html_png_url' => '/file/images/'})
 
       if opts['use_tex']
         MaRuKu::Globals[:html_math_output_mathml] = false
