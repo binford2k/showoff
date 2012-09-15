@@ -325,7 +325,7 @@ class ShowOffUtils
 
   def self.showoff_renderer_options(dir = '.', default_options = {})
     opts = get_config_option(dir, showoff_markdown(dir))
-    Hash[opts.map {|k, v| [k.to_sym, v]}] # keys must be symbols
+    Hash[opts.map {|k, v| [k.to_sym, v]}] if opts    # keys must be symbols
   end
 
   def self.get_config_option(dir, option, default = nil)
