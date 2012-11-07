@@ -637,22 +637,24 @@ function togglePreShow() {
 		stopPreShow()
 	} else {
 		var minutes = prompt("Minutes from now to start")
-		preshow_secondsLeft = parseFloat(minutes) * 60
-		toggleFooter()
-		$.getJSON("preshow_files", false, function(data) {
-			$('#preso').after("<div id='preshow'></div><div id='tips'></div><div id='preshow_timer'></div>")
-			$.each(data, function(i, n) {
-				if(n == "preshow.json") {
-					// has a descriptions file
-					$.getJSON("/file/_preshow/preshow.json", false, function(data) {
-						preshow_des = data
-					})
-				} else {
-					$('#preshow').append('<img ref="' + n + '" src="/file/_preshow/' + n + '"/>')
-				}
+
+		if (preshow_secondsLeft = parseFloat(minutes) * 60) {
+			toggleFooter()
+			$.getJSON("preshow_files", false, function(data) {
+				$('#preso').after("<div id='preshow'></div><div id='tips'></div><div id='preshow_timer'></div>")
+				$.each(data, function(i, n) {
+					if(n == "preshow.json") {
+						// has a descriptions file
+						$.getJSON("/file/_preshow/preshow.json", false, function(data) {
+							preshow_des = data
+						})
+					} else {
+						$('#preshow').append('<img ref="' + n + '" src="/file/_preshow/' + n + '"/>')
+					}
+				})
+				startPreShow()
 			})
-			startPreShow()
-		})
+		}
 	}
 }
 
@@ -685,7 +687,7 @@ function startPreShow() {
 
 function addPreShowTips() {
 	time = secondsToTime(preshow_secondsLeft)
-	$('#preshow_timer').text('Class will resume in ' + time)
+	$('#preshow_timer').text('Resuming in: ' + time)
 	var des = preshow_des && preshow_des[tmpImg.attr("ref")]
 	if(des) {
 		$('#tips').show()
