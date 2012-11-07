@@ -839,14 +839,22 @@ function StyleListMenuItem(t)
 
 function startPing()
 {
-  // the download enabler relies on zero based counting
+  // The ping() function tells the server which page we are on.
+  //
+  // If this comes from the local machine and is on the presenter view
+  // then the current page counter is updated and any downloads on the previous
+  // slide are enabled and appear on the download page. The download enabler
+  // relies on zero based counting
+  //
+  // If not, the hostname is recorded to keep track of how much time viewers spend on ea
+  //
+  // If follow mode is enabled, then go to that slide.
+  //
   var ping = function() {
-  
 		$.get("/ping", { page: slidenum }, function(data) {
       // if we are in follow mode and on the index page, then update to
       // whatever slide the presenter is on
       if(followMode && window.location.pathname == '/') {
-        console.log(data);
         gotoSlide(data);
       }
 		});
