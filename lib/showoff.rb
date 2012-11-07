@@ -613,11 +613,10 @@ class ShowOff < Sinatra::Application
    def self.do_static(what)
       what = "index" if !what
 
-      # Nasty hack to get the actual ShowOff module
-      showoff = ShowOff.new
-      while !showoff.is_a?(ShowOff)
-        showoff = showoff.instance_variable_get(:@app)
-      end
+      # Sinatra now aliases new to new!
+      # https://github.com/sinatra/sinatra/blob/v1.3.3/lib/sinatra/base.rb#L1369
+      showoff = ShowOff.new!
+
       name = showoff.instance_variable_get(:@pres_name)
       path = showoff.instance_variable_get(:@root_path)
       logger = showoff.instance_variable_get(:@logger)
