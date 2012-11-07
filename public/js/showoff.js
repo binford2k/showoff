@@ -637,22 +637,24 @@ function togglePreShow() {
 		stopPreShow()
 	} else {
 		var minutes = prompt("Minutes from now to start")
-		preshow_secondsLeft = parseFloat(minutes) * 60
-		toggleFooter()
-		$.getJSON("preshow_files", false, function(data) {
-			$('#preso').after("<div id='preshow'></div><div id='tips'></div><div id='preshow_timer'></div>")
-			$.each(data, function(i, n) {
-				if(n == "preshow.json") {
-					// has a descriptions file
-					$.getJSON("/file/_preshow/preshow.json", false, function(data) {
-						preshow_des = data
-					})
-				} else {
-					$('#preshow').append('<img ref="' + n + '" src="/file/_preshow/' + n + '"/>')
-				}
+
+		if (preshow_secondsLeft = parseFloat(minutes) * 60) {
+			toggleFooter()
+			$.getJSON("preshow_files", false, function(data) {
+				$('#preso').after("<div id='preshow'></div><div id='tips'></div><div id='preshow_timer'></div>")
+				$.each(data, function(i, n) {
+					if(n == "preshow.json") {
+						// has a descriptions file
+						$.getJSON("/file/_preshow/preshow.json", false, function(data) {
+							preshow_des = data
+						})
+					} else {
+						$('#preshow').append('<img ref="' + n + '" src="/file/_preshow/' + n + '"/>')
+					}
+				})
+				startPreShow()
 			})
-			startPreShow()
-		})
+		}
 	}
 }
 
@@ -685,7 +687,7 @@ function startPreShow() {
 
 function addPreShowTips() {
 	time = secondsToTime(preshow_secondsLeft)
-	$('#preshow_timer').text('Class will resume in ' + time)
+	$('#preshow_timer').text('Resuming in: ' + time)
 	var des = preshow_des && preshow_des[tmpImg.attr("ref")]
 	if(des) {
 		$('#tips').show()
@@ -839,14 +841,22 @@ function StyleListMenuItem(t)
 
 function startPing()
 {
-  // the download enabler relies on zero based counting
+  // The ping() function tells the server which page we are on.
+  //
+  // If this comes from the local machine and is on the presenter view
+  // then the current page counter is updated and any downloads on the previous
+  // slide are enabled and appear on the download page. The download enabler
+  // relies on zero based counting
+  //
+  // If not, the hostname is recorded to keep track of how much time viewers spend on ea
+  //
+  // If follow mode is enabled, then go to that slide.
+  //
   var ping = function() {
-  
 		$.get("/ping", { page: slidenum }, function(data) {
       // if we are in follow mode and on the index page, then update to
       // whatever slide the presenter is on
       if(followMode && window.location.pathname == '/') {
-        console.log(data);
         gotoSlide(data);
       }
 		});
