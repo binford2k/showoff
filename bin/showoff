@@ -6,7 +6,12 @@ require 'showoff/version'
 require 'rubygems'
 require 'gli'
 
-include GLI::App
+# Support GLI and GLI2
+if GLI::VERSION.to_f > 1
+  include GLI::App
+else
+  include GLI
+end
 
 version SHOWOFF_VERSION
 
@@ -186,4 +191,9 @@ on_error do |exception|
   true
 end
 
-exit run(ARGV)
+if GLI::VERSION.to_f > 1
+  exit run(ARGV)
+else
+  exit GLI.run(ARGV)
+end
+
