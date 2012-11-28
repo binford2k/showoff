@@ -293,14 +293,14 @@ class ShowOff < Sinatra::Application
 
       raw      = container.text
       fixed    = raw.gsub(/^\.download ?/, '')
-      
+
       # first create the data structure
       # [ enabled, slide name, [array, of, files] ]
       @@downloads[seq] = [ false, name, [] ]
 
-      fixed.each { |file|
+      fixed.split("\n").each { |file|
         # then push each file onto the list
-        @@downloads[seq][2].push(file)
+        @@downloads[seq][2].push(file.strip)
       }
 
       container.remove
