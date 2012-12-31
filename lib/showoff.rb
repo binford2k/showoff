@@ -269,7 +269,7 @@ class ShowOff < Sinatra::Application
 
     def update_special_content(content, seq, name)
       doc = Nokogiri::HTML::DocumentFragment.parse(content)
-      %w[notes handouts solguide].each { |mark|  update_special_content_mark(doc, mark) }
+      %w[notes handouts instructor solguide].each { |mark|  update_special_content_mark(doc, mark) }
       update_download_links(doc, seq, name)
       doc.to_html
     end
@@ -278,12 +278,17 @@ class ShowOff < Sinatra::Application
       container = doc.css("p.#{mark}").first
       return unless container
 
-      raw      = container.inner_html
-      fixed    = raw.gsub(/^\.#{mark} ?/, '')
-      markdown = Tilt[:markdown].new { fixed }.render
+      # only allow localhost to print the instructor guide
+      if mark == 'instructor' and request.env['REMOTE_HOST'] != 'localhost'
+        container.remove
+      else
+        raw      = container.inner_html
+        fixed    = raw.gsub(/^\.#{mark} ?/, '')
+        markdown = Tilt[:markdown].new { fixed }.render
 
-      container.name       = 'div'
-      container.inner_html = markdown
+        container.name       = 'div'
+        container.inner_html = markdown
+      end
     end
     private :update_special_content_mark
 
