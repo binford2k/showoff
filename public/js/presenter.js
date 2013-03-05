@@ -2,15 +2,10 @@
 var w = null;
 
 $(document).ready(function(){
-  try {
-    w = window.open('/' + window.location.hash);
-
-    // Give the slide window a handle to the presenter view window.
-    // This will let either window be made fullscreen and
-    // still process slide advance/rewinds correctly.
-    w.presenterView = window;
-	}
-	catch (e) { console.log('Slave window failed to open.') }
+  // attempt to open another window for the presentation. This may fail if
+  // popup blockers are enabled. In that case, the presenter needs to manually
+  // open the window by hitting the 'slave window' button.
+  openSlave();
 
   // side menu accordian crap
 	$("#preso").bind("showoff:loaded", function (event) {
@@ -38,15 +33,21 @@ $(document).ready(function(){
 
 function openSlave()
 {
-    if(typeof(w) == 'undefined' || w.closed){
-        w = window.open('/' + window.location.hash);
+  try {
+    if(w == null || typeof(w) == 'undefined' || w.closed){
+        w = window.open('/?ping=false' + window.location.hash);
     } else {
       // maybe we need to reset content?
-      w.location.href = '/' + window.location.hash;
+      w.location.href = '/?ping=false' + window.location.hash;
     }
 
     // maintain the pointer back to the parent.
     w.presenterView = window;
+  }
+  catch(e) {
+    console.log('Slave window failed to open.');
+    console.log(e);
+  }
 }
 
 function zoom()
@@ -128,6 +129,8 @@ function keyDown(event)
       executeAnyCode();
       try { w.executeAnyCode(); } catch (e) {}
     }
+    
+    updateFollower();
 	}
 
 	if (key == 16) // shift key
@@ -150,11 +153,13 @@ function keyDown(event)
 	}
 	else if (key == 37 || key == 33 || key == 38) // Left arrow, page up, or up arrow
 	{
-		presPrevStep()
+		presPrevStep();
+		updateFollower();
 	}
 	else if (key == 39 || key == 34 || key == 40) // Right arrow, page down, or down arrow
 	{
-		presNextStep()
+		presNextStep();
+		updateFollower();
 	}
 	else if (key == 84 || key == 67)  // T or C for table of contents
 	{
@@ -253,4 +258,10 @@ var presSetCurrentStyle = setCurrentStyle;
 var setCurrentStyle = function(style, prop) {
   presSetCurrentStyle(style, false);
   try { w.setCurrentStyle(style, false); } catch (e) {}
+}
+
+// Update the current page counter and enable any downloads on the previous slide.
+function updateFollower()
+{
+  $.get("/update", { page: slidenum } );
 }

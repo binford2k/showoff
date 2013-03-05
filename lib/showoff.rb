@@ -528,41 +528,44 @@ class ShowOff < Sinatra::Application
       erb :download
     end
 
+    # Called from the presenter view. Update the current slide.
+    # TODO: add a key param to the URL so students can't mess with the counter
+    def update(static=false)
+      slide = request.params['page'].to_i
+
+      # check to see if we need to enable a download link
+      if @@downloads.has_key?(slide)
+        @logger.debug "Enabling file download for slide #{slide}"
+        @@downloads[slide][0] = true
+      end
+
+      # update the current slide pointer
+      @logger.debug "Updated current slide to #{slide}"
+      @@current = slide
+    end
+
+    # Called once per second by each client view. Keep track of viewing stats
+    # and return the current page the instructor is showing
     def ping(static=false)
       slide = request.params['page'].to_i
       remote = request.env['REMOTE_HOST']
 
-      # Is this hit from the presenter?
-      if remote == 'localhost'
-        # check to see if we need to enable a download link
-        if @@downloads.has_key?(slide)
-          @logger.debug "Enabling file download for slide #{slide}"
-          @@downloads[slide][0] = true
+      # we only care about tracking viewing time that's not on the current slide
+      # (or on the previous slide, since we'll get at least one hit from the follower)
+      if slide != @@current and slide != @@current-1
+        # a bucket for this slide
+        if not @@counter.has_key?(slide)
+          @@counter[slide] = Hash.new
         end
 
-        # update the current slide pointer if this is a ping from the instructor
-        if request.env['HTTP_REFERER'].match(/presenter$/)
-          @logger.debug "Updated current slide to #{slide}"
-          @@current = slide
-        end
-      # otherwise, this is an audience viewer, so increment the slide view time counter
-      else
-        # we only care about tracking viewing time that's not on the current slide
-        # (or on the previous slide, since we'll get at least one hit from the follower)
-        if slide != @@current and slide != @@current-1
-          # a bucket for this slide
-          if not @@counter.has_key?(slide)
-            @@counter[slide] = Hash.new
-          end
-
-          # a counter for this viewer
-          if @@counter[slide].has_key?(remote)
-            @@counter[slide][remote] += 1
-          else
-            @@counter[slide][remote] = 1
-          end
+        # a counter for this viewer
+        if @@counter[slide].has_key?(remote)
+          @@counter[slide][remote] += 1
+        else
+          @@counter[slide][remote] = 1
         end
       end
+
       # return current slide as a string to the client
       "#{@@current}"
     end
