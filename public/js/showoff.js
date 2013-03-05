@@ -18,6 +18,9 @@ var gotoSlidenum = 0
 var shiftKeyActive = false
 var query
 
+var followMode = false
+var leaderMode = false
+
 var loadSlidesBool
 var loadSlidesPrefix
 
@@ -376,15 +379,27 @@ function toggleNotes()
 	}
 }
 
-var followMode = false
 function toggleFollow()
 {
   followMode = followMode ? false : true;
+  leaderMode = false
   if(followMode) {
-    $("#followMode").show();
+    $("#followMode").show().text('Follow Mode:');
     debug('follow mode on');
   } else {
-    $("#followMode").toggle();
+    $("#followMode").hide();
+  }
+}
+
+function toggleLeader()
+{
+  leaderMode = leaderMode ? false : true;
+  followMode = false
+  if(leaderMode) {
+    $("#followMode").show().text('Leader Mode:');
+    debug('follow mode on');
+  } else {
+    $("#followMode").hide();
   }
 }
 
@@ -494,6 +509,10 @@ function keyDown(event)
 	else if (key == 71) // g for follow mode
 	{
   	toggleFollow()
+	}
+	else if (key == 76) // l for leader mode
+	{
+		toggleLeader()
 	}
 	else if (key == 78) // 'n' for notes
 	{
@@ -871,7 +890,7 @@ function startPing()
 // Only run when enabled by the presenter by passing a key parameter.
 function updateFollower()
 {
-  if(query.key) $.get("/update", { page: slidenum, key: query.key } );
+  if(leaderMode || window.location.pathname == '/presenter') $.get("/update", { page: slidenum, key: query.key } );
 }
 
 /********************

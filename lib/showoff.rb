@@ -458,11 +458,14 @@ class ShowOff < Sinatra::Application
     end
 
     # implements naive access control by checking to see if the passed
-    # key is the same as set in showoff.json. Allows access if no key set
+    # key is the same as set in showoff.json.
     def valid_key?(try)
-      # if no key is set, then just allow access
-      return true if not settings.showoff_config.has_key? 'presenter key'
-      return settings.showoff_config['presenter key'] == try
+      if not settings.showoff_config.has_key? 'presenter key'
+        # if no key is set, then default to allowing access to localhost
+        return request.env['REMOTE_HOST'] == 'localhost'
+      else
+        return settings.showoff_config['presenter key'] == try
+      end
     end
 
     def index(static=false)
