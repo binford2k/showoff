@@ -243,6 +243,9 @@ function showSlide(back_step) {
 		pv.updateFollower();
 	}
 
+	// Update the current page if we are the presenter
+	updateFollower();
+
 	return ret;
 }
 
@@ -864,6 +867,12 @@ function startPing()
 	countTimer = setTimeout(ping, 1000);
 }
 
+// Update the current page counter and enable any downloads on the previous slide.
+// Only run when enabled by the presenter by passing a key parameter.
+function updateFollower()
+{
+  if(query.key) $.get("/update", { page: slidenum, key: query.key } );
+}
 
 /********************
  End Analytics and Follower Code

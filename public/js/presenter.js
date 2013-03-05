@@ -129,8 +129,6 @@ function keyDown(event)
       executeAnyCode();
       try { w.executeAnyCode(); } catch (e) {}
     }
-    
-    updateFollower();
 	}
 
 	if (key == 16) // shift key
@@ -154,12 +152,10 @@ function keyDown(event)
 	else if (key == 37 || key == 33 || key == 38) // Left arrow, page up, or up arrow
 	{
 		presPrevStep();
-		updateFollower();
 	}
 	else if (key == 39 || key == 34 || key == 40) // Right arrow, page down, or down arrow
 	{
 		presNextStep();
-		updateFollower();
 	}
 	else if (key == 84 || key == 67)  // T or C for table of contents
 	{
@@ -260,8 +256,3 @@ var setCurrentStyle = function(style, prop) {
   try { w.setCurrentStyle(style, false); } catch (e) {}
 }
 
-// Update the current page counter and enable any downloads on the previous slide.
-function updateFollower()
-{
-  $.get("/update", { page: slidenum } );
-}

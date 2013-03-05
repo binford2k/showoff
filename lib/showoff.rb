@@ -457,6 +457,14 @@ class ShowOff < Sinatra::Application
        inline_js(Dir.entries(File.join(File.dirname(__FILE__), '..', jses_directory)).find_all{|filename| filename.length > 2 }, jses_directory)
     end
 
+    # implements naive access control by checking to see if the passed
+    # key is the same as set in showoff.json. Allows access if no key set
+    def valid_key?(try)
+      # if no key is set, then just allow access
+      return true if not settings.showoff_config.has_key? 'presenter key'
+      return settings.showoff_config['presenter key'] == try
+    end
+
     def index(static=false)
       if static
         @title = ShowOffUtils.showoff_title
@@ -473,7 +481,11 @@ class ShowOff < Sinatra::Application
     end
 
     def presenter
-      erb :presenter
+      if valid_key?(params['key'])
+        erb :presenter
+      else
+        not_found
+      end
     end
 
     def clean_link(href)
@@ -529,19 +541,20 @@ class ShowOff < Sinatra::Application
     end
 
     # Called from the presenter view. Update the current slide.
-    # TODO: add a key param to the URL so students can't mess with the counter
     def update(static=false)
-      slide = request.params['page'].to_i
+      if valid_key?(request.params['key'])
+        slide = request.params['page'].to_i
 
-      # check to see if we need to enable a download link
-      if @@downloads.has_key?(slide)
-        @logger.debug "Enabling file download for slide #{slide}"
-        @@downloads[slide][0] = true
+        # check to see if we need to enable a download link
+        if @@downloads.has_key?(slide)
+          @logger.debug "Enabling file download for slide #{slide}"
+          @@downloads[slide][0] = true
+        end
+
+        # update the current slide pointer
+        @logger.debug "Updated current slide to #{slide}"
+        @@current = slide
       end
-
-      # update the current slide pointer
-      @logger.debug "Updated current slide to #{slide}"
-      @@current = slide
     end
 
     # Called once per second by each client view. Keep track of viewing stats
