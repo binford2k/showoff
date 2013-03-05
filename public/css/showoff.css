@@ -501,6 +501,25 @@ body#stats {
  *** end stats page ***
  **********************/
 
+/**********************
+ ** presenter popups **
+ **********************/
+.tipsy-inner { text-align: left; max-width: 500px; }
+.tipsy-inner h1 { font-size: 1.5em; }
+.tipsy-inner h2 { font-size: 1.35em; }
+.tipsy-inner h3 { font-size: 1.25em; }
+.tipsy-inner a { color: #0d8dfd; }
+.tipsy-inner a:hover { color: #04ffff; }
+
+.tipsy-inner #stats { min-width: 450px; }
+.tipsy-inner #stats .row { color: black; }
+.tipsy-inner #stats #all { max-height: 325px; overflow: auto; }
+
+.tipsy-inner ul#downloads { font-size: 1em; margin-left: 0.25em; }
+/************************
+ * end presenter popups *
+ ************************/
+
 
 /** Print **/
 @media print {

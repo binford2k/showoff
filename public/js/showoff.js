@@ -862,7 +862,7 @@ function StyleListMenuItem(t)
 
 
 /********************
- Analytics and Follower Code
+ Analytics and Follower
  ********************/
 
 function startPing()
@@ -894,5 +894,13 @@ function updateFollower()
 }
 
 /********************
- End Analytics and Follower Code
+ Stats page
  ********************/
+
+function setupStats()
+{
+  $("#stats div#all div.detail").hide();
+  $("#stats div#all div.row").click(function() {
+      $(this).find("div.detail").slideToggle("fast");
+  });
+}

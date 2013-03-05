@@ -6,17 +6,13 @@
     <%= erb :header_mini %>
     
     <script type="text/javascript">
-        $(document).ready(function(){
-            $("#stats div#all div.detail").hide();
-            $("#stats div#all div.row").click(function() { 
-                $(this).find("div.detail").slideToggle("fast");
-            });
-        });
+        $(document).ready(function(){ setupStats(); });
     </script>
 </head>
 
 <body id="stats">
     <div id="preso">
+      <div id="wrapper">
         <h1>Viewing Statistics</h1>
         
         <div id="least">
@@ -71,6 +67,7 @@
             </div>
           <% end %>  
         </div>
+      </div>
     </div>
 </body>
 </html>
