@@ -16,6 +16,10 @@ var incrCode = false
 var debugMode = false
 var gotoSlidenum = 0
 var shiftKeyActive = false
+var query
+
+var followMode = false
+var leaderMode = false
 
 var loadSlidesBool
 var loadSlidesPrefix
@@ -28,8 +32,10 @@ function setupPreso(load_slides, prefix) {
 	}
 	preso_started = true
 
+	// save our query string as an object for later use
+	query = $.parseQuery();
 
-        // Load slides fetches images
+	// Load slides fetches images
 	loadSlidesBool = load_slides
 	loadSlidesPrefix = prefix
 	loadSlides(loadSlidesBool, loadSlidesPrefix)
@@ -47,9 +53,9 @@ function setupPreso(load_slides, prefix) {
 		bind('tap', swipeLeft).         // next
 		bind('swipeleft', swipeLeft).   // next
 		bind('swiperight', swipeRight); // prev
-
+		 
   // start pinging the server
-  startPing()
+  if(window.location.pathname == '/' && query.ping != 'false') startPing();
 }
 
 function loadSlides(load_slides, prefix) {
@@ -237,7 +243,11 @@ function showSlide(back_step) {
     pv.incrSteps = incrSteps
 		pv.showSlide(true);
 		pv.postSlide();
+		pv.updateFollower();
 	}
+
+	// Update the current page if we are the presenter
+	updateFollower();
 
 	return ret;
 }
@@ -369,15 +379,27 @@ function toggleNotes()
 	}
 }
 
-var followMode = false
 function toggleFollow()
 {
   followMode = followMode ? false : true;
+  leaderMode = false
   if(followMode) {
-    $("#followMode").show();
+    $("#followMode").show().text('Follow Mode:');
     debug('follow mode on');
   } else {
-    $("#followMode").toggle();
+    $("#followMode").hide();
+  }
+}
+
+function toggleLeader()
+{
+  leaderMode = leaderMode ? false : true;
+  followMode = false
+  if(leaderMode) {
+    $("#followMode").show().text('Leader Mode:');
+    debug('follow mode on');
+  } else {
+    $("#followMode").hide();
   }
 }
 
@@ -487,6 +509,10 @@ function keyDown(event)
 	else if (key == 71) // g for follow mode
 	{
   	toggleFollow()
+	}
+	else if (key == 76) // l for leader mode
+	{
+		toggleLeader()
 	}
 	else if (key == 78) // 'n' for notes
 	{
@@ -843,14 +869,8 @@ function startPing()
 {
   // The ping() function tells the server which page we are on.
   //
-  // If this comes from the local machine and is on the presenter view
-  // then the current page counter is updated and any downloads on the previous
-  // slide are enabled and appear on the download page. The download enabler
-  // relies on zero based counting
-  //
-  // If not, the hostname is recorded to keep track of how much time viewers spend on ea
-  //
-  // If follow mode is enabled, then go to that slide.
+  // The hostname is recorded to keep track of how much time viewers spend on each slide.
+  // If follow mode is enabled, then go to that slide that the presenter is on.
   //
   var ping = function() {
 		$.get("/ping", { page: slidenum }, function(data) {
@@ -866,6 +886,12 @@ function startPing()
 	countTimer = setTimeout(ping, 1000);
 }
 
+// Update the current page counter and enable any downloads on the previous slide.
+// Only run when enabled by the presenter by passing a key parameter.
+function updateFollower()
+{
+  if(leaderMode || window.location.pathname == '/presenter') $.get("/update", { page: slidenum, key: query.key } );
+}
 
 /********************
  End Analytics and Follower Code

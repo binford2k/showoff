@@ -457,6 +457,17 @@ class ShowOff < Sinatra::Application
        inline_js(Dir.entries(File.join(File.dirname(__FILE__), '..', jses_directory)).find_all{|filename| filename.length > 2 }, jses_directory)
     end
 
+    # implements naive access control by checking to see if the passed
+    # key is the same as set in showoff.json.
+    def valid_key?(try)
+      if not settings.showoff_config.has_key? 'presenter key'
+        # if no key is set, then default to allowing access to localhost
+        return request.env['REMOTE_HOST'] == 'localhost'
+      else
+        return settings.showoff_config['presenter key'] == try
+      end
+    end
+
     def index(static=false)
       if static
         @title = ShowOffUtils.showoff_title
@@ -473,7 +484,11 @@ class ShowOff < Sinatra::Application
     end
 
     def presenter
-      erb :presenter
+      if valid_key?(params['key'])
+        erb :presenter
+      else
+        not_found
+      end
     end
 
     def clean_link(href)
@@ -528,41 +543,45 @@ class ShowOff < Sinatra::Application
       erb :download
     end
 
-    def ping(static=false)
-      slide = request.params['page'].to_i
-      remote = request.env['REMOTE_HOST']
+    # Called from the presenter view. Update the current slide.
+    def update(static=false)
+      if valid_key?(request.params['key'])
+        slide = request.params['page'].to_i
 
-      # Is this hit from the presenter?
-      if remote == 'localhost'
         # check to see if we need to enable a download link
         if @@downloads.has_key?(slide)
           @logger.debug "Enabling file download for slide #{slide}"
           @@downloads[slide][0] = true
         end
 
-        # update the current slide pointer if this is a ping from the instructor
-        if request.env['HTTP_REFERER'].match(/presenter$/)
-          @logger.debug "Updated current slide to #{slide}"
-          @@current = slide
-        end
-      # otherwise, this is an audience viewer, so increment the slide view time counter
-      else
-        # we only care about tracking viewing time that's not on the current slide
-        # (or on the previous slide, since we'll get at least one hit from the follower)
-        if slide != @@current and slide != @@current-1
-          # a bucket for this slide
-          if not @@counter.has_key?(slide)
-            @@counter[slide] = Hash.new
-          end
+        # update the current slide pointer
+        @logger.debug "Updated current slide to #{slide}"
+        @@current = slide
+      end
+    end
 
-          # a counter for this viewer
-          if @@counter[slide].has_key?(remote)
-            @@counter[slide][remote] += 1
-          else
-            @@counter[slide][remote] = 1
-          end
+    # Called once per second by each client view. Keep track of viewing stats
+    # and return the current page the instructor is showing
+    def ping(static=false)
+      slide = request.params['page'].to_i
+      remote = request.env['REMOTE_HOST']
+
+      # we only care about tracking viewing time that's not on the current slide
+      # (or on the previous slide, since we'll get at least one hit from the follower)
+      if slide != @@current and slide != @@current-1
+        # a bucket for this slide
+        if not @@counter.has_key?(slide)
+          @@counter[slide] = Hash.new
+        end
+
+        # a counter for this viewer
+        if @@counter[slide].has_key?(remote)
+          @@counter[slide][remote] += 1
+        else
+          @@counter[slide][remote] = 1
         end
       end
+
       # return current slide as a string to the client
       "#{@@current}"
     end
