@@ -131,6 +131,9 @@ div.zoomed {
     #debugInfo {
       display: inline;
     }
+    #enableRemote {
+      float: right;
+    }
     #zoomer {
       float: right;
     }
@@ -208,7 +211,11 @@ a.controls {
     width: 205px;
     overflow: hidden;
   }
-  #topbar #links .desktop,#zoomer,#separator,#stylepicker {
+  #topbar #links .desktop,
+  #enableRemote,
+  #zoomer,
+  #separator,
+  #stylepicker {
     display: none !important;
   }
   #topbar #links {
@@ -220,6 +227,13 @@ a.controls {
   }
   #center {
     height: 267px;
+  }
+  #statusbar #progress {
+    vertical-align: top;
+    font-size: 0.75em;
+  }
+  #statusbar #progress * {
+    vertical-align: top;
   }
   #bottom {
     height: 245px;

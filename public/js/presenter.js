@@ -40,7 +40,9 @@ $(document).ready(function(){
 
   $('#stats').click( function(e) {  popupLoader( $(this), '/stats', 'stats', e); });
   $('#downloads').click( function(e) {  popupLoader( $(this), '/download', 'downloads', e); });
-  
+
+  $('#enableRemote').tipsy();
+
   // Bind events for mobile viewing
   $('#preso').unbind('tap').unbind('swipeleft').unbind('swiperight');
 
@@ -334,9 +336,13 @@ function startFollower()
   if(window.innerWidth > 480) {
     // This runs in presenter mode and will follow slide changes by other presenters.
     var ping = function() {
-      $.get("/getpage", function(data) {
-        presGotoSlide(data);
-      });
+      // only follow if enable remote is on
+      if($("#remoteToggle").attr("checked")) {
+        console.log("ping");
+        $.get("/getpage", function(data) {
+          presGotoSlide(data);
+        });
+      }
       countTimer = setTimeout(ping, 1000);
     }
     countTimer = setTimeout(ping, 1000);
@@ -345,7 +351,6 @@ function startFollower()
 
 // if no action for 30 seconds, then start following
 function resetTimer() {
-  console.log('reset');
   try { clearTimeout(countTimer); } catch(e) {}
   countTimer = setTimeout(startFollower, 30000);
 }
