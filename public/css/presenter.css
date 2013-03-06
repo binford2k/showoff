@@ -50,9 +50,8 @@ div.zoomed {
     background-color: #555; 
   }
 
-  #update {
+  #topbar #links .mobile {
     display: none;
-    color: white;
   }
 
 
@@ -193,18 +192,34 @@ a.controls {
 /* Portrait */
 @media screen and (max-width: 320px)
 {
-  #topbar,#main,#center,#preview {
+  #topbar,#main,#center,#preview,#bottom,#sidebar {
     min-width: 320px !important;
     max-width: 320px !important;
     width: 320px !important;
     margin: 0;
     padding: 0;
   }
-  #topbar #links,#zoomer,#separator,#stylepicker {
+  #topbar #slideSource {
+    max-width: 256px;
+    overflow: hidden;
+  }
+  #topbar #slideSource #slideFile {
+    display: inline-block;
+    width: 205px;
+    overflow: hidden;
+  }
+  #topbar #links .desktop,#zoomer,#separator,#stylepicker {
     display: none !important;
   }
-  #topbar #update {
+  #topbar #links {
+    top: 0.5em;
+    padding: 0 0.5em;
+  }
+  #topbar #links .mobile {
     display: inline;
+  }
+  #center {
+    height: 267px;
   }
   #bottom {
     height: 245px;
@@ -212,12 +227,12 @@ a.controls {
   }
   #sidebar {
     position: absolute;
-    top: 600px;
+    top: 534px;
     float: none;
     height: auto;
-    width: 320px;
   }
   #preso {
+    width: 976px;
     margin: 0;
     padding: 0;
     margin-left:auto;

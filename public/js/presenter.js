@@ -44,10 +44,10 @@ $(document).ready(function(){
   // Bind events for mobile viewing
   $('#preso').unbind('tap').unbind('swipeleft').unbind('swiperight');
 
-	$('#preso').addSwipeEvents().
-  	bind('tap', presNextStep).         // next
-  	bind('swipeleft', presNextStep).   // next
-  	bind('swiperight', presPrevStep); // prev
+  $('#preso').addSwipeEvents().
+    bind('tap', presNextStep).        // next
+    bind('swipeleft', presNextStep).  // next
+    bind('swiperight', presPrevStep); // prev
 
   // start the timeout.
 	resetTimer();
@@ -106,15 +106,20 @@ function openSlave()
 
 function zoom()
 {
-  var hSlide = parseFloat($("#preso").height());
-  var wSlide = parseFloat($("#preso").width());
-  var hPreview = parseFloat($("#preview").height());
-  var wPreview = parseFloat($("#preview").width());
-  var factor = parseFloat($("#zoomer").val());
+  if(window.innerWidth <= 480) {
+    $(".zoomed").css("zoom", 0.32);
+  }
+  else {
+    var hSlide = parseFloat($("#preso").height());
+    var wSlide = parseFloat($("#preso").width());
+    var hPreview = parseFloat($("#preview").height());
+    var wPreview = parseFloat($("#preview").width());
+    var factor = parseFloat($("#zoomer").val());
 
-  n =  Math.min(hPreview/hSlide, wPreview/wSlide) - 0.04;
+    n =  Math.min(hPreview/hSlide, wPreview/wSlide) - 0.04;
 
-  $(".zoomed").css("zoom", n*factor);
+    $(".zoomed").css("zoom", n*factor);
+  }
 }
 
 function presGotoSlide(slideNum)
