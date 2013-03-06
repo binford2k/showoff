@@ -29,7 +29,43 @@ $(document).ready(function(){
   /* zoom slide to match preview size, then set up resize handler. */
   zoom();
   $(window).resize(function() { zoom(); });
+
+  // set up tooltips
+  $('#slaveWindow').tipsy({ offset: 5 });
+  $('#generatePDF').tipsy({ offset: 5 });
+  $('#onePage').tipsy({ offset: 5, gravity: 'ne' });
+
+  $('#stats').tipsy({ html: true, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
+  $('#downloads').tipsy({ html: true, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
+
+  $('#stats').click( function(e) {  popupLoader( $(this), '/stats', 'stats', e); });
+  $('#downloads').click( function(e) {  popupLoader( $(this), '/download', 'downloads', e); });
+
 });
+
+function popupLoader(elem, page, id, event)
+{
+  event.preventDefault();
+
+  if(elem.attr('open') == 'true') {
+    elem.attr('open', false)
+    elem.tipsy("hide");
+  }
+  else {
+    $.get(page, function(data) {
+      var content = '<div id="' + id + '">' + $(data).find('#wrapper').html() + '</div>';
+
+      console.log(content);
+
+      elem.attr('title', content);
+      elem.attr('open', true)
+      elem.tipsy("show");
+      setupStats();
+    });
+  }
+
+  return false;
+}
 
 function openSlave()
 {
