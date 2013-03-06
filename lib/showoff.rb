@@ -586,6 +586,12 @@ class ShowOff < Sinatra::Application
       "#{@@current}"
     end
     
+    # Returns the current page the instructor is showing
+    def getpage(static=false)
+      # return current slide as a string to the client
+      "#{@@current}"
+    end
+
     def stats(static=false)
       if request.env['REMOTE_HOST'] == 'localhost'
         # the presenter should have full stats

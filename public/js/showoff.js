@@ -49,7 +49,7 @@ function setupPreso(load_slides, prefix) {
 	/* window.onscroll = scrolled; */
 	/* window.onunload = unloaded; */
 
-	$('body').addSwipeEvents().
+	$('#preso').addSwipeEvents().
 		bind('tap', swipeLeft).         // next
 		bind('swipeleft', swipeLeft).   // next
 		bind('swiperight', swipeRight); // prev
@@ -243,7 +243,6 @@ function showSlide(back_step) {
     pv.incrSteps = incrSteps
 		pv.showSlide(true);
 		pv.postSlide();
-		pv.updateFollower();
 	}
 
 	// Update the current page if we are the presenter
@@ -890,7 +889,9 @@ function startPing()
 // Only run when enabled by the presenter by passing a key parameter.
 function updateFollower()
 {
-  if(leaderMode || window.location.pathname == '/presenter') $.get("/update", { page: slidenum, key: query.key } );
+  if(leaderMode || window.location.pathname == '/presenter') {
+    $.get("/update", { page: slidenum, key: query.key } );
+  }
 }
 
 /********************
