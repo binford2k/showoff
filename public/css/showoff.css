@@ -59,51 +59,6 @@
   }
 }
 
-/* iPhone */
-/* Portrait */
-@media screen and (max-width: 320px)
-{
-  #preso {
-      margin: 0;
-      padding: 0;
-      width: 320px;
-      max-height: 356px;
-      margin-left:auto;
-      margin-right:auto;
-/*      overflow:hidden;*/
-  }
-  #footer {
-      background: #eee;
-      margin: 0;
-      padding: 2px;
-      width: 320px;
-      height: 20px;
-      margin-left:auto;
-      margin-right:auto;
-  }
-}
-/* Landscape */
-@media screen and (max-width: 480px)
-{
-  #preso {
-      margin: 0;
-      padding: 0;
-/*      min-height: 320px;*/
-      width: 480px;
-      margin-left:auto;
-      margin-right:auto;
-  }
-  #footer {
-      background: #eee;
-      margin: 0;
-      padding: 2px;
-      width: 480px;
-      height: 20px;
-      margin-left:auto;
-      margin-right:auto;
-  }
-}
-
 /* plain (non-bullet) text */
 .content > p {
 	font-size: 2em;
@@ -520,6 +475,50 @@ body#stats {
  * end presenter popups *
  ************************/
 
+/* iPhone */
+/* Portrait */
+@media screen and (max-width: 320px)
+{
+  html,body,#footer {
+    min-width: 320px !important;
+    max-width: 320px !important;
+    width: 320px !important;
+    margin: 0;
+    padding: 0;
+  }
+  #preso {
+    width: 976px;
+    zoom: 0.32;
+  }
+  #preso .slide {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Landscape */
+/*
+@media screen and (max-width: 480px)
+{
+  #preso {
+      margin: 0;
+      padding: 0;
+      width: 480px;
+      margin-left:auto;
+      margin-right:auto;
+  }
+  #footer {
+      background: #eee;
+      margin: 0;
+      padding: 2px;
+      width: 480px;
+      height: 20px;
+      margin-left:auto;
+      margin-right:auto;
+  }
+}
+*/
 
 /** Print **/
 @media print {

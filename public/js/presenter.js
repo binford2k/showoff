@@ -41,6 +41,27 @@ $(document).ready(function(){
   $('#stats').click( function(e) {  popupLoader( $(this), '/stats', 'stats', e); });
   $('#downloads').click( function(e) {  popupLoader( $(this), '/download', 'downloads', e); });
 
+  $('#enableRemote').tipsy();
+  $('#zoomer').tipsy({ gravity: 'ne' });
+
+  // Bind events for mobile viewing
+  $('#preso').unbind('tap').unbind('swipeleft').unbind('swiperight');
+
+  $('#preso').addSwipeEvents().
+    bind('tap', presNextStep).        // next
+    bind('swipeleft', presNextStep).  // next
+    bind('swiperight', presPrevStep); // prev
+
+  // start the timeout.
+	resetTimer();
+
+	$('#topbar #update').click( function(e) {
+		e.preventDefault();
+		$.get("/getpage", function(data) {
+      presGotoSlide(data);
+		});
+	});
+
 });
 
 function popupLoader(elem, page, id, event)
@@ -88,15 +109,27 @@ function openSlave()
 
 function zoom()
 {
-  var hSlide = parseFloat($("#preso").height());
-  var wSlide = parseFloat($("#preso").width());
-  var hPreview = parseFloat($("#preview").height());
-  var wPreview = parseFloat($("#preview").width());
-  var factor = parseFloat($("#zoomer").val());
+  if(window.innerWidth <= 480) {
+    $(".zoomed").css("zoom", 0.32);
+  }
+  else {
+    var hSlide = parseFloat($("#preso").height());
+    var wSlide = parseFloat($("#preso").width());
+    var hPreview = parseFloat($("#preview").height());
+    var wPreview = parseFloat($("#preview").width());
+    var factor = parseFloat($("#zoomer").val());
 
-  n =  Math.min(hPreview/hSlide, wPreview/wSlide) - 0.04;
+    n =  Math.min(hPreview/hSlide, wPreview/wSlide) - 0.04;
 
-  $(".zoomed").css("zoom", n*factor);
+    $(".zoomed").css("zoom", n*factor);
+  }
+}
+
+function presGotoSlide(slideNum)
+{
+    gotoSlide(slideNum)
+    try { w.gotoSlide(slideNum) } catch (e) {}
+    postSlide()
 }
 
 function presPrevStep()
@@ -138,6 +171,9 @@ function postSlide()
 function keyDown(event)
 {
 	var key = event.keyCode;
+
+	// pause follow mode for 30 seconds
+	resetTimer();
 
 	if (event.ctrlKey || event.altKey || event.metaKey)
 		return true;
@@ -292,3 +328,30 @@ var setCurrentStyle = function(style, prop) {
   try { w.setCurrentStyle(style, false); } catch (e) {}
 }
 
+/********************
+ Follower Code
+ ********************/
+function startFollower()
+{
+  // Don't run on phones
+  if(window.innerWidth > 480) {
+    // This runs in presenter mode and will follow slide changes by other presenters.
+    var ping = function() {
+      // only follow if enable remote is on
+      if($("#remoteToggle").attr("checked")) {
+        console.log("ping");
+        $.get("/getpage", function(data) {
+          presGotoSlide(data);
+        });
+      }
+      countTimer = setTimeout(ping, 1000);
+    }
+    countTimer = setTimeout(ping, 1000);
+	}
+}
+
+// if no action for 30 seconds, then start following
+function resetTimer() {
+  try { clearTimeout(countTimer); } catch(e) {}
+  countTimer = setTimeout(startFollower, 30000);
+}
