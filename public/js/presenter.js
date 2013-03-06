@@ -42,6 +42,7 @@ $(document).ready(function(){
   $('#downloads').click( function(e) {  popupLoader( $(this), '/download', 'downloads', e); });
 
   $('#enableRemote').tipsy();
+  $('#zoomer').tipsy({ gravity: 'ne' });
 
   // Bind events for mobile viewing
   $('#preso').unbind('tap').unbind('swipeleft').unbind('swiperight');

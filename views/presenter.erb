@@ -10,10 +10,6 @@
 
 <body>
 
-<a tabindex="0" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="navmenu"><span class="ui-icon ui-icon-triangle-1-s"></span>slides</a>
-<a tabindex="1" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="stylemenu"><span class="ui-icon ui-icon-triangle-1-s"></span>styles</a>
-<div id="stylepicker" class="hidden"></div>
-
 <div id="help">
   <table>
     <tr><td class="key">z, ?</td><td>toggle help (this)</td></tr>
@@ -67,7 +63,7 @@
         Slide: <span id="slideInfo"></span>
       </span>
       <div id="debugInfo"></div>
-      <input id="zoomer" type="range" min="0.5" max="1.5" step="0.01" onchange="javascript:zoom();" />
+      <input id="zoomer" type="range" min="0.5" max="1.5" step="0.01" onchange="javascript:zoom();" title="Alter the zoom level of the slide preview." />
       <span id="enableRemote" title="After 30 seconds of inactivity, this view will track updates from other presenter views.">
         <label for="remoteToggle">Enable Remote</label><input type="checkbox" id="remoteToggle" checked />
       </span>
