@@ -183,3 +183,41 @@ a.controls {
   -khtml-border-radius: 0.5em;
   border-radius: 0.5em;
 }
+
+/* iPhone */
+/* Portrait */
+@media screen and (max-width: 320px)
+{
+  #topbar,#main,#center,#preview {
+    min-width: 320px !important;
+    max-width: 320px !important;
+    width: 320px !important;
+    margin: 0;
+    padding: 0;
+  }
+  #topbar #links,#zoomer,#separator,#stylepicker {
+    display: none !important;
+  }
+  #bottom {
+    height: 245px;
+    overflow: auto;
+  }
+  #sidebar {
+    position: absolute;
+    top: 600px;
+    float: none;
+    height: auto;
+    width: 320px;
+  }
+  #preso {
+    margin: 0;
+    padding: 0;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  #preso .slide {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}

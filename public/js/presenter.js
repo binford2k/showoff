@@ -40,6 +40,14 @@ $(document).ready(function(){
 
   $('#stats').click( function(e) {  popupLoader( $(this), '/stats', 'stats', e); });
   $('#downloads').click( function(e) {  popupLoader( $(this), '/download', 'downloads', e); });
+  
+  // Bind events for mobile viewing
+  $('#preso').unbind('tap').unbind('swipeleft').unbind('swiperight');
+
+	$('#preso').addSwipeEvents().
+  	bind('tap', presNextStep).         // next
+  	bind('swipeleft', presNextStep).   // next
+  	bind('swiperight', presPrevStep); // prev
 
 });
 

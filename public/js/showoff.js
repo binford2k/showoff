@@ -49,7 +49,7 @@ function setupPreso(load_slides, prefix) {
 	/* window.onscroll = scrolled; */
 	/* window.onunload = unloaded; */
 
-	$('body').addSwipeEvents().
+	$('#preso').addSwipeEvents().
 		bind('tap', swipeLeft).         // next
 		bind('swipeleft', swipeLeft).   // next
 		bind('swiperight', swipeRight); // prev
