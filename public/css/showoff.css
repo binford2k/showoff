@@ -486,7 +486,7 @@ body#stats {
     margin: 0;
     padding: 0;
   }
-  #preso {
+  body > #preso {
     width: 976px;
     zoom: 0.32;
   }
@@ -495,6 +495,7 @@ body#stats {
     margin: 0;
     padding: 0;
   }
+
 }
 
 /* Landscape */
