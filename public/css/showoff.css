@@ -498,6 +498,7 @@ body#stats {
 }
 
 /* Landscape */
+/*
 @media screen and (max-width: 480px)
 {
   #preso {
@@ -517,6 +518,7 @@ body#stats {
       margin-right:auto;
   }
 }
+*/
 
 /** Print **/
 @media print {
