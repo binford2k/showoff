@@ -50,6 +50,11 @@ div.zoomed {
     background-color: #555; 
   }
 
+  #update {
+    display: none;
+    color: white;
+  }
+
 
 #center {
   height: 75%;
@@ -197,6 +202,9 @@ a.controls {
   }
   #topbar #links,#zoomer,#separator,#stylepicker {
     display: none !important;
+  }
+  #topbar #update {
+    display: inline;
   }
   #bottom {
     height: 245px;

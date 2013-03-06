@@ -49,6 +49,16 @@ $(document).ready(function(){
   	bind('swipeleft', presNextStep).   // next
   	bind('swiperight', presPrevStep); // prev
 
+  // start the timeout.
+	resetTimer();
+
+	$('#topbar #update').click( function(e) {
+		e.preventDefault();
+		$.get("/getpage", function(data) {
+      presGotoSlide(data);
+		});
+	});
+
 });
 
 function popupLoader(elem, page, id, event)
@@ -107,6 +117,13 @@ function zoom()
   $(".zoomed").css("zoom", n*factor);
 }
 
+function presGotoSlide(slideNum)
+{
+    gotoSlide(slideNum)
+    try { w.gotoSlide(slideNum) } catch (e) {}
+    postSlide()
+}
+
 function presPrevStep()
 {
     prevStep()
@@ -146,6 +163,9 @@ function postSlide()
 function keyDown(event)
 {
 	var key = event.keyCode;
+
+	// pause follow mode for 30 seconds
+	resetTimer();
 
 	if (event.ctrlKey || event.altKey || event.metaKey)
 		return true;
@@ -300,3 +320,27 @@ var setCurrentStyle = function(style, prop) {
   try { w.setCurrentStyle(style, false); } catch (e) {}
 }
 
+/********************
+ Follower Code
+ ********************/
+function startFollower()
+{
+  // Don't run on phones
+  if(window.innerWidth > 480) {
+    // This runs in presenter mode and will follow slide changes by other presenters.
+    var ping = function() {
+      $.get("/getpage", function(data) {
+        presGotoSlide(data);
+      });
+      countTimer = setTimeout(ping, 1000);
+    }
+    countTimer = setTimeout(ping, 1000);
+	}
+}
+
+// if no action for 30 seconds, then start following
+function resetTimer() {
+  console.log('reset');
+  try { clearTimeout(countTimer); } catch(e) {}
+  countTimer = setTimeout(startFollower, 30000);
+}
