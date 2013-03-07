@@ -142,6 +142,12 @@ div.zoomed {
       -khtml-border-radius: 0.25em;
       border-radius: 0.25em;
     }
+    #enableRemote.active {
+      background-color: #fff8bf;
+      -webkit-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
+      -moz-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
+      box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
+    }
     #zoomer {
       float: right;
     }
