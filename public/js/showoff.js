@@ -172,10 +172,10 @@ function setupSlideParamsCheck() {
 	setTimeout(check, 100);
 }
 
-function gotoSlide(slideNum) {
+function gotoSlide(slideNum, track) {
 	slidenum = parseInt(slideNum)
 	if (!isNaN(slidenum)) {
-		showSlide()
+		showSlide(false, track)
 	}
 }
 
@@ -186,7 +186,7 @@ function showFirstSlide() {
 }
 
 function showSlide(back_step) {
-
+  
 	if(slidenum < 0) {
 		slidenum = 0
 		return
@@ -241,8 +241,9 @@ function showSlide(back_step) {
 		pv.slidenum = slidenum;
     pv.incrCurr = incrCurr
     pv.incrSteps = incrSteps
-		pv.showSlide(true);
+		pv.showSlide(true); // let the presenter post an update
 		pv.postSlide();
+		track = false;
 	}
 
 	// Update the current page if we are the presenter
@@ -889,7 +890,8 @@ function startPing()
 // Only run when enabled by the presenter by passing a key parameter.
 function updateFollower()
 {
-  if(leaderMode || window.location.pathname == '/presenter') {
+  if(leaderMode || (window.location.pathname == '/presenter' && $("#followerToggle").attr("checked"))) {
+    console.log('updating follower to page: ' + slidenum);
     $.get("/update", { page: slidenum, key: query.key } );
   }
 }
