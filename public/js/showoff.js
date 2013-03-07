@@ -18,11 +18,11 @@ var gotoSlidenum = 0
 var shiftKeyActive = false
 var query
 
-var followMode = false
-var leaderMode = false
-
 var loadSlidesBool
 var loadSlidesPrefix
+
+var modeState = Object.freeze({"passive":1, "ping":2, "follow":3, "lead":4});
+var mode = modeState.ping
 
 function setupPreso(load_slides, prefix) {
 	if (preso_started)
@@ -53,9 +53,10 @@ function setupPreso(load_slides, prefix) {
 		bind('tap', swipeLeft).         // next
 		bind('swipeleft', swipeLeft).   // next
 		bind('swiperight', swipeRight); // prev
-		 
+
   // start pinging the server
-  if(window.location.pathname == '/' && query.ping != 'false') startPing();
+  if(query.ping == 'false') mode = modeState.passive;
+  startActionLoop();
 }
 
 function loadSlides(load_slides, prefix) {
@@ -172,11 +173,11 @@ function setupSlideParamsCheck() {
 	setTimeout(check, 100);
 }
 
-function gotoSlide(slideNum, track) {
-	slidenum = parseInt(slideNum)
-	if (!isNaN(slidenum)) {
-		showSlide(false, track)
-	}
+function gotoSlide(slideNum, updatepv) {
+  slidenum = parseInt(slideNum);
+  if (!isNaN(slidenum)) {
+    showSlide(false, updatepv);
+  }
 }
 
 function showFirstSlide() {
@@ -185,8 +186,10 @@ function showFirstSlide() {
 	showSlide()
 }
 
-function showSlide(back_step) {
-  
+function showSlide(back_step, updatepv) {
+  // allows the master presenter view to disable the update callback
+  updatepv = (typeof(updatepv) === 'undefined') ? true : updatepv;
+
 	if(slidenum < 0) {
 		slidenum = 0
 		return
@@ -236,18 +239,14 @@ function showSlide(back_step) {
 	var ret = setCurrentNotes();
 
   // Update presenter view, if we spawned one
-	if ('presenterView' in window) {
+	if (updatepv && 'presenterView' in window) {
     var pv = window.presenterView;
 		pv.slidenum = slidenum;
     pv.incrCurr = incrCurr
     pv.incrSteps = incrSteps
-		pv.showSlide(true); // let the presenter post an update
+		pv.showSlide(true);
 		pv.postSlide();
-		track = false;
 	}
-
-	// Update the current page if we are the presenter
-	updateFollower();
 
 	return ret;
 }
@@ -379,13 +378,16 @@ function toggleNotes()
 	}
 }
 
+function defaultMode() {
+  return (query.ping == 'false') ? modeState.passive : modeState.ping;
+}
+
 function toggleFollow()
 {
-  followMode = followMode ? false : true;
-  leaderMode = false
-  if(followMode) {
+  mode = (mode == modeState.follow) ? defaultMode() : modeState.follow;
+
+  if(mode == modeState.follow) {
     $("#followMode").show().text('Follow Mode:');
-    debug('follow mode on');
   } else {
     $("#followMode").hide();
   }
@@ -393,14 +395,25 @@ function toggleFollow()
 
 function toggleLeader()
 {
-  leaderMode = leaderMode ? false : true;
-  followMode = false
-  if(leaderMode) {
+  mode = (mode == modeState.lead) ? defaultMode() : modeState.lead;
+
+  if(mode == modeState.lead) {
     $("#followMode").show().text('Leader Mode:');
-    debug('follow mode on');
   } else {
     $("#followMode").hide();
   }
+}
+
+// just splats up an indicator that we're following a remote
+function toggleRemote()
+{
+  try {
+    if(window.presenterView.mode == modeState.follow) {
+      $("#followMode").show().text('Remote Mode:');
+    } else {
+      $("#followMode").hide();
+    }
+  } catch(e) {}
 }
 
 function executeAnyCode()
@@ -428,6 +441,9 @@ function debug(data)
 function keyDown(event)
 {
 	var key = event.keyCode;
+
+	// if we're a slave window, reset the master timeout
+	try { window.presenterView.resetModeTimer() } catch (e) {}
 
 	if (event.ctrlKey || event.altKey || event.metaKey)
 		return true;
@@ -865,35 +881,36 @@ function StyleListMenuItem(t)
  Analytics and Follower
  ********************/
 
-function startPing()
+function startActionLoop()
 {
   // The ping() function tells the server which page we are on.
-  //
   // The hostname is recorded to keep track of how much time viewers spend on each slide.
-  // If follow mode is enabled, then go to that slide that the presenter is on.
   //
-  var ping = function() {
-		$.get("/ping", { page: slidenum }, function(data) {
-      // if we are in follow mode and on the index page, then update to
-      // whatever slide the presenter is on
-      if(followMode && window.location.pathname == '/') {
-        gotoSlide(data);
-      }
-		});
-
-		countTimer = setTimeout(ping, 1000);
+  // If follow mode is enabled, then call getpage() to go to the page the presenter is on.
+  //
+  // If we are leading, then just send the current page to the server, along with a key if set.
+  var action = function() {
+    switch(mode) {
+      case modeState.passive:
+        console.log('no op');
+        break;
+      case modeState.ping:
+        console.log('ping!');
+        $.get("/ping", { page: slidenum } );
+        break;
+      case modeState.follow:
+        console.log('follow');
+        $.get("/getpage", function(data) { gotoSlide(data); });
+        break;
+      case modeState.lead:
+        console.log('lead');
+        $.get("/update", { page: slidenum, key: query.key } );
+        break;
+    }
 	}
-	countTimer = setTimeout(ping, 1000);
-}
 
-// Update the current page counter and enable any downloads on the previous slide.
-// Only run when enabled by the presenter by passing a key parameter.
-function updateFollower()
-{
-  if(leaderMode || (window.location.pathname == '/presenter' && $("#followerToggle").attr("checked"))) {
-    console.log('updating follower to page: ' + slidenum);
-    $.get("/update", { page: slidenum, key: query.key } );
-  }
+	$.ajaxSetup({ timeout: 1000 });
+	actionLoop = setInterval(action, 1000);
 }
 
 /********************

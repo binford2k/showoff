@@ -1,5 +1,5 @@
 // presenter js
-var w = null;
+var slaveWindow = null;
 
 $(document).ready(function(){
   // attempt to open another window for the presentation. This may fail if
@@ -15,7 +15,7 @@ $(document).ready(function(){
 				$(this).next().toggle()
 			} else {
 				gotoSlide($(this).attr('rel'))
-				try { w.gotoSlide($(this).attr('rel')) } catch (e) {}
+				try { slaveWindow.gotoSlide($(this).attr('rel')) } catch (e) {}
 				postSlide()
 			}
 			return false
@@ -53,15 +53,19 @@ $(document).ready(function(){
     bind('swipeleft', presNextStep).  // next
     bind('swiperight', presPrevStep); // prev
 
-  // start the timeout.
-	// resetTimer();
+  // set up the mode & timeout.
+  setDefaultMode();
+  resetModeTimer();
 
-	$('#topbar #update').click( function(e) {
-		e.preventDefault();
-		$.get("/getpage", function(data) {
-      presGotoSlide(data);
-		});
-	});
+  $('#remoteToggle').change( setFollowMode );
+  $('#followerToggle').change( setDefaultMode );
+
+  $('#topbar #update').click( function(e) {
+    e.preventDefault();
+    $.get("/getpage", function(data) {
+      gotoSlide(data);
+    });
+  });
 
 });
 
@@ -92,15 +96,15 @@ function popupLoader(elem, page, id, event)
 function openSlave()
 {
   try {
-    if(w == null || typeof(w) == 'undefined' || w.closed){
-        w = window.open('/?ping=false' + window.location.hash);
+    if(slaveWindow == null || typeof(slaveWindow) == 'undefined' || slaveWindow.closed){
+        slaveWindow = window.open('/?ping=false' + window.location.hash);
     } else {
       // maybe we need to reset content?
-      w.location.href = '/?ping=false' + window.location.hash;
+      slaveWindow.location.href = '/?ping=false' + window.location.hash;
     }
 
     // maintain the pointer back to the parent.
-    w.presenterView = window;
+    slaveWindow.presenterView = window;
   }
   catch(e) {
     console.log('Slave window failed to open.');
@@ -126,17 +130,19 @@ function zoom()
   }
 }
 
-function presGotoSlide(slideNum)
+// extend this function to add presenter bits
+var origGotoSlide = gotoSlide;
+gotoSlide = function (slideNum)
 {
-    gotoSlide(slideNum)
-    try { w.gotoSlide(slideNum) } catch (e) {}
+    origGotoSlide.call(this, slideNum)
+    try { slaveWindow.gotoSlide(slideNum, false) } catch (e) {}
     postSlide()
 }
 
 function presPrevStep()
 {
     prevStep()
-    try { w.prevStep() } catch (e) {}
+    try { slaveWindow.prevStep() } catch (e) {}
     postSlide()
 }
 
@@ -144,11 +150,11 @@ function presNextStep()
 {
 /*  // I don't know what the point of this bit was, but it's not needed.
     // read the variables set by our spawner
-    incrCurr = w.incrCurr
-    incrSteps = w.incrSteps
+    incrCurr = slaveWindow.incrCurr
+    incrSteps = slaveWindow.incrSteps
 */
 	nextStep()
-	try { w.nextStep() } catch (e) {}
+	try { slaveWindow.nextStep() } catch (e) {}
 	postSlide()
 }
 
@@ -157,7 +163,7 @@ function postSlide()
 	if(currentSlide) {
 		try {
 		  // whuuuu?
-		  var notes = w.getCurrentNotes()
+		  var notes = slaveWindow.getCurrentNotes()
 		}
 		catch(e) {
 		  var notes = getCurrentNotes()
@@ -174,7 +180,7 @@ function keyDown(event)
 	var key = event.keyCode;
 
 	// pause follow mode for 30 seconds
-	// resetTimer();
+	resetModeTimer();
 
 	if (event.ctrlKey || event.altKey || event.metaKey)
 		return true;
@@ -193,14 +199,14 @@ function keyDown(event)
       slidenum = gotoSlidenum - 1;
       showSlide(true);
       try {
-        w.slidenum = gotoSlidenum - 1;
-        w.showSlide(true);
+        slaveWindow.slidenum = gotoSlidenum - 1;
+        slaveWindow.showSlide(true);
       } catch (e) {}
         gotoSlidenum = 0;
     } else {
       debug('executeCode');
       executeAnyCode();
-      try { w.executeAnyCode(); } catch (e) {}
+      try { slaveWindow.executeAnyCode(); } catch (e) {}
     }
 	}
 
@@ -253,11 +259,11 @@ function keyDown(event)
 	else if (key == 27) // esc
 	{
 		removeResults();
-		try { w.removeResults(); } catch (e) {}
+		try { slaveWindow.removeResults(); } catch (e) {}
 	}
 	else if (key == 80) // 'p' for preshow
 	{
-		try { w.togglePreShow(); } catch (e) {}
+		try { slaveWindow.togglePreShow(); } catch (e) {}
 	}
 	return true
 }
@@ -326,38 +332,55 @@ function setProgressColor(progress) {
 var presSetCurrentStyle = setCurrentStyle;
 var setCurrentStyle = function(style, prop) {
   presSetCurrentStyle(style, false);
-  try { w.setCurrentStyle(style, false); } catch (e) {}
+  try { slaveWindow.setCurrentStyle(style, false); } catch (e) {}
+}
+
+function mobile() {
+  return ( navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i)
+  );
 }
 
 /********************
  Follower Code
  ********************/
-function startFollower()
+function setFollowMode()
 {
   console.log('starting follower');
-  followMode = true;
+  if($("#remoteToggle").attr("checked")) {
+    mode = modeState.follow;
+    $("#enableRemote").addClass('active');
+  } else {
+    setDefaultMode();
+  }
 
-  // Don't run on phones
-  if(window.innerWidth > 480) {
-    // This runs in presenter mode and will follow slide changes by other presenters.
-    var ping = function() {
-      // only follow if enable remote is on
-      if(followMode && $("#remoteToggle").attr("checked")) {
-        console.log("ping");
-        $.get("/getpage", function(data) {
-          presGotoSlide(data);
-        });
-      }
-      countTimer = setTimeout(ping, 1000);
-    }
-    countTimer = setTimeout(ping, 1000);
-	}
+  try { slaveWindow.toggleRemote(); } catch(e) {};
+}
+
+// redefine defaultMode
+defaultMode = function() {
+  var defaultState = mobile() ? modeState.follow : modeState.passive;
+  return $("#followerToggle").attr("checked") ? modeState.lead : defaultState;
+}
+
+function setDefaultMode() {
+  mode = defaultMode();
+  $("#enableRemote").removeClass('active');
+  try { slaveWindow.toggleRemote(); } catch(e) {};
 }
 
 // if no action for 30 seconds, then start following
-function resetTimer() {
-  console.log('reset timer');
-  followMode = false;
+function resetModeTimer() {
+  // we don't want the follow mode fiddled with if we're on the mobile version
+  if(mobile()) return;
+
+  console.log('reset mode timer');
+  setDefaultMode();
   try { clearTimeout(countTimer); } catch(e) {}
-  countTimer = setTimeout(startFollower, 30000);
+  countTimer = setTimeout(setFollowMode, 30000);
 }
