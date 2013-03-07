@@ -35,12 +35,13 @@ $(document).ready(function(){
   $('#generatePDF').tipsy({ offset: 5 });
   $('#onePage').tipsy({ offset: 5, gravity: 'ne' });
 
-  $('#stats').tipsy({ html: true, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
-  $('#downloads').tipsy({ html: true, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
+  $('#stats').tipsy({ html: true, width: 450, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
+  $('#downloads').tipsy({ html: true, width: 425, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
 
   $('#stats').click( function(e) {  popupLoader( $(this), '/stats', 'stats', e); });
   $('#downloads').click( function(e) {  popupLoader( $(this), '/download', 'downloads', e); });
 
+  $('#enableFollower').tipsy({ gravity: 'ne' });
   $('#enableRemote').tipsy();
   $('#zoomer').tipsy({ gravity: 'ne' });
 
@@ -53,7 +54,7 @@ $(document).ready(function(){
     bind('swiperight', presPrevStep); // prev
 
   // start the timeout.
-	resetTimer();
+	// resetTimer();
 
 	$('#topbar #update').click( function(e) {
 		e.preventDefault();
@@ -173,7 +174,7 @@ function keyDown(event)
 	var key = event.keyCode;
 
 	// pause follow mode for 30 seconds
-	resetTimer();
+	// resetTimer();
 
 	if (event.ctrlKey || event.altKey || event.metaKey)
 		return true;
@@ -333,12 +334,15 @@ var setCurrentStyle = function(style, prop) {
  ********************/
 function startFollower()
 {
+  console.log('starting follower');
+  followMode = true;
+
   // Don't run on phones
   if(window.innerWidth > 480) {
     // This runs in presenter mode and will follow slide changes by other presenters.
     var ping = function() {
       // only follow if enable remote is on
-      if($("#remoteToggle").attr("checked")) {
+      if(followMode && $("#remoteToggle").attr("checked")) {
         console.log("ping");
         $.get("/getpage", function(data) {
           presGotoSlide(data);
@@ -352,6 +356,8 @@ function startFollower()
 
 // if no action for 30 seconds, then start following
 function resetTimer() {
+  console.log('reset timer');
+  followMode = false;
   try { clearTimeout(countTimer); } catch(e) {}
   countTimer = setTimeout(startFollower, 30000);
 }
