@@ -131,8 +131,16 @@ div.zoomed {
     #debugInfo {
       display: inline;
     }
+    #enableFollower,
     #enableRemote {
       float: right;
+      border: 1px solid #ccc;
+      margin: 1px;
+      padding: 0.1em;
+      -moz-border-radius: 0.25em;
+      -webkit-border-radius: 0.25em;
+      -khtml-border-radius: 0.25em;
+      border-radius: 0.25em;
     }
     #zoomer {
       float: right;
@@ -209,10 +217,13 @@ a.controls {
   #topbar #slideSource #slideFile {
     display: inline-block;
     width: 205px;
+    max-width: 205px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     overflow: hidden;
   }
   #topbar #links .desktop,
-  #enableRemote,
+  #statusbar #enableRemote,
   #zoomer,
   #separator,
   #stylepicker {
@@ -228,12 +239,23 @@ a.controls {
   #center {
     height: 267px;
   }
-  #statusbar #progress {
+  #statusbar {
     vertical-align: top;
     font-size: 0.75em;
   }
-  #statusbar #progress * {
+  #statusbar * {
     vertical-align: top;
+  }
+  #statusbar #enableFollower {
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+  #statusbar #followerToggle {
+    line-height: 1em;
+    height: 1em;
+    margin: 0 0 0 0.25em;
+    padding: 0;
   }
   #bottom {
     height: 245px;
