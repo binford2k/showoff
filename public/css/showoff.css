@@ -466,6 +466,24 @@ body#stats {
 .tipsy-inner a { color: #0d8dfd; }
 .tipsy-inner a:hover { color: #04ffff; }
 
+.tipsy-inner p.newpage { text-align: right; padding-bottom: 0.25em; }
+.tipsy-inner p.newpage a {
+  color: white;
+  padding: 0.25em;
+  text-decoration: none;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+.tipsy-inner p.newpage a:hover {
+  font-weight: bold;
+  background-color: #222;
+  border: 1px solid white;
+}
+
+
 .tipsy-inner #stats { min-width: 450px; }
 .tipsy-inner #stats .row { color: black; }
 .tipsy-inner #stats #all { max-height: 325px; overflow: auto; }

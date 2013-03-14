@@ -19,7 +19,11 @@
                     <% enabled, title, files = value %>
                     <% if enabled %>
                         <% files.each do |file| %>
-                          <li><a href="/file/_files/<%= file %>">Slide <%= key %>: <%= title %>/<%= file %></a></li>
+                          <% if key == -999 %>
+                            <li><a href="/file/_files/share/<%= file %>"><%= title %>/<%= file %></a></li>
+                          <% else %>
+                            <li><a href="/file/_files/<%= file %>">Slide <%= key %>: <%= title %>/<%= file %></a></li>
+                          <% end %>
                         <% end %>
                     <% end %>
                 <% end %>

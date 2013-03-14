@@ -539,7 +539,10 @@ class ShowOff < Sinatra::Application
     end
 
     def download(static=false)
-      @downloads = @@downloads
+      shared = Dir.glob("#{settings.pres_dir}/_files/share/*").map { |path| File.basename(path) }
+      # We use the icky -999 magic index because it has to be comparable for the view sort
+      @downloads = { -999 => [ true, 'Shared Files', shared ] }
+      @downloads.merge! @@downloads
       erb :download
     end
 
