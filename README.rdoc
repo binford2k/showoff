@@ -420,6 +420,10 @@ subdirectory of your presentation.
 Once the instructor has viewed the next slide in your presentation, the file listed here will
 be available to download on the <tt>/download</tt> page.
 
+To share files on an ad-hoc basis, the instructor can simply drop files into <tt>_files/share</tt>.
+All files existing in this directory will be listed when students hit the download page. Showoff
+does not need to be restarted, even if you drop files in here during a presentation.
+
 = Editor integration
 
 The "add slide" feature can allow you to add the necessary boilerplate from your editor.  If you are using vim, you can
