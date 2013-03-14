@@ -71,6 +71,7 @@ $(document).ready(function(){
 
 function popupLoader(elem, page, id, event)
 {
+  var title = elem.attr('title');
   event.preventDefault();
 
   if(elem.attr('open') == 'true') {
@@ -79,7 +80,8 @@ function popupLoader(elem, page, id, event)
   }
   else {
     $.get(page, function(data) {
-      var content = '<div id="' + id + '">' + $(data).find('#wrapper').html() + '</div>';
+      var link = '<p class="newpage"><a href="' + page + '" target="_new">Open in new page...</a>';
+      var content = '<div id="' + id + '">' + $(data).find('#wrapper').html() + link + '</div>';
 
       console.log(content);
 
