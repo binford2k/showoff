@@ -14,6 +14,9 @@ $(document).ready(function(){
 			if ($(this).next().is('ul')) {
 				$(this).next().toggle()
 			} else {
+				// pause follow mode for 30 seconds
+				resetModeTimer();
+
 				gotoSlide($(this).attr('rel'))
 				try { slaveWindow.gotoSlide($(this).attr('rel')) } catch (e) {}
 				postSlide()
