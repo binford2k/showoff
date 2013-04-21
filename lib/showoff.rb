@@ -462,7 +462,7 @@ class ShowOff < Sinatra::Application
     def valid_key?(try)
       if not settings.showoff_config.has_key? 'presenter key'
         # if no key is set, then default to allowing access to localhost
-        return request.env['REMOTE_HOST'] == 'localhost'
+        return request.ip == '127.0.0.1'
       else
         return settings.showoff_config['presenter key'] == try
       end
