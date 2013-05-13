@@ -612,11 +612,11 @@ function keyDown(event)
 		debugMode = !debugMode
 		doDebugStuff()
 	}
-	else if (key == 37 || key == 33 || key == 38) // Left arrow, page up, or up arrow
+	else if (key == 37 || key == 33 || key == 38 || key == 71) // Left arrow, page up, up arrow, or g
 	{
 		prevStep()
 	}
-	else if (key == 39 || key == 34 || key == 40) // Right arrow, page down, or down arrow
+	else if (key == 39 || key == 34 || key == 40 || key == 72) // Right arrow, page down, down arrow, or h
 	{
 		nextStep()
 	}
