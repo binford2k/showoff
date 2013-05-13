@@ -128,7 +128,7 @@ If a presenter key is enabled, append ?key=<key> to the presenter url.
 -------------------------
 
 "
-    ShowOff.run! :host => options[:h], :port => options[:p].to_i, :pres_file => options[:f], :pres_dir => args[0], :verbose => options[:verbose]
+    ShowOff.run! :host => options[:h], :port => options[:p].to_i, :pres_file => options[:f], :pres_dir => args[0], :verbose => options[:verbose], :bind => options[:h]
   end
 end
 
