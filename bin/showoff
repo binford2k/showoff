@@ -104,7 +104,7 @@ command :serve do |c|
   c.flag [:p,:port]
 
   c.desc 'Host or ip to run on'
-  c.default_value "localhost"
+  c.default_value "0.0.0.0"
   c.flag [:h,:host]
 
   c.desc 'JSON file used to describe presentation'
@@ -113,7 +113,8 @@ command :serve do |c|
 
   c.action do |global_options,options,args|
 
-    url = "http://#{options[:h]}:#{options[:p].to_i}"
+    host = options[:h] == '0.0.0.0' ? 'localhost' : options[:h]
+    url  = "http://#{host}:#{options[:p].to_i}"
     puts "
 -------------------------
 
@@ -126,7 +127,12 @@ To run it from presenter view, go to: [ #{url}/presenter ]
 -------------------------
 
 "
-    ShowOff.run! :host => options[:h], :port => options[:p].to_i, :pres_file => options[:f], :pres_dir => args[0], :verbose => options[:verbose], :bind => options[:h]
+    ShowOff.run!  :host      => options[:h],
+                  :port      => options[:p].to_i,
+                  :pres_file => options[:f],
+                  :pres_dir  => args[0],
+                  :verbose   => options[:verbose],
+                  :bind      => options[:h]
   end
 end
 
