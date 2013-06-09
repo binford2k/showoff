@@ -63,10 +63,10 @@ class ShowOff < Sinatra::Application
     if File.exists?(ShowOffUtils.presentation_config_file)
       showoff_json = JSON.parse(File.read(ShowOffUtils.presentation_config_file))
       settings.showoff_config = showoff_json
-      
+
       # Set options for template and page size
       settings.page_size = showoff_json["page-size"] || "Letter"
-      settings.pres_template = showoff_json["templates"] 
+      settings.pres_template = showoff_json["templates"]
     end
 
     @logger.debug settings.pres_template
@@ -84,7 +84,7 @@ class ShowOff < Sinatra::Application
 
     # Page view time accumulator
     @@counter = Hash.new
-    
+
     # The current slide that the presenter is viewing
     @@current = 0
 
@@ -260,7 +260,7 @@ class ShowOff < Sinatra::Application
     def process_content_for_all_slides(content, num_slides)
       content.gsub("~~~NUM_SLIDES~~~", num_slides.to_s)
     end
-    
+
 
     # find any lines that start with a <p>.(something) and turn them into <p class="something">
     def update_p_classes(markdown)
@@ -457,17 +457,6 @@ class ShowOff < Sinatra::Application
        inline_js(Dir.entries(File.join(File.dirname(__FILE__), '..', jses_directory)).find_all{|filename| filename.length > 2 }, jses_directory)
     end
 
-    # implements naive access control by checking to see if the passed
-    # key is the same as set in showoff.json.
-    def valid_key?(try)
-      if not settings.showoff_config.has_key? 'presenter key'
-        # if no key is set, then default to allowing access to localhost
-        return request.env['REMOTE_HOST'] == 'localhost'
-      else
-        return settings.showoff_config['presenter key'] == try
-      end
-    end
-
     def index(static=false)
       if static
         @title = ShowOffUtils.showoff_title
@@ -484,11 +473,7 @@ class ShowOff < Sinatra::Application
     end
 
     def presenter
-      if valid_key?(params['key'])
-        erb :presenter
-      else
-        not_found
-      end
+      erb :presenter
     end
 
     def clean_link(href)
@@ -553,7 +538,7 @@ class ShowOff < Sinatra::Application
 
     # Called from the presenter view. Update the current slide.
     def update(static=false)
-      if valid_key?(request.params['key'])
+      if authorized?
         slide = request.params['page'].to_i
 
         # check to see if we need to enable a download link
@@ -593,7 +578,7 @@ class ShowOff < Sinatra::Application
       # return current slide as a string to the client
       "#{@@current}"
     end
-    
+
     # Returns the current page the instructor is showing
     def getpage(static=false)
       # return current slide as a string to the client
@@ -605,17 +590,17 @@ class ShowOff < Sinatra::Application
         # the presenter should have full stats
         @counter = @@counter
       end
-      
+
       @all = Hash.new
       @@counter.each do |slide, stats|
         @all[slide] = 0
         stats.map { |host, count| @all[slide] += count }
       end
-      
+
       # most and least five viewed slides
       @least = @all.sort_by {|slide, time| time}[0..4]
       @most = @all.sort_by {|slide, time| -time}[0..4]
-      
+
       erb :stats
     end
 
@@ -722,6 +707,26 @@ class ShowOff < Sinatra::Application
      e.message
    end
 
+  # Basic auth boilerplate
+  def protected!
+    unless authorized?
+      response['WWW-Authenticate'] = %(Basic realm="#{@title}: Protected Area")
+      throw(:halt, [401, "Not authorized\n"])
+    end
+  end
+
+  def authorized?
+    if not settings.showoff_config.has_key? 'password'
+      # if no password is set, then default to allowing access to localhost
+      request.env['REMOTE_HOST'] == 'localhost' or request.ip == '127.0.0.1'
+    else
+      auth   ||= Rack::Auth::Basic::Request.new(request.env)
+      user     = settings.showoff_config['user'] || ''
+      password = settings.showoff_config['password']
+      auth.provided? && auth.basic? && auth.credentials && auth.credentials == [user, password]
+    end
+  end
+
   get '/eval_ruby' do
     return eval_ruby(params[:code]) if ENV['SHOWOFF_EVAL_RUBY']
 
@@ -743,6 +748,10 @@ class ShowOff < Sinatra::Application
     @pause_msg = ShowOffUtils.pause_msg
     what = params[:captures].first
     what = 'index' if "" == what
+
+    if settings.showoff_config.has_key? 'protected'
+      protected! if settings.showoff_config['protected'].include? what
+    end
 
     @asset_path = (env['SCRIPT_NAME'] || '').gsub(/\/?$/, '/').gsub(/^\//, '')
 
