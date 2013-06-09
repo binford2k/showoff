@@ -2,7 +2,7 @@
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'showoff'
-require 'showoff/version' 
+require 'showoff/version'
 require 'rubygems'
 require 'gli'
 
@@ -105,7 +105,7 @@ command :serve do |c|
 
   c.desc 'Host or ip to run on'
   c.default_value "localhost"
-  c.flag [:h,:host]  
+  c.flag [:h,:host]
 
   c.desc 'JSON file used to describe presentation'
   c.default_value "showoff.json"
@@ -122,8 +122,6 @@ Your ShowOff presentation is now starting up.
 To view it plainly, visit [ #{url} ]
 
 To run it from presenter view, go to: [ #{url}/presenter ]
-
-If a presenter key is enabled, append ?key=<key> to the presenter url.
 
 -------------------------
 
