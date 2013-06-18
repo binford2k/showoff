@@ -524,6 +524,12 @@ class ShowOff < Sinatra::Application
       erb :onepage
     end
 
+    def onepage_toc(static=false)
+      @slides = get_slides_html(static)
+      @languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
+      erb :onepage_toc
+    end
+
     def download(static=false)
       begin
         shared = Dir.glob("#{settings.pres_dir}/_files/share/*").map { |path| File.basename(path) }
