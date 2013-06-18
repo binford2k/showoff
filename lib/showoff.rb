@@ -193,6 +193,7 @@ class ShowOff < Sinatra::Application
         # extract id, defaulting to none
         id = nil
         content_classes.delete_if { |x| x =~ /^#([\w-]+)/ && id = $1 }
+        id = name unless id
         @logger.debug "id: #{id}" if id
         @logger.debug "classes: #{content_classes.inspect}"
         @logger.debug "transition: #{transition}"
