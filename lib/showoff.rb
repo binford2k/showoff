@@ -271,7 +271,10 @@ class ShowOff < Sinatra::Application
       doc = Nokogiri::HTML::DocumentFragment.parse(content)
       %w[notes handouts instructor solguide].each { |mark|  update_special_content_mark(doc, mark) }
       update_download_links(doc, seq, name)
-      doc.to_html
+
+      # TODO: what the bloody hell. Figure out how to either make Nokogiri output closed
+      # tags or figure out how to get its XML output to quit adding gratuitious spaces.
+      doc.to_html.gsub(/(<img [^>]*)>/, '\1 />')
     end
 
     def update_special_content_mark(doc, mark)
