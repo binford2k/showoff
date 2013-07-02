@@ -4,17 +4,17 @@ if (! this.sh_languages) {
 sh_languages['puppet_output'] = [
   [
     [
-      /^info:.*/g,
+      /^[iI]nfo:.*/g,
       'sh_info',
       -1
     ],
     [
-      /^notice:.*/g,
+      /^[nN]otice:.*/g,
       'sh_notice',
       -1
     ],
     [
-      /^warning:.*/g,
+      /^[wW]arning:.*/g,
       'sh_warning',
       -1
     ]
