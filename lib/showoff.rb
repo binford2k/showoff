@@ -543,13 +543,12 @@ class ShowOff < Sinatra::Application
 
     def onepage(static=false)
       @slides = get_slides_html(:static=>static)
-      @languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
+      #@languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
       erb :onepage
     end
 
     def supplemental(content, static=false)
       @slides = get_slides_html(:static=>static, :supplemental=>content)
-      @languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
       @wrapper_classes = ['supplemental']
       erb :onepage
     end
@@ -788,7 +787,7 @@ class ShowOff < Sinatra::Application
     end
 
     # this hasn't been set to anything remotely interesting for a long time now
-    @asset_path = '/'
+    @asset_path = nil
 
     if (what != "favicon.ico")
       if what == 'supplemental'

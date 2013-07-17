@@ -3,44 +3,44 @@
 
   <meta name="viewport" content="width=device-width; initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
 
-  <link rel="stylesheet" href="<%= @asset_path %>css/reset.css" type="text/css"/>
+  <link rel="stylesheet" href="<%= @asset_path %>/css/reset.css" type="text/css"/>
 
-  <link type="text/css" href="<%= @asset_path %>css/fg.menu.css" media="screen" rel="stylesheet" />
-  <link type="text/css" href="<%= @asset_path %>css/theme/ui.all.css" media="screen" rel="stylesheet" />
-  <link type="text/css" href="<%= @asset_path %>css/sh_style.css" rel="stylesheet" />
-  <link type="text/css" href="<%= @asset_path %>css/tipsy.css" rel="stylesheet" />
+  <link type="text/css" href="<%= @asset_path %>/css/fg.menu.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="<%= @asset_path %>/css/theme/ui.all.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="<%= @asset_path %>/css/sh_style.css" rel="stylesheet" />
+  <link type="text/css" href="<%= @asset_path %>/css/tipsy.css" rel="stylesheet" />
 
-  <link rel="stylesheet" href="<%= @asset_path %>css/showoff.css" type="text/css"/>
+  <link rel="stylesheet" href="<%= @asset_path %>/css/showoff.css" type="text/css"/>
 
-  <script type="text/javascript" src="<%= @asset_path %>js/jquery-1.4.2.min.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>js/jquery.cycle.all.js"></script>
-	<script type="text/javascript" src="<%= @asset_path %>js/jquery-print.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>js/jquery.batchImageLoad.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>js/jquery.parsequery.min.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>js/jquery.doubletap-0.1.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>js/jquery.tipsy.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/jquery.cycle.all.js"></script>
+	<script type="text/javascript" src="<%= @asset_path %>/js/jquery-print.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/jquery.batchImageLoad.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/jquery.parsequery.min.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/jquery.doubletap-0.1.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/jquery.tipsy.js"></script>
 
-  <script type="text/javascript" src="<%= @asset_path %>js/fg.menu.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>js/showoff.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>js/jTypeWriter.js"> </script>
-  <script type="text/javascript" src="<%= @asset_path %>js/sh_main.min.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>js/core.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>js/showoffcore.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>js/coffee-script.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/fg.menu.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/showoff.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/jTypeWriter.js"> </script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/sh_main.min.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/core.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/showoffcore.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/coffee-script.js"></script>
 
   <% if @languages %>
     <% @languages.each do |l| %>
-      <script type="text/javascript" src="<%= @asset_path %>js/<%= l %>"></script>
+      <script type="text/javascript" src="<%= @asset_path %>/js/<%= l %>"></script>
     <% end %>
   <% end %>
 
   <% css_files.each do |css_file| %>
     <% alternate = ShowOffUtils.default_style?(css_file) ? '' : 'alternate ' %>
-    <link rel="stylesheet" href="<%= @asset_path %>file/<%= css_file %>" type="text/css"/>
+    <link rel="stylesheet" href="<%= @asset_path %>/file/<%= css_file %>" type="text/css"/>
   <% end %>
 
   <% js_files.each do |js_file| %>
-    <script type="text/javascript" src="<%= @asset_path %>file/<%= js_file %>"></script>
+    <script type="text/javascript" src="<%= @asset_path %>/file/<%= js_file %>"></script>
   <% end %>
 
   <script type="text/javascript">

@@ -375,6 +375,7 @@ a.fg-button { float:left; }
     .supplemental .content > ul { font-size: 1em; }
 
 .supplemental img { max-width: 7in; }
+.supplemental .content > pre { font-size: 0.9em; }
 .supplemental ul { list-style: disc; margin-left: 1.25em !important; padding-left: inherit !important; }
 .supplemental .content table { font-size: 0.65em; } /* Ugly hack for tables, which never seem to scale properly. Ick */
 
