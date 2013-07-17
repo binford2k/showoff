@@ -183,6 +183,12 @@ class ShowOff < Sinatra::Application
         seq = 1
       end
       slides.each do |slide|
+        # update section counters before we reject slides so the numbering is consistent
+        if slide.classes.include? 'subsection'
+          @section_major += 1
+          @section_minor = 0
+        end
+
         if opts[:supplemental]
           # if we're looking for supplemental material, only include the content we want
           next unless slide.classes.include? 'supplemental'
@@ -238,13 +244,11 @@ class ShowOff < Sinatra::Application
         content += sl
         content += "</div>\n"
 
-        # Apply the template to the slide and replace the key with
-        # content of the slide
+        # Apply the template to the slide and replace the key with content of the slide
+        # This should really be done before the md translation, but that alters the DOM somehow
         md += process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, content), @slide_count)
-
-        # Apply other configuration
-
         md += "</div>\n"
+
         final += update_commandline_code(md)
 
         if seq
@@ -257,7 +261,12 @@ class ShowOff < Sinatra::Application
     # This method processes the content of the slide and replaces
     # content markers with their actual value information
     def process_content_for_replacements(content, seq)
-      result = content.gsub("~~~CURRENT_SLIDE~~~", seq.to_s)
+      result = content.gsub("~~~CURRENT_SLIDE~~~", @slide_count.to_s)
+      result.gsub!("~~~SECTION:MAJOR~~~", @section_major.to_s)
+      if result.include? "~~~SECTION:MINOR~~~"
+        @section_minor += 1
+        result.gsub!("~~~SECTION:MINOR~~~", @section_minor.to_s)
+      end
       # Now check for any kind of options
       content.scan(/(~~~CONFIG:(.*?)~~~)/).each do |match|
         result.gsub!(match[0], settings.showoff_config[match[1]]) if settings.showoff_config.key?(match[1])
@@ -407,7 +416,10 @@ class ShowOff < Sinatra::Application
     end
 
     def get_slides_html(opts={:static=>false, :pdf=>false, :supplemental=>nil})
-      @slide_count = 0
+      @slide_count   = 0
+      @section_major = 0
+      @section_minor = 0
+
       sections = ShowOffUtils.showoff_sections(settings.pres_dir, @logger)
       files = []
       if sections
