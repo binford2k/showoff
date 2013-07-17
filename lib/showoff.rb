@@ -155,7 +155,7 @@ class ShowOff < Sinatra::Application
     end
 
 
-    def process_markdown(name, content, static=false, pdf=false)
+    def process_markdown(name, content, opts={:static=>false, :pdf=>false, :supplemental=>nil})
       # if there are no !SLIDE markers, then make every H1 define a new slide
       unless content =~ /^\<?!SLIDE/m
         content = content.gsub(/^# /m, "<!SLIDE>\n# ")
@@ -225,7 +225,7 @@ class ShowOff < Sinatra::Application
         sl = Tilt[:markdown].new { slide.text }.render
         sl = update_p_classes(sl)
         sl = update_special_content(sl, @slide_count, name)
-        sl = update_image_paths(name, sl, static, pdf)
+        sl = update_image_paths(name, sl, opts)
         content += sl
         content += "</div>\n"
 
@@ -315,12 +315,12 @@ class ShowOff < Sinatra::Application
     end
     private :update_download_links
 
-    def update_image_paths(path, slide, static=false, pdf=false)
+    def update_image_paths(path, slide, opts={:static=>false, :pdf=>false})
       paths = path.split('/')
       paths.pop
       path = paths.join('/')
-      replacement_prefix = static ?
-        ( pdf ? %(img src="file://#{settings.pres_dir}/#{path}) : %(img src="./file/#{path}) ) :
+      replacement_prefix = opts[:static] ?
+        ( opts[:pdf] ? %(img src="file://#{settings.pres_dir}/#{path}) : %(img src="./file/#{path}) ) :
         %(img src="#{@asset_path}image/#{path})
       slide.gsub(/img src=[\"\'](?!https?:\/\/)([^\/].*?)[\"\']/) do |s|
         img_path = File.join(path, $1)
@@ -397,7 +397,7 @@ class ShowOff < Sinatra::Application
       html.root.to_s
     end
 
-    def get_slides_html(static=false, pdf=false)
+    def get_slides_html(opts={:static=>false, :pdf=>false, :supplemental=>nil})
       @slide_count = 0
       sections = ShowOffUtils.showoff_sections(settings.pres_dir, @logger)
       files = []
@@ -406,7 +406,7 @@ class ShowOff < Sinatra::Application
         sections.each do |section|
           if section =~ /^#/
             name = section.each_line.first.gsub(/^#*/,'').strip
-            data << process_markdown(name, "<!SLIDE subsection>\n" + section, static, pdf)
+            data << process_markdown(name, "<!SLIDE subsection>\n" + section, opts)
           else
             files = []
             files << load_section_files(section)
@@ -414,7 +414,7 @@ class ShowOff < Sinatra::Application
             files = files.select { |f| f =~ /.md$/ }
             files.each do |f|
               fname = f.gsub(settings.pres_dir + '/', '').gsub('.md', '')
-              data << process_markdown(fname, File.read(f), static, pdf)
+              data << process_markdown(fname, File.read(f), opts)
             end
           end
         end
@@ -463,7 +463,7 @@ class ShowOff < Sinatra::Application
     def index(static=false)
       if static
         @title = ShowOffUtils.showoff_title
-        @slides = get_slides_html(static)
+        @slides = get_slides_html(:static=>static)
 
         @pause_msg = ShowOffUtils.pause_msg
 
@@ -517,16 +517,16 @@ class ShowOff < Sinatra::Application
     end
 
     def slides(static=false)
-      get_slides_html(static)
+      get_slides_html(:static=>static)
     end
 
     def onepage(static=false)
-      @slides = get_slides_html(static)
+      @slides = get_slides_html(:static=>static)
       @languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
       erb :onepage
     end
 
-    def download(static=false)
+    def download()
       begin
         shared = Dir.glob("#{settings.pres_dir}/_files/share/*").map { |path| File.basename(path) }
         # We use the icky -999 magic index because it has to be comparable for the view sort
@@ -540,7 +540,7 @@ class ShowOff < Sinatra::Application
     end
 
     # Called from the presenter view. Update the current slide.
-    def update(static=false)
+    def update()
       if authorized?
         slide = request.params['page'].to_i
 
@@ -558,7 +558,7 @@ class ShowOff < Sinatra::Application
 
     # Called once per second by each client view. Keep track of viewing stats
     # and return the current page the instructor is showing
-    def ping(static=false)
+    def ping()
       slide = request.params['page'].to_i
       remote = request.env['REMOTE_HOST']
 
@@ -583,12 +583,12 @@ class ShowOff < Sinatra::Application
     end
 
     # Returns the current page the instructor is showing
-    def getpage(static=false)
+    def getpage()
       # return current slide as a string to the client
       "#{@@current}"
     end
 
-    def stats(static=false)
+    def stats()
       if request.env['REMOTE_HOST'] == 'localhost'
         # the presenter should have full stats
         @counter = @@counter
@@ -608,7 +608,7 @@ class ShowOff < Sinatra::Application
     end
 
     def pdf(static=true)
-      @slides = get_slides_html(static, true)
+      @slides = get_slides_html(:static=>static, :pdf=>true)
       @inline = true
 
       # Identify which languages to bundle for highlighting
