@@ -261,15 +261,26 @@ class ShowOff < Sinatra::Application
     # This method processes the content of the slide and replaces
     # content markers with their actual value information
     def process_content_for_replacements(content, seq)
+      # update counters, incrementing section:minor if needed
       result = content.gsub("~~~CURRENT_SLIDE~~~", @slide_count.to_s)
       result.gsub!("~~~SECTION:MAJOR~~~", @section_major.to_s)
       if result.include? "~~~SECTION:MINOR~~~"
         @section_minor += 1
         result.gsub!("~~~SECTION:MINOR~~~", @section_minor.to_s)
       end
+
       # Now check for any kind of options
       content.scan(/(~~~CONFIG:(.*?)~~~)/).each do |match|
         result.gsub!(match[0], settings.showoff_config[match[1]]) if settings.showoff_config.key?(match[1])
+      end
+
+      # Load and replace any file tags
+      content.scan(/(~~~FILE:([^:]*):?(.*)?~~~)/).each do |match|
+        file = File.read(File.join(settings.pres_dir, '_files', match[1]))
+        # make a list of sh_highlight classes to include
+        css  = match[2].split.collect {|i| "sh_#{i.downcase}" }.join(' ')
+
+        result.gsub!(match[0], "<pre class=\"#{css}\"><code>#{file}</code></pre>")
       end
 
       result
