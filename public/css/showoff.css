@@ -346,6 +346,38 @@ a.fg-button { float:left; }
   bottom: 0px;
 }
 
+/**********************************
+ ***   supplemental materials   ***
+ **********************************/
+#slides.supplemental .slide {
+  max-height: inherit;
+  height: 9.75in;
+  padding: 0.5em;
+  width: 8.1in;
+}
+
+.supplemental h1 { font-family: 'Arvo'; }
+.supplemental h2,
+    .supplemental h3,
+    .supplemental h4,
+    .supplemental h5,
+    .supplemental h6 { font-family: 'PT Sans'; }
+
+.supplemental h1 { font-size: 2em; }
+.supplemental h2 { font-size: 1.5em; }
+.supplemental h3,
+    .supplemental h4,
+    .supplemental h5,
+    .supplemental h6 { font-size: 1.3em; text-align: left; }
+
+.supplemental .content > p,
+    .supplemental .content > ol,
+    .supplemental .content > ul { font-size: 1em; }
+
+.supplemental img { max-width: 7in; }
+.supplemental ul { list-style: disc; margin-left: 1.25em !important; padding-left: inherit !important; }
+.supplemental .content table { font-size: 0.65em; } /* Ugly hack for tables, which never seem to scale properly. Ick */
+
 /* downloads page */
 /* we want scrolls! */
 body#download {

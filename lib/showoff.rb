@@ -183,6 +183,15 @@ class ShowOff < Sinatra::Application
         seq = 1
       end
       slides.each do |slide|
+        if opts[:supplemental]
+          # if we're looking for supplemental material, only include the content we want
+          next unless slide.classes.include? 'supplemental'
+          next unless slide.classes.include? opts[:supplemental]
+        else
+          # otherwise just skip all supplemental material completely
+          next if slide.classes.include? 'supplemental'
+        end
+
         @slide_count += 1
         md = ''
         content_classes = slide.classes
@@ -526,6 +535,13 @@ class ShowOff < Sinatra::Application
       erb :onepage
     end
 
+    def supplemental(content, static=false)
+      @slides = get_slides_html(:static=>static, :supplemental=>content)
+      @languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
+      @wrapper_classes = ['supplemental']
+      erb :onepage
+    end
+
     def download()
       begin
         shared = Dir.glob("#{settings.pres_dir}/_files/share/*").map { |path| File.basename(path) }
@@ -646,6 +662,7 @@ class ShowOff < Sinatra::Application
       name = showoff.instance_variable_get(:@pres_name)
       path = showoff.instance_variable_get(:@root_path)
       logger = showoff.instance_variable_get(:@logger)
+
       data = showoff.send(what, true)
 
       if data.is_a?(File)
@@ -746,20 +763,27 @@ class ShowOff < Sinatra::Application
     end
   end
 
-  get %r{/(.*)} do
+  # gawd, this whole routing scheme is bollocks
+  get %r{/([^/]*)/?([^/]*)} do
     @title = ShowOffUtils.showoff_title
     @pause_msg = ShowOffUtils.pause_msg
     what = params[:captures].first
+    opt  = params[:captures][1]
     what = 'index' if "" == what
 
     if settings.showoff_config.has_key? 'protected'
       protected! if settings.showoff_config['protected'].include? what
     end
 
-    @asset_path = (env['SCRIPT_NAME'] || '').gsub(/\/?$/, '/').gsub(/^\//, '')
+    # this hasn't been set to anything remotely interesting for a long time now
+    @asset_path = '/'
 
     if (what != "favicon.ico")
-      data = send(what)
+      if what == 'supplemental'
+        data = send(what, opt)
+      else
+        data = send(what)
+      end
       if data.is_a?(File)
         send_file data.path
       else

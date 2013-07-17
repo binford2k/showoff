@@ -20,7 +20,6 @@
     </script>
 
   <% else %>
-
     <% ['reset.css', 'showoff.css', 'theme/ui.all.css', 'sh_style.css', 'onepage.css'].each do |css_file| %>
       <link rel="stylesheet" href="<%= @asset_path %>css/<%= css_file %>" type="text/css"/>
     <% end %>
@@ -49,7 +48,7 @@
 </head>
 
 <body>
-<div id="slides">
+<div id="slides"<% if @wrapper_classes then %>class="<%= @wrapper_classes.join(' ') %>"<% end %> >
   <%= @slides %>
 </div>
 </body>
