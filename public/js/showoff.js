@@ -103,8 +103,9 @@ function initializePresentation(prefix) {
 		slidesLoaded = true
 	}
 	setupSlideParamsCheck();
-        try {
-	    sh_highlightDocument(prefix+'/js/sh_lang/', '.min.js')
+
+  try {
+	    sh_highlightDocument('/js/sh_lang/', '.min.js')
 	} catch(e) {
 	    sh_highlightDocument();
 	}
@@ -429,7 +430,7 @@ function executeAnyCode()
   var $coffeeCode = $('.execute .sh_coffeescript code:visible')
   if ($coffeeCode.length > 0) {
       executeCoffee.call($coffeeCode);
-  } 
+  }
 }
 
 function debug(data)

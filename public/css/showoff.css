@@ -346,6 +346,42 @@ a.fg-button { float:left; }
   bottom: 0px;
 }
 
+/**********************************
+ ***   supplemental materials   ***
+ **********************************/
+#slides.supplemental .slide {
+  max-height: none !important;
+  height: auto;
+  padding: 0.5em;
+  width: 8.1in;
+}
+
+.supplemental h1 { font-family: 'Arvo'; }
+.supplemental h2,
+    .supplemental h3,
+    .supplemental h4,
+    .supplemental h5,
+    .supplemental h6 { font-family: 'PT Sans'; }
+
+.supplemental h1 { font-size: 2em; }
+.supplemental h2 { font-size: 1.5em; }
+.supplemental h3,
+    .supplemental h4,
+    .supplemental h5,
+    .supplemental h6 { font-size: 1.3em; text-align: left; }
+
+.supplemental .content > p,
+    .supplemental .content > ol,
+    .supplemental .content > ul { font-size: 1em; }
+
+.supplemental img { max-width: 7in; }
+.supplemental .content > pre,
+  .supplemental .content > pre > code { font-size: 10pt; font-family: 'Courier New', Courier, monospace; }
+.supplemental ul { list-style: disc; margin-left: 1.25em !important; padding-left: inherit !important; }
+.supplemental .content table { font-size: 0.65em; } /* Ugly hack for tables, which never seem to scale properly. Ick */
+
+.supplemental .content div.break { font-size: small; font-style: italic; padding-bottom: 0.25em; border-bottom: 1px dashed black; }
+
 /* downloads page */
 /* we want scrolls! */
 body#download {
@@ -578,4 +614,7 @@ body#stats {
   pre, code {
     font-family: Monaco, monospace;
   }
+
+  /* page break and remove the preview styling */
+  .supplemental .content div.break { page-break-after: always; padding-bottom: 0; border-bottom: none; }
 }
