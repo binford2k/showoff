@@ -237,7 +237,6 @@ class ShowOff < Sinatra::Application
         end
 
         # Apply the template to the slide and replace the key with content of the slide
-        # This should really be done before the md translation, but that alters the DOM somehow
         sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
         sl = Tilt[:markdown].new { sl }.render
         sl = update_p_classes(sl)
