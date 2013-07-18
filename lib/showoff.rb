@@ -199,7 +199,6 @@ class ShowOff < Sinatra::Application
         end
 
         @slide_count += 1
-        md = ''
         content_classes = slide.classes
 
         # extract transition, defaulting to none
@@ -212,10 +211,6 @@ class ShowOff < Sinatra::Application
         @logger.debug "classes: #{content_classes.inspect}"
         @logger.debug "transition: #{transition}"
         @logger.debug "tpl: #{slide.tpl} " if slide.tpl
-        # create html
-        md += "<div"
-        md += " id=\"#{id}\"" if id
-        md += " class=\"slide\" data-transition=\"#{transition}\">"
 
 
         template = "~~~CONTENT~~~"
@@ -229,27 +224,30 @@ class ShowOff < Sinatra::Application
           end
         end
 
+        # create html for the slide
+        content = "<div"
+        content += " id=\"#{id}\"" if id
+        content += " class=\"slide\" data-transition=\"#{transition}\">"
+
         # Extract the content of the slide
-        content = ""
         if seq
           content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}/#{seq.to_s}\">\n"
         else
           content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
 
-        sl = Tilt[:markdown].new { slide.text }.render
+        # Apply the template to the slide and replace the key with content of the slide
+        # This should really be done before the md translation, but that alters the DOM somehow
+        sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
+        sl = Tilt[:markdown].new { sl }.render
         sl = update_p_classes(sl)
         sl = update_special_content(sl, @slide_count, name)
         sl = update_image_paths(name, sl, opts)
         content += sl
         content += "</div>\n"
+        content += "</div>\n"
 
-        # Apply the template to the slide and replace the key with content of the slide
-        # This should really be done before the md translation, but that alters the DOM somehow
-        md += process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, content), @slide_count)
-        md += "</div>\n"
-
-        final += update_commandline_code(md)
+        final += update_commandline_code(content)
 
         if seq
           seq += 1
@@ -260,7 +258,7 @@ class ShowOff < Sinatra::Application
 
     # This method processes the content of the slide and replaces
     # content markers with their actual value information
-    def process_content_for_replacements(content, seq)
+    def process_content_for_replacements(content)
       # update counters, incrementing section:minor if needed
       result = content.gsub("~~~CURRENT_SLIDE~~~", @slide_count.to_s)
       result.gsub!("~~~SECTION:MAJOR~~~", @section_major.to_s)
