@@ -155,7 +155,7 @@ class ShowOff < Sinatra::Application
     end
 
 
-    def process_markdown(name, content, static=false, pdf=false)
+    def process_markdown(name, content, opts={:static=>false, :pdf=>false, :supplemental=>nil})
       # if there are no !SLIDE markers, then make every H1 define a new slide
       unless content =~ /^\<?!SLIDE/m
         content = content.gsub(/^# /m, "<!SLIDE>\n# ")
@@ -183,8 +183,22 @@ class ShowOff < Sinatra::Application
         seq = 1
       end
       slides.each do |slide|
+        # update section counters before we reject slides so the numbering is consistent
+        if slide.classes.include? 'subsection'
+          @section_major += 1
+          @section_minor = 0
+        end
+
+        if opts[:supplemental]
+          # if we're looking for supplemental material, only include the content we want
+          next unless slide.classes.include? 'supplemental'
+          next unless slide.classes.include? opts[:supplemental]
+        else
+          # otherwise just skip all supplemental material completely
+          next if slide.classes.include? 'supplemental'
+        end
+
         @slide_count += 1
-        md = ''
         content_classes = slide.classes
 
         # extract transition, defaulting to none
@@ -197,10 +211,6 @@ class ShowOff < Sinatra::Application
         @logger.debug "classes: #{content_classes.inspect}"
         @logger.debug "transition: #{transition}"
         @logger.debug "tpl: #{slide.tpl} " if slide.tpl
-        # create html
-        md += "<div"
-        md += " id=\"#{id}\"" if id
-        md += " class=\"slide\" data-transition=\"#{transition}\">"
 
 
         template = "~~~CONTENT~~~"
@@ -214,29 +224,29 @@ class ShowOff < Sinatra::Application
           end
         end
 
+        # create html for the slide
+        content = "<div"
+        content += " id=\"#{id}\"" if id
+        content += " class=\"slide\" data-transition=\"#{transition}\">"
+
         # Extract the content of the slide
-        content = ""
         if seq
           content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}/#{seq.to_s}\">\n"
         else
           content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
 
-        sl = Tilt[:markdown].new { slide.text }.render
+        # Apply the template to the slide and replace the key with content of the slide
+        sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
+        sl = Tilt[:markdown].new { sl }.render
         sl = update_p_classes(sl)
         sl = update_special_content(sl, @slide_count, name)
-        sl = update_image_paths(name, sl, static, pdf)
+        sl = update_image_paths(name, sl, opts)
         content += sl
         content += "</div>\n"
+        content += "</div>\n"
 
-        # Apply the template to the slide and replace the key with
-        # content of the slide
-        md += process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, content), @slide_count)
-
-        # Apply other configuration
-
-        md += "</div>\n"
-        final += update_commandline_code(md)
+        final += update_commandline_code(content)
 
         if seq
           seq += 1
@@ -247,11 +257,30 @@ class ShowOff < Sinatra::Application
 
     # This method processes the content of the slide and replaces
     # content markers with their actual value information
-    def process_content_for_replacements(content, seq)
-      result = content.gsub("~~~CURRENT_SLIDE~~~", seq.to_s)
+    def process_content_for_replacements(content)
+      # update counters, incrementing section:minor if needed
+      result = content.gsub("~~~CURRENT_SLIDE~~~", @slide_count.to_s)
+      result.gsub!("~~~SECTION:MAJOR~~~", @section_major.to_s)
+      if result.include? "~~~SECTION:MINOR~~~"
+        @section_minor += 1
+        result.gsub!("~~~SECTION:MINOR~~~", @section_minor.to_s)
+      end
+
+      # scan for pagebreak tags. Should really only be used for handout notes or supplemental materials
+      result.gsub!("~~~PAGEBREAK~~~", '<div class="break">continued...</div>')
+
       # Now check for any kind of options
       content.scan(/(~~~CONFIG:(.*?)~~~)/).each do |match|
         result.gsub!(match[0], settings.showoff_config[match[1]]) if settings.showoff_config.key?(match[1])
+      end
+
+      # Load and replace any file tags
+      content.scan(/(~~~FILE:([^:]*):?(.*)?~~~)/).each do |match|
+        file = File.read(File.join(settings.pres_dir, '_files', match[1]))
+        # make a list of sh_highlight classes to include
+        css  = match[2].split.collect {|i| "sh_#{i.downcase}" }.join(' ')
+
+        result.gsub!(match[0], "<pre class=\"#{css}\"><code>#{file}</code></pre>")
       end
 
       result
@@ -315,12 +344,12 @@ class ShowOff < Sinatra::Application
     end
     private :update_download_links
 
-    def update_image_paths(path, slide, static=false, pdf=false)
+    def update_image_paths(path, slide, opts={:static=>false, :pdf=>false})
       paths = path.split('/')
       paths.pop
       path = paths.join('/')
-      replacement_prefix = static ?
-        ( pdf ? %(img src="file://#{settings.pres_dir}/#{path}) : %(img src="./file/#{path}) ) :
+      replacement_prefix = opts[:static] ?
+        ( opts[:pdf] ? %(img src="file://#{settings.pres_dir}/#{path}) : %(img src="./file/#{path}) ) :
         %(img src="#{@asset_path}image/#{path})
       slide.gsub(/img src=[\"\'](?!https?:\/\/)([^\/].*?)[\"\']/) do |s|
         img_path = File.join(path, $1)
@@ -397,8 +426,11 @@ class ShowOff < Sinatra::Application
       html.root.to_s
     end
 
-    def get_slides_html(static=false, pdf=false)
-      @slide_count = 0
+    def get_slides_html(opts={:static=>false, :pdf=>false, :supplemental=>nil})
+      @slide_count   = 0
+      @section_major = 0
+      @section_minor = 0
+
       sections = ShowOffUtils.showoff_sections(settings.pres_dir, @logger)
       files = []
       if sections
@@ -406,7 +438,7 @@ class ShowOff < Sinatra::Application
         sections.each do |section|
           if section =~ /^#/
             name = section.each_line.first.gsub(/^#*/,'').strip
-            data << process_markdown(name, "<!SLIDE subsection>\n" + section, static, pdf)
+            data << process_markdown(name, "<!SLIDE subsection>\n" + section, opts)
           else
             files = []
             files << load_section_files(section)
@@ -414,7 +446,7 @@ class ShowOff < Sinatra::Application
             files = files.select { |f| f =~ /.md$/ }
             files.each do |f|
               fname = f.gsub(settings.pres_dir + '/', '').gsub('.md', '')
-              data << process_markdown(fname, File.read(f), static, pdf)
+              data << process_markdown(fname, File.read(f), opts)
             end
           end
         end
@@ -463,7 +495,7 @@ class ShowOff < Sinatra::Application
     def index(static=false)
       if static
         @title = ShowOffUtils.showoff_title
-        @slides = get_slides_html(static)
+        @slides = get_slides_html(:static=>static)
 
         @pause_msg = ShowOffUtils.pause_msg
 
@@ -517,16 +549,22 @@ class ShowOff < Sinatra::Application
     end
 
     def slides(static=false)
-      get_slides_html(static)
+      get_slides_html(:static=>static)
     end
 
     def onepage(static=false)
-      @slides = get_slides_html(static)
-      @languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
+      @slides = get_slides_html(:static=>static)
+      #@languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
       erb :onepage
     end
 
-    def download(static=false)
+    def supplemental(content, static=false)
+      @slides = get_slides_html(:static=>static, :supplemental=>content)
+      @wrapper_classes = ['supplemental']
+      erb :onepage
+    end
+
+    def download()
       begin
         shared = Dir.glob("#{settings.pres_dir}/_files/share/*").map { |path| File.basename(path) }
         # We use the icky -999 magic index because it has to be comparable for the view sort
@@ -540,7 +578,7 @@ class ShowOff < Sinatra::Application
     end
 
     # Called from the presenter view. Update the current slide.
-    def update(static=false)
+    def update()
       if authorized?
         slide = request.params['page'].to_i
 
@@ -558,7 +596,7 @@ class ShowOff < Sinatra::Application
 
     # Called once per second by each client view. Keep track of viewing stats
     # and return the current page the instructor is showing
-    def ping(static=false)
+    def ping()
       slide = request.params['page'].to_i
       remote = request.env['REMOTE_HOST']
 
@@ -583,12 +621,12 @@ class ShowOff < Sinatra::Application
     end
 
     # Returns the current page the instructor is showing
-    def getpage(static=false)
+    def getpage()
       # return current slide as a string to the client
       "#{@@current}"
     end
 
-    def stats(static=false)
+    def stats()
       if request.env['REMOTE_HOST'] == 'localhost'
         # the presenter should have full stats
         @counter = @@counter
@@ -608,7 +646,7 @@ class ShowOff < Sinatra::Application
     end
 
     def pdf(static=true)
-      @slides = get_slides_html(static, true)
+      @slides = get_slides_html(:static=>static, :pdf=>true)
       @inline = true
 
       # Identify which languages to bundle for highlighting
@@ -646,6 +684,7 @@ class ShowOff < Sinatra::Application
       name = showoff.instance_variable_get(:@pres_name)
       path = showoff.instance_variable_get(:@root_path)
       logger = showoff.instance_variable_get(:@logger)
+
       data = showoff.send(what, true)
 
       if data.is_a?(File)
@@ -746,20 +785,27 @@ class ShowOff < Sinatra::Application
     end
   end
 
-  get %r{/(.*)} do
+  # gawd, this whole routing scheme is bollocks
+  get %r{/([^/]*)/?([^/]*)} do
     @title = ShowOffUtils.showoff_title
     @pause_msg = ShowOffUtils.pause_msg
     what = params[:captures].first
+    opt  = params[:captures][1]
     what = 'index' if "" == what
 
     if settings.showoff_config.has_key? 'protected'
       protected! if settings.showoff_config['protected'].include? what
     end
 
-    @asset_path = (env['SCRIPT_NAME'] || '').gsub(/\/?$/, '/').gsub(/^\//, '')
+    # this hasn't been set to anything remotely interesting for a long time now
+    @asset_path = nil
 
     if (what != "favicon.ico")
-      data = send(what)
+      if what == 'supplemental'
+        data = send(what, opt)
+      else
+        data = send(what)
+      end
       if data.is_a?(File)
         send_file data.path
       else
