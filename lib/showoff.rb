@@ -266,6 +266,9 @@ class ShowOff < Sinatra::Application
         result.gsub!("~~~SECTION:MINOR~~~", @section_minor.to_s)
       end
 
+      # scan for pagebreak tags. Should really only be used for handout notes or supplemental materials
+      result.gsub!("~~~PAGEBREAK~~~", '<div class="break">continued...</div>')
+
       # Now check for any kind of options
       content.scan(/(~~~CONFIG:(.*?)~~~)/).each do |match|
         result.gsub!(match[0], settings.showoff_config[match[1]]) if settings.showoff_config.key?(match[1])
