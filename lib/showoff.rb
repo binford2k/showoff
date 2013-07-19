@@ -229,19 +229,22 @@ class ShowOff < Sinatra::Application
         content += " id=\"#{id}\"" if id
         content += " class=\"slide\" data-transition=\"#{transition}\">"
 
-        # Extract the content of the slide
+        # name the slide. If we've got multiple slides in this file, we'll have a sequence number
+        # include that sequence number to index directly into that content
         if seq
           content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}/#{seq.to_s}\">\n"
         else
           content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
         end
 
-        # Apply the template to the slide and replace the key with content of the slide
+        # Apply the template to the slide and replace the key to generate the content of the slide
         sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
         sl = Tilt[:markdown].new { sl }.render
         sl = update_p_classes(sl)
-        sl = update_special_content(sl, @slide_count, name)
+        sl = process_content_for_section_tags(sl)
+        sl = update_special_content(sl, @slide_count, name) # TODO: deprecated
         sl = update_image_paths(name, sl, opts)
+
         content += sl
         content += "</div>\n"
         content += "</div>\n"
@@ -286,6 +289,22 @@ class ShowOff < Sinatra::Application
       result
     end
 
+    # replace section tags with classed div tags
+    def process_content_for_section_tags(content)
+      return unless content
+
+      # because this is post markdown rendering, we may need to shift a <p> tag around
+      # remove the tags if they're by themselves
+      result = content.gsub(/<p>~~~SECTION:([^~]*)~~~<\/p>/, '<div class="\1">')
+      result.gsub!(/<p>~~~ENDSECTION~~~<\/p>/, '</div>')
+
+      # shove it around the div if it belongs to the contained element
+      result.gsub!(/(<p>)?~~~SECTION:([^~]*)~~~/, '<div class="\2">\1')
+      result.gsub!(/~~~ENDSECTION~~~(<\/p>)?/, '\1</div>')
+
+      result
+    end
+
     def process_content_for_all_slides(content, num_slides)
       content.gsub("~~~NUM_SLIDES~~~", num_slides.to_s)
     end
@@ -296,6 +315,7 @@ class ShowOff < Sinatra::Application
       markdown.gsub(/<p>\.(.*?) /, '<p class="\1">')
     end
 
+    # TODO: deprecated
     def update_special_content(content, seq, name)
       doc = Nokogiri::HTML::DocumentFragment.parse(content)
       %w[notes handouts instructor solguide].each { |mark|  update_special_content_mark(doc, mark) }
@@ -306,9 +326,12 @@ class ShowOff < Sinatra::Application
       doc.to_html.gsub(/(<img [^>]*)>/, '\1 />')
     end
 
+    # TODO: deprecated
     def update_special_content_mark(doc, mark)
       container = doc.css("p.#{mark}").first
       return unless container
+
+      @logger.warn "Special mark (#{mark}) is deprecated. Please replace with section tags. See the README for details."
 
       # only allow localhost to print the instructor guide
       if mark == 'instructor' and request.env['REMOTE_HOST'] != 'localhost'
