@@ -207,6 +207,7 @@ class ShowOff < Sinatra::Application
         # extract id, defaulting to none
         id = nil
         content_classes.delete_if { |x| x =~ /^#([\w-]+)/ && id = $1 }
+        id = name unless id
         @logger.debug "id: #{id}" if id
         @logger.debug "classes: #{content_classes.inspect}"
         @logger.debug "transition: #{transition}"
@@ -585,6 +586,12 @@ class ShowOff < Sinatra::Application
       @slides = get_slides_html(:static=>static, :supplemental=>content)
       @wrapper_classes = ['supplemental']
       erb :onepage
+    end
+
+    def onepage_toc(static=false)
+      @slides = get_slides_html(static)
+      @languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
+      erb :onepage_toc
     end
 
     def download()
