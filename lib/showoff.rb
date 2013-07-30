@@ -155,7 +155,7 @@ class ShowOff < Sinatra::Application
     end
 
 
-    def process_markdown(name, content, opts={:static=>false, :pdf=>false, :supplemental=>nil})
+    def process_markdown(name, content, opts={:static=>false, :pdf=>false, :toc=>false, :supplemental=>nil})
       # if there are no !SLIDE markers, then make every H1 define a new slide
       unless content =~ /^\<?!SLIDE/m
         content = content.gsub(/^# /m, "<!SLIDE>\n# ")
@@ -198,6 +198,11 @@ class ShowOff < Sinatra::Application
           next if slide.classes.include? 'supplemental'
         end
 
+        unless opts[:toc]
+          # just drop the slide if we're not generating a table of contents
+          next if slide.classes.include? 'toc'
+        end
+
         @slide_count += 1
         content_classes = slide.classes
 
@@ -207,6 +212,7 @@ class ShowOff < Sinatra::Application
         # extract id, defaulting to none
         id = nil
         content_classes.delete_if { |x| x =~ /^#([\w-]+)/ && id = $1 }
+        id = name unless id
         @logger.debug "id: #{id}" if id
         @logger.debug "classes: #{content_classes.inspect}"
         @logger.debug "transition: #{transition}"
@@ -305,10 +311,33 @@ class ShowOff < Sinatra::Application
       result
     end
 
-    def process_content_for_all_slides(content, num_slides)
-      content.gsub("~~~NUM_SLIDES~~~", num_slides.to_s)
-    end
+    def process_content_for_all_slides(content, num_slides, opts={})
+      content.gsub!("~~~NUM_SLIDES~~~", num_slides.to_s)
 
+      # Should we build a table of contents?
+      if opts[:toc]
+        frag = Nokogiri::HTML::DocumentFragment.parse ""
+        toc = Nokogiri::XML::Node.new('div', frag)
+        toc['id'] = 'toc'
+        frag.add_child(toc)
+
+        Nokogiri::HTML(content).css('div.subsection > h1').each do |section|
+          entry = Nokogiri::XML::Node.new('div', frag)
+          entry['class'] = 'tocentry'
+          toc.add_child(entry)
+
+          link = Nokogiri::XML::Node.new('a', frag)
+          link['href'] = "##{section.parent.parent['id']}"
+          link.content = section.content
+          entry.add_child(link)
+        end
+
+        # swap out the tag, if found, with the table of contents
+        content.gsub!("~~~TOC~~~", frag.to_html)
+      end
+
+      content
+    end
 
     # find any lines that start with a <p>.(something) and turn them into <p class="something">
     def update_p_classes(markdown)
@@ -449,7 +478,7 @@ class ShowOff < Sinatra::Application
       html.root.to_s
     end
 
-    def get_slides_html(opts={:static=>false, :pdf=>false, :supplemental=>nil})
+    def get_slides_html(opts={:static=>false, :pdf=>false, :toc=>false, :supplemental=>nil})
       @slide_count   = 0
       @section_major = 0
       @section_minor = 0
@@ -474,7 +503,7 @@ class ShowOff < Sinatra::Application
           end
         end
       end
-      process_content_for_all_slides(data, @slide_count)
+      process_content_for_all_slides(data, @slide_count, opts)
     end
 
     def inline_css(csses, pre = nil)
@@ -576,7 +605,7 @@ class ShowOff < Sinatra::Application
     end
 
     def onepage(static=false)
-      @slides = get_slides_html(:static=>static)
+      @slides = get_slides_html(:static=>static, :toc=>true)
       #@languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
       erb :onepage
     end
