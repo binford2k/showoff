@@ -366,12 +366,12 @@ a.fg-button { float:left; }
   width: 8.1in;
 }
 
-.supplemental h1 { font-family: 'Arvo'; }
+.supplemental h1 { font-family: 'Arvo'; text-align: left; }
 .supplemental h2,
     .supplemental h3,
     .supplemental h4,
     .supplemental h5,
-    .supplemental h6 { font-family: 'PT Sans'; }
+    .supplemental h6 { font-family: 'PT Sans'; text-align: left; }
 
 .supplemental h1 { font-size: 2em; }
 .supplemental h2 { font-size: 1.5em; }
