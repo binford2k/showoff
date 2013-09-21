@@ -132,7 +132,7 @@ class ShowOff < Sinatra::Application
       def initialize( context = "")
 
         @tpl = "default"
-        @classes = ["content"]
+        @classes = []
 
         # Parse the context string for options and content classes
         if context and context.match(/(\[(.*?)\])?(.*)/)
@@ -231,16 +231,17 @@ class ShowOff < Sinatra::Application
         end
 
         # create html for the slide
+        classes = content_classes.join(' ')
         content = "<div"
         content += " id=\"#{id}\"" if id
-        content += " class=\"slide\" data-transition=\"#{transition}\">"
+        content += " class=\"slide #{classes}\" data-transition=\"#{transition}\">"
 
         # name the slide. If we've got multiple slides in this file, we'll have a sequence number
         # include that sequence number to index directly into that content
         if seq
-          content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}/#{seq.to_s}\">\n"
+          content += "<div class=\"content #{classes}\" ref=\"#{name}/#{seq.to_s}\">\n"
         else
-          content += "<div class=\"#{content_classes.join(' ')}\" ref=\"#{name}\">\n"
+          content += "<div class=\"content #{classes}\" ref=\"#{name}\">\n"
         end
 
         # Apply the template to the slide and replace the key to generate the content of the slide
