@@ -1,11 +1,15 @@
-!SLIDE 
+!SLIDE
 # My Presentation #
 
-.notes Some notes for the first slide
+~~~SECTION:notes~~~
+Some notes for the first slide
+~~~ENDSECTION~~~
 
 !SLIDE bullets incremental
 
-.notes Some more notes, longer and more interesting I guess
+~~~SECTION:notes~~~
+Some more notes, longer and more interesting I guess
+~~~ENDSECTION~~~
 
 # Bullet Points #
 
@@ -16,16 +20,20 @@
 !SLIDE small
 # Other Things
 
-.notes Sometimes notes can go on and on and on and on and on
+~~~SECTION:notes~~~
+Sometimes notes can go on and on and on and on and on
 and on and on, much longer than you need them to.
+~~~ENDSECTION~~~
 
 !SLIDE smaller
 # And Yet Other Things
 
-.notes Sometimes notes really do go on so long
-.notes you just have no idea what to do with them
-.notes and you don't want to keep on saying .notes
-.notes but you can't find a way to make yourself stop.
+~~~SECTION:notes~~~
+Sometimes notes really do go on so long
+you just have no idea what to do with them
+and you don't want to keep on saying .notes
+but you can't find a way to make yourself stop.
+~~~ENDSECTION~~~
 
 !SLIDE
 # But Wait, There's More!
@@ -33,35 +41,47 @@ and on and on, much longer than you need them to.
 !SLIDE
 # Seriously
 
-.notes
+~~~SECTION:notes~~~
+~~~ENDSECTION~~~
 
 !SLIDE smaller
 # Here We Go Again
 
-.notes Sometimes notes have something interesting to say.
-.notes
-.notes And you just want to pause and think about it.
-.notes
-.notes     And think about it some more.
+~~~SECTION:notes~~~
+Sometimes notes have something interesting to say.
+
+And you just want to pause and think about it.
+
+    And think about it some more.
+
+~~~ENDSECTION~~~
 
 !SLIDE
 # The Works
 
-.notes Just some notes
-.notes nothing special to see here.
+~~~SECTION:notes~~~
+Just some notes
+nothing special to see here.
+~~~ENDSECTION~~~
 
-.handouts Now here's something special for handouts:
-.handouts
-.handouts  * some item
-.handouts  * another item
+~~~SECTION:handouts~~~
+Now here's something special for handouts:
 
-.extra This is just some extra fun. Nothing should happen here.
-.extra Seriously, this content is not that special.
+* some item
+* another item
+~~~ENDSECTION~~~
 
-.exercise And if you want some exercises, just follow these steps
-.exercise
-.exercise  1. a step
-.exercise  2. another step
-.exercise  3. last step
-.exercise
-.exercise It's as simple as that.
+~~~SECTION:extra~~~
+This is just some extra fun. Nothing should happen here.
+Seriously, this content is not that special.
+~~~ENDSECTION~~~
+
+~~~SECTION:exercise~~~
+And if you want some exercises, just follow these steps
+
+1. a step
+2. another step
+3. last step
+
+It's as simple as that.
+~~~ENDSECTION~~~

@@ -28,10 +28,11 @@ context "ShowOff Special Content tests" do
 
   def html_normalize(html)
     doc = Nokogiri::HTML::DocumentFragment.parse html
-    doc.children.select(&:text?).each do |node|
-      node.content = ' ' if node.text.strip.empty?
+    doc.traverse do |node|
+      next unless node.text?
+      node.content = node.content.strip
+      node.content = ' ' if node.text.empty?
     end
-
     doc.to_html.strip
   end
 
@@ -55,7 +56,7 @@ context "ShowOff Special Content tests" do
 
     assert_html_match expected, get_notes_contents(slide)
   end
-  
+
   test 'handles multi-line notes with the special-content marker repeated' do
     slide = get_slide(4)
     expected = "<p>Sometimes notes really do go on so long\nyou just have no idea what to do with them\nand you don't want to keep on saying .notes\nbut you can't find a way to make yourself stop.</p>"
@@ -70,11 +71,11 @@ context "ShowOff Special Content tests" do
 
   test 'handles slides with empty notes' do
     slide = get_slide(6)
-    expected = ''
+    expected = "<p>\n</p>"
 
     assert_equal expected, get_notes_contents(slide)
   end
-  
+
   test 'handles multi-line notes with formatting' do
     slide = get_slide(7)
     expected = "
@@ -114,10 +115,4 @@ context "ShowOff Special Content tests" do
     assert_html_match expected, slide.css('div.exercise').inner_html
   end
 
-  test 'does no conversion for other marks' do
-    slide = get_slide(8)
-    expected = "This is just some extra fun. Nothing should happen here.\n.extra Seriously, this content is not that special."
-
-    assert_equal expected, slide.css('p.extra').inner_html
-  end
 end
