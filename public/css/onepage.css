@@ -31,6 +31,9 @@
       position: relative;
       page-break-after: always
   }
+  .slide:last-of-type, .preso:last-of-type {
+    page-break-after: auto
+  }
 }
 
 /* iPhone */
