@@ -58,6 +58,7 @@ class ShowOff < Sinatra::Application
       ShowOffUtils.presentation_config_file = settings.pres_file
     end
 
+    settings.showoff_config ||= {}
     # Load configuration for page size and template from the
     # configuration JSON file
     if File.exists?(ShowOffUtils.presentation_config_file)
