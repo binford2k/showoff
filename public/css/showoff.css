@@ -410,6 +410,10 @@ ul#downloads li {
     margin: 0.5em;
 }
 
+span#issueUrl {
+  display: none;
+}
+
 /**********************
  ***   stats page   ***
  **********************/

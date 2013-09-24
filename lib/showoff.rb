@@ -561,6 +561,7 @@ class ShowOff < Sinatra::Application
     end
 
     def presenter
+      @issues = settings.showoff_config['issues']
       erb :presenter
     end
 

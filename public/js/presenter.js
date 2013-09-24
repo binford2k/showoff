@@ -34,6 +34,7 @@ $(document).ready(function(){
   $(window).resize(function() { zoom(); });
 
   // set up tooltips
+  $('#report').tipsy({ offset: 5 });
   $('#slaveWindow').tipsy({ offset: 5 });
   $('#generatePDF').tipsy({ offset: 5 });
   $('#onePage').tipsy({ offset: 5, gravity: 'ne' });
@@ -96,6 +97,13 @@ function popupLoader(elem, page, id, event)
   }
 
   return false;
+}
+
+function reportIssue() {
+  var slide  = $("span#slideFile").text();
+  var issues = $("span#issueUrl").text();
+  var link = issues + encodeURIComponent('Issue with slide: ' + slide);
+  window.open(link);
 }
 
 function openSlave()
