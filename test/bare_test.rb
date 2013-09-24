@@ -14,7 +14,7 @@ context "ShowOff Bare tests" do
   test "can get bare slides" do
     get '/slides'
     assert last_response.ok?, 'Server did not respond with 200 OK'
-    assert_equal 2, last_response.body.scan(/div class="slide"/).size
+    assert_equal 2, count_slides(last_response.body)
     assert_match '<h1>My Bare Presentation</h1>', last_response.body
   end
 
