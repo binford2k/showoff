@@ -10,6 +10,8 @@
 
 <body>
 
+<span id="issueUrl"><%= @issues %></span>
+
 <div id="help">
   <table>
     <tr><td class="key">z, ?</td><td>toggle help (this)</td></tr>
@@ -31,6 +33,9 @@
     </div>
     <span id="links">
       <span class="desktop">
+        <% if @issues %>
+          <a id="report" href="javascript:reportIssue();" title="Report an issue with the current slide.">Report Issue With Slide</a>
+        <% end %>
         <a id="stats" href="/stats" target="_showoffchild">Viewing Statistics</a>
         <a id="downloads" href="/download" target="_showoffchild">Downloads</a>
         <a id="slaveWindow" href="javascript:openSlave();" title="Open a slave window or reconnect to existing slave window.">Open Slave Window</a>
