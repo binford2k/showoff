@@ -57,6 +57,10 @@ function setupPreso(load_slides, prefix) {
   // start pinging the server
   if(query.ping == 'false') mode = modeState.passive;
   startActionLoop();
+
+  // Make sure the slides always look right.
+  // Better would be dynamic calculations, but this is enough for now.
+  $(window).resize(function(){location.reload();});
 }
 
 function loadSlides(load_slides, prefix) {
