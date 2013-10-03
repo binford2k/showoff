@@ -111,7 +111,8 @@ function openSlave()
   try {
     if(slaveWindow == null || typeof(slaveWindow) == 'undefined' || slaveWindow.closed){
         slaveWindow = window.open('/?ping=false' + window.location.hash);
-    } else {
+    }
+    else if(slaveWindow.location.hash != window.location.hash) {
       // maybe we need to reset content?
       slaveWindow.location.href = '/?ping=false' + window.location.hash;
     }
@@ -120,8 +121,13 @@ function openSlave()
     slaveWindow.presenterView = window;
   }
   catch(e) {
-    console.log('Slave window failed to open.');
+    console.log('Failed to open or connect slave window. Popup blocker?');
     console.log(e);
+  }
+
+  // Set up a maintenance loop to keep the connection between windows. I wish there were a cleaner way to do this.
+  if (typeof maintainSlave == 'undefined') {
+    maintainSlave = setInterval(openSlave, 1000);
   }
 }
 
