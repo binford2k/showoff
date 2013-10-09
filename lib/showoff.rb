@@ -409,6 +409,19 @@ class ShowOff < Sinatra::Application
         w, h     = get_image_size(img_path)
         src      = %(#{replacement_prefix}/#{$1}")
         if w && h
+	  if w > h
+	    # Landscape
+	    if w > 960
+	      w = 960
+	      h = "auto"
+	    end
+	  else
+	    # Portrait
+	    if h > 704
+	      h = 704
+	      w = "auto"
+	    end	    
+	  end
           src << %( width="#{w}" height="#{h}")
         end
         src
