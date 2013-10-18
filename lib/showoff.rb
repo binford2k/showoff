@@ -4,6 +4,7 @@ require 'json'
 require 'nokogiri'
 require 'fileutils'
 require 'logger'
+require 'htmlentities'
 
 here = File.expand_path(File.dirname(__FILE__))
 require "#{here}/showoff_utils"
@@ -286,7 +287,9 @@ class ShowOff < Sinatra::Application
 
       # Load and replace any file tags
       content.scan(/(~~~FILE:([^:]*):?(.*)?~~~)/).each do |match|
-        file = File.read(File.join(settings.pres_dir, '_files', match[1]))
+        # get the file content and parse out html entities
+        file = HTMLEntities.new.encode(File.read(File.join(settings.pres_dir, '_files', match[1])))
+
         # make a list of sh_highlight classes to include
         css  = match[2].split.collect {|i| "sh_#{i.downcase}" }.join(' ')
 
