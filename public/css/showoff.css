@@ -390,8 +390,6 @@ a.fg-button { float:left; }
 .supplemental ul { list-style: disc; margin-left: 1.25em !important; padding-left: inherit !important; }
 .supplemental .content table { font-size: 0.65em; } /* Ugly hack for tables, which never seem to scale properly. Ick */
 
-.supplemental .content div.break { font-size: small; font-style: italic; padding-bottom: 0.25em; border-bottom: 1px dashed black; }
-
 /* downloads page */
 /* we want scrolls! */
 body#download {
@@ -629,6 +627,12 @@ body#stats {
     font-family: Monaco, monospace;
   }
 
-  /* page break and remove the preview styling */
-  .supplemental .content div.break { page-break-after: always; padding-bottom: 0; border-bottom: none; }
+  /* page break styling */
+  div.break {
+    page-break-after: always;
+    font-size: small;
+    font-style: italic;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+  }
 }
