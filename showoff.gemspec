@@ -1,5 +1,6 @@
 $:.unshift File.expand_path("../lib", __FILE__)
 require 'showoff/version'
+require 'date'
 
 Gem::Specification.new do |s|
   s.name              = "showoff"
@@ -24,6 +25,16 @@ Gem::Specification.new do |s|
   s.add_dependency      "gli",">= 1.3.2"
   s.add_dependency      "parslet"
   s.add_dependency      "htmlentities"
+
+  # both gems fail to build on Ruby 1.8.7, the default in older OS X
+  if RUBY_VERSION.to_f < 1.9
+    s.add_dependency      "redcarpet" < "3.0.0"
+    s.add_dependency      "nokogiri"  < "1.5.10"
+  else
+    s.add_dependency      "redcarpet"
+    s.add_dependency      "nokogiri"
+  end
+
   s.add_development_dependency "mg"
   s.description       = <<-desc
   ShowOff is a Sinatra web app that reads simple configuration files for a
