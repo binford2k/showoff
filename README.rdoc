@@ -1,19 +1,10 @@
 = ShowOff Presentation Software
 
-ShowOff is a Sinatra web app that reads simple configuration files for a
-presentation.  It is sort of like a Keynote web app engine - think S5 +
-Slidedown.  I am using it to do all my talks in 2010, because I have a deep
-hatred in my heart for Keynote and yet it is by far the best in the field.
-
-The idea is that you setup your markdown slide files in section subdirectories
-and then startup the showoff server in that directory.  It will read in your
-<tt>showoff.json</tt> file for which sections go in which order and then will give
-you a URL to present from.
+ShowOff is a Sinatra web app that reads simple configuration files for a presentation.
 
 It can:
 
-* show simple text
-* show images
+* show simple text and images
 * show syntax highlighted code
 * bullets with incremental advancing
 * re-enact command line interactions
@@ -21,33 +12,37 @@ It can:
 * execute Javascript, Coffeescript or Ruby live and display results
 * do simple transitions (instant, fade, slide in)
 * show a pre-show slideshow while you wait to start
+* show a timer on the presenters view - elapsed / remaining
 
-It might will can:
+= Installation
+== Getting the dependencies installed
 
-* show a timer - elapsed / remaining
-* perform simple animations of images moving between keyframes
-* show synchronized, hidden notes on another browser (like an iphone)
-* show audience questions / comments (twitter or direct)
-* let audience members go back / catch up as you talk
-* let audience members vote on sections (?)
-* broadcast itself on Bonjour
-* let audience members download slides, code samples or other supplementary material
-* let you write on the slide with your mouse, madden-style via canvas
-* automatically resize text to fit screen [see Alex's shrink.js]
+ShowOff requires:
 
-Some of the nice things are that you can easily version control it, you
-can easily move sections between presentations, and you can rearrange or
-remove sections easily.
+* Firefox or Chrome to present
+* Ruby
+* Sinatra
+* Rack
+* BlueCloth
+* Nokogiri
+* json
+* GLI gem
+* RMagick (optional, for resizing images)
+* PDFKit (optional, for generating PDF of presentation) https://github.com/jdpace/PDFKit
 
-= Usage
+To get these requirements installed on xUbuntu, use the following:
+
+    $ sudo apt-get install ruby ruby-sinatra ruby-bluecloth ruby-nokogiri ruby-json ruby-rmagick
+	$ sudo gem install gli pdfkit showoff
+
+== Getting ShowOff installed
 
 ShowOff is meant to be run in a ShowOff formatted repository - that means that
 it has a <tt>showoff.json</tt> file and a number of sections (subdirectories) with
 markdown files for the slides you're presenting.
 
-    $ gem install showoff
-    $ git clone (showoff-repo)
-    $ cd (showoff-repo)
+    $ git clone (showoff-repo) # currently https://github.com/puppetlabs/showoff.git
+    $ cd (showoff-repo) # this would be showoff
     $ showoff serve
 
 If you run 'showoff' in the example subdirectory of ShowOff itself, it will
@@ -74,8 +69,8 @@ web browser. The following URL paths are available for use by you and your audie
 The following hotkeys are available for usage while viewing the slideshow.
 
 [z, ?] Toggle help. This shows a reference table on screen.
-[space, →] Advance to the next slide.
-[shift-space, ←] Move to previous slide.
+[space, ?] Advance to the next slide.
+[shift-space, ?] Move to previous slide.
 [d] Toggle debug mode. This will show information including the keys pressed and the content filename that is used to generate the current slide in the footer area.
 [## <ret>] Go to slide #. Type a number and press <return> and you will immediately jump to that slide.
 [c, t] Table of contents. A dropdown menu allowing you to choose a section & slide will appear.
@@ -479,7 +474,6 @@ These options are specified *after* the command.
 [<tt>-t, --style, --type=valid showoff style/type</tt>] Slide Type/Style <i>( default: <tt>title</tt>)</i>
 [<tt>-u, --nonumber</tt>] Dont number the slide, use the given name verbatim
 
-
 == <tt>showoff create dir_name</tt>
 
 Create new showoff presentation
@@ -496,18 +490,15 @@ These options are specified *after* the command.
 [<tt>-d, --slidedir=arg</tt>] sample slide directory name <i>( default: <tt>one</tt>)</i>
 [<tt>-n, --nosamples</tt>] Dont create sample slides
 
-
 == <tt>showoff help [command]</tt>
 
 Shows list of commands or help for one command
-
 
 == <tt>showoff heroku heroku_name</tt>
 
 Setup your presentation to serve on Heroku
 
 Creates the Gemfile and config.ru file needed to push a showoff pres to heroku.  It will then run heroku create for you to register the new project on heroku and add the remote for you.  Then all you need to do is commit the new created files and run git push heroku to deploy.
-
 
 == <tt>showoff github</tt>
 
@@ -520,7 +511,6 @@ These options are specified *after* the command.
 [<tt>-g, --dotgems</tt>] Use older-style .gems file instead of bundler-style Gemfile
 [<tt>-p, --password=arg</tt>] add password protection to your heroku site
 
-
 == <tt>showoff serve </tt>
 
 Serves the showoff presentation in the current directory
@@ -531,7 +521,6 @@ These options are specified *after* the command.
 [<tt>-f, --pres_file=arg</tt>] Presentation file <i>(default: <tt>showoff.json</tt>)</i>
 [<tt>-h, --host=arg</tt>] Host or ip to run on <i>( default: <tt>localhost</tt>)</i>
 [<tt>-p, --port=arg</tt>] Port on which to run <i>( default: <tt>9090</tt>)</i>
-
 
 == <tt>showoff static name</tt>
 
@@ -546,8 +535,6 @@ Showoff can produce a PDF version of your presentation.  To do this, you must in
 You'll then need to install a version of wkhtmltopdf available at the {wkhtmltopdf repo}[http://code.google.com/p/wkhtmltopdf/wiki/compilation] (or brew install wkhtmltopdf on a mac) and make sure that +wkhtmltopdf+ is in your path:
 
     export $PATH="/location/to/my/wkhtmltopdf/0.9.9:$PATH"
-
-
 
 Then restart showoff, and navigate to <tt>/pdf</tt> (e.g. http://localhost/pdf) of your presentation and a PDF will be generated with the browser.
 
@@ -609,6 +596,24 @@ you use when starting <tt>bash</tt>):
         fi
     }
 
+= Editor Support
+
+* TextMate Bundle - Showoff.tmdbundle - Dr Nic Williams
+  http://github.com/drnic/Showoff.tmbundle
+
+* Emacs major-mode - showoff-mode - Nick Parker
+  http://github.com/developernotes/showoff-mode
+
+= Why Not S5 or Slidy or Slidedown?
+
+S5 and Slidy are really cool, and I was going to use them, but mainly I wanted
+something more dynamic.  I wanted Slidy + Slidedown, where I could write my
+slideshows in a structured format in sections, where the sections could easily
+be moved around and between presentations and could be written in Markdown. I
+also like the idea of having interactive presentation system and didn't need
+half the features of S5/Slidy (style based print view, auto-scaling, themes,
+etc).
+
 = Real World Usage
 
 So far, ShowOff has been used in the following presentations (and many others):
@@ -650,18 +655,9 @@ So far, ShowOff has been used in the following presentations (and many others):
   https://github.com/iangreenleaf/sdruby-lightningtalk-tregexp
 * All PuppetLabs training from Summer 2012 on and many internal & external presentations
 
-
 If you use it for something, please let me know so I can add it.
 
-= Editor Support
-
-* TextMate Bundle - Showoff.tmdbundle - Dr Nic Williams
-  http://github.com/drnic/Showoff.tmbundle
-
-* Emacs major-mode - showoff-mode - Nick Parker
-  http://github.com/developernotes/showoff-mode
-
-= Future Plans
+== ToDo
 
 I really want this to evolve into a dynamic presentation software server,
 that gives the audience a lot of interaction into the presentation -
@@ -672,26 +668,21 @@ talk that was given, or all the available slides, plus supplementary
 material. And I want the presenter (me) to be able to push each
 presentation to Heroku or GitHub pages for archiving super easily.
 
-= Why Not S5 or Slidy or Slidedown?
+In the future, ShowOff might/will/can:
 
-S5 and Slidy are really cool, and I was going to use them, but mainly I wanted
-something more dynamic.  I wanted Slidy + Slidedown, where I could write my
-slideshows in a structured format in sections, where the sections could easily
-be moved around and between presentations and could be written in Markdown. I
-also like the idea of having interactive presentation system and didn't need
-half the features of S5/Slidy (style based print view, auto-scaling, themes,
-etc).
+* perform simple animations of images moving between keyframes
+* show synchronized, hidden notes on another browser (like an iphone)
+* show audience questions / comments (twitter or direct)
+* let audience members go back / catch up as you talk
+* let audience members vote on sections (?)
+* broadcast itself on Bonjour
+* let audience members download slides, code samples or other supplementary material
+* let you write on the slide with your mouse, madden-style via canvas
+* automatically resize text to fit screen [see Alex's shrink.js]
 
-= Requirements
-
-* Ruby (duh)
-* Sinatra (and thus Rack)
-* BlueCloth
-* Nokogiri
-* json
-* GLI gem
-* Firefox or Chrome to present
-* PDFKit (optional, for generating PDF of presentation) https://github.com/jdpace/PDFKit
+Some of the nice things are that you can easily version control it, you
+can easily move sections between presentations, and you can rearrange or
+remove sections easily.
 
 = Contributing
 
