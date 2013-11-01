@@ -215,11 +215,3 @@ you use when starting <tt>bash</tt>):
     }
 
 You can also install that as an executable script such as <tt>/etc/bash_completion.d/showoff</tt>.
-
-= Editor Support
-
-* TextMate Bundle - Showoff.tmdbundle - Dr Nic Williams
-  http://github.com/drnic/Showoff.tmbundle
-
-* Emacs major-mode - showoff-mode - Nick Parker
-  http://github.com/developernotes/showoff-mode

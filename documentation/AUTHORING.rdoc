@@ -377,20 +377,31 @@ If you need supporting libraries when you evaluate the code. You can do this by
 putting Ruby files (*.rb) into the root directory of the presentation then they
 will be required when the presentation loads.
 
-= Editor integration
+= Editor Support
 
-The "add slide" feature can allow you to add the necessary boilerplate from your editor.  If you are using vim, you can
+The "add slide" feature can allow you to add the necessary boilerplate from your editor.
 
-    !showoff add -t code Check This Code
+[TextMate Bundle]
+  - Showoff.tmdbundle
+  - Dr Nic Williams
+  - http://github.com/drnic/Showoff.tmbundle
 
-And your buffer will get
+[Emacs]
+  - major-mode - showoff-mode
+  - Nick Parker
+  - http://github.com/developernotes/showoff-mode
 
-    !SLIDE
-    # Check This Code #
-        @@@ Ruby
-        code_here()
+[vim]
+  - <tt>!showoff add -t code Check This Code</tt>
 
-added where your cursor was.  Binding this to a keybinding can allow you to add new slides quickly.
+  And your buffer will get
+
+      !SLIDE
+      # Check This Code #
+          @@@ Ruby
+          code_here()
+
+  added where your cursor was.  Binding this to a keybinding can allow you to add new slides quickly.
 
 = Command Line Interface
 
