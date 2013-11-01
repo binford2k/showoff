@@ -57,8 +57,9 @@ web browser. The following URL paths are available for use by you and your audie
 
 [http://localhost:9090/supplemental/$type-name]
   Showoff has the ability to include supplemental material that are defined by special
-  slide types. This URL path will allow you and/or the students to retrieve the
-  supplemental materials.
+  slide types. This URL path will allow you and/or the audience to retrieve the
+  supplemental materials. Often used to generate printed material ahead of time rather
+  than during the presentation itself.
 
 == Presenter view tools
 
