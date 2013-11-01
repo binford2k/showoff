@@ -5,10 +5,12 @@ presentation.  It is sort of like a Keynote web app engine - think S5 +
 Slidedown.  I am using it to do all my talks in 2010, because I have a deep
 hatred in my heart for Keynote and yet it is by far the best in the field.
 
-The idea is that you setup your markdown slide files in section subdirectories
-and then startup the showoff server in that directory.  It will read in your
-<tt>showoff.json</tt> file for which sections go in which order and then will give
-you a URL to present from.
+Showoff allows you to author your presentation slides in Markdown, then organize
+them with a <tt>showoff.json</tt> file. This file also contains metadata about
+the presentation, such as the title, any password protection, etc.
+
+Then you just run <tt>showoff serve</tt> in the presentation directory and open
+a browser window.
 
 Showoff's capabilities include:
 
