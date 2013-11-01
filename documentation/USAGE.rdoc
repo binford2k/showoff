@@ -1,0 +1,142 @@
+= Usage
+
+ShowOff is meant to be run in a ShowOff formatted repository - that means that
+it has a <tt>showoff.json</tt> file and a number of sections (subdirectories) with
+markdown files for the slides you're presenting.
+
+    $ git clone (showoff-repo)
+    $ cd (showoff-repo)
+    $ showoff serve
+
+If you run 'showoff' in the example subdirectory of ShowOff itself, it will
+show an example presentation, so you can see what it's like.
+
+You can also run 'showoff serve' inside a section subdirectory. If there is no
+<tt>showoff.json</tt> file then it will make its best guess, creating a presentation
+from all `.md` files in alphabetical order in the given (or current)
+directory.
+
+== Available URL paths
+
+Once the showoff server is running, you can connect to it via a standard modern
+web browser. The following URL paths are available for use by you and your audience.
+
+[http://localhost:9090] This is the standard no-frills presentation. You can present from this if you wish and your audience can also browse to this using the IP or DNS name of your system. Press <tt>z</tt> to get hotkey help.
+[http://localhost:9090/presenter] This view is useful for the presenter. It displays a more complete view of your presentation, including a full tree view of all slides and presenter notes underneath the slide itself. It will attempt to open a slave window that you can put on the projector. The slave window will follow along with the presenter window. If you have a popup blocker running, the slave window will not open. There is a button on the presenter view to manually open a new slave window.
+[http://localhost:9090/onepage] This will generate a single page representing your entire presentation. It is useful for printing, especially, but can also be used when a viewer has an older browser than cannot handle the transitions properly or is a luddite ;-) and wants to scroll rather than page.
+[http://localhost:9090/download] Your slides can include files for viewers to download and these files will be listed on this page as the presenter pages past the slide containing the download definition.
+[http://localhost:9090/stats] The showoff server keeps track of which slides your audience is viewing and how much time they are spending on them. Time is only accumulated for slides that are not the slide currently being displayed. These stats are available for consumption on this page. If the presenter views the page, a full listing of which pages and which hosts are viewing them is shown. If an audience member views the page, only a summary is listed.
+[http://localhost:9090/supplemental/$type-name] Showoff has the ability to include supplemental material that are defined by special slide types. This URL path will allow you and/or the students to retrieve the supplemental materials.
+
+== Hotkeys
+
+The following hotkeys are available for usage while viewing the slideshow.
+
+[z, ?] Toggle help. This shows a reference table on screen.
+[space, →] Advance to the next slide.
+[shift-space, ←] Move to previous slide.
+[d] Toggle debug mode. This will show information including the keys pressed and the content filename that is used to generate the current slide in the footer area.
+[## <return>] Go to slide #. Type a number and press <return> and you will immediately jump to that slide.
+[c, t] Table of contents. A dropdown menu allowing you to choose a section & slide will appear.
+[f] Toggle footer. The footer contains the progress indicator.
+[g] Toggle follow mode. When follow mode is enabled, the presentation will track the page displayed by the presenter. This is often useful when an audience member has poor eyesight and would like to get a better view of your screen.
+[r] Reload slides. This will reload your presentation as you generate or refine content.
+[n] Toggle notes. This will place the first line of text from the slide notes in the footer.
+[p] Run preshow. Start the preshow slideshow. This will cycle through images placed in <tt>_preshow</tt> for a specified time. This is useful for taking timed breaks or for keeping the audience attention while waiting for you to begin.
+[P] Toggle pause. This will pause the presentation and dim the screen. You can use this to take a brief moment to address tangential audience questions.
+[b] Toggle screenblanker. Similar to pause, this will pause the presentation and slide the slide off screen.
+[s] Choose style. Pull open the style chooser menu. You can embed multiple styles (for example, style target at different screen sizes or audiences) and use this menu to choose the appropriate style.
+
+
+== <tt>showoff help [command]</tt>
+
+Shows list of commands or help for one command
+
+
+== <tt>showoff heroku heroku_name</tt>
+
+Setup your presentation to serve on Heroku
+
+Creates the Gemfile and config.ru file needed to push a showoff pres to heroku.  It will then run heroku create for you to register the new project on heroku and add the remote for you.  Then all you need to do is commit the new created files and run git push heroku to deploy.
+
+
+== <tt>showoff github</tt>
+
+Generates a static version of your site and puts it in a gh-pages branch for static serving on GitHub.
+
+=== options for github
+These options are specified *after* the command.
+
+[<tt>-f, --force</tt>] force overwrite of existing Gemfile/.gems and config.ru files if they exist
+[<tt>-g, --dotgems</tt>] Use older-style .gems file instead of bundler-style Gemfile
+[<tt>-p, --password=arg</tt>] add password protection to your heroku site
+
+
+== <tt>showoff serve </tt>
+
+Serves the showoff presentation in the current directory
+
+==== options for serve
+These options are specified *after* the command.
+
+[<tt>-f, --pres_file=arg</tt>] Presentation file <i>(default: <tt>showoff.json</tt>)</i>
+[<tt>-h, --host=arg</tt>] Host or ip to run on <i>( default: <tt>localhost</tt>)</i>
+[<tt>-p, --port=arg</tt>] Port on which to run <i>( default: <tt>9090</tt>)</i>
+
+
+== <tt>showoff static name</tt>
+
+Generate static version of presentation
+
+= PDF Output
+
+To generate a PDF via your browser rendering engine of choice, simply browse to the <tt>/onepage</tt> view
+and print the page using your browser's native print function.
+
+If your browser doesn't generate acceptable output, Showoff can produce a PDF version using the <tt>wkhtmltopdf</tt>
+rendering engine.
+
+To do this, you must install a few things first:
+
+    gem install pdfkit
+
+You'll then need to install a version of <tt>wkhtmltopdf</tt> available at the {wkhtmltopdf repo}[http://code.google.com/p/wkhtmltopdf/wiki/compilation] (or brew install wkhtmltopdf on a mac) and make sure that <tt>wkhtmltopdf</tt> is in your path:
+
+    export $PATH="/location/to/my/wkhtmltopdf/0.9.9:$PATH"
+
+
+Then restart showoff, and navigate to <tt>/pdf</tt> (e.g. http://localhost/pdf) of your presentation and a PDF will be generated with the browser.
+
+= Shell Auto Completion
+
+== ZSH completion
+You can complete commands and options in ZSH, by installing a script:
+
+    mkdir -p $HOME/.zsh/Completion
+    cp script/_showoff $HOME/.zsh/Completion
+    echo 'fpath=(~/.zsh/Completion $fpath)' >> $HOME/.zshrc
+
+== <tt>bash</tt> completion
+
+You can complete commands for showoff by putting the following in your <tt>.bashrc</tt> (or whatever
+you use when starting <tt>bash</tt>):
+
+    complete -F get_showoff_commands
+    function get_showoff_commands()
+    {
+        if [ -z $2 ] ; then
+            COMPREPLY=(`showoff help -c`)
+        else
+            COMPREPLY=(`showoff help -c $2`)
+        fi
+    }
+
+You can also install that as an executable script such as <tt>/etc/bash_completion.d/showoff</tt>.
+
+= Editor Support
+
+* TextMate Bundle - Showoff.tmdbundle - Dr Nic Williams
+  http://github.com/drnic/Showoff.tmbundle
+
+* Emacs major-mode - showoff-mode - Nick Parker
+  http://github.com/developernotes/showoff-mode

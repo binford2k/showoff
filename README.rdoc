@@ -10,181 +10,37 @@ and then startup the showoff server in that directory.  It will read in your
 <tt>showoff.json</tt> file for which sections go in which order and then will give
 you a URL to present from.
 
-It can:
+Showoff's capabilities include:
 
-* show formatted text and images
-* show syntax highlighted code
-* bullets with incremental advancing
-* do simple transitions (instant, fade, slide in)
-* show a pre-show slideshow while you wait to start
-* let audience members go back / catch up as you talk
-* allow viewers to set their view of the presentation to track the presenter's
-* let audience members download slides, code samples or other supplementary material
-* generate supplemental material based on slide tags
-* display presenter notes
-* include handout notes on printed versions of the slide
-* password protect any URL path
-* Automatically generate a Table of Contents
-* re-enact command line interactions
-* call up a menu of sections/slides at any time to jump around
-* execute Javascript, Coffeescript or Ruby live and display results
+* Display content on slides including:
+  * formatted text and images
+  * syntax highlighted code
+  * bullets with incremental advancing
+  * simple slide transitions (instant, fade, slide in)
+  * replayed command line interactions
 
-It might will can:
+* Live presenter tools:
+  * presenter view that display notes, tree representation of presentation, and other tools
+  * execute Javascript, Coffeescript or Ruby live and display results
+  * show a pre-show slideshow while you wait to start
+  * let audience members download slides, code samples or other supplementary material
 
-* show a timer - elapsed / remaining
-* perform simple animations of images moving between keyframes
-* show synchronized, hidden notes on another browser (like an iphone)
-* show audience questions / comments (twitter or direct)
-* let audience members vote on sections (?)
-* broadcast itself on Bonjour
-* let you write on the slide with your mouse, madden-style via canvas
-* automatically resize text to fit screen [see Alex's shrink.js]
+* Live audience tools:
+  * audience can pull up the presentation on their own browsers
+  * call up a menu of sections/slides at any time to jump around
+  * independent navigation so that audience members can go back / catch up as you talk
+  * allow viewers to set their view of the presentation to track the presenter's
+
+* Content creation and distribution functionality:
+  * generate supplemental material based on slide tags
+  * generate printed versions of the presentation including handout notes
+  * password protect any URL path to keep control over different views of content
+  * Automatically generate a Table of Contents
 
 Due to it being plain text, you can easily version control it, you can easily move
 sections between presentations, and you can rearrange or remove sections easily.
 
-= Installation
-
-Simply install the gem.
-
-    $ gem install showoff
-
-If you are running the +puppetlabs/showoff+ fork, then you should clone the repository
-and build the gem manually instead.
-
-    $ git clone https://github.com/puppetlabs/showoff.git
-    $ cd showoff
-    $ gem build showoff.gemspec
-    $ gem install showoff-<version>.gem
-
-= Usage
-
-ShowOff is meant to be run in a ShowOff formatted repository - that means that
-it has a <tt>showoff.json</tt> file and a number of sections (subdirectories) with
-markdown files for the slides you're presenting.
-
-    $ git clone (showoff-repo)
-    $ cd (showoff-repo)
-    $ showoff serve
-
-If you run 'showoff' in the example subdirectory of ShowOff itself, it will
-show an example presentation, so you can see what it's like.
-
-You can also run 'showoff serve' inside a section subdirectory. If there is no
-<tt>showoff.json</tt> file then it will make its best guess, creating a presentation
-from all `.md` files in alphabetical order in the given (or current)
-directory.
-
-== Available URL paths
-
-Once the showoff server is running, you can connect to it via a standard modern
-web browser. The following URL paths are available for use by you and your audience.
-
-[http://localhost:9090] This is the standard no-frills presentation. You can present from this if you wish and your audience can also browse to this using the IP or DNS name of your system. Press <tt>z</tt> to get hotkey help.
-[http://localhost:9090/presenter] This view is useful for the presenter. It displays a more complete view of your presentation, including a full tree view of all slides and presenter notes underneath the slide itself. It will attempt to open a slave window that you can put on the projector. The slave window will follow along with the presenter window. If you have a popup blocker running, the slave window will not open. There is a button on the presenter view to manually open a new slave window.
-[http://localhost:9090/onepage] This will generate a single page representing your entire presentation. It is useful for printing, especially, but can also be used when a viewer has an older browser than cannot handle the transitions properly or is a luddite ;-) and wants to scroll rather than page.
-[http://localhost:9090/download] Your slides can include files for viewers to download and these files will be listed on this page as the presenter pages past the slide containing the download definition.
-[http://localhost:9090/stats] The showoff server keeps track of which slides your audience is viewing and how much time they are spending on them. Time is only accumulated for slides that are not the slide currently being displayed. These stats are available for consumption on this page. If the presenter views the page, a full listing of which pages and which hosts are viewing them is shown. If an audience member views the page, only a summary is listed.
-[http://localhost:9090/supplemental/{type}] Showoff has the ability to include supplemental material that are defined by special slide types. This URL path will allow you and/or the students to retrieve the supplemental materials.
-
-== Hotkeys
-
-The following hotkeys are available for usage while viewing the slideshow.
-
-[z, ?] Toggle help. This shows a reference table on screen.
-[space, →] Advance to the next slide.
-[shift-space, ←] Move to previous slide.
-[d] Toggle debug mode. This will show information including the keys pressed and the content filename that is used to generate the current slide in the footer area.
-[## <ret>] Go to slide #. Type a number and press <return> and you will immediately jump to that slide.
-[c, t] Table of contents. A dropdown menu allowing you to choose a section & slide will appear.
-[f] Toggle footer. The footer contains the progress indicator.
-[g] Toggle follow mode. When follow mode is enabled, the presentation will track the page displayed by the presenter. This is often useful when an audience member has poor eyesight and would like to get a better view of your screen.
-[r] Reload slides. This will reload your presentation as you generate or refine content.
-[n] Toggle notes. This will place the first line of text from the slide notes in the footer.
-[p] Run preshow. Start the preshow slideshow. This will cycle through images placed in <tt>_preshow</tt> for a specified time. This is useful for taking timed breaks or for keeping the audience attention while waiting for you to begin.
-[P] Toggle pause. This will pause the presentation and dim the screen. You can use this to take a brief moment to address tangential audience questions.
-[b] Toggle screenblanker. Similar to pause, this will pause the presentation and slide the slide off screen.
-[s] Choose style. Pull open the style chooser menu. You can embed multiple styles (for example, style target at different screen sizes or audiences) and use this menu to choose the appropriate style.
-
-
-== <tt>showoff help [command]</tt>
-
-Shows list of commands or help for one command
-
-
-== <tt>showoff heroku heroku_name</tt>
-
-Setup your presentation to serve on Heroku
-
-Creates the Gemfile and config.ru file needed to push a showoff pres to heroku.  It will then run heroku create for you to register the new project on heroku and add the remote for you.  Then all you need to do is commit the new created files and run git push heroku to deploy.
-
-
-== <tt>showoff github</tt>
-
-Generates a static version of your site and puts it in a gh-pages branch for static serving on GitHub.
-
-=== options for github
-These options are specified *after* the command.
-
-[<tt>-f, --force</tt>] force overwrite of existing Gemfile/.gems and config.ru files if they exist
-[<tt>-g, --dotgems</tt>] Use older-style .gems file instead of bundler-style Gemfile
-[<tt>-p, --password=arg</tt>] add password protection to your heroku site
-
-
-== <tt>showoff serve </tt>
-
-Serves the showoff presentation in the current directory
-
-==== options for serve
-These options are specified *after* the command.
-
-[<tt>-f, --pres_file=arg</tt>] Presentation file <i>(default: <tt>showoff.json</tt>)</i>
-[<tt>-h, --host=arg</tt>] Host or ip to run on <i>( default: <tt>localhost</tt>)</i>
-[<tt>-p, --port=arg</tt>] Port on which to run <i>( default: <tt>9090</tt>)</i>
-
-
-== <tt>showoff static name</tt>
-
-Generate static version of presentation
-
-= PDF Output
-
-Showoff can produce a PDF version of your presentation.  To do this, you must install a few things first:
-
-    gem install pdfkit
-
-You'll then need to install a version of wkhtmltopdf available at the {wkhtmltopdf repo}[http://code.google.com/p/wkhtmltopdf/wiki/compilation] (or brew install wkhtmltopdf on a mac) and make sure that +wkhtmltopdf+ is in your path:
-
-    export $PATH="/location/to/my/wkhtmltopdf/0.9.9:$PATH"
-
-
-Then restart showoff, and navigate to <tt>/pdf</tt> (e.g. http://localhost/pdf) of your presentation and a PDF will be generated with the browser.
-
-You may also consider just browsing to the <tt>/onepage</tt> view and printing that using your browser's native print function.
-
-= Shell Auto Completion
-
-== ZSH completion
-You can complete commands and options in ZSH, by installing a script:
-
-    mkdir -p $HOME/.zsh/Completion
-    cp script/_showoff $HOME/.zsh/Completion
-    echo 'fpath=(~/.zsh/Completion $fpath)' >> $HOME/.zshrc
-
-== <tt>bash</tt> completion
-
-You can complete commands for showoff by putting the following in your <tt>.bashrc</tt> (or whatever
-you use when starting <tt>bash</tt>):
-
-    complete -F get_showoff_commands
-    function get_showoff_commands()
-    {
-        if [ -z $2 ] ; then
-            COMPREPLY=(`showoff help -c`)
-        else
-            COMPREPLY=(`showoff help -c $2`)
-        fi
-    }
+Please see the documentation in <tt>./documentation</tt> for further information.
 
 = Real World Usage
 
@@ -230,14 +86,6 @@ So far, ShowOff has been used in the following presentations (and many others):
 
 If you use it for something, please let me know so I can add it.
 
-= Editor Support
-
-* TextMate Bundle - Showoff.tmdbundle - Dr Nic Williams
-  http://github.com/drnic/Showoff.tmbundle
-
-* Emacs major-mode - showoff-mode - Nick Parker
-  http://github.com/developernotes/showoff-mode
-
 = Future Plans
 
 I really want this to evolve into a dynamic presentation software server,
@@ -249,6 +97,17 @@ talk that was given, or all the available slides, plus supplementary
 material. And I want the presenter (me) to be able to push each
 presentation to Heroku or GitHub pages for archiving super easily.
 
+Potential future capabilities might include:
+
+* show a timer - elapsed / remaining
+* perform simple animations of images moving between keyframes
+* show synchronized, hidden notes on another browser (like an iphone)
+* show audience questions / comments (twitter or direct)
+* let audience members vote on sections (?)
+* broadcast itself on Bonjour
+* let you write on the slide with your mouse, madden-style via canvas
+* automatically resize text to fit screen [see Alex's shrink.js]
+
 = Why Not S5 or Slidy or Slidedown?
 
 S5 and Slidy are really cool, and I was going to use them, but mainly I wanted
@@ -258,17 +117,6 @@ be moved around and between presentations and could be written in Markdown. I
 also like the idea of having interactive presentation system and didn't need
 half the features of S5/Slidy (style based print view, auto-scaling, themes,
 etc).
-
-= Requirements
-
-* Ruby (duh)
-* Sinatra (and thus Rack)
-* BlueCloth
-* Nokogiri
-* json
-* GLI gem
-* Firefox or Chrome to present
-* PDFKit (optional, for generating PDF of presentation) https://github.com/jdpace/PDFKit
 
 = Contributing
 

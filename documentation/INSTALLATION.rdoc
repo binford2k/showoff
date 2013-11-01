@@ -1,0 +1,27 @@
+= Installation
+
+Simply install the gem and dependencies.
+
+    $ gem install showoff
+
+If you are running the <tt>puppetlabs/showoff</tt> fork, then you should clone the repository
+and build the gem manually instead.
+
+    $ git clone https://github.com/puppetlabs/showoff.git
+    $ cd showoff
+    $ gem build showoff.gemspec
+    $ gem install showoff-<version>.gem
+
+= Requirements
+
+* Ruby and RubyGems
+* gems:
+  * Sinatra (and thus Rack)
+  * BlueCloth
+  * Nokogiri
+  * json
+  * GLI
+  * PDFKit (optional, for generating PDF of presentation)
+* Modern web browser to present or view slides
+  * Tested with Safari and Chrome, and to a lesser extent Firefox and Opera.
+  * Likely to work with Internet Explorer > 9.0
