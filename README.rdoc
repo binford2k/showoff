@@ -1,48 +1,70 @@
 = ShowOff Presentation Software
 
-ShowOff is a Sinatra web app that reads simple configuration files for a presentation.
+ShowOff is a Sinatra web app that reads simple configuration files for a
+presentation.  It is sort of like a Keynote web app engine - think S5 +
+Slidedown.  I am using it to do all my talks in 2010, because I have a deep
+hatred in my heart for Keynote and yet it is by far the best in the field.
+
+The idea is that you setup your markdown slide files in section subdirectories
+and then startup the showoff server in that directory.  It will read in your
+<tt>showoff.json</tt> file for which sections go in which order and then will give
+you a URL to present from.
 
 It can:
 
-* show simple text and images
+* show formatted text and images
 * show syntax highlighted code
 * bullets with incremental advancing
+* do simple transitions (instant, fade, slide in)
+* show a pre-show slideshow while you wait to start
+* let audience members go back / catch up as you talk
+* allow viewers to set their view of the presentation to track the presenter's
+* let audience members download slides, code samples or other supplementary material
+* generate supplemental material based on slide tags
+* display presenter notes
+* include handout notes on printed versions of the slide
+* password protect any URL path
+* Automatically generate a Table of Contents
 * re-enact command line interactions
 * call up a menu of sections/slides at any time to jump around
 * execute Javascript, Coffeescript or Ruby live and display results
-* do simple transitions (instant, fade, slide in)
-* show a pre-show slideshow while you wait to start
-* show a timer on the presenters view - elapsed / remaining
+
+It might will can:
+
+* show a timer - elapsed / remaining
+* perform simple animations of images moving between keyframes
+* show synchronized, hidden notes on another browser (like an iphone)
+* show audience questions / comments (twitter or direct)
+* let audience members vote on sections (?)
+* broadcast itself on Bonjour
+* let you write on the slide with your mouse, madden-style via canvas
+* automatically resize text to fit screen [see Alex's shrink.js]
+
+Due to it being plain text, you can easily version control it, you can easily move
+sections between presentations, and you can rearrange or remove sections easily.
 
 = Installation
-== Getting the dependencies installed
 
-ShowOff requires:
+Simply install the gem.
 
-* Firefox or Chrome to present
-* Ruby
-* Sinatra
-* Rack
-* BlueCloth
-* Nokogiri
-* json
-* GLI gem
-* RMagick (optional, for resizing images)
-* PDFKit (optional, for generating PDF of presentation) https://github.com/jdpace/PDFKit
+    $ gem install showoff
 
-To get these requirements installed on xUbuntu, use the following:
+If you are running the +puppetlabs/showoff+ fork, then you should clone the repository
+and build the gem manually instead.
 
-    $ sudo apt-get install ruby ruby-sinatra ruby-bluecloth ruby-nokogiri ruby-json ruby-rmagick
-	$ sudo gem install gli pdfkit showoff
+    $ git clone https://github.com/puppetlabs/showoff.git
+    $ cd showoff
+    $ gem build showoff.gemspec
+    $ gem install showoff-<version>.gem
 
-== Getting ShowOff installed
+= Usage
 
 ShowOff is meant to be run in a ShowOff formatted repository - that means that
 it has a <tt>showoff.json</tt> file and a number of sections (subdirectories) with
 markdown files for the slides you're presenting.
 
-    $ git clone (showoff-repo) # currently https://github.com/puppetlabs/showoff.git
-    $ cd (showoff-repo) # this would be showoff
+    $ git clone (showoff-repo)
+    $ cd (showoff-repo)
     $ showoff serve
 
 If you run 'showoff' in the example subdirectory of ShowOff itself, it will
@@ -63,14 +85,15 @@ web browser. The following URL paths are available for use by you and your audie
 [http://localhost:9090/onepage] This will generate a single page representing your entire presentation. It is useful for printing, especially, but can also be used when a viewer has an older browser than cannot handle the transitions properly or is a luddite ;-) and wants to scroll rather than page.
 [http://localhost:9090/download] Your slides can include files for viewers to download and these files will be listed on this page as the presenter pages past the slide containing the download definition.
 [http://localhost:9090/stats] The showoff server keeps track of which slides your audience is viewing and how much time they are spending on them. Time is only accumulated for slides that are not the slide currently being displayed. These stats are available for consumption on this page. If the presenter views the page, a full listing of which pages and which hosts are viewing them is shown. If an audience member views the page, only a summary is listed.
+[http://localhost:9090/supplemental/{type}] Showoff has the ability to include supplemental material that are defined by special slide types. This URL path will allow you and/or the students to retrieve the supplemental materials.
 
-== Slideshow Hotkey Usage
+== Hotkeys
 
 The following hotkeys are available for usage while viewing the slideshow.
 
 [z, ?] Toggle help. This shows a reference table on screen.
-[space, ?] Advance to the next slide.
-[shift-space, ?] Move to previous slide.
+[space, →] Advance to the next slide.
+[shift-space, ←] Move to previous slide.
 [d] Toggle debug mode. This will show information including the keys pressed and the content filename that is used to generate the current slide in the footer area.
 [## <ret>] Go to slide #. Type a number and press <return> and you will immediately jump to that slide.
 [c, t] Table of contents. A dropdown menu allowing you to choose a section & slide will appear.
@@ -83,422 +106,18 @@ The following hotkeys are available for usage while viewing the slideshow.
 [b] Toggle screenblanker. Similar to pause, this will pause the presentation and slide the slide off screen.
 [s] Choose style. Pull open the style chooser menu. You can embed multiple styles (for example, style target at different screen sizes or audiences) and use this menu to choose the appropriate style.
 
-= Slide Format
-
-You can break your slides up into sections of however many subdirectories deep
-you need.  ShowOff will recursively check all the directories mentioned in
-your <tt>showoff.json</tt> file for any markdown files (.md).  Each markdown file can
-have any number of slides in it, separating each slide with the '!SLIDE'
-keyword and optional slide styles.
-
-For example, if you run 'showoff create my_new_pres' it will create a new
-starter presentation for you with one .md file at one/slide.md which will have
-the following contents:
-
-    !SLIDE
-
-    # My Presentation #
-
-    !SLIDE bullets incremental transition=fade
-
-    # Bullet Points #
-
-    * first point
-    * second point
-    * third point
-
-That represents two slides, the first contains just a large title, and the
-second is faded into view showing the title and three bullets that are then
-incrementally shown. In order for ShowOff to see those slides, your
-<tt>showoff.json</tt> file needs to look something like this:
-
-    {
-      "name": "Something",
-      "description": "Example Presentation",
-      "sections": [
-        {"section":"one"}
-      ]
-    }
-
-If you have multiple sections in your talk, you can make this json
-array include all the sections you want to show in which order you
-want to show them. Template configuration is done in
-<tt>showoff.json</tt> as well.
-
-Instead of a hash, you can use a plain string as an entry in the
-<tt>sections</tt> section of <tt>showoff.json</tt>. And if that plain string starts
-with '#' then it is interpreted not as a filename, but as
-markdown. This is used for inserting interstitial slides or notes --
-for instance, Alex Chaffee's {Ruby
-Notes}[http://github.com/alexch/ruby_notes] uses it to insert lab
-instructions between lecture slide sections, which may vary from venue
-to venue.
-
-If you want to keep the ability to emit an HTML document from your
-Markdown source file -- say, for a TextMate preview or a GitHub rendering
--- you can use angle brackets around the `!SLIDE` keyword and styles, e.g.
-
-    <!SLIDE bullets incremental transition=fade>
-
-Some useful styles for each slide are:
-
-* center - centers images on a slide
-* full-page - allows an image to take up the whole slide
-* bullets - sizes and separates bullets properly (fits up to 5, generally)
-* smbullets - sizes and separates more bullets (smaller, closer together)
-* subsection - creates a different background for titles
-* command - monospaces h1 title slides
-* commandline - for pasted commandline sections (needs leading '$' for commands, then output on subsequent lines)
-* code - monospaces everything on the slide
-* incremental - can be used with 'bullets' and 'commandline' styles, will incrementally update elements on arrow key rather than switch slides
-* small - make all slide text 80%
-* smaller - make all slide text 70%
-* execute - on Javascript, Coffeescript and Ruby highlighted code slides, you can click on the code to execute it and display the results on the slide
-
-Check out the example directory included to see examples of most of these.
-
-Transitions can be supplied through the use of transition=tname on the !SLIDE
-definition, where tname is one of the following supported transitions:
-
-* blindX
-* blindY
-* blindZ
-* cover
-* curtainX
-* curtainY
-* fade
-* fadeZoom
-* growX
-* growY
-* none (this is the default)
-* scrollUp
-* scrollDown
-* scrollLeft
-* scrollRight
-* scrollHorz
-* scrollVert
-* shuffle
-* slideX
-* slideY
-* toss
-* turnUp
-* turnDown
-* turnLeft
-* turnRight
-* uncover
-* wipe
-* zoom
-
-The transitions are provided by jQuery Cycle plugin. See http://www.malsup.com/jquery/cycle/browser.html to view the effects and http://www.malsup.com/jquery/cycle/adv2.html for how to add custom effects.
-
-You can manage the presentation with the following keys:
-
-* space, cursor right: next slide
-* shift-space, cursor left: previous slide
-* d: debug mode
-* c, t: table of contents (vi)
-* f: toggle footer
-* z, ?: toggle help
-* p: toggle preshow
-
-= Showing plain old markdown
-
-If a markdown file has no !SLIDE keywords, then showoff will treat every line
-beginning with a single hash -- i.e. every H1 -- as a new slide in "bullets"
-style. Remember that you can't specify classes or transitions in this mode,
-and as soon as you add one !SLIDE you need them everywhere.
-
-= Preshow
-
-If you want to show a slideshow while you wait to speak, you can run a preshow.  Add a +_preshow+ directory
-to your project (I use a symlink, so I don't have to add all the images into Git), put a bunch of images in the +_preshow+ directory and optionally add a +preshow+.+json+ file that provides descriptions for any of the images.
-If you then press 'p' at the beginning of your presentation, it will prompt you for a number of minutes until
-you start.  Then it will count down the time until then, flipping through your pictures to entertain the
-audience in the meantime.  Press 'p' again to stop, or wait until the timer runs out.
-
-= Custom JavaScript
-
-To insert custom JavaScript into your presentation you can either place it into
-a file (with extension .js) into the root directory of your presentation or you
-can embed a <+script+> element directly into your slides. This JavaScript will be
-executed—as usually—as soon as it is loaded.
-
-If you want to trigger some JavaScript as soon as a certain page is shown or
-when you switch to the next or previous slide, you can bind a callback to a
-custom event:
-
-* *showoff:show* will be triggered as soon as you enter a page
-* *showoff:next* will be triggered when you switch to the next page
-* *showoff:incr* will be triggered when you advance to the next increment on the page
-* *showoff:prev* will be triggered when you switch to the previous page
-
-These events are triggered on the "div.content" child of the slide, so you must
-add a custom and unique class to your SLIDE to identify it:
-
-    !SLIDE custom_and_unique_class
-    # 1st Example h1
-    <script>
-    // bind to custom event
-    $(".custom_and_unique_class").bind("showoff:show", function (event) {
-      // animate the h1
-      var h1 = $(event.target).find("h1");
-      h1.delay(500)
-        .slideUp(300, function () { $(this).css({textDecoration: "line-through"}); })
-        .slideDown(300);
-    });
-    </script>
-
-This will bind an event handler for *showoff:show* to your slide. The
-h1-element will be animated, as soon as this event is triggered on that slide.
-
-If you bind an event handler to the custom events *showoff:next* or
-*showoff:prev*, you can prevent the default action (that is switching to the
-appropriate slide) by calling *event.preventDefault()*:
-
-    !SLIDE prevent_default
-    # 2nd Example h1
-    <script>
-    $(".prevent_default").bind("showoff:next", function (event) {
-      var h1 = $(event.target).find("h1");
-      if (h1.css("text-decoration") === "none") {
-        event.preventDefault();
-        h1.css({textDecoration: "line-through"})
-      }
-    });
-    </script>
-
-This will bind an event handler for *showoff:next* to your slide. When you press
-the right arrow key the first time, the h1-element will be decorated. When you
-press the right array key another time, you will switch to the next slide.
-
-The same applies to the *showoff:prev* event, of course.
-
-
-= Custom Stylesheets
-
-To insert custom Stylesheets into your presentation you can either place it into
-a file (with extension .css) into the root directory of your presentation or
-you can embed a <+link+> element directly into your slides. This stylesheet will
-be applied as soon as it is loaded.
-
-The content generated by the slide is wrapped with a +div+ with the class .+content+ like this.
-
-    <div ref="intro/01_slide/1" class="content" style="margin-top: 210px;">
-    <h1>jQuery &amp; Sinatra</h1>
-    <h2>A Classy Combination</h2>
-    </div>
-
-This makes the .+content+ tag a perfect place to add additional styling if that
-is your preference. An example of adding some styling is here.
-
-    .content {
-      color: black;
-      font-family: helvetica, arial;
-    }
-    h1, h2 {
-      color: rgb(79, 180, 226);
-      font-family: Georgia;
-    }
-    .content::after {
-      position: absolute;
-      right: 120px;
-      bottom: 120px;
-      content: url(jay_small.png);
-    }
-
-Note that the example above uses CSS3 styling with ::+after+ and the +content+
--attribute to add an image to the slides.
-
-= Templates
-
-Templates can come handy if you need more than what you can achieve
-via CSS. To configure templates you'll have to specify them in the
-<tt>showoff.json</tt> by adding an entry called "templates". This
-entry is an object where you can specify as many templates as you
-want. The default template is marked with the "default" key.
-
-     {
-      "name": "Something",
-      "description": "Example Presentation",
-      "templates" : {
-          "default" : "tpl1.tpl",
-          "special" : "tpl2.tpl"
-      },
-      "sections": [
-        {"section":"one"}
-      ]
-    }
-
-If the "default" key is not given, no template will be used for the
-default slide. If you want to apply a certain layout to a slide you
-have to specify it in the slide header:
-
-     !SLIDE[tpl=special]
-     # Header
-
-== Template Commands
-
-You can place content anywhere in your template, but you have to
-explicitly mark the location using a special command:
-
-[~~~CONTENT~~~] is replaced by the slide content
-
-[~~~CURRENT_SLIDE~~~] is replaced by the current slide number
-
-[~~~NUM_SLIDES~~~] is replaced by the total number of slides
-
-[~~~CONFIG:*~~~] is replaced by any value (*) from the <tt>showoff.json</tt> configuration. This can be used to specify an author, venue, etc. A simple example would be <tt>~~~CONFIG:author~~~</tt>
-
-The usage of these replacements is not limited to templates, but
-anywhere in your slides.
-
-== Template Hints
-
-You can basically put everything you want into templates, but you
-should make sure that the CSS is applied fine. The best way to apply a
-custom layout is to create a container that uses absolute positioning
-and has width and height set to 100% which are then derived from the
-parent slide element.
-
-= Language highlighting
-
-Showoff uses {shjs}[http://shjs.sourceforge.net/] to highlight code blocks.
-If you begin a code block with three @-signs followed by a
-{programming language name}[http://shjs.sourceforge.net/doc/documentation.html],
-that line will be stripped and the rest of the block will become sparkly
-and colorful.
-
-    @@@ ruby
-    10.times { puts "Whee!" }
-
-= Custom Ruby Files
-
-If you want to have executable Ruby code on your slides you must set the
-environment variable ENV['SHOWOFF_EVAL_RUBY']. This can be done with
-
-    export SHOWOFF_EVAL_RUBY=1
-
-or
-
-    # On Heroku
-    heroku config:add SHOWOFF_EVAL_RUBY=1
-
-
-If you need supporting libraries when you evaluate the code. You can do this by
-putting Ruby files (*.rb) into the root directory of the presentation then they
-will be required when the presentation loads.
-
-= Presenter Notes
-
-Add a line that starts with .notes:
-
-    .notes my notes here
-
-Toggle presenter notes with the n key while in the presentation.
-
-= Handout Notes
-
-Add a line that starts with .handouts:
-
-    .notes This is supplementary material that will only appear in the printed version.
-
-These handout notes will appear underneath the slide it is attached to in the printed version.
-
-
-= Download files
-
-Add a line that starts with .download and contains the name of a file in the <tt>_files</tt>
-subdirectory of your presentation.
-
-    .download file.tar.gz
-
-Once the instructor has viewed the next slide in your presentation, the file listed here will
-be available to download on the <tt>/download</tt> page.
-
-To share files on an ad-hoc basis, the instructor can simply drop files into <tt>_files/share</tt>.
-All files existing in this directory will be listed when students hit the download page. Showoff
-does not need to be restarted, even if you drop files in here during a presentation.
-
-= Editor integration
-
-The "add slide" feature can allow you to add the necessary boilerplate from your editor.  If you are using vim, you can
-
-    !showoff add -t code Check This Code
-
-And your buffer will get
-
-    !SLIDE
-    # Check This Code #
-        @@@ Ruby
-        code_here()
-
-added where your cursor was.  Binding this to a keybinding can allow you to add new slides quickly.
-
-= Command Line Interface
-
-    showoff command_name [command-specific options] [--] arguments...
-
-* Use the command +help+ to get a summary of commands
-* Use the command <tt>help command_name</tt> to get a help for +command_name+
-* Use <tt>--</tt> to stop command line argument processing; useful if your arguments have dashes in them
-
-== Commands
-[<tt>add</tt>] Add a new slide at the end in a given dir
-[<tt>create</tt>] Create new showoff presentation
-[<tt>help</tt>] Shows list of commands or help for one command
-[<tt>heroku</tt>] Setup your presentation to serve on Heroku
-[<tt>github</tt>] Setup your presentation to serve on GitHub Pages
-[<tt>serve</tt>] Serves the showoff presentation in the current directory (or a given dir)
-[<tt>static</tt>] Generate static version of presentation
-
-
-== <tt>showoff add [title]</tt>
-
-Add a new slide at the end in a given dir
-
-*Aliases*
-* <tt><b>new</b></tt>
-
-Outputs or creates a new slide. With -d and -n, a new slide is created in the given dir, numbered to appear
-as the last slide in that dir (use -u to avoid numbering). Without those, outputs the slide markdown to
-stdout (useful for shelling out from your editor). You may also specify a source file to use for a code
-slide.
-
-=== options for add
-
-These options are specified *after* the command.
-
-[<tt>-d, --dir=dir</tt>] Slide dir (where to put a new slide file)
-[<tt>-n, --name=basename</tt>] Slide name (name of the new slide file)
-[<tt>-s, --source=path to file</tt>] Include code from the given file as the slide body
-[<tt>-t, --style, --type=valid showoff style/type</tt>] Slide Type/Style <i>( default: <tt>title</tt>)</i>
-[<tt>-u, --nonumber</tt>] Dont number the slide, use the given name verbatim
-
-== <tt>showoff create dir_name</tt>
-
-Create new showoff presentation
-
-*Aliases*
-* <tt><b>init</b></tt>
-
-This command helps start a new showoff presentation by setting up the proper directory structure for you.  It takes the directory name you would like showoff to create for you.
-
-=== options for create
-
-These options are specified *after* the command.
-
-[<tt>-d, --slidedir=arg</tt>] sample slide directory name <i>( default: <tt>one</tt>)</i>
-[<tt>-n, --nosamples</tt>] Dont create sample slides
 
 == <tt>showoff help [command]</tt>
 
 Shows list of commands or help for one command
+
 
 == <tt>showoff heroku heroku_name</tt>
 
 Setup your presentation to serve on Heroku
 
 Creates the Gemfile and config.ru file needed to push a showoff pres to heroku.  It will then run heroku create for you to register the new project on heroku and add the remote for you.  Then all you need to do is commit the new created files and run git push heroku to deploy.
+
 
 == <tt>showoff github</tt>
 
@@ -511,6 +130,7 @@ These options are specified *after* the command.
 [<tt>-g, --dotgems</tt>] Use older-style .gems file instead of bundler-style Gemfile
 [<tt>-p, --password=arg</tt>] add password protection to your heroku site
 
+
 == <tt>showoff serve </tt>
 
 Serves the showoff presentation in the current directory
@@ -521,6 +141,7 @@ These options are specified *after* the command.
 [<tt>-f, --pres_file=arg</tt>] Presentation file <i>(default: <tt>showoff.json</tt>)</i>
 [<tt>-h, --host=arg</tt>] Host or ip to run on <i>( default: <tt>localhost</tt>)</i>
 [<tt>-p, --port=arg</tt>] Port on which to run <i>( default: <tt>9090</tt>)</i>
+
 
 == <tt>showoff static name</tt>
 
@@ -536,43 +157,12 @@ You'll then need to install a version of wkhtmltopdf available at the {wkhtmltop
 
     export $PATH="/location/to/my/wkhtmltopdf/0.9.9:$PATH"
 
+
 Then restart showoff, and navigate to <tt>/pdf</tt> (e.g. http://localhost/pdf) of your presentation and a PDF will be generated with the browser.
 
 You may also consider just browsing to the <tt>/onepage</tt> view and printing that using your browser's native print function.
 
-= Misc
-
-== Markdown Engine
-
-It is possible to configure the markdown engine of your choice to use
-with showoff. The following engines come preconfigured:
-
-* redcarpet (default)
-* bluecloth
-* maruku
-* rdiscount
-
-Configuring an engine (or overriding it's default configuration) allows you to access special features of that engine.
-
-=== Maruku
-
-When you prefer using Maruku as the markdown engine of choice for your
-presentation, you can use the LaTeX Math Mode features of
-maruku. First you need
-{BlahTex}[http://www.mediawiki.org/wiki/Extension:Blahtex] and then
-you need to configure your presentation as following:
-
-     {
-         /* other configuration options */,
-         "markdown" : "maruku",
-         "maruku" : {
-             "use_tex" : true, /* required if you want to use LaTeX */
-             "png_dir" : "images", /* optional */
-             "html_png_url" : "/file/images/" /* optional */
-         }
-     }
-
-= Completion
+= Shell Auto Completion
 
 == ZSH completion
 You can complete commands and options in ZSH, by installing a script:
@@ -595,24 +185,6 @@ you use when starting <tt>bash</tt>):
             COMPREPLY=(`showoff help -c $2`)
         fi
     }
-
-= Editor Support
-
-* TextMate Bundle - Showoff.tmdbundle - Dr Nic Williams
-  http://github.com/drnic/Showoff.tmbundle
-
-* Emacs major-mode - showoff-mode - Nick Parker
-  http://github.com/developernotes/showoff-mode
-
-= Why Not S5 or Slidy or Slidedown?
-
-S5 and Slidy are really cool, and I was going to use them, but mainly I wanted
-something more dynamic.  I wanted Slidy + Slidedown, where I could write my
-slideshows in a structured format in sections, where the sections could easily
-be moved around and between presentations and could be written in Markdown. I
-also like the idea of having interactive presentation system and didn't need
-half the features of S5/Slidy (style based print view, auto-scaling, themes,
-etc).
 
 = Real World Usage
 
@@ -655,9 +227,18 @@ So far, ShowOff has been used in the following presentations (and many others):
   https://github.com/iangreenleaf/sdruby-lightningtalk-tregexp
 * All PuppetLabs training from Summer 2012 on and many internal & external presentations
 
+
 If you use it for something, please let me know so I can add it.
 
-== ToDo
+= Editor Support
+
+* TextMate Bundle - Showoff.tmdbundle - Dr Nic Williams
+  http://github.com/drnic/Showoff.tmbundle
+
+* Emacs major-mode - showoff-mode - Nick Parker
+  http://github.com/developernotes/showoff-mode
+
+= Future Plans
 
 I really want this to evolve into a dynamic presentation software server,
 that gives the audience a lot of interaction into the presentation -
@@ -668,21 +249,26 @@ talk that was given, or all the available slides, plus supplementary
 material. And I want the presenter (me) to be able to push each
 presentation to Heroku or GitHub pages for archiving super easily.
 
-In the future, ShowOff might/will/can:
+= Why Not S5 or Slidy or Slidedown?
 
-* perform simple animations of images moving between keyframes
-* show synchronized, hidden notes on another browser (like an iphone)
-* show audience questions / comments (twitter or direct)
-* let audience members go back / catch up as you talk
-* let audience members vote on sections (?)
-* broadcast itself on Bonjour
-* let audience members download slides, code samples or other supplementary material
-* let you write on the slide with your mouse, madden-style via canvas
-* automatically resize text to fit screen [see Alex's shrink.js]
+S5 and Slidy are really cool, and I was going to use them, but mainly I wanted
+something more dynamic.  I wanted Slidy + Slidedown, where I could write my
+slideshows in a structured format in sections, where the sections could easily
+be moved around and between presentations and could be written in Markdown. I
+also like the idea of having interactive presentation system and didn't need
+half the features of S5/Slidy (style based print view, auto-scaling, themes,
+etc).
 
-Some of the nice things are that you can easily version control it, you
-can easily move sections between presentations, and you can rearrange or
-remove sections easily.
+= Requirements
+
+* Ruby (duh)
+* Sinatra (and thus Rack)
+* BlueCloth
+* Nokogiri
+* json
+* GLI gem
+* Firefox or Chrome to present
+* PDFKit (optional, for generating PDF of presentation) https://github.com/jdpace/PDFKit
 
 = Contributing
 
