@@ -36,7 +36,7 @@ class ShowOff < Sinatra::Application
   set :pres_file, 'showoff.json'
   set :page_size, "Letter"
   set :pres_template, nil
-  set :showoff_config, nil
+  set :showoff_config, {}
   set :downloads, nil
   set :counter, nil
   set :current, 0
