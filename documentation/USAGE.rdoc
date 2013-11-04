@@ -8,15 +8,15 @@ markdown files for the slides you're presenting.
     $ cd (showoff-repo)
     $ showoff serve
 
-If you run 'showoff' in the example subdirectory of ShowOff itself, it will
+If you run Showoff in the example subdirectory of ShowOff itself, it will
 show an example presentation, so you can see what it's like.
 
-You can also run 'showoff serve' inside a section subdirectory. If there is no
+You can also run <tt>showoff serve</tt> inside a section subdirectory. If there is no
 <tt>showoff.json</tt> file then it will make its best guess, creating a presentation
 from all `.md` files in alphabetical order in the given (or current)
 directory.
 
-== Available URL paths
+== Available URL Paths
 
 Once the showoff server is running, you can connect to it via a standard modern
 web browser. The following URL paths are available for use by you and your audience.
@@ -31,8 +31,11 @@ web browser. The following URL paths are available for use by you and your audie
   presentation, including a full tree view of all slides and presenter notes underneath
   the slide itself. It will attempt to open a slave window that you can put on the
   projector. The slave window will follow along with the presenter window. If you have a
-  popup blocker running, the slave window may not open. There is a button on the presenter
-  view to manually open a new slave window.
+  popup blocker running, the slave window may not open. There is a button in the toolbar
+  to manually open a new slave window in this case.
+
+  If password protection is enabled, this view is often protected and you will need
+  to authenticate to view.
 
   If this path is opened by a secondary device, such as a mobile browser, then it can also
   control the presentation if enabled with the <tt>Enable Remote</tt>  button. Showoff
@@ -58,18 +61,27 @@ web browser. The following URL paths are available for use by you and your audie
 [http://localhost:9090/supplemental/$type-name]
   Showoff has the ability to include supplemental material that are defined by special
   slide types. This URL path will allow you and/or the audience to retrieve the
-  supplemental materials. Often used to generate printed material ahead of time rather
-  than during the presentation itself.
+  supplemental materials. This is most often used to generate printed material ahead
+  of time rather than during the presentation itself.
 
-== Presenter view tools
+== Presenter View Tools
 
 The presenter view is broken into several areas with tools that are mostly self explanatory. Nevertheless, I'll summarize their usage.
 
-=== Toolbar Buttons
+=== Toolbar
+
+This is the black toolbar across the top of the presenter view. It has several important
+tools that you should be familiar with.
+
+[Slide Name]
+  This is the name of the current slide. The name is derived from the filename that is
+  used to generate the slide, so is exponentially more useful than a slide number when
+  correlating slide content with the source file used to generate it.
 
 [Report Issue With Slide]
   If the <tt>showoff.json</tt> file contains an <tt>issues</tt> key then this button
-  will allow presenters to report problems with the slide currently being viewed.
+  will allow presenters to report problems with the slide currently being viewed
+  using the configured issue tracker.
 
 [Viewing Statistics]
   Drops down a menu of the viewer stats from the <tt>/stats</tt> URL path. Contains a
@@ -102,9 +114,18 @@ immediately jump to that slide.
 This contains a scaled down version of the current slide. It will attempt to size it to fit your screen
 and scale the contents as closely as possible. Several tools are attached to the bottom of this view.
 
-[Update Follower] Allow other viewers in <em>Follow Mode</em> to track your progress.
-[Enable Remote] Allow remote windows, including mobile devices, to control the presentation by opening the <tt>/presenter</tt> view.
-[Zoom] Zoom in and out of the preview.
+[Update Follower]
+  Allow other viewers in Follow Mode to track your progress.
+
+[Enable Remote]
+  Allow remote windows, including mobile devices, to control the presentation by
+  opening the presenter view. This button will glow yellow when Showoff is listening
+  for remote updates. Please see {Follow Mode}[#label-Follow+Mode] and
+  {Remote Control}[#label-Remote+Control] below
+  for more information.
+
+[Zoom]
+  Zoom in and out of the preview.
 
 === Presenter Notes
 
@@ -129,7 +150,59 @@ The following hotkeys are available for usage while viewing the slideshow.
 [b] Toggle screenblanker. Similar to pause, this will pause the presentation and slide the slide off screen.
 [s] Choose style. Pull open the style chooser menu. You can embed multiple styles (for example, style target at different screen sizes or audiences) and use this menu to choose the appropriate style.
 
-= Command line usage
+== Follow Mode
+
+The audience can choose to follow along with the presentation automatically, and the
+presenter may control the presentation in a few different ways. Showoff implements
+several strategies for keeping all views of the presentation in sync.
+
+[Audience Follow Mode]
+  If an audience member switches into follow mode by pressing the <tt>g</tt> hotkey, then
+  their browser will automatically change slides to follow along with the presentation.
+
+[Slave Window]
+  When the presenter changes slides from either the presenter view or the slave window
+  then the other view switches to match.
+
+[Remote Control]
+  If the presenter opens multiple presenter views, then Showoff tries to heuristically
+  guess which view should be the "controller" at any given time. This is most useful
+  when the presenter opens the presenter view on a mobile device for a remote control.
+
+  The presenter view will consider itself to be the authoritative source of the current
+  slide indicator as long as you are actively using it. When you have not pressed a key
+  for 30 seconds, it will also switch into Follow Mode and will track slide
+  updates from remotes. The on screen indicator below the slide preview will glow yellow
+  when it has switched into Follow Mode.
+
+== Remote Control
+
+Open the presenter view on a mobile device for a simplified remote control view of your
+presentation. You will get a slide preview, plus presentation notes. If you scroll down,
+you will also see the presentation tree and can navigate to any slide. If the main
+presenter is in Follow Mode, then it will track slide updates.
+
+To save battery, the Remote Control does not listen for slide updates. Instead, there
+is a manual <tt>Update</tt> button, which will request the current slide from the
+Showoff server and change to it.
+
+[Advance slide forward]
+  Tap on the slide, or swipe from right to left.
+
+[Return to a previous slide]
+  Swipe from left to right.
+
+[Update]
+  Press this button to quickly change to the current slide being displayed by the
+  Presenter view.
+
+[Update Follower]
+  Enable this toggle to act as a Remote Control. Disable it to navigate through the
+  slide deck without updating the slide being projected.
+
+<em>Warning, using the Remote Control will chew the hell out of your phone battery.</em>
+
+= Command Line Usage
 
 == <tt>showoff help [command]</tt>
 
@@ -147,8 +220,7 @@ Creates the Gemfile and config.ru file needed to push a showoff pres to heroku. 
 
 Generates a static version of your site and puts it in a gh-pages branch for static serving on GitHub.
 
-=== options for github
-These options are specified *after* the command.
+Options are specified *after* the command.
 
 [<tt>-f, --force</tt>] force overwrite of existing Gemfile/.gems and config.ru files if they exist
 [<tt>-g, --dotgems</tt>] Use older-style .gems file instead of bundler-style Gemfile
@@ -159,8 +231,7 @@ These options are specified *after* the command.
 
 Serves the showoff presentation in the current directory
 
-==== options for serve
-These options are specified *after* the command.
+Options are specified *after* the command.
 
 [<tt>-f, --pres_file=arg</tt>] Presentation file <i>(default: <tt>showoff.json</tt>)</i>
 [<tt>-h, --host=arg</tt>] Host or ip to run on <i>( default: <tt>localhost</tt>)</i>
@@ -171,13 +242,14 @@ These options are specified *after* the command.
 
 Generate static version of presentation
 
-= PDF Output
+= Printable Output
 
-To generate a PDF via your browser rendering engine of choice, simply browse to the <tt>/onepage</tt> view
-and print the page using your browser's native print function.
+To generate printable output or a PDF via your browser rendering engine of choice, simply browse to
+the <tt>/onepage</tt> view and print the page using your browser's native print function. You may
+also use a rendering engine such as PrinceXML[http://www.princexml.com] to print this page to a PDF.
 
-If your browser doesn't generate acceptable output, Showoff can produce a PDF version using the <tt>wkhtmltopdf</tt>
-rendering engine.
+If your browser doesn't generate acceptable output, Showoff can produce a PDF version using the
+<tt>wkhtmltopdf</tt> rendering engine.
 
 To do this, you must install a few things first:
 
@@ -188,7 +260,7 @@ You'll then need to install a version of <tt>wkhtmltopdf</tt> available at the {
     export $PATH="/location/to/my/wkhtmltopdf/0.9.9:$PATH"
 
 
-Then restart showoff, and navigate to <tt>/pdf</tt> (e.g. http://localhost/pdf) of your presentation and a PDF will be generated with the browser.
+Then restart showoff, and navigate to <tt>/pdf</tt> (e.g. http://localhost:9090/pdf) of your presentation and a PDF will be generated with the browser.
 
 = Shell Auto Completion
 

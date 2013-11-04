@@ -12,12 +12,18 @@ and build the gem manually instead.
     $ gem build showoff.gemspec
     $ gem install showoff-<version>.gem
 
+Showoff is tested with Ruby 1.8.7, 1.9.3, and 2.0. It should install cleanly on these versions.
+
 = Requirements
 
-* Ruby and RubyGems
-* gems:
+* Ruby
+* RubyGems:
   * Sinatra (and thus Rack)
-  * BlueCloth
+  * Supported Markdown engine
+    - Redcarpet (default)
+    - BlueCloth
+    - Maruku
+    - rdiscount
   * Nokogiri
   * json
   * GLI
