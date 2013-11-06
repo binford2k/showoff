@@ -44,6 +44,7 @@ class ShowOff < Sinatra::Application
   set :downloads, nil
   set :counter, nil
   set :current, 0
+  set :cookie, nil
 
   def initialize(app=nil)
     super(app)
@@ -568,7 +569,9 @@ class ShowOff < Sinatra::Application
     end
 
     def presenter
-      @issues = settings.showoff_config['issues']
+      @issues   = settings.showoff_config['issues']
+      @@cookie ||= guid()
+      response.set_cookie('presenter', @@cookie)
       erb :presenter
     end
 
@@ -830,6 +833,15 @@ class ShowOff < Sinatra::Application
     end
   end
 
+  def guid
+    # this is a terrifyingly simple GUID generator
+    (0..15).to_a.map{|a| rand(16).to_s(16)}.join
+  end
+
+  def valid_cookie
+    (request.cookies['presenter'] == @@cookie)
+  end
+
   get '/eval_ruby' do
     return eval_ruby(params[:code]) if ENV['SHOWOFF_EVAL_RUBY']
 
@@ -864,22 +876,24 @@ class ShowOff < Sinatra::Application
 
           case control['message']
           when 'update'
-            #protected!
+            # websockets don't use the same auth standards
+            # we use a session cookie to identify the presenter
+            if valid_cookie()
+              slide = control['slide'].to_i
 
-            slide = control['slide'].to_i
+              # check to see if we need to enable a download link
+              if @@downloads.has_key?(slide)
+                @logger.debug "Enabling file download for slide #{slide}"
+                @@downloads[slide][0] = true
+              end
 
-            # check to see if we need to enable a download link
-            if @@downloads.has_key?(slide)
-              @logger.debug "Enabling file download for slide #{slide}"
-              @@downloads[slide][0] = true
+              # update the current slide pointer
+              @logger.debug "Updated current slide to #{slide}"
+              @@current = slide
+
+              # schedule a notification for all clients
+              EM.next_tick { settings.sockets.each{|s| s.send({ 'current' => @@current }.to_json) } }
             end
-
-            # update the current slide pointer
-            @logger.debug "Updated current slide to #{slide}"
-            @@current = slide
-
-            # schedule a notification for all clients
-            EM.next_tick { settings.sockets.each{|s| s.send({ 'current' => @@current }.to_json) } }
 
           when 'track'
             remote = request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR']
