@@ -5,6 +5,7 @@ require 'nokogiri'
 require 'fileutils'
 require 'logger'
 require 'htmlentities'
+require 'sinatra-websocket'
 
 here = File.expand_path(File.dirname(__FILE__))
 require "#{here}/showoff_utils"
@@ -30,6 +31,9 @@ class ShowOff < Sinatra::Application
 
   set :views, File.dirname(__FILE__) + '/../views'
   set :public_folder, File.dirname(__FILE__) + '/../public'
+
+  set :server, 'thin'
+  set :sockets, []
 
   set :verbose, false
   set :pres_dir, '.'
@@ -842,6 +846,71 @@ class ShowOff < Sinatra::Application
     end
   end
 
+  get '/control' do
+    if !request.websocket?
+      raise Sinatra::NotFound
+    else
+      request.websocket do |ws|
+        ws.onopen do
+          ws.send( { 'current' => @@current }.to_json )
+          settings.sockets << ws
+
+          @logger.warn "Open sockets: #{settings.sockets.size}"
+        end
+        ws.onmessage do |data|
+          control = JSON.parse(data)
+
+          @logger.info "#{control.inspect}"
+
+          case control['message']
+          when 'update'
+            #protected!
+
+            slide = control['slide'].to_i
+
+            # check to see if we need to enable a download link
+            if @@downloads.has_key?(slide)
+              @logger.debug "Enabling file download for slide #{slide}"
+              @@downloads[slide][0] = true
+            end
+
+            # update the current slide pointer
+            @logger.debug "Updated current slide to #{slide}"
+            @@current = slide
+
+            # schedule a notification for all clients
+            EM.next_tick { settings.sockets.each{|s| s.send({ 'current' => @@current }.to_json) } }
+
+          when 'track'
+            remote = request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR']
+            slide  = control['slide'].to_i
+            time   = control['time'].to_f
+
+            @logger.debug "Logged #{time} on slide #{slide} for #{remote}"
+
+            # a bucket for this slide
+            @@counter[slide] ||= Hash.new
+            # a counter for this viewer
+            @@counter[slide][remote] ||= 0
+            # and add the elapsed time
+            @@counter[slide][remote] += time
+
+          when 'position'
+            ws.send( { 'current' => @@current }.to_json )
+
+          else
+            @logger.debug "Unknown message <#{control['message']}> received."
+          end
+
+        end
+        ws.onclose do
+          @logger.warn("websocket closed")
+          settings.sockets.delete(ws)
+        end
+      end
+    end
+  end
+
   # gawd, this whole routing scheme is bollocks
   get %r{/([^/]*)/?([^/]*)} do
     @title = ShowOffUtils.showoff_title
@@ -857,17 +926,22 @@ class ShowOff < Sinatra::Application
     # this hasn't been set to anything remotely interesting for a long time now
     @asset_path = nil
 
-    if (what != "favicon.ico")
-      if what == 'supplemental'
-        data = send(what, opt)
-      else
-        data = send(what)
+    begin
+      if (what != "favicon.ico")
+        if what == 'supplemental'
+          data = send(what, opt)
+        else
+          data = send(what)
+        end
+        if data.is_a?(File)
+          send_file data.path
+        else
+          data
+        end
       end
-      if data.is_a?(File)
-        send_file data.path
-      else
-        data
-      end
+    rescue NoMethodError => e
+      @logger.warn "Invalid object #{what} requested."
+      raise Sinatra::NotFound
     end
   end
 

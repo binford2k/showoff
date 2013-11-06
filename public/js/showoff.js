@@ -17,12 +17,12 @@ var debugMode = false
 var gotoSlidenum = 0
 var shiftKeyActive = false
 var query
+var slideStartTime = new Date().getTime()
 
 var loadSlidesBool
 var loadSlidesPrefix
 
-var modeState = Object.freeze({"passive":1, "ping":2, "follow":3, "lead":4});
-var mode = modeState.ping
+var mode = { track: true, follow: false };
 
 function setupPreso(load_slides, prefix) {
 	if (preso_started)
@@ -44,7 +44,7 @@ function setupPreso(load_slides, prefix) {
 
 	// bind event handlers
 	document.onkeydown = keyDown
-	document.onkeyup = keyUp
+	document.onkeyup   = keyUp
 	/* window.onresize	= resized; */
 	/* window.onscroll = scrolled; */
 	/* window.onunload = unloaded; */
@@ -54,13 +54,18 @@ function setupPreso(load_slides, prefix) {
 		bind('swipeleft', swipeLeft).   // next
 		bind('swiperight', swipeRight); // prev
 
-  // start pinging the server
-  if(query.ping == 'false') mode = modeState.passive;
-  startActionLoop();
+  // give us the ability to disable tracking via url parameter
+  if(query.track == 'false') mode.track = false;
 
   // Make sure the slides always look right.
   // Better would be dynamic calculations, but this is enough for now.
   $(window).resize(function(){location.reload();});
+
+  // Open up our control socket
+  ws           = new WebSocket('ws://' + location.host + '/control');
+  ws.onopen    = function()  { console.log('control socket opened'); };
+  ws.onclose   = function()  { console.log('control socket closed'); }
+  ws.onmessage = function(m) { parseMessage(m.data); };
 }
 
 function loadSlides(load_slides, prefix) {
@@ -195,6 +200,8 @@ function showSlide(back_step, updatepv) {
   // allows the master presenter view to disable the update callback
   updatepv = (typeof(updatepv) === 'undefined') ? true : updatepv;
 
+  console.log("updatepv: "+ updatepv);
+
 	if(slidenum < 0) {
 		slidenum = 0
 		return
@@ -251,6 +258,8 @@ function showSlide(back_step, updatepv) {
     pv.incrSteps = incrSteps
 		pv.showSlide(true);
 		pv.postSlide();
+
+		pv.update();
 	}
 
 	return ret;
@@ -312,7 +321,42 @@ function showIncremental(incr)
 		}
 }
 
-function prevStep()
+function parseMessage(data) {
+  var command = JSON.parse(data);
+
+  if ("current" in command) { follow(command["current"]); }
+
+}
+
+function track() {
+  if (mode.track) {
+    var slideEndTime = new Date().getTime();
+    var elapsedTime  = slideEndTime - slideStartTime;
+
+    // reset the timer
+    slideStartTime = slideEndTime;
+
+    if (elapsedTime > 1000) {
+      elapsedTime /= 1000;
+      ws.send(JSON.stringify({ message: 'track', slide: slidenum, time: elapsedTime}));
+    }
+  }
+}
+
+function follow(slide) {
+  console.log("New slide: " + slide);
+  if (mode.follow) {
+    console.log("updating");
+    gotoSlide(slide);
+  }
+}
+
+function getPosition() {
+  // get the current position from the server
+  ws.send(JSON.stringify({ message: 'position' }));
+}
+
+function prevStep(updatepv)
 {
 	var event = jQuery.Event("showoff:prev");
 	$(currentSlide).find(".content").trigger(event);
@@ -320,11 +364,13 @@ function prevStep()
 			return;
 	}
 
+  track();
+
 	slidenum--
-	return showSlide(true) // We show the slide fully loaded
+	return showSlide(true, updatepv) // We show the slide fully loaded
 }
 
-function nextStep()
+function nextStep(updatepv)
 {
 	var event = jQuery.Event("showoff:next");
 	$(currentSlide).find(".content").trigger(event);
@@ -332,9 +378,11 @@ function nextStep()
 			return;
 	}
 
+	track();
+
 	if (incrCurr >= incrSteps) {
 		slidenum++
-		return showSlide()
+		return showSlide(false, updatepv)
 	} else {
 		showIncremental(incrCurr);
 		var incrEvent = jQuery.Event("showoff:incr");
@@ -383,42 +431,16 @@ function toggleNotes()
 	}
 }
 
-function defaultMode() {
-  return (query.ping == 'false') ? modeState.passive : modeState.ping;
-}
-
 function toggleFollow()
 {
-  mode = (mode == modeState.follow) ? defaultMode() : modeState.follow;
+  mode.follow = ! mode.follow;
 
-  if(mode == modeState.follow) {
+  if(mode.follow) {
     $("#followMode").show().text('Follow Mode:');
+    getPosition();
   } else {
     $("#followMode").hide();
   }
-}
-
-function toggleLeader()
-{
-  mode = (mode == modeState.lead) ? defaultMode() : modeState.lead;
-
-  if(mode == modeState.lead) {
-    $("#followMode").show().text('Leader Mode:');
-  } else {
-    $("#followMode").hide();
-  }
-}
-
-// just splats up an indicator that we're following a remote
-function toggleRemote()
-{
-  try {
-    if(window.presenterView.mode == modeState.follow) {
-      $("#followMode").show().text('Remote Mode:');
-    } else {
-      $("#followMode").hide();
-    }
-  } catch(e) {}
 }
 
 function executeAnyCode()
@@ -446,9 +468,6 @@ function debug(data)
 function keyDown(event)
 {
 	var key = event.keyCode;
-
-	// if we're a slave window, reset the master timeout
-	try { window.presenterView.resetModeTimer() } catch (e) {}
 
 	if (event.ctrlKey || event.altKey || event.metaKey)
 		return true;
@@ -881,42 +900,6 @@ function StyleListMenuItem(t)
  End Style-Picker Code
  ********************/
 
-
-/********************
- Analytics and Follower
- ********************/
-
-function startActionLoop()
-{
-  // The ping() function tells the server which page we are on.
-  // The hostname is recorded to keep track of how much time viewers spend on each slide.
-  //
-  // If follow mode is enabled, then call getpage() to go to the page the presenter is on.
-  //
-  // If we are leading, then just send the current page to the server, along with a key if set.
-  var action = function() {
-    switch(mode) {
-      case modeState.passive:
-        console.log('no op');
-        break;
-      case modeState.ping:
-        console.log('ping!');
-        $.get("/ping", { page: slidenum } );
-        break;
-      case modeState.follow:
-        console.log('follow');
-        $.get("/getpage", function(data) { gotoSlide(data); });
-        break;
-      case modeState.lead:
-        console.log('lead');
-        $.get("/update", { page: slidenum, key: query.key } );
-        break;
-    }
-	}
-
-	$.ajaxSetup({ timeout: 1000 });
-	actionLoop = setInterval(action, 1000);
-}
 
 /********************
  Stats page
