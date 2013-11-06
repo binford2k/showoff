@@ -57,7 +57,7 @@ For example:
 This lets you keep the ability to emit an HTML document from your Markdown source
 file -- say, for a TextMate preview or a GitHub rendering
 
-== Markdown format
+== Markdown Format
 
 Showoff renders Markdown format as documented at http://daringfireball.net/projects/markdown/syntax.
 Extensions to the language are documented below.
@@ -82,7 +82,7 @@ Some useful styles for each slide are:
 
 Check out the example directory included to see examples of most of these.
 
-= Supplemental materials
+= Supplemental Materials
 
 Supplemental materials may be created by including <tt>supplemental</tt> and the name of a type
 in the <!SLIDE> styles. For example, you might have a slide like
@@ -103,54 +103,100 @@ it extraordinarily easy to reorder the presentation.
 Transitions can be supplied through the use of transition=tname on the !SLIDE
 definition, where tname is one of the following supported transitions:
 
-* blindX
-* blindY
-* blindZ
-* cover
-* curtainX
-* curtainY
-* fade
-* fadeZoom
-* growX
-* growY
-* none (this is the default)
-* scrollUp
-* scrollDown
-* scrollLeft
-* scrollRight
-* scrollHorz
-* scrollVert
-* shuffle
-* slideX
-* slideY
-* toss
-* turnUp
-* turnDown
-* turnLeft
-* turnRight
-* uncover
-* wipe
-* zoom
+- blindX
+- blindY
+- blindZ
+- cover
+- curtainX
+- curtainY
+- fade
+- fadeZoom
+- growX
+- growY
+- none (this is the default)
+- scrollUp
+- scrollDown
+- scrollLeft
+- scrollRight
+- scrollHorz
+- scrollVert
+- shuffle
+- slideX
+- slideY
+- toss
+- turnUp
+- turnDown
+- turnLeft
+- turnRight
+- uncover
+- wipe
+- zoom
 
 The transitions are provided by jQuery Cycle plugin. See http://www.malsup.com/jquery/cycle/browser.html to view the effects and http://www.malsup.com/jquery/cycle/adv2.html for how to add custom effects.
 
-= Language highlighting
+= Language Highlighting
 
-Showoff uses {shjs}[http://shjs.sourceforge.net/] to highlight code blocks.
-If you begin a code block with three @-signs followed by a
-{programming language name}[http://shjs.sourceforge.net/doc/documentation.html],
-that line will be stripped and the rest of the block will become sparkly
-and colorful.
+Showoff uses {shjs}[http://shjs.sourceforge.net/] to highlight code blocks. If you begin a
+code block with three @-signs followed by a programming language name, that line will be
+stripped and the rest of the block will become sparkly and colorful.
 
-    @@@ ruby
+    @@@ Ruby
     10.times { puts "Whee!" }
 
-Supported languages and instructions for adding support for new languages can be found at
-http://shjs.sourceforge.net/doc/documentation.html
+Supported languages include:
+
+- Bison
+- C
+- Caml
+- Changelog
+- Coffeescript
+- Cpp
+- Csharp
+- Css
+- Cucumber
+- Desktop
+- Diff
+- Erlang
+- Flex
+- Glsl
+- Haxe
+- Html
+- Ini
+- Java
+- Javascript
+- Javascript_dom
+- Latex
+- Ldap
+- Log
+- Lsm
+- M4
+- Makefile
+- Oracle
+- Pascal
+- Perl
+- Php
+- Prolog
+- Properties
+- Puppet
+- Puppet_output
+- Python
+- Ruby
+- Scala
+- Sh
+- Shell
+- Slang
+- Sml
+- Spec
+- Sql
+- Tcl
+- Xml
+- Xorg
+
+Instructions for adding support for new languages can be found at http://shjs.sourceforge.net/doc/documentation.html
 
 = Sections
 
-== Presenter notes:
+== Presenter Notes
 
 Surround presenter notes with <tt>~~SECTION:notes~~</tt> and <tt>~~ENDSECTION~~</tt> tags. It will
 display in the bottom section of the presenter view. The footer on the display window
@@ -177,12 +223,28 @@ Handout notes are best viewed by printing the <tt>/onepage</tt> view from your b
 be printed on a new page and handout notes will be included below the slide contents. Handout notes can
 contain any markup that the slide itself can.
 
-= Other tags
+= Other Tags
 
-[~~~SECTION:MAJOR~~~] This is the section major number. It is a counter that increments each time a subsection tag is encountered.
-[~~~SECTION:MINOR~~~] This is the section minor number. It is incremented each time it is used and reset each time a subsection tag is encountered.
-[~~~PAGEBREAK~~~] Just generates a <code><div class="break">continued...</div></code> HTML snippet.
-[~~~TOC~~~] Generates a Table of Contents with links to section titles. Some renderers (such as PrinceXML) are able to autonumber the table.
+[~~~SECTION:MAJOR~~~]
+  This is the section major number. It is a counter that increments each time a subsection tag is
+  encountered.
+
+[~~~SECTION:MINOR~~~]
+  This is the section minor number. It is incremented each time it is used and reset each time a
+  subsection tag is encountered.
+
+[~~~FILE:filename.ext~~~]
+[~~~FILE:filename.ext:filetype~~~]
+  Includes the content of a file in the <tt>_files</tt> directory on the slide as code. If the
+  optional <tt>filetype</tt> is included then the code block will be syntax highlighted appropriately.
+
+[~~~PAGEBREAK~~~]
+  Just generates a <code><div class="break">continued...</div></code> HTML snippet which is styled
+  as a hard page break in modern HTML rendering engines.
+
+[~~~TOC~~~]
+  Generates a Table of Contents using the subsection titles. Some renderers (such as
+  PrinceXML[http://www.princexml.com]) are able to autonumber the table with links to content.
 
 = Preshow
 
@@ -192,7 +254,7 @@ If you then press 'p' at the beginning of your presentation, it will prompt you 
 you start.  Then it will count down the time until then, flipping through your pictures to entertain the
 audience in the meantime.  Press 'p' again to stop, or wait until the timer runs out.
 
-= Download files
+= Download Files
 
 Add a line that starts with <tt>.download</tt> and contains the name of a file in the <tt>_files</tt>
 subdirectory of your presentation.
@@ -200,16 +262,19 @@ subdirectory of your presentation.
     .download file.tar.gz
 
 Once the instructor has viewed the next slide in your presentation, the file listed here will
-be available to download on the <tt>/download</tt> page.
+be available to download on the <tt>/download</tt> page. For example, if the file was referenced
+on page #42, then the file would be listed when the instructor advances to slide #43.
+
+<em>Note, this means only the *next* slide, not any subsequent slide.</em>
 
 To share files on an ad-hoc basis, the instructor can simply drop files into <tt>_files/share</tt>.
 All files existing in this directory will be listed when students hit the download page. Showoff
 does not need to be restarted, even if you drop files in here during a presentation.
 
 
-= Showing plain old markdown
+= Showing Plain Old Markdown
 
-If a markdown file has no !SLIDE keywords, then showoff will treat every line
+If a Markdown file has no !SLIDE keywords, then Showoff will treat every line
 beginning with a single hash -- i.e. every H1 -- as a new slide in "bullets"
 style. Remember that you can't specify classes or transitions in this mode,
 and as soon as you add one !SLIDE you need them everywhere.
@@ -432,9 +497,7 @@ as the last slide in that dir (use -u to avoid numbering). Without those, output
 stdout (useful for shelling out from your editor). You may also specify a source file to use for a code
 slide.
 
-=== options for add
-
-These options are specified *after* the command.
+Options are specified *after* the command.
 
 [<tt>-d, --dir=dir</tt>] Slide dir (where to put a new slide file)
 [<tt>-n, --name=basename</tt>] Slide name (name of the new slide file)
@@ -452,9 +515,7 @@ Create new showoff presentation
 
 This command helps start a new showoff presentation by setting up the proper directory structure for you.  It takes the directory name you would like showoff to create for you.
 
-=== options for create
-
-These options are specified *after* the command.
+Options are specified *after* the command.
 
 [<tt>-d, --slidedir=arg</tt>] sample slide directory name <i>( default: <tt>one</tt>)</i>
 [<tt>-n, --nosamples</tt>] Dont create sample slides
