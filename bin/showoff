@@ -202,4 +202,3 @@ if GLI::VERSION.to_f > 1
 else
   exit GLI.run(ARGV)
 end
-

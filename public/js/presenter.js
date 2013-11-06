@@ -14,20 +14,18 @@ $(document).ready(function(){
 			if ($(this).next().is('ul')) {
 				$(this).next().toggle()
 			} else {
-				// pause follow mode for 30 seconds
-				resetModeTimer();
-
-				gotoSlide($(this).attr('rel'))
-				try { slaveWindow.gotoSlide($(this).attr('rel')) } catch (e) {}
-				postSlide()
+				gotoSlide($(this).attr('rel'));
+				try { slaveWindow.gotoSlide($(this).attr('rel'), false) } catch (e) {}
+				postSlide();
+				update();
 			}
-			return false
-		}).next().hide()
+			return false;
+		}).next().hide();
 	});
 
-  $("#minStop").hide()
-  $("#startTimer").click(function() { toggleTimer() })
-  $("#stopTimer").click(function() { toggleTimer() })
+  $("#minStop").hide();
+  $("#startTimer").click(function() { toggleTimer() });
+  $("#stopTimer").click(function() { toggleTimer() });
 
   /* zoom slide to match preview size, then set up resize handler. */
   zoom();
@@ -57,12 +55,11 @@ $(document).ready(function(){
     bind('swipeleft', presNextStep).  // next
     bind('swiperight', presPrevStep); // prev
 
-  // set up the mode & timeout.
-  setDefaultMode();
-  resetModeTimer();
+  // set up the presenter modes
+  mode = { track: false, follow: true, update: true };
 
-  $('#remoteToggle').change( setFollowMode );
-  $('#followerToggle').change( setDefaultMode );
+  $('#remoteToggle').change( toggleFollower );
+  $('#followerToggle').change( toggleUpdater );
 
   $('#topbar #update').click( function(e) {
     e.preventDefault();
@@ -110,15 +107,16 @@ function openSlave()
 {
   try {
     if(slaveWindow == null || typeof(slaveWindow) == 'undefined' || slaveWindow.closed){
-        slaveWindow = window.open('/?ping=false' + window.location.hash);
+        slaveWindow = window.open('/' + window.location.hash);
     }
     else if(slaveWindow.location.hash != window.location.hash) {
       // maybe we need to reset content?
-      slaveWindow.location.href = '/?ping=false' + window.location.hash;
+      slaveWindow.location.href = '/' + window.location.hash;
     }
 
     // maintain the pointer back to the parent.
     slaveWindow.presenterView = window;
+    slaveWindow.mode = { track: false, slave: true, follow: false };
   }
   catch(e) {
     console.log('Failed to open or connect slave window. Popup blocker?');
@@ -158,11 +156,19 @@ gotoSlide = function (slideNum)
     postSlide()
 }
 
+function update() {
+  if(mode.update) {
+    ws.send(JSON.stringify({ message: 'update', slide: slidenum}));
+  }
+}
+
 function presPrevStep()
 {
-    prevStep()
-    try { slaveWindow.prevStep() } catch (e) {}
-    postSlide()
+    prevStep();
+    try { slaveWindow.prevStep(false) } catch (e) {};
+    postSlide();
+
+    update();
 }
 
 function presNextStep()
@@ -172,14 +178,17 @@ function presNextStep()
     incrCurr = slaveWindow.incrCurr
     incrSteps = slaveWindow.incrSteps
 */
-	nextStep()
-	try { slaveWindow.nextStep() } catch (e) {}
-	postSlide()
+	nextStep();
+	try { slaveWindow.nextStep(false) } catch (e) {};
+	postSlide();
+
+	update();
 }
 
 function postSlide()
 {
 	if(currentSlide) {
+/*
 		try {
 		  // whuuuu?
 		  var notes = slaveWindow.getCurrentNotes()
@@ -187,8 +196,11 @@ function postSlide()
 		catch(e) {
 		  var notes = getCurrentNotes()
 		}
-		var fileName = currentSlide.children().first().attr('ref')
+*/
+    var notes = getCurrentNotes()
 		$('#notes').html(notes.html())
+
+		var fileName = currentSlide.children().first().attr('ref')
 		$('#slideFile').text(fileName)
 	}
 }
@@ -197,9 +209,6 @@ function postSlide()
 function keyDown(event)
 {
 	var key = event.keyCode;
-
-	// pause follow mode for 30 seconds
-	resetModeTimer();
 
 	if (event.ctrlKey || event.altKey || event.metaKey)
 		return true;
@@ -368,38 +377,21 @@ function mobile() {
 /********************
  Follower Code
  ********************/
-function setFollowMode()
+function toggleFollower()
 {
-  console.log('starting follower');
-  if($("#remoteToggle").attr("checked")) {
-    mode = modeState.follow;
-    $("#enableRemote").addClass('active');
-  } else {
-    setDefaultMode();
-  }
-
-  try { slaveWindow.toggleRemote(); } catch(e) {};
+  mode.follow = $("#remoteToggle").attr("checked");
+  getPosition();
 }
 
+function toggleUpdater()
+{
+  mode.update = $("#followerToggle").attr("checked");
+  update();
+}
+
+/*
 // redefine defaultMode
 defaultMode = function() {
-  var defaultState = mobile() ? modeState.follow : modeState.passive;
-  return $("#followerToggle").attr("checked") ? modeState.lead : defaultState;
+  return mobile() ? modeState.follow : modeState.passive;
 }
-
-function setDefaultMode() {
-  mode = defaultMode();
-  $("#enableRemote").removeClass('active');
-  try { slaveWindow.toggleRemote(); } catch(e) {};
-}
-
-// if no action for 30 seconds, then start following
-function resetModeTimer() {
-  // we don't want the follow mode fiddled with if we're on the mobile version
-  if(mobile()) return;
-
-  console.log('reset mode timer');
-  setDefaultMode();
-  try { clearTimeout(countTimer); } catch(e) {}
-  countTimer = setTimeout(setFollowMode, 30000);
-}
+*/

@@ -42,7 +42,7 @@ div.zoomed {
     border-radius: 0.5em;
   }
   #links a:hover {
-    background-color: #555; 
+    background-color: #555;
   }
 
   #topbar #links .mobile {
@@ -89,7 +89,7 @@ div.zoomed {
       display: block;
       color: #000;
       margin: 1px;
-      padding: 0.25em;     
+      padding: 0.25em;
       -moz-border-radius: 0.25em;
       -webkit-border-radius: 0.25em;
       -khtml-border-radius: 0.25em;
@@ -224,7 +224,6 @@ a.controls {
     overflow: hidden;
   }
   #topbar #links .desktop,
-  #statusbar #enableRemote,
   #zoomer,
   #separator,
   #stylepicker {
@@ -247,11 +246,13 @@ a.controls {
   #statusbar * {
     vertical-align: top;
   }
+  #statusbar #enableRemote,
   #statusbar #enableFollower {
     border: none;
     margin: 0;
     padding: 0;
   }
+  #statusbar #remoteToggle,
   #statusbar #followerToggle {
     line-height: 1em;
     height: 1em;
