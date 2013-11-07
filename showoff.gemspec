@@ -23,7 +23,8 @@ Gem::Specification.new do |s|
   s.add_dependency      "gli",">= 1.3.2"
   s.add_dependency      "parslet"
   s.add_dependency      "htmlentities"
-
+  s.add_dependency      "sinatra-websocket"
+  
   # both gems fail to build on Ruby 1.8.7, the default in older OS X
   if RUBY_VERSION.to_f < 1.9
     s.add_dependency      "redcarpet", "< 3.0.0"
