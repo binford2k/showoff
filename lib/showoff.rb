@@ -870,6 +870,7 @@ class ShowOff < Sinatra::Application
           @logger.warn "Open sockets: #{settings.sockets.size}"
         end
         ws.onmessage do |data|
+          begin
           control = JSON.parse(data)
 
           @logger.info "#{control.inspect}"
@@ -912,10 +913,28 @@ class ShowOff < Sinatra::Application
           when 'position'
             ws.send( { 'current' => @@current }.to_json )
 
+          when 'feedback'
+            slide    = control['slide']
+            rating   = control['rating']
+            feedback = control['feedback']
+
+            File.open("feedback.json", "w+") do |f|
+              data = JSON.load(f) || Hash.new
+
+              data[slide] ||= Array.new
+              data[slide] << { :rating => rating, :feedback => feedback }
+              f.write data.to_json
+            end
+
+
           else
-            @logger.debug "Unknown message <#{control['message']}> received."
+            @logger.warn "Unknown message <#{control['message']}> received."
+            @logger.warn control.inspect
           end
 
+          rescue Exception => e
+            @logger.warn "Hah! Shit blew up: #{e}"
+          end
         end
         ws.onclose do
           @logger.warn("websocket closed")
@@ -968,8 +987,9 @@ class ShowOff < Sinatra::Application
 
   at_exit do
     if defined?(@@counter)
-      viewstats = File.new("viewstats.json", "w")
-      viewstats.write @@counter.to_json
+      File.open("viewstats.json", "w") do |f|
+        f.write @@counter.to_json
+      end
     end
   end
 end

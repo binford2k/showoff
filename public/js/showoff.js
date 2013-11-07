@@ -19,6 +19,9 @@ var shiftKeyActive = false
 var query
 var slideStartTime = new Date().getTime()
 
+var questionPrompt = 'Ask a question...'
+var feedbackPrompt = 'Why?...'
+
 var loadSlidesBool
 var loadSlidesPrefix
 
@@ -60,6 +63,35 @@ function setupPreso(load_slides, prefix) {
   // Make sure the slides always look right.
   // Better would be dynamic calculations, but this is enough for now.
   $(window).resize(function(){location.reload();});
+
+  $("#sidebarWrapper").hover(
+    function() {
+      $('#sidebar').show();
+      document.onkeydown = null;
+      document.onkeyup   = null;
+    },
+    function() {
+      $('#sidebar').hide();
+      document.onkeydown = keyDown;
+      document.onkeyup   = keyUp;
+    }
+  );
+
+  $("#paceSlow").click(function() { sendPace('slow'); });
+  $("#paceFast").click(function() { sendPace('fast'); });
+  $("#askQuestion").click(function() { askQuestion( $("textarea#question").val()) });
+  $("#sendFeedback").click(function() {
+    sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("textarea#feedback").val())
+  });
+
+  $("textarea#question").val(questionPrompt);
+  $("textarea#feedback").val(feedbackPrompt);
+  $("textarea#question").focus(function() { clearIf($(this), questionPrompt) });
+  $("textarea#feedback").focus(function() { clearIf($(this), feedbackPrompt) });
+
+  $('.slide .content').each(function(index) {
+    $(this).prepend('<div id="slideFilename">' + $(this).attr('ref') + '</div>');
+  });
 
   // Open up our control socket
   ws           = new WebSocket('ws://' + location.host + '/control');
@@ -250,6 +282,9 @@ function showSlide(back_step, updatepv) {
 
 	var ret = setCurrentNotes();
 
+	var fileName = currentSlide.children().first().attr('ref');
+  $('#slideFilename').text(fileName);
+
   // Update presenter view, if we spawned one
 	if (updatepv && 'presenterView' in window) {
     var pv = window.presenterView;
@@ -321,11 +356,32 @@ function showIncremental(incr)
 		}
 }
 
+function clearIf(elem, val) {
+  console.log(elem.val());
+  console.log(val);
+  if(elem.val() == val ) { elem.val(''); }
+}
+
 function parseMessage(data) {
   var command = JSON.parse(data);
 
   if ("current" in command) { follow(command["current"]); }
 
+}
+
+function sendPace(pace) {
+  ws.send(JSON.stringify({ message: 'pace', pace: pace}));
+}
+
+function askQuestion(question) {
+  ws.send(JSON.stringify({ message: 'question', question: question}));
+  $("textarea#question").val(questionPrompt);
+}
+
+function sendFeedback(rating, feedback) {
+  var slide  = $("#slideFilename").text();
+  ws.send(JSON.stringify({ message: 'feedback', rating: rating, feedback: feedback, slide: slide}));
+  $("textarea#feedback").val(feedbackPrompt);
 }
 
 function track() {
@@ -396,14 +452,11 @@ function nextStep(updatepv)
 function doDebugStuff()
 {
 	if (debugMode) {
-		$('#debugInfo').show()
-        $('.slide .content').each(function(index) {
-            $(this).prepend('<div id="debugFilename">' + $(this).attr('ref') + '</div>');
-        });
-		debug('debug mode on')
+	  $('#debugInfo').show();
+		$('#slideFilename').show();
 	} else {
-		$('#debugInfo').hide()
-		$('.content #debugFilename').remove()
+	  $('#debugInfo').hide();
+		$('#slideFilename').hide();
 	}
 }
 

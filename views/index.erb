@@ -13,6 +13,34 @@
 <a tabindex="1" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="stylemenu"><span class="ui-icon ui-icon-triangle-1-s"></span>styles</a>
 <div id="stylepicker" class="hidden"></div>
 
+<div id="sidebarWrapper">
+    <div id="sidebar">
+        <h3>Feedback</h3>
+        <div class="sidebarRow">
+          <h4>The presenter should...</h4>
+          <span class="buttonWrapper slow"><button id="paceSlow">Slow Down</button></span>
+          <span class="buttonWrapper fast"><button id="paceFast">Speed Up</button></span>
+        </div>
+        <div class="sidebarRow">
+          <textarea id="question"></textarea>
+          <button id="askQuestion">Ask a Question</button>
+        </div>
+        <div class="sidebarRow">
+          <h4>This slide is...</h4>
+          Terrible
+          <input type="radio" name="rating" value="1"></input>
+          <input type="radio" name="rating" value="2"></input>
+          <input type="radio" name="rating" value="3"></input>
+          <input type="radio" name="rating" value="4"></input>
+          <input type="radio" name="rating" value="5"></input>
+          Awesome
+          <textarea id="feedback"></textarea>
+          <button id="sendFeedback">Send Feedback</button>
+        </div>
+    </div>
+    <div id="sidebarHandle"></div>
+</div>
+
 <div id="help">
   <table>
     <tr><td class="key">z, ?</td><td>toggle help (this)</td></tr>
@@ -36,12 +64,13 @@
   <input type="submit" onClick="nextStep();" value="next"/>
 </div>
 
-<div id="preso">loading presentation...</div>
+<div id="preso"><center>loading presentation...</center></div>
 <div id="footer">
   <span id="followMode"></span>
   <span id="slideInfo"></span>
   <span id="debugInfo"></span>
   <span id="notesInfo"></span>
+  <span id="slideFilename"></span>
 </div>
 
 <div id="slides" class="offscreen" <%= 'style="display:none;"' if @slides %>>
