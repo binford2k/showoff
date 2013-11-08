@@ -34,6 +34,7 @@ class ShowOff < Sinatra::Application
 
   set :server, 'thin'
   set :sockets, []
+  set :presenters, []
 
   set :verbose, false
   set :pres_dir, '.'
@@ -896,6 +897,14 @@ class ShowOff < Sinatra::Application
               EM.next_tick { settings.sockets.each{|s| s.send({ 'current' => @@current }.to_json) } }
             end
 
+          when 'register'
+            # save a list of presenters
+            if valid_cookie()
+              remote = request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR']
+              settings.presenters << ws
+              @logger.warn "Registered new presenter: #{remote}"
+            end
+
           when 'track'
             remote = request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR']
             slide  = control['slide'].to_i
@@ -913,19 +922,23 @@ class ShowOff < Sinatra::Application
           when 'position'
             ws.send( { 'current' => @@current }.to_json )
 
+          when 'pace', 'question'
+            # just forward to the presenter(s)
+            EM.next_tick { settings.presenters.each{|s| s.send(data) } }
+
           when 'feedback'
             slide    = control['slide']
             rating   = control['rating']
             feedback = control['feedback']
 
-            File.open("feedback.json", "w+") do |f|
-              data = JSON.load(f) || Hash.new
+            filename = 'feedback.json'
+            data   = JSON.parse(File.read(filename)) if File.file?(filename)
+            data ||= Hash.new
 
-              data[slide] ||= Array.new
-              data[slide] << { :rating => rating, :feedback => feedback }
-              f.write data.to_json
-            end
+            data[slide] ||= Array.new
+            data[slide] << { :rating => rating, :feedback => feedback }
 
+            File.write(filename, data.to_json)
 
           else
             @logger.warn "Unknown message <#{control['message']}> received."

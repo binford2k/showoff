@@ -64,14 +64,14 @@ function setupPreso(load_slides, prefix) {
   // Better would be dynamic calculations, but this is enough for now.
   $(window).resize(function(){location.reload();});
 
-  $("#sidebarWrapper").hover(
+  $("#feedbackWrapper").hover(
     function() {
-      $('#sidebar').show();
+      $('#feedbackSidebar').show();
       document.onkeydown = null;
       document.onkeyup   = null;
     },
     function() {
-      $('#sidebar').hide();
+      $('#feedbackSidebar').hide();
       document.onkeydown = keyDown;
       document.onkeyup   = keyUp;
     }
@@ -89,14 +89,10 @@ function setupPreso(load_slides, prefix) {
   $("textarea#question").focus(function() { clearIf($(this), questionPrompt) });
   $("textarea#feedback").focus(function() { clearIf($(this), feedbackPrompt) });
 
-  $('.slide .content').each(function(index) {
-    $(this).prepend('<div id="slideFilename">' + $(this).attr('ref') + '</div>');
-  });
-
   // Open up our control socket
   ws           = new WebSocket('ws://' + location.host + '/control');
-  ws.onopen    = function()  { console.log('control socket opened'); };
-  ws.onclose   = function()  { console.log('control socket closed'); }
+  ws.onopen    = function()  { connected();          };
+  ws.onclose   = function()  { disconnected();       }
   ws.onmessage = function(m) { parseMessage(m.data); };
 }
 
@@ -362,10 +358,31 @@ function clearIf(elem, val) {
   if(elem.val() == val ) { elem.val(''); }
 }
 
+function connected() {
+  console.log('Control socket opened');
+  $("#feedbackSidebar button").attr("disabled", false);
+  $("img#disconnected").hide();
+}
+
+function disconnected() {
+  console.log('Control socket closed');
+  $("#feedbackSidebar button").attr("disabled", true);
+  $("img#disconnected").show();
+}
+
 function parseMessage(data) {
   var command = JSON.parse(data);
 
   if ("current" in command) { follow(command["current"]); }
+
+  // Presenter messages only, so catch errors if method doesn't exist
+  try {
+    if ("pace"     in command) { paceFeedback(command["pace"]);     }
+    if ("question" in command) {  askQuestion(command["question"]); }
+  }
+  catch(e) {
+    console.log("Not a presenter!" + e);
+  }
 
 }
 

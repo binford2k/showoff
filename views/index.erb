@@ -13,19 +13,20 @@
 <a tabindex="1" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="stylemenu"><span class="ui-icon ui-icon-triangle-1-s"></span>styles</a>
 <div id="stylepicker" class="hidden"></div>
 
-<div id="sidebarWrapper">
-    <div id="sidebar">
-        <h3>Feedback</h3>
-        <div class="sidebarRow">
+<div id="feedbackWrapper">
+    <div id="feedbackSidebar">
+        <h3>Live Interaction</h3>
+        <div class="row">
           <h4>The presenter should...</h4>
           <span class="buttonWrapper slow"><button id="paceSlow">Slow Down</button></span>
           <span class="buttonWrapper fast"><button id="paceFast">Speed Up</button></span>
         </div>
-        <div class="sidebarRow">
+        <div class="row">
           <textarea id="question"></textarea>
           <button id="askQuestion">Ask a Question</button>
         </div>
-        <div class="sidebarRow">
+        <h3>Material Feedback</h3>
+        <div class="row">
           <h4>This slide is...</h4>
           Terrible
           <input type="radio" name="rating" value="1"></input>
@@ -38,7 +39,7 @@
           <button id="sendFeedback">Send Feedback</button>
         </div>
     </div>
-    <div id="sidebarHandle"></div>
+    <div id="feedbackHandle"></div>
 </div>
 
 <div id="help">
@@ -71,6 +72,7 @@
   <span id="debugInfo"></span>
   <span id="notesInfo"></span>
   <span id="slideFilename"></span>
+  <img id="disconnected" src="/css/disconnected.png" />
 </div>
 
 <div id="slides" class="offscreen" <%= 'style="display:none;"' if @slides %>>

@@ -202,6 +202,11 @@ pre { margin: 1em 40px; padding: .25em; }
   background: #ccc;
   z-index: 2147483647;
 }
+img#disconnected {
+  float: right;
+  display: none;
+}
+
 #preshow { display: none; }
 /* define the screen blocking view */
 /* we define it as invisible because we use jQuery to animate its presentation */
@@ -225,7 +230,7 @@ pre { margin: 1em 40px; padding: .25em; }
 }
 
 
-#sidebarWrapper {
+#feedbackWrapper {
   float: left;
   height: 100%;
   position: fixed;
@@ -234,49 +239,49 @@ pre { margin: 1em 40px; padding: .25em; }
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
 }
 
-#sidebar {
+#feedbackSidebar {
   height: 100%;
   width: 200px;
   background: transparent url(grippy-close.png) no-repeat right center;
   display: none;
 }
 
-#sidebarHandle {
+#feedbackHandle {
   height: 100%;
   width: 9px;
   background: transparent url(grippy.png) no-repeat center;
 }
 
-div.sidebarRow {
+#feedbackSidebar div.row {
   text-align: center;
   border-bottom: 2px inset #ccc;
   margin: 5px 0;
   padding: 5px 0;
 }
 
-#sidebarWrapper h4 {
+#feedbackWrapper h4 {
   text-align: left;
   margin-left: 3px;
 }
-#sidebar span.buttonWrapper {
+#feedbackSidebar span.buttonWrapper {
   height: 60px;
   width: 85px;
   padding: 5px;
   display: inline-block;
 }
-#sidebar span.buttonWrapper button {
+#feedbackSidebar span.buttonWrapper button {
   margin: 44px auto 0 auto;
 }
 
-#sidebar span.buttonWrapper.slow {
+#feedbackSidebar span.buttonWrapper.slow {
   background: transparent url(slow.png) no-repeat center top;
 }
 
-#sidebar span.buttonWrapper.fast {
+#feedbackSidebar span.buttonWrapper.fast {
   background: transparent url(fast.png) no-repeat center top;
 }
 
-#sidebar textarea {
+#feedbackSidebar textarea {
   height: 85px;
   width: 85%;
 }
