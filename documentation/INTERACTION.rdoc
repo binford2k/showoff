@@ -27,6 +27,9 @@ The viewer will see a vertical grippy handle along the left side of the window.
 If they move their mouse pointer over this handle, the <em>Feedback Panel</em> will
 appear, exposing several control widgets.
 
+To enable this functionality, please set the key <tt>"feedback": true</tt> in your
+<tt>showoff.json</tt> files.
+
 ==== Live Interaction
 
 [Provide Pace Feedback]

@@ -875,81 +875,81 @@ class ShowOff < Sinatra::Application
         end
         ws.onmessage do |data|
           begin
-          control = JSON.parse(data)
+            control = JSON.parse(data)
 
-          @logger.info "#{control.inspect}"
+            @logger.warn "#{control.inspect}"
 
-          case control['message']
-          when 'update'
-            # websockets don't use the same auth standards
-            # we use a session cookie to identify the presenter
-            if valid_cookie()
-              slide = control['slide'].to_i
+            case control['message']
+            when 'update'
+              # websockets don't use the same auth standards
+              # we use a session cookie to identify the presenter
+              if valid_cookie()
+                slide = control['slide'].to_i
 
-              # check to see if we need to enable a download link
-              if @@downloads.has_key?(slide)
-                @logger.debug "Enabling file download for slide #{slide}"
-                @@downloads[slide][0] = true
+                # check to see if we need to enable a download link
+                if @@downloads.has_key?(slide)
+                  @logger.debug "Enabling file download for slide #{slide}"
+                  @@downloads[slide][0] = true
+                end
+
+                # update the current slide pointer
+                @logger.debug "Updated current slide to #{slide}"
+                @@current = slide
+
+                # schedule a notification for all clients
+                EM.next_tick { settings.sockets.each{|s| s.send({ 'current' => @@current }.to_json) } }
               end
 
-              # update the current slide pointer
-              @logger.debug "Updated current slide to #{slide}"
-              @@current = slide
+            when 'register'
+              # save a list of presenters
+              if valid_cookie()
+                remote = request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR']
+                settings.presenters << ws
+                @logger.warn "Registered new presenter: #{remote}"
+              end
 
-              # schedule a notification for all clients
-              EM.next_tick { settings.sockets.each{|s| s.send({ 'current' => @@current }.to_json) } }
-            end
-
-          when 'register'
-            # save a list of presenters
-            if valid_cookie()
+            when 'track'
               remote = request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR']
-              settings.presenters << ws
-              @logger.warn "Registered new presenter: #{remote}"
+              slide  = control['slide']
+              time   = control['time'].to_f
+
+              @logger.debug "Logged #{time} on slide #{slide} for #{remote}"
+
+              # a bucket for this slide
+              @@counter[slide] ||= Hash.new
+              # a counter for this viewer
+              @@counter[slide][remote] ||= 0
+              # and add the elapsed time
+              @@counter[slide][remote] += time
+
+            when 'position'
+              ws.send( { 'current' => @@current }.to_json )
+
+            when 'pace', 'question'
+              # just forward to the presenter(s)
+              EM.next_tick { settings.presenters.each{|s| s.send(data) } }
+
+            when 'feedback'
+              slide    = control['slide']
+              rating   = control['rating']
+              feedback = control['feedback']
+
+              filename = 'feedback.json'
+              log      = JSON.parse(File.read(filename)) if File.file?(filename)
+              log    ||= Hash.new
+
+              log[slide] ||= Array.new
+              log[slide]  << { :rating => rating, :feedback => feedback }
+
+              File.write(filename, log.to_json)
+
+            else
+              @logger.warn "Unknown message <#{control['message']}> received."
+              @logger.warn control.inspect
             end
-
-          when 'track'
-            remote = request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR']
-            slide  = control['slide'].to_i
-            time   = control['time'].to_f
-
-            @logger.debug "Logged #{time} on slide #{slide} for #{remote}"
-
-            # a bucket for this slide
-            @@counter[slide] ||= Hash.new
-            # a counter for this viewer
-            @@counter[slide][remote] ||= 0
-            # and add the elapsed time
-            @@counter[slide][remote] += time
-
-          when 'position'
-            ws.send( { 'current' => @@current }.to_json )
-
-          when 'pace', 'question'
-            # just forward to the presenter(s)
-            EM.next_tick { settings.presenters.each{|s| s.send(data) } }
-
-          when 'feedback'
-            slide    = control['slide']
-            rating   = control['rating']
-            feedback = control['feedback']
-
-            filename = 'feedback.json'
-            data   = JSON.parse(File.read(filename)) if File.file?(filename)
-            data ||= Hash.new
-
-            data[slide] ||= Array.new
-            data[slide] << { :rating => rating, :feedback => feedback }
-
-            File.write(filename, data.to_json)
-
-          else
-            @logger.warn "Unknown message <#{control['message']}> received."
-            @logger.warn control.inspect
-          end
 
           rescue Exception => e
-            @logger.warn "Hah! Shit blew up: #{e}"
+            @logger.warn "Messaging error: #{e}"
           end
         end
         ws.onclose do

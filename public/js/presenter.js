@@ -145,8 +145,8 @@ function askQuestion(question) {
 function paceFeedback(pace) {
   var now = new Date();
   switch(pace) {
-    case 'fast': paceData.push({time: now, pace: -1}); break; // too fast
-    case 'slow': paceData.push({time: now, pace:  1}); break; // too slow
+    case 'faster': paceData.push({time: now, pace: -1}); break; // too fast
+    case 'slower': paceData.push({time: now, pace:  1}); break; // too slow
   }
 
   updatePace();

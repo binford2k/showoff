@@ -273,11 +273,11 @@ img#disconnected {
   margin: 44px auto 0 auto;
 }
 
-#feedbackSidebar span.buttonWrapper.slow {
+#feedbackSidebar span.buttonWrapper.slower {
   background: transparent url(slow.png) no-repeat center top;
 }
 
-#feedbackSidebar span.buttonWrapper.fast {
+#feedbackSidebar span.buttonWrapper.faster {
   background: transparent url(fast.png) no-repeat center top;
 }
 

@@ -77,8 +77,8 @@ function setupPreso(load_slides, prefix) {
     }
   );
 
-  $("#paceSlow").click(function() { sendPace('slow'); });
-  $("#paceFast").click(function() { sendPace('fast'); });
+  $("#paceSlower").click(function() { sendPace('slower'); });
+  $("#paceFaster").click(function() { sendPace('faster'); });
   $("#askQuestion").click(function() { askQuestion( $("textarea#question").val()) });
   $("#sendFeedback").click(function() {
     sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("textarea#feedback").val())
@@ -227,8 +227,6 @@ function showFirstSlide() {
 function showSlide(back_step, updatepv) {
   // allows the master presenter view to disable the update callback
   updatepv = (typeof(updatepv) === 'undefined') ? true : updatepv;
-
-  console.log("updatepv: "+ updatepv);
 
 	if(slidenum < 0) {
 		slidenum = 0
@@ -399,10 +397,12 @@ function sendFeedback(rating, feedback) {
   var slide  = $("#slideFilename").text();
   ws.send(JSON.stringify({ message: 'feedback', rating: rating, feedback: feedback, slide: slide}));
   $("textarea#feedback").val(feedbackPrompt);
+  $("input:radio[name=rating]:checked").attr('checked', false);
 }
 
 function track() {
   if (mode.track) {
+    var slideName    = $("#slideFilename").text();
     var slideEndTime = new Date().getTime();
     var elapsedTime  = slideEndTime - slideStartTime;
 
@@ -411,7 +411,7 @@ function track() {
 
     if (elapsedTime > 1000) {
       elapsedTime /= 1000;
-      ws.send(JSON.stringify({ message: 'track', slide: slidenum, time: elapsedTime}));
+      ws.send(JSON.stringify({ message: 'track', slide: slideName, time: elapsedTime}));
     }
   }
 }
