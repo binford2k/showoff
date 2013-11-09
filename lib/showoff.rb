@@ -566,11 +566,14 @@ class ShowOff < Sinatra::Application
 
         @asset_path = "./"
       end
+
+      # Check to see if the presentation has enabled feedback
+      @feedback = settings.showoff_config['feedback']
       erb :index
     end
 
     def presenter
-      @issues   = settings.showoff_config['issues']
+      @issues    = settings.showoff_config['issues']
       @@cookie ||= guid()
       response.set_cookie('presenter', @@cookie)
       erb :presenter

@@ -13,6 +13,7 @@
 <a tabindex="1" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="stylemenu"><span class="ui-icon ui-icon-triangle-1-s"></span>styles</a>
 <div id="stylepicker" class="hidden"></div>
 
+<% if @feedback then %>
 <div id="feedbackWrapper">
     <div id="feedbackSidebar">
         <h3>Live Interaction</h3>
@@ -41,6 +42,7 @@
     </div>
     <div id="feedbackHandle"></div>
 </div>
+<% end %>
 
 <div id="help">
   <table>
