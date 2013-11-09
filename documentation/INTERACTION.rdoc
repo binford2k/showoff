@@ -7,6 +7,8 @@ years ago!
 == Viewer Functionality
 
 There are several ways that the audience can interact with you and the presentation.
+If there is a connection problem making this interaction unusable, the controls will
+be disabled and a disconnected icon will appear in the lower left.
 
 === Presentation Control
 
@@ -48,6 +50,9 @@ appear, exposing several control widgets.
 
 The presentation control panel provides many tools for interacting with your audience.
 They are summarized here. This information exists in greater detail in the USAGE document.
+
+If there is a connection problem making interaction with your audience unusable, a
+disconnected icon will appear in the top right of the presentation preview.
 
 [Pace Feedback Gauge]
   When the audience provides pace feedback for you, it will appear on this gauge. You should
