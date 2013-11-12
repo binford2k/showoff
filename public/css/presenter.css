@@ -201,6 +201,8 @@ img#disconnected {
   #questions {
     float: left;
     width: 25%;
+    min-width: 210px;
+    border-right: 2px solid #ccc;
     font-size: 1.5em;
     overflow: auto;
     height: 100%;
@@ -217,7 +219,7 @@ img#disconnected {
 
   #notes {
     float: right;
-    width: 75%;
+    width: 74%;
     font-size: 1.5em;
     overflow: auto;
     height: 100%;

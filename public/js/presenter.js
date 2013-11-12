@@ -93,8 +93,6 @@ function popupLoader(elem, page, id, event)
       var link = '<p class="newpage"><a href="' + page + '" target="_new">Open in new page...</a>';
       var content = '<div id="' + id + '">' + $(data).find('#wrapper').html() + link + '</div>';
 
-      console.log(content);
-
       elem.attr('title', content);
       elem.attr('open', true)
       elem.tipsy("show");
@@ -129,7 +127,6 @@ function openSlave()
   }
   catch(e) {
     console.log('Failed to open or connect slave window. Popup blocker?');
-    console.log(e);
   }
 
   // Set up a maintenance loop to keep the connection between windows. I wish there were a cleaner way to do this.
@@ -174,7 +171,7 @@ function updatePace() {
   }
 
   position = Math.max(Math.min(sum, 90), 10); // between 10 and 90
-  console.log("Updating pace position as: " + position);
+  console.log("Updating pace: " + position);
   $("#paceMarker").css({ left: position+"%" });
 
   if(position > 75) { $("#paceFast").show() } else { $("#paceFast").hide() }

@@ -379,7 +379,7 @@ function parseMessage(data) {
     if ("question" in command) {  askQuestion(command["question"]); }
   }
   catch(e) {
-    console.log("Not a presenter!" + e);
+    console.log("Not a presenter!");
   }
 
 }
@@ -417,9 +417,8 @@ function track() {
 }
 
 function follow(slide) {
-  console.log("New slide: " + slide);
   if (mode.follow) {
-    console.log("updating");
+    console.log("New slide: " + slide);
     gotoSlide(slide);
   }
 }

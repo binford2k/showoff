@@ -923,7 +923,7 @@ class ShowOff < Sinatra::Application
               @@counter[slide][remote] += time
 
             when 'position'
-              ws.send( { 'current' => @@current }.to_json )
+              ws.send( { 'current' => @@current }.to_json ) unless @@cookie.nil?
 
             when 'pace', 'question'
               # just forward to the presenter(s)
