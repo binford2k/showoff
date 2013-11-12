@@ -90,10 +90,13 @@ function setupPreso(load_slides, prefix) {
   $("textarea#feedback").focus(function() { clearIf($(this), feedbackPrompt) });
 
   // Open up our control socket
+  connectControlChannel();
+/*
   ws           = new WebSocket('ws://' + location.host + '/control');
   ws.onopen    = function()  { connected();          };
   ws.onclose   = function()  { disconnected();       }
   ws.onmessage = function(m) { parseMessage(m.data); };
+*/
 }
 
 function loadSlides(load_slides, prefix) {
@@ -356,16 +359,37 @@ function clearIf(elem, val) {
   if(elem.val() == val ) { elem.val(''); }
 }
 
+function connectControlChannel() {
+  ws           = new WebSocket('ws://' + location.host + '/control');
+  ws.onopen    = function()  { connected();          };
+  ws.onclose   = function()  { disconnected();       }
+  ws.onmessage = function(m) { parseMessage(m.data); };
+}
+
+// This exists as an intermediary simply so the presenter view can override it
+function reconnectControlChannel() {
+  connectControlChannel();
+}
+
 function connected() {
   console.log('Control socket opened');
   $("#feedbackSidebar button").attr("disabled", false);
   $("img#disconnected").hide();
+
+  try {
+    // If we are a presenter, then remind the server where we are
+    update();
+    register();
+  }
+  catch (e) {}
 }
 
 function disconnected() {
   console.log('Control socket closed');
   $("#feedbackSidebar button").attr("disabled", true);
   $("img#disconnected").show();
+
+  setTimeout(function() { reconnectControlChannel() } , 5000);
 }
 
 function parseMessage(data) {
@@ -386,11 +410,13 @@ function parseMessage(data) {
 
 function sendPace(pace) {
   ws.send(JSON.stringify({ message: 'pace', pace: pace}));
+  feedbackActivity();
 }
 
 function askQuestion(question) {
   ws.send(JSON.stringify({ message: 'question', question: question}));
   $("textarea#question").val(questionPrompt);
+  feedbackActivity();
 }
 
 function sendFeedback(rating, feedback) {
@@ -398,6 +424,12 @@ function sendFeedback(rating, feedback) {
   ws.send(JSON.stringify({ message: 'feedback', rating: rating, feedback: feedback, slide: slide}));
   $("textarea#feedback").val(feedbackPrompt);
   $("input:radio[name=rating]:checked").attr('checked', false);
+  feedbackActivity();
+}
+
+function feedbackActivity() {
+  $("img#feedbackActivity").show();
+  setTimeout(function() { $("img#feedbackActivity").hide() }, 1000);
 }
 
 function track() {

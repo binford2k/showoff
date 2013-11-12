@@ -246,6 +246,13 @@ img#disconnected {
   display: none;
 }
 
+#feedbackSidebar img#feedbackActivity {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  display: none;
+}
+
 #feedbackHandle {
   height: 100%;
   width: 9px;

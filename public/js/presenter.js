@@ -205,6 +205,25 @@ gotoSlide = function (slideNum)
     postSlide()
 }
 
+// override with an alternate implementation.
+// We need to do this before opening the websocket because the socket only
+// inherits cookies present at initialization time.
+reconnectControlChannel = function() {
+  $.ajax({
+    url: "presenter",
+    success: function() {
+      // In jQuery 1.4.2, this branch seems to be taken unconditionally. It doesn't
+      // matter though, as the disconnected() callback routes back here anyway.
+      console.log("Refreshing presenter cookie");
+      connectControlChannel();
+    },
+    error: function() {
+      console.log("Showoff server unavailable");
+      setTimeout(reconnectControlChannel(), 5000);
+    },
+  });
+}
+
 function update() {
   if(mode.update) {
     ws.send(JSON.stringify({ message: 'update', slide: slidenum}));
