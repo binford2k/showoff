@@ -4,13 +4,12 @@ Simply install the gem and dependencies.
 
     $ gem install showoff
 
-If you are running the <tt>puppetlabs/showoff</tt> fork, then you should clone the repository
-and build the gem manually instead.
+If you are running the <tt>puppetlabs/showoff</tt> fork, then you should clone the repository and build the gem manually instead.
 
     $ git clone https://github.com/puppetlabs/showoff.git
     $ cd showoff
     $ gem build showoff.gemspec
-    $ gem install showoff-<version>.gem
+    $ sudo gem install ./showoff-*.gem
 
 Showoff is tested with Ruby 1.8.7, 1.9.3, and 2.0. It should install cleanly on these versions.
 
