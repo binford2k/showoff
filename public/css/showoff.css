@@ -261,7 +261,6 @@ img#disconnected {
 
 #feedbackSidebar div.row {
   text-align: center;
-  border-bottom: 2px inset #ccc;
   margin: 5px 0;
   padding: 5px 0;
 }
@@ -292,6 +291,14 @@ img#disconnected {
   height: 85px;
   width: 85%;
 }
+
+#feedbackSidebar #disclaimer {
+  position: absolute;
+  bottom: 25px;
+  width: 100%;
+  text-align: center;
+}
+
 
 .fg-menu-container {
     z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
