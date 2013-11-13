@@ -59,20 +59,57 @@ div.zoomed {
     min-width: 210px;
     height: 100%;
     float: left;
-    background-color: #ccc;
+    padding: 0;
+    margin: 0;
+    border-right: 2px solid #ccc;
   }
     #timerSection {
       height: 5%;
       margin-left: 0.5em;
+      min-height: 25px;
     }
+
+    #timerSection input[type='button'] {
+      float: right;
+    }
+
     .tBlue   { background: #79d; }
     .tGreen  { background: #9d9; }
     .tRed    { background: #d99; }
     .tYellow { background: #dd9; }
 
+#sidebar #feedbackPace {
+  height: 10%;
+  position: relative;
+  background: transparent url(pace.png) no-repeat center bottom;
+}
+#sidebar #feedbackPace #paceFast,
+#sidebar #feedbackPace #paceSlow {
+  font-size: 1.5em;
+  font-weight: bold;
+  display: none;
+}
+#sidebar #feedbackPace #paceFast {
+  float: left;
+  margin-left: 1em;
+}
+#sidebar #feedbackPace #paceSlow {
+  float: right;
+  margin-right: 1em;
+}
+#sidebar #feedbackPace #paceMarker {
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, 0);
+  -moz-transform: translate(-50%, 0);
+	-ms-transform: translate(-50%, 0);
+	-o-transform: translate(-50%, 0);
+
+}
+
     #slidemenu {
-      height: 95%;
-      margin-right: 2px;
+      height: 85%;
       background-color: #fff;
     }
     #slidemenu ul li {
@@ -116,6 +153,10 @@ div.zoomed {
     background: #eee;
   }
 
+img#disconnected {
+  margin: 0.5em 1em;
+}
+
   #statusbar {
     height: 5%;
     vertical-align: middle;
@@ -154,13 +195,34 @@ div.zoomed {
 
 #bottom {
   height: 20%;
-  overflow: auto;
   background: #ff9;
 }
 
-  #notes {
-    margin: 1em;
+  #questions {
+    float: left;
+    width: 25%;
+    min-width: 210px;
+    border-right: 2px solid #ccc;
     font-size: 1.5em;
+    overflow: auto;
+    height: 100%;
+  }
+  #questions h3 {
+    font-size: 1.25em;
+  }
+  #questions ul {
+    margin-left: 1.5em;
+  }
+  #questions ul li {
+    list-style-type: disc;
+  }
+
+  #notes {
+    float: right;
+    width: 74%;
+    font-size: 1.5em;
+    overflow: auto;
+    height: 100%;
   }
   #notes p {
     padding: 0.1em inherit;

@@ -102,12 +102,23 @@ tools that you should be familiar with.
   Loads up all slides as a single monolithic page. Useful for printing or when an
   ancient browser is used.
 
-=== Slideshow Tree
+=== Presenter Tools
 
-On the left side of the browser window is a tree like view of the presentation. Each subsection is
-displayed at the top level. Click on any of these subsections and it will expand to list all the
-slides in that section, or collapse again. Click on any slide name and the presentation will
-immediately jump to that slide.
+[Countdown Timer]
+  This is just a simple countdown timer. Enter the time allotted to your presentation
+  and it will begin counting down for you, changing color as it approaches zero.
+
+[Pace Feedback Gauge]
+  When the audience provides pace feedback for you, it will appear on this gauge. You should
+  aim to keep the gauge near the center. The left side indicates that you are moving too
+  slowly and the right side is too fast. The feedback messages decay over time and will
+  expire in about five minutes--meaning that the gauge will move back towards the center.
+
+[Slideshow Tree]
+  On the left side of the browser window is a tree like view of the presentation. Each subsection is
+  displayed at the top level. Click on any of these subsections and it will expand to list all the
+  slides in that section, or collapse again. Click on any slide name and the presentation will
+  immediately jump to that slide.
 
 === Presentation Preview
 
@@ -127,9 +138,14 @@ and scale the contents as closely as possible. Several tools are attached to the
 [Zoom]
   Zoom in and out of the preview.
 
-=== Presenter Notes
+=== Presenter Information
 
-Just displays all presenter nodes, including any markup, syntax highlighting, etc.
+[Audience Questions]
+  When an audience member uses the anonymous <em>Ask Question</em> feature, it will appear in this list.
+  The questions are listed in reverse order, with the newest at the top.
+
+[Notes]
+  Just displays all presenter nodes, including any markup, syntax highlighting, etc.
 
 == Hotkeys
 

@@ -19,6 +19,9 @@ var shiftKeyActive = false
 var query
 var slideStartTime = new Date().getTime()
 
+var questionPrompt = 'Ask a question...'
+var feedbackPrompt = 'Why?...'
+
 var loadSlidesBool
 var loadSlidesPrefix
 
@@ -61,11 +64,39 @@ function setupPreso(load_slides, prefix) {
   // Better would be dynamic calculations, but this is enough for now.
   $(window).resize(function(){location.reload();});
 
+  $("#feedbackWrapper").hover(
+    function() {
+      $('#feedbackSidebar').show();
+      document.onkeydown = null;
+      document.onkeyup   = null;
+    },
+    function() {
+      $('#feedbackSidebar').hide();
+      document.onkeydown = keyDown;
+      document.onkeyup   = keyUp;
+    }
+  );
+
+  $("#paceSlower").click(function() { sendPace('slower'); });
+  $("#paceFaster").click(function() { sendPace('faster'); });
+  $("#askQuestion").click(function() { askQuestion( $("textarea#question").val()) });
+  $("#sendFeedback").click(function() {
+    sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("textarea#feedback").val())
+  });
+
+  $("textarea#question").val(questionPrompt);
+  $("textarea#feedback").val(feedbackPrompt);
+  $("textarea#question").focus(function() { clearIf($(this), questionPrompt) });
+  $("textarea#feedback").focus(function() { clearIf($(this), feedbackPrompt) });
+
   // Open up our control socket
+  connectControlChannel();
+/*
   ws           = new WebSocket('ws://' + location.host + '/control');
-  ws.onopen    = function()  { console.log('control socket opened'); };
-  ws.onclose   = function()  { console.log('control socket closed'); }
+  ws.onopen    = function()  { connected();          };
+  ws.onclose   = function()  { disconnected();       }
   ws.onmessage = function(m) { parseMessage(m.data); };
+*/
 }
 
 function loadSlides(load_slides, prefix) {
@@ -200,8 +231,6 @@ function showSlide(back_step, updatepv) {
   // allows the master presenter view to disable the update callback
   updatepv = (typeof(updatepv) === 'undefined') ? true : updatepv;
 
-  console.log("updatepv: "+ updatepv);
-
 	if(slidenum < 0) {
 		slidenum = 0
 		return
@@ -249,6 +278,9 @@ function showSlide(back_step, updatepv) {
 	currentContent.trigger("showoff:show");
 
 	var ret = setCurrentNotes();
+
+	var fileName = currentSlide.children().first().attr('ref');
+  $('#slideFilename').text(fileName);
 
   // Update presenter view, if we spawned one
 	if (updatepv && 'presenterView' in window) {
@@ -321,15 +353,88 @@ function showIncremental(incr)
 		}
 }
 
+function clearIf(elem, val) {
+  console.log(elem.val());
+  console.log(val);
+  if(elem.val() == val ) { elem.val(''); }
+}
+
+function connectControlChannel() {
+  ws           = new WebSocket('ws://' + location.host + '/control');
+  ws.onopen    = function()  { connected();          };
+  ws.onclose   = function()  { disconnected();       }
+  ws.onmessage = function(m) { parseMessage(m.data); };
+}
+
+// This exists as an intermediary simply so the presenter view can override it
+function reconnectControlChannel() {
+  connectControlChannel();
+}
+
+function connected() {
+  console.log('Control socket opened');
+  $("#feedbackSidebar button").attr("disabled", false);
+  $("img#disconnected").hide();
+
+  try {
+    // If we are a presenter, then remind the server where we are
+    update();
+    register();
+  }
+  catch (e) {}
+}
+
+function disconnected() {
+  console.log('Control socket closed');
+  $("#feedbackSidebar button").attr("disabled", true);
+  $("img#disconnected").show();
+
+  setTimeout(function() { reconnectControlChannel() } , 5000);
+}
+
 function parseMessage(data) {
   var command = JSON.parse(data);
 
   if ("current" in command) { follow(command["current"]); }
 
+  // Presenter messages only, so catch errors if method doesn't exist
+  try {
+    if ("pace"     in command) { paceFeedback(command["pace"]);     }
+    if ("question" in command) {  askQuestion(command["question"]); }
+  }
+  catch(e) {
+    console.log("Not a presenter!");
+  }
+
+}
+
+function sendPace(pace) {
+  ws.send(JSON.stringify({ message: 'pace', pace: pace}));
+  feedbackActivity();
+}
+
+function askQuestion(question) {
+  ws.send(JSON.stringify({ message: 'question', question: question}));
+  $("textarea#question").val(questionPrompt);
+  feedbackActivity();
+}
+
+function sendFeedback(rating, feedback) {
+  var slide  = $("#slideFilename").text();
+  ws.send(JSON.stringify({ message: 'feedback', rating: rating, feedback: feedback, slide: slide}));
+  $("textarea#feedback").val(feedbackPrompt);
+  $("input:radio[name=rating]:checked").attr('checked', false);
+  feedbackActivity();
+}
+
+function feedbackActivity() {
+  $("img#feedbackActivity").show();
+  setTimeout(function() { $("img#feedbackActivity").hide() }, 1000);
 }
 
 function track() {
   if (mode.track) {
+    var slideName    = $("#slideFilename").text();
     var slideEndTime = new Date().getTime();
     var elapsedTime  = slideEndTime - slideStartTime;
 
@@ -338,15 +443,14 @@ function track() {
 
     if (elapsedTime > 1000) {
       elapsedTime /= 1000;
-      ws.send(JSON.stringify({ message: 'track', slide: slidenum, time: elapsedTime}));
+      ws.send(JSON.stringify({ message: 'track', slide: slideName, time: elapsedTime}));
     }
   }
 }
 
 function follow(slide) {
-  console.log("New slide: " + slide);
   if (mode.follow) {
-    console.log("updating");
+    console.log("New slide: " + slide);
     gotoSlide(slide);
   }
 }
@@ -396,14 +500,11 @@ function nextStep(updatepv)
 function doDebugStuff()
 {
 	if (debugMode) {
-		$('#debugInfo').show()
-        $('.slide .content').each(function(index) {
-            $(this).prepend('<div id="debugFilename">' + $(this).attr('ref') + '</div>');
-        });
-		debug('debug mode on')
+	  $('#debugInfo').show();
+		$('#slideFilename').show();
 	} else {
-		$('#debugInfo').hide()
-		$('.content #debugFilename').remove()
+	  $('#debugInfo').hide();
+		$('#slideFilename').hide();
 	}
 }
 

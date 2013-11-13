@@ -26,6 +26,7 @@ Showoff is tested with Ruby 1.8.7, 1.9.3, and 2.0. It should install cleanly on 
   * Nokogiri
   * json
   * GLI
+  * sinatra-websocket
   * PDFKit (optional, for generating PDF of presentation)
 * Modern web browser to present or view slides
   * Tested with Safari and Chrome, and to a lesser extent Firefox and Opera.

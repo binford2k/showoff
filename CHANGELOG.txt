@@ -1,0 +1,6 @@
+0.9.6
+  Ports client communication to websockets
+  Adds audience interaction
+    Pace feedback, slower/faster
+    Ask a question
+    Provide slide feedback

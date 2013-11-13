@@ -1,11 +1,16 @@
 // presenter js
 var slaveWindow = null;
 
+var paceData = [];
+
 $(document).ready(function(){
   // attempt to open another window for the presentation. This may fail if
   // popup blockers are enabled. In that case, the presenter needs to manually
   // open the window by hitting the 'slave window' button.
   openSlave();
+
+  // the presenter window doesn't need the reload on resize bit
+  $(window).unbind('resize');
 
   // side menu accordian crap
 	$("#preso").bind("showoff:loaded", function (event) {
@@ -68,6 +73,10 @@ $(document).ready(function(){
     });
   });
 
+  setInterval(function() { updatePace() }, 1000);
+
+  // Tell the showoff server that we're a presenter
+  register();
 });
 
 function popupLoader(elem, page, id, event)
@@ -83,8 +92,6 @@ function popupLoader(elem, page, id, event)
     $.get(page, function(data) {
       var link = '<p class="newpage"><a href="' + page + '" target="_new">Open in new page...</a>';
       var content = '<div id="' + id + '">' + $(data).find('#wrapper').html() + link + '</div>';
-
-      console.log(content);
 
       elem.attr('title', content);
       elem.attr('open', true)
@@ -120,13 +127,55 @@ function openSlave()
   }
   catch(e) {
     console.log('Failed to open or connect slave window. Popup blocker?');
-    console.log(e);
   }
 
   // Set up a maintenance loop to keep the connection between windows. I wish there were a cleaner way to do this.
   if (typeof maintainSlave == 'undefined') {
     maintainSlave = setInterval(openSlave, 1000);
   }
+}
+
+function askQuestion(question) {
+  $("#questions ul").prepend($('<li/>').text(question));
+}
+
+function paceFeedback(pace) {
+  var now = new Date();
+  switch(pace) {
+    case 'faster': paceData.push({time: now, pace: -1}); break; // too fast
+    case 'slower': paceData.push({time: now, pace:  1}); break; // too slow
+  }
+
+  updatePace();
+}
+
+function updatePace() {
+  // pace notices expire in a few minutes
+  cutoff     = 3 * 60 * 1000;
+  expiration = new Date().getTime() - cutoff;
+
+  scale = 10; // this should max out around 5 clicks in either direction
+  sum   = 50; // start in the middle
+
+  // Loops through and calculates a decaying average
+  for (var index = 0; index < paceData.length; index++) {
+    notice = paceData[index]
+
+    if(notice.time < expiration) {
+      paceData.splice( index, 1 );
+    }
+    else {
+      ratio = (notice.time - expiration) / cutoff;
+      sum  += (notice.pace * scale * ratio);
+    }
+  }
+
+  position = Math.max(Math.min(sum, 90), 10); // between 10 and 90
+  console.log("Updating pace: " + position);
+  $("#paceMarker").css({ left: position+"%" });
+
+  if(position > 75) { $("#paceFast").show() } else { $("#paceFast").hide() }
+  if(position < 25) { $("#paceSlow").show() } else { $("#paceSlow").hide() }
 }
 
 function zoom()
@@ -156,10 +205,43 @@ gotoSlide = function (slideNum)
     postSlide()
 }
 
+// override with an alternate implementation.
+// We need to do this before opening the websocket because the socket only
+// inherits cookies present at initialization time.
+reconnectControlChannel = function() {
+  $.ajax({
+    url: "presenter",
+    success: function() {
+      // In jQuery 1.4.2, this branch seems to be taken unconditionally. It doesn't
+      // matter though, as the disconnected() callback routes back here anyway.
+      console.log("Refreshing presenter cookie");
+      connectControlChannel();
+    },
+    error: function() {
+      console.log("Showoff server unavailable");
+      setTimeout(reconnectControlChannel(), 5000);
+    },
+  });
+}
+
 function update() {
   if(mode.update) {
     ws.send(JSON.stringify({ message: 'update', slide: slidenum}));
   }
+}
+
+// Tell the showoff server that we're a presenter, giving the socket time to initialize
+function register() {
+  setTimeout( function() {
+    try {
+      ws.send(JSON.stringify({ message: 'register' }));
+    }
+    catch(e) {
+      console.log("Registration failed. Sleeping");
+      // try again, until the socket finally lets us register
+      register();
+    }
+  }, 5000);
 }
 
 function presPrevStep()

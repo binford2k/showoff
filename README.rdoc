@@ -26,12 +26,16 @@ Showoff's capabilities include:
   * execute Javascript, Coffeescript or Ruby live and display results
   * show a pre-show slideshow while you wait to start
   * let audience members download slides, code samples or other supplementary material
+  * show a timer - elapsed / remaining
+  * show synchronized, hidden notes on another browser (like an iphone)
 
 * Live audience tools:
   * audience can pull up the presentation on their own browsers
   * call up a menu of sections/slides at any time to jump around
   * independent navigation so that audience members can go back / catch up as you talk
   * allow viewers to set their view of the presentation to track the presenter's
+  * allow the audience to provide pace feedback and ask questions of the presenter
+  * allow the audience to provide contend feedback on the material
 
 * Content creation and distribution functionality:
   * generate supplemental material based on slide tags
@@ -101,10 +105,7 @@ presentation to Heroku or GitHub pages for archiving super easily.
 
 Potential future capabilities might include:
 
-* show a timer - elapsed / remaining
 * perform simple animations of images moving between keyframes
-* show synchronized, hidden notes on another browser (like an iphone)
-* show audience questions / comments (twitter or direct)
 * let audience members vote on sections (?)
 * broadcast itself on Bonjour
 * let you write on the slide with your mouse, madden-style via canvas

@@ -13,6 +13,40 @@
 <a tabindex="1" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="stylemenu"><span class="ui-icon ui-icon-triangle-1-s"></span>styles</a>
 <div id="stylepicker" class="hidden"></div>
 
+<% if @feedback then %>
+<div id="feedbackWrapper">
+    <div id="feedbackSidebar">
+        <img id="feedbackActivity" src="css/spinner.gif" />
+        <h3>Live Interaction</h3>
+        <div class="row">
+          <h4>The presenter should...</h4>
+          <span class="buttonWrapper slower"><button id="paceSlower">Slow Down</button></span>
+          <span class="buttonWrapper faster"><button id="paceFaster">Speed Up</button></span>
+        </div>
+        <div class="row">
+          <textarea id="question"></textarea>
+          <button id="askQuestion">Ask a Question</button>
+        </div>
+        <hr />
+        <h3>Material Feedback</h3>
+        <div class="row">
+          <h4>This slide is...</h4>
+          Terrible
+          <input type="radio" name="rating" value="1"></input>
+          <input type="radio" name="rating" value="2"></input>
+          <input type="radio" name="rating" value="3"></input>
+          <input type="radio" name="rating" value="4"></input>
+          <input type="radio" name="rating" value="5"></input>
+          Awesome
+          <textarea id="feedback"></textarea>
+          <button id="sendFeedback">Send Feedback</button>
+        </div>
+        <div id="disclaimer">All features are anonymous</div>
+    </div>
+    <div id="feedbackHandle"></div>
+</div>
+<% end %>
+
 <div id="help">
   <table>
     <tr><td class="key">z, ?</td><td>toggle help (this)</td></tr>
@@ -36,12 +70,14 @@
   <input type="submit" onClick="nextStep();" value="next"/>
 </div>
 
-<div id="preso">loading presentation...</div>
+<div id="preso"><center>loading presentation...</center></div>
 <div id="footer">
   <span id="followMode"></span>
   <span id="slideInfo"></span>
   <span id="debugInfo"></span>
   <span id="notesInfo"></span>
+  <span id="slideFilename"></span>
+  <img id="disconnected" src="/css/disconnected.png" />
 </div>
 
 <div id="slides" class="offscreen" <%= 'style="display:none;"' if @slides %>>

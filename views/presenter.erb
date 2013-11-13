@@ -52,15 +52,24 @@
     <div id="sidebar" class="grid_4">
       <div id="timerSection">
         Timer:
-        <span id="minStart"><input type="text" size="2" id="timerMinutes"/> min <input type="button" id="startTimer" value="Start"></span>
+        <span id="minStart">
+          <input type="text" size="8" id="timerMinutes"/> min
+          <input type="button" id="startTimer" value="Start">
+        </span>
         <span id="timerInfo"></span>
         <span id="minStop"><input type="button" id="stopTimer" value="Stop"></span>
+      </div>
+      <div id="feedbackPace">
+        <span id="paceSlow">Speed Up!</span>
+        <span id="paceFast">Slow Down!</span>
+        <img id="paceMarker" src="css/paceMarker.png" />
       </div>
       <div id="slidemenu">
         <div id="navigation" class="menu"></div>
       </div>
     </div>
     <div id="preview" class="grid_8">
+      <img id="disconnected" src="/css/disconnected-large.png" />
       <div id="preso" class="zoomed">loading presentation...</div>
     </div>
     <div id="statusbar">
@@ -81,6 +90,10 @@
   <div id="separator"></div>
 
   <div id="bottom" class="grid_12">
+    <div id="questions">
+      <h3>Audience Questions</h3>
+      <ul></ul>
+    </div>
     <div id="notes"></div>
   </div>
 </div>

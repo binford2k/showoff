@@ -193,12 +193,20 @@ pre { margin: 1em 40px; padding: .25em; }
 .offscreen { position:absolute; top:0; left:-9999px; overflow:hidden; }
 #debugInfo { margin-left: 30px; }
 #notesInfo { margin-left: 30px; display: none }
-#debugFilename {
-    position: absolute;
-    bottom: 5px;
-    right: 10px;
-    font-size: 12px;
+#slideFilename {
+  position: absolute;
+  right: 5px;
+  bottom: 0px;
+  height: 23px;
+  padding-left: 10px;
+  background: #ccc;
+  z-index: 2147483647;
 }
+img#disconnected {
+  float: right;
+  display: none;
+}
+
 #preshow { display: none; }
 /* define the screen blocking view */
 /* we define it as invisible because we use jQuery to animate its presentation */
@@ -220,6 +228,77 @@ pre { margin: 1em 40px; padding: .25em; }
     padding-right: 4px;
     font-weight: bold;
 }
+
+
+#feedbackWrapper {
+  float: left;
+  height: 100%;
+  position: fixed;
+  background-color: #dfdfdf;
+  opacity: 0.98;
+  z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
+}
+
+#feedbackSidebar {
+  height: 100%;
+  width: 200px;
+  background: transparent url(grippy-close.png) no-repeat right center;
+  display: none;
+}
+
+#feedbackSidebar img#feedbackActivity {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  display: none;
+}
+
+#feedbackHandle {
+  height: 100%;
+  width: 9px;
+  background: transparent url(grippy.png) no-repeat center;
+}
+
+#feedbackSidebar div.row {
+  text-align: center;
+  margin: 5px 0;
+  padding: 5px 0;
+}
+
+#feedbackWrapper h4 {
+  text-align: left;
+  margin-left: 3px;
+}
+#feedbackSidebar span.buttonWrapper {
+  height: 60px;
+  width: 85px;
+  padding: 5px;
+  display: inline-block;
+}
+#feedbackSidebar span.buttonWrapper button {
+  margin: 44px auto 0 auto;
+}
+
+#feedbackSidebar span.buttonWrapper.slower {
+  background: transparent url(slow.png) no-repeat center top;
+}
+
+#feedbackSidebar span.buttonWrapper.faster {
+  background: transparent url(fast.png) no-repeat center top;
+}
+
+#feedbackSidebar textarea {
+  height: 85px;
+  width: 85%;
+}
+
+#feedbackSidebar #disclaimer {
+  position: absolute;
+  bottom: 25px;
+  width: 100%;
+  text-align: center;
+}
+
 
 .fg-menu-container {
     z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
@@ -591,6 +670,13 @@ body#stats {
 @media print {
   body {
     font-size: 70%;
+  }
+
+  #sidebarWrapper,
+  #sidebar,
+  #sidebarHandle {
+    display:none,
+
   }
 
   #preso, .slide {

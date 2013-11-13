@@ -1,0 +1,90 @@
+= Audience Interaction
+
+Showoff has a number of features for interacting with your audience. These
+features work with all modern browsers, even with Internet Explorer from 2+
+years ago!
+
+== Viewer Functionality
+
+There are several ways that the audience can interact with you and the presentation.
+If there is a connection problem making this interaction unusable, the controls will
+be disabled and a disconnected icon will appear in the lower left.
+
+=== Presentation Control
+
+[Navigation]
+  Pressing the left and right arrow keys, or the spacebar will cause the
+  presentation to change slides.
+
+[Follow Mode]
+  Pressing +g+ will switch the viewer's presentation into follow mode. This
+  means that each time the presenter switches slides, the viewer's presentation
+  will follow along and switch to the same slide.
+
+=== Presentation Feedback
+
+The viewer will see a vertical grippy handle along the left side of the window.
+If they move their mouse pointer over this handle, the <em>Feedback Panel</em> will
+appear, exposing several control widgets.
+
+To enable this functionality, please set the key <tt>"feedback": true</tt> in your
+<tt>showoff.json</tt> files.
+
+==== Live Interaction
+
+[Provide Pace Feedback]
+  The viewer will have two buttons to click, <em>Slow Down</em> and <em>Speed Up</em>.
+  Each time a button is clicked, a message is sent to the presenter to help them
+  adjust their delivery pace appropriately.
+
+[Ask a Question]
+  If the audience is large, the viewer is remote, or just doesn't want to ask in
+  front of peers, a question can be typed into this box and will appear in the
+  presenter's display control panel.
+
+==== Material Feedback
+
+[Provide Slide Feedback]
+  The viewer can rate a slide, from awful to awesome, and provide a bit of free text
+  explaining what could be made better on any given slide. The feedback and the current
+  slide name are recorded on the presenter's machine for later analysis.
+
+== Presenter Functionality
+
+The presentation control panel provides many tools for interacting with your audience.
+They are summarized here. This information exists in greater detail in the USAGE document.
+
+If there is a connection problem making interaction with your audience unusable, a
+disconnected icon will appear in the top right of the presentation preview.
+
+[Pace Feedback Gauge]
+  When the audience provides pace feedback for you, it will appear on this gauge. You should
+  aim to keep the gauge near the center. The left side indicates that you are moving too
+  slowly and the right side is too fast. The feedback messages decay over time and will
+  expire in about five minutes--meaning that the gauge will move back towards the center.
+
+[Update Follower]
+  Allow viewers in <em>Follow Mode</em> to track your progress.
+
+[Enable Remote]
+  Allow remote windows, including mobile devices, to control the presentation by
+  opening the presenter view.
+
+[Audience Questions]
+  When an audience member uses the anonymous <em>Ask Question</em> feature, it will appear in this list.
+  The questions are listed in reverse order, with the newest at the top.
+
+== Log Files
+
+[<tt>viewstats.json</tt>]
+  Each time Showoff starts, it truncates and creates a new statistics log file. This file
+  records time that audience members spent looking at any one given slide. Only time that
+  is greater than one second is recorded, and only when the viewer is not in <em>follow mode</em>.
+
+[<tt>feedback.json</tt>]
+  This log file is appended to each time an audience member has feedback for the material.
+  It should be reviewed on a regular basis--or better, consumed by an automatic process--for
+  important information on whether your material is having the desired impact on your audience.
+
+  This file contains a rating and a free text feedback field. It is keyed by the slide name, so
+  you can easily collate information grouped by slide name.
