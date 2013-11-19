@@ -46,12 +46,25 @@ class ShowOff < Sinatra::Application
   set :page_size, "Letter"
   set :pres_template, nil
   set :showoff_config, {}
-  set :downloads, nil
-  set :counter, nil
-  set :current, 0
-  set :cookie, nil
 
+  # Set up presentation wide variables
   FileUtils.mkdir settings.statsdir unless File.directory? settings.statsdir
+
+  # Page view time accumulator
+  begin
+    @@counter = JSON.parse(File.read("#{settings.statsdir}/#{settings.viewstats}"))
+  rescue
+    @@counter = Hash.new
+  end
+
+  # Track downloadable files
+  @@downloads = Hash.new
+
+  # presenter cookie. Used to identify the presenter for control messages
+  @@cookie = nil
+
+  # The current slide that the presenter is viewing
+  @@current = 0
 
   def initialize(app=nil)
     super(app)
@@ -92,14 +105,6 @@ class ShowOff < Sinatra::Application
     # Default asset path
     @asset_path = "./"
 
-    # Track downloadable files
-    @@downloads = Hash.new
-
-    # Page view time accumulator
-    @@counter = Hash.new
-
-    # The current slide that the presenter is viewing
-    @@current = 0
 
     # Initialize Markdown Configuration
     #MarkdownConfig::setup(settings.pres_dir)
@@ -651,55 +656,6 @@ class ShowOff < Sinatra::Application
       erb :download
     end
 
-    # Called from the presenter view. Update the current slide.
-    def update()
-      if authorized?
-        slide = request.params['page'].to_i
-
-        # check to see if we need to enable a download link
-        if @@downloads.has_key?(slide)
-          @logger.debug "Enabling file download for slide #{slide}"
-          @@downloads[slide][0] = true
-        end
-
-        # update the current slide pointer
-        @logger.debug "Updated current slide to #{slide}"
-        @@current = slide
-      end
-    end
-
-    # Called once per second by each client view. Keep track of viewing stats
-    # and return the current page the instructor is showing
-    def ping()
-      slide = request.params['page'].to_i
-      remote = request.env['REMOTE_HOST']
-
-      # we only care about tracking viewing time that's not on the current slide
-      # (or on the previous slide, since we'll get at least one hit from the follower)
-      if slide != @@current and slide != @@current-1
-        # a bucket for this slide
-        if not @@counter.has_key?(slide)
-          @@counter[slide] = Hash.new
-        end
-
-        # a counter for this viewer
-        if @@counter[slide].has_key?(remote)
-          @@counter[slide][remote] += 1
-        else
-          @@counter[slide][remote] = 1
-        end
-      end
-
-      # return current slide as a string to the client
-      "#{@@current}"
-    end
-
-    # Returns the current page the instructor is showing
-    def getpage()
-      # return current slide as a string to the client
-      "#{@@current}"
-    end
-
     def stats()
       if request.env['REMOTE_HOST'] == 'localhost'
         # the presenter should have full stats
@@ -936,14 +892,18 @@ class ShowOff < Sinatra::Application
               EM.next_tick { settings.presenters.each{|s| s.send(data) } }
 
             when 'feedback'
+              filename = "#{settings.statsdir}/#{settings.feedback}"
               slide    = control['slide']
               rating   = control['rating']
               feedback = control['feedback']
 
-              filename = "#{settings.statsdir}/#{settings.feedback}"
-              log      = JSON.parse(File.read(filename)) if File.file?(filename)
-              log    ||= Hash.new
+              begin
+                log = JSON.parse(File.read(filename))
+              rescue
+                # do nothing
+              end
 
+              log        ||= Hash.new
               log[slide] ||= Array.new
               log[slide]  << { :rating => rating, :feedback => feedback }
 
@@ -1010,13 +970,6 @@ class ShowOff < Sinatra::Application
   at_exit do
     if defined?(@@counter)
       filename = "#{settings.statsdir}/#{settings.viewstats}"
-
-      begin
-       @@counter.merge JSON.parse(File.read(filename))
-      rescue
-        # do nothing
-      end
-
       File.write(filename, @@counter.to_json)
     end
   end
