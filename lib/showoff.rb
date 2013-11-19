@@ -29,6 +29,8 @@ class ShowOff < Sinatra::Application
 
   attr_reader :cached_image_size
 
+  # Set up application variables
+
   set :views, File.dirname(__FILE__) + '/../views'
   set :public_folder, File.dirname(__FILE__) + '/../public'
 
@@ -47,24 +49,18 @@ class ShowOff < Sinatra::Application
   set :pres_template, nil
   set :showoff_config, {}
 
-  # Set up presentation wide variables
   FileUtils.mkdir settings.statsdir unless File.directory? settings.statsdir
 
-  # Page view time accumulator
+  # Page view time accumulator. Tracks how often slides are viewed by the audience
   begin
     @@counter = JSON.parse(File.read("#{settings.statsdir}/#{settings.viewstats}"))
   rescue
     @@counter = Hash.new
   end
 
-  # Track downloadable files
-  @@downloads = Hash.new
-
-  # presenter cookie. Used to identify the presenter for control messages
-  @@cookie = nil
-
-  # The current slide that the presenter is viewing
-  @@current = 0
+  @@downloads = Hash.new # Track downloadable files
+  @@cookie    = nil      # presenter cookie. Identifies the presenter for control messages
+  @@current   = Hash.new # The current slide that the presenter is viewing
 
   def initialize(app=nil)
     super(app)
@@ -830,7 +826,7 @@ class ShowOff < Sinatra::Application
     else
       request.websocket do |ws|
         ws.onopen do
-          ws.send( { 'current' => @@current }.to_json )
+          ws.send( { 'current' => @@current[:number] }.to_json )
           settings.sockets << ws
 
           @logger.warn "Open sockets: #{settings.sockets.size}"
@@ -846,20 +842,21 @@ class ShowOff < Sinatra::Application
               # websockets don't use the same auth standards
               # we use a session cookie to identify the presenter
               if valid_cookie()
+                name  = control['name']
                 slide = control['slide'].to_i
 
                 # check to see if we need to enable a download link
                 if @@downloads.has_key?(slide)
-                  @logger.debug "Enabling file download for slide #{slide}"
+                  @logger.debug "Enabling file download for slide #{name}"
                   @@downloads[slide][0] = true
                 end
 
                 # update the current slide pointer
-                @logger.debug "Updated current slide to #{slide}"
-                @@current = slide
+                @logger.debug "Updated current slide to #{name}"
+                @@current = { :name => name, :number => slide }
 
                 # schedule a notification for all clients
-                EM.next_tick { settings.sockets.each{|s| s.send({ 'current' => @@current }.to_json) } }
+                EM.next_tick { settings.sockets.each{|s| s.send({ 'current' => @@current[:number] }.to_json) } }
               end
 
             when 'register'
@@ -879,13 +876,13 @@ class ShowOff < Sinatra::Application
 
               # a bucket for this slide
               @@counter[slide] ||= Hash.new
-              # a counter for this viewer
-              @@counter[slide][remote] ||= 0
-              # and add the elapsed time
-              @@counter[slide][remote] += time
+              # a bucket of slideviews for this address
+              @@counter[slide][remote] ||= Array.new
+              # and add this slide viewing to the bucket
+              @@counter[slide][remote] << { :elapsed => time, :timestamp => Time.now.to_i, :presenter => @@current[:name] }
 
             when 'position'
-              ws.send( { 'current' => @@current }.to_json ) unless @@cookie.nil?
+              ws.send( { 'current' => @@current[:number] }.to_json ) unless @@cookie.nil?
 
             when 'pace', 'question'
               # just forward to the presenter(s)
@@ -907,7 +904,11 @@ class ShowOff < Sinatra::Application
               log[slide] ||= Array.new
               log[slide]  << { :rating => rating, :feedback => feedback }
 
-              File.write(filename, log.to_json)
+              if settings.verbose then
+                File.write(filename, JSON.pretty_generate(log))
+              else
+                File.write(filename, log.to_json)
+              end
 
             else
               @logger.warn "Unknown message <#{control['message']}> received."
@@ -970,7 +971,11 @@ class ShowOff < Sinatra::Application
   at_exit do
     if defined?(@@counter)
       filename = "#{settings.statsdir}/#{settings.viewstats}"
-      File.write(filename, @@counter.to_json)
+      if settings.verbose then
+        File.write(filename, JSON.pretty_generate(@@counter))
+      else
+        File.write(filename, @@counter.to_json)
+      end
     end
   end
 end

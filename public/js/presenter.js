@@ -226,7 +226,8 @@ reconnectControlChannel = function() {
 
 function update() {
   if(mode.update) {
-    ws.send(JSON.stringify({ message: 'update', slide: slidenum}));
+    var slideName = $("#slideFile").text();
+    ws.send(JSON.stringify({ message: 'update', slide: slidenum, name: slideName}));
   }
 }
 
