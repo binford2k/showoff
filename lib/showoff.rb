@@ -32,6 +32,10 @@ class ShowOff < Sinatra::Application
   set :views, File.dirname(__FILE__) + '/../views'
   set :public_folder, File.dirname(__FILE__) + '/../public'
 
+  set :statsdir, "stats"
+  set :viewstats, "viewstats.json"
+  set :feedback, "feedback.json"
+
   set :server, 'thin'
   set :sockets, []
   set :presenters, []
@@ -46,6 +50,8 @@ class ShowOff < Sinatra::Application
   set :counter, nil
   set :current, 0
   set :cookie, nil
+
+  FileUtils.mkdir settings.statsdir unless File.directory? settings.statsdir
 
   def initialize(app=nil)
     super(app)
@@ -934,7 +940,7 @@ class ShowOff < Sinatra::Application
               rating   = control['rating']
               feedback = control['feedback']
 
-              filename = 'feedback.json'
+              filename = "#{settings.statsdir}/#{settings.feedback}"
               log      = JSON.parse(File.read(filename)) if File.file?(filename)
               log    ||= Hash.new
 
@@ -1003,9 +1009,15 @@ class ShowOff < Sinatra::Application
 
   at_exit do
     if defined?(@@counter)
-      File.open("viewstats.json", "w") do |f|
-        f.write @@counter.to_json
+      filename = "#{settings.statsdir}/#{settings.viewstats}"
+
+      begin
+       @@counter.merge JSON.parse(File.read(filename))
+      rescue
+        # do nothing
       end
+
+      File.write(filename, @@counter.to_json)
     end
   end
 end
