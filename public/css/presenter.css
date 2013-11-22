@@ -224,8 +224,18 @@ img#disconnected {
     overflow: auto;
     height: 100%;
   }
+  #notes p,
+  #notes h1,
+  #notes h2,
+  #notes h3,
+  #notes h4,
+  #notes ol,
+  #notes ul {
+    margin-right: 0.75em;
+  }
   #notes p {
     padding: 0.1em inherit;
+    margin-bottom: 0.5em;
   }
   #notes ol, #notes ul {
     padding-left: 2em;
