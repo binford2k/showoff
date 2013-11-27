@@ -29,8 +29,14 @@ class ShowOff < Sinatra::Application
 
   attr_reader :cached_image_size
 
+  # Set up application variables
+
   set :views, File.dirname(__FILE__) + '/../views'
   set :public_folder, File.dirname(__FILE__) + '/../public'
+
+  set :statsdir, "stats"
+  set :viewstats, "viewstats.json"
+  set :feedback, "feedback.json"
 
   set :server, 'thin'
   set :sockets, []
@@ -42,10 +48,19 @@ class ShowOff < Sinatra::Application
   set :page_size, "Letter"
   set :pres_template, nil
   set :showoff_config, {}
-  set :downloads, nil
-  set :counter, nil
-  set :current, 0
-  set :cookie, nil
+
+  FileUtils.mkdir settings.statsdir unless File.directory? settings.statsdir
+
+  # Page view time accumulator. Tracks how often slides are viewed by the audience
+  begin
+    @@counter = JSON.parse(File.read("#{settings.statsdir}/#{settings.viewstats}"))
+  rescue
+    @@counter = Hash.new
+  end
+
+  @@downloads = Hash.new # Track downloadable files
+  @@cookie    = nil      # presenter cookie. Identifies the presenter for control messages
+  @@current   = Hash.new # The current slide that the presenter is viewing
 
   def initialize(app=nil)
     super(app)
@@ -86,14 +101,6 @@ class ShowOff < Sinatra::Application
     # Default asset path
     @asset_path = "./"
 
-    # Track downloadable files
-    @@downloads = Hash.new
-
-    # Page view time accumulator
-    @@counter = Hash.new
-
-    # The current slide that the presenter is viewing
-    @@current = 0
 
     # Initialize Markdown Configuration
     #MarkdownConfig::setup(settings.pres_dir)
@@ -645,55 +652,6 @@ class ShowOff < Sinatra::Application
       erb :download
     end
 
-    # Called from the presenter view. Update the current slide.
-    def update()
-      if authorized?
-        slide = request.params['page'].to_i
-
-        # check to see if we need to enable a download link
-        if @@downloads.has_key?(slide)
-          @logger.debug "Enabling file download for slide #{slide}"
-          @@downloads[slide][0] = true
-        end
-
-        # update the current slide pointer
-        @logger.debug "Updated current slide to #{slide}"
-        @@current = slide
-      end
-    end
-
-    # Called once per second by each client view. Keep track of viewing stats
-    # and return the current page the instructor is showing
-    def ping()
-      slide = request.params['page'].to_i
-      remote = request.env['REMOTE_HOST']
-
-      # we only care about tracking viewing time that's not on the current slide
-      # (or on the previous slide, since we'll get at least one hit from the follower)
-      if slide != @@current and slide != @@current-1
-        # a bucket for this slide
-        if not @@counter.has_key?(slide)
-          @@counter[slide] = Hash.new
-        end
-
-        # a counter for this viewer
-        if @@counter[slide].has_key?(remote)
-          @@counter[slide][remote] += 1
-        else
-          @@counter[slide][remote] = 1
-        end
-      end
-
-      # return current slide as a string to the client
-      "#{@@current}"
-    end
-
-    # Returns the current page the instructor is showing
-    def getpage()
-      # return current slide as a string to the client
-      "#{@@current}"
-    end
-
     def stats()
       if request.env['REMOTE_HOST'] == 'localhost'
         # the presenter should have full stats
@@ -868,7 +826,7 @@ class ShowOff < Sinatra::Application
     else
       request.websocket do |ws|
         ws.onopen do
-          ws.send( { 'current' => @@current }.to_json )
+          ws.send( { 'current' => @@current[:number] }.to_json )
           settings.sockets << ws
 
           @logger.warn "Open sockets: #{settings.sockets.size}"
@@ -884,20 +842,21 @@ class ShowOff < Sinatra::Application
               # websockets don't use the same auth standards
               # we use a session cookie to identify the presenter
               if valid_cookie()
+                name  = control['name']
                 slide = control['slide'].to_i
 
                 # check to see if we need to enable a download link
                 if @@downloads.has_key?(slide)
-                  @logger.debug "Enabling file download for slide #{slide}"
+                  @logger.debug "Enabling file download for slide #{name}"
                   @@downloads[slide][0] = true
                 end
 
                 # update the current slide pointer
-                @logger.debug "Updated current slide to #{slide}"
-                @@current = slide
+                @logger.debug "Updated current slide to #{name}"
+                @@current = { :name => name, :number => slide }
 
                 # schedule a notification for all clients
-                EM.next_tick { settings.sockets.each{|s| s.send({ 'current' => @@current }.to_json) } }
+                EM.next_tick { settings.sockets.each{|s| s.send({ 'current' => @@current[:number] }.to_json) } }
               end
 
             when 'register'
@@ -917,31 +876,39 @@ class ShowOff < Sinatra::Application
 
               # a bucket for this slide
               @@counter[slide] ||= Hash.new
-              # a counter for this viewer
-              @@counter[slide][remote] ||= 0
-              # and add the elapsed time
-              @@counter[slide][remote] += time
+              # a bucket of slideviews for this address
+              @@counter[slide][remote] ||= Array.new
+              # and add this slide viewing to the bucket
+              @@counter[slide][remote] << { :elapsed => time, :timestamp => Time.now.to_i, :presenter => @@current[:name] }
 
             when 'position'
-              ws.send( { 'current' => @@current }.to_json ) unless @@cookie.nil?
+              ws.send( { 'current' => @@current[:number] }.to_json ) unless @@cookie.nil?
 
             when 'pace', 'question'
               # just forward to the presenter(s)
               EM.next_tick { settings.presenters.each{|s| s.send(data) } }
 
             when 'feedback'
+              filename = "#{settings.statsdir}/#{settings.feedback}"
               slide    = control['slide']
               rating   = control['rating']
               feedback = control['feedback']
 
-              filename = 'feedback.json'
-              log      = JSON.parse(File.read(filename)) if File.file?(filename)
-              log    ||= Hash.new
+              begin
+                log = JSON.parse(File.read(filename))
+              rescue
+                # do nothing
+              end
 
+              log        ||= Hash.new
               log[slide] ||= Array.new
               log[slide]  << { :rating => rating, :feedback => feedback }
 
-              File.write(filename, log.to_json)
+              if settings.verbose then
+                File.write(filename, JSON.pretty_generate(log))
+              else
+                File.write(filename, log.to_json)
+              end
 
             else
               @logger.warn "Unknown message <#{control['message']}> received."
@@ -1003,8 +970,11 @@ class ShowOff < Sinatra::Application
 
   at_exit do
     if defined?(@@counter)
-      File.open("viewstats.json", "w") do |f|
-        f.write @@counter.to_json
+      filename = "#{settings.statsdir}/#{settings.viewstats}"
+      if settings.verbose then
+        File.write(filename, JSON.pretty_generate(@@counter))
+      else
+        File.write(filename, @@counter.to_json)
       end
     end
   end
