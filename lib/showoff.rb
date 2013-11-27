@@ -12,12 +12,6 @@ require "#{here}/showoff_utils"
 require "#{here}/commandline_parser"
 
 begin
-  require 'RMagick'
-rescue LoadError
-  $stderr.puts 'WARN: image sizing disabled - install rmagick'
-end
-
-begin
   require 'pdfkit'
 rescue LoadError
   $stderr.puts 'WARN: pdf generation disabled - install pdfkit'
