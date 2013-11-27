@@ -113,6 +113,12 @@ command :serve do |c|
 
   c.action do |global_options,options,args|
 
+    # This is gross. A serious revamp in config file parsing is due.
+    config = JSON.parse(File.read(options[:f]))
+    if Gem::Version.new(config['version']) > Gem::Version.new(SHOWOFF_VERSION) then
+      raise "This presentation requires Showoff version #{config['version']} or greater."
+    end
+
     host = options[:h] == '0.0.0.0' ? 'localhost' : options[:h]
     url  = "http://#{host}:#{options[:p].to_i}"
     puts "
