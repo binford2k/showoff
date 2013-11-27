@@ -168,8 +168,7 @@ class ShowOff < Sinatra::Application
       end
     end
 
-
-    def process_markdown(name, content, opts={:static=>false, :pdf=>false, :toc=>false, :supplemental=>nil})
+    def process_markdown(name, content, opts={:static=>false, :pdf=>false, :print=>false, :toc=>false, :supplemental=>nil})
       # if there are no !SLIDE markers, then make every H1 define a new slide
       unless content =~ /^\<?!SLIDE/m
         content = content.gsub(/^# /m, "<!SLIDE>\n# ")
@@ -215,6 +214,14 @@ class ShowOff < Sinatra::Application
         unless opts[:toc]
           # just drop the slide if we're not generating a table of contents
           next if slide.classes.include? 'toc'
+        end
+
+        if opts[:print]
+          # drop all slides not intended for the print version
+          next if slide.classes.include? 'noprint'
+        else
+          # drop slides that are intended for the print version only
+          next if slide.classes.include? 'printonly'
         end
 
         @slide_count += 1
@@ -630,6 +637,11 @@ class ShowOff < Sinatra::Application
     def onepage(static=false)
       @slides = get_slides_html(:static=>static, :toc=>true)
       #@languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
+      erb :onepage
+    end
+
+    def print(static=false)
+      @slides = get_slides_html(:static=>static, :toc=>true, :print=>true)
       erb :onepage
     end
 

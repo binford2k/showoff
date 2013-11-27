@@ -42,10 +42,14 @@ web browser. The following URL paths are available for use by you and your audie
   tries to be intelligent about which slide change updates to track.
 
 [http://localhost:9090/onepage]
-  This will generate a single page representing your entire presentation. It is useful
-  for printing, especially, but can also be used when a viewer has an older browser
-  than cannot handle the transitions properly or is a luddite ;-) and wants to scroll
-  rather than page.
+  This will generate a single page representing your entire presentation. It is primarily
+  useful when a viewer has an older browser than cannot handle the transitions properly
+  or is a luddite ;-) and wants to scroll rather than page.
+
+[http://localhost:9090/onepage]
+  This will generate printable version of your presentation, including any slides that
+  were tagged as _printonly_. This view can be printed directly from the browser, or
+  processed with any HTML-to-$thing engine.
 
 [http://localhost:9090/download]
   Your slides can include files for viewers to download and these files will be listed
