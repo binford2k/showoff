@@ -199,7 +199,7 @@ Instructions for adding support for new languages can be found at http://shjs.so
 
 == Presenter Notes
 
-Surround presenter notes with <tt>~~SECTION:notes~~</tt> and <tt>~~ENDSECTION~~</tt> tags. It will
+Surround presenter notes with <tt>~~~SECTION:notes~~~</tt> and <tt>~~~ENDSECTION~~~</tt> tags. It will
 display in the bottom section of the presenter view. The footer on the display window
 will also  display shorter notes. Toggle these with the n key while in the presentation.
 
@@ -211,7 +211,7 @@ will also  display shorter notes. Toggle these with the n key while in the prese
 
 == Handout Notes
 
-Surround handout notes with <tt>~~SECTION:handouts~~</tt> and <tt>~~ENDSECTION~~</tt> tags. It will
+Surround handout notes with <tt>~~~SECTION:handouts~~~</tt> and <tt>~~~ENDSECTION~~~</tt> tags. It will
 display below the slide in the printed version..
 
     ~~~SECTION:handouts~~~
