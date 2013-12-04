@@ -185,7 +185,6 @@ Supported languages include:
 - Ruby
 - Scala
 - Sh
-- Shell
 - Slang
 - Sml
 - Spec
