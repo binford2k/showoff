@@ -48,6 +48,7 @@ class ShowOff < Sinatra::Application
   set :page_size, "Letter"
   set :pres_template, nil
   set :showoff_config, {}
+  set :encoding, nil
 
   FileUtils.mkdir settings.statsdir unless File.directory? settings.statsdir
 
@@ -86,7 +87,8 @@ class ShowOff < Sinatra::Application
       showoff_json = JSON.parse(File.read(ShowOffUtils.presentation_config_file))
       settings.showoff_config = showoff_json
 
-      # Set options for template and page size
+      # Set options for encoding, template and page size
+      settings.encoding = showoff_json["encoding"]
       settings.page_size = showoff_json["page-size"] || "Letter"
       settings.pres_template = showoff_json["templates"]
     end
@@ -103,7 +105,7 @@ class ShowOff < Sinatra::Application
 
 
     # Initialize Markdown Configuration
-    #MarkdownConfig::setup(settings.pres_dir)
+    MarkdownConfig::setup(settings.pres_dir)
   end
 
   def self.pres_dir_current
@@ -142,7 +144,7 @@ class ShowOff < Sinatra::Application
 
     # todo: move more behavior into this class
     class Slide
-      attr_reader :classes, :text, :tpl
+      attr_reader :classes, :text, :tpl, :bg
       def initialize( context = "")
 
         @tpl = "default"
@@ -150,11 +152,10 @@ class ShowOff < Sinatra::Application
 
         # Parse the context string for options and content classes
         if context and context.match(/(\[(.*?)\])?(.*)/)
-
           options = ShowOffUtils.parse_options($2)
           @tpl = options["tpl"] if options["tpl"]
+          @bg = options["bg"] if options["bg"]
           @classes += $3.strip.chomp('>').split if $3
-
         end
 
         @text = ""
@@ -169,6 +170,13 @@ class ShowOff < Sinatra::Application
     end
 
     def process_markdown(name, content, opts={:static=>false, :pdf=>false, :print=>false, :toc=>false, :supplemental=>nil})
+      if settings.encoding and content.respond_to?(:force_encoding)
+        content.force_encoding(settings.encoding)
+      end
+      engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
+      @logger.debug "renderer: #{Tilt[:markdown].name}"
+      @logger.debug "render options: #{engine_options.inspect}"
+
       # if there are no !SLIDE markers, then make every H1 define a new slide
       unless content =~ /^\<?!SLIDE/m
         content = content.gsub(/^# /m, "<!SLIDE>\n# ")
@@ -238,6 +246,7 @@ class ShowOff < Sinatra::Application
         @logger.debug "classes: #{content_classes.inspect}"
         @logger.debug "transition: #{transition}"
         @logger.debug "tpl: #{slide.tpl} " if slide.tpl
+        @logger.debug "bg: #{slide.bg}" if slide.bg
 
 
         template = "~~~CONTENT~~~"
@@ -255,6 +264,7 @@ class ShowOff < Sinatra::Application
         classes = content_classes.join(' ')
         content = "<div"
         content += " id=\"#{id}\"" if id
+        content += " style=\"background: url('file/#{slide.bg}') center no-repeat;\"" if slide.bg
         content += " class=\"slide #{classes}\" data-transition=\"#{transition}\">"
 
         # name the slide. If we've got multiple slides in this file, we'll have a sequence number
@@ -267,7 +277,7 @@ class ShowOff < Sinatra::Application
 
         # Apply the template to the slide and replace the key to generate the content of the slide
         sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
-        sl = Tilt[:markdown].new { sl }.render
+        sl = Tilt[:markdown].new(nil, nil, engine_options) { sl }.render
         sl = update_p_classes(sl)
         sl = process_content_for_section_tags(sl)
         sl = update_special_content(sl, @slide_count, name) # TODO: deprecated
@@ -570,9 +580,8 @@ class ShowOff < Sinatra::Application
 
     def index(static=false)
       if static
-        @title = ShowOffUtils.showoff_title
+        @title = ShowOffUtils.showoff_title(settings.pres_dir)
         @slides = get_slides_html(:static=>static)
-
         @pause_msg = ShowOffUtils.pause_msg
 
         # Identify which languages to bundle for highlighting
@@ -759,10 +768,12 @@ class ShowOff < Sinatra::Application
         }
 
         # ... and copy all needed image files
-        data.scan(/img src=[\"\'].\/file\/(.*?)[\"\']/).flatten.each do |path|
-          dir = File.dirname(path)
-          FileUtils.makedirs(File.join(file_dir, dir))
-          FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+        [/img src=[\"\'].\/file\/(.*?)[\"\']/, /style=[\"\']background: url\(\'file\/(.*?)'/].each do |regex|
+          data.scan(regex).flatten.each do |path|
+            dir = File.dirname(path)
+            FileUtils.makedirs(File.join(file_dir, dir))
+            FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+          end
         end
         # copy images from css too
         Dir.glob("#{pres_dir}/*.css").each do |css_path|
@@ -941,7 +952,7 @@ class ShowOff < Sinatra::Application
 
   # gawd, this whole routing scheme is bollocks
   get %r{/([^/]*)/?([^/]*)} do
-    @title = ShowOffUtils.showoff_title
+    @title = ShowOffUtils.showoff_title(settings.pres_dir)
     @pause_msg = ShowOffUtils.pause_msg
     what = params[:captures].first
     opt  = params[:captures][1]

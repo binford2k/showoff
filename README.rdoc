@@ -87,6 +87,8 @@ So far, ShowOff has been used in the following presentations (and many others):
   http://github.com/alexch/workshop
 * SDRuby Lightning Talk - Readable Regexps - Ian Young
   https://github.com/iangreenleaf/sdruby-lightningtalk-tregexp
+* Disney HTML5 Summit 2011 - Polyfills: Shims and Shivs - Josh Dzielak
+  https://github.com/dzello/shims_and_shivs
 * All PuppetLabs training from Summer 2012 on and many internal & external presentations
 
 

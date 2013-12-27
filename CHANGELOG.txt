@@ -1,3 +1,17 @@
+0.9.7
+  Merged in fixes and new features from upstream in preparation for taking
+  over maintainership. I tried to keep attribution wherever I could, but
+  I had to massage several commits, and had to re-implement a couple.
+
+  New features:
+
+  * Allows one to set a custom per slide background
+  * Adds gherkin syntax highlighting
+  * Adds support for the Kramdown markdown engine
+  * Allows one to set markdown engine configuration options in showoff.json
+
+  If you notice any regressions please file issues and we'll get them fixed.
+
 0.9.6
   Ports client communication to websockets
   Adds audience interaction
