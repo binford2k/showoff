@@ -142,7 +142,7 @@ class ShowOff < Sinatra::Application
 
     # todo: move more behavior into this class
     class Slide
-      attr_reader :classes, :text, :tpl
+      attr_reader :classes, :text, :tpl, :bg
       def initialize( context = "")
 
         @tpl = "default"
@@ -150,11 +150,10 @@ class ShowOff < Sinatra::Application
 
         # Parse the context string for options and content classes
         if context and context.match(/(\[(.*?)\])?(.*)/)
-
           options = ShowOffUtils.parse_options($2)
           @tpl = options["tpl"] if options["tpl"]
+          @bg = options["bg"] if options["bg"]
           @classes += $3.strip.chomp('>').split if $3
-
         end
 
         @text = ""
@@ -238,6 +237,7 @@ class ShowOff < Sinatra::Application
         @logger.debug "classes: #{content_classes.inspect}"
         @logger.debug "transition: #{transition}"
         @logger.debug "tpl: #{slide.tpl} " if slide.tpl
+        @logger.debug "bg: #{slide.bg}" if slide.bg
 
 
         template = "~~~CONTENT~~~"
@@ -255,6 +255,7 @@ class ShowOff < Sinatra::Application
         classes = content_classes.join(' ')
         content = "<div"
         content += " id=\"#{id}\"" if id
+        content += " style=\"background: url('file/#{slide.bg}') center no-repeat;\"" if slide.bg
         content += " class=\"slide #{classes}\" data-transition=\"#{transition}\">"
 
         # name the slide. If we've got multiple slides in this file, we'll have a sequence number
@@ -758,10 +759,12 @@ class ShowOff < Sinatra::Application
         }
 
         # ... and copy all needed image files
-        data.scan(/img src=[\"\'].\/file\/(.*?)[\"\']/).flatten.each do |path|
-          dir = File.dirname(path)
-          FileUtils.makedirs(File.join(file_dir, dir))
-          FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+        [/img src=[\"\'].\/file\/(.*?)[\"\']/, /style=[\"\']background: url\(\'file\/(.*?)'/].each do |regex|
+          data.scan(regex).flatten.each do |path|
+            dir = File.dirname(path)
+            FileUtils.makedirs(File.join(file_dir, dir))
+            FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+          end
         end
         # copy images from css too
         Dir.glob("#{pres_dir}/*.css").each do |css_path|
