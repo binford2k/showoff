@@ -136,6 +136,12 @@ definition, where tname is one of the following supported transitions:
 
 The transitions are provided by jQuery Cycle plugin. See http://www.malsup.com/jquery/cycle/browser.html to view the effects and http://www.malsup.com/jquery/cycle/adv2.html for how to add custom effects.
 
+= Slide Backgrounds
+
+A custom per slide background can be set in the slide options. For example:
+
+     !SLIDE[bg=customLogo.png]
+
 = Language Highlighting
 
 Showoff uses {shjs}[http://shjs.sourceforge.net/] to highlight code blocks. If you begin a
