@@ -570,9 +570,8 @@ class ShowOff < Sinatra::Application
 
     def index(static=false)
       if static
-        @title = ShowOffUtils.showoff_title
+        @title = ShowOffUtils.showoff_title(settings.pres_dir)
         @slides = get_slides_html(:static=>static)
-
         @pause_msg = ShowOffUtils.pause_msg
 
         # Identify which languages to bundle for highlighting
@@ -941,7 +940,7 @@ class ShowOff < Sinatra::Application
 
   # gawd, this whole routing scheme is bollocks
   get %r{/([^/]*)/?([^/]*)} do
-    @title = ShowOffUtils.showoff_title
+    @title = ShowOffUtils.showoff_title(settings.pres_dir)
     @pause_msg = ShowOffUtils.pause_msg
     what = params[:captures].first
     opt  = params[:captures][1]
