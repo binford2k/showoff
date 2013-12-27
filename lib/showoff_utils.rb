@@ -4,7 +4,7 @@ class ShowOffUtils
   # the result in a dictionrary
   #
   # Example:
-  # 
+  #
   #    "tpl=hpi,title=Over the rainbow"
   #
   #    will be stored as
@@ -13,7 +13,7 @@ class ShowOffUtils
   def self.parse_options(option_string="")
     result = {}
 
-    if option_string 
+    if option_string
       option_string.split(",").each do |element|
         pair = element.split("=")
         result[pair[0]] = pair.size > 1 ? pair[1] : nil
@@ -324,7 +324,7 @@ class ShowOffUtils
   end
 
   def self.showoff_renderer_options(dir = '.', default_options = {})
-    opts = get_config_option(dir, showoff_markdown(dir))
+    opts = get_config_option(dir, showoff_markdown(dir), default_options)
     Hash[opts.map {|k, v| [k.to_sym, v]}] if opts    # keys must be symbols
   end
 

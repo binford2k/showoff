@@ -515,7 +515,8 @@ Create new showoff presentation
 [Aliases]
     - <tt>init</tt>
 
-This command helps start a new showoff presentation by setting up the proper directory structure for you.  It takes the directory name you would like showoff to create for you.
+This command helps start a new showoff presentation by setting up the proper directory
+structure for you.  It takes the directory name you would like showoff to create for you.
 
 Options are specified *after* the command.
 
@@ -533,22 +534,31 @@ with showoff. The following engines are available:
 - kramdown
 - rdiscount
 
-Configuring an engine (or overriding it's default configuration) allows you to access special features of that engine.
+You may configure special options of your markdown engine by including an
+options hash keyed off the markdown engine name in your configuration file.
+For example:
+
+    "markdown" : "kramdown",
+    "kramdown" : {
+       "space_after_headers": true
+    }
+
+
+Configuring an engine (or overriding its default configuration) allows you to
+access special features of that engine.
 
 === Maruku
 
 When you prefer using Maruku as the markdown engine of choice for your
-presentation, you can use the LaTeX Math Mode features of
-maruku. First you need
-{BlahTex}[http://www.mediawiki.org/wiki/Extension:Blahtex] and then
+presentation, you can use the LaTeX Math Mode features of maruku. First you
+need {BlahTex}[http://www.mediawiki.org/wiki/Extension:Blahtex] and then
 you need to configure your presentation as following:
 
-     {
-         /* other configuration options */,
-         "markdown" : "maruku",
-         "maruku" : {
-             "use_tex" : true, /* required if you want to use LaTeX */
-             "png_dir" : "images", /* optional */
-             "html_png_url" : "/file/images/" /* optional */
-         }
-     }
+    "markdown" : "maruku",
+    "maruku" : {
+       "use_tex" : true,
+       "png_dir" : "images",
+       "html_png_url" : "/file/images/"
+    }
+
+Note that `use_tex` is required, but configuring the `png_dir` and `html_png_dir` are optional.
