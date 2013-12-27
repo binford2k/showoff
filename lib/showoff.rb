@@ -673,7 +673,9 @@ class ShowOff < Sinatra::Application
       @all = Hash.new
       @@counter.each do |slide, stats|
         @all[slide] = 0
-        stats.map { |host, count| @all[slide] += count }
+        stats.map do |host, visits|
+          visits.each { |entry| @all[slide] += entry['elapsed'].to_f }
+        end
       end
 
       # most and least five viewed slides
@@ -891,7 +893,7 @@ class ShowOff < Sinatra::Application
               # a bucket of slideviews for this address
               @@counter[slide][remote] ||= Array.new
               # and add this slide viewing to the bucket
-              @@counter[slide][remote] << { :elapsed => time, :timestamp => Time.now.to_i, :presenter => @@current[:name] }
+              @@counter[slide][remote] << { 'elapsed' => time, 'timestamp' => Time.now.to_i, 'presenter' => @@current[:name] }
 
             when 'position'
               ws.send( { 'current' => @@current[:number] }.to_json ) unless @@cookie.nil?
