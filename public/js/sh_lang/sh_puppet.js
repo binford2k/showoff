@@ -34,7 +34,7 @@ sh_languages['puppet'] = [
       3
     ],
     [
-      /\/[^\n]*\//g,
+      /\/[^\n]*\/\s/g,  // anchor to \s to avoid matching directory names.
       'sh_regexp',
       -1
     ],
