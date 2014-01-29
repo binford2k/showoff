@@ -71,3 +71,8 @@ def in_image_dir
     end
   end
 end
+
+# FIXME: This should use Nokogiri matcher or something
+def count_slides(body)
+  body.scan(/class="slide"/).size
+end
