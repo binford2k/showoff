@@ -45,6 +45,10 @@ div.zoomed {
     background-color: #555;
   }
 
+  #topbar #links a.enabled {
+    background-color: #003d96;
+  }
+
   #topbar #links .mobile {
     display: none;
   }
