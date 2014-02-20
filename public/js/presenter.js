@@ -4,9 +4,11 @@ var slaveWindow = null;
 var paceData = [];
 
 $(document).ready(function(){
-  // attempt to open another window for the presentation. This may fail if
-  // popup blockers are enabled. In that case, the presenter needs to manually
-  // open the window by hitting the 'slave window' button.
+  // set up the presenter modes
+  mode = { track: false, follow: true, update: true, slave: false };
+
+  // attempt to open another window for the presentation if the mode defaults
+  // to enabling this. It does not by default, so this is likely a no-op.
   openSlave();
 
   // the presenter window doesn't need the reload on resize bit
@@ -60,9 +62,6 @@ $(document).ready(function(){
     bind('swipeleft', presNextStep).  // next
     bind('swiperight', presPrevStep); // prev
 
-  // set up the presenter modes
-  mode = { track: false, follow: true, update: true };
-
   $('#remoteToggle').change( toggleFollower );
   $('#followerToggle').change( toggleUpdater );
 
@@ -110,28 +109,46 @@ function reportIssue() {
   window.open(link);
 }
 
+function toggleSlave() {
+  mode.slave = !mode.slave;
+  openSlave();
+}
+
 function openSlave()
 {
-  try {
-    if(slaveWindow == null || typeof(slaveWindow) == 'undefined' || slaveWindow.closed){
-        slaveWindow = window.open('/' + window.location.hash);
+  if (mode.slave) {
+    try {
+      if(slaveWindow == null || typeof(slaveWindow) == 'undefined' || slaveWindow.closed){
+          slaveWindow = window.open('/' + window.location.hash, 'toolbar');
+      }
+      else if(slaveWindow.location.hash != window.location.hash) {
+        // maybe we need to reset content?
+        slaveWindow.location.href = '/' + window.location.hash;
+      }
+
+      // maintain the pointer back to the parent.
+      slaveWindow.presenterView = window;
+      slaveWindow.mode = { track: false, slave: true, follow: false };
+
+      $('#slaveWindow').addClass('enabled');
     }
-    else if(slaveWindow.location.hash != window.location.hash) {
-      // maybe we need to reset content?
-      slaveWindow.location.href = '/' + window.location.hash;
+    catch(e) {
+      console.log('Failed to open or connect slave window. Popup blocker?');
     }
 
-    // maintain the pointer back to the parent.
-    slaveWindow.presenterView = window;
-    slaveWindow.mode = { track: false, slave: true, follow: false };
+    // Set up a maintenance loop to keep the connection between windows. I wish there were a cleaner way to do this.
+    if (typeof maintainSlave == 'undefined') {
+      maintainSlave = setInterval(openSlave, 1000);
+    }
   }
-  catch(e) {
-    console.log('Failed to open or connect slave window. Popup blocker?');
-  }
-
-  // Set up a maintenance loop to keep the connection between windows. I wish there were a cleaner way to do this.
-  if (typeof maintainSlave == 'undefined') {
-    maintainSlave = setInterval(openSlave, 1000);
+  else {
+    try {
+      slaveWindow && slaveWindow.close();
+      $('#slaveWindow').removeClass('enabled');
+    }
+    catch (e) {
+      console.log('Slave window failed to close properly.');
+    }
   }
 }
 
