@@ -1,3 +1,7 @@
+0.9.7.1
+  Changed slave window popup behavior to work better with Chrome's popup
+  handling.
+
 0.9.7
   Merged in fixes and new features from upstream in preparation for taking
   over maintainership. I tried to keep attribution wherever I could, but
