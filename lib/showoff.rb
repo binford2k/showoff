@@ -5,7 +5,14 @@ require 'nokogiri'
 require 'fileutils'
 require 'logger'
 require 'htmlentities'
-require 'sinatra-websocket'
+
+begin
+  require 'sinatra-websocket'
+  WEBSOCKET_SUPPORT = true
+rescue LoadError
+  $stderr.puts "WARN: websocket support disabled - install sinatra-websocket"
+  WEBSOCKET_SUPPORT = false
+end
 
 here = File.expand_path(File.dirname(__FILE__))
 require "#{here}/showoff_utils"
@@ -38,7 +45,7 @@ class ShowOff < Sinatra::Application
   set :viewstats, "viewstats.json"
   set :feedback, "feedback.json"
 
-  set :server, 'thin'
+  set :server, 'thin' if WEBSOCKET_SUPPORT
   set :sockets, []
   set :presenters, []
 
@@ -845,108 +852,114 @@ class ShowOff < Sinatra::Application
     end
   end
 
-  get '/control' do
-    if !request.websocket?
-      raise Sinatra::NotFound
-    else
-      request.websocket do |ws|
-        ws.onopen do
-          ws.send( { 'current' => @@current[:number] }.to_json )
-          settings.sockets << ws
+  get '/websocket_support' do
+    WEBSOCKET_SUPPORT ? '1' : '0'
+  end
 
-          @logger.warn "Open sockets: #{settings.sockets.size}"
-        end
-        ws.onmessage do |data|
-          begin
-            control = JSON.parse(data)
+  if WEBSOCKET_SUPPORT
+    get '/control' do
+      if !request.websocket?
+        raise Sinatra::NotFound
+      else
+        request.websocket do |ws|
+          ws.onopen do
+            ws.send( { 'current' => @@current[:number] }.to_json )
+            settings.sockets << ws
 
-            @logger.warn "#{control.inspect}"
+            @logger.warn "Open sockets: #{settings.sockets.size}"
+          end
+          ws.onmessage do |data|
+            begin
+              control = JSON.parse(data)
 
-            case control['message']
-            when 'update'
-              # websockets don't use the same auth standards
-              # we use a session cookie to identify the presenter
-              if valid_cookie()
-                name  = control['name']
-                slide = control['slide'].to_i
+              @logger.warn "#{control.inspect}"
 
-                # check to see if we need to enable a download link
-                if @@downloads.has_key?(slide)
-                  @logger.debug "Enabling file download for slide #{name}"
-                  @@downloads[slide][0] = true
+              case control['message']
+              when 'update'
+                # websockets don't use the same auth standards
+                # we use a session cookie to identify the presenter
+                if valid_cookie()
+                  name  = control['name']
+                  slide = control['slide'].to_i
+
+                  # check to see if we need to enable a download link
+                  if @@downloads.has_key?(slide)
+                    @logger.debug "Enabling file download for slide #{name}"
+                    @@downloads[slide][0] = true
+                  end
+
+                  # update the current slide pointer
+                  @logger.debug "Updated current slide to #{name}"
+                  @@current = { :name => name, :number => slide }
+
+                  # schedule a notification for all clients
+                  EM.next_tick { settings.sockets.each{|s| s.send({ 'current' => @@current[:number] }.to_json) } }
                 end
 
-                # update the current slide pointer
-                @logger.debug "Updated current slide to #{name}"
-                @@current = { :name => name, :number => slide }
+              when 'register'
+                # save a list of presenters
+                if valid_cookie()
+                  remote = request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR']
+                  settings.presenters << ws
+                  @logger.warn "Registered new presenter: #{remote}"
+                end
 
-                # schedule a notification for all clients
-                EM.next_tick { settings.sockets.each{|s| s.send({ 'current' => @@current[:number] }.to_json) } }
-              end
-
-            when 'register'
-              # save a list of presenters
-              if valid_cookie()
+              when 'track'
                 remote = request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR']
-                settings.presenters << ws
-                @logger.warn "Registered new presenter: #{remote}"
-              end
+                slide  = control['slide']
+                time   = control['time'].to_f
 
-            when 'track'
-              remote = request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR']
-              slide  = control['slide']
-              time   = control['time'].to_f
+                @logger.debug "Logged #{time} on slide #{slide} for #{remote}"
 
-              @logger.debug "Logged #{time} on slide #{slide} for #{remote}"
+                # a bucket for this slide
+                @@counter[slide] ||= Hash.new
+                # a bucket of slideviews for this address
+                @@counter[slide][remote] ||= Array.new
+                # and add this slide viewing to the bucket
+                @@counter[slide][remote] << { 'elapsed' => time, 'timestamp' => Time.now.to_i, 'presenter' => @@current[:name] }
 
-              # a bucket for this slide
-              @@counter[slide] ||= Hash.new
-              # a bucket of slideviews for this address
-              @@counter[slide][remote] ||= Array.new
-              # and add this slide viewing to the bucket
-              @@counter[slide][remote] << { 'elapsed' => time, 'timestamp' => Time.now.to_i, 'presenter' => @@current[:name] }
+              when 'position'
+                ws.send( { 'current' => @@current[:number] }.to_json ) unless @@cookie.nil?
 
-            when 'position'
-              ws.send( { 'current' => @@current[:number] }.to_json ) unless @@cookie.nil?
+              when 'pace', 'question'
+                # just forward to the presenter(s)
+                EM.next_tick { settings.presenters.each{|s| s.send(data) } }
 
-            when 'pace', 'question'
-              # just forward to the presenter(s)
-              EM.next_tick { settings.presenters.each{|s| s.send(data) } }
+              when 'feedback'
+                filename = "#{settings.statsdir}/#{settings.feedback}"
+                slide    = control['slide']
+                rating   = control['rating']
+                feedback = control['feedback']
 
-            when 'feedback'
-              filename = "#{settings.statsdir}/#{settings.feedback}"
-              slide    = control['slide']
-              rating   = control['rating']
-              feedback = control['feedback']
+                begin
+                  log = JSON.parse(File.read(filename))
+                rescue
+                  # do nothing
+                end
 
-              begin
-                log = JSON.parse(File.read(filename))
-              rescue
-                # do nothing
-              end
+                log        ||= Hash.new
+                log[slide] ||= Array.new
+                log[slide]  << { :rating => rating, :feedback => feedback }
 
-              log        ||= Hash.new
-              log[slide] ||= Array.new
-              log[slide]  << { :rating => rating, :feedback => feedback }
+                if settings.verbose then
+                  File.write(filename, JSON.pretty_generate(log))
+                else
+                  File.write(filename, log.to_json)
+                end
 
-              if settings.verbose then
-                File.write(filename, JSON.pretty_generate(log))
               else
-                File.write(filename, log.to_json)
+                @logger.warn "Unknown message <#{control['message']}> received."
+                @logger.warn control.inspect
               end
 
-            else
-              @logger.warn "Unknown message <#{control['message']}> received."
-              @logger.warn control.inspect
+            rescue Exception => e
+              @logger.warn "Messaging error: #{e}"
             end
-
-          rescue Exception => e
-            @logger.warn "Messaging error: #{e}"
           end
-        end
-        ws.onclose do
-          @logger.warn("websocket closed")
-          settings.sockets.delete(ws)
+          ws.onclose do
+            @logger.warn("websocket closed")
+            settings.sockets.delete(ws)
+          end
         end
       end
     end
