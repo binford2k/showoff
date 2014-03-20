@@ -590,6 +590,8 @@ class ShowOff < Sinatra::Application
         @asset_path = "./"
       end
 
+      @favicon = settings.showoff_config['favicon']
+
       # Check to see if the presentation has enabled feedback
       @feedback = settings.showoff_config['feedback']
       erb :index

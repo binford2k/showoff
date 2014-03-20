@@ -5,6 +5,10 @@
 
   <link rel="stylesheet" href="<%= @asset_path %>/css/reset.css" type="text/css"/>
 
+  <% if @favicon %>
+  <link rel="icon" href="<%= @favicon %>"/>
+  <% end %>
+
   <link type="text/css" href="<%= @asset_path %>/css/fg.menu.css" media="screen" rel="stylesheet" />
   <link type="text/css" href="<%= @asset_path %>/css/theme/ui.all.css" media="screen" rel="stylesheet" />
   <link type="text/css" href="<%= @asset_path %>/css/sh_style.css" rel="stylesheet" />
