@@ -83,6 +83,7 @@ function setupPreso(load_slides, prefix) {
   $("#sendFeedback").click(function() {
     sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("textarea#feedback").val())
   });
+  $("#editSlide").click(function() { editSlide(); });
 
   $("textarea#question").val(questionPrompt);
   $("textarea#feedback").val(feedbackPrompt);
@@ -462,6 +463,13 @@ function track() {
       ws.send(JSON.stringify({ message: 'track', slide: slideName, time: elapsedTime}));
     }
   }
+}
+
+// Open a new tab with an online code editor, if so configured
+function editSlide() {
+  var slide = $("span#slideFilename").text();
+  var link  = editUrl + slide + ".md";
+  window.open(link);
 }
 
 function follow(slide) {

@@ -49,6 +49,16 @@ To enable this functionality, please set the key <tt>"feedback": true</tt> in yo
   explaining what could be made better on any given slide. The feedback and the current
   slide name are recorded on the presenter's machine for later analysis.
 
+==== Code Review
+
+[Edit Current Slide]
+  If the <tt>showoff.json</tt> file contains an <tt>edit</tt> key and showoff is called
+  with the <tt>--review</tt> command line flag then this button will appear, allowing
+  audience members with sufficient privileges to edit the source of the current slide
+  using an online editor at the configured location. This is most useful when your
+  slide source is stored in GitHub, or another repository that allows interactive editing.
+  This functionality is intended for periodic materials review sessions.
+
 == Presenter Functionality
 
 The presentation control panel provides many tools for interacting with your audience.

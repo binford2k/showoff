@@ -300,6 +300,17 @@ img#disconnected {
   text-align: center;
 }
 
+#feedbackSidebar div.row.tools {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+#feedbackSidebar div.row.tools button#editSlide {
+  width: 90%%;
+  margin: auto 5%;
+}
 
 .fg-menu-container {
     z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
@@ -486,10 +497,6 @@ ul#downloads {
 }
 ul#downloads li {
     margin: 0.5em;
-}
-
-span#issueUrl {
-  display: none;
 }
 
 /**********************
