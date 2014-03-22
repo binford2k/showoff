@@ -3,6 +3,10 @@
 
   <meta name="viewport" content="width=device-width"/>
 
+  <% if @favicon %>
+    <link rel="icon" href="<%= @favicon %>"/>
+  <% end %>
+
   <link rel="stylesheet" href="<%= @asset_path %>/css/reset.css" type="text/css"/>
   <link rel="stylesheet" href="<%= @asset_path %>/css/showoff.css" type="text/css"/>
 

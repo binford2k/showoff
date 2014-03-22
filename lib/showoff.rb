@@ -647,17 +647,20 @@ class ShowOff < Sinatra::Application
 
     def onepage(static=false)
       @slides = get_slides_html(:static=>static, :toc=>true)
+      @favicon = settings.showoff_config['favicon']
       #@languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
       erb :onepage
     end
 
     def print(static=false)
       @slides = get_slides_html(:static=>static, :toc=>true, :print=>true)
+      @favicon = settings.showoff_config['favicon']
       erb :onepage
     end
 
     def supplemental(content, static=false)
       @slides = get_slides_html(:static=>static, :supplemental=>content)
+      @favicon = settings.showoff_config['favicon']
       @wrapper_classes = ['supplemental']
       erb :onepage
     end
@@ -667,6 +670,7 @@ class ShowOff < Sinatra::Application
         shared = Dir.glob("#{settings.pres_dir}/_files/share/*").map { |path| File.basename(path) }
         # We use the icky -999 magic index because it has to be comparable for the view sort
         @downloads = { -999 => [ true, 'Shared Files', shared ] }
+        @favicon = settings.showoff_config['favicon']
       rescue Errno::ENOENT => e
         # don't fail if the directory doesn't exist
         @downloads = {}
