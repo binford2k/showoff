@@ -18,6 +18,7 @@ var gotoSlidenum = 0
 var shiftKeyActive = false
 var query
 var slideStartTime = new Date().getTime()
+var websocket_supported = false
 
 var questionPrompt = 'Ask a question...'
 var feedbackPrompt = 'Why?...'
@@ -77,26 +78,24 @@ function setupPreso(load_slides, prefix) {
     }
   );
 
-  $("#paceSlower").click(function() { sendPace('slower'); });
-  $("#paceFaster").click(function() { sendPace('faster'); });
-  $("#askQuestion").click(function() { askQuestion( $("textarea#question").val()) });
-  $("#sendFeedback").click(function() {
-    sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("textarea#feedback").val())
-  });
+  websocket_supported = ($.get('/websocket_support').response === '1')
 
-  $("textarea#question").val(questionPrompt);
-  $("textarea#feedback").val(feedbackPrompt);
-  $("textarea#question").focus(function() { clearIf($(this), questionPrompt) });
-  $("textarea#feedback").focus(function() { clearIf($(this), feedbackPrompt) });
+  if (websocket_supported) {
+    $("#paceSlower").click(function() { sendPace('slower'); });
+    $("#paceFaster").click(function() { sendPace('faster'); });
+    $("#askQuestion").click(function() { askQuestion( $("textarea#question").val()) });
+    $("#sendFeedback").click(function() {
+      sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("textarea#feedback").val())
+    });
 
-  // Open up our control socket
-  connectControlChannel();
-/*
-  ws           = new WebSocket('ws://' + location.host + '/control');
-  ws.onopen    = function()  { connected();          };
-  ws.onclose   = function()  { disconnected();       }
-  ws.onmessage = function(m) { parseMessage(m.data); };
-*/
+    $("textarea#question").val(questionPrompt);
+    $("textarea#feedback").val(feedbackPrompt);
+    $("textarea#question").focus(function() { clearIf($(this), questionPrompt) });
+    $("textarea#feedback").focus(function() { clearIf($(this), feedbackPrompt) });
+
+    // Open up our control socket
+    connectControlChannel();
+  }
 }
 
 function loadSlides(load_slides, prefix) {
@@ -360,10 +359,12 @@ function clearIf(elem, val) {
 }
 
 function connectControlChannel() {
-  ws           = new WebSocket('ws://' + location.host + '/control');
-  ws.onopen    = function()  { connected();          };
-  ws.onclose   = function()  { disconnected();       }
-  ws.onmessage = function(m) { parseMessage(m.data); };
+  if (websocket_supported) {
+    ws           = new WebSocket('ws://' + location.host + '/control');
+    ws.onopen    = function()  { connected();          };
+    ws.onclose   = function()  { disconnected();       }
+    ws.onmessage = function(m) { parseMessage(m.data); };
+  }
 }
 
 // This exists as an intermediary simply so the presenter view can override it
@@ -433,7 +434,7 @@ function feedbackActivity() {
 }
 
 function track() {
-  if (mode.track) {
+  if (mode.track && websocket_supported) {
     var slideName    = $("#slideFilename").text();
     var slideEndTime = new Date().getTime();
     var elapsedTime  = slideEndTime - slideStartTime;
