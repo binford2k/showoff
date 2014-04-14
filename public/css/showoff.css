@@ -134,7 +134,8 @@
 }
 
 /* nested lists get their bullets back */
-.content ul ul {
+.content ul ul,
+.content ol ul {
   list-style: disc;
   margin: 10px 10px;
   padding-left: 40px;
