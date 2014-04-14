@@ -195,17 +195,34 @@ function checkSlideParameter() {
 	}
 }
 
+// TODO: There must be a more elegant solution...
+function currentSlideFromName(name) {
+  count = 0;
+  found = null;
+	slides.each(function(s, slide) {
+	  if (name == $(slide).find(".content").attr("ref") ) {
+	    found = count;
+	  }
+	  count++;
+	});
+	return found;
+}
+
 function currentSlideFromParams() {
 	var result;
 	if (result = window.location.hash.match(/#([0-9]+)/)) {
 		return result[result.length - 1] - 1;
 	}
+	else {
+	  var hash = window.location.hash
+	  return currentSlideFromName(hash.substr(1, hash.length))
+  }
 }
 
 function setupSlideParamsCheck() {
 	var check = function() {
 		var currentSlide = currentSlideFromParams();
-		if (slidenum != currentSlide) {
+		if (!isNaN(currentSlide) && slidenum != currentSlide) {
 			slidenum = currentSlide;
 			showSlide();
 		}
