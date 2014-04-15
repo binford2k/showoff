@@ -195,17 +195,16 @@ function checkSlideParameter() {
 	}
 }
 
-// TODO: There must be a more elegant solution...
 function currentSlideFromName(name) {
-  count = 0;
-  found = null;
+  var count = 0;
 	slides.each(function(s, slide) {
 	  if (name == $(slide).find(".content").attr("ref") ) {
 	    found = count;
+	    return false;
 	  }
 	  count++;
 	});
-	return found;
+	return count;
 }
 
 function currentSlideFromParams() {
