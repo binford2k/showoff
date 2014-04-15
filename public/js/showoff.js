@@ -195,17 +195,33 @@ function checkSlideParameter() {
 	}
 }
 
+function currentSlideFromName(name) {
+  var count = 0;
+	slides.each(function(s, slide) {
+	  if (name == $(slide).find(".content").attr("ref") ) {
+	    found = count;
+	    return false;
+	  }
+	  count++;
+	});
+	return count;
+}
+
 function currentSlideFromParams() {
 	var result;
 	if (result = window.location.hash.match(/#([0-9]+)/)) {
 		return result[result.length - 1] - 1;
 	}
+	else {
+	  var hash = window.location.hash
+	  return currentSlideFromName(hash.substr(1, hash.length))
+  }
 }
 
 function setupSlideParamsCheck() {
 	var check = function() {
 		var currentSlide = currentSlideFromParams();
-		if (slidenum != currentSlide) {
+		if (!isNaN(currentSlide) && slidenum != currentSlide) {
 			slidenum = currentSlide;
 			showSlide();
 		}
