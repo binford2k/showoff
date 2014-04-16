@@ -1,11 +1,12 @@
 // presenter js
 var slaveWindow = null;
+var nextWindow = null;
 
 var paceData = [];
 
 $(document).ready(function(){
   // set up the presenter modes
-  mode = { track: false, follow: true, update: true, slave: false };
+  mode = { track: false, follow: true, update: true, slave: false, next: false};
 
   // attempt to open another window for the presentation if the mode defaults
   // to enabling this. It does not by default, so this is likely a no-op.
@@ -152,6 +153,58 @@ function openSlave()
   }
 }
 
+function nextSlideNum(url) {
+  // Some fudging because the first slide is slide[0] but numbered 1 in the URL
+  console.log(typeof(url));
+  var snum;
+  if (typeof(url) == 'undefined') { snum = currentSlideFromParams()+1; }
+  else { snum = currentSlideFromParams()+2; } 
+  return snum;
+}
+
+function toggleNext() {
+  mode.next = !mode.next;
+  openNext();
+}
+
+function openNext()
+{
+  if (mode.next) {
+    try {
+      if(nextWindow == null || typeof(nextWindow) == 'undefined' || nextWindow.closed){
+          nextWindow = window.open('/?track=false#' + nextSlideNum(true),'','width=300,height=200');
+      }
+      else if(nextWindow.location.hash != '#' + nextSlideNum(true)) {
+        // maybe we need to reset content?
+        nextWindow.location.href = '/?track=false#' + nextSlideNum(true);
+      }
+
+      // maintain the pointer back to the parent.
+      nextWindow.presenterView = window;
+      nextWindow.mode = { track: false, next: true, follow: true };
+
+      $('#nextWindow').addClass('enabled');
+    }
+    catch(e) {
+      console.log('Failed to open or connect next window. Popup blocker?');
+    }
+
+    // Set up a maintenance loop to keep the connection between windows. I wish there were a cleaner way to do this.
+    //if (typeof maintainNext == 'undefined') {
+    //  maintainNext = setInterval(openNext, 1000);
+    //}
+  }
+  else {
+    try {
+      nextWindow && nextWindow.close();
+      $('#nextWindow').removeClass('enabled');
+    }
+    catch (e) {
+      console.log('Next window failed to close properly.');
+    }
+  }
+}
+
 function askQuestion(question) {
   $("#questions ul").prepend($('<li/>').text(question));
 }
@@ -264,11 +317,12 @@ function register() {
 
 function presPrevStep()
 {
-    prevStep();
-    try { slaveWindow.prevStep(false) } catch (e) {};
-    postSlide();
-
-    update();
+  prevStep();
+  try { slaveWindow.prevStep(false) } catch (e) {};
+  try { nextWindow.gotoSlide(nextSlideNum()) } catch (e) {};
+  postSlide();
+  
+  update();
 }
 
 function presNextStep()
@@ -278,8 +332,9 @@ function presNextStep()
     incrCurr = slaveWindow.incrCurr
     incrSteps = slaveWindow.incrSteps
 */
-	nextStep();
+  nextStep();
 	try { slaveWindow.nextStep(false) } catch (e) {};
+  try { nextWindow.gotoSlide(nextSlideNum()) } catch (e) {};
 	postSlide();
 
 	update();
