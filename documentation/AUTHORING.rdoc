@@ -57,6 +57,10 @@ For example:
 This lets you keep the ability to emit an HTML document from your Markdown source
 file -- say, for a TextMate preview or a GitHub rendering
 
+You can link to specific slides using either a slide number, or a name. The number
+can be found in the URL of your browser, and the name is shown in the debug output
+or in the upper left of the presenter view.
+
 == Markdown Format
 
 Showoff renders Markdown format as documented at http://daringfireball.net/projects/markdown/syntax.
@@ -164,6 +168,7 @@ Supported languages include:
 - Cucumber
 - Desktop
 - Diff
+- Docker
 - Erlang
 - Flex
 - Glsl

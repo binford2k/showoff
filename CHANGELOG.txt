@@ -1,3 +1,13 @@
+0.9.8
+  Merged in several community contributions and added some new features.
+
+  * Add favicon support (@raphink and @jamtur01)
+  * Add Docker syntax highlighting (@jamtur01)
+  * Add ability to link to named slides
+  * Added popup next slide view (@WhatsARanjit)
+  * Reinstate ability to host multiple presentations at once (@jcoglan)
+  * Added a code review workflow allowing quick material updates.
+
 0.9.7.1
   Changed slave window popup behavior to work better with Chrome's popup
   handling.
