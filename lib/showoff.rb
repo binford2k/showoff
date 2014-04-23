@@ -970,7 +970,7 @@ class ShowOff < Sinatra::Application
       protected! if settings.showoff_config['protected'].include? what
     end
 
-    @asset_path = (env['SCRIPT_NAME'] || '').gsub(/^\/?/, '/').gsub(/\/?$/, '/')
+    @asset_path = env['SCRIPT_NAME'] == '' ? nil : env['SCRIPT_NAME'].gsub(/^\/?/, '/').gsub(/\/?$/, '/')
 
     begin
       if (what != "favicon.ico")
