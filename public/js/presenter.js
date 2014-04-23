@@ -104,9 +104,14 @@ function popupLoader(elem, page, id, event)
 }
 
 function reportIssue() {
-  var slide  = $("span#slideFile").text();
-  var issues = $("span#issueUrl").text();
-  var link = issues + encodeURIComponent('Issue with slide: ' + slide);
+  var slide = $("span#slideFile").text();
+  var link  = issueUrl + encodeURIComponent('Issue with slide: ' + slide);
+  window.open(link);
+}
+
+function editSlide() {
+  var slide = $("span#slideFile").text();
+  var link  = editUrl + slide + ".md";
   window.open(link);
 }
 

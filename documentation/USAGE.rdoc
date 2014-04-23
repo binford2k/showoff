@@ -82,6 +82,13 @@ tools that you should be familiar with.
   used to generate the slide, so is exponentially more useful than a slide number when
   correlating slide content with the source file used to generate it.
 
+[Edit Slide]
+  If the <tt>showoff.json</tt> file contains an <tt>edit</tt> key then this button
+  will allow presenters to edit the source of the current slide using an online editor
+  at the configured location. This is most useful when your slide source is stored in
+  GitHub, or another repository that allows interactive editing. This button only appears
+  when showoff is called with the <tt>--review</tt> command line flag.
+
 [Report Issue With Slide]
   If the <tt>showoff.json</tt> file contains an <tt>issues</tt> key then this button
   will allow presenters to report problems with the slide currently being viewed

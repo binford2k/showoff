@@ -41,6 +41,11 @@
           <textarea id="feedback"></textarea>
           <button id="sendFeedback">Send Feedback</button>
         </div>
+        <% if @edit then %>
+        <div class="row tools">
+          <button id="editSlide">Edit Current Slide</button>
+        </div>
+        <% end %>
         <div id="disclaimer">All features are anonymous</div>
     </div>
     <div id="feedbackHandle"></div>

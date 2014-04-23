@@ -48,7 +48,9 @@
   <% end %>
 
   <script type="text/javascript">
-  $(function(){
+    $(function(){
       setupPreso(<%= @slides.nil? ? "true" : "false"%>, '<%= @asset_path %>');
-  });
+    });
+
+    editUrl  = "<%= @edit %>";
   </script>

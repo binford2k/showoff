@@ -45,6 +45,8 @@ class ShowOff < Sinatra::Application
   set :presenters, []
 
   set :verbose, false
+  set :review, false
+
   set :pres_dir, '.'
   set :pres_file, 'showoff.json'
   set :page_size, "Letter"
@@ -70,6 +72,8 @@ class ShowOff < Sinatra::Application
     @logger = Logger.new(STDOUT)
     @logger.formatter = proc { |severity,datetime,progname,msg| "#{progname} #{msg}\n" }
     @logger.level = settings.verbose ? Logger::DEBUG : Logger::WARN
+
+    @review = settings.review
 
     dir = File.expand_path(File.join(File.dirname(__FILE__), '..'))
     @logger.debug(dir)
@@ -592,15 +596,21 @@ class ShowOff < Sinatra::Application
         @asset_path = "./"
       end
 
-      @favicon = settings.showoff_config['favicon']
+      # Display favicon in the window if configured
+      @favicon  = settings.showoff_config['favicon']
 
       # Check to see if the presentation has enabled feedback
       @feedback = settings.showoff_config['feedback']
+
+      # Provide a button in the sidebar for interactive editing if configured
+      @edit     = settings.showoff_config['edit'] if @review
+
       erb :index
     end
 
     def presenter
       @issues    = settings.showoff_config['issues']
+      @edit      = settings.showoff_config['edit'] if @review
       @@cookie ||= guid()
       response.set_cookie('presenter', @@cookie)
       erb :presenter
