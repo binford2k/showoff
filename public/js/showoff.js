@@ -60,6 +60,9 @@ function setupPreso(load_slides, prefix) {
   // give us the ability to disable tracking via url parameter
   if(query.track == 'false') mode.track = false;
 
+  // make sure that the next view doesn't bugger things on the first load
+  if(query.next == 'true')   mode.next = true;
+
   // Make sure the slides always look right.
   // Better would be dynamic calculations, but this is enough for now.
   $(window).resize(function(){location.reload();});
@@ -91,7 +94,9 @@ function setupPreso(load_slides, prefix) {
   $("textarea#feedback").focus(function() { clearIf($(this), feedbackPrompt) });
 
   // Open up our control socket
-  connectControlChannel();
+  if(mode.track) {
+    connectControlChannel();
+  }
 /*
   ws           = new WebSocket('ws://' + location.host + '/control');
   ws.onopen    = function()  { connected();          };
@@ -300,7 +305,7 @@ function showSlide(back_step, updatepv) {
   $('#slideFilename').text(fileName);
 
   // Update presenter view, if we spawned one
-	if (updatepv && 'presenterView' in window) {
+	if (updatepv && 'presenterView' in window && ! mode.next) {
     var pv = window.presenterView;
 		pv.slidenum = slidenum;
     pv.incrCurr = incrCurr
