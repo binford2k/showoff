@@ -163,7 +163,7 @@ function nextSlideNum(url) {
   console.log(typeof(url));
   var snum;
   if (typeof(url) == 'undefined') { snum = currentSlideFromParams()+1; }
-  else { snum = currentSlideFromParams()+2; } 
+  else { snum = currentSlideFromParams()+2; }
   return snum;
 }
 
@@ -177,11 +177,11 @@ function openNext()
   if (mode.next) {
     try {
       if(nextWindow == null || typeof(nextWindow) == 'undefined' || nextWindow.closed){
-          nextWindow = window.open('/?track=false#' + nextSlideNum(true),'','width=300,height=200');
+          nextWindow = window.open('/?track=false&feedback=false&next=true#' + nextSlideNum(true),'','width=300,height=200');
       }
       else if(nextWindow.location.hash != '#' + nextSlideNum(true)) {
         // maybe we need to reset content?
-        nextWindow.location.href = '/?track=false#' + nextSlideNum(true);
+        nextWindow.location.href = '/?track=false&feedback=false&next=true#' + nextSlideNum(true);
       }
 
       // maintain the pointer back to the parent.
@@ -326,7 +326,7 @@ function presPrevStep()
   try { slaveWindow.prevStep(false) } catch (e) {};
   try { nextWindow.gotoSlide(nextSlideNum()) } catch (e) {};
   postSlide();
-  
+
   update();
 }
 

@@ -38,6 +38,7 @@
       border-top-left-radius: 3px;
       border-top-right-radius: 3px;
       z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
+      display: none;
   }
   #followMode {
     display: none;
