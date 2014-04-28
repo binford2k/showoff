@@ -1,3 +1,7 @@
+0.9.8.1
+  * fix thin dependency so prerelease isn't pulled in
+  * add nicer usage messaging
+
 0.9.8
   Merged in several community contributions and added some new features.
 
