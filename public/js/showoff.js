@@ -203,13 +203,15 @@ function checkSlideParameter() {
 
 function currentSlideFromName(name) {
   var count = 0;
-	slides.each(function(s, slide) {
-	  if (name == $(slide).find(".content").attr("ref") ) {
-	    found = count;
-	    return false;
-	  }
-	  count++;
-	});
+  if(name.length > 0 ) {
+  	slides.each(function(s, slide) {
+  	  if (name == $(slide).find(".content").attr("ref") ) {
+  	    found = count;
+  	    return false;
+  	  }
+  	  count++;
+  	});
+	}
 	return count;
 }
 
