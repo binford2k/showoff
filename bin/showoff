@@ -14,6 +14,26 @@ else
 end
 
 version SHOWOFF_VERSION
+program_desc <<-desc
+A web based presentation engine with awesome interaction features.
+
+  ShowOff uses Markdown files with a few custom extensions to generate slides
+  that are served locally for presentation via web browser. Your audience can
+  view presentations directly as well, and interact with you in many ways.
+
+  ShowOff can optionally use the RMagick gem for automatic image resizing
+  functionality. If RMagick is available, images included in your presentation
+  will be resized down to meet size constraints of your presentation if needed.
+
+  Showoff can optionally use the PDFKit gem to autogenerate PDF files on demand.
+  Viewers can access the /pdf endpoint to download a generated PDF file. This
+  functionality is likely to be deprecated, since it is simpler and easier to
+  just print the /print endpoint directly from your browser.
+
+  The simplest use case is to run `showoff serve` from the directory containing
+  the showoff.json file.
+desc
+
 
 desc 'Create new showoff presentation'
 arg_name 'dir_name'

@@ -24,7 +24,10 @@ Gem::Specification.new do |s|
   s.add_dependency      "parslet"
   s.add_dependency      "htmlentities"
   s.add_dependency      "sinatra-websocket"
-  
+
+  # workaround a bad dependency in sinatra-websocket
+  s.add_dependency      "thin", "~> 1.3"
+
   # both gems fail to build on Ruby 1.8.7, the default in older OS X
   if RUBY_VERSION.to_f < 1.9
     s.add_dependency      "redcarpet", "< 3.0.0"
@@ -45,5 +48,20 @@ Gem::Specification.new do |s|
   then startup the showoff server in that directory.  It will read in your
   showoff.json file for which sections go in which order and then will give
   you a URL to present from.
+  desc
+
+  s.post_install_message = <<-desc
+
+  ************************************************************************
+  ShowOff can optionally use the RMagick gem for automatic image resizing
+  functionality. If RMagick is available, images included in your presentation
+  will be resized down to meet size constraints of your presentation, if required.
+
+  Showoff can optionally use the PDFKit gem to autogenerate PDF files on demand.
+  Viewers can access the /pdf endpoint to download a generated PDF file. This
+  functionality is likely to be deprecated, since it is simpler and easier to
+  just print the /print endpoint directly from your browser.
+  ************************************************************************
+
   desc
 end

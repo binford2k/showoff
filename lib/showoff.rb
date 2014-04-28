@@ -14,15 +14,13 @@ require "#{here}/commandline_parser"
 begin
   require 'RMagick'
 rescue LoadError
-  $stderr.puts 'NOTICE: * automatic image sizing unavailable; install RMagick for this functionality.'
+  # nop
 end
 
 begin
   require 'pdfkit'
 rescue LoadError
-  $stderr.puts 'NOTICE: * internal pdf generation disabled; install PDFKit for this functionality'
-  $stderr.puts 'NOTICE:   the PDFKit integration will likely be deprecated. Instead, you should'
-  $stderr.puts 'NOTICE:   simply use your browser to print from the /print endpoint.'
+  # nop
 end
 
 require 'tilt'
