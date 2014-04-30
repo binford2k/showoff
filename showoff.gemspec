@@ -23,19 +23,11 @@ Gem::Specification.new do |s|
   s.add_dependency      "gli",">= 1.3.2"
   s.add_dependency      "parslet"
   s.add_dependency      "htmlentities"
+  s.add_dependency      "redcarpet"
+  s.add_dependency      "nokogiri"
   s.add_dependency      "sinatra-websocket"
-
   # workaround a bad dependency in sinatra-websocket
   s.add_dependency      "thin", "~> 1.3"
-
-  # both gems fail to build on Ruby 1.8.7, the default in older OS X
-  if RUBY_VERSION.to_f < 1.9
-    s.add_dependency      "redcarpet", "< 3.0.0"
-    s.add_dependency      "nokogiri",  "< 1.5.10"
-  else
-    s.add_dependency      "redcarpet"
-    s.add_dependency      "nokogiri"
-  end
 
   s.add_development_dependency "mg"
   s.description       = <<-desc
