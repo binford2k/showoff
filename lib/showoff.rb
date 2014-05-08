@@ -596,7 +596,7 @@ class ShowOff < Sinatra::Application
 
       # Display favicon in the window if configured
       @favicon  = settings.showoff_config['favicon']
-      
+
       # Check to see if the presentation has enabled feedback
       @feedback = settings.showoff_config['feedback'] unless params[:feedback] == 'false' if params
 
