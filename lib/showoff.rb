@@ -598,7 +598,7 @@ class ShowOff < Sinatra::Application
       @favicon  = settings.showoff_config['favicon']
 
       # Check to see if the presentation has enabled feedback
-      @feedback = settings.showoff_config['feedback'] unless params[:feedback] == 'false'
+      @feedback = settings.showoff_config['feedback'] if (params && params[:feedback] == 'true')
 
       # Provide a button in the sidebar for interactive editing if configured
       @edit     = settings.showoff_config['edit'] if @review
