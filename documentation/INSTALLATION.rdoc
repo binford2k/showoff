@@ -4,7 +4,7 @@ Simply install the gem and dependencies.
 
     $ gem install showoff
 
-If you are running the <tt>puppetlabs/showoff</tt> fork, then you should clone the repository and build the gem manually instead.
+To use the development version, then you should clone the repository and build the gem manually instead.
 
     $ git clone https://github.com/puppetlabs/showoff.git
     $ cd showoff
