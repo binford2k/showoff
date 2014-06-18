@@ -1,6 +1,6 @@
-= ShowOff Presentation Software
+= Showoff Presentation Software
 
-ShowOff is a Sinatra web app that reads simple configuration files for a
+Showoff is a Sinatra web app that reads simple configuration files for a
 presentation.  It is sort of like a Keynote web app engine - think S5 +
 Slidedown.  I am using it to do all my talks in 2010, because I have a deep
 hatred in my heart for Keynote and yet it is by far the best in the field.
@@ -50,7 +50,7 @@ Please see the documentation in <tt>./documentation</tt> for further information
 
 = Real World Usage
 
-So far, ShowOff has been used in the following presentations (and many others):
+So far, Showoff has been used in the following presentations (and many others):
 
 * LinuxConf.au 2010 - Wrangling Git - Scott Chacon
   http://github.com/schacon/showoff-wrangling-git
