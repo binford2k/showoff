@@ -1,6 +1,6 @@
 = Usage
 
-ShowOff is meant to be run in a ShowOff formatted repository - that means that
+Showoff is meant to be run in a Showoff formatted repository - that means that
 it has a <tt>showoff.json</tt> file and a number of sections (subdirectories) with
 markdown files for the slides you're presenting.
 
@@ -8,7 +8,7 @@ markdown files for the slides you're presenting.
     $ cd (showoff-repo)
     $ showoff serve
 
-If you run Showoff in the example subdirectory of ShowOff itself, it will
+If you run Showoff in the example subdirectory of Showoff itself, it will
 show an example presentation, so you can see what it's like.
 
 You can also run <tt>showoff serve</tt> inside a section subdirectory. If there is no
@@ -46,7 +46,7 @@ web browser. The following URL paths are available for use by you and your audie
   useful when a viewer has an older browser than cannot handle the transitions properly
   or is a luddite ;-) and wants to scroll rather than page.
 
-[http://localhost:9090/onepage]
+[http://localhost:9090/print]
   This will generate printable version of your presentation, including any slides that
   were tagged as _printonly_. This view can be printed directly from the browser, or
   processed with any HTML-to-$thing engine.
