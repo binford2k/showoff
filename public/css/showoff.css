@@ -61,16 +61,19 @@
 }
 
 /* plain (non-bullet) text */
-.content > p {
-	font-size: 2em;
+.content > p,
+.content > form > p {
+    font-size: 2em;
     margin: 1em;
-	text-align: center;
+    text-align: center;
 }
 
-.content > pre {
+.content > pre,
+.content > form > pre {
     font-size: 300%;
 }
-.content > blockquote {
+.content > blockquote,
+.content > form > blockquote {
     font-size: 250%;
     margin: 2em;
 }
@@ -92,9 +95,9 @@
 /* numbered lists are numbered */
 .content ol {
     margin-left: 40px;
-	font-size: 3em;
-	text-align: left;
-	padding-left: 40px;
+    font-size: 3em;
+    text-align: left;
+    padding-left: 40px;
 }
 .content ol > li {
     list-style: decimal;
@@ -103,15 +106,15 @@
 
 
 /* ironically, normal lists have bullets and 'bullets' lists don't */
-.content > ul {
+.content > ul,
+.content > form > ul {
     list-style: disc;
+    font-size: 3em;
+    text-align: left;
+    padding-left: 40px;
 }
-.content > ul {
-	font-size: 3em;
-	text-align: left;
-	padding-left: 40px;
-}
-.content > ul > li {
+.content > ul > li,
+.content > form > ul > li {
     padding: .5em;
     margin-left: 40px;
 }
@@ -446,6 +449,52 @@ a.fg-button { float:left; }
 }
 #toc a::after {
   content: leader(".") target-counter(attr(href), page);
+}
+
+/**********************************
+ ***       form widgets         ***
+ **********************************/
+.content form label {
+  margin-right: 0.5em;
+}
+.content form select {
+  font-size: 2em;
+}
+/* TODO: not sure why the preview window honks things up */
+#preview .content form select {
+  font-size: 0.8em;
+}
+.content form div.tools {
+  font-size: 2em;
+  border-top: 1px solid black;
+}
+.content form div.tools * {
+  float: right;
+}
+.content form div.tools input[type=submit],
+.content form div.tools input[type=button] {
+  margin: 1em;
+}
+.content form div.tools input[type=submit].dirty {
+  background: red;
+}
+
+div.rendered.form {
+  border: 1px solid #ccc;
+  border-radius: 0.5em;
+  margin: 1em;
+  padding: 0.25em;
+}
+div.rendered.form label {
+  display: block;
+  font-weight: bold;
+}
+div.rendered.form .item {
+  display: block;
+  width: 0;
+  overflow: hidden;
+  text-wrap: none;
+  background-color: red;
 }
 
 /**********************************

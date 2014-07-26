@@ -37,6 +37,7 @@ class ShowOff < Sinatra::Application
   set :statsdir, "stats"
   set :viewstats, "viewstats.json"
   set :feedback, "feedback.json"
+  set :forms, "forms.json"
 
   set :server, 'thin'
   set :sockets, []
@@ -59,6 +60,13 @@ class ShowOff < Sinatra::Application
     @@counter = JSON.parse(File.read("#{settings.statsdir}/#{settings.viewstats}"))
   rescue
     @@counter = Hash.new
+  end
+
+  # keeps track of form responses. In memory to avoid concurrence issues.
+  begin
+    @@forms = JSON.parse(File.read("#{settings.statsdir}/#{settings.forms}"))
+  rescue
+    @@forms = Hash.new
   end
 
   @@downloads = Hash.new # Track downloadable files
@@ -282,6 +290,7 @@ class ShowOff < Sinatra::Application
         # Apply the template to the slide and replace the key to generate the content of the slide
         sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
         sl = Tilt[:markdown].new(nil, nil, engine_options) { sl }.render
+        sl = build_forms(sl, content_classes)
         sl = update_p_classes(sl)
         sl = process_content_for_section_tags(sl)
         sl = update_special_content(sl, @slide_count, name) # TODO: deprecated
@@ -313,6 +322,9 @@ class ShowOff < Sinatra::Application
 
       # scan for pagebreak tags. Should really only be used for handout notes or supplemental materials
       result.gsub!("~~~PAGEBREAK~~~", '<div class="break">continued...</div>')
+
+      # replace with form rendering placeholder
+      result.gsub!(/~~~FORM:([^~]*)~~~/, '<div class="rendered form" title="\1"></div>')
 
       # Now check for any kind of options
       content.scan(/(~~~CONFIG:(.*?)~~~)/).each do |match|
@@ -380,6 +392,158 @@ class ShowOff < Sinatra::Application
     # find any lines that start with a <p>.(something) and turn them into <p class="something">
     def update_p_classes(markdown)
       markdown.gsub(/<p>\.(.*?) /, '<p class="\1">')
+    end
+
+    # replace custom markup with html forms
+    def build_forms(content, classes=[])
+      classes.select { |cl| cl =~ /^form=(\w+)$/ }
+      # only process slides marked as forms
+      return content unless $1
+
+      begin
+        tools = '<div class="tools"><input type="button" class="display" value="Display Results"><input type="submit" value="Save"></div>'
+        form  = "<form id='#{$1}' action='/form/#{$1}' method='POST'>#{content}#{tools}</form>"
+        doc = Nokogiri::HTML::DocumentFragment.parse(form)
+        doc.css('p').each do |p|
+          if p.text =~ /^(\w*) ?(?:->)? ?([^\*]*)? ?(\*?)= ?(.*)?$/
+            id       = $1
+            name     = $2.empty? ? $1 : $2
+            required = ! $3.empty?
+            rhs      = $4
+
+            p.replace form_element(id, name, required, rhs, p.text)
+          end
+        end
+        doc.to_html
+      rescue Exception => e
+        puts e.message
+        puts "Backtrace:\n\t#{e.backtrace.join("\n\t")}"
+        @logger.debug "Form parsing failed: #{e.message}"
+        content
+      end
+    end
+
+    def form_element(id, name, required, rhs, text)
+      required = required ? 'required' : ''
+      str = "<div class='form element #{required}' id='#{id}'>"
+      case rhs
+      when /^___+(?:\[(\d+)\])?$/        # value = ___[50]
+        str << form_element_text(id, name, $1)
+      when /^\(x?\)/                     # value = (x) option one () opt2 () opt3 -> option 3
+        str << form_element_radio(id, name, rhs.scan(/\((x?)\)\s*([^()]+)\s*/))
+      when /^\[x?\]/                     # value = [x] option one [] opt2 [] opt3 -> option 3
+        str << form_element_checkboxes(id, name, rhs.scan(/\[(x?)\] ?([^\[\]]+)/))
+      when /^{(.*)}$/                    # value = {BOS, SFO, (NYC)}
+        str << form_element_select(id, name, rhs.scan(/\(?\w+\)?/))
+      when /^{$/                         # value = {
+        str << form_element_select_multiline(id, name, text)
+      when ''                            # value =
+        str << form_element_multiline(id, name, text)
+      else
+        @logger.debug "Unmatched form element"
+      end
+      str << '</div>'
+    end
+
+    def form_element_text(id, name, length)
+      str = "<label for='#{id}'>#{name}:</label>"
+      str << "<input type='text' id='#{id}' name='#{name}' size='#{length}' />"
+    end
+
+    def form_element_radio(id, name, items)
+      puts 'radio'
+      puts items.inspect
+      form_element_check_or_radio_set('radio', id, name, items)
+    end
+
+    def form_element_checkboxes(id, name, items)
+      form_element_check_or_radio_set('checkbox', id, name, items)
+    end
+
+    def form_element_select(id, name, items)
+      str =  "<label for='#{id}'>#{name}:</label>"
+      str << "<select id='#{id}' name='#{name}'>"
+      str << '<option>----</option>'
+
+      items.each do |item|
+        if item =~ /\((\w+)\)/
+          item     = $1
+          selected = 'selected'
+        else
+          selected = ''
+        end
+        str << "<option value='#{item}' #{selected}>#{item}</option>"
+      end
+      str << '</select>'
+    end
+
+    def form_element_select_multiline(id, name, text)
+      str =  "<label for='#{id}'>#{name}:</label>"
+      str << "<select id='#{id}' name='#{id}'>"
+      str << '<option>----</option>'
+
+      text.split("\n")[1..-1].each do |item|
+        puts item
+        case item
+        when /^   +\((\w+) -> (.+)\),?$/         # (NYC -> New York City)
+          str << "<option value='#{$1}' selected>#{$2}</option>"
+        when /^   +(\w+) -> (.+),?$/             # NYC -> New, York City
+          str << "<option value='#{$1}'>#{$2}</option>"
+        when /^   +\((.+)[^,],?$/                # (Boston)
+          str << "<option value='#{$1}' selected>#{$1}</option>"
+        when /^   +([^\(].+[^\),]),?$/           # Boston
+          str << "<option value='#{$1}'>#{$1}</option>"
+        end
+      end
+      str << '</select>'
+    end
+
+    def form_element_multiline(id, name, text)
+      str =  "<label for='#{id}'>#{name}:</label>"
+      str << '<ul>'
+
+      text.split("\n")[1..-1].each do |item|
+        case item
+        when /\((x?)\)\s*(\w+)\s*(?:->\s*(.*)?)?/
+          checked = $1.empty? ? '': "checked='checked'"
+          type  = 'radio'
+          value = $2
+          label = $3 || $2
+        when /\[(x?)\]\s*(\w+)\s*(?:->\s*(.*)?)?/
+          checked = $1.empty? ? '': "checked='checked'"
+          type  = 'checkbox'
+          value = $2
+          label = $3 || $2
+        end
+
+        str << '<li>'
+        str << form_element_check_or_radio(type, id, value, label, checked)
+        str << '</li>'
+      end
+      str << '</ul>'
+    end
+
+    def form_element_check_or_radio_set(type, id, name, items)
+      str = "<label>#{name}:</label>"
+      items.each do |item|
+        checked = item[0].empty? ? '': "checked='checked'"
+
+        if item[1] =~ /^(\w*) -> (.*)$/
+          value = $1
+          label = $2
+        else
+          value = label = item[1]
+        end
+
+        str << form_element_check_or_radio(type, id, value, label, checked)
+      end
+      str
+    end
+
+    def form_element_check_or_radio(type, id, value, label, checked)
+      # yes, value and id are conflated, because this is the id of the parent widget
+      str =  "<input type='#{type}' name='#{id}' id='#{value}' value='#{value}' #{checked} />"
+      str << "<label for='#{value}'>#{label}</label>"
     end
 
     # TODO: deprecated
@@ -471,7 +635,7 @@ class ShowOff < Sinatra::Application
     end
 
     def update_commandline_code(slide)
-      html = Nokogiri::XML.parse(slide)
+      html = Nokogiri::HTML.parse(slide)
       parser = CommandlineParser.new
 
       html.css('pre').each do |pre|
@@ -845,6 +1009,31 @@ class ShowOff < Sinatra::Application
     (request.cookies['presenter'] == @@cookie)
   end
 
+  post '/form/:id' do |id|
+    @logger.warn("Saving form answers from ip:#{request.ip} for id:##{id}")
+
+    form = params.reject { |k,v| ['splat', 'captures', 'id'].include? k }
+
+    # make sure we've got a bucket for this form, then save our answers
+    @@forms[id] ||= {}
+    @@forms[id][request.ip] = form
+
+    form.to_json
+  end
+
+  # Return a list of the totals for each alternative for each question of a form
+  get '/form/:id' do |id|
+    return nil unless @@forms.has_key? id
+
+    @@forms[id].each_with_object({}) do |(ip,form), sum|
+      form.each do |key, val|
+        sum[key]      ||= {}
+        sum[key][val] ||= 0
+        sum[key][val]  += 1
+      end
+    end.to_json
+  end
+
   get '/eval_ruby' do
     return eval_ruby(params[:code]) if ENV['SHOWOFF_EVAL_RUBY']
 
@@ -1010,12 +1199,24 @@ class ShowOff < Sinatra::Application
 
   at_exit do
     if defined?(@@counter)
-      filename = "#{settings.statsdir}/#{settings.viewstats}"
-      if settings.verbose then
-        File.write(filename, JSON.pretty_generate(@@counter))
-      else
-        File.write(filename, @@counter.to_json)
+      File.open("#{settings.statsdir}/#{settings.viewstats}", 'w') do |f|
+        if settings.verbose then
+          f.write(JSON.pretty_generate(@@counter))
+        else
+          f.write(@@counter.to_json)
+        end
       end
     end
+
+    if defined?(@@forms)
+      File.open("#{settings.statsdir}/#{settings.forms}", 'w') do |f|
+        if settings.verbose then
+          f.write(JSON.pretty_generate(@@forms))
+        else
+          f.write(@@forms.to_json)
+        end
+      end
+    end
+
   end
 end

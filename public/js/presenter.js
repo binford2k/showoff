@@ -357,11 +357,20 @@ function postSlide()
 		  var notes = getCurrentNotes()
 		}
 */
-    var notes = getCurrentNotes()
-		$('#notes').html(notes.html())
+    // clear out any existing rendered forms
+    try { clearInterval(renderFormInterval) } catch(e) {}
+    $('#notes div.form').empty();
 
-		var fileName = currentSlide.children().first().attr('ref')
-		$('#slideFile').text(fileName)
+    var notes = getCurrentNotes();
+		$('#notes').html(notes.html());
+
+		var fileName = currentSlide.children().first().attr('ref');
+		$('#slideFile').text(fileName);
+
+    $("#notes div.form").each(function(e) {
+      renderFormInterval = renderFormWatcher($(this));
+    });
+
 	}
 }
 
