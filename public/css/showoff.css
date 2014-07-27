@@ -460,6 +460,9 @@ a.fg-button { float:left; }
 .content form select {
   font-size: 2em;
 }
+.content form textarea {
+  display: block;
+}
 /* TODO: not sure why the preview window honks things up */
 #preview .content form select {
   font-size: 0.8em;

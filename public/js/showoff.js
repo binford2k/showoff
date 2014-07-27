@@ -161,6 +161,16 @@ function initializePresentation(prefix) {
     submitForm($(this));
   });
 
+  // suspend hotkey handling
+  $(".content form :input").focus( function() {
+    document.onkeydown = null;
+    document.onkeyup   = null;
+  });
+  $(".content form :input").blur( function() {
+    document.onkeydown = keyDown;
+    document.onkeyup   = keyUp;
+  });
+
   $(".content form :input").change(function(e) {
     enableForm($(this));
   });
@@ -464,9 +474,11 @@ function renderForm(form) {
       $(this).children(':input').each(function() {
         switch( $(this).attr('type') ) {
           case 'text':
-          case 'submit':
           case 'button':
+          case 'submit':
+          case 'textarea':
             // we don't render these
+            $(this).parent().remove();
             break;
 
           case 'radio':

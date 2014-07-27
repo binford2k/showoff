@@ -324,7 +324,7 @@ class ShowOff < Sinatra::Application
       result.gsub!("~~~PAGEBREAK~~~", '<div class="break">continued...</div>')
 
       # replace with form rendering placeholder
-      result.gsub!(/~~~FORM:([^~]*)~~~/, '<div class="rendered form" title="\1"></div>')
+      result.gsub!(/~~~FORM:([^~]*)~~~/, '<div class="form wrapper" title="\1"></div>')
 
       # Now check for any kind of options
       content.scan(/(~~~CONFIG:(.*?)~~~)/).each do |match|
@@ -425,19 +425,22 @@ class ShowOff < Sinatra::Application
 
     def form_element(id, name, required, rhs, text)
       required = required ? 'required' : ''
-      str = "<div class='form element #{required}' id='#{id}'>"
+      str =  "<div class='form element #{required}' id='#{id}'>"
+      str << "<label for='#{id}'>#{name}:</label>"
       case rhs
-      when /^___+(?:\[(\d+)\])?$/        # value = ___[50]
+      when /^\[\s+(\d*)\]$$/             # value = [    5]                                    (textarea)
+        str << form_element_textarea(id, name, $1)
+      when /^___+(?:\[(\d+)\])?$/        # value = ___[50]                                    (text)
         str << form_element_text(id, name, $1)
-      when /^\(x?\)/                     # value = (x) option one () opt2 () opt3 -> option 3
+      when /^\(x?\)/                     # value = (x) option one () opt2 () opt3 -> option 3 (radio)
         str << form_element_radio(id, name, rhs.scan(/\((x?)\)\s*([^()]+)\s*/))
-      when /^\[x?\]/                     # value = [x] option one [] opt2 [] opt3 -> option 3
+      when /^\[x?\]/                     # value = [x] option one [] opt2 [] opt3 -> option 3 (checkboxes)
         str << form_element_checkboxes(id, name, rhs.scan(/\[(x?)\] ?([^\[\]]+)/))
-      when /^{(.*)}$/                    # value = {BOS, SFO, (NYC)}
+      when /^{(.*)}$/                    # value = {BOS, SFO, (NYC)}                          (select shorthand)
         str << form_element_select(id, name, rhs.scan(/\(?\w+\)?/))
-      when /^{$/                         # value = {
+      when /^{$/                         # value = {                                          (select)
         str << form_element_select_multiline(id, name, text)
-      when ''                            # value =
+      when ''                            # value =                                            (radio/checkbox list)
         str << form_element_multiline(id, name, text)
       else
         @logger.debug "Unmatched form element"
@@ -446,13 +449,15 @@ class ShowOff < Sinatra::Application
     end
 
     def form_element_text(id, name, length)
-      str = "<label for='#{id}'>#{name}:</label>"
-      str << "<input type='text' id='#{id}' name='#{name}' size='#{length}' />"
+      "<input type='text' id='#{id}' name='#{id}' size='#{length}' />"
+    end
+
+    def form_element_textarea(id, name, rows)
+      rows = 3 if rows.empty?
+      "<textarea id='#{id}' name='#{id}' rows='#{rows}'></textarea>"
     end
 
     def form_element_radio(id, name, items)
-      puts 'radio'
-      puts items.inspect
       form_element_check_or_radio_set('radio', id, name, items)
     end
 
@@ -461,8 +466,7 @@ class ShowOff < Sinatra::Application
     end
 
     def form_element_select(id, name, items)
-      str =  "<label for='#{id}'>#{name}:</label>"
-      str << "<select id='#{id}' name='#{name}'>"
+      str =  "<select id='#{id}' name='#{name}'>"
       str << '<option>----</option>'
 
       items.each do |item|
@@ -478,8 +482,7 @@ class ShowOff < Sinatra::Application
     end
 
     def form_element_select_multiline(id, name, text)
-      str =  "<label for='#{id}'>#{name}:</label>"
-      str << "<select id='#{id}' name='#{id}'>"
+      str =  "<select id='#{id}' name='#{id}'>"
       str << '<option>----</option>'
 
       text.split("\n")[1..-1].each do |item|
@@ -499,8 +502,7 @@ class ShowOff < Sinatra::Application
     end
 
     def form_element_multiline(id, name, text)
-      str =  "<label for='#{id}'>#{name}:</label>"
-      str << '<ul>'
+      str = '<ul>'
 
       text.split("\n")[1..-1].each do |item|
         case item
@@ -524,7 +526,7 @@ class ShowOff < Sinatra::Application
     end
 
     def form_element_check_or_radio_set(type, id, name, items)
-      str = "<label>#{name}:</label>"
+      str = ''
       items.each do |item|
         checked = item[0].empty? ? '': "checked='checked'"
 
