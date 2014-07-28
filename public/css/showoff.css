@@ -454,17 +454,28 @@ a.fg-button { float:left; }
 /**********************************
  ***       form widgets         ***
  **********************************/
-.content form label {
+.content div.form.element {
+    text-align: left;
+    padding-left: 40px;
+}
+.content div.form.element label {
   margin-right: 0.5em;
 }
-.content form select {
+.content div.form.element select {
   font-size: 2em;
 }
-.content form textarea {
+.content div.form.element textarea {
   display: block;
+  width: 85%;
+}
+.content div.form.element ul {
+  list-style: disc;
+}
+.content div.form.element ul > li {
+  margin-left: 40px;
 }
 /* TODO: not sure why the preview window honks things up */
-#preview .content form select {
+#preview .content div.form.element select {
   font-size: 0.8em;
 }
 .content form div.tools {
@@ -495,10 +506,16 @@ div.rendered.form label {
 div.rendered.form .item {
   display: block;
   width: 0;
-  overflow: hidden;
-  text-wrap: none;
-  background-color: red;
+/*   overflow: hidden; */
+  height: 1.25em;
+  white-space: nowrap;
 }
+div.rendered.form .item.barstyle0 { background-color: #bb73bb; }
+div.rendered.form .item.barstyle1 { background-color: #59b859; }
+div.rendered.form .item.barstyle2 { background-color: #e3742f; }
+div.rendered.form .item.barstyle3 { background-color: #4848e8; }
+div.rendered.form .item.barstyle4 { background-color: #f75d5d; }
+
 
 /**********************************
  ***   supplemental materials   ***

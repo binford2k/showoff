@@ -522,6 +522,8 @@ function renderForm(form) {
         if(count) { sum += count; }
       });
 
+      var max   = 5;
+      var style = 0;
       $(this).find('.item').each(function() {
         var name  = $(this).attr('id');
         var count = data[key][name];
@@ -534,8 +536,10 @@ function renderForm(form) {
           console.log(percent);
 
           $(this).attr('data-count', count);
+          $(this).addClass('barstyle'+style);
           $(this).animate({width: percent});
-          //$(this).width(percent);
+
+          style++; style %= max;
         }
       });
 
