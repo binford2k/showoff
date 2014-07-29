@@ -85,6 +85,7 @@ Some useful styles for each slide are:
 [printonly] this slide should only appear in the printed version of the presentation
 [noprint] this slide will not appear in the printed version of the presentation
 [supplemental] rather than adding a slide to the main presentation, add a slide to supplemental materials. See below.
+[form=id] Render form elements on this slide with a given form ID. See below, and in FORMS.rdoc.
 
 Check out the example directory included to see examples of most of these.
 
@@ -206,6 +207,11 @@ Supported languages include:
 
 Instructions for adding support for new languages can be found at http://shjs.sourceforge.net/doc/documentation.html
 
+= Forms
+
+Showoff extends Markdown to render a limited subset of form elements. This is mostly useful for polls,
+quizzes, surveys, etc. See FORMS.rdoc for more complete information.
+
 = Sections
 
 == Presenter Notes
@@ -257,6 +263,10 @@ contain any markup that the slide itself can.
 [~~~TOC~~~]
   Generates a Table of Contents using the subsection titles. Some renderers (such as
   PrinceXML[http://www.princexml.com]) are able to autonumber the table with links to content.
+
+[~~~FORM:id~~~]
+  Places a continuously updating block displaying the live results from the form with the given ID.
+  This is most useful when you're performing a poll or pop quiz during the presentation.
 
 = Preshow
 
