@@ -95,8 +95,8 @@ The right hand side (answer) can be rendered in the following ways:
     cuisine -> What is your favorite cuisine? = { American, Italian, French }
 
     cuisine -> What is your favorite cuisine? = {
-          US -> American,
-          IT -> Italian,
+          US -> American
+          IT -> Italian
           FR -> French
         }
 
@@ -115,3 +115,40 @@ The presenter view also includes a <em>Display Results</em> button instead of th
 <em>Save</em> button that audience members see. Pressing this button will render
 a single snapshot of the current results over the slave window. This will commonly
 be displayed on the projector. Pressing the button again will update the results.
+
+== Example slide
+
+    <!SLIDE form=classinfo>
+    # Making Acquaintances
+    ## Let's get to know each other
+
+    Tell me a little bit about yourself to help me better tailor the classroom
+    experience towards your needs.
+
+    howlong -> How long have have you been using Puppet? = {
+       under -> Less than six months
+       6mo -> Around six months
+       1yr -> About a year
+       2yr -> Two years or so
+       more -> Since before Puppet Enterprise was a sparkle in Luke's eye, get offa my lawn.
+    }
+
+    job -> What is your work role? =
+        [] support -> Technical Support
+        [] Sysadmin
+        [] dbadmin -> DB Admin
+        [] Developer
+        [] Management
+
+
+    usedpe -> Have you used Puppet Enterprise? = () Yes () No
+
+    prepared -> Do you feel prepared for this class? = () Yes () No
+
+    ~~~SECTION:notes~~~
+
+    Tell the class a little bit about yourself and your own background.
+
+    ~~~FORM:classinfo~~~
+
+    ~~~ENDSECTION~~~
