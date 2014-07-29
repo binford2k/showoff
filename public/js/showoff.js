@@ -416,20 +416,37 @@ function clearIf(elem, val) {
 
 // form handling
 function submitForm(form) {
-  validateForm(form);
+  if(validateForm(form)) {
+    var dataString = form.serialize();
+    var formAction = form.attr("action");
 
-  var dataString = form.serialize();
-  var formAction = form.attr("action");
-
-  $.post(formAction, dataString, function( data ) {
-    var submit = form.find("input[type=submit]")
-    submit.attr("disabled", "disabled");
-    submit.removeClass("dirty");
-  });
+    $.post(formAction, dataString, function( data ) {
+      var submit = form.find("input[type=submit]")
+      submit.attr("disabled", "disabled");
+      submit.removeClass("dirty");
+    });
+  }
 }
 
 function validateForm(form) {
-  return true;
+  var success = true;
+
+  form.children('div.form.element.required').each(function() {
+    var count  = $(this).find(':input:checked').length;
+    var value  = $.trim($(this).children('input:text, textarea, select').first().val());
+
+    // if we have no checked inputs or content, then flag it
+    if(count || (value && value)) {
+      $(this).closest('div.form.element').removeClass('warning');
+    }
+    else {
+      $(this).closest('div.form.element').addClass('warning');
+      success = false;
+    }
+
+  });
+
+  return success;
 }
 
 function enableForm(element) {
@@ -458,7 +475,7 @@ function renderForm(form) {
   }
   var action = form.attr("action");
   $.getJSON(action, function( data ) {
-    console.log(data);
+    //console.log(data);
     form.children('div.form.element').each(function() {
       var key = $(this).attr('id');
       var sum = 0;
@@ -471,6 +488,8 @@ function renderForm(form) {
       });
 
       // replace all input widgets with spans for the bar chart
+      var max   = 5;
+      var style = 0;
       $(this).children(':input').each(function() {
         switch( $(this).attr('type') ) {
           case 'text':
@@ -492,7 +511,7 @@ function renderForm(form) {
               $(this).remove();
             }
             else{
-              $(this).replaceWith('<div class="item" id="'+name+'">'+text+'</div>');
+              $(this).replaceWith('<div class="item barstyle'+style+'" id="'+name+'">'+text+'</div>');
             }
             label.remove();
             break;
@@ -507,41 +526,43 @@ function renderForm(form) {
               var text  = $(this).text();
 
               if(! text.match(/^-+$/)) {
-                parent.append('<div class="item" id="'+value+'">'+text+'</div>');
+                parent.append('<div class="item barstyle'+style+'" id="'+value+'">'+text+'</div>');
               }
             });
             $(this).remove();
             break;
         }
+
+        // loop style counter
+        style++; style %= max;
       });
 
-      // double loop so we can handle re-renderings of the form
-      $(this).find('.item').each(function() {
-        var name  = $(this).attr('id');
-        var count = data[key][name];
-        if(count) { sum += count; }
-      });
+      // only start counting and sizing bars if we actually have usable data
+      if(data) {
+        // double loop so we can handle re-renderings of the form
+        $(this).find('.item').each(function() {
+          var name  = $(this).attr('id');
+          var count = data[key][name];
 
-      var max   = 5;
-      var style = 0;
-      $(this).find('.item').each(function() {
-        var name  = $(this).attr('id');
-        var count = data[key][name];
+          if(count) { sum += count; }
+        });
 
-        console.log('Name:'+name+' Count:'+count+' Sum:'+sum);
 
-        if(count && sum) {
-          var percent = ((count/sum)*100)+'%';
+        $(this).find('.item').each(function() {
+          var name     = $(this).attr('id');
+          var oldCount = $(this).attr('data-count');
+          var oldSum   = $(this).attr('data-sum');
+          var count    = data[key][name] || 0;
 
-          console.log(percent);
+          if(count != oldCount || sum != oldSum) {
+            var percent = (sum) ? ((count/sum)*100)+'%' : '0%';
 
-          $(this).attr('data-count', count);
-          $(this).addClass('barstyle'+style);
-          $(this).animate({width: percent});
-
-          style++; style %= max;
-        }
-      });
+            $(this).attr('data-count', count);
+            $(this).attr('data-sum', sum);
+            $(this).animate({width: percent});
+          }
+        });
+      }
 
       $(this).addClass('rendered');
     });

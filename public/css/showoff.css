@@ -478,9 +478,11 @@ a.fg-button { float:left; }
 #preview .content div.form.element select {
   font-size: 0.8em;
 }
+.content div.form.element.warning {
+  background-color: #ff7373;
+}
 .content form div.tools {
   font-size: 2em;
-  border-top: 1px solid black;
 }
 .content form div.tools * {
   float: right;
@@ -490,7 +492,10 @@ a.fg-button { float:left; }
   margin: 1em;
 }
 .content form div.tools input[type=submit].dirty {
-  background: red;
+  color: red;
+}
+.content form div.tools input[type=button].display {
+  display: none;
 }
 
 div.rendered.form {
@@ -502,6 +507,7 @@ div.rendered.form {
 div.rendered.form label {
   display: block;
   font-weight: bold;
+  border-bottom: 1px solid #999;
 }
 div.rendered.form .item {
   display: block;

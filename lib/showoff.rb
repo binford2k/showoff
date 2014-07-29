@@ -401,7 +401,10 @@ class ShowOff < Sinatra::Application
       return content unless $1
 
       begin
-        tools = '<div class="tools"><input type="button" class="display" value="Display Results"><input type="submit" value="Save"></div>'
+        tools =  '<div class="tools">'
+        tools << '<input type="button" class="display" value="Display Results">'
+        tools << '<input type="submit" value="Save" disabled="disabled">'
+        tools << '</div>'
         form  = "<form id='#{$1}' action='/form/#{$1}' method='POST'>#{content}#{tools}</form>"
         doc = Nokogiri::HTML::DocumentFragment.parse(form)
         doc.css('p').each do |p|
@@ -416,9 +419,8 @@ class ShowOff < Sinatra::Application
         end
         doc.to_html
       rescue Exception => e
-        puts e.message
-        puts "Backtrace:\n\t#{e.backtrace.join("\n\t")}"
-        @logger.debug "Form parsing failed: #{e.message}"
+        @logger.warn "Form parsing failed: #{e.message}"
+        @logger.debug "Backtrace:\n\t#{e.backtrace.join("\n\t")}"
         content
       end
     end
@@ -443,7 +445,7 @@ class ShowOff < Sinatra::Application
       when ''                            # value =                                            (radio/checkbox list)
         str << form_element_multiline(id, name, text)
       else
-        @logger.debug "Unmatched form element"
+        @logger.warn "Unmatched form element: #{rhs}"
       end
       str << '</div>'
     end
@@ -467,7 +469,7 @@ class ShowOff < Sinatra::Application
 
     def form_element_select(id, name, items)
       str =  "<select id='#{id}' name='#{name}'>"
-      str << '<option>----</option>'
+      str << '<option value="">----</option>'
 
       items.each do |item|
         if item =~ /\((\w+)\)/
@@ -483,10 +485,9 @@ class ShowOff < Sinatra::Application
 
     def form_element_select_multiline(id, name, text)
       str =  "<select id='#{id}' name='#{id}'>"
-      str << '<option>----</option>'
+      str << '<option value="">----</option>'
 
       text.split("\n")[1..-1].each do |item|
-        puts item
         case item
         when /^   +\((\w+) -> (.+)\),?$/         # (NYC -> New York City)
           str << "<option value='#{$1}' selected>#{$2}</option>"
@@ -544,6 +545,8 @@ class ShowOff < Sinatra::Application
 
     def form_element_check_or_radio(type, id, value, label, checked)
       # yes, value and id are conflated, because this is the id of the parent widget
+
+      id  = "#{id}[]" if type == 'checkbox'
       str =  "<input type='#{type}' name='#{id}' id='#{value}' value='#{value}' #{checked} />"
       str << "<label for='#{value}'>#{label}</label>"
     end
@@ -1030,8 +1033,16 @@ class ShowOff < Sinatra::Application
     @@forms[id].each_with_object({}) do |(ip,form), sum|
       form.each do |key, val|
         sum[key]      ||= {}
-        sum[key][val] ||= 0
-        sum[key][val]  += 1
+
+        if val.class == Array
+          val.each do |item|
+            sum[key][item] ||= 0
+            sum[key][item]  += 1
+          end
+        else
+          sum[key][val] ||= 0
+          sum[key][val]  += 1
+        end
       end
     end.to_json
   end

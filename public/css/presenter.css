@@ -157,6 +157,13 @@ div.zoomed {
     background: #eee;
   }
 
+#preview .content form div.tools input[type=button].display {
+  display: inline;
+}
+#preview .content form div.tools input[type=submit] {
+  display: none;
+}
+
 img#disconnected {
   margin: 0.5em 1em;
 }
