@@ -529,6 +529,9 @@ function renderForm(form) {
 
               if(! text.match(/^-+$/)) {
                 parent.append('<div class="item barstyle'+style+'" id="'+value+'">'+text+'</div>');
+
+                // loop style counter
+                style++; style %= max;
               }
             });
             $(this).remove();

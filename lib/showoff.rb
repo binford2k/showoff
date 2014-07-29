@@ -428,7 +428,7 @@ class ShowOff < Sinatra::Application
     def form_element(id, name, required, rhs, text)
       required = required ? 'required' : ''
       str =  "<div class='form element #{required}' id='#{id}'>"
-      str << "<label for='#{id}'>#{name}:</label>"
+      str << "<label for='#{id}'>#{name}</label>"
       case rhs
       when /^\[\s+(\d*)\]$$/             # value = [    5]                                    (textarea)
         str << form_element_textarea(id, name, $1)
