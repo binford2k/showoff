@@ -522,6 +522,9 @@ div.rendered.form .item.barstyle2 { background-color: #e3742f; }
 div.rendered.form .item.barstyle3 { background-color: #4848e8; }
 div.rendered.form .item.barstyle4 { background-color: #f75d5d; }
 
+#notes .form.wrapper {
+  display: none;
+}
 
 /**********************************
  ***   supplemental materials   ***

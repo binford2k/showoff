@@ -466,6 +466,8 @@ function renderFormWatcher(element) {
   });
 
   renderForm(element);
+  // short pause to let the form be rebuilt. Prevents screen flashing.
+  setTimeout(function() { element.show(); }, 100);
   return setInterval(function() { renderForm(element); }, 3000);
 }
 
