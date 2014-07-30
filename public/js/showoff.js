@@ -155,6 +155,36 @@ function initializePresentation(prefix) {
 	} catch(e) {
 	    sh_highlightDocument();
 	}
+
+  $(".content form").submit(function(e) {
+    e.preventDefault();
+    submitForm($(this));
+  });
+
+  // suspend hotkey handling
+  $(".content form :input").focus( function() {
+    document.onkeydown = null;
+    document.onkeyup   = null;
+  });
+  $(".content form :input").blur( function() {
+    document.onkeydown = keyDown;
+    document.onkeyup   = keyUp;
+  });
+
+  $(".content form :input").change(function(e) {
+    enableForm($(this));
+  });
+
+  $(".content form div.tools input.display").click(function(e) {
+    try {
+      // If we're a presenter, try to bust open the slave display
+      slaveWindow.renderForm($(this).closest('form').attr('id'));
+    }
+    catch (e) {
+      renderForm($(this).closest('form'));
+    }
+  });
+
 	$("#preso").trigger("showoff:loaded");
 }
 
@@ -381,6 +411,168 @@ function clearIf(elem, val) {
   console.log(elem.val());
   console.log(val);
   if(elem.val() == val ) { elem.val(''); }
+}
+
+
+// form handling
+function submitForm(form) {
+  if(validateForm(form)) {
+    var dataString = form.serialize();
+    var formAction = form.attr("action");
+
+    $.post(formAction, dataString, function( data ) {
+      var submit = form.find("input[type=submit]")
+      submit.attr("disabled", "disabled");
+      submit.removeClass("dirty");
+    });
+  }
+}
+
+function validateForm(form) {
+  var success = true;
+
+  form.children('div.form.element.required').each(function() {
+    var count  = $(this).find(':input:checked').length;
+    var value  = $.trim($(this).children('input:text, textarea, select').first().val());
+
+    // if we have no checked inputs or content, then flag it
+    if(count || (value && value)) {
+      $(this).closest('div.form.element').removeClass('warning');
+    }
+    else {
+      $(this).closest('div.form.element').addClass('warning');
+      success = false;
+    }
+
+  });
+
+  return success;
+}
+
+function enableForm(element) {
+  var submit = element.closest('form').find(':submit')
+  submit.removeAttr("disabled");
+  submit.addClass("dirty")
+}
+
+function renderFormWatcher(element) {
+  var form = element.attr('title');
+  var action = $('.content form#'+form).attr('action');
+
+  element.empty();
+  element.attr('action', action); // yes, we're putting an action on a div. Sue me.
+  $('.content form#'+form+' div.form.element').each(function() {
+    $(this).clone().appendTo(element);
+  });
+
+  renderForm(element);
+  // short pause to let the form be rebuilt. Prevents screen flashing.
+  setTimeout(function() { element.show(); }, 100);
+  return setInterval(function() { renderForm(element); }, 3000);
+}
+
+function renderForm(form) {
+  if(typeof(form) == 'string') {
+    form = $('form#'+form);
+  }
+  var action = form.attr("action");
+  $.getJSON(action, function( data ) {
+    //console.log(data);
+    form.children('div.form.element').each(function() {
+      var key = $(this).attr('id');
+      var sum = 0;
+
+      $(this).find('ul > li > *').each(function() {
+        $(this).parent().parent().before(this);
+      });
+      $(this).children('ul').each(function() {
+        $(this).remove();
+      });
+
+      // replace all input widgets with spans for the bar chart
+      var max   = 5;
+      var style = 0;
+      $(this).children(':input').each(function() {
+        switch( $(this).attr('type') ) {
+          case 'text':
+          case 'button':
+          case 'submit':
+          case 'textarea':
+            // we don't render these
+            $(this).parent().remove();
+            break;
+
+          case 'radio':
+          case 'checkbox':
+            // Just render these directly and migrate the label to inside the span
+            var name  = $(this).attr('id');
+            var label = $(this).next('label');
+            var text  = label.text();
+
+            if(text.match(/^-+$/)) {
+              $(this).remove();
+            }
+            else{
+              $(this).replaceWith('<div class="item barstyle'+style+'" id="'+name+'">'+text+'</div>');
+            }
+            label.remove();
+            break;
+
+          default:
+            // select doesn't have a type attribute... yay html
+            // poke inside to get options, then render each as a span and replace the select
+            parent = $(this).parent();
+
+            $(this).children('option').each(function() {
+              var value = $(this).val();
+              var text  = $(this).text();
+
+              if(! text.match(/^-+$/)) {
+                parent.append('<div class="item barstyle'+style+'" id="'+value+'">'+text+'</div>');
+
+                // loop style counter
+                style++; style %= max;
+              }
+            });
+            $(this).remove();
+            break;
+        }
+
+        // loop style counter
+        style++; style %= max;
+      });
+
+      // only start counting and sizing bars if we actually have usable data
+      if(data) {
+        // double loop so we can handle re-renderings of the form
+        $(this).find('.item').each(function() {
+          var name  = $(this).attr('id');
+          var count = data[key][name];
+
+          if(count) { sum += count; }
+        });
+
+
+        $(this).find('.item').each(function() {
+          var name     = $(this).attr('id');
+          var oldCount = $(this).attr('data-count');
+          var oldSum   = $(this).attr('data-sum');
+          var count    = data[key][name] || 0;
+
+          if(count != oldCount || sum != oldSum) {
+            var percent = (sum) ? ((count/sum)*100)+'%' : '0%';
+
+            $(this).attr('data-count', count);
+            $(this).attr('data-sum', sum);
+            $(this).animate({width: percent});
+          }
+        });
+      }
+
+      $(this).addClass('rendered');
+    });
+
+  });
 }
 
 function connectControlChannel() {
