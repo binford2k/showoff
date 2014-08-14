@@ -40,7 +40,7 @@ function setupPreso(load_slides, prefix) {
 
 	// Load slides fetches images
 	loadSlidesBool = load_slides
-	loadSlidesPrefix = prefix
+	loadSlidesPrefix = prefix || '/'
 	loadSlides(loadSlidesBool, loadSlidesPrefix)
 
 	doDebugStuff()
