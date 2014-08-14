@@ -311,7 +311,7 @@ img#disconnected {
   text-align: center;
 }
 
-#feedbackSidebar div.row.tools button#editSlide {
+#feedbackSidebar div.row > button {
   width: 90%%;
   margin: auto 5%;
 }
