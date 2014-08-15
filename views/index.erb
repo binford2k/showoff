@@ -41,12 +41,19 @@
           <textarea id="feedback"></textarea>
           <button id="sendFeedback">Send Feedback</button>
         </div>
-        <% if @edit then %>
+
         <div class="row tools">
+          <button id="fileDownloads" onclick="window.open('/download');">File Downloads</button>
+          <% if @edit then %>
           <button id="editSlide">Edit Current Slide</button>
+          <% end %>
+          <hr />
         </div>
-        <% end %>
-        <div id="disclaimer">All features are anonymous</div>
+
+        <div id="disclaimer">
+          <p>Press <code>?</code> for help.</p>
+          <p>All features are anonymous</p>
+        </div>
     </div>
     <div id="feedbackHandle"></div>
 </div>
