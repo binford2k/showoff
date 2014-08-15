@@ -16,7 +16,7 @@
 <% if @feedback then %>
 <div id="feedbackWrapper">
     <div id="feedbackSidebar">
-        <img id="feedbackActivity" src="css/spinner.gif" />
+        <img id="feedbackActivity" src="<%= @asset_path %>/css/spinner.gif" />
         <h3>Live Interaction</h3>
         <div class="row">
           <h4>The presenter should...</h4>
@@ -90,7 +90,7 @@
   <span id="debugInfo"></span>
   <span id="notesInfo"></span>
   <span id="slideFilename"></span>
-  <img id="disconnected" src="/css/disconnected.png" />
+  <img id="disconnected" src="<%= @asset_path %>/css/disconnected.png" />
 </div>
 
 <div id="slides" class="offscreen" <%= 'style="display:none;"' if @slides %>>
