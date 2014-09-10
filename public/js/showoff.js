@@ -27,6 +27,7 @@ var loadSlidesPrefix
 
 var mode = { track: true, follow: false };
 
+
 function setupPreso(load_slides, prefix) {
 	if (preso_started)
 	{
@@ -284,7 +285,7 @@ function showFirstSlide() {
 function showSlide(back_step, updatepv) {
   // allows the master presenter view to disable the update callback
   updatepv = (typeof(updatepv) === 'undefined') ? true : updatepv;
-
+  
 	if(slidenum < 0) {
 		slidenum = 0
 		return
@@ -346,8 +347,16 @@ function showSlide(back_step, updatepv) {
 		pv.postSlide();
 
 		pv.update();
+		
 	}
-
+	
+    // Update presenter view nav for current slide
+    $( ".menu > ul > li > ul > li" ).each(function() {
+      if ($(this).text().split(". ")[0] == slidenum+1) {
+		$(".menu > ul > li > ul ").hide(); //Collapse nav
+        $(this).parent().show(); //Show nav block containing current slide
+      }});
+	  
 	return ret;
 }
 
