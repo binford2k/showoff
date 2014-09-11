@@ -65,7 +65,7 @@ div.zoomed {
     float: left;
     padding: 0;
     margin: 0;
-    border-right: 2px solid #ccc;
+    border-right: 1px solid #ccc;
   }
     #timerSection {
       height: 5%;
@@ -124,6 +124,7 @@ div.zoomed {
       height: 100%;
       max-height: 100%;
       overflow:auto;
+      font-family: helvetica;
     }
 
     .menu a {
@@ -135,6 +136,7 @@ div.zoomed {
       -webkit-border-radius: 0.25em;
       -khtml-border-radius: 0.25em;
       border-radius: 0.25em;
+      text-decoration: none;
     }
     .menu a:hover {
       margin: 0;
@@ -143,16 +145,18 @@ div.zoomed {
     }
     .menu > ul > li > ul {
       padding-left: 20px;
-      font-size: 80%;
+      font-size: 120%;
+      font-weight: 100;
     }
     .menu > ul > li > a {
       padding: 10px;
       background: #eee;
+      font-size: 140%;
     }
 
 
   #preview {
-    height: 95%;
+    height: 97%;
     overflow: auto;
     background: #eee;
   }
@@ -169,11 +173,16 @@ img#disconnected {
 }
 
   #statusbar {
-    height: 5%;
+    height: 22px;
+    text-transform: uppercase;
     vertical-align: middle;
+    background: #fff;
   }
     #progress {
       margin-left: 1em;
+      position: relative;
+      top: 5px;
+      font-size: 10pt;
     }
     #debugInfo {
       display: inline;
@@ -181,13 +190,8 @@ img#disconnected {
     #enableFollower,
     #enableRemote {
       float: right;
-      border: 1px solid #ccc;
       margin: 1px;
       padding: 0.1em;
-      -moz-border-radius: 0.25em;
-      -webkit-border-radius: 0.25em;
-      -khtml-border-radius: 0.25em;
-      border-radius: 0.25em;
     }
     #enableRemote.active {
       background-color: #fff8bf;
@@ -201,22 +205,22 @@ img#disconnected {
 
 #separator {
   clear: both;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 
 #bottom {
   height: 20%;
-  background: #ff9;
+  background: #F5ED9B;
 }
 
   #questions {
     float: left;
     width: 25%;
     min-width: 210px;
-    border-right: 2px solid #ccc;
-    font-size: 1.5em;
+    border-right: 1px solid #ccc;
+    font-size: 1.2em;
     overflow: auto;
-    height: 100%;
+    height: 95%;
   }
   #questions h3 {
     font-size: 1.25em;
@@ -233,7 +237,9 @@ img#disconnected {
     width: 74%;
     font-size: 1.5em;
     overflow: auto;
-    height: 100%;
+    height: 95%;
+    font-family: helvetica;
+    font-weight: 100;
   }
   #notes p,
   #notes h1,
@@ -288,9 +294,6 @@ a.controls {
 @media screen and (max-width: 320px)
 {
   #topbar,#main,#center,#preview,#bottom,#sidebar {
-    min-width: 320px !important;
-    max-width: 320px !important;
-    width: 320px !important;
     margin: 0;
     padding: 0;
   }
