@@ -220,7 +220,7 @@ img#disconnected {
     border-right: 1px solid #ccc;
     font-size: 1.2em;
     overflow: auto;
-    height: 100%;
+    height: 95%;
   }
   #questions h3 {
     font-size: 1.25em;
@@ -237,7 +237,7 @@ img#disconnected {
     width: 74%;
     font-size: 1.5em;
     overflow: auto;
-    height: 100%;
+    height: 95%;
     font-family: helvetica;
     font-weight: 100;
   }
@@ -294,9 +294,6 @@ a.controls {
 @media screen and (max-width: 320px)
 {
   #topbar,#main,#center,#preview,#bottom,#sidebar {
-    min-width: 320px !important;
-    max-width: 320px !important;
-    width: 320px !important;
     margin: 0;
     padding: 0;
   }
