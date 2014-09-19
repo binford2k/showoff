@@ -285,7 +285,7 @@ function showFirstSlide() {
 function showSlide(back_step, updatepv) {
   // allows the master presenter view to disable the update callback
   updatepv = (typeof(updatepv) === 'undefined') ? true : updatepv;
-  
+
 	if(slidenum < 0) {
 		slidenum = 0
 		return
@@ -347,16 +347,20 @@ function showSlide(back_step, updatepv) {
 		pv.postSlide();
 
 		pv.update();
-		
+
 	}
-	
-    // Update presenter view nav for current slide
-    $( ".menu > ul > li > ul > li" ).each(function() {
-      if ($(this).text().split(". ")[0] == slidenum+1) {
-		$(".menu > ul > li > ul ").hide(); //Collapse nav
-        $(this).parent().show(); //Show nav block containing current slide
-      }});
-	  
+
+  // Update presenter view nav for current slide
+  $( ".menu > ul > li > ul > li" ).each(function() {
+    if ($(this).text().split(". ")[0] == slidenum+1) {
+      $(".menu > ul > li > ul ").hide();  //Collapse nav
+      $(".menu > ul > li > ul > li").removeClass('highlighted');
+      $(this).addClass('highlighted'); //Highlight current menu item
+      $(this).parent().show();         //Show nav block containing current slide
+      $(this).get(0).scrollIntoView(); //Scroll so current item is at the top of the view
+    }
+  });
+
 	return ret;
 }
 

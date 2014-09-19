@@ -138,6 +138,7 @@ div.zoomed {
       border-radius: 0.25em;
       text-decoration: none;
     }
+    .menu li.highlighted a,
     .menu a:hover {
       margin: 0;
       border: 1px solid #ccc;
