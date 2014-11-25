@@ -323,7 +323,7 @@ class ShowOffUtils
     get_config_option(dir, "markdown", "redcarpet")
   end
 
-  def self.showoff_renderer_options(dir = '.', default_options = {})
+  def self.showoff_renderer_options(dir = '.', default_options = MarkdownConfig::defaults(dir))
     opts = get_config_option(dir, showoff_markdown(dir), default_options)
     Hash[opts.map {|k, v| [k.to_sym, v]}] if opts    # keys must be symbols
   end
@@ -445,6 +445,36 @@ module MarkdownConfig
     else
       Tilt.prefer Tilt::RedcarpetTemplate, "markdown"
 
+    end
+  end
+
+  def self.defaults(dir_name)
+    case ShowOffUtils.showoff_markdown(dir_name)
+    when 'rdiscount'
+      {
+        :autolink          => true,
+      }
+    when 'maruku'
+      {}
+    when 'bluecloth'
+      {
+        :auto_links        => true,
+        :definition_lists  => true,
+        :strikethrough     => true,
+        :superscript       => true,
+        :tables            => true,
+      }
+    when 'kramdown'
+      {}
+    else
+      {
+        :autolink          => true,
+        :no_intra_emphasis => true,
+        :strikethrough     => true,
+        :superscript       => true,
+        :tables            => true,
+        :underline         => true,
+      }
     end
   end
 end

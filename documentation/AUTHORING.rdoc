@@ -64,7 +64,21 @@ or in the upper left of the presenter view.
 == Markdown Format
 
 Showoff renders Markdown format as documented at http://daringfireball.net/projects/markdown/syntax.
-Extensions to the language are documented below.
+Many of the rendering engines supported by Showoff provide extensions allowing more
+formatting options not available in core Markdown. Each engine provides different options
+and the defaults for each are documented in the Markdown Engine section. The full options
+supported by each engine can be found in their respective documentations.
+
+Some of the extensions include:
+
+[autolink] Recognize and parse bare links even when they are not marked up properly.
+[definition_lists] Parse definition lists, {PHP-Markdown}[https://michelf.ca/projects/php-markdown/extra/#def-list] style.
+[strikethrough] Parse strikethrough text surrounded with two <tt>~~</tt> characters.
+[superscript] Parse superscripts after a `^` character.
+[tables] Parse tables, {PHP-Markdown}[https://michelf.ca/projects/php-markdown/extra/#table] style.
+[underline] Parse underscored emphasis as underlines. This is <tt>\_underlined\_</tt> but this is still <tt>\*emphasis\*</tt>.
+
+Showoff extensions to the language are documented below.
 
 = Slide Styles
 
@@ -566,6 +580,46 @@ For example:
 
 Configuring an engine (or overriding its default configuration) allows you to
 access special features of that engine.
+
+=== Default options
+
+Showoff configures default options for some of the Markdown engines. These
+defaults can be disabled in your <tt>showoff.json</tt> file if needed.
+
+Defaults for each engine are:
+
+[redcarpet]
+
+  https://github.com/vmg/redcarpet
+
+    "redcarpet" : {
+      :autolink"          : true,
+      :no_intra_emphasis" : true,
+      :strikethrough"     : true,
+      :superscript"       : true,
+      :tables"            : true,
+      :underline"         : true
+    }
+
+[bluecloth]
+
+  https://github.com/ged/bluecloth/blob/master/lib/bluecloth.rb
+
+    "bluecloth" : {
+      "auto_links"        : true,
+      "definition_lists"  : true,
+      "strikethrough"     : true,
+      "superscript"       : true,
+      "tables"            : true
+    }
+
+[rdiscount]
+
+  https://github.com/davidfstr/rdiscount/blob/master/lib/rdiscount.rb
+
+    "rdiscount" : {
+      "autolink"          : true
+    }
 
 === Maruku
 
