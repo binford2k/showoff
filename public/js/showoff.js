@@ -679,7 +679,7 @@ function track() {
 
 // Open a new tab with an online code editor, if so configured
 function editSlide() {
-  var slide = $("span#slideFilename").text();
+  var slide = $("span#slideFilename").text().replace(/\/\d+$/, '');
   var link  = editUrl + slide + ".md";
   window.open(link);
 }
