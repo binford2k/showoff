@@ -1,3 +1,31 @@
+0.9.10
+  * Fresh coat of paint on the presenter view. This uses the CSS3 flexbox
+    model, so it's much cleaner and will allow more UI work in the future.
+    (thanks to @jolshevski for some of the UI cleanup)
+  * Slide menu in the presenter view now follows the current slide.
+  * Audience questions can now be dismissed by clicking on them.
+  * Smartphone remote view simplified, now with hamburger menu button.
+  * Enables more Markdown extensions such as:
+    * `autolink`: automatically recognize links
+    * `definition_lists`: PHP-Markdown style definition lists
+    * `no_intra_emphasis`: mid-word underscores don't screw up formatting
+    * `strikethrough`: surround words with `~~` to strikethrough
+    * `superscript`: superscript text using `^`
+    * `tables`: PHP-Markdown style tables
+    * `underline`: Use underscores for underline instead of emphasis
+
+These defaults are documented in AUTHORING.rdoc and can be disabled with some
+variation of this in your `showoff.json` file:
+
+    "redcarpet" : {
+      "autolink"          : false,
+      "no_intra_emphasis" : false,
+      "strikethrough"     : false,
+      "superscript"       : false,
+      "tables"            : false,
+      "underline"         : false
+    }
+
 0.9.9.1
   * Fix `showoff static` again.
 
