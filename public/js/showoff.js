@@ -357,7 +357,10 @@ function showSlide(back_step, updatepv) {
       $(".menu > ul > li > ul > li").removeClass('highlighted');
       $(this).addClass('highlighted'); //Highlight current menu item
       $(this).parent().show();         //Show nav block containing current slide
-      $(this).get(0).scrollIntoView(); //Scroll so current item is at the top of the view
+
+      if( ! mobile() ) {
+        $(this).get(0).scrollIntoView(); //Scroll so current item is at the top of the view
+      }
     }
   });
 
@@ -1248,4 +1251,20 @@ function setupStats()
   $("#stats div#all div.row").click(function() {
       $(this).find("div.detail").slideToggle("fast");
   });
+}
+
+/* Is this a mobile device? */
+function mobile() {
+/*
+  return ( navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i)
+  );
+*/
+
+  return ( $(window).width() <= 480 )
 }

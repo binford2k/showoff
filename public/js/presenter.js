@@ -6,7 +6,7 @@ var paceData = [];
 
 $(document).ready(function(){
   // set up the presenter modes
-  mode = { track: false, follow: true, update: true, slave: false, next: false};
+  mode = { track: true, follow: true, update: true, slave: false, next: false};
 
   // attempt to open another window for the presentation if the mode defaults
   // to enabling this. It does not by default, so this is likely a no-op.
@@ -56,22 +56,28 @@ $(document).ready(function(){
   $('#zoomer').tipsy({ gravity: 'ne' });
 
   // Bind events for mobile viewing
-  $('#preso').unbind('tap').unbind('swipeleft').unbind('swiperight');
+  if( mobile() ) {
+    $('#preso').unbind('tap').unbind('swipeleft').unbind('swiperight');
 
-  $('#preso').addSwipeEvents().
-    bind('tap', presNextStep).        // next
-    bind('swipeleft', presNextStep).  // next
-    bind('swiperight', presPrevStep); // prev
+    $('#preso').addSwipeEvents().
+      bind('tap', presNextStep).        // next
+      bind('swipeleft', presNextStep).  // next
+      bind('swiperight', presPrevStep); // prev
+
+    $('#topbar #slideSource').click( function(e) {
+      $('#sidebar').toggle();
+    });
+
+    $('#topbar #update').click( function(e) {
+      e.preventDefault();
+      $.get("/getpage", function(data) {
+        gotoSlide(data);
+      });
+    });
+  }
 
   $('#remoteToggle').change( toggleFollower );
   $('#followerToggle').change( toggleUpdater );
-
-  $('#topbar #update').click( function(e) {
-    e.preventDefault();
-    $.get("/getpage", function(data) {
-      gotoSlide(data);
-    });
-  });
 
   setInterval(function() { updatePace() }, 1000);
 
@@ -212,6 +218,10 @@ function openNext()
 
 function askQuestion(question) {
   $("#questions ul").prepend($('<li/>').text(question));
+
+  $('#questions ul li:first-child').click( function(e) {
+    $(this).remove();
+  });
 }
 
 function paceFeedback(pace) {
@@ -494,6 +504,7 @@ function toggleTimer()
     seconds = 0
     timerRunning = false
     totalMinutes = 0
+    setProgressColor(false)
     $("#timerInfo").text('')
     $("#minStart").show()
     $("#minStop").hide()
@@ -515,6 +526,9 @@ function setProgressColor(progress) {
   ts.removeClass('tGreen')
   ts.removeClass('tYellow')
   ts.removeClass('tRed')
+
+  if(progress === false) return;
+
   if(progress > 10) {
     ts.addClass('tBlue')
   } else if (progress > 0) {
@@ -530,17 +544,6 @@ var presSetCurrentStyle = setCurrentStyle;
 var setCurrentStyle = function(style, prop) {
   presSetCurrentStyle(style, false);
   try { slaveWindow.setCurrentStyle(style, false); } catch (e) {}
-}
-
-function mobile() {
-  return ( navigator.userAgent.match(/Android/i)
-            || navigator.userAgent.match(/webOS/i)
-            || navigator.userAgent.match(/iPhone/i)
-            || navigator.userAgent.match(/iPad/i)
-            || navigator.userAgent.match(/iPod/i)
-            || navigator.userAgent.match(/BlackBerry/i)
-            || navigator.userAgent.match(/Windows Phone/i)
-  );
 }
 
 /********************

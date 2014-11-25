@@ -1,6 +1,11 @@
 /* Sizes must be defined for child elements to use them in fluid calculations. */
 #main {
   height: 100%;
+  height: 100vh;
+  display: -webkit-flex;
+  display:         flex;
+  -webkit-flex-flow: column;
+          flex-flow: column;
   min-width: 630px;
 }
 
@@ -10,10 +15,7 @@ div.zoomed {
   -moz-transform-origin: 0 0;
 }
 
-#preso { margin: 2% auto; }
-
 #topbar {
-  height: 5%;
   min-height: 24px;
   background: #cfcfcf;
   vertical-align: middle;
@@ -53,24 +55,41 @@ div.zoomed {
     display: none;
   }
 
-
 #center {
-  height: 75%;
+  display: -webkit-flex;
+  display:         flex;
+  -webkit-flex-flow: row;
+          flex-flow: row;
+  -webkit-flex: 5;
+          flex: 5;
   background-color: #fff;
 }
   #sidebar {
-    width: 25%;
+    display: -webkit-flex;
+    display:         flex;
+    -webkit-flex-flow: column;
+            flex-flow: column;
+    -webkit-flex: 1;
+            flex: 1;
+    -webkit-order: 0;
+            order: 0;
     min-width: 210px;
-    height: 100%;
-    float: left;
     padding: 0;
     margin: 0;
+    background-color: #fff;
     border-right: 1px solid #ccc;
   }
     #timerSection {
-      height: 5%;
-      margin-left: 0.5em;
-      min-height: 25px;
+      margin-bottom: 0.25em;
+      padding-left: 0.5em;
+      height: 2.15em;
+      line-height: 2.15em;
+      vertical-align: middle;
+    }
+
+    #timerSection #timerInfo {
+      margin-left: 25px;
+      font-weight: bold;
     }
 
     #timerSection input[type='button'] {
@@ -82,38 +101,39 @@ div.zoomed {
     .tRed    { background: #d99; }
     .tYellow { background: #dd9; }
 
-#sidebar #feedbackPace {
-  height: 10%;
-  position: relative;
-  background: transparent url(pace.png) no-repeat center bottom;
-}
-#sidebar #feedbackPace #paceFast,
-#sidebar #feedbackPace #paceSlow {
-  font-size: 1.5em;
-  font-weight: bold;
-  display: none;
-}
-#sidebar #feedbackPace #paceFast {
-  float: left;
-  margin-left: 1em;
-}
-#sidebar #feedbackPace #paceSlow {
-  float: right;
-  margin-right: 1em;
-}
-#sidebar #feedbackPace #paceMarker {
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, 0);
-  -moz-transform: translate(-50%, 0);
-	-ms-transform: translate(-50%, 0);
-	-o-transform: translate(-50%, 0);
+    #sidebar #feedbackPace {
+      height: 40px;
+      position: relative;
+      background: transparent url(pace.png) no-repeat center bottom;
+    }
+    #sidebar #feedbackPace #paceFast,
+    #sidebar #feedbackPace #paceSlow {
+      font-size: 1.5em;
+      font-weight: bold;
+      display: none;
+    }
+    #sidebar #feedbackPace #paceFast {
+      float: left;
+      margin-left: 1em;
+    }
+    #sidebar #feedbackPace #paceSlow {
+      float: right;
+      margin-right: 1em;
+    }
+    #sidebar #feedbackPace #paceMarker {
+      left: 50%;
+      position: absolute;
+      transform: translate(-50%, -50%);
+      -webkit-transform: translate(-50%, 0);
+      -moz-transform: translate(-50%, 0);
+    	-ms-transform: translate(-50%, 0);
+    	-o-transform: translate(-50%, 0);
 
-}
+    }
 
     #slidemenu {
-      height: 85%;
+      -webkit-flex: 1;
+              flex: 1;
       background-color: #fff;
     }
     #slidemenu ul li {
@@ -121,10 +141,14 @@ div.zoomed {
     }
 
     .menu {
-      height: 100%;
-      max-height: 100%;
+      -webkit-flex: 1;
+              flex: 1;
       overflow:auto;
+      background-color: #fff;
       font-family: helvetica;
+    }
+    .menu ul li {
+      padding: 5px;
     }
 
     .menu a {
@@ -155,92 +179,117 @@ div.zoomed {
       font-size: 140%;
     }
 
-
-  #preview {
-    height: 97%;
-    overflow: auto;
-    background: #eee;
+  #presenter {
+    display: -webkit-flex;
+    display:         flex;
+    -webkit-flex-flow: column;
+            flex-flow: column;
+    -webkit-flex: 4;
+            flex: 4;
+    -webkit-order: 1;
+            order: 1;
   }
 
-#preview .content form div.tools input[type=button].display {
-  display: inline;
-}
-#preview .content form div.tools input[type=submit] {
-  display: none;
-}
-
-img#disconnected {
-  margin: 0.5em 1em;
-}
-
-  #statusbar {
-    height: 22px;
-    text-transform: uppercase;
-    vertical-align: middle;
-    background: #fff;
-  }
-    #progress {
-      margin-left: 1em;
-      position: relative;
-      top: 5px;
-      font-size: 10pt;
-    }
-    #debugInfo {
-      display: inline;
-    }
-    #enableFollower,
-    #enableRemote {
-      float: right;
-      margin: 1px;
-      padding: 0.1em;
-    }
-    #enableRemote.active {
-      background-color: #fff8bf;
-      -webkit-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
-      -moz-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
-      box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
-    }
-    #zoomer {
-      float: right;
+    #preview {
+      -webkit-flex: 1;
+              flex: 1;
+      overflow: auto;
+      background: #eee;
+      padding: 1em;
     }
 
-#separator {
-  clear: both;
-  border-bottom: 1px solid #ccc;
-}
+      #preview .content form div.tools input[type=button].display {
+        display: inline;
+      }
+      #preview .content form div.tools input[type=submit] {
+        display: none;
+      }
+
+      img#disconnected {
+        margin: 0.5em 1em;
+      }
+
+    #statusbar {
+      height: 22px;
+      line-height: 22px;
+      text-transform: uppercase;
+      vertical-align: middle;
+      background: #fff;
+    }
+      #progress {
+        margin-left: 1em;
+        position: relative;
+      }
+      #debugInfo {
+        display: inline;
+      }
+      #enableFollower,
+      #enableRemote {
+        float: right;
+        margin: 1px;
+        padding: 0.1em;
+      }
+      #enableRemote.active {
+        background-color: #fff8bf;
+        -webkit-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
+        -moz-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
+        box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
+      }
+      #zoomer {
+        float: right;
+      }
 
 #bottom {
-  height: 20%;
+  display: -webkit-flex;
+  display:         flex;
+  -webkit-flex-flow: row;
+          flex-flow: row;
+  height: 150px;
   background: #F5ED9B;
+  border-top: 1px solid #ccc;
 }
 
   #questions {
-    float: left;
-    width: 25%;
+    -webkit-flex: 1;
+            flex: 1;
+    -webkit-order: 0;
+            order: 0;
     min-width: 210px;
     border-right: 1px solid #ccc;
     font-size: 1.2em;
     overflow: auto;
-    height: 95%;
+    height: 100%;
   }
   #questions h3 {
     font-size: 1.25em;
   }
   #questions ul {
     margin-left: 1.5em;
+    margin-right: 0.25em;
   }
   #questions ul li {
     list-style-type: disc;
   }
+  #questions ul li:hover {
+    background: #dedede url(close.png) no-repeat center center;
+    color: transparent;
+    -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
+    -khtml-border-radius: 1em;
+    border-radius: 1em;
+  }
 
   #notes {
-    float: right;
-    width: 74%;
+    -webkit-flex: 4;
+            flex: 4;
+    -webkit-order: 1;
+            order: 1;
     font-size: 1.5em;
     overflow: auto;
-    height: 95%;
+    height: 100%;
     font-family: helvetica;
     font-weight: 100;
+    padding: 0 0.25em;
   }
   #notes p,
   #notes h1,
@@ -257,6 +306,7 @@ img#disconnected {
   }
   #notes ol, #notes ul {
     padding-left: 2em;
+    margin-bottom: 0.5em;
   }
   #notes ol {
     list-style-type: decimal;
@@ -292,8 +342,33 @@ a.controls {
 
 /* iPhone */
 /* Portrait */
-@media screen and (max-width: 320px)
+@media screen and (max-width: 480px)
 {
+  #main {
+    min-width: 0;
+  }
+
+  #center {
+    -webkit-flex-flow: column;
+            flex-flow: column;
+    -webkit-flex: 1;
+            flex: 1;
+  }
+  #bottom {
+    -webkit-flex-flow: column;
+            flex-flow: column;
+    -webkit-flex: 1;
+            flex: 1;
+  }
+    #bottom #questions {
+      border-bottom: 1px solid #ccc;
+      -webkit-flex: 1;
+              flex: 1;
+    }
+    #bottom #notes {
+      -webkit-flex: 2;
+              flex: 2;
+    }
   #topbar,#main,#center,#preview,#bottom,#sidebar {
     margin: 0;
     padding: 0;
@@ -301,6 +376,8 @@ a.controls {
   #topbar #slideSource {
     max-width: 256px;
     overflow: hidden;
+    height: 16px;
+    padding-left: 16px;
   }
   #topbar #slideSource #slideFile {
     display: inline-block;
@@ -323,15 +400,30 @@ a.controls {
   #topbar #links .mobile {
     display: inline;
   }
-  #center {
-    height: 267px;
+
+  #topbar {
+    background-image: url(menu.png);
+    background-position: left center;
+    background-repeat: no-repeat;
   }
+  #sidebar {
+    display: block;
+    position: absolute;
+    top: 25px;
+    z-index: 99999;
+    height: 100%;
+    overflow: scroll;
+    display: none;
+  }
+    #sidebar #timerSection,
+    #sidebar #feedbackPace {
+      display: none;
+    }
+
+
   #statusbar {
-    vertical-align: top;
-    font-size: 0.75em;
-  }
-  #statusbar * {
-    vertical-align: top;
+    height: auto;
+    line-height: inherit;
   }
   #statusbar #enableRemote,
   #statusbar #enableFollower {
@@ -349,12 +441,6 @@ a.controls {
   #bottom {
     height: 245px;
     overflow: auto;
-  }
-  #sidebar {
-    position: absolute;
-    top: 534px;
-    float: none;
-    height: auto;
   }
   #preso {
     width: 976px;
