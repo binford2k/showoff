@@ -460,7 +460,6 @@ module MarkdownConfig
       {
         :auto_links        => true,
         :definition_lists  => true,
-        :strikethrough     => true,
         :superscript       => true,
         :tables            => true,
       }
@@ -470,7 +469,6 @@ module MarkdownConfig
       {
         :autolink          => true,
         :no_intra_emphasis => true,
-        :strikethrough     => true,
         :superscript       => true,
         :tables            => true,
         :underline         => true,
