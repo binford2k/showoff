@@ -1,3 +1,13 @@
+0.9.10.1
+  * Continuing on in the grand tradition of rapid point releases, this is
+    a minor, yet important, errata fix. Current versions of RedCarpet did
+    not work with both instructor notes and `:strikethrough` enabled. This
+    release turns `:strikethrough` back off and a future update will rework
+    the syntax for instructor notes.
+  * Enables static supplemental material generation
+  * Output cleaner HTML
+  * Allows running without a `showoff.json` config file again.
+
 0.9.10
   * Fresh coat of paint on the presenter view. This uses the CSS3 flexbox
     model, so it's much cleaner and will allow more UI work in the future.
