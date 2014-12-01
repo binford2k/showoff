@@ -640,7 +640,7 @@ class ShowOff < Sinatra::Application
     end
 
     def update_commandline_code(slide)
-      html = Nokogiri::HTML.parse(slide)
+      html = Nokogiri::HTML::DocumentFragment.parse(slide)
       parser = CommandlineParser.new
 
       html.css('pre').each do |pre|
@@ -682,7 +682,7 @@ class ShowOff < Sinatra::Application
         end
         transform.apply(tree)
       end
-      html.root.to_s
+      html.to_html
     end
 
     def get_slides_html(opts={:static=>false, :pdf=>false, :toc=>false, :supplemental=>nil})
