@@ -137,7 +137,7 @@ command :serve do |c|
   c.action do |global_options,options,args|
 
     # This is gross. A serious revamp in config file parsing is due.
-    config = JSON.parse(File.read(options[:f]))
+    config = JSON.parse(File.read(options[:f])) rescue {}
     if Gem::Version.new(config['version']) > Gem::Version.new(SHOWOFF_VERSION) then
       raise "This presentation requires Showoff version #{config['version']} or greater."
     end
@@ -156,6 +156,7 @@ To run it from presenter view, go to: [ #{url}/presenter ]
 -------------------------
 
 "
+
     ShowOff.run!  :host      => options[:h],
                   :port      => options[:p].to_i,
                   :pres_file => options[:f],
