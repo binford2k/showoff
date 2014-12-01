@@ -206,7 +206,7 @@ arg_name 'name'
 long_desc 'Creates a static, one page version of the presentation as {name}.html'
 command [:static] do |c|
   c.action do |global_options,options,args|
-    ShowOff.do_static(args[0])
+    ShowOff.do_static(args)
   end
 end
 

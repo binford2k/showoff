@@ -908,8 +908,9 @@ class ShowOff < Sinatra::Application
   end
 
 
-   def self.do_static(what)
-      what = "index" if !what
+   def self.do_static(args)
+      what = args[0] || "index"
+      opt  = args[1]
 
       # Sinatra now aliases new to new!
       # https://github.com/sinatra/sinatra/blob/v1.3.3/lib/sinatra/base.rb#L1369
@@ -919,7 +920,11 @@ class ShowOff < Sinatra::Application
       path = showoff.instance_variable_get(:@root_path)
       logger = showoff.instance_variable_get(:@logger)
 
-      data = showoff.send(what, true)
+      if what == 'supplemental'
+        data = showoff.send(what, opt, true)
+      else
+        data = showoff.send(what, true)
+      end
 
       if data.is_a?(File)
         FileUtils.cp(data.path, "#{name}.pdf")
