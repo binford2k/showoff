@@ -939,7 +939,7 @@ class ShowOff < Sinatra::Application
         # Now copy all the js and css
         my_path = File.join( File.dirname(__FILE__), '..', 'public')
         ["js", "css"].each { |dir|
-          FileUtils.copy_entry("#{my_path}/#{dir}", "#{out}/#{dir}")
+          FileUtils.copy_entry("#{my_path}/#{dir}", "#{out}/#{dir}", false, false, true)
         }
         # And copy the directory
         Dir.glob("#{my_path}/#{name}/*").each { |subpath|
@@ -964,7 +964,11 @@ class ShowOff < Sinatra::Application
           data.scan(regex).flatten.each do |path|
             dir = File.dirname(path)
             FileUtils.makedirs(File.join(file_dir, dir))
-            FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+            begin
+              FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+            rescue Errno::ENOENT => e
+              puts "Missing source file: #{path}"
+            end
           end
         end
         # copy images from css too
@@ -977,7 +981,11 @@ class ShowOff < Sinatra::Application
               logger.debug path
               dir = File.dirname(path)
               FileUtils.makedirs(File.join(file_dir, dir))
-              FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+              begin
+                FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+              rescue Errno::ENOENT => e
+                puts "Missing source file: #{path}"
+              end
             end
           end
         end
