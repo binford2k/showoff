@@ -1,3 +1,8 @@
+0.9.10.2
+  * More robust static content generation--don't prematurely fail if a file
+    isn't found.
+  * Fixed some form generation regular expressions on Ruby 1.8.
+
 0.9.10.1
   * Continuing on in the grand tradition of rapid point releases, this is
     a minor, yet important, errata fix. Current versions of RedCarpet did
