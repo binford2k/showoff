@@ -438,9 +438,9 @@ class ShowOff < Sinatra::Application
         str << form_element_radio(id, name, rhs.scan(/\((x?)\)\s*([^()]+)\s*/))
       when /^\[x?\]/                     # value = [x] option one [] opt2 [] opt3 -> option 3 (checkboxes)
         str << form_element_checkboxes(id, name, rhs.scan(/\[(x?)\] ?([^\[\]]+)/))
-      when /^{(.*)}$/                    # value = {BOS, SFO, (NYC)}                          (select shorthand)
+      when /^\{(.*)\}$/                  # value = {BOS, SFO, (NYC)}                          (select shorthand)
         str << form_element_select(id, name, rhs.scan(/\(?\w+\)?/))
-      when /^{$/                         # value = {                                          (select)
+      when /^\{$/                        # value = {                                          (select)
         str << form_element_select_multiline(id, name, text)
       when ''                            # value =                                            (radio/checkbox list)
         str << form_element_multiline(id, name, text)
@@ -939,7 +939,7 @@ class ShowOff < Sinatra::Application
         # Now copy all the js and css
         my_path = File.join( File.dirname(__FILE__), '..', 'public')
         ["js", "css"].each { |dir|
-          FileUtils.copy_entry("#{my_path}/#{dir}", "#{out}/#{dir}")
+          FileUtils.copy_entry("#{my_path}/#{dir}", "#{out}/#{dir}", false, false, true)
         }
         # And copy the directory
         Dir.glob("#{my_path}/#{name}/*").each { |subpath|
@@ -964,7 +964,11 @@ class ShowOff < Sinatra::Application
           data.scan(regex).flatten.each do |path|
             dir = File.dirname(path)
             FileUtils.makedirs(File.join(file_dir, dir))
-            FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+            begin
+              FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+            rescue Errno::ENOENT => e
+              puts "Missing source file: #{path}"
+            end
           end
         end
         # copy images from css too
@@ -977,7 +981,11 @@ class ShowOff < Sinatra::Application
               logger.debug path
               dir = File.dirname(path)
               FileUtils.makedirs(File.join(file_dir, dir))
-              FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+              begin
+                FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+              rescue Errno::ENOENT => e
+                puts "Missing source file: #{path}"
+              end
             end
           end
         end
