@@ -315,6 +315,24 @@ div.zoomed {
     list-style-type: disc;
   }
 
+  #bottom #notes div.personal {
+    float: right;
+    border-left: 4px solid #999;
+    border-bottom: 4px solid #999;
+    border-radius: 0 0 0 0.5em;
+    padding: 0.1em 0 0.25em 0.25em;
+    margin: 0 0 1em 1em;
+    background: #eee;
+    max-width: 25%;
+  }
+
+  #bottom #notes div.personal h1 {
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 0;
+    border-bottom: 1px solid #ccc;
+  }
+
 #topbar {
   background: #4c4c4c; /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
