@@ -1,3 +1,8 @@
+0.9.10.3
+  * Adds the ability to merge in personal notes to the presenter notes.
+    See AUTHORING.rdoc for instructions.
+  * Generate valid HTML IDs for slides.
+
 0.9.10.2
   * More robust static content generation--don't prematurely fail if a file
     isn't found.
