@@ -253,8 +253,8 @@ class ShowOff < Sinatra::Application
         # extract id, defaulting to none
         id = nil
         content_classes.delete_if { |x| x =~ /^#([\w-]+)/ && id = $1 }
-        id = name unless id
-        id.gsub!(/[^-A-Za-z0-9_]/, '_')
+        id = name.dup unless id
+        id.gsub!(/[^-A-Za-z0-9_]/, '_') # valid HTML id characters
         @logger.debug "id: #{id}" if id
         @logger.debug "classes: #{content_classes.inspect}"
         @logger.debug "transition: #{transition}"
@@ -293,7 +293,7 @@ class ShowOff < Sinatra::Application
         sl = Tilt[:markdown].new(nil, nil, engine_options) { sl }.render
         sl = build_forms(sl, content_classes)
         sl = update_p_classes(sl)
-        sl = process_content_for_section_tags(sl)
+        sl = process_content_for_section_tags(sl, name)
         sl = update_special_content(sl, @slide_count, name) # TODO: deprecated
         sl = update_image_paths(name, sl, opts)
 
@@ -347,7 +347,7 @@ class ShowOff < Sinatra::Application
     end
 
     # replace section tags with classed div tags
-    def process_content_for_section_tags(content)
+    def process_content_for_section_tags(content, name = nil)
       return unless content
 
       # because this is post markdown rendering, we may need to shift a <p> tag around
@@ -359,6 +359,26 @@ class ShowOff < Sinatra::Application
       result.gsub!(/(<p>)?~~~SECTION:([^~]*)~~~/, '<div class="\2">\1')
       result.gsub!(/~~~ENDSECTION~~~(<\/p>)?/, '\1</div>')
 
+      filename = File.join(settings.pres_dir, '_notes', "#{name}.md")
+      @logger.debug "personal notes filename: #{filename}"
+      if File.file? filename
+        # TODO: shouldn't have to reparse config all the time
+        engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
+
+        doc = Nokogiri::HTML::DocumentFragment.parse(result)
+        doc.css('div.notes').each do |section|
+          text = Tilt[:markdown].new(nil, nil, engine_options) { File.read(filename) }.render
+          frag = "<div class=\"personal\"><h1>Personal Notes</h1>#{text}</div>"
+          note = Nokogiri::HTML::DocumentFragment.parse(frag)
+
+          if section.children.size > 0
+            section.children.before(note)
+          else
+            section.add_child(note)
+          end
+        end
+        result = doc.to_html
+      end
       result
     end
 
