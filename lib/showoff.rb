@@ -53,26 +53,6 @@ class ShowOff < Sinatra::Application
   set :showoff_config, {}
   set :encoding, nil
 
-  FileUtils.mkdir settings.statsdir unless File.directory? settings.statsdir
-
-  # Page view time accumulator. Tracks how often slides are viewed by the audience
-  begin
-    @@counter = JSON.parse(File.read("#{settings.statsdir}/#{settings.viewstats}"))
-  rescue
-    @@counter = Hash.new
-  end
-
-  # keeps track of form responses. In memory to avoid concurrence issues.
-  begin
-    @@forms = JSON.parse(File.read("#{settings.statsdir}/#{settings.forms}"))
-  rescue
-    @@forms = Hash.new
-  end
-
-  @@downloads = Hash.new # Track downloadable files
-  @@cookie    = nil      # presenter cookie. Identifies the presenter for control messages
-  @@current   = Hash.new # The current slide that the presenter is viewing
-
   def initialize(app=nil)
     super(app)
     @logger = Logger.new(STDOUT)
@@ -115,6 +95,26 @@ class ShowOff < Sinatra::Application
     # Default asset path
     @asset_path = "./"
 
+    # Create stats directory
+    FileUtils.mkdir settings.statsdir unless File.directory? settings.statsdir
+
+    # Page view time accumulator. Tracks how often slides are viewed by the audience
+    begin
+      @@counter = JSON.parse(File.read("#{settings.statsdir}/#{settings.viewstats}"))
+    rescue
+      @@counter = Hash.new
+    end
+
+    # keeps track of form responses. In memory to avoid concurrence issues.
+    begin
+      @@forms = JSON.parse(File.read("#{settings.statsdir}/#{settings.forms}"))
+    rescue
+      @@forms = Hash.new
+    end
+
+    @@downloads = Hash.new # Track downloadable files
+    @@cookie    = nil      # presenter cookie. Identifies the presenter for control messages
+    @@current   = Hash.new # The current slide that the presenter is viewing
 
     # Initialize Markdown Configuration
     MarkdownConfig::setup(settings.pres_dir)
