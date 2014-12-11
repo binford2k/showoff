@@ -1,12 +1,13 @@
 // presenter js
 var slaveWindow = null;
 var nextWindow = null;
+var notesWindow = null;
 
 var paceData = [];
 
 $(document).ready(function(){
   // set up the presenter modes
-  mode = { track: true, follow: true, update: true, slave: false, next: false};
+  mode = { track: true, follow: true, update: true, slave: false, next: false, notes: false};
 
   // attempt to open another window for the presentation if the mode defaults
   // to enabling this. It does not by default, so this is likely a no-op.
@@ -42,6 +43,8 @@ $(document).ready(function(){
   // set up tooltips
   $('#report').tipsy({ offset: 5 });
   $('#slaveWindow').tipsy({ offset: 5 });
+  $('#nextWindow').tipsy({ offset: 5 });
+  $('#notesWindow').tipsy({ offset: 5 });
   $('#generatePDF').tipsy({ offset: 5 });
   $('#onePage').tipsy({ offset: 5, gravity: 'ne' });
 
@@ -216,6 +219,36 @@ function openNext()
   }
 }
 
+function toggleNotes() {
+  mode.notes = !mode.notes;
+  openNotes();
+}
+
+function openNotes()
+{
+  if (mode.notes) {
+    try {
+      if(notesWindow == null || typeof(notesWindow) == 'undefined' || notesWindow.closed){
+          notesWindow = window.open('', '', 'width=350,height=450');
+          postSlide();
+      }
+      $('#notesWindow').addClass('enabled');
+    }
+    catch(e) {
+      console.log('Failed to open notes window. Popup blocker?');
+    }
+  }
+  else {
+    try {
+      notesWindow && notesWindow.close();
+      $('#notesWindow').removeClass('enabled');
+    }
+    catch (e) {
+      console.log('Notes window failed to close properly.');
+    }
+  }
+}
+
 function askQuestion(question) {
   $("#questions ul").prepend($('<li/>').text(question));
 
@@ -373,6 +406,9 @@ function postSlide()
 
     var notes = getCurrentNotes();
 		$('#notes').html(notes.html());
+    if (notesWindow) {
+      $(notesWindow.document.body).html(notes.html());
+    }
 
 		var fileName = currentSlide.children().first().attr('ref');
 		$('#slideFile').text(fileName);
