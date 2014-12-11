@@ -1,3 +1,10 @@
+0.9.10.5
+  * New popout notes window button in the menubar.
+  * Minor bugfixes.
+
+0.9.10.4
+  * Bugfix release: don't initialize stats collection unless presenting
+
 0.9.10.3
   * Adds the ability to merge in personal notes to the presenter notes.
     See AUTHORING.rdoc for instructions.
