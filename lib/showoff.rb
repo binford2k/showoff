@@ -930,8 +930,9 @@ class ShowOff < Sinatra::Application
 
 
    def self.do_static(args)
-      what = args[0] || "index"
-      opt  = args[1]
+      args ||= [] # handle nil arguments
+      what   = args[0] || "index"
+      opt    = args[1]
 
       # Sinatra now aliases new to new!
       # https://github.com/sinatra/sinatra/blob/v1.3.3/lib/sinatra/base.rb#L1369
