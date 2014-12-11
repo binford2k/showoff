@@ -55,6 +55,11 @@ div.zoomed {
     display: none;
   }
 
+  #topbar #links span.spacer {
+    width: 2em;
+    display: inline-block;
+  }
+
 #center {
   display: -webkit-flex;
   display:         flex;
