@@ -308,9 +308,13 @@ function zoom()
     var wPreview = parseFloat($("#preview").width());
     var factor = parseFloat($("#zoomer").val());
 
-    n =  Math.min(hPreview/hSlide, wPreview/wSlide) - 0.04;
+    newZoom = factor * Math.min(hPreview/hSlide, wPreview/wSlide) - 0.04;
 
-    $(".zoomed").css("zoom", n*factor);
+    $(".zoomed").css("zoom", newZoom);
+    $(".zoomed").css("-ms-zoom", newZoom);
+    $(".zoomed").css("-webkit-zoom", newZoom);
+    $(".zoomed").css("-moz-transform", "scale("+newZoom+")");
+    $(".zoomed").css("-moz-transform-origin", "left top");
   }
 }
 

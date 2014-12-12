@@ -30,7 +30,6 @@ div.zoomed {
   #links {
     position: relative;
     top: 0.7em;
-    font-size: 0.65em;
     padding: 0 1em;
   }
   #links a {
@@ -68,6 +67,7 @@ div.zoomed {
   -webkit-flex: 5;
           flex: 5;
   background-color: #fff;
+  min-height: 0px;
 }
   #sidebar {
     display: -webkit-flex;
@@ -193,6 +193,7 @@ div.zoomed {
             flex: 4;
     -webkit-order: 1;
             order: 1;
+    min-width: 0px;
   }
 
     #preview {
