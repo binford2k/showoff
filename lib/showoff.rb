@@ -277,7 +277,7 @@ class ShowOff < Sinatra::Application
         classes = content_classes.join(' ')
         content = "<div"
         content += " id=\"#{id}\"" if id
-        content += " style=\"background: url('file/#{slide.bg}') center no-repeat;\"" if slide.bg
+        content += " style=\"background-image: url('file/#{slide.bg}');\"" if slide.bg
         content += " class=\"slide #{classes}\" data-transition=\"#{transition}\">"
 
         # name the slide. If we've got multiple slides in this file, we'll have a sequence number

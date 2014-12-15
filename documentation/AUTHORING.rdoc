@@ -100,6 +100,7 @@ Some useful styles for each slide are:
 [noprint] this slide will not appear in the printed version of the presentation
 [supplemental] rather than adding a slide to the main presentation, add a slide to supplemental materials. See below.
 [form=id] Render form elements on this slide with a given form ID. See below, and in FORMS.rdoc.
+[background-fit] Scales a background image to the largest size that both height and width are onscreen. The default is to completely fill the slide.
 
 Check out the example directory included to see examples of most of these.
 
@@ -160,6 +161,10 @@ The transitions are provided by jQuery Cycle plugin. See http://www.malsup.com/j
 A custom per slide background can be set in the slide options. For example:
 
      !SLIDE[bg=customLogo.png]
+
+By default, the background will be scaled to completely cover the slide. If you
+specify the <tt>background-fit</tt> slide style, then the background will be
+scaled to the largest size that both height and width fit within the slide.
 
 = Language Highlighting
 
