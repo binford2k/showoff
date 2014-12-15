@@ -182,6 +182,7 @@ function initializePresentation(prefix) {
       slaveWindow.renderForm($(this).closest('form').attr('id'));
     }
     catch (e) {
+      console.log(e);
       renderForm($(this).closest('form'));
     }
   });
@@ -495,7 +496,7 @@ function renderForm(form) {
   $.getJSON(action, function( data ) {
     //console.log(data);
     form.children('div.form.element').each(function() {
-      var key = $(this).attr('id');
+      var key = $(this).attr('data-name');
       var sum = 0;
 
       $(this).find('ul > li > *').each(function() {
@@ -521,7 +522,7 @@ function renderForm(form) {
           case 'radio':
           case 'checkbox':
             // Just render these directly and migrate the label to inside the span
-            var name  = $(this).attr('id');
+            var value = $(this).attr('value');
             var label = $(this).next('label');
             var text  = label.text();
 
@@ -529,7 +530,7 @@ function renderForm(form) {
               $(this).remove();
             }
             else{
-              $(this).replaceWith('<div class="item barstyle'+style+'" id="'+name+'">'+text+'</div>');
+              $(this).replaceWith('<div class="item barstyle'+style+'" data-value="'+value+'">'+text+'</div>');
             }
             label.remove();
             break;
@@ -544,7 +545,7 @@ function renderForm(form) {
               var text  = $(this).text();
 
               if(! text.match(/^-+$/)) {
-                parent.append('<div class="item barstyle'+style+'" id="'+value+'">'+text+'</div>');
+                parent.append('<div class="item barstyle'+style+'" data-value="'+value+'">'+text+'</div>');
 
                 // loop style counter
                 style++; style %= max;
@@ -562,18 +563,26 @@ function renderForm(form) {
       if(data) {
         // double loop so we can handle re-renderings of the form
         $(this).find('.item').each(function() {
-          var name  = $(this).attr('id');
-          var count = data[key][name];
+          var name = $(this).attr('data-value');
 
-          if(count) { sum += count; }
+          if(key in data) {
+            var count = data[key][name];
+            if(count) { sum += count; }
+          }
         });
 
 
         $(this).find('.item').each(function() {
-          var name     = $(this).attr('id');
+          var name     = $(this).attr('data-value');
           var oldCount = $(this).attr('data-count');
           var oldSum   = $(this).attr('data-sum');
-          var count    = data[key][name] || 0;
+
+          if(key in data) {
+            var count = data[key][name] || 0;
+          }
+          else {
+            var count = 0;
+          }
 
           if(count != oldCount || sum != oldSum) {
             var percent = (sum) ? ((count/sum)*100)+'%' : '0%';
