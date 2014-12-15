@@ -417,25 +417,26 @@ class ShowOff < Sinatra::Application
 
     # replace custom markup with html forms
     def build_forms(content, classes=[])
-      classes.select { |cl| cl =~ /^form=(\w+)$/ }
+      title = classes.collect { |cl| $1 if cl =~ /^form=(\w+)$/ }.compact.first
       # only process slides marked as forms
-      return content unless $1
+      return content if title.nil?
 
       begin
         tools =  '<div class="tools">'
         tools << '<input type="button" class="display" value="Display Results">'
         tools << '<input type="submit" value="Save" disabled="disabled">'
         tools << '</div>'
-        form  = "<form id='#{$1}' action='/form/#{$1}' method='POST'>#{content}#{tools}</form>"
+        form  = "<form id='#{title}' action='/form/#{title}' method='POST'>#{content}#{tools}</form>"
         doc = Nokogiri::HTML::DocumentFragment.parse(form)
         doc.css('p').each do |p|
           if p.text =~ /^(\w*) ?(?:->)? ?([^\*]*)? ?(\*?)= ?(.*)?$/
-            id       = $1
-            name     = $2.empty? ? $1 : $2
+            code     = $1
+            id       = "#{title}_#{code}"
+            name     = $2.empty? ? code : $2
             required = ! $3.empty?
             rhs      = $4
 
-            p.replace form_element(id, name, required, rhs, p.text)
+            p.replace form_element(id, code, name, required, rhs, p.text)
           end
         end
         doc.to_html
@@ -446,50 +447,50 @@ class ShowOff < Sinatra::Application
       end
     end
 
-    def form_element(id, name, required, rhs, text)
+    def form_element(id, code, name, required, rhs, text)
       required = required ? 'required' : ''
-      str =  "<div class='form element #{required}' id='#{id}'>"
+      str =  "<div class='form element #{required}' id='#{id}' data-name='#{code}'>"
       str << "<label for='#{id}'>#{name}</label>"
       case rhs
       when /^\[\s+(\d*)\]$$/             # value = [    5]                                    (textarea)
-        str << form_element_textarea(id, name, $1)
+        str << form_element_textarea(id, code, $1)
       when /^___+(?:\[(\d+)\])?$/        # value = ___[50]                                    (text)
-        str << form_element_text(id, name, $1)
+        str << form_element_text(id, code, $1)
       when /^\(x?\)/                     # value = (x) option one () opt2 () opt3 -> option 3 (radio)
-        str << form_element_radio(id, name, rhs.scan(/\((x?)\)\s*([^()]+)\s*/))
+        str << form_element_radio(id, code, rhs.scan(/\((x?)\)\s*([^()]+)\s*/))
       when /^\[x?\]/                     # value = [x] option one [] opt2 [] opt3 -> option 3 (checkboxes)
-        str << form_element_checkboxes(id, name, rhs.scan(/\[(x?)\] ?([^\[\]]+)/))
+        str << form_element_checkboxes(id, code, rhs.scan(/\[(x?)\] ?([^\[\]]+)/))
       when /^\{(.*)\}$/                  # value = {BOS, SFO, (NYC)}                          (select shorthand)
-        str << form_element_select(id, name, rhs.scan(/\(?\w+\)?/))
+        str << form_element_select(id, code, rhs.scan(/\(?\w+\)?/))
       when /^\{$/                        # value = {                                          (select)
-        str << form_element_select_multiline(id, name, text)
+        str << form_element_select_multiline(id, code, text)
       when ''                            # value =                                            (radio/checkbox list)
-        str << form_element_multiline(id, name, text)
+        str << form_element_multiline(id, code, text)
       else
         @logger.warn "Unmatched form element: #{rhs}"
       end
       str << '</div>'
     end
 
-    def form_element_text(id, name, length)
-      "<input type='text' id='#{id}' name='#{id}' size='#{length}' />"
+    def form_element_text(id, code, length)
+      "<input type='text' id='#{id}_response' name='#{code}' size='#{length}' />"
     end
 
-    def form_element_textarea(id, name, rows)
+    def form_element_textarea(id, code, rows)
       rows = 3 if rows.empty?
-      "<textarea id='#{id}' name='#{id}' rows='#{rows}'></textarea>"
+      "<textarea id='#{id}_response' name='#{code}' rows='#{rows}'></textarea>"
     end
 
-    def form_element_radio(id, name, items)
-      form_element_check_or_radio_set('radio', id, name, items)
+    def form_element_radio(id, code, items)
+      form_element_check_or_radio_set('radio', id, code, items)
     end
 
-    def form_element_checkboxes(id, name, items)
-      form_element_check_or_radio_set('checkbox', id, name, items)
+    def form_element_checkboxes(id, code, items)
+      form_element_check_or_radio_set('checkbox', id, code, items)
     end
 
-    def form_element_select(id, name, items)
-      str =  "<select id='#{id}' name='#{name}'>"
+    def form_element_select(id, code, items)
+      str =  "<select id='#{id}_response' name='#{code}'>"
       str << '<option value="">----</option>'
 
       items.each do |item|
@@ -504,8 +505,8 @@ class ShowOff < Sinatra::Application
       str << '</select>'
     end
 
-    def form_element_select_multiline(id, name, text)
-      str =  "<select id='#{id}' name='#{id}'>"
+    def form_element_select_multiline(id, code, text)
+      str =  "<select id='#{id}_response' name='#{code}'>"
       str << '<option value="">----</option>'
 
       text.split("\n")[1..-1].each do |item|
@@ -523,7 +524,7 @@ class ShowOff < Sinatra::Application
       str << '</select>'
     end
 
-    def form_element_multiline(id, name, text)
+    def form_element_multiline(id, code, text)
       str = '<ul>'
 
       text.split("\n")[1..-1].each do |item|
@@ -541,13 +542,13 @@ class ShowOff < Sinatra::Application
         end
 
         str << '<li>'
-        str << form_element_check_or_radio(type, id, value, label, checked)
+        str << form_element_check_or_radio(type, id, code, value, label, checked)
         str << '</li>'
       end
       str << '</ul>'
     end
 
-    def form_element_check_or_radio_set(type, id, name, items)
+    def form_element_check_or_radio_set(type, id, code, items)
       str = ''
       items.each do |item|
         checked = item[0].empty? ? '': "checked='checked'"
@@ -559,17 +560,17 @@ class ShowOff < Sinatra::Application
           value = label = item[1]
         end
 
-        str << form_element_check_or_radio(type, id, value, label, checked)
+        str << form_element_check_or_radio(type, id, code, value, label, checked)
       end
       str
     end
 
-    def form_element_check_or_radio(type, id, value, label, checked)
+    def form_element_check_or_radio(type, id, code, value, label, checked)
       # yes, value and id are conflated, because this is the id of the parent widget
 
-      id  = "#{id}[]" if type == 'checkbox'
-      str =  "<input type='#{type}' name='#{id}' id='#{value}' value='#{value}' #{checked} />"
-      str << "<label for='#{value}'>#{label}</label>"
+      name = (type == 'checkbox') ? "#{code}[]" : code
+      str  =  "<input type='#{type}' name='#{name}' id='#{id}_#{value}' value='#{value}' #{checked} />"
+      str << "<label for='#{id}_#{value}'>#{label}</label>"
     end
 
     # TODO: deprecated
