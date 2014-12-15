@@ -18,6 +18,13 @@
       -webkit-box-shadow:0 0 25px rgba(0,0,0,0.35);
       -moz-box-shadow:0 0 25px rgba(0,0,0,0.35);
       box-shadow:0 0 25px rgba(0,0,0,0.35);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+  }
+
+  #preso, .slide.background-fit {
+      background-size: contain;
   }
 
   #footer {
