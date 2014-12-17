@@ -23,6 +23,7 @@ pkg
 Gemfile.lock
 .rvmrc
 .rake_t_cache
+vendor
 
 ## PROJECT::SPECIFIC
 dist
