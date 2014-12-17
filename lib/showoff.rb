@@ -209,7 +209,7 @@ class ShowOff < Sinatra::Application
         end
       end
 
-      slides.delete_if {|slide| slide.empty? }
+      slides.delete_if {|slide| slide.empty? and not slide.bg }
 
       final = ''
       if slides.size > 1
