@@ -1,3 +1,7 @@
+0.9.10.7
+  * Fixed some form rendering issues
+  * Handle slide background images better
+
 0.9.10.6
   * Bugfix release: repair breakage from Firefox 34.x
   * minor UI corrections for Firefox
