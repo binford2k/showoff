@@ -47,9 +47,9 @@ end
 
 def in_basic_dir
   in_temp_dir do
-    ShowOffUtils.create('testing', true)
+    ShowoffUtils.create('testing', true)
     Dir.chdir 'testing' do
-      ShowOff.pres_dir_current
+      Showoff.pres_dir_current
       `git init`
       `git add .`
       `git commit -m 'init'`
@@ -62,7 +62,7 @@ def in_image_dir
   in_temp_dir do
     FileUtils.cp_r(File.join($TEST_DIR, 'fixtures/image'), '.')
     Dir.chdir 'image' do
-      ShowOff.pres_dir_current
+      Showoff.pres_dir_current
       `git init`
       `git init`
       `git add .`

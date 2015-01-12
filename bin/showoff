@@ -17,11 +17,11 @@ version SHOWOFF_VERSION
 program_desc <<-desc
 A web based presentation engine with awesome interaction features.
 
-  ShowOff uses Markdown files with a few custom extensions to generate slides
+  Showoff uses Markdown files with a few custom extensions to generate slides
   that are served locally for presentation via web browser. Your audience can
   view presentations directly as well, and interact with you in many ways.
 
-  ShowOff can optionally use the RMagick gem for automatic image resizing
+  Showoff can optionally use the RMagick gem for automatic image resizing
   functionality. If RMagick is available, images included in your presentation
   will be resized down to meet size constraints of your presentation if needed.
 
@@ -49,11 +49,11 @@ command [:create,:init] do |c|
 
   c.action do |global_options,options,args|
     raise "dir_name is required" if args.empty?
-    ShowOffUtils.create(args[0],!options[:n],options[:d])
+    ShowoffUtils.create(args[0],!options[:n],options[:d])
     if !options[:n]
       puts "done. run 'showoff serve' in #{options[:d]}/ dir to see slideshow"
     else
-      puts "done. add slides, modify #{ShowOffUtils.presentation_config_file} and then run 'showoff serve' in #{dirname}/ dir to see slideshow"
+      puts "done. add slides, modify #{ShowoffUtils.presentation_config_file} and then run 'showoff serve' in #{dirname}/ dir to see slideshow"
     end
   end
 end
@@ -63,7 +63,7 @@ long_desc 'Generates a static version of your presentation into your gh-pages br
 command :github do |c|
   c.action do |global_options,options,args|
     puts "Generating static content"
-    ShowOffUtils.github
+    ShowoffUtils.github
     puts "I've updated your 'gh-pages' branch with the static version of your presentation."
     puts "Push it to GitHub to publish it. Probably something like:"
     puts
@@ -89,7 +89,7 @@ command :heroku do |c|
 
   c.action do |global_options,options,args|
     raise "heroku_name is required" if args.empty?
-    if ShowOffUtils.heroku(args[0],options[:f],options[:p],options[:g])
+    if ShowoffUtils.heroku(args[0],options[:f],options[:p],options[:g])
       puts "herokuized. run something like this to launch your heroku presentation:
 
       heroku create #{args[0]}"
@@ -147,7 +147,7 @@ command :serve do |c|
     puts "
 -------------------------
 
-Your ShowOff presentation is now starting up.
+Your Showoff presentation is now starting up.
 
 To view it plainly, visit [ #{url} ]
 
@@ -157,7 +157,7 @@ To run it from presenter view, go to: [ #{url}/presenter ]
 
 "
 
-    ShowOff.run!  :host      => options[:h],
+    Showoff.run!  :host      => options[:h],
                   :port      => options[:p].to_i,
                   :pres_file => options[:f],
                   :pres_dir  => args[0],
@@ -193,7 +193,7 @@ command [:add,:new] do |c|
 
   c.action do |global_options,options,args|
     title = args.join(" ")
-    ShowOffUtils.add_slide(:dir => options[:d],
+    ShowoffUtils.add_slide(:dir => options[:d],
                            :name => options[:n],
                            :title => title,
                            :number => !options[:u],
@@ -207,7 +207,7 @@ arg_name 'name'
 long_desc 'Creates a static, one page version of the presentation as {name}.html'
 command [:static] do |c|
   c.action do |global_options,options,args|
-    ShowOff.do_static(args)
+    Showoff.do_static(args)
   end
 end
 

@@ -1,4 +1,4 @@
-class ShowOffUtils
+class ShowoffUtils
 
   # Helper method to parse a comma separated options string and stores
   # the result in a dictionrary
@@ -46,7 +46,7 @@ class ShowOffUtils
       end
 
       # create showoff.json
-      File.open(ShowOffUtils.presentation_config_file, 'w+') do |f|
+      File.open(ShowoffUtils.presentation_config_file, 'w+') do |f|
         f.puts "{ \"name\": \"My Preso\", \"sections\": [ {\"section\":\"#{dir}\"} ]}"
       end
     end
@@ -82,10 +82,10 @@ class ShowOffUtils
       modified_something = true
       file.puts 'require "showoff"'
       if password.nil?
-        file.puts 'run ShowOff.new'
+        file.puts 'run Showoff.new'
       else
         file.puts 'require "rack"'
-        file.puts 'showoff_app = ShowOff.new'
+        file.puts 'showoff_app = Showoff.new'
         file.puts 'protected_showoff = Rack::Auth::Basic.new(showoff_app) do |username, password|'
         file.puts	"\tpassword == '#{password}'"
         file.puts 'end'
@@ -98,7 +98,7 @@ class ShowOffUtils
 
   # generate a static version of the site into the gh-pages branch
   def self.github
-    ShowOff.do_static(nil)
+    Showoff.do_static(nil)
     `git add static`
     sha = `git write-tree`.chomp
     tree_sha = `git rev-parse #{sha}:static`.chomp
@@ -180,12 +180,12 @@ class ShowOffUtils
     puts "Creating #{dir}..."
     Dir.mkdir dir
 
-    showoff_json = JSON.parse(File.read(ShowOffUtils.presentation_config_file))
+    showoff_json = JSON.parse(File.read(ShowoffUtils.presentation_config_file))
     showoff_json["section"] = dir
-    File.open(ShowOffUtils.presentation_config_file,'w') do |file|
+    File.open(ShowoffUtils.presentation_config_file,'w') do |file|
       file.puts JSON.generate(showoff_json)
     end
-    puts "#{ShowOffUtils.presentation_config_file} updated"
+    puts "#{ShowoffUtils.presentation_config_file} updated"
   end
 
   def self.blank?(string)
@@ -274,7 +274,7 @@ class ShowOffUtils
   end
 
   def self.showoff_sections(dir,logger)
-    index = File.join(dir, ShowOffUtils.presentation_config_file)
+    index = File.join(dir, ShowoffUtils.presentation_config_file)
     sections = nil
     if File.exists?(index)
       data = JSON.parse(File.read(index))
@@ -329,7 +329,7 @@ class ShowOffUtils
   end
 
   def self.get_config_option(dir, option, default = nil)
-    index = File.join(dir, ShowOffUtils.presentation_config_file)
+    index = File.join(dir, ShowoffUtils.presentation_config_file)
     if File.exists?(index)
       data = JSON.parse(File.read(index))
       if data.is_a?(Hash)
@@ -388,7 +388,7 @@ class ShowOffUtils
   #
   #   create_file_if_needed("config.ru",false) do |file|
   #     file.puts "require 'showoff'"
-  #     file.puts "run ShowOff.new"
+  #     file.puts "run Showoff.new"
   #   end
   #
   # Returns true if the file was created
@@ -410,7 +410,7 @@ end
 module MarkdownConfig
   def self.setup(dir_name)
     # Load markdown configuration
-    case ShowOffUtils.showoff_markdown(dir_name)
+    case ShowoffUtils.showoff_markdown(dir_name)
 
     when 'rdiscount'
       Tilt.prefer Tilt::RDiscountTemplate, "markdown"
@@ -422,7 +422,7 @@ module MarkdownConfig
       require 'maruku/ext/math'
 
       # Load maruku options
-      opts = ShowOffUtils.showoff_renderer_options(dir_name,
+      opts = ShowoffUtils.showoff_renderer_options(dir_name,
                                                    { :use_tex => false,
                                                      :png_dir => 'images',
                                                      :html_png_url => '/file/images/'})
@@ -449,7 +449,7 @@ module MarkdownConfig
   end
 
   def self.defaults(dir_name)
-    case ShowOffUtils.showoff_markdown(dir_name)
+    case ShowoffUtils.showoff_markdown(dir_name)
     when 'rdiscount'
       {
         :autolink          => true,

@@ -1,11 +1,11 @@
 require File.expand_path "../test_helper", __FILE__
 
-context "ShowOff Bare tests" do
+context "Showoff Bare tests" do
 
   def app
     opt = {:verbose => false, :pres_dir => "test/fixtures/bare", :pres_file => 'showoff.json'}
-    ShowOff.set opt
-    ShowOff.new
+    Showoff.set opt
+    Showoff.new
   end
 
   setup do
