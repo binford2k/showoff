@@ -43,7 +43,7 @@ context "ShowOff Utils tests" do
       ShowOff.do_static(nil)
       content = File.read('static/index.html')
       assert_match 'My Presentation', content
-      assert_equal 2, content.scan(/div .* class="slide/).size
+      assert_equal 2, content.scan(/div class="slide"/).size
       if Object.const_defined? :Magick
         assert_match 'img src="./file/one/chacon.jpg" width="300" height="300" alt="chacon"', content
       else
@@ -60,7 +60,7 @@ context "ShowOff Utils tests" do
       assert_equal 4, files.size
       content = `git cat-file -p gh-pages:index.html`
       assert_match 'My Presentation', content
-      assert_equal 2, content.scan(/div .* class="slide/).size
+      assert_equal 2, content.scan(/div class="slide"/).size
       if Object.const_defined? :Magick
         assert_match 'img src="./file/one/chacon.jpg" width="300" height="300" alt="chacon"', content
       else
