@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "mg"
   s.description       = <<-desc
-  ShowOff is a Sinatra web app that reads simple configuration files for a
+  Showoff is a Sinatra web app that reads simple configuration files for a
   presentation.  It is sort of like a Keynote web app engine.  I am using it
   to do all my talks in 2010, because I have a deep hatred in my heart for
   Keynote and yet it is by far the best in the field.
@@ -45,7 +45,7 @@ Gem::Specification.new do |s|
   s.post_install_message = <<-desc
 
   ************************************************************************
-  ShowOff can optionally use the RMagick gem for automatic image resizing
+  Showoff can optionally use the RMagick gem for automatic image resizing
   functionality. If RMagick is available, images included in your presentation
   will be resized down to meet size constraints of your presentation, if required.
 

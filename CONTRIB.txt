@@ -5,7 +5,7 @@ To contribute to the Showoff project:
 
 * Fork puppetlabs/showoff
 
-* Use the ShowOff project in the 'example/' subdirectory to 
+* Use the Showoff project in the 'example/' subdirectory to 
   add an example of new features or make sure you haven't
   broken existin functionality.  I basically use this preso
   as my unit tests.

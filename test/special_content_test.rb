@@ -1,10 +1,10 @@
 require File.expand_path "../test_helper", __FILE__
 
-context "ShowOff Special Content tests" do
+context "Showoff Special Content tests" do
   def app
     opt = {:verbose => false, :pres_dir => 'test/fixtures/special_content', :pres_file => 'showoff.json'}
-    ShowOff.set opt
-    ShowOff.new
+    Showoff.set opt
+    Showoff.new
   end
 
   def get_slide(i)

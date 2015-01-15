@@ -1,12 +1,12 @@
 require File.expand_path "../test_helper", __FILE__
 require 'pdf/inspector'
 
-context "ShowOff basic tests" do
+context "Showoff basic tests" do
 
   def app
     opt = {:verbose => false, :pres_dir => "test/fixtures/simple", :pres_file => 'showoff.json'}
-    ShowOff.set opt
-    ShowOff.new
+    Showoff.set opt
+    Showoff.new
   end
 
   setup do

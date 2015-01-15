@@ -1,6 +1,6 @@
-/* ShowOff JS Logic */
+/* Showoff JS Logic */
 
-var ShowOff = {};
+var Showoff = {};
 
 var preso_started = false
 var slidenum = 0
