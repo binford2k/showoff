@@ -1089,6 +1089,30 @@ class ShowOff < Sinatra::Application
     return "Ruby Evaluation is off. To turn it on set ENV['SHOWOFF_EVAL_RUBY']"
   end
 
+  # provide a callback to trigger a local file editor, but only when called when viewing from localhost.
+  get '/edit/*' do |path|
+    # Docs suggest that old versions of Sinatra might provide an array here, so just make sure.
+    filename = path.class == Array ? path.first : path
+    @logger.debug "Editing #{filename}"
+    return unless File.exist? filename
+
+    if request.host != 'localhost'
+      @logger.warn "Disallowing edit because #{request.host} isn't localhost."
+      return
+    end
+
+    case RUBY_PLATFORM
+    when /darwin/
+      `open #{filename}`
+    when /linux/
+      `xdg-open #{filename}`
+    when /cygwin|mswin|mingw|bccwin|wince|emx/
+      `start #{filename}`
+    else
+      @logger.warn "Cannot open #{filename}, unknown platform #{RUBY_PLATFORM}."
+    end
+  end
+
   get %r{(?:image|file)/(.*)} do
     path = params[:captures].first
     full_path = File.join(settings.pres_dir, path)
