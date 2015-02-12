@@ -100,7 +100,7 @@ context "ShowOff Special Content tests" do
     assert_html_match expected, slide.css('div.handouts').inner_html
   end
 
-  test 'also does special-content conversion for .exercise' do
+  test 'also does special-content conversion for .solguide' do
     slide = get_slide(8)
     expected = "
 <p>And if you want some exercises, just follow these steps</p>
@@ -111,7 +111,7 @@ context "ShowOff Special Content tests" do
 </ol>
 <p>It's as simple as that.</p>
 "
-    assert_html_match expected, slide.css('div.exercise').inner_html
+    assert_html_match expected, slide.css('div.solguide').inner_html
   end
 
   test 'does no conversion for other marks' do

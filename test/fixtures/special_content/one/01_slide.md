@@ -58,10 +58,10 @@ and on and on, much longer than you need them to.
 .extra This is just some extra fun. Nothing should happen here.
 .extra Seriously, this content is not that special.
 
-.exercise And if you want some exercises, just follow these steps
-.exercise
-.exercise  1. a step
-.exercise  2. another step
-.exercise  3. last step
-.exercise
-.exercise It's as simple as that.
+.solguide And if you want some exercises, just follow these steps
+.solguide
+.solguide  1. a step
+.solguide  2. another step
+.solguide  3. last step
+.solguide
+.solguide It's as simple as that.
