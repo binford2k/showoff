@@ -99,7 +99,7 @@ class ShowOffUtils
   # generate a static version of the site into the gh-pages branch
   def self.github
     ShowOff.do_static(nil)
-    `git add static`
+    `git add -f static`
     sha = `git write-tree`.chomp
     tree_sha = `git rev-parse #{sha}:static`.chomp
     `git read-tree HEAD`  # reset staging to last-commit
