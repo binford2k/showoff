@@ -15,6 +15,7 @@ var incrCurr = 0
 var incrCode = false
 var debugMode = false
 var gotoSlidenum = 0
+var lastMessageGuid = 0
 var shiftKeyActive = false
 var query
 var slideStartTime = new Date().getTime()
@@ -662,6 +663,16 @@ function disconnected() {
 function parseMessage(data) {
   var command = JSON.parse(data);
 
+  if ("id" in command) {
+    guid = command['id']
+    if (lastMessageGuid != guid) {
+      lastMessageGuid = guid;
+    }
+    else {
+      return;
+    }
+  }
+
   if ("current" in command) { follow(command["current"]); }
 
   // Presenter messages only, so catch errors if method doesn't exist
@@ -672,7 +683,6 @@ function parseMessage(data) {
   catch(e) {
     console.log("Not a presenter!");
   }
-
 }
 
 function sendPace(pace) {
