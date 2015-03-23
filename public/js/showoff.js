@@ -297,7 +297,7 @@ function setupSlideParamsCheck() {
 }
 
 function gotoSlide(slideNum, updatepv) {
-  newslide = parseInt(slideNum);
+  var newslide = parseInt(slideNum);
   if (slidenum != newslide && !isNaN(newslide)) {
     slidenum = newslide;
     showSlide(false, updatepv);
@@ -447,11 +447,11 @@ function determineIncremental()
 
 function showIncremental(incr)
 {
-		elem = incrElem.eq(incrCurr)
+		elem = incrElem.eq(incrCurr);
 		if (incrCode && elem.hasClass('command')) {
-			incrElem.eq(incrCurr).removeClass('hidden').jTypeWriter({duration:1.0})
+			incrElem.eq(incrCurr).removeClass('hidden').jTypeWriter({duration:1.0});
 		} else {
-			incrElem.eq(incrCurr).removeClass('hidden')
+			incrElem.eq(incrCurr).removeClass('hidden');
 		}
 }
 
