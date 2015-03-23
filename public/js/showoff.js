@@ -62,7 +62,11 @@ function setupPreso(load_slides, prefix) {
   if(query.track == 'false') mode.track = false;
 
   // make sure that the next view doesn't bugger things on the first load
-  if(query.next == 'true')   mode.next = true;
+  if(query.next == 'true') {
+    $('#preso').addClass('zoomed');
+    mode.next = true;
+    zoom();
+  }
 
   // Make sure the slides always look right.
   // Better would be dynamic calculations, but this is enough for now.
@@ -188,6 +192,28 @@ function initializePresentation(prefix) {
   });
 
 	$("#preso").trigger("showoff:loaded");
+}
+
+/* This looks like the zoom() function for the presenter preview, but it uses a different algorithm */
+function zoom()
+{
+  if(window.innerWidth <= 480) {
+    $(".zoomed").css("zoom", 0.32);
+  }
+  else {
+    var hSlide = parseFloat($("#preso").height());
+    var wSlide = parseFloat($("#preso").width());
+    var hBody  = parseFloat($("html").height());
+    var wBody  = parseFloat($("html").width());
+
+    newZoom = Math.min(hBody/hSlide, wBody/wSlide) - 0.04;
+
+    $(".zoomed").css("zoom", newZoom);
+    $(".zoomed").css("-ms-zoom", newZoom);
+    $(".zoomed").css("-webkit-zoom", newZoom);
+    $(".zoomed").css("-moz-transform", "scale("+newZoom+")");
+    $(".zoomed").css("-moz-transform-origin", "left top");
+  }
 }
 
 function centerSlides(slides) {
