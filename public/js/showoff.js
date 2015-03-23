@@ -664,7 +664,7 @@ function parseMessage(data) {
   var command = JSON.parse(data);
 
   if ("id" in command) {
-    guid = command['id']
+    var guid = command['id']
     if (lastMessageGuid != guid) {
       lastMessageGuid = guid;
     }
