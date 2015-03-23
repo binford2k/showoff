@@ -155,6 +155,10 @@
 
 .bullets ul ul > li { font-size: 80%; }
 
+.content ul li.incremental.hidden {
+  display: none;
+}
+
 .commandline pre {
     font-size: 2em;
 }
@@ -199,8 +203,12 @@ h3 { font-size: 2em; }
 
 pre { margin: 1em 40px; padding: .25em; }
 
+#navigation.hidden,
+#stylepicker.hidden {
+  position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden;
+}
+
 .notes, .handouts, .instructor, .solguide { display: none }
-.hidden { position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden; }
 .buttonNav { display: none }
 .offscreen { position:absolute; top:0; left:-9999px; overflow:hidden; }
 #debugInfo { margin-left: 30px; }

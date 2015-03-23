@@ -297,8 +297,9 @@ function setupSlideParamsCheck() {
 }
 
 function gotoSlide(slideNum, updatepv) {
-  slidenum = parseInt(slideNum);
-  if (!isNaN(slidenum)) {
+  newslide = parseInt(slideNum);
+  if (slidenum != newslide && !isNaN(newslide)) {
+    slidenum = newslide;
     showSlide(false, updatepv);
   }
 }
@@ -363,6 +364,10 @@ function showSlide(back_step, updatepv) {
 
 	var fileName = currentSlide.children().first().attr('ref');
   $('#slideFilename').text(fileName);
+
+  if (query.next) {
+    $(currentSlide).find('li').removeClass('hidden');
+  }
 
   // Update presenter view, if we spawned one
 	if (updatepv && 'presenterView' in window && ! mode.next) {
@@ -436,7 +441,7 @@ function determineIncremental()
 		incrCode = true
 	}
 	incrElem.each(function(s, elem) {
-		$(elem).css('visibility', 'hidden');
+		$(elem).addClass('incremental hidden');
 	})
 }
 
@@ -444,9 +449,9 @@ function showIncremental(incr)
 {
 		elem = incrElem.eq(incrCurr)
 		if (incrCode && elem.hasClass('command')) {
-			incrElem.eq(incrCurr).css('visibility', 'visible').jTypeWriter({duration:1.0})
+			incrElem.eq(incrCurr).removeClass('hidden').jTypeWriter({duration:1.0})
 		} else {
-			incrElem.eq(incrCurr).css('visibility', 'visible')
+			incrElem.eq(incrCurr).removeClass('hidden')
 		}
 }
 

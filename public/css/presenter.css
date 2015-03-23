@@ -222,6 +222,11 @@ div.zoomed {
         margin: 0.5em 1em;
       }
 
+      #preview .content ul li.incremental.hidden {
+        display: block;
+        color: #ccc;
+      }
+
     #statusbar {
       height: 22px;
       line-height: 22px;
