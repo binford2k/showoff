@@ -194,7 +194,7 @@ function openNext()
   if (mode.next) {
     try {
       if(nextWindow == null || typeof(nextWindow) == 'undefined' || nextWindow.closed){
-          nextWindow = window.open('/?track=false&feedback=false&next=true#' + nextSlideNum(true),'','width=300,height=200');
+          nextWindow = window.open('/?track=false&feedback=false&next=true#' + nextSlideNum(true),'','width=320,height=300');
       }
       else if(nextWindow.location.hash != '#' + nextSlideNum(true)) {
         // maybe we need to reset content?
