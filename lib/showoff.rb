@@ -727,7 +727,12 @@ class ShowOff < Sinatra::Application
             files = files.select { |f| f =~ /.md$/ }
             files.each do |f|
               fname = f.gsub(settings.pres_dir + '/', '').gsub('.md', '')
-              data << process_markdown(fname, File.read(f), opts)
+              begin
+                data << process_markdown(fname, File.read(f), opts)
+              rescue Errno::ENOENT => e
+                logger.error e.message
+                data << process_markdown(fname, "!SLIDE\n# Missing File!\n## #{fname}", opts)
+              end
             end
           end
         end
