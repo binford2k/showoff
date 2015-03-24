@@ -289,12 +289,11 @@ div.zoomed {
     list-style-type: disc;
   }
   #questions ul li:hover {
-    background: #dedede url(close.png) no-repeat center center;
-    color: transparent;
-    -moz-border-radius: 1em;
-    -webkit-border-radius: 1em;
-    -khtml-border-radius: 1em;
-    border-radius: 1em;
+    background: #dedede url(close.png) no-repeat top right;
+    -moz-border-radius: 0.25em;
+    -webkit-border-radius: 0.25em;
+    -khtml-border-radius: 0.25em;
+    border-radius: 0.25em;
   }
 
   #notes {
