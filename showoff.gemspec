@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version           = SHOWOFF_VERSION
   s.date              = Date.today.to_s
   s.summary           = "The best damn presentation software a developer could ever love."
-  s.homepage          = "http://github.com/schacon/showoff"
+  s.homepage          = "http://github.com/puppetlabs/showoff"
   s.email             = "schacon@gmail.com"
   s.authors           = ["Scott Chacon"]
   s.has_rdoc          = false
