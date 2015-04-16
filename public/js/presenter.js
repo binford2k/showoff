@@ -98,7 +98,7 @@ function popupLoader(elem, page, id, event)
 
   if(elem.attr('open') === 'open') {
     elem.attr('open', false);
-        elem.tipsy("hide");
+    elem.tipsy("hide");
   }
   else {
     $.get(page, function(data) {
