@@ -51,7 +51,10 @@ $(document).ready(function(){
   $('#stats').tipsy({ html: true, width: 450, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
   $('#downloads').tipsy({ html: true, width: 425, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
 
-  $('#stats').click( function(e) {  popupLoader( $(this), '/stats', 'stats', e); });
+  $('#stats').click( function(e) {
+    popupLoader( $(this), '/stats', 'stats', e); 
+  });
+
   $('#downloads').click( function(e) {  popupLoader( $(this), '/download', 'downloads', e); });
 
   $('#enableFollower').tipsy({ gravity: 'ne' });
@@ -93,9 +96,9 @@ function popupLoader(elem, page, id, event)
   var title = elem.attr('title');
   event.preventDefault();
 
-  if(elem.attr('open') == 'true') {
-    elem.attr('open', false)
-    elem.tipsy("hide");
+  if(elem.attr('open') === 'open') {
+    elem.attr('open', false);
+        elem.tipsy("hide");
   }
   else {
     $.get(page, function(data) {
@@ -103,7 +106,7 @@ function popupLoader(elem, page, id, event)
       var content = '<div id="' + id + '">' + $(data).find('#wrapper').html() + link + '</div>';
 
       elem.attr('title', content);
-      elem.attr('open', true)
+      elem.attr('open', true);
       elem.tipsy("show");
       setupStats();
     });
