@@ -538,8 +538,8 @@ function toggleTimer()
 {
   if (!timerRunning) {
     timerRunning = true
-
     totalMinutes = parseInt($("#timerMinutes").val());
+    
     $("#minStart").hide();
     $("#minStop").show();
     $("#timerInfo").text(timerStatus(0));
