@@ -605,13 +605,13 @@ var setCurrentStyle = function(style, prop) {
  ********************/
 function toggleFollower()
 {
-  mode.follow = $("#remoteToggle").attr("checked");
+  mode.follow = $("#remoteToggle").prop("checked");
   getPosition();
 }
 
 function toggleUpdater()
 {
-  mode.update = $("#followerToggle").attr("checked");
+  mode.update = $("#followerToggle").prop("checked");
   update();
 }
 
