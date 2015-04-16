@@ -51,7 +51,10 @@ $(document).ready(function(){
   $('#stats').tipsy({ html: true, width: 450, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
   $('#downloads').tipsy({ html: true, width: 425, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
 
-  $('#stats').click( function(e) {  popupLoader( $(this), '/stats', 'stats', e); });
+  $('#stats').click( function(e) {
+    popupLoader( $(this), '/stats', 'stats', e); 
+  });
+
   $('#downloads').click( function(e) {  popupLoader( $(this), '/download', 'downloads', e); });
 
   $('#enableFollower').tipsy({ gravity: 'ne' });
@@ -93,8 +96,8 @@ function popupLoader(elem, page, id, event)
   var title = elem.attr('title');
   event.preventDefault();
 
-  if(elem.attr('open') == 'true') {
-    elem.attr('open', false)
+  if(elem.attr('open') === 'open') {
+    elem.attr('open', false);
     elem.tipsy("hide");
   }
   else {
@@ -103,7 +106,7 @@ function popupLoader(elem, page, id, event)
       var content = '<div id="' + id + '">' + $(data).find('#wrapper').html() + link + '</div>';
 
       elem.attr('title', content);
-      elem.attr('open', true)
+      elem.attr('open', true);
       elem.tipsy("show");
       setupStats();
     });
@@ -535,27 +538,30 @@ function toggleTimer()
 {
   if (!timerRunning) {
     timerRunning = true
-    totalMinutes = parseInt($("#timerMinutes").attr('value'))
-    $("#minStart").hide()
-    $("#minStop").show()
+    totalMinutes = parseInt($("#timerMinutes").val());
+    
+    $("#minStart").hide();
+    $("#minStop").show();
     $("#timerInfo").text(timerStatus(0));
-    seconds = 0
+    seconds = 0;
     if (!intervalRunning) {
-      intervalRunning = true
+      intervalRunning = true;
       setInterval(function() {
-        if (!timerRunning) { return; }
+        if (!timerRunning) { 
+          return; 
+        }
         seconds++;
         $("#timerInfo").text(timerStatus(seconds));
       }, 1000);  // fire every minute
     }
   } else {
-    seconds = 0
-    timerRunning = false
-    totalMinutes = 0
-    setProgressColor(false)
-    $("#timerInfo").text('')
-    $("#minStart").show()
-    $("#minStop").hide()
+    seconds = 0;
+    timerRunning = false;
+    totalMinutes = 0;
+    setProgressColor(false);
+    $("#timerInfo").text('');
+    $("#minStart").show();
+    $("#minStop").hide();
   }
 }
 
