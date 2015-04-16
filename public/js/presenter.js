@@ -538,27 +538,30 @@ function toggleTimer()
 {
   if (!timerRunning) {
     timerRunning = true
-    totalMinutes = parseInt($("#timerMinutes").attr('value'))
-    $("#minStart").hide()
-    $("#minStop").show()
+
+    totalMinutes = parseInt($("#timerMinutes").val());
+    $("#minStart").hide();
+    $("#minStop").show();
     $("#timerInfo").text(timerStatus(0));
-    seconds = 0
+    seconds = 0;
     if (!intervalRunning) {
-      intervalRunning = true
+      intervalRunning = true;
       setInterval(function() {
-        if (!timerRunning) { return; }
+        if (!timerRunning) { 
+          return; 
+        }
         seconds++;
         $("#timerInfo").text(timerStatus(seconds));
       }, 1000);  // fire every minute
     }
   } else {
-    seconds = 0
-    timerRunning = false
-    totalMinutes = 0
-    setProgressColor(false)
-    $("#timerInfo").text('')
-    $("#minStart").show()
-    $("#minStop").hide()
+    seconds = 0;
+    timerRunning = false;
+    totalMinutes = 0;
+    setProgressColor(false);
+    $("#timerInfo").text('');
+    $("#minStart").show();
+    $("#minStop").hide();
   }
 }
 
