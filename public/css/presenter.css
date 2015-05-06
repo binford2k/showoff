@@ -57,6 +57,20 @@ div.zoomed {
     background-color: #003d96;
   }
 
+  #topbar #links a.popdown {
+    background-image: url(popdown.png);
+    background-position: center right;
+    background-repeat: no-repeat;
+    padding-right: 16px;
+  }
+
+  #topbar #links a.popout {
+    background-image: url(popout.png);
+    background-position: top 1px right 1px;
+    background-repeat: no-repeat;
+    padding-right: 18px;
+  }
+
   #topbar #links .mobile {
     display: none;
   }
