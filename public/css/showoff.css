@@ -1,4 +1,9 @@
 @media screen {
+  /* explicitly size parent elements so the screen blanker works */
+  html, body{
+    height:100%;
+  }
+
   body {
       font-size: 100%;
       font-family: "Gill Sans", Helvetica, Arial, sans-serif;

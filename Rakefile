@@ -1,3 +1,5 @@
+task default: :test
+
 desc "Build HTML documentation"
 task :doc do
   system("rdoc --main README.rdoc README.rdoc documentation/*.rdoc")

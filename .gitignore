@@ -27,8 +27,10 @@ vendor
 
 ## PROJECT::SPECIFIC
 dist
+/stats
 
 ## IntelliJ IDEA
 *.ipr
 *.iml
 *.iws
+/.idea
