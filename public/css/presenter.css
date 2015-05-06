@@ -58,12 +58,16 @@ div.zoomed {
   }
 
   #topbar #links a.popdown {
-    background: url(popdown.png) center right no-repeat;
+    background-image: url(popdown.png);
+    background-position: center right;
+    background-repeat: no-repeat;
     padding-right: 16px;
   }
 
   #topbar #links a.popout {
-    background: url(popout.png) top 1px right 1px no-repeat;
+    background-image: url(popout.png);
+    background-position: top 1px right 1px;
+    background-repeat: no-repeat;
     padding-right: 18px;
   }
 
