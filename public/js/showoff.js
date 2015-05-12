@@ -28,6 +28,9 @@ var loadSlidesPrefix
 
 var mode = { track: true, follow: false };
 
+$(document).on('click', '.execute .sh_javascript code', executeCode);
+$(document).on('click', '.execute .sh_ruby code', executeRuby);
+$(document).on('click','.execute .sh_coffeescript code', executeCoffee);
 
 function setupPreso(load_slides, prefix) {
 	if (preso_started)
@@ -1050,7 +1053,6 @@ function executeCode () {
 	setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
 	if (result != null) print(result);
 }
-$('.execute .sh_javascript code').live("click", executeCode);
 
 function executeRuby () {
 	var codeDiv = $(this);
@@ -1060,7 +1062,6 @@ function executeRuby () {
         codeDiv.removeClass("executing");
     });
 }
-$('.execute .sh_ruby code').live("click", executeRuby);
 
 function executeCoffee() {
 	result = null;
@@ -1072,7 +1073,6 @@ function executeCoffee() {
 	setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
 	if (result != null) print(result);
 }
-$('.execute .sh_coffeescript code').live("click", executeCoffee);
 
 /********************
  PreShow Code

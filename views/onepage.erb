@@ -14,7 +14,7 @@
     <%= inline_css(['reset.css', 'showoff.css', 'theme/ui.all.css', 'sh_style.css', 'onepage.css'], 'public/css') %>
     <%= inline_css(css_files) %>
 
-    <%= inline_js(['jquery-1.4.2.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'sh_main.min.js', 'core.js', 'showoffcore.js'], 'public/js') %>
+    <%= inline_js(['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'sh_main.min.js', 'core.js', 'showoffcore.js'], 'public/js') %>
     <%= inline_js(@languages, 'public/js') if @languages %>
     <%= inline_js(js_files) %>
     <script type="text/javascript">
@@ -31,7 +31,7 @@
       <link rel="stylesheet" href="<%= @asset_path %>/file/<%= css_file %>" type="text/css"/>
     <% end %>
 
-    <% ['jquery-1.4.2.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'sh_main.min.js', 'core.js', 'showoffcore.js'].each do |js_file| %>
+    <% ['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'sh_main.min.js', 'core.js', 'showoffcore.js'].each do |js_file| %>
       <script type="text/javascript" src="<%= @asset_path %>/js/<%= js_file %>"></script>
     <% end %>
     <% js_files.each do |js_file| %>
