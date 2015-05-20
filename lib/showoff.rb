@@ -288,6 +288,14 @@ class ShowOff < Sinatra::Application
           content += "<div class=\"content #{classes}\" ref=\"#{name}\">\n"
         end
 
+        # reset subsection each time we encounter a new subsection slide. Do this in a regex, because it's much
+        # easier to just get the first of any header than it is after rendering to html.
+        if content_classes.include? 'subsection'
+          @section_title = slide.text.match(/#+ *(.*?)#*$/)[1] rescue settings.showoff_config['name']
+        end
+        # include a header that's hidden by CSS so that pdf renderers like wkhtmltopdf can use it for a section title
+        content += "<h1 class=\"section_title\">#{@section_title}</h1>\n"
+
         # Apply the template to the slide and replace the key to generate the content of the slide
         sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
         sl = Tilt[:markdown].new(nil, nil, engine_options) { sl }.render
@@ -392,7 +400,7 @@ class ShowOff < Sinatra::Application
         toc['id'] = 'toc'
         frag.add_child(toc)
 
-        Nokogiri::HTML(content).css('div.subsection > h1').each do |section|
+        Nokogiri::HTML(content).css('div.subsection > h1:not(.section_title)').each do |section|
           entry = Nokogiri::XML::Node.new('div', frag)
           entry['class'] = 'tocentry'
           toc.add_child(entry)
@@ -711,6 +719,7 @@ class ShowOff < Sinatra::Application
       @slide_count   = 0
       @section_major = 0
       @section_minor = 0
+      @section_title = settings.showoff_config['name']
 
       sections = ShowOffUtils.showoff_sections(settings.pres_dir, @logger)
       files = []
