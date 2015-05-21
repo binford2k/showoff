@@ -1,3 +1,9 @@
+0.9.10.9
+  * Fixed screen blanker
+  * Travis CI fixes from @donv
+  * Toolbar icons
+  * Add hidden `<h1>` section tag for wkhtmltopdf to use as the [section] header.
+
 0.9.10.8
   * Fixed that irritating double question bug.
   * Made the question dismissal widget slightly less ugly.
