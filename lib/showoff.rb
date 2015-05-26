@@ -288,13 +288,16 @@ class ShowOff < Sinatra::Application
           content += "<div class=\"content #{classes}\" ref=\"#{name}\">\n"
         end
 
-        # reset subsection each time we encounter a new subsection slide. Do this in a regex, because it's much
-        # easier to just get the first of any header than it is after rendering to html.
-        if content_classes.include? 'subsection'
-          @section_title = slide.text.match(/#+ *(.*?)#*$/)[1] rescue settings.showoff_config['name']
+        # renderers like wkhtmltopdf needs an <h1> tag to use for a section title, but only when printing.
+        if opts[:print]
+          # reset subsection each time we encounter a new subsection slide. Do this in a regex, because it's much
+          # easier to just get the first of any header than it is after rendering to html.
+          if content_classes.include? 'subsection'
+            @section_title = slide.text.match(/#+ *(.*?)#*$/)[1] rescue settings.showoff_config['name']
+          end
+          # include a header that's hidden by CSS the renderer can use it, but not be visible
+          content += "<h1 class=\"section_title\">#{@section_title}</h1>\n"
         end
-        # include a header that's hidden by CSS so that pdf renderers like wkhtmltopdf can use it for a section title
-        content += "<h1 class=\"section_title\">#{@section_title}</h1>\n"
 
         # Apply the template to the slide and replace the key to generate the content of the slide
         sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
