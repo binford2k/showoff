@@ -48,11 +48,25 @@ $(document).ready(function(){
   $('#generatePDF').tipsy({ offset: 5 });
   $('#onePage').tipsy({ offset: 5, gravity: 'ne' });
 
-  $('#stats').tipsy({ html: true, width: 450, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
+  $('#stats').tipsy({ 
+    html: true, 
+    width: 450, 
+    trigger: 'manual', 
+    gravity: 'ne', 
+    opacity: 0.9, 
+    offset: 5 
+  });
+
   $('#downloads').tipsy({ html: true, width: 425, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
 
-  $('#stats').click( function(e) {  popupLoader( $(this), '/stats', 'stats', e); });
-  $('#downloads').click( function(e) {  popupLoader( $(this), '/download', 'downloads', e); });
+  $('#stats').click(function(e) {
+    // Using 'stats' as third parameter creates second element with id='stats'
+    // Should be renamed, along with 'downdloads' below
+    popupLoader($(this), '/stats', 'stats', e);
+  });
+  $('#downloads').click(function(e) {
+    popupLoader($(this), '/download', 'downloads', e);
+  });
 
   $('#enableFollower').tipsy({ gravity: 'ne' });
   $('#enableRemote').tipsy();
@@ -88,16 +102,14 @@ $(document).ready(function(){
   register();
 });
 
-function popupLoader(elem, page, id, event)
-{
+function popupLoader(elem, page, id, event) {
   var title = elem.attr('title');
   event.preventDefault();
 
-  if(elem.attr('open') == 'true') {
-    elem.attr('open', false)
+  if (elem.attr('open') === 'open') {
+    elem.attr('open', false);
     elem.tipsy("hide");
-  }
-  else {
+  } else {
     $.get(page, function(data) {
       var link = '<p class="newpage"><a href="' + page + '" target="_new">Open in new page...</a>';
       var content = '<div id="' + id + '">' + $(data).find('#wrapper').html() + link + '</div>';
@@ -400,26 +412,29 @@ function presNextStep()
 	update();
 }
 
-function postSlide()
-{
+function postSlide() {
 	if(currentSlide) {
-/*
-		try {
-		  // whuuuu?
-		  var notes = slaveWindow.getCurrentNotes()
-		}
-		catch(e) {
-		  var notes = getCurrentNotes()
-		}
-*/
     // clear out any existing rendered forms
-    try { clearInterval(renderFormInterval) } catch(e) {}
+    try { 
+      clearInterval(renderFormInterval) 
+    } 
+    catch(e) { }
+    
     $('#notes div.form').empty();
 
     var notes = getCurrentNotes();
-		$('#notes').html(notes.html());
+    // Replace notes with empty string if there are no notes
+    // Otherwise it fails silently and does not remove old notes
+    if (notes.length === 0) {
+      notes = "";
+    } else {
+      notes = notes.html();
+    }
+
+		$('#notes').html(notes);
+    
     if (notesWindow) {
-      $(notesWindow.document.body).html(notes.html());
+      $(notesWindow.document.body).html(notes);
     }
 
 		var fileName = currentSlide.children().first().attr('ref');
@@ -428,7 +443,6 @@ function postSlide()
     $("#notes div.form.wrapper").each(function(e) {
       renderFormInterval = renderFormWatcher($(this));
     });
-
 	}
 }
 

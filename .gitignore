@@ -34,3 +34,7 @@ dist
 *.iml
 *.iws
 /.idea
+
+## JQuery dev
+/public/js/jquery-2.1.4.js
+/public/js/jquery-migrate-1.2.1.js

@@ -37,7 +37,7 @@ $.fn.batchImageLoad = function(options) {
 				if (elementsLoaded >= totalImagesCount)
 					if (opts.loadingCompleteCallback) opts.loadingCompleteCallback();
 			});
-			$(this).error(function() {
+			$(this).on("error", function() {
 				elementsLoaded++;
 
 				if (opts.imageLoadedCallback) opts.imageLoadedCallback(elementsLoaded, originalTotalImagesCount);
