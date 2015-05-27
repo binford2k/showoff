@@ -48,13 +48,13 @@ $(document).ready(function(){
   $('#generatePDF').tipsy({ offset: 5 });
   $('#onePage').tipsy({ offset: 5, gravity: 'ne' });
 
-  $('#stats').tipsy({ 
-    html: true, 
-    width: 450, 
-    trigger: 'manual', 
-    gravity: 'ne', 
-    opacity: 0.9, 
-    offset: 5 
+  $('#stats').tipsy({
+    html: true,
+    width: 450,
+    trigger: 'manual',
+    gravity: 'ne',
+    opacity: 0.9,
+    offset: 5
   });
 
   $('#downloads').tipsy({ html: true, width: 425, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
@@ -415,11 +415,11 @@ function presNextStep()
 function postSlide() {
 	if(currentSlide) {
     // clear out any existing rendered forms
-    try { 
-      clearInterval(renderFormInterval) 
-    } 
+    try {
+      clearInterval(renderFormInterval)
+    }
     catch(e) { }
-    
+
     $('#notes div.form').empty();
 
     var notes = getCurrentNotes();
@@ -432,8 +432,8 @@ function postSlide() {
     }
 
 		$('#notes').html(notes);
-    
-    if (notesWindow) {
+
+    if (notesWindow && typeof(notesWindow) != 'undefined' && !notesWindow.closed) {
       $(notesWindow.document.body).html(notes);
     }
 
