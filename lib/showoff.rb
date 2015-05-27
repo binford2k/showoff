@@ -116,8 +116,39 @@ class ShowOff < Sinatra::Application
     @@cookie    = nil      # presenter cookie. Identifies the presenter for control messages
     @@current   = Hash.new # The current slide that the presenter is viewing
 
+    # flush stats to disk periodically
+    Thread.new do
+      loop do
+        sleep 30
+        ShowOff.flush
+      end
+    end
+
     # Initialize Markdown Configuration
     MarkdownConfig::setup(settings.pres_dir)
+  end
+
+  # save stats to disk
+  def self.flush
+    if defined?(@@counter)
+      File.open("#{settings.statsdir}/#{settings.viewstats}", 'w') do |f|
+        if settings.verbose then
+          f.write(JSON.pretty_generate(@@counter))
+        else
+          f.write(@@counter.to_json)
+        end
+      end
+    end
+
+    if defined?(@@forms)
+      File.open("#{settings.statsdir}/#{settings.forms}", 'w') do |f|
+        if settings.verbose then
+          f.write(JSON.pretty_generate(@@forms))
+        else
+          f.write(@@forms.to_json)
+        end
+      end
+    end
   end
 
   def self.pres_dir_current
@@ -1291,25 +1322,7 @@ class ShowOff < Sinatra::Application
   end
 
   at_exit do
-    if defined?(@@counter)
-      File.open("#{settings.statsdir}/#{settings.viewstats}", 'w') do |f|
-        if settings.verbose then
-          f.write(JSON.pretty_generate(@@counter))
-        else
-          f.write(@@counter.to_json)
-        end
-      end
-    end
-
-    if defined?(@@forms)
-      File.open("#{settings.statsdir}/#{settings.forms}", 'w') do |f|
-        if settings.verbose then
-          f.write(JSON.pretty_generate(@@forms))
-        else
-          f.write(@@forms.to_json)
-        end
-      end
-    end
-
+    ShowOff.flush
   end
+
 end
