@@ -113,7 +113,7 @@ bar chart that updates every three seconds. Free entry elements are not displaye
 
 The presenter view also includes a <em>Display Results</em> button instead of the
 <em>Save</em> button that audience members see. Pressing this button will render
-a single snapshot of the current results over the slave window. This will commonly
+a single snapshot of the current results over the display window. This will commonly
 be displayed on the projector. Pressing the button again will update the results.
 
 == Example slide

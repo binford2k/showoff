@@ -168,7 +168,7 @@ function openSlave()
       $('#slaveWindow').addClass('enabled');
     }
     catch(e) {
-      console.log('Failed to open or connect slave window. Popup blocker?');
+      console.log('Failed to open or connect display window. Popup blocker?');
     }
 
     // Set up a maintenance loop to keep the connection between windows. I wish there were a cleaner way to do this.
@@ -182,7 +182,7 @@ function openSlave()
       $('#slaveWindow').removeClass('enabled');
     }
     catch (e) {
-      console.log('Slave window failed to close properly.');
+      console.log('Display window failed to close properly.');
     }
   }
 }

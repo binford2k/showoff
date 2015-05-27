@@ -29,10 +29,10 @@ web browser. The following URL paths are available for use by you and your audie
 [http://localhost:9090/presenter]
   This view is useful for the presenter. It displays a more complete view of your
   presentation, including a full tree view of all slides and presenter notes underneath
-  the slide itself. It will attempt to open a slave window that you can put on the
-  projector. The slave window will follow along with the presenter window. If you have a
-  popup blocker running, the slave window may not open. There is a button in the toolbar
-  to manually open a new slave window in this case.
+  the slide itself. It will attempt to open a display window that you can put on the
+  projector. The display window will follow along with the presenter window. If you have a
+  popup blocker running, the display window may not open. There is a button in the toolbar
+  to manually open a new display window in this case.
 
   If password protection is enabled, this view is often protected and you will need
   to authenticate to view.
@@ -102,9 +102,16 @@ tools that you should be familiar with.
   Drops down a menu of all available downloads. Contains a link to open the full
   page in a new window.
 
-[Open Slave Window]
-  Opens a new slave window or attempts to reconnect to an existing window. Useful
-  when a popup blocker interferes.
+[Display Window]
+  Opens the display window or attempts to reconnect to an existing window. This window
+  is useful to place on a projector. The presentation can be controlled from either the
+  Display Window or the Presenter View.
+
+[Next Window]
+  Opens a small preview window for the next upcoming slide.
+
+[Notes Window]
+  Opens a separate and resizable instructor notes window.
 
 [Generate PDF]
   A link to the <tt>PDFKit</tt> generated PDF file.
@@ -187,8 +194,8 @@ several strategies for keeping all views of the presentation in sync.
   If an audience member switches into follow mode by pressing the <tt>g</tt> hotkey, then
   their browser will automatically change slides to follow along with the presentation.
 
-[Slave Window]
-  When the presenter changes slides from either the presenter view or the slave window
+[Display Window]
+  When the presenter changes slides from either the Presenter View or the Display Window
   then the other view switches to match.
 
 [Remote Control]
