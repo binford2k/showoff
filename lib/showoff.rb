@@ -374,6 +374,8 @@ class ShowOff < Sinatra::Application
         engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
 
         doc = Nokogiri::HTML::DocumentFragment.parse(result)
+        # Make sure we've got a notes div to hang personal notes from
+        doc.add_child '<div class="notes"></div>' if doc.css('div.notes').empty?
         doc.css('div.notes').each do |section|
           text = Tilt[:markdown].new(nil, nil, engine_options) { File.read(filename) }.render
           frag = "<div class=\"personal\"><h1>Personal Notes</h1>#{text}</div>"
