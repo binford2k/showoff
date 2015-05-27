@@ -444,6 +444,8 @@ module MarkdownConfig
 
     else
       Tilt.prefer Tilt::RedcarpetTemplate, "markdown"
+      require 'tilt'
+      require 'tilt/erb'
 
     end
   end
