@@ -1,3 +1,11 @@
+0.9.11
+  * Correct regression in navigation menu generation.
+    * (Proper names are displayed again!)
+  * Change the Slave Window name to Display Window
+  * Flush stat files to disk periodically, and only when they're not empty
+  * Display personal notes on slides without instructor notes
+  * Update to modern JQuery
+
 0.9.10.9
   * Fixed screen blanker
   * Travis CI fixes from @donv
