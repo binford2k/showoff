@@ -130,7 +130,7 @@ class ShowOff < Sinatra::Application
 
   # save stats to disk
   def self.flush
-    if defined?(@@counter)
+    if defined?(@@counter) and not @@counter.empty?
       File.open("#{settings.statsdir}/#{settings.viewstats}", 'w') do |f|
         if settings.verbose then
           f.write(JSON.pretty_generate(@@counter))
@@ -140,7 +140,7 @@ class ShowOff < Sinatra::Application
       end
     end
 
-    if defined?(@@forms)
+    if defined?(@@forms) and not @@forms.empty?
       File.open("#{settings.statsdir}/#{settings.forms}", 'w') do |f|
         if settings.verbose then
           f.write(JSON.pretty_generate(@@forms))
