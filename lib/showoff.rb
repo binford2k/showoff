@@ -83,6 +83,8 @@ class ShowOff < Sinatra::Application
       settings.encoding = showoff_json["encoding"]
       settings.page_size = showoff_json["page-size"] || "Letter"
       settings.pres_template = showoff_json["templates"]
+
+      @highlightStyle = showoff_json['highlight'] || 'default'
     end
 
     @logger.debug settings.pres_template
@@ -715,7 +717,8 @@ class ShowOff < Sinatra::Application
           lines = out.split("\n")
           if lines.first.strip[0, 3] == '@@@'
             lang = lines.shift.gsub('@@@', '').strip
-            pre.set_attribute('class', 'sh_' + lang.downcase) if !lang.empty?
+            pre.set_attribute('class', 'highlight')
+            code.set_attribute('class', 'language-' + lang.downcase) if !lang.empty?
             code.content = lines.join("\n")
           end
         end
@@ -829,9 +832,6 @@ class ShowOff < Sinatra::Application
         @slides = get_slides_html(:static=>static)
         @pause_msg = ShowOffUtils.pause_msg
 
-        # Identify which languages to bundle for highlighting
-        @languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "sh_lang/#{w[0]}.min.js"}
-
         @asset_path = "./"
       end
 
@@ -899,7 +899,7 @@ class ShowOff < Sinatra::Application
     def onepage(static=false)
       @slides = get_slides_html(:static=>static, :toc=>true)
       @favicon = settings.showoff_config['favicon']
-      #@languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
+
       erb :onepage
     end
 
@@ -954,9 +954,6 @@ class ShowOff < Sinatra::Application
     def pdf(static=true)
       @slides = get_slides_html(:static=>static, :pdf=>true)
       @inline = true
-
-      # Identify which languages to bundle for highlighting
-      @languages = @slides.scan(/<pre class=".*(?!sh_sourceCode)(sh_[\w-]+).*"/).uniq.map{ |w| "/sh_lang/#{w[0]}.min.js"}
 
       html = erb :onepage
       # TODO make a random filename

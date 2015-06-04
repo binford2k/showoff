@@ -159,11 +159,16 @@ function initializePresentation(prefix) {
 	}
 	setupSlideParamsCheck();
 
-  try {
-	    sh_highlightDocument('/js/sh_lang/', '.min.js')
-	} catch(e) {
-	    sh_highlightDocument();
-	}
+
+  $('pre.highlight code').each(function(i, block) {
+    try {
+      hljs.highlightBlock(block);
+    } catch(e) {
+      console.log('Syntax highlighting failed on ' + $(this).parent().parent().parent().attr('id'));
+      console.log('Syntax highlighting failed for ' + $(this).attr('class'));
+      console.log(e);
+    }
+  });
 
   $(".content form").submit(function(e) {
     e.preventDefault();
