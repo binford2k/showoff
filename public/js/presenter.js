@@ -509,10 +509,6 @@ function keyDown(event)
 	{
 		$('#navmenu').toggle().trigger('click')
 	}
-	else if (key == 83)  // 's' for style
-	{
-		$('#stylemenu').toggle().trigger('click')
-	}
 	else if (key == 90 || key == 191) // z or ? for help
 	{
 		$('#help').toggle()
@@ -600,12 +596,6 @@ function setProgressColor(progress) {
   } else {
     ts.addClass('tRed')
   }
-}
-
-var presSetCurrentStyle = setCurrentStyle;
-var setCurrentStyle = function(style, prop) {
-  presSetCurrentStyle(style, false);
-  try { slaveWindow.setCurrentStyle(style, false); } catch (e) {}
 }
 
 /********************
