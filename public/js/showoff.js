@@ -1047,7 +1047,7 @@ var print = function(text) {
 };
 
 function executeCode () {
-  result = null;
+  var result = null;
   var codeDiv = $(this);
   codeDiv.addClass("executing");
   setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
@@ -1070,7 +1070,7 @@ function executeRuby () {
 }
 
 function executeCoffee() {
-  result = null;
+  var result = null;
   var codeDiv = $(this);
   codeDiv.addClass("executing");
   setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
