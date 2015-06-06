@@ -150,7 +150,7 @@ function initializePresentation(prefix) {
 	})
 
 	setupMenu()
-	setupStyleMenu()
+
 	if (slidesLoaded) {
 		showSlide()
 	} else {
@@ -923,10 +923,6 @@ function keyDown(event)
 	{
 		$('#navmenu').toggle().trigger('click')
 	}
-	else if (key == 83)  // 's' for style
-	{
-		$('#stylemenu').toggle().trigger('click')
-	}
 	else if (key == 90 || key == 191) // z or ? for help
 	{
 		$('#help').toggle()
@@ -1192,104 +1188,6 @@ function nextPreShowImage() {
 function togglePause() {
   $("#pauseScreen").toggle();
 }
-
-/********************
- Style-Picker Code
- ********************/
-
-function styleChoiceTags() {
-  return $('link[rel*="stylesheet"][href*="file/"]');
-}
-
-function styleChoices() {
-  return $.map(styleChoiceTags(), function(el) { return styleChoiceString(el.href); });
-}
-
-function styleChoiceString(href) {
-  var parts = href.split('/');
-  var file = parts[parts.length - 1];
-  var choice = file.replace(/\.css$/, '');
-
-  return choice;
-}
-
-function getCurrentStyle()
-{
-  var current = '';
-
-  styleChoiceTags().each(function (i, el) {
-    if (el.rel == 'stylesheet') {
-      current = el.href;
-    }
-  });
-
-  return styleChoiceString(current);
-}
-
-function setCurrentStyle(style, prop)
-{
-  styleChoiceTags().each(function (i, el) {
-    el.rel = 'alternate stylesheet';
-
-    if (styleChoiceString(el.href) == style) {
-      el.rel = 'stylesheet';
-    }
-  });
-
-  if (prop) {
-    if ('presenterView' in window) {
-      var pv = window.presenterView;
-      pv.setCurrentStyle(style, false);
-    }
-  }
-}
-
-function setupStyleMenu() {
-    $('#stylemenu').hide();
-
-    var menu = new StyleListMenu();
-    styleChoices().each(function(s) {
-        menu.addItem(s)
-    })
-
-    $('#stylepicker').html(menu.getList())
-    $('#stylemenu').menu({
-        content: $('#stylepicker').html(),
-        flyOut: true
-    });
-}
-
-function StyleListMenu()
-{
-  this.typeName = 'StyleListMenu'
-  this.items = new Array();
-  this.addItem = function (key) {
-    this.items[key] = new StyleListMenuItem(key)
-  }
-  this.getList = function() {
-    var newMenu = $("<ul>")
-    for(var i in this.items) {
-      var item = this.items[i]
-      var domItem = $("<li>")
-      if (item.textName != undefined) {
-        choice = $("<a onclick=\"setCurrentStyle('" + item.textName + "', true); $('#stylemenu').hide();\" href=\"#\">" + item.textName + "</a>")
-        domItem.append(choice)
-        newMenu.append(domItem)
-      }
-    }
-    return newMenu
-  }
-}
-
-function StyleListMenuItem(t)
-{
-  this.typeName = "StyleListMenuItem"
-  this.textName = t
-}
-/********************
- End Style-Picker Code
- ********************/
-
 
 /********************
  Stats page
