@@ -1050,7 +1050,7 @@ function executeCode () {
   var result = null;
   var codeDiv = $(this);
   codeDiv.addClass("executing");
-  setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
+  setTimeout(function() { codeDiv.removeClass("executing");}, 500 );
   try {
     result = eval(codeDiv.text());
   }
@@ -1073,7 +1073,7 @@ function executeCoffee() {
   var result = null;
   var codeDiv = $(this);
   codeDiv.addClass("executing");
-  setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
+  setTimeout(function() { codeDiv.removeClass("executing");}, 500 );
   try {
     // Coffeescript encapsulates everything, so result must be attached to window.
     var code = codeDiv.text() + ';window.result=result;'

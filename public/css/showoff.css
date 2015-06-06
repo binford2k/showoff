@@ -493,8 +493,7 @@ code.execute {
 }
 
 code.executing {
-  color:#0000FF !important;
-  background-color: yellow;
+  opacity: 0.5;
   background-image: url(run_code-dim.png);
 }
 
