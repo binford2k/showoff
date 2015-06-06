@@ -1047,32 +1047,42 @@ var print = function(text) {
 };
 
 function executeCode () {
-	result = null;
-	var codeDiv = $(this);
-	codeDiv.addClass("executing");
-	eval(codeDiv.text());
-	setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
-	if (result != null) print(result);
+  result = null;
+  var codeDiv = $(this);
+  codeDiv.addClass("executing");
+  setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
+  try {
+    result = eval(codeDiv.text());
+  }
+  catch(e) {
+    result = e.message;
+  };
+  if (result != null) print(result);
 }
 
 function executeRuby () {
-	var codeDiv = $(this);
-	codeDiv.addClass("executing");
-    $.get('/eval_ruby', {code: codeDiv.text()}, function(result) {
-        if (result != null) print(result);
-        codeDiv.removeClass("executing");
-    });
+  var codeDiv = $(this);
+  codeDiv.addClass("executing");
+  $.get('/eval_ruby', {code: codeDiv.text()}, function(result) {
+    if (result != null) print(result);
+    codeDiv.removeClass("executing");
+  });
 }
 
 function executeCoffee() {
-	result = null;
-	var codeDiv = $(this);
-	codeDiv.addClass("executing");
-  // Coffeescript encapsulates everything, so result must be attached to window.
-  var code = codeDiv.text() + ';window.result=result;'
-	eval(CoffeeScript.compile(code));
-	setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
-	if (result != null) print(result);
+  result = null;
+  var codeDiv = $(this);
+  codeDiv.addClass("executing");
+  setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
+  try {
+    // Coffeescript encapsulates everything, so result must be attached to window.
+    var code = codeDiv.text() + ';window.result=result;'
+    result = eval(CoffeeScript.compile(code));
+  }
+  catch(e) {
+    result = e.message;
+  };
+  if (result != null) print(result);
 }
 
 /********************
