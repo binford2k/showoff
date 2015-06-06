@@ -9,34 +9,28 @@
   <link rel="icon" href="<%= @favicon %>"/>
   <% end %>
 
-  <link type="text/css" href="<%= @asset_path %>/css/fg.menu.css" media="screen" rel="stylesheet" />
-  <link type="text/css" href="<%= @asset_path %>/css/theme/ui.all.css" media="screen" rel="stylesheet" />
-  <link type="text/css" href="<%= @asset_path %>/css/sh_style.css" rel="stylesheet" />
-  <link type="text/css" href="<%= @asset_path %>/css/tipsy.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/fg.menu.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/theme/ui.all.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/tipsy.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/highlight/<%= @highlightStyle %>.css"  />
 
-  <link rel="stylesheet" href="<%= @asset_path %>/css/showoff.css" type="text/css"/>
+  <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/showoff.css" />
 
   <script type="text/javascript" src="<%= @asset_path %>/js/jquery-2.1.4.min.js"></script>
+
   <script type="text/javascript" src="<%= @asset_path %>/js/jquery.cycle.all.js"></script>
-	<script type="text/javascript" src="<%= @asset_path %>/js/jquery-print.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/jquery-print.js"></script>
   <script type="text/javascript" src="<%= @asset_path %>/js/jquery.batchImageLoad.js"></script>
   <script type="text/javascript" src="<%= @asset_path %>/js/jquery.parsequery.min.js"></script>
   <script type="text/javascript" src="<%= @asset_path %>/js/jquery.doubletap-0.1.js"></script>
   <script type="text/javascript" src="<%= @asset_path %>/js/jquery.tipsy.js"></script>
-
   <script type="text/javascript" src="<%= @asset_path %>/js/fg.menu.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>/js/showoff.js"></script>
   <script type="text/javascript" src="<%= @asset_path %>/js/jTypeWriter.js"> </script>
-  <script type="text/javascript" src="<%= @asset_path %>/js/sh_main.min.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>/js/core.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>/js/showoffcore.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/highlight.pack.js"></script>
+
   <script type="text/javascript" src="<%= @asset_path %>/js/coffee-script.js"></script>
 
-  <% if @languages %>
-    <% @languages.each do |l| %>
-      <script type="text/javascript" src="<%= @asset_path %>/js/<%= l %>"></script>
-    <% end %>
-  <% end %>
+  <script type="text/javascript" src="<%= @asset_path %>/js/showoff.js"></script>
 
   <% css_files.each do |css_file| %>
     <% alternate = ShowOffUtils.default_style?(css_file) ? '' : 'alternate ' %>

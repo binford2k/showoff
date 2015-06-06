@@ -28,9 +28,9 @@ var loadSlidesPrefix
 
 var mode = { track: true, follow: false };
 
-$(document).on('click', '.execute .sh_javascript code', executeCode);
-$(document).on('click', '.execute .sh_ruby code', executeRuby);
-$(document).on('click','.execute .sh_coffeescript code', executeCoffee);
+$(document).on('click', 'code.language-javascript.execute',   executeCode);
+$(document).on('click', 'code.language-ruby.execute',         executeRuby);
+$(document).on('click', 'code.language-coffeescript.execute', executeCoffee);
 
 function setupPreso(load_slides, prefix) {
 	if (preso_started)
@@ -159,11 +159,16 @@ function initializePresentation(prefix) {
 	}
 	setupSlideParamsCheck();
 
-  try {
-	    sh_highlightDocument('/js/sh_lang/', '.min.js')
-	} catch(e) {
-	    sh_highlightDocument();
-	}
+
+  $('pre.highlight code').each(function(i, block) {
+    try {
+      hljs.highlightBlock(block);
+    } catch(e) {
+      console.log('Syntax highlighting failed on ' + $(this).parent().parent().parent().attr('id'));
+      console.log('Syntax highlighting failed for ' + $(this).attr('class'));
+      console.log(e);
+    }
+  });
 
   $(".content form").submit(function(e) {
     e.preventDefault();
@@ -838,15 +843,15 @@ function toggleFollow()
 
 function executeAnyCode()
 {
-  var $jsCode = $('.execute .sh_javascript code:visible')
+  var $jsCode = $('.execute code.language-javascript:visible')
   if ($jsCode.length > 0) {
       executeCode.call($jsCode);
   }
-  var $rubyCode = $('.execute .sh_ruby code:visible')
+  var $rubyCode = $('.execute code.language-ruby:visible')
   if ($rubyCode.length > 0) {
       executeRuby.call($rubyCode);
   }
-  var $coffeeCode = $('.execute .sh_coffeescript code:visible')
+  var $coffeeCode = $('.execute code.language-coffeescript:visible')
   if ($coffeeCode.length > 0) {
       executeCoffee.call($coffeeCode);
   }
