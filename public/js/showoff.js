@@ -226,9 +226,27 @@ function zoom()
 }
 
 function centerSlides(slides) {
-	slides.each(function(s, slide) {
-		centerSlide(slide)
-	})
+  slides.each(function(s, slide) {
+    waitForImagesThenCenter(slide);
+  })
+}
+
+function waitForImagesThenCenter(slide) {
+  function waitForContent(slide) {
+    var imagesLoaded = true;
+    $(slide).find("img").each(function(img) {
+      if(! img.complete) {
+        imagesLoaded = false;
+      }
+    });
+    if(imagesLoaded) {
+      centerSlide(slide);
+    }
+    else {
+      setTimeout(function() { waitForContent(slide) }, 100);
+    }
+  }
+  setTimeout(waitForContent, 0);
 }
 
 function centerSlide(slide) {
