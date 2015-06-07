@@ -95,7 +95,7 @@ Some useful styles for each slide are:
 [incremental] can be used with 'bullets' and 'commandline' styles, will incrementally update elements on arrow key rather than switch slides
 [small] make all slide text 80%
 [smaller] make all slide text 70%
-[execute] on Javascript, Coffeescript and Ruby highlighted code slides, you can click on the code to execute it and display the results on the slide
+[execute] on Javascript, Coffeescript, Ruby, and Shell highlighted code slides, you can click on the code to execute it and display the results on the slide
 [printonly] this slide should only appear in the printed version of the presentation
 [noprint] this slide will not appear in the printed version of the presentation
 [supplemental] rather than adding a slide to the main presentation, add a slide to supplemental materials. See below.
@@ -475,23 +475,30 @@ custom layout is to create a container that uses absolute positioning
 and has width and height set to 100% which are then derived from the
 parent slide element.
 
+= Executing Ruby or shell code live
 
-= Custom Ruby Files
+Showoff can execute Ruby or shell code from a slide and display the results
+live.  To do this, mark your code block with the keyword <tt>execute</tt>.
+Showoff must be started with the <tt>-x</tt> or <tt>--execute</tt> flags to
+enable this behaviour.
 
-If you want to have executable Ruby code on your slides you must set the
-environment variable ENV['SHOWOFF_EVAL_RUBY']. This can be done with
+*Security*: code must exist in a slide file on disk for Showoff to execute it.
 
-    export SHOWOFF_EVAL_RUBY=1
+== Shell code
 
-or
+    @@@ Shell execute
+    find . -name '*.md'
 
-    # On Heroku
-    heroku config:add SHOWOFF_EVAL_RUBY=1
+== Ruby code
 
+    @@@ Ruby execute
+    [1,2,3,4].map do |num|
+        num * num
+    end
 
-If you need supporting libraries when you evaluate the code. You can do this by
-putting Ruby files (*.rb) into the root directory of the presentation then they
-will be required when the presentation loads.
+If you need supporting libraries when you evaluate the code, you can put Ruby
+files (*.rb) into the root directory of the presentation and they will be
+required when the presentation loads.
 
 = Editor Support
 

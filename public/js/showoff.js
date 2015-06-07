@@ -29,8 +29,9 @@ var loadSlidesPrefix
 var mode = { track: true, follow: false };
 
 $(document).on('click', 'code.language-javascript.execute',   executeCode);
-$(document).on('click', 'code.language-ruby.execute',         executeRuby);
 $(document).on('click', 'code.language-coffeescript.execute', executeCoffee);
+$(document).on('click', 'code.language-ruby.execute',         executeRuby);
+$(document).on('click', 'code.language-shell.execute',        executeShell);
 
 function setupPreso(load_slides, prefix) {
 	if (preso_started)
@@ -1060,15 +1061,6 @@ function executeCode () {
   if (result != null) print(result);
 }
 
-function executeRuby () {
-  var codeDiv = $(this);
-  codeDiv.addClass("executing");
-  $.get('/eval_ruby', {code: codeDiv.text()}, function(result) {
-    if (result != null) print(result);
-    codeDiv.removeClass("executing");
-  });
-}
-
 function executeCoffee() {
   var result = null;
   var codeDiv = $(this);
@@ -1082,6 +1074,27 @@ function executeCoffee() {
   };
   if (result != null) print(result);
 }
+
+function executeRuby () {
+  remoteCode('ruby', $(this));
+}
+
+function executeShell () {
+  remoteCode('shell', $(this));
+}
+
+// request the server to execute a code block by path and index
+function remoteCode (lang, codeDiv) {
+  slide = codeDiv.closest('div.content');
+  index = slide.find('code.execute').index(codeDiv);
+  path  = slide.attr('ref');
+  codeDiv.addClass("executing");
+  $.get('/execute/'+lang, {path: path, index: index}, function(result) {
+    if (result != null) print(result);
+    codeDiv.removeClass("executing");
+  });
+}
+
 
 /********************
  PreShow Code

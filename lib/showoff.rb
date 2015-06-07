@@ -44,7 +44,8 @@ class ShowOff < Sinatra::Application
   set :presenters, []
 
   set :verbose, false
-  set :review, false
+  set :review,  false
+  set :execute, false
 
   set :pres_dir, '.'
   set :pres_file, 'showoff.json'
@@ -59,7 +60,8 @@ class ShowOff < Sinatra::Application
     @logger.formatter = proc { |severity,datetime,progname,msg| "#{progname} #{msg}\n" }
     @logger.level = settings.verbose ? Logger::DEBUG : Logger::WARN
 
-    @review = settings.review
+    @review  = settings.review
+    @execute = settings.execute
 
     dir = File.expand_path(File.join(File.dirname(__FILE__), '..'))
     @logger.debug(dir)
@@ -86,6 +88,12 @@ class ShowOff < Sinatra::Application
 
       @highlightStyle = showoff_json['highlight'] || 'default'
     end
+
+    # variables used for building section numbering and title
+    @slide_count   = 0
+    @section_major = 0
+    @section_minor = 0
+    @section_title = settings.showoff_config['name'] rescue 'Showoff Presentation'
 
     @logger.debug settings.pres_template
 
@@ -755,10 +763,6 @@ class ShowOff < Sinatra::Application
     end
 
     def get_slides_html(opts={:static=>false, :pdf=>false, :toc=>false, :supplemental=>nil})
-      @slide_count   = 0
-      @section_major = 0
-      @section_minor = 0
-      @section_title = settings.showoff_config['name']
 
       sections = ShowOffUtils.showoff_sections(settings.pres_dir, @logger)
       files = []
@@ -1062,11 +1066,16 @@ class ShowOff < Sinatra::Application
       end
     end
 
-   def eval_ruby code
-     eval(code).to_s
-   rescue => e
-     e.message
-   end
+  # Load a slide file from disk, parse it and return the text of a code block by index
+  def get_code_from_slide(path, index)
+    slide = "#{path}.md"
+    return unless File.exists? slide
+
+    html = process_markdown(slide, File.read(slide), {})
+    doc  = Nokogiri::HTML::DocumentFragment.parse(html)
+
+    return doc.css('code.execute')[index.to_i].text rescue 'Invalid code block index'
+  end
 
   # Basic auth boilerplate
   def protected!
@@ -1130,10 +1139,22 @@ class ShowOff < Sinatra::Application
     end.to_json
   end
 
-  get '/eval_ruby' do
-    return eval_ruby(params[:code]) if ENV['SHOWOFF_EVAL_RUBY']
+  # Evaluate known good code from a slide file on disk.
+  get '/execute/:lang' do |lang|
+    return 'Run showoff with -x or --executecode to enable code execution' unless @execute
 
-    return "Ruby Evaluation is off. To turn it on set ENV['SHOWOFF_EVAL_RUBY']"
+    code = get_code_from_slide(params[:path], params[:index])
+
+    begin
+      case lang
+      when 'ruby'
+        return eval(code).to_s.gsub(/\n/, '<br />')
+      when 'shell'
+        return %x(#{code}).gsub(/\n/, '<br />')
+      end
+    rescue => e
+      e.message
+    end
   end
 
   # provide a callback to trigger a local file editor, but only when called when viewing from localhost.

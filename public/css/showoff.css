@@ -490,6 +490,8 @@ code.execute {
   background-image: url(run_code.png);
   background-position: right 5px top 5px;
   background-repeat: no-repeat;
+  display: block;
+  min-height: 42px;
 }
 
 code.executing {
