@@ -1042,7 +1042,7 @@ var removeResults = function() {
 
 var print = function(text) {
 	removeResults();
-	var _results = $('<div>').addClass('results').html($.print(text, {max_string:500}));
+	var _results = $('<div>').addClass('results').html('<pre>'+$.print(text, {max_string:500})+'</pre>');
 	$('body').append(_results);
 	_results.click(removeResults);
 };

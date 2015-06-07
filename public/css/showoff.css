@@ -485,6 +485,11 @@ a.fg-button { float:left; }
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
 }
 
+.results pre {
+  margin: 0;
+  padding: 0;
+}
+
 code.execute {
   cursor: context-menu;
   background-image: url(run_code.png);
