@@ -1075,9 +1075,7 @@ function executeCoffee() {
   codeDiv.addClass("executing");
   setTimeout(function() { codeDiv.removeClass("executing");}, 500 );
   try {
-    // Coffeescript encapsulates everything, so result must be attached to window.
-    var code = codeDiv.text() + ';window.result=result;'
-    result = eval(CoffeeScript.compile(code));
+    result = eval(CoffeeScript.compile(codeDiv.text(), {bare: true}));
   }
   catch(e) {
     result = e.message;
