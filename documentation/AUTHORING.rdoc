@@ -479,10 +479,13 @@ parent slide element.
 
 Showoff can execute Ruby or shell code from a slide and display the results
 live.  To do this, mark your code block with the keyword <tt>execute</tt>.
-Showoff must be started with the <tt>-x</tt> or <tt>--execute</tt> flags to
-enable this behaviour.
 
 *Security*: code must exist in a slide file on disk for Showoff to execute it.
+This doesn't mean that you're immune from attack though. It's possible to create
+a presentation with embedded Javascript that will automatically call back and
+execute malicious code on a slide. To help mitigate this attack profile, Showoff
+must be started with the <tt>-x</tt> or <tt>--execute</tt> flags to enable code
+execution.
 
 == Shell code
 
