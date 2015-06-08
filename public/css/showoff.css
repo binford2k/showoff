@@ -81,6 +81,10 @@
   transform: translateY(-50%);
 }
 
+.slide .center {
+  text-align: center;
+}
+
 /* plain (non-bullet) text */
 .content > p,
 .content > form > p {
