@@ -133,9 +133,6 @@ function initializePresentation(prefix) {
 	// unhide for height to work in static mode
         $("#slides").show();
 
-	//center slides offscreen
-	centerSlides($('#slides > .slide'))
-
 	//copy into presentation area
 	$("#preso").empty()
 	$('#slides > .slide').appendTo($("#preso"))
@@ -223,40 +220,6 @@ function zoom()
     $(".zoomed").css("-moz-transform", "scale("+newZoom+")");
     $(".zoomed").css("-moz-transform-origin", "left top");
   }
-}
-
-function centerSlides(slides) {
-  slides.each(function(s, slide) {
-    waitForImagesThenCenter(slide);
-  })
-}
-
-function waitForImagesThenCenter(slide) {
-  function waitForContent(slide) {
-    var imagesLoaded = true;
-    $(slide).find("img").each(function(img) {
-      if(! img.complete) {
-        imagesLoaded = false;
-      }
-    });
-    if(imagesLoaded) {
-      centerSlide(slide);
-    }
-    else {
-      setTimeout(function() { waitForContent(slide) }, 100);
-    }
-  }
-  setTimeout(waitForContent, 0);
-}
-
-function centerSlide(slide) {
-	var slide_content = $(slide).find(".content").first()
-	var height = slide_content.height()
-	var mar_top = (0.5 * parseFloat($(slide).height())) - (0.5 * parseFloat(height))
-	if (mar_top < 0) {
-		mar_top = 0
-	}
-	slide_content.css('margin-top', mar_top)
 }
 
 function setupMenu() {

@@ -72,6 +72,15 @@
   }
 }
 
+.content {
+  position: relative;
+  /* for some reason, setting top to 50% is pushing the content too far down, no idea why */
+  top: 42%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
 /* plain (non-bullet) text */
 .content > p,
 .content > form > p {
@@ -94,14 +103,6 @@
     display:block;
     margin-left:auto;
     margin-right:auto;
-}
-
-.slide .center {
-  height: 740px;
-  width: 1020px;
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle;
 }
 
 /* numbered lists are numbered */
@@ -161,7 +162,7 @@
 .bullets ul ul > li { font-size: 80%; }
 
 .content ul li.incremental.hidden {
-  display: none;
+  visibility: hidden;
 }
 
 .commandline pre {
