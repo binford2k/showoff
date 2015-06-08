@@ -1085,9 +1085,10 @@ function executeShell () {
 
 // request the server to execute a code block by path and index
 function remoteCode (lang, codeDiv) {
-  slide = codeDiv.closest('div.content');
-  index = slide.find('code.execute').index(codeDiv);
-  path  = slide.attr('ref');
+  var slide = codeDiv.closest('div.content');
+  var index = slide.find('code.execute').index(codeDiv);
+  var path  = slide.attr('ref');
+
   codeDiv.addClass("executing");
   $.get('/execute/'+lang, {path: path, index: index}, function(result) {
     if (result != null) print(result);
