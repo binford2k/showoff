@@ -162,7 +162,7 @@ function initializePresentation(prefix) {
     try {
       hljs.highlightBlock(block);
     } catch(e) {
-      console.log('Syntax highlighting failed on ' + $(this).parent().parent().parent().attr('id'));
+      console.log('Syntax highlighting failed on ' + $(this).closest('div.slide').attr('id'));
       console.log('Syntax highlighting failed for ' + $(this).attr('class'));
       console.log(e);
     }
