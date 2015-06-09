@@ -103,6 +103,12 @@
     margin: 2em;
 }
 
+/* prevent large images from getting too out of hand */
+.content img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
 .center img {
     display:block;
     margin-left:auto;
