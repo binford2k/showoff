@@ -29,8 +29,9 @@ var loadSlidesPrefix
 var mode = { track: true, follow: false };
 
 $(document).on('click', 'code.language-javascript.execute',   executeCode);
-$(document).on('click', 'code.language-ruby.execute',         executeRuby);
 $(document).on('click', 'code.language-coffeescript.execute', executeCoffee);
+$(document).on('click', 'code.language-ruby.execute',         executeRuby);
+$(document).on('click', 'code.language-shell.execute',        executeShell);
 
 function setupPreso(load_slides, prefix) {
 	if (preso_started)
@@ -1059,39 +1060,60 @@ var removeResults = function() {
 
 var print = function(text) {
 	removeResults();
-	var _results = $('<div>').addClass('results').html($.print(text, {max_string:500}));
+	var _results = $('<div>').addClass('results').html('<pre>'+$.print(text, {max_string:500})+'</pre>');
 	$('body').append(_results);
 	_results.click(removeResults);
 };
 
 function executeCode () {
-	result = null;
-	var codeDiv = $(this);
-	codeDiv.addClass("executing");
-	eval(codeDiv.text());
-	setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
-	if (result != null) print(result);
-}
-
-function executeRuby () {
-	var codeDiv = $(this);
-	codeDiv.addClass("executing");
-    $.get('/eval_ruby', {code: codeDiv.text()}, function(result) {
-        if (result != null) print(result);
-        codeDiv.removeClass("executing");
-    });
+  var result = null;
+  var codeDiv = $(this);
+  codeDiv.addClass("executing");
+  setTimeout(function() { codeDiv.removeClass("executing");}, 500 );
+  try {
+    result = eval(codeDiv.text());
+  }
+  catch(e) {
+    result = e.message;
+  };
+  if (result != null) print(result);
 }
 
 function executeCoffee() {
-	result = null;
-	var codeDiv = $(this);
-	codeDiv.addClass("executing");
-  // Coffeescript encapsulates everything, so result must be attached to window.
-  var code = codeDiv.text() + ';window.result=result;'
-	eval(CoffeeScript.compile(code));
-	setTimeout(function() { codeDiv.removeClass("executing");}, 250 );
-	if (result != null) print(result);
+  var result = null;
+  var codeDiv = $(this);
+  codeDiv.addClass("executing");
+  setTimeout(function() { codeDiv.removeClass("executing");}, 500 );
+  try {
+    result = eval(CoffeeScript.compile(codeDiv.text(), {bare: true}));
+  }
+  catch(e) {
+    result = e.message;
+  };
+  if (result != null) print(result);
 }
+
+function executeRuby () {
+  remoteCode('ruby', $(this));
+}
+
+function executeShell () {
+  remoteCode('shell', $(this));
+}
+
+// request the server to execute a code block by path and index
+function remoteCode (lang, codeDiv) {
+  var slide = codeDiv.closest('div.content');
+  var index = slide.find('code.execute').index(codeDiv);
+  var path  = slide.attr('ref');
+
+  codeDiv.addClass("executing");
+  $.get('/execute/'+lang, {path: path, index: index}, function(result) {
+    if (result != null) print(result);
+    codeDiv.removeClass("executing");
+  });
+}
+
 
 /********************
  PreShow Code

@@ -122,6 +122,9 @@ command :serve do |c|
   c.desc 'Enable code review'
   c.switch :review
 
+  c.desc 'Enable remote code execution'
+  c.switch [:x,:executecode]
+
   c.desc 'Port on which to run'
   c.default_value "9090"
   c.flag [:p,:port]
@@ -163,6 +166,7 @@ To run it from presenter view, go to: [ #{url}/presenter ]
                   :pres_dir  => args[0],
                   :verbose   => options[:verbose],
                   :review    => options[:review],
+                  :execute   => options[:x],
                   :bind      => options[:h]
   end
 end

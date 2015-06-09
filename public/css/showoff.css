@@ -485,13 +485,27 @@ a.fg-button { float:left; }
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
 }
 
-.executing {
-  color:#0000FF !important;
-  background-color: yellow;
+.results pre {
+  margin: 0;
+  padding: 0;
 }
 
-.executing:hover {
-  cursor: pointer;
+code.execute {
+  cursor: context-menu;
+  background-image: url(run_code.png);
+  background-position: right 5px top 5px;
+  background-repeat: no-repeat;
+  display: block;
+  min-height: 42px;
+}
+
+code.executing {
+  opacity: 0.5;
+  background-image: url(run_code-dim.png);
+}
+
+code.executing:hover {
+  cursor: wait;
 }
 
 #tips, #preshow_timer {
