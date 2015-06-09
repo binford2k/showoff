@@ -11,27 +11,27 @@
 
   <% if @inline %>
 
-    <%= inline_css(['reset.css', 'showoff.css', 'theme/ui.all.css', 'sh_style.css', 'onepage.css'], 'public/css') %>
+    <%= inline_css(['reset.css', 'showoff.css', 'theme/ui.all.css', 'sh_style.css', 'onepage.css', "highlight/#{@highlightStyle}.css"], 'public/css') %>
     <%= inline_css(css_files) %>
 
-    <%= inline_js(['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'sh_main.min.js', 'core.js', 'showoffcore.js'], 'public/js') %>
+    <!--[if lte IE 8]>
+      <%= inline_css('ie8.css') %>
+    <![endif]-->
+
+    <%= inline_js(['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'highlight.pack.js'], 'public/js') %>
     <%= inline_js(@languages, 'public/js') if @languages %>
     <%= inline_js(js_files) %>
-    <script type="text/javascript">
-    $(document).ready(function() {
-      setupOnePage()
-    });
-    </script>
 
   <% else %>
-    <% ['reset.css', 'showoff.css', 'theme/ui.all.css', 'sh_style.css', 'onepage.css'].each do |css_file| %>
+    <% ['reset.css', 'showoff.css', 'theme/ui.all.css', 'onepage.css', "highlight/#{@highlightStyle}.css"].each do |css_file| %>
       <link rel="stylesheet" href="<%= @asset_path %>/css/<%= css_file %>" type="text/css"/>
     <% end %>
+
     <% css_files.each do |css_file| %>
       <link rel="stylesheet" href="<%= @asset_path %>/file/<%= css_file %>" type="text/css"/>
     <% end %>
 
-    <% ['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'sh_main.min.js', 'core.js', 'showoffcore.js'].each do |js_file| %>
+    <% ['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'highlight.pack.js'].each do |js_file| %>
       <script type="text/javascript" src="<%= @asset_path %>/js/<%= js_file %>"></script>
     <% end %>
     <% js_files.each do |js_file| %>
@@ -42,13 +42,26 @@
         <script type="text/javascript" src="<%= @asset_path %>/js<%= l %>"></script>
       <% end %>
     <% end %>
-    <script type="text/javascript">
-      $(document).ready(function() {
-        setupOnePage()
-      });
-    </script>
 
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/ie8.css" />
+    <![endif]-->
   <% end %>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('pre.highlight code').each(function(i, block) {
+        try {
+          hljs.highlightBlock(block);
+        } catch(e) {
+          console.log('Syntax highlighting failed on ' + $(this).closest('div.slide').attr('id'));
+          console.log('Syntax highlighting failed for ' + $(this).attr('class'));
+          console.log(e);
+        }
+      });
+    });
+  </script>
+
 </head>
 
 <body>
