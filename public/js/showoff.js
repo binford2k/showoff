@@ -52,11 +52,7 @@ function setupPreso(load_slides, prefix) {
 	doDebugStuff()
 
 	// bind event handlers
-	document.onkeydown = keyDown
-	document.onkeyup   = keyUp
-	/* window.onresize	= resized; */
-	/* window.onscroll = scrolled; */
-	/* window.onunload = unloaded; */
+	toggleKeybinding('on');
 
 	$('#preso').addSwipeEvents().
 		bind('tap', swipeLeft).         // next
@@ -80,13 +76,11 @@ function setupPreso(load_slides, prefix) {
   $("#feedbackWrapper").hover(
     function() {
       $('#feedbackSidebar').show();
-      document.onkeydown = null;
-      document.onkeyup   = null;
+      toggleKeybinding();
     },
     function() {
       $('#feedbackSidebar').hide();
-      document.onkeydown = keyDown;
-      document.onkeyup   = keyUp;
+      toggleKeybinding();
     }
   );
 
@@ -175,12 +169,10 @@ function initializePresentation(prefix) {
 
   // suspend hotkey handling
   $(".content form :input").focus( function() {
-    document.onkeydown = null;
-    document.onkeyup   = null;
+    toggleKeybinding();
   });
   $(".content form :input").blur( function() {
-    document.onkeydown = keyDown;
-    document.onkeyup   = keyUp;
+    toggleKeybinding();
   });
 
   $(".content form :input").change(function(e) {
@@ -842,6 +834,14 @@ function executeAnyCode()
 function debug(data)
 {
 	$('#debugInfo').text(data)
+}
+
+function toggleKeybinding (setting) {
+  if (document.onkeydown === null || setting === 'on') {
+    document.onkeydown = keyDown;
+  } else {
+    document.onkeydown = null;
+  }
 }
 
 //  See e.g. http://www.quirksmode.org/js/keys.html for keycodes
