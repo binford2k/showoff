@@ -844,110 +844,102 @@ function toggleKeybinding (setting) {
   }
 }
 
-//  See e.g. http://www.quirksmode.org/js/keys.html for keycodes
-function keyDown(event)
-{
-	var key = event.keyCode;
+function keyDown(event){
+  var key = event.keyCode;
 
-	if (event.ctrlKey || event.altKey || event.metaKey)
-		return true;
+  debug('keyDown: ' + key);
+  // avoid overriding browser commands
+  if (event.ctrlKey || event.altKey || event.metaKey) {
+    return true;
+  }
 
-	debug('keyDown: ' + key)
+  switch (key) {
+    case 48: // 0
+    case 49: // 1
+    case 50: // 2
+    case 51: // 3
+    case 52: // 4
+    case 53: // 5
+    case 54: // 6
+    case 55: // 7
+    case 56: // 8
+    case 57: // 9
+      // concatenate numbers from previous keypress events
+      gotoSlidenum = gotoSlidenum * 10 + (key - 48);
+      break;
+    case 13: // enter/return
+      // check for a combination of numbers from previous keypress events
+      if (gotoSlidenum > 0) {
+        debug('go to ' + gotoSlidenum);
+        slidenum = gotoSlidenum - 1;
+        showSlide(true);
+        gotoSlidenum = 0;
+      } else {
+        debug('executeCode');
+        executeAnyCode();
+      }
+      break;
+    case 32: // space
+      if (event.shiftKey) {
+        prevStep();
+      } else {
+        nextStep();
+      }
+      break;
+    case 68: // d
+      debugMode = !debugMode;
+      doDebugStuff();
+      break;
+    case 33: // page up
+    case 37: // left arrow
+    case 38: // up arrow
+      prevStep();
+      break;
+    case 34: // page down
+    case 39: // right arrow
+    case 40: // down arrow
+      nextStep();
+      break;
+    case 82: // r
+      if (confirm('really reload slides?')) {
+        loadSlides(loadSlidesBool, loadSlidesPrefix);
+        showSlide();
+      }  
+      break; 
+    case 67: // c
+    case 84: // t
+      $('#navmenu').toggle().trigger('click');
+      break;
+    case 90: // z
+    case 191: // '/' (yes, we're aware that the help says '?' for this one)
+      $('#help').toggle();
+      break;
+    case 66: // b, also what kensington remote "stop" button sends
+      blankScreen();
+      break;
+    case 70: // f
+      toggleFooter();
+      break;
+    case 71: // g
+      toggleFollow();
+      break;
+    case 78: // n
+      toggleNotes();
+      break;
+    case 27: // esc
+      removeResults();
+      break;
+    case 80: // p
+      if (event.shiftKey) {
+        togglePause();
+      } else {
+        togglePreShow();
+      }
+    default:
+      break;
+  }
 
-	if (key >= 48 && key <= 57) // 0 - 9
-	{
-		gotoSlidenum = gotoSlidenum * 10 + (key - 48);
-		return true;
-	}
-
-	if (key == 13) {
-		if (gotoSlidenum > 0) {
-			debug('go to ' + gotoSlidenum);
-			slidenum = gotoSlidenum - 1;
-			showSlide(true);
-			gotoSlidenum = 0;
-		} else {
-			debug('executeCode');
-			executeAnyCode();
-		}
-	}
-
-
-	if (key == 16) // shift key
-	{
-		shiftKeyActive = true;
-	}
-
-	if (key == 32) // space bar
-	{
-		if (shiftKeyActive) {
-			prevStep()
-		} else {
-			nextStep()
-		}
-	}
-	else if (key == 68) // 'd' for debug
-	{
-		debugMode = !debugMode
-		doDebugStuff()
-	}
-	else if (key == 37 || key == 33 || key == 38) // Left arrow, page up, or up arrow
-	{
-		prevStep()
-	}
-	else if (key == 39 || key == 34 || key == 40) // Right arrow, page down, or down arrow
-	{
-		nextStep()
-	}
-	else if (key == 82) // R for reload
-	{
-		if (confirm('really reload slides?')) {
-			loadSlides(loadSlidesBool, loadSlidesPrefix)
-			showSlide()
-		}
-	}
-	else if (key == 84 || key == 67)  // T or C for table of contents
-	{
-		$('#navmenu').toggle().trigger('click')
-	}
-	else if (key == 90 || key == 191) // z or ? for help
-	{
-		$('#help').toggle()
-	}
-	else if (key == 66) // b for blank, also what kensington remote "stop" button sends
-	{
-		blankScreen()
-	}
-  else if (key == 70) // f for footer
-	{
-		toggleFooter()
-	}
-	else if (key == 71) // g for follow mode
-	{
-  	toggleFollow()
-	}
-	else if (key == 76) // l for leader mode
-	{
-		toggleLeader()
-	}
-	else if (key == 78) // 'n' for notes
-	{
-		toggleNotes()
-	}
-	else if (key == 27) // esc
-	{
-		removeResults();
-	}
-	else if (key == 80) // 'p' for preshow, 'P' for pause
-	{
-    if (shiftKeyActive) {
-      togglePause();
-    }
-    else {
-      togglePreShow();
-    }
-	}
-	return true
+  return true;
 }
 
 function toggleFooter()
