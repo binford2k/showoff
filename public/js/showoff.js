@@ -16,7 +16,6 @@ var incrCode = false
 var debugMode = false
 var gotoSlidenum = 0
 var lastMessageGuid = 0
-var shiftKeyActive = false
 var query
 var slideStartTime = new Date().getTime()
 
@@ -945,15 +944,6 @@ function keyDown(event){
 function toggleFooter()
 {
 	$('#footer').toggle()
-}
-
-function keyUp(event) {
-	var key = event.keyCode;
-	debug('keyUp: ' + key);
-	if (key == 16) // shift key
-	{
-		shiftKeyActive = false;
-	}
 }
 
 function swipeLeft() {
