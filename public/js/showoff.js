@@ -25,7 +25,7 @@ var feedbackPrompt = 'Why?...'
 var loadSlidesBool
 var loadSlidesPrefix
 
-var mode = { track: true, follow: false };
+var mode = { track: true, follow: true };
 
 $(document).on('click', 'code.language-javascript.execute',   executeCode);
 $(document).on('click', 'code.language-coffeescript.execute', executeCoffee);
