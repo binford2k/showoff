@@ -446,6 +446,61 @@ function postSlide() {
 	}
 }
 
+function presenterKeyDown(event){
+  console.log('presenterKeyDown: ' + event.keyCode);
+  var key = event.keyCode;
+
+  debug('keyDown: ' + key);
+  // avoid overriding browser commands
+  if (event.ctrlKey || event.altKey || event.metaKey) {
+    return true;
+  }
+
+  switch (key) {
+    case 13: // enter/return
+      // check for a combination of numbers from previous keypress events
+      if (gotoSlidenum > 0) {
+        debug('go to ' + gotoSlidenum);
+        slidenum = gotoSlidenum - 1;
+        showSlide(true);
+        try {
+          slaveWindow.slidenum = gotoSlidenum - 1;
+          slaveWindow.showSlide(true);
+        } catch (e) {};
+        gotoSlidenum = 0;
+      } else {
+        debug('executeCode');
+        executeAnyCode();
+        try { 
+          slaveWindow.executeAnyCode(); 
+        } catch (e) {}
+      }
+      break;
+    case 27: // esc
+      removeResults();
+      try { 
+        slaveWindow.removeResults(); 
+      } catch (e) {}
+      break;
+    case 80: // p
+      if (event.shiftKey) {
+        togglePause();
+      } else {
+        togglePreShow();
+        try { 
+          slaveWindow.togglePreShow(); 
+        } catch (e) {
+          console.log('no slave window found');
+        }
+      }
+    default:
+      keyDown(event);
+      break;
+  }
+
+  return true;
+}
+
 //* TIMER *//
 
 var timerSetUp = false;
