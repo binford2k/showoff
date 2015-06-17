@@ -446,91 +446,56 @@ function postSlide() {
 	}
 }
 
-//  See e.g. http://www.quirksmode.org/js/keys.html for keycodes
-function keyDown(event)
-{
-	var key = event.keyCode;
+function presenterKeyDown(event){
+  var key = event.keyCode;
 
-	if (event.ctrlKey || event.altKey || event.metaKey)
-		return true;
+  debug('keyDown: ' + key);
+  // avoid overriding browser commands
+  if (event.ctrlKey || event.altKey || event.metaKey) {
+    return true;
+  }
 
-	debug('keyDown: ' + key)
-
-	if (key >= 48 && key <= 57) // 0 - 9
-	{
-		gotoSlidenum = gotoSlidenum * 10 + (key - 48);
-		return true;
-	}
-
-	if (key == 13) {
-    if (gotoSlidenum > 0) {
-      debug('go to ' + gotoSlidenum);
-      slidenum = gotoSlidenum - 1;
-      showSlide(true);
-      try {
-        slaveWindow.slidenum = gotoSlidenum - 1;
-        slaveWindow.showSlide(true);
-      } catch (e) {}
+  switch (key) {
+    case 13: // enter/return
+      // check for a combination of numbers from previous keypress events
+      if (gotoSlidenum > 0) {
+        debug('go to ' + gotoSlidenum);
+        slidenum = gotoSlidenum - 1;
+        showSlide(true);
+        try {
+          slaveWindow.slidenum = gotoSlidenum - 1;
+          slaveWindow.showSlide(true);
+        } catch (e) {};
         gotoSlidenum = 0;
-    } else {
-      debug('executeCode');
-      executeAnyCode();
-      try { slaveWindow.executeAnyCode(); } catch (e) {}
-    }
-	}
+      } else {
+        debug('executeCode');
+        executeAnyCode();
+        try { 
+          slaveWindow.executeAnyCode(); 
+        } catch (e) {}
+      }
+      break;
+    case 27: // esc
+      removeResults();
+      try { 
+        slaveWindow.removeResults(); 
+      } catch (e) {}
+      break;
+    case 80: // p
+      if (event.shiftKey) {
+        togglePause();
+      } else {
+        togglePreShow();
+        try { 
+          slaveWindow.togglePreShow(); 
+        } catch (e) {}
+      }
+    default:
+      keyDown(event);
+      break;
+  }
 
-	if (key == 16) // shift key
-	{
-		shiftKeyActive = true;
-	}
-
-	if (key == 32) // space bar
-	{
-		if (shiftKeyActive) {
-			presPrevStep()
-		} else {
-			presNextStep()
-		}
-	}
-	else if (key == 68) // 'd' for debug
-	{
-		debugMode = !debugMode
-		doDebugStuff()
-	}
-	else if (key == 37 || key == 33 || key == 38) // Left arrow, page up, or up arrow
-	{
-		presPrevStep();
-	}
-	else if (key == 39 || key == 34 || key == 40) // Right arrow, page down, or down arrow
-	{
-		presNextStep();
-	}
-	else if (key == 84 || key == 67)  // T or C for table of contents
-	{
-		$('#navmenu').toggle().trigger('click')
-	}
-	else if (key == 90 || key == 191) // z or ? for help
-	{
-		$('#help').toggle()
-	}
-	else if (key == 66 || key == 70) // f for footer (also "b" which is what kensington remote "stop" button sends
-	{
-		toggleFooter()
-	}
-	else if (key == 78) // 'n' for notes
-	{
-		toggleNotes()
-	}
-	else if (key == 27) // esc
-	{
-		removeResults();
-		try { slaveWindow.removeResults(); } catch (e) {}
-	}
-	else if (key == 80) // 'p' for preshow
-	{
-		try { slaveWindow.togglePreShow(); } catch (e) {}
-	}
-	return true
+  return true;
 }
 
 //* TIMER *//

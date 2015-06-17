@@ -837,7 +837,11 @@ function debug(data)
 
 function toggleKeybinding (setting) {
   if (document.onkeydown === null || setting === 'on') {
-    document.onkeydown = keyDown;
+    if (typeof presenterKeyDown === 'function') {
+      document.onkeydown = presenterKeyDown;
+    } else {
+      document.onkeydown = keyDown;
+    }
   } else {
     document.onkeydown = null;
   }
