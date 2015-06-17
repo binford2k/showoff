@@ -447,7 +447,6 @@ function postSlide() {
 }
 
 function presenterKeyDown(event){
-  console.log('presenterKeyDown: ' + event.keyCode);
   var key = event.keyCode;
 
   debug('keyDown: ' + key);
@@ -489,9 +488,7 @@ function presenterKeyDown(event){
         togglePreShow();
         try { 
           slaveWindow.togglePreShow(); 
-        } catch (e) {
-          console.log('no slave window found');
-        }
+        } catch (e) {}
       }
     default:
       keyDown(event);
