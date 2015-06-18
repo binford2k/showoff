@@ -25,6 +25,9 @@ var feedbackPrompt = 'Why?...'
 var loadSlidesBool
 var loadSlidesPrefix
 
+var keycode_dictionary,
+    keycode_shifted_keys;
+
 var mode = { track: true, follow: true };
 
 $(document).on('click', 'code.execute', executeCode);
@@ -44,6 +47,8 @@ function setupPreso(load_slides, prefix) {
 	loadSlidesBool = load_slides
 	loadSlidesPrefix = prefix || '/'
 	loadSlides(loadSlidesBool, loadSlidesPrefix)
+
+  loadKeyDictionaries();
 
 	doDebugStuff()
 
@@ -118,6 +123,13 @@ function loadSlides(load_slides, prefix) {
 		loadingCompleteCallback: initializePresentation(prefix)
 	})
 	}
+}
+
+function loadKeyDictionaries () {
+  $.getJSON('js/keyDictionary.json', function(data) {
+    keycode_dictionary = data['keycodeDictionary'];
+    keycode_shifted_keys = data['shiftedKeyDictionary'];
+  });
 }
 
 function initializePresentation(prefix) {
@@ -924,6 +936,45 @@ function keyDown(event){
   }
 
   return true;
+}
+
+function getKeyAction (keyName) {
+  var keymap = {
+    'd':          'DEBUG',
+    'up':         'PREV',
+    'left':       'PREV',
+    'pageup':     'PREV',
+    'down':       'NEXT',
+    'right':      'NEXT',
+    'pagedown':   'NEXT',
+    'r':          'RELOAD',
+    'c':          'CONTENTS',
+    't':          'CONTENTS',
+    'z':          'HELP',
+    '/':          'HELP',
+    '?':          'HELP',
+    'b':          'BLANK',
+    'f':          'FOOTER',
+    'g':          'FOLLOW',
+    'n':          'NOTES',
+    'esc':        'CLEAR',
+    'p':          'PAUSE',
+    'P':          'PRESHOW',
+  };
+  return keymap[keyName];
+}
+
+function getKeyName (event) {
+  var keyName = keycode_dictionary[event.keyCode];
+  if (event.shiftKey && keyName !== undefined) {
+    // Check for non-alpha characters first, because no idea what toUpperCase will do to those
+    if (keycode_shifted_keys[keyName] !== undefined) {
+      keyName = keycode_shifted_keys[keyName];
+    } else {
+      keyName = keyName.toUpperCase();
+    }
+  }
+  return keyName;
 }
 
 function toggleFooter()
