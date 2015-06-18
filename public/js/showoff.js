@@ -26,7 +26,8 @@ var loadSlidesBool
 var loadSlidesPrefix
 
 var keycode_dictionary,
-    keycode_shifted_keys;
+    keycode_shifted_keys,
+    customKeyMapping;
 
 var mode = { track: true, follow: true };
 
@@ -849,7 +850,6 @@ function keyDown(event){
     return true;
   }
 
-  console.log(getAction(event));
   switch(getAction(event)) {
     case 'DEBUG':     toggleDebug();    break;
     case 'PREV':      prevStep();       break;
@@ -922,6 +922,10 @@ function getAction (event) {
     'p':          'PAUSE',
     'P':          'PRESHOW',
   };
+
+  if (customKeyMapping !== undefined) {
+    keymap = customKeyMapping;
+  }
   return keymap[getKeyName(event)];
 }
 
