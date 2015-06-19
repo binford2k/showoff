@@ -864,6 +864,10 @@ function keyDown(event){
     case 'CLEAR':     removeResults();  break;
     case 'PAUSE':     togglePause();    break;
     case 'PRESHOW':   togglePreShow();  break;
+    case 'EXECUTE':
+      debug('executeCode');
+      executeAnyCode();
+      break;
     default:
       switch (key) {
         case 48: // 0
@@ -921,6 +925,7 @@ function getAction (event) {
     'esc':        'CLEAR',
     'p':          'PAUSE',
     'P':          'PRESHOW',
+    'x':          'EXECUTE',
   };
 
   if (customKeyMapping !== undefined) {
