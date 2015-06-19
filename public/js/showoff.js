@@ -26,33 +26,7 @@ var loadSlidesBool
 var loadSlidesPrefix
 
 var keycode_dictionary,
-    keycode_shifted_keys,
-    customKeyMapping;
-    
-var keymap = {
-  'd':          'DEBUG',
-  'up':         'PREV',
-  'left':       'PREV',
-  'pageup':     'PREV',
-  'space':      'NEXT',      
-  'down':       'NEXT',
-  'right':      'NEXT',
-  'pagedown':   'NEXT',
-  'r':          'RELOAD',
-  'c':          'CONTENTS',
-  't':          'CONTENTS',
-  'h':          'HELP',
-  '/':          'HELP',
-  '?':          'HELP',
-  'b':          'BLANK',
-  'F':          'FOOTER',
-  'f':          'FOLLOW',
-  'n':          'NOTES',
-  'esc':        'CLEAR',
-  'p':          'PAUSE',
-  'P':          'PRESHOW',
-  'x':          'EXECUTE'
-};
+    keycode_shifted_keys;
 
 var mode = { track: true, follow: true };
 
@@ -75,7 +49,6 @@ function setupPreso(load_slides, prefix) {
 	loadSlides(loadSlidesBool, loadSlidesPrefix)
 
   loadKeyDictionaries();
-  setKeyMappings();
   setupHelpMenu();
 
 	doDebugStuff()
@@ -151,12 +124,6 @@ function loadSlides(load_slides, prefix) {
 		loadingCompleteCallback: initializePresentation(prefix)
 	})
 	}
-}
-
-function setKeyMappings() {
-  if (customKeyMapping !== undefined) {
-    keymap = customKeyMapping;
-  }
 }
 
 function loadKeyDictionaries () {
