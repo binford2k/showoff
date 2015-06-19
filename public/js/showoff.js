@@ -25,6 +25,9 @@ var feedbackPrompt = 'Why?...'
 var loadSlidesBool
 var loadSlidesPrefix
 
+var keycode_dictionary,
+    keycode_shifted_keys;
+
 var mode = { track: true, follow: true };
 
 $(document).on('click', 'code.execute', executeCode);
@@ -44,6 +47,9 @@ function setupPreso(load_slides, prefix) {
 	loadSlidesBool = load_slides
 	loadSlidesPrefix = prefix || '/'
 	loadSlides(loadSlidesBool, loadSlidesPrefix)
+
+  loadKeyDictionaries();
+  setupHelpMenu();
 
 	doDebugStuff()
 
@@ -118,6 +124,13 @@ function loadSlides(load_slides, prefix) {
 		loadingCompleteCallback: initializePresentation(prefix)
 	})
 	}
+}
+
+function loadKeyDictionaries () {
+  $.getJSON('js/keyDictionary.json', function(data) {
+    keycode_dictionary = data['keycodeDictionary'];
+    keycode_shifted_keys = data['shiftedKeyDictionary'];
+  });
 }
 
 function initializePresentation(prefix) {
@@ -837,98 +850,95 @@ function keyDown(event){
     return true;
   }
 
-  switch (key) {
-    case 48: // 0
-    case 49: // 1
-    case 50: // 2
-    case 51: // 3
-    case 52: // 4
-    case 53: // 5
-    case 54: // 6
-    case 55: // 7
-    case 56: // 8
-    case 57: // 9
-      // concatenate numbers from previous keypress events
-      gotoSlidenum = gotoSlidenum * 10 + (key - 48);
+  switch(getAction(event)) {
+    case 'DEBUG':     toggleDebug();    break;
+    case 'PREV':      prevStep();       break;
+    case 'NEXT':      nextStep();       break;
+    case 'RELOAD':    reloadSlides();   break;
+    case 'CONTENTS':  toggleContents(); break;
+    case 'HELP':      toggleHelp();     break;
+    case 'BLANK':     blankScreen();    break;
+    case 'FOOTER':    toggleFooter();   break;
+    case 'FOLLOW':    toggleFollow();   break;
+    case 'NOTES':     toggleNotes();    break;
+    case 'CLEAR':     removeResults();  break;
+    case 'PAUSE':     togglePause();    break;
+    case 'PRESHOW':   togglePreShow();  break;
+    case 'EXECUTE':
+      debug('executeCode');
+      executeVisibleCodeBlock();
       break;
-    case 13: // enter/return
-      // check for a combination of numbers from previous keypress events
-      if (gotoSlidenum > 0) {
-        debug('go to ' + gotoSlidenum);
-        slidenum = gotoSlidenum - 1;
-        showSlide(true);
-        gotoSlidenum = 0;
-      } else {
-        debug('executeVisibleCodeBlock');
-        executeVisibleCodeBlock();
-      }
-      break;
-    case 32: // space
-      if (event.shiftKey) {
-        prevStep();
-      } else {
-        nextStep();
-      }
-      break;
-    case 68: // d
-      debugMode = !debugMode;
-      doDebugStuff();
-      break;
-    case 33: // page up
-    case 37: // left arrow
-    case 38: // up arrow
-      prevStep();
-      break;
-    case 34: // page down
-    case 39: // right arrow
-    case 40: // down arrow
-      nextStep();
-      break;
-    case 82: // r
-      if (confirm('really reload slides?')) {
-        loadSlides(loadSlidesBool, loadSlidesPrefix);
-        showSlide();
-      }
-      break;
-    case 67: // c
-    case 84: // t
-      $('#navmenu').toggle().trigger('click');
-      break;
-    case 90: // z
-    case 191: // '/' (yes, we're aware that the help says '?' for this one)
-      $('#help').toggle();
-      break;
-    case 66: // b, also what kensington remote "stop" button sends
-      blankScreen();
-      break;
-    case 70: // f
-      toggleFooter();
-      break;
-    case 71: // g
-      toggleFollow();
-      break;
-    case 78: // n
-      toggleNotes();
-      break;
-    case 27: // esc
-      removeResults();
-      break;
-    case 80: // p
-      if (event.shiftKey) {
-        togglePause();
-      } else {
-        togglePreShow();
-      }
     default:
+      switch (key) {
+        case 48: // 0
+        case 49: // 1
+        case 50: // 2
+        case 51: // 3
+        case 52: // 4
+        case 53: // 5
+        case 54: // 6
+        case 55: // 7
+        case 56: // 8
+        case 57: // 9
+          // concatenate numbers from previous keypress events
+          gotoSlidenum = gotoSlidenum * 10 + (key - 48);
+          break;
+        case 13: // enter/return
+          // check for a combination of numbers from previous keypress events
+          if (gotoSlidenum > 0) {
+            debug('go to ' + gotoSlidenum);
+            slidenum = gotoSlidenum - 1;
+            showSlide(true);
+            gotoSlidenum = 0;
+          }
+          break;     
+        default:
+          break;
+      }
       break;
-  }
-
+    }
   return true;
 }
 
-function toggleFooter()
-{
+function getAction (event) {
+  return keymap[getKeyName(event)];
+}
+
+function getKeyName (event) {
+  var keyName = keycode_dictionary[event.keyCode];
+  if (event.shiftKey && keyName !== undefined) {
+    // Check for non-alpha characters first, because no idea what toUpperCase will do to those
+    if (keycode_shifted_keys[keyName] !== undefined) {
+      keyName = keycode_shifted_keys[keyName];
+    } else {
+      keyName = keyName.toUpperCase();
+    }
+  }
+  return keyName;
+}
+
+function toggleDebug () {
+  debugMode = !debugMode;
+  doDebugStuff();
+}
+
+function reloadSlides () {
+  if (confirm('Are you sure you want to reload the slides?')) {
+    loadSlides(loadSlidesBool, loadSlidesPrefix);
+    showSlide();
+  }  
+}
+
+function toggleFooter() {
 	$('#footer').toggle()
+}
+
+function toggleHelp () {
+  $('#help').toggle();
+}
+
+function toggleContents () {
+  $('#navmenu').toggle().trigger('click');
 }
 
 function swipeLeft() {
@@ -982,6 +992,37 @@ function ListMenuItem(t, s)
 	this.typeName = "ListMenuItem"
 	this.slide = s
 	this.textName = t
+}
+
+function setupHelpMenu () {
+  var helpMenu = $('#help'),
+      keys = Object.keys(keymap),
+      actions = [];
+  
+  for (var i = 0; i < keys.length; i++) {
+    if (actions.indexOf(keymap[keys[i]]) < 0){
+      actions.push(keymap[keys[i]]);
+    }
+  }
+  
+  for (var i = 0; i < actions.length; i++) {
+    var el = $('<p>'),
+        comms = '';
+        
+    for (var j = 0; j < keys.length; j++){
+      if (keymap[keys[j]] === actions[i]) {
+        comms = comms + keys[j] + ', ';
+      }
+    }
+    comms = comms.substring(0, comms.length - 2);
+    
+    var span = $('<span>');
+    span.append(actions[i]);
+    
+    el.append(span);
+    el.append(comms);    
+    helpMenu.append(el);
+  }  
 }
 
 var removeResults = function() {

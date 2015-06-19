@@ -261,19 +261,33 @@ img#disconnected {
 }
 
 #help {
-    background: #9f9;
-    position: absolute;
-    right: 80px;
-    display: none;
-    z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
-}
-#help table tr td.key {
-    text-align: right;
-    border-right: 2px solid #8b8;
-    padding-right: 4px;
-    font-weight: bold;
+  display: none;
+  position:absolute;
+  top: 5%;
+  left: 40%;
+  z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */  
+
+  padding: 0 16px 16px 16px;
+  border-radius: 4px;
+  -webkit-box-shadow:0 0 25px rgba(0,0,0,0.35);
+  -moz-box-shadow:0 0 25px rgba(0,0,0,0.35);
+  box-shadow:0 0 25px rgba(0,0,0,0.35);
+  background-color: #fff;
 }
 
+  #help p{
+    width: 240px;
+    padding: 4px 0;
+  }
+  
+    #help p + p {
+      border-top: 1px solid #efefef;
+    }
+    
+    #help span {
+      display: inline-block;
+      width:30%;
+    }
 /**********************************
  ***       Table styling        ***
  **********************************/
