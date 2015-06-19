@@ -481,9 +481,9 @@ function presenterKeyDown(event){
       break;
     case 'EXECUTE':
       debug('executeCode');
-      executeAnyCode();
+      executeVisibleCodeBlock();
       try { 
-        slaveWindow.executeAnyCode(); 
+         slaveWindow.executeVisibleCodeBlock();
       } catch (e) {}
       break;
     default:
@@ -512,15 +512,6 @@ function presenterKeyDown(event){
               slaveWindow.showSlide(true);
             } catch (e) {}
             gotoSlidenum = 0;
-<<<<<<< HEAD
-          } else {
-            debug('executeVisibleCodeBlock');
-            executeVisibleCodeBlock();
-            try { 
-              slaveWindow.executeAnyCode(); 
-            } catch (e) {}
-=======
->>>>>>> change default key binding for execute code
           }
           break;     
         default:

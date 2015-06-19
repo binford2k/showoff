@@ -28,6 +28,31 @@ var loadSlidesPrefix
 var keycode_dictionary,
     keycode_shifted_keys,
     customKeyMapping;
+    
+var keymap = {
+  'd':          'DEBUG',
+  'up':         'PREV',
+  'left':       'PREV',
+  'pageup':     'PREV',
+  'space':      'NEXT',      
+  'down':       'NEXT',
+  'right':      'NEXT',
+  'pagedown':   'NEXT',
+  'r':          'RELOAD',
+  'c':          'CONTENTS',
+  't':          'CONTENTS',
+  'h':          'HELP',
+  '/':          'HELP',
+  '?':          'HELP',
+  'b':          'BLANK',
+  'F':          'FOOTER',
+  'f':          'FOLLOW',
+  'n':          'NOTES',
+  'esc':        'CLEAR',
+  'p':          'PAUSE',
+  'P':          'PRESHOW',
+  'x':          'EXECUTE'
+};
 
 var mode = { track: true, follow: true };
 
@@ -50,6 +75,8 @@ function setupPreso(load_slides, prefix) {
 	loadSlides(loadSlidesBool, loadSlidesPrefix)
 
   loadKeyDictionaries();
+  setKeyMappings();
+  setupHelpMenu();
 
 	doDebugStuff()
 
@@ -124,6 +151,12 @@ function loadSlides(load_slides, prefix) {
 		loadingCompleteCallback: initializePresentation(prefix)
 	})
 	}
+}
+
+function setKeyMappings() {
+  if (customKeyMapping !== undefined) {
+    keymap = customKeyMapping;
+  }
 }
 
 function loadKeyDictionaries () {
@@ -866,7 +899,7 @@ function keyDown(event){
     case 'PRESHOW':   togglePreShow();  break;
     case 'EXECUTE':
       debug('executeCode');
-      executeAnyCode();
+      executeVisibleCodeBlock();
       break;
     default:
       switch (key) {
@@ -890,9 +923,6 @@ function keyDown(event){
             slidenum = gotoSlidenum - 1;
             showSlide(true);
             gotoSlidenum = 0;
-          } else {
-            debug('executeVisibleCodeBlock');
-            executeVisibleCodeBlock();
           }
           break;     
         default:
@@ -904,33 +934,6 @@ function keyDown(event){
 }
 
 function getAction (event) {
-  var keymap = {
-    'd':          'DEBUG',
-    'up':         'PREV',
-    'left':       'PREV',
-    'pageup':     'PREV',
-    'down':       'NEXT',
-    'right':      'NEXT',
-    'pagedown':   'NEXT',
-    'r':          'RELOAD',
-    'c':          'CONTENTS',
-    't':          'CONTENTS',
-    'h':          'HELP',
-    '/':          'HELP',
-    '?':          'HELP',
-    'b':          'BLANK',
-    'f':          'FOOTER',
-    'g':          'FOLLOW',
-    'n':          'NOTES',
-    'esc':        'CLEAR',
-    'p':          'PAUSE',
-    'P':          'PRESHOW',
-    'x':          'EXECUTE',
-  };
-
-  if (customKeyMapping !== undefined) {
-    keymap = customKeyMapping;
-  }
   return keymap[getKeyName(event)];
 }
 
@@ -1022,6 +1025,37 @@ function ListMenuItem(t, s)
 	this.typeName = "ListMenuItem"
 	this.slide = s
 	this.textName = t
+}
+
+function setupHelpMenu () {
+  var helpMenu = $('#help'),
+      keys = Object.keys(keymap),
+      actions = [];
+  
+  for (var i = 0; i < keys.length; i++) {
+    if (actions.indexOf(keymap[keys[i]]) < 0){
+      actions.push(keymap[keys[i]]);
+    }
+  }
+  
+  for (var i = 0; i < actions.length; i++) {
+    var el = $('<p>'),
+        comms = '';
+        
+    for (var j = 0; j < keys.length; j++){
+      if (keymap[keys[j]] === actions[i]) {
+        comms = comms + keys[j] + ', ';
+      }
+    }
+    comms = comms.substring(0, comms.length - 2);
+    
+    var span = $('<span>');
+    span.append(actions[i]);
+    
+    el.append(span);
+    el.append(comms);    
+    helpMenu.append(el);
+  }  
 }
 
 var removeResults = function() {
