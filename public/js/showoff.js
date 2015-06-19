@@ -915,7 +915,7 @@ function getAction (event) {
     'r':          'RELOAD',
     'c':          'CONTENTS',
     't':          'CONTENTS',
-    'z':          'HELP',
+    'h':          'HELP',
     '/':          'HELP',
     '?':          'HELP',
     'b':          'BLANK',
