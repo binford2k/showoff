@@ -19,9 +19,6 @@ var lastMessageGuid = 0
 var query
 var slideStartTime = new Date().getTime()
 
-var questionPrompt = 'Ask a question...'
-var feedbackPrompt = 'Why?...'
-
 var loadSlidesBool
 var loadSlidesPrefix
 
@@ -93,11 +90,6 @@ function setupPreso(load_slides, prefix) {
     sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("textarea#feedback").val())
   });
   $("#editSlide").click(function() { editSlide(); });
-
-  $("textarea#question").val(questionPrompt);
-  $("textarea#feedback").val(feedbackPrompt);
-  $("textarea#question").focus(function() { clearIf($(this), questionPrompt) });
-  $("textarea#feedback").focus(function() { clearIf($(this), feedbackPrompt) });
 
   // Open up our control socket
   if(mode.track) {
@@ -446,13 +438,6 @@ function showIncremental(incr)
 			incrElem.eq(incrCurr).removeClass('hidden');
 		}
 }
-
-function clearIf(elem, val) {
-  console.log(elem.val());
-  console.log(val);
-  if(elem.val() == val ) { elem.val(''); }
-}
-
 
 // form handling
 function submitForm(form) {
