@@ -1,0 +1,93 @@
+= Configuration Options
+
+Showoff has a limited number of settings which can be customized.
+
+== Custom Keymaps
+
+You can re-bind keyboard hotkeys as needed. This works on an additive model, so
+if you add a keybinding, the old binding will continue to work unless you also
+remap it to a different action.
+
+The actions you may choose from are:
+
+[NEXT]
+  Advance to the next slide.
+
+[PREV]
+  Move to the previous slide.
+
+[FOLLOW]
+  Toggle the current window in and out of follow mode. When enabled, the window
+  will advance slides along with the presenter. Audience view only.
+
+[CONTENTS]
+  Display a table of contents menu from which the user may choose a slide to view.
+  Audience or Display view only.
+
+[HELP]
+  Display a small help dialog showing current keybindings.
+
+[FOOTER]
+  Display the single line footer bar. This contains progress information, notes,
+  and debugging information. Audience or Display view only.
+
+[BLANK]
+  Blank the screen.
+
+[PAUSE]
+  Pause the presentation.
+
+[PRESHOW]
+  Run the preshow animation. This displays images from the <tt>_preshow</tt> directory.
+
+[DEBUG]
+  Show debugging information, such as keypresses and current slide name.
+
+[NOTES]
+  Display notes. This will either bring up the Notes Window from the Presenter view
+  or show the first line of notes in the Display or Audience view.
+
+[RELOAD]
+  Reload slides.
+
+[EXECUTE]
+  Execute code from the first visible code block marked with <tt>execute</tt>.
+
+[CLEAR]
+  Clear the results of the last code execution.
+
+== <tt>keymap.json</tt> configuration file.
+
+Place a JSON file in <tt>~/.showoff/keymap.json</tt> with any keybindings you'd
+like. You only need to include the keys you want to map, you don't need to
+include all of them.
+
+The default mapping is:
+
+    {
+        "space":      "NEXT",
+        "d":          "DEBUG",
+        "up":         "PREV",
+        "left":       "PREV",
+        "pageup":     "PREV",
+        "down":       "NEXT",
+        "right":      "NEXT",
+        "pagedown":   "NEXT",
+        "r":          "RELOAD",
+        "c":          "CONTENTS",
+        "t":          "CONTENTS",
+        "z":          "HELP",
+        "/":          "HELP",
+        "?":          "HELP",
+        "b":          "BLANK",
+        "f":          "FOOTER",
+        "g":          "FOLLOW",
+        "n":          "NOTES",
+        "esc":        "CLEAR",
+        "p":          "PAUSE",
+        "P":          "PRESHOW",
+        "x":          "EXECUTE"
+    }
+
+Showoff will not load this file dynamically. You will need to restart when it's
+changed.
