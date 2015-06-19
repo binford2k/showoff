@@ -167,7 +167,8 @@ and scale the contents as closely as possible. Several tools are attached to the
 
 == Hotkeys
 
-The following hotkeys are available for usage while viewing the slideshow.
+The following hotkeys are available for usage while viewing the slideshow. See
+CONFIGURATION.rdoc for information on remapping these keys.
 
 [z, ?] Toggle help. This shows a reference table on screen.
 [space, →] Advance to the next slide.

@@ -10,6 +10,7 @@ require 'sinatra-websocket'
 here = File.expand_path(File.dirname(__FILE__))
 require "#{here}/showoff_utils"
 require "#{here}/commandline_parser"
+require "#{here}/keymap"
 
 begin
   require 'RMagick'
@@ -69,6 +70,11 @@ class ShowOff < Sinatra::Application
     showoff_dir = File.expand_path(File.join(File.dirname(__FILE__), '..'))
     settings.pres_dir ||= Dir.pwd
     @root_path = "."
+
+    # Load up the default keymap, then merge in any customizations
+    keymapfile   = File.expand_path(File.join('~', '.showoff', 'keymap.json'))
+    @keymap      = Keymap.default
+    @keymap.merge! JSON.parse(File.read(keymapfile)) rescue {}
 
     settings.pres_dir = File.expand_path(settings.pres_dir)
     if (settings.pres_file)
