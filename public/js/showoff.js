@@ -673,14 +673,12 @@ function sendPace(pace) {
 
 function askQuestion(question) {
   ws.send(JSON.stringify({ message: 'question', question: question}));
-  $("textarea#question").val(questionPrompt);
   feedbackActivity();
 }
 
 function sendFeedback(rating, feedback) {
   var slide  = $("#slideFilename").text();
   ws.send(JSON.stringify({ message: 'feedback', rating: rating, feedback: feedback, slide: slide}));
-  $("textarea#feedback").val(feedbackPrompt);
   $("input:radio[name=rating]:checked").attr('checked', false);
   feedbackActivity();
 }
