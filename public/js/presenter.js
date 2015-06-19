@@ -468,17 +468,14 @@ function presenterKeyDown(event){
         } catch (e) {};
         gotoSlidenum = 0;
       } else {
-        debug('executeCode');
-        executeAnyCode();
-        try { 
-          slaveWindow.executeAnyCode(); 
-        } catch (e) {}
+        debug('executeVisibleCodeBlock');
+        executeVisibleCodeBlock();
       }
       break;
     case 27: // esc
       removeResults();
-      try { 
-        slaveWindow.removeResults(); 
+      try {
+        slaveWindow.removeResults();
       } catch (e) {}
       break;
     case 80: // p
@@ -486,8 +483,8 @@ function presenterKeyDown(event){
         togglePause();
       } else {
         togglePreShow();
-        try { 
-          slaveWindow.togglePreShow(); 
+        try {
+          slaveWindow.togglePreShow();
         } catch (e) {}
       }
     default:
