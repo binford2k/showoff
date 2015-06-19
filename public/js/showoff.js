@@ -27,10 +27,7 @@ var loadSlidesPrefix
 
 var mode = { track: true, follow: true };
 
-$(document).on('click', 'code.language-javascript.execute',   executeCode);
-$(document).on('click', 'code.language-coffeescript.execute', executeCoffee);
-$(document).on('click', 'code.language-ruby.execute',         executeRuby);
-$(document).on('click', 'code.language-shell.execute',        executeShell);
+$(document).on('click', 'code.execute', executeCode);
 
 function setupPreso(load_slides, prefix) {
 	if (preso_started)
@@ -814,22 +811,6 @@ function toggleFollow()
   }
 }
 
-function executeAnyCode()
-{
-  var $jsCode = $('.execute code.language-javascript:visible')
-  if ($jsCode.length > 0) {
-      executeCode.call($jsCode);
-  }
-  var $rubyCode = $('.execute code.language-ruby:visible')
-  if ($rubyCode.length > 0) {
-      executeRuby.call($rubyCode);
-  }
-  var $coffeeCode = $('.execute code.language-coffeescript:visible')
-  if ($coffeeCode.length > 0) {
-      executeCoffee.call($coffeeCode);
-  }
-}
-
 function debug(data)
 {
 	$('#debugInfo').text(data)
@@ -878,8 +859,8 @@ function keyDown(event){
         showSlide(true);
         gotoSlidenum = 0;
       } else {
-        debug('executeCode');
-        executeAnyCode();
+        debug('executeVisibleCodeBlock');
+        executeVisibleCodeBlock();
       }
       break;
     case 32: // space
@@ -907,8 +888,8 @@ function keyDown(event){
       if (confirm('really reload slides?')) {
         loadSlides(loadSlidesBool, loadSlidesPrefix);
         showSlide();
-      }  
-      break; 
+      }
+      break;
     case 67: // c
     case 84: // t
       $('#navmenu').toggle().trigger('click');
@@ -1005,6 +986,9 @@ function ListMenuItem(t, s)
 
 var removeResults = function() {
 	$('.results').remove();
+
+	// if we're a presenter, mirror this on the display window
+  try { slaveWindow.removeResults() } catch (e) {};
 };
 
 var print = function(text) {
@@ -1012,57 +996,104 @@ var print = function(text) {
 	var _results = $('<div>').addClass('results').html('<pre>'+$.print(text, {max_string:500})+'</pre>');
 	$('body').append(_results);
 	_results.click(removeResults);
+
+	// if we're a presenter, mirror this on the display window
+  try { slaveWindow.print(text) } catch (e) {};
 };
 
-function executeCode () {
+// Execute the first visible executable code block
+function executeVisibleCodeBlock()
+{
+  var code = $('code.execute:visible')
+  if (code.length > 0) {
+    // make the code block available as $(this) object
+    executeCode.call(code[0]);
+  }
+}
+
+// determine which code handler to call and execute code sample
+function executeCode() {
+  var codeDiv = $(this);
+
+  try {
+    var lang = codeDiv.attr("class").match(/\blanguage-(\w+)/)[1];
+    switch(lang) {
+      case 'javascript':
+      case 'coffeescript':
+        executeLocalCode(lang, codeDiv);
+        break;
+      default:
+        executeRemoteCode(lang, codeDiv)
+        break;
+    }
+  }
+  catch(e) {
+    debug('No code block to execute: ' + codeDiv.attr('class'));
+  };
+}
+
+// any code that can be run directly in the browser
+function executeLocalCode(lang, codeDiv) {
   var result = null;
   var codeDiv = $(this);
-  codeDiv.addClass("executing");
-  setTimeout(function() { codeDiv.removeClass("executing");}, 500 );
+
+  setExecutionSignal(true, codeDiv);
+  setTimeout(function() { setExecutionSignal(false, codeDiv);}, 1000 );
+
   try {
-    result = eval(codeDiv.text());
+    switch(lang) {
+      case 'javascript':
+        result = eval(codeDiv.text());
+        break;
+      case 'coffeescript':
+        result = eval(CoffeeScript.compile(codeDiv.text(), {bare: true}));
+        break;
+      default:
+        result = 'No local exec handler for ' + lang;
+    }
   }
   catch(e) {
     result = e.message;
   };
   if (result != null) print(result);
-}
-
-function executeCoffee() {
-  var result = null;
-  var codeDiv = $(this);
-  codeDiv.addClass("executing");
-  setTimeout(function() { codeDiv.removeClass("executing");}, 500 );
-  try {
-    result = eval(CoffeeScript.compile(codeDiv.text(), {bare: true}));
-  }
-  catch(e) {
-    result = e.message;
-  };
-  if (result != null) print(result);
-}
-
-function executeRuby () {
-  remoteCode('ruby', $(this));
-}
-
-function executeShell () {
-  remoteCode('shell', $(this));
 }
 
 // request the server to execute a code block by path and index
-function remoteCode (lang, codeDiv) {
+function executeRemoteCode(lang, codeDiv) {
   var slide = codeDiv.closest('div.content');
   var index = slide.find('code.execute').index(codeDiv);
   var path  = slide.attr('ref');
 
-  codeDiv.addClass("executing");
+  setExecutionSignal(true, codeDiv);
   $.get('/execute/'+lang, {path: path, index: index}, function(result) {
     if (result != null) print(result);
-    codeDiv.removeClass("executing");
+    setExecutionSignal(false, codeDiv);
   });
 }
 
+// Provide visual indication that a block of code is running
+function setExecutionSignal(status, codeDiv) {
+  if (status === true) {
+    codeDiv.addClass("executing");
+  }
+  else {
+    codeDiv.removeClass("executing");
+  }
+
+  // if we're a presenter, mirror this on the display window
+  try {
+    var id    = codeDiv.closest('div.slide').attr('id');
+    var index = $('div.slide#'+id+' code.execute').index(codeDiv);
+    var code  = slaveWindow.$('div.slide#'+id+' code.execute').eq(index)
+
+    if (status === true) {
+      code.addClass("executing");
+    }
+    else {
+      code.removeClass("executing");
+    }
+  } catch (e) {};
+}
 
 /********************
  PreShow Code

@@ -89,6 +89,9 @@ class ShowOff < Sinatra::Application
       @highlightStyle = showoff_json['highlight'] || 'default'
     end
 
+    # code execution timeout
+    settings.showoff_config['timeout'] ||= 15
+
     # variables used for building section numbering and title
     @slide_count   = 0
     @section_major = 0
@@ -1145,16 +1148,33 @@ class ShowOff < Sinatra::Application
 
     code = get_code_from_slide(params[:path], params[:index])
 
+    require 'timeout'
+    require 'open3' # for 1.8 compatibility :/
     begin
-      case lang
-      when 'ruby'
-        return eval(code).to_s.gsub(/\n/, '<br />')
-      when 'shell'
-        return %x(#{code}).gsub(/\n/, '<br />')
+      Timeout::timeout(settings.showoff_config['timeout']) do
+        case lang
+        when 'ruby'
+          eval(code).to_s
+        when 'shell'
+          %x(#{code})
+        when 'puppet'
+          stdout, err = Open3.capture2('puppet', 'apply', '--color=false', '-e', code)
+          stdout
+        when 'python'
+          stdout, err = Open3.capture2('python', '-c', code)
+          stdout
+        when 'perl'
+          stdout, err = Open3.capture2('perl', '-e', code)
+          stdout
+        when 'null'
+          code
+        else
+          "No exec handler for #{lang}"
+        end
       end
     rescue => e
       e.message
-    end
+    end.gsub(/\n/, '<br />')
   end
 
   # provide a callback to trigger a local file editor, but only when called when viewing from localhost.
