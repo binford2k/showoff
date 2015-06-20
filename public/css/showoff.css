@@ -265,7 +265,7 @@ img#disconnected {
   position:absolute;
   top: 5%;
   left: 40%;
-  z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */  
+  z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
 
   padding: 0 16px 16px 16px;
   border-radius: 4px;
@@ -279,11 +279,11 @@ img#disconnected {
     width: 240px;
     padding: 4px 0;
   }
-  
+
     #help p + p {
       border-top: 1px solid #efefef;
     }
-    
+
     #help span {
       display: inline-block;
       width:30%;
@@ -515,6 +515,17 @@ a.fg-button { float:left; }
   padding: 0;
 }
 
+/* Add a Shell "code highlighting" style to resemble the look of a terminal window. */
+.content pre.highlight code.language-shell {
+  display: block;
+  background-color: black;
+  color: white;
+  border: 2px solid #ddd;
+  padding: 0.5em;
+  overflow: hidden;
+}
+
+/* executable code blocks */
 code.execute {
   cursor: context-menu;
   background-image: url(run_code.png);
