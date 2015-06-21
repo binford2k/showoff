@@ -20,7 +20,7 @@
   #bottom,
   #feedbackSidebar {
     font-family: 'Open Sans', 'Lucida Grande', helvetica, arial, sans-serif;
-    font-size: 55%;
+    font-size: 0.55em;
   }
 
   #preso, .slide {
@@ -428,7 +428,7 @@ img#disconnected {
 
 .fg-menu-container {
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
-  font-size: 80%;
+  font-size: 0.8em;
 }
 
 .fg-button { clear:left; margin:0 4px 40px 20px; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
@@ -444,7 +444,7 @@ a.fg-button { float:left; }
   top: 10px;
   left: 10px;
   width: 50px;
-  font-size: 80%;
+  font-size: 0.8em;
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
 }
 
