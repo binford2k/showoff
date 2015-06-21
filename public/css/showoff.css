@@ -13,6 +13,16 @@
       padding:0;
   }
 
+  /* UI elements */
+  #topbar,
+  #sidebar,
+  #statusbar,
+  #bottom,
+  #feedbackSidebar {
+    font-family: 'Open Sans', 'Lucida Grande', helvetica, arial, sans-serif;
+    font-size: 55%;
+  }
+
   #preso, .slide {
       background: #fff;
       width: 1024px;
@@ -265,7 +275,7 @@ img#disconnected {
   position:absolute;
   top: 5%;
   left: 40%;
-  z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */  
+  z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
 
   padding: 0 16px 16px 16px;
   border-radius: 4px;
@@ -279,11 +289,11 @@ img#disconnected {
     width: 240px;
     padding: 4px 0;
   }
-  
+
     #help p + p {
       border-top: 1px solid #efefef;
     }
-    
+
     #help span {
       display: inline-block;
       width:30%;
@@ -417,7 +427,8 @@ img#disconnected {
 }
 
 .fg-menu-container {
-    z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
+  z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
+  font-size: 80%;
 }
 
 .fg-button { clear:left; margin:0 4px 40px 20px; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
@@ -428,11 +439,12 @@ a.fg-button { float:left; }
 
 .fg-button.ui-state-loading .ui-icon { background: url(spinner_bar.gif) no-repeat 0 0; }
 
-#navmenu, #stylemenu {
+#navmenu {
   position: absolute;
   top: 10px;
   left: 10px;
   width: 50px;
+  font-size: 80%;
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
 }
 
