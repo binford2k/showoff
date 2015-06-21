@@ -459,7 +459,7 @@ a.fg-button { float:left; }
 .content pre.highlight code.language-shell {
   display: block;
   background-color: black;
-  color: white;
+  color: green;
   border: 2px solid #ddd;
   padding: 0.5em;
   overflow: hidden;
