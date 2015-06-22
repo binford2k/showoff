@@ -409,9 +409,9 @@ class ShowOff < Sinatra::Application
         file = HTMLEntities.new.encode(File.read(File.join(settings.pres_dir, '_files', match[1])))
 
         # make a list of sh_highlight classes to include
-        css  = match[2].split.collect {|i| "sh_#{i.downcase}" }.join(' ')
+        css  = match[2].split.collect {|i| "language-#{i.downcase}" }.join(' ')
 
-        result.gsub!(match[0], "<pre class=\"#{css}\"><code>#{file}</code></pre>")
+        result.gsub!(match[0], "<pre class=\"highlight\"><code class=\"#{css}\">#{file}</code></pre>")
       end
 
       result
