@@ -274,9 +274,9 @@ img#disconnected {
   display: none;
   position:absolute;
   top: 5%;
-  left: 40%;
+  left: 25%;
+  width: 50%;
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
-
   padding: 0 16px 16px 16px;
   border-radius: 4px;
   -webkit-box-shadow:0 0 25px rgba(0,0,0,0.35);
@@ -285,19 +285,43 @@ img#disconnected {
   background-color: #fff;
 }
 
-  #help p{
-    width: 240px;
+  #help div {
     padding: 4px 0;
   }
 
-    #help p + p {
-      border-top: 1px solid #efefef;
+    #help h1 {
+      font-size: 1.25em;
+      border-bottom: 2px solid #ccc;
     }
 
-    #help span {
-      display: inline-block;
-      width:30%;
+    #help div + div {
+      border-top: 1px solid #eee;
     }
+
+    #help span.description,
+    #help span.action,
+    #help span.hotkeys {
+      display: inline-block;
+    }
+    #help span.description {
+      width: 30%;
+    }
+    #help span.action {
+      width: 15%;
+      font-size: 0.75em;
+      color: gray;
+    }
+    #help span.hotkeys {
+      width: 25%;
+    }
+    #help span.hotkeys span.key {
+      border: 1px solid #ccc;
+      background-color: #dfdfdf;
+      border-radius: 0.25em;
+      padding: 0.15em 0.5em;
+      margin: 0.25em;
+    }
+
 /**********************************
  ***       Table styling        ***
  **********************************/
