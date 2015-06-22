@@ -46,7 +46,6 @@ function setupPreso(load_slides, prefix) {
 	loadSlides(loadSlidesBool, loadSlidesPrefix)
 
   loadKeyDictionaries();
-  setupHelpMenu();
 
 	doDebugStuff()
 
@@ -874,7 +873,7 @@ function keyDown(event){
             showSlide(true);
             gotoSlidenum = 0;
           }
-          break;     
+          break;
         default:
           break;
       }
@@ -909,7 +908,7 @@ function reloadSlides () {
   if (confirm('Are you sure you want to reload the slides?')) {
     loadSlides(loadSlidesBool, loadSlidesPrefix);
     showSlide();
-  }  
+  }
 }
 
 function toggleFooter() {
@@ -975,37 +974,6 @@ function ListMenuItem(t, s)
 	this.typeName = "ListMenuItem"
 	this.slide = s
 	this.textName = t
-}
-
-function setupHelpMenu () {
-  var helpMenu = $('#help'),
-      keys = Object.keys(keymap),
-      actions = [];
-  
-  for (var i = 0; i < keys.length; i++) {
-    if (actions.indexOf(keymap[keys[i]]) < 0){
-      actions.push(keymap[keys[i]]);
-    }
-  }
-  
-  for (var i = 0; i < actions.length; i++) {
-    var el = $('<p>'),
-        comms = '';
-        
-    for (var j = 0; j < keys.length; j++){
-      if (keymap[keys[j]] === actions[i]) {
-        comms = comms + keys[j] + ', ';
-      }
-    }
-    comms = comms.substring(0, comms.length - 2);
-    
-    var span = $('<span>');
-    span.append(actions[i]);
-    
-    el.append(span);
-    el.append(comms);    
-    helpMenu.append(el);
-  }  
 }
 
 var removeResults = function() {

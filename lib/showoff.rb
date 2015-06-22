@@ -199,9 +199,19 @@ class ShowOff < Sinatra::Application
       Dir.glob("#{settings.pres_dir}/*.js").map { |path| File.basename(path) }
     end
 
-
     def preshow_files
       Dir.glob("#{settings.pres_dir}/_preshow/*").map { |path| File.basename(path) }.to_json
+    end
+
+    # return a list of keys associated with a given action in the keymap
+    def mapped_keys(action, klass='key')
+      list = @keymap.select { |key,value| value == action }.keys
+
+      if klass
+        list.map { |val| "<span class=\"#{klass}\">#{val}</span>" }.join
+      else
+        list.join ', '
+      end
     end
 
     # todo: move more behavior into this class
