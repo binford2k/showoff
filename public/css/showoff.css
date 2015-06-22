@@ -286,7 +286,7 @@ img#disconnected {
 }
 
   #help div {
-    padding: 4px 0;
+    padding: 6px 0;
   }
 
     #help h1 {
@@ -298,23 +298,28 @@ img#disconnected {
       border-top: 1px solid #eee;
     }
 
-    #help span.description,
-    #help span.action,
-    #help span.hotkeys {
+    #help .description,
+    #help .action,
+    #help .hotkeys {
       display: inline-block;
+      vertical-align: middle;
     }
-    #help span.description {
+    
+    #help .description {
       width: 30%;
     }
-    #help span.action {
+    
+    #help .action {
       width: 15%;
       font-size: 0.75em;
       color: gray;
     }
-    #help span.hotkeys {
+    
+    #help .hotkeys {
       width: 25%;
     }
-    #help span.hotkeys span.key {
+    
+    #help .hotkeys .key {
       border: 1px solid #ccc;
       background-color: #dfdfdf;
       border-radius: 0.25em;
