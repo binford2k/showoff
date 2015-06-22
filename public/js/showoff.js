@@ -65,11 +65,10 @@ function setupPreso(load_slides, prefix) {
     $('#preso').addClass('zoomed');
     mode.next = true;
     zoom();
+    $(window).resize(function() {
+      location.reload();
+    });
   }
-
-  // Make sure the slides always look right.
-  // Better would be dynamic calculations, but this is enough for now.
-  $(window).resize(function(){location.reload();});
 
   $("#feedbackWrapper").hover(
     function() {
