@@ -13,9 +13,6 @@ $(document).ready(function(){
   // to enabling this. It does not by default, so this is likely a no-op.
   openSlave();
 
-  // the presenter window doesn't need the reload on resize bit
-  $(window).unbind('resize');
-
   // side menu accordian crap
 	$("#preso").bind("showoff:loaded", function (event) {
 		$(".menu > ul ul").hide()
