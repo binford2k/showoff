@@ -772,6 +772,10 @@ function doDebugStuff()
 
 function blankScreen()
 {
+  try {
+    slaveWindow.blankScreen();
+  }
+  catch (e) {
     if ($('#screenblanker').length) { // if #screenblanker exists
         $('#screenblanker').slideUp('normal', function() {
             $('#screenblanker').remove();
@@ -780,6 +784,7 @@ function blankScreen()
         $('body').prepend('<div id="screenblanker"></div>');
         $('#screenblanker').slideDown();
     }
+  }
 }
 
 var notesMode = false
