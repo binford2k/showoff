@@ -405,13 +405,16 @@ class ShowOff < Sinatra::Application
 
       # Load and replace any file tags
       content.scan(/(~~~FILE:([^:]*):?(.*)?~~~)/).each do |match|
+        # make a list of code highlighting classes to include
+        css  = match[2].split.collect {|i| "language-#{i.downcase}" }.join(' ')
+
         # get the file content and parse out html entities
-        file = HTMLEntities.new.encode(File.read(File.join(settings.pres_dir, '_files', match[1])))
+        name = match[1]
+        file = File.read(File.join(settings.pres_dir, '_files', name)) rescue "Nonexistent file: #{name}"
+        file = "Empty file: #{name}" if file.empty?
+        file = HTMLEntities.new.encode(file) rescue "HTML parsing of #{name} failed"
 
-        # make a list of sh_highlight classes to include
-        css  = match[2].split.collect {|i| "sh_#{i.downcase}" }.join(' ')
-
-        result.gsub!(match[0], "<pre class=\"#{css}\"><code>#{file}</code></pre>")
+        result.gsub!(match[0], "<pre class=\"highlight\"><code class=\"#{css}\">#{file}</code></pre>")
       end
 
       result
@@ -741,6 +744,10 @@ class ShowOff < Sinatra::Application
       html.css('pre').each do |pre|
         pre.css('code').each do |code|
           out = code.text
+
+          # Skip this if we've got an empty code block
+          next if out.empty?
+
           lines = out.split("\n")
           if lines.first.strip[0, 3] == '@@@'
             lang = lines.shift.gsub('@@@', '').strip
