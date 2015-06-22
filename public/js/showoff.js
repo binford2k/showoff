@@ -1091,78 +1091,97 @@ function setExecutionSignal(status, codeDiv) {
  PreShow Code
  ********************/
 
-var preshow_seconds = 0;
-var preshow_secondsLeft = 0;
-var preshow_secondsPer = 8;
-var preshow_running = false;
+var preshow_seconds      = 0;
+var preshow_secondsLeft  = 0;
+var preshow_secondsPer   = 8;
+var preshow_running      = false;
 var preshow_timerRunning = false;
-var preshow_current = 0;
+var preshow_current      = 0;
 var preshow_images;
-var preshow_imagesTotal = 0;
-var preshow_des = null;
+var preshow_imagesTotal  = 0;
+var preshow_des          = null;
 
 function togglePreShow() {
-	if(preshow_running) {
-		stopPreShow()
-	} else {
-		var minutes = prompt("Minutes from now to start")
+  // The slave window updates this flag, which seems backwards except that the
+  // slave determines when to finish preshow.
+  if(preshow_running) {
+    try {
+      slaveWindow.stopPreShow();
+    }
+    catch (e) {
+      stopPreShow();
+    }
 
-		if (preshow_secondsLeft = parseFloat(minutes) * 60) {
-			toggleFooter()
-			$.getJSON("preshow_files", false, function(data) {
-				$('#preso').after("<div id='preshow'></div><div id='tips'></div><div id='preshow_timer'></div>")
-				$.each(data, function(i, n) {
-					if(n == "preshow.json") {
-						// has a descriptions file
-						$.getJSON("/file/_preshow/preshow.json", false, function(data) {
-							preshow_des = data
-						})
-					} else {
-						$('#preshow').append('<img ref="' + n + '" src="/file/_preshow/' + n + '"/>')
-					}
-				})
-				startPreShow()
-			})
-		}
-	}
+  } else {
+    var seconds = parseFloat(prompt("Minutes from now to start") * 60)
+
+    try {
+      slaveWindow.setupPreShow(seconds);
+    }
+    catch (e) {
+      setupPreShow(seconds);
+    }
+  }
+}
+
+function setupPreShow(seconds) {
+  if (preshow_secondsLeft = seconds) {
+    toggleFooter();
+    $.getJSON("preshow_files", false, function(data) {
+      $('#preso').after("<div id='preshow'></div><div id='tips'></div><div id='preshow_timer'></div>");
+      $.each(data, function(i, n) {
+        if(n == "preshow.json") {
+          // has a descriptions file
+          $.getJSON("/file/_preshow/preshow.json", false, function(data) {
+            preshow_des = data;
+          })
+        } else {
+          $('#preshow').append('<img ref="' + n + '" src="/file/_preshow/' + n + '"/>');
+        }
+      })
+      startPreShow();
+    })
+  }
 }
 
 function startPreShow() {
-	if (!preshow_running) {
-		preshow_running = true
-		preshow_seconds = 0
-		preshow_images = $('#preshow > img')
-		preshow_imagesTotal = preshow_images.size()
-		nextPreShowImage()
+  if (!preshow_running) {
+    try { presenterView.preshow_running = true } catch (e) {}
 
-		if(!preshow_timerRunning) {
-			setInterval(function() {
-				preshow_timerRunning = true
-				if (!preshow_running) { return }
-				preshow_seconds++
-				preshow_secondsLeft--
-		if (preshow_secondsLeft < 0) {
-			stopPreShow()
-		}
-				if (preshow_seconds == preshow_secondsPer) {
-					preshow_seconds = 0
-					nextPreShowImage()
-				}
-		addPreShowTips()
-			}, 1000)
-		}
-	}
+    preshow_running     = true;
+    preshow_seconds     = 0;
+    preshow_images      = $('#preshow > img');
+    preshow_imagesTotal = preshow_images.size();
+    nextPreShowImage();
+
+    if(!preshow_timerRunning) {
+      setInterval(function() {
+        preshow_timerRunning = true;
+        if (!preshow_running) { return }
+        preshow_seconds++;
+        preshow_secondsLeft--;
+    if (preshow_secondsLeft < 0) {
+      stopPreShow();
+    }
+    if (preshow_seconds == preshow_secondsPer) {
+      preshow_seconds = 0;
+      nextPreShowImage();
+    }
+    addPreShowTips();
+      }, 1000)
+    }
+  }
 }
 
 function addPreShowTips() {
-	time = secondsToTime(preshow_secondsLeft)
-	$('#preshow_timer').text('Resuming in: ' + time)
-	var des = preshow_des && preshow_des[tmpImg.attr("ref")]
+	time = secondsToTime(preshow_secondsLeft);
+	$('#preshow_timer').text('Resuming in: ' + time);
+	var des = preshow_des && preshow_des[tmpImg.attr("ref")];
 	if(des) {
-		$('#tips').show()
-		$('#tips').text(des)
+		$('#tips').show();
+		$('#tips').text(des);
 	} else {
-		$('#tips').hide()
+		$('#tips').hide();
 	}
 }
 
@@ -1176,26 +1195,28 @@ function secondsToTime(sec) {
 }
 
 function stopPreShow() {
-	preshow_running = false
+  try { presenterView.preshow_running = false } catch (e) {}
 
-	$('#preshow').remove()
-	$('#tips').remove()
-	$('#preshow_timer').remove()
+	preshow_running = false;
 
-	toggleFooter()
+	$('#preshow').remove();
+	$('#tips').remove();
+	$('#preshow_timer').remove();
+
+	toggleFooter();
 	loadSlides(loadSlidesBool, loadSlidesPrefix);
 }
 
 function nextPreShowImage() {
-	preshow_current += 1
+	preshow_current += 1;
 	if((preshow_current + 1) > preshow_imagesTotal) {
-		preshow_current = 0
+		preshow_current = 0;
 	}
 
-	$("#preso").empty()
-	tmpImg = preshow_images.eq(preshow_current).clone()
-	$(tmpImg).attr('width', '1020')
-	$("#preso").html(tmpImg)
+	$("#preso").empty();
+	tmpImg = preshow_images.eq(preshow_current).clone();
+	$(tmpImg).attr('width', '1020');
+	$("#preso").html(tmpImg);
 }
 
 /********************
