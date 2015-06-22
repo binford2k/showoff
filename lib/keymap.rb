@@ -16,6 +16,7 @@ module Keymap
       '/'           => 'HELP',
       '?'           => 'HELP',
       'b'           => 'BLANK',
+      '.'           => 'BLANK',
       'F'           => 'FOOTER',
       'f'           => 'FOLLOW',
       'n'           => 'NOTES',
@@ -23,6 +24,7 @@ module Keymap
       'p'           => 'PAUSE',
       'P'           => 'PRESHOW',
       'x'           => 'EXECUTE',
+      'f5'           => 'EXECUTE',
     }
   end
 end
