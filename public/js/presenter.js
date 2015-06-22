@@ -467,22 +467,17 @@ function presenterKeyDown(event){
     case 'FOLLOW':    toggleFollow();   break;
     case 'NOTES':     toggleNotes();    break;
     case 'PAUSE':     togglePause();    break;
-    case 'CLEAR': 
-      removeResults();  
+    case 'PRESHOW':   togglePreShow();  break;
+    case 'CLEAR':
+      removeResults();
       try {
         slaveWindow.removeResults();
-      } catch (e) {}
-      break;
-    case 'PRESHOW':   
-      togglePreShow();
-      try {
-        slaveWindow.togglePreShow();
       } catch (e) {}
       break;
     case 'EXECUTE':
       debug('executeCode');
       executeVisibleCodeBlock();
-      try { 
+      try {
          slaveWindow.executeVisibleCodeBlock();
       } catch (e) {}
       break;
@@ -513,7 +508,7 @@ function presenterKeyDown(event){
             } catch (e) {}
             gotoSlidenum = 0;
           }
-          break;     
+          break;
         default:
           break;
       }
