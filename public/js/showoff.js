@@ -1224,7 +1224,12 @@ function nextPreShowImage() {
  ********************/
 
 function togglePause() {
-  $("#pauseScreen").toggle();
+  try {
+    slaveWindow.togglePause();
+  }
+  catch (e) {
+    $("#pauseScreen").toggle();
+  }
 }
 
 /********************
