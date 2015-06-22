@@ -1370,7 +1370,7 @@ class ShowOff < Sinatra::Application
 
   not_found do
     # Why does the asset path start from cwd??
-    @asset_path.slice!(/^./)
+    @asset_path.slice!(/^./) rescue nil
     @env = request.env
     erb :'404'
   end
