@@ -41,13 +41,6 @@ $(document).ready(function(){
   $(window).resize(function() { zoom(); });
 
   // set up tooltips
-  $('#report').tipsy({ offset: 5 });
-  $('#slaveWindow').tipsy({ offset: 5 });
-  $('#nextWindow').tipsy({ offset: 5 });
-  $('#notesWindow').tipsy({ offset: 5 });
-  $('#generatePDF').tipsy({ offset: 5 });
-  $('#onePage').tipsy({ offset: 5, gravity: 'ne' });
-
   $('#stats').tipsy({
     html: true,
     width: 450,
@@ -67,10 +60,6 @@ $(document).ready(function(){
   $('#downloads').click(function(e) {
     popupLoader($(this), '/download', 'downloads', e);
   });
-
-  $('#enableFollower').tipsy({ gravity: 'ne' });
-  $('#enableRemote').tipsy();
-  $('#zoomer').tipsy({ gravity: 'ne' });
 
   // Bind events for mobile viewing
   if( mobile() ) {
