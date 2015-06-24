@@ -40,37 +40,12 @@ $(document).ready(function(){
   zoom();
   $(window).resize(function() { zoom(); });
 
-  // set up tooltips
-  $('#report').tipsy({ offset: 5 });
-  $('#slaveWindow').tipsy({ offset: 5 });
-  $('#nextWindow').tipsy({ offset: 5 });
-  $('#notesWindow').tipsy({ offset: 5 });
-  $('#generatePDF').tipsy({ offset: 5 });
-  $('#onePage').tipsy({ offset: 5, gravity: 'ne' });
-
-  $('#stats').tipsy({
-    html: true,
-    width: 450,
-    trigger: 'manual',
-    gravity: 'ne',
-    opacity: 0.9,
-    offset: 5
+  $('#statslink').click(function(e) {
+    presenterPopupToggle('/stats', e);
   });
-
-  $('#downloads').tipsy({ html: true, width: 425, trigger: 'manual', gravity: 'ne', opacity: 0.9, offset: 5 });
-
-  $('#stats').click(function(e) {
-    // Using 'stats' as third parameter creates second element with id='stats'
-    // Should be renamed, along with 'downdloads' below
-    popupLoader($(this), '/stats', 'stats', e);
+  $('#downloadslink').click(function(e) {
+    presenterPopupToggle('/download', e);
   });
-  $('#downloads').click(function(e) {
-    popupLoader($(this), '/download', 'downloads', e);
-  });
-
-  $('#enableFollower').tipsy({ gravity: 'ne' });
-  $('#enableRemote').tipsy();
-  $('#zoomer').tipsy({ gravity: 'ne' });
 
   // Bind events for mobile viewing
   if( mobile() ) {
@@ -102,26 +77,36 @@ $(document).ready(function(){
   register();
 });
 
-function popupLoader(elem, page, id, event) {
-  var title = elem.attr('title');
+function presenterPopupToggle(page, event) {
   event.preventDefault();
-
-  if (elem.attr('open') === 'open') {
-    elem.attr('open', false);
-    elem.tipsy("hide");
+  var popup = $('#presenterPopup');
+  if (popup.length > 0) {
+    popup.remove();
   } else {
+    popup = $('<div>');
+    popup.attr('id', 'presenterPopup');
     $.get(page, function(data) {
-      var link = '<p class="newpage"><a href="' + page + '" target="_new">Open in new page...</a>';
-      var content = '<div id="' + id + '">' + $(data).find('#wrapper').html() + link + '</div>';
+      var link = $('<a>'),
+          content = $('<div>');
+      
+      link.attr({
+        href: page,
+        target: '_new'
+      });
+      link.text('Open in a new page...');
 
-      elem.attr('title', content);
-      elem.attr('open', true)
-      elem.tipsy("show");
+      content.attr('id', page.substring(1, page.length));
+      content.append(link);      
+      content.append($(data).find('#wrapper').html());
+      
+      popup.append(content);
+      
       setupStats();
     });
+    
+    $('body').append(popup);
+    popup.show(); // #presenterPopup is display: none by default
   }
-
-  return false;
 }
 
 function reportIssue() {
