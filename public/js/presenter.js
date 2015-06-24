@@ -81,7 +81,9 @@ function presenterPopupToggle(page, event) {
   event.preventDefault();
   var popup = $('#presenterPopup');
   if (popup.length > 0) {
-    popup.remove();
+    popup.slideUp(200, function () {
+      popup.remove();
+    });
   } else {
     popup = $('<div>');
     popup.attr('id', 'presenterPopup');
@@ -98,14 +100,13 @@ function presenterPopupToggle(page, event) {
       content.attr('id', page.substring(1, page.length));
       content.append(link);      
       content.append($(data).find('#wrapper').html());
-      
       popup.append(content);
       
-      setupStats();
-    });
-    
-    $('body').append(popup);
-    popup.show(); // #presenterPopup is display: none by default
+      setupStats(); // this function is in showoff.js because /stats does not load presenter.js
+      
+      $('body').append(popup);
+      popup.slideDown(200); // #presenterPopup is display: none by default      
+    }); 
   }
 }
 

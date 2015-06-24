@@ -270,16 +270,14 @@ img#disconnected {
   display: none;
 }
 
-#help,
-#presenterPopup {
+#help {
   display: none;
   position:absolute;
   top: 5%;
   left: 25%;
   width: 50%;
   max-height: 90%;
-  overflow: auto;
-  z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
+  z-index: 2147483647;
   padding: 0 16px 16px 16px;
   border-radius: 4px;
   -webkit-box-shadow:0 0 25px rgba(0,0,0,0.35);
@@ -329,6 +327,37 @@ img#disconnected {
       padding: 0.15em 0.5em;
       margin: 0.25em;
     }
+ 
+#presenterPopup {
+  display: none;
+  position: absolute;
+  z-index: 2147483647;  
+  top: 24px;
+  left: 25%;
+  max-height: 80%;
+  width: 50%;
+  border-radius: 0 0 .5em .5em;
+  border-bottom: 8px solid #222222;
+  font-size: .65em;
+  background-color: #222222;
+  overflow: auto;  
+}
+
+  #presenterPopup h1,
+  #presenterPopup h3 {
+   font-size: 2em;
+   color: #ffffff; 
+  }
+  
+  #presenterPopup a {
+    margin-left: 12px;
+    color: #ffffff;
+  }
+
+  #presenterPopup ul#downloads {
+    margin-left: 0;
+    list-style-type: none;
+  }
 
 /**********************************
  ***       Table styling        ***
@@ -778,15 +807,6 @@ body#stats {
 /**********************
  *** end stats page ***
  **********************/
- 
- #presenterPopup {
-   font-size: .65em;
- }
- 
- #presenterPopup h1 {
-   font-size: 3em;
- }
- 
 
 /* iPhone */
 /* Portrait */
