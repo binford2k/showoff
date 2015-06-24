@@ -270,12 +270,15 @@ img#disconnected {
   display: none;
 }
 
-#help {
+#help,
+#presenterPopup {
   display: none;
   position:absolute;
   top: 5%;
   left: 25%;
   width: 50%;
+  max-height: 90%;
+  overflow: auto;
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
   padding: 0 16px 16px 16px;
   border-radius: 4px;
@@ -775,43 +778,15 @@ body#stats {
 /**********************
  *** end stats page ***
  **********************/
-
-/**********************
- ** presenter popups **
- **********************/
-.tipsy-inner { text-align: left; max-width: 500px; }
-.tipsy-inner h1 { font-size: 1.5em; }
-.tipsy-inner h2 { font-size: 1.35em; }
-.tipsy-inner h3 { font-size: 1.25em; }
-.tipsy-inner a { color: #0d8dfd; }
-.tipsy-inner a:hover { color: #04ffff; }
-
-.tipsy-inner p.newpage { text-align: right; padding-bottom: 0.25em; }
-.tipsy-inner p.newpage a {
-  color: white;
-  padding: 0.25em;
-  text-decoration: none;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -khtml-border-radius: 5px;
-  border-radius: 5px;
-  border: 1px solid black;
-}
-.tipsy-inner p.newpage a:hover {
-  font-weight: bold;
-  background-color: #222;
-  border: 1px solid white;
-}
-
-
-.tipsy-inner #stats { min-width: 450px; }
-.tipsy-inner #stats .row { color: black; }
-.tipsy-inner #stats #all { max-height: 325px; overflow: auto; }
-
-.tipsy-inner ul#downloads { font-size: 1em; margin-left: 0.25em; }
-/************************
- * end presenter popups *
- ************************/
+ 
+ #presenterPopup {
+   font-size: .65em;
+ }
+ 
+ #presenterPopup h1 {
+   font-size: 3em;
+ }
+ 
 
 /* iPhone */
 /* Portrait */
