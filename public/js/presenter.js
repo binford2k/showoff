@@ -275,31 +275,38 @@ function paceFeedback(pace) {
 
 function updatePace() {
   // pace notices expire in a few minutes
-  cutoff     = 3 * 60 * 1000;
-  expiration = new Date().getTime() - cutoff;
+  var cutoff     = 3 * 60 * 1000;
+  var expiration = new Date().getTime() - cutoff;
 
-  scale = 10; // this should max out around 5 clicks in either direction
-  sum   = 50; // start in the middle
+  var scale = 10; // this should max out around 5 clicks in either direction
+  var sum   = 50; // start in the middle
 
   // Loops through and calculates a decaying average
   for (var index = 0; index < paceData.length; index++) {
-    notice = paceData[index]
+    var notice = paceData[index];
 
     if(notice.time < expiration) {
       paceData.splice( index, 1 );
     }
     else {
-      ratio = (notice.time - expiration) / cutoff;
+      var ratio = (notice.time - expiration) / cutoff;
       sum  += (notice.pace * scale * ratio);
     }
   }
 
-  position = Math.max(Math.min(sum, 90), 10); // between 10 and 90
-  console.log("Updating pace: " + position);
+  var position = Math.max(Math.min(sum, 90), 10); // between 10 and 90
   $("#paceMarker").css({ left: position+"%" });
 
-  if(position > 75) { $("#paceFast").show() } else { $("#paceFast").hide() }
-  if(position < 25) { $("#paceSlow").show() } else { $("#paceSlow").hide() }
+  if(position > 75) { 
+    $("#paceFast").show();
+  } else { 
+    $("#paceFast").hide();
+  }
+  if(position < 25) { 
+    $("#paceSlow").show(); 
+  } else { 
+    $("#paceSlow").hide(); 
+  }
 }
 
 function zoom()
