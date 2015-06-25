@@ -127,26 +127,26 @@ div.zoomed {
     .tRed    { background: #d99; }
     .tYellow { background: #dd9; }
 
-    #sidebar #feedbackPace {
+    #feedbackPace {
       height: 40px;
       position: relative;
       background: transparent url(pace.png) no-repeat center bottom;
     }
-    #sidebar #feedbackPace #paceFast,
-    #sidebar #feedbackPace #paceSlow {
+    #paceFast,
+    #paceSlow {
       font-size: 1.5em;
       font-weight: bold;
       display: none;
     }
-    #sidebar #feedbackPace #paceFast {
+    #paceFast {
       float: left;
       margin-left: 1em;
     }
-    #sidebar #feedbackPace #paceSlow {
+    #paceSlow {
       float: right;
       margin-right: 1em;
     }
-    #sidebar #feedbackPace #paceMarker {
+    #paceMarker {
       height: 0;
       width: 0;
       border-right: 10px solid transparent;
