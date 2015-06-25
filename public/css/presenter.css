@@ -132,20 +132,21 @@ div.zoomed {
       position: relative;
       background: transparent url(pace.png) no-repeat center bottom;
     }
+    
+    #paceLabel {
+      margin-left: 4px;
+    }
+    
     #paceFast,
     #paceSlow {
       font-size: 1.5em;
       font-weight: bold;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       display: none;
     }
-    #paceFast {
-      float: left;
-      margin-left: 1em;
-    }
-    #paceSlow {
-      float: right;
-      margin-right: 1em;
-    }
+
     #paceMarker {
       height: 0;
       width: 0;
@@ -161,7 +162,7 @@ div.zoomed {
     	-ms-transform: translate(-50%, 0);
     	-o-transform: translate(-50%, 0);
     }
-
+    
     #slidemenu {
       -webkit-flex: 1;
               flex: 1;
