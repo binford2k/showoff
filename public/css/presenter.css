@@ -147,12 +147,6 @@ div.zoomed {
       margin-right: 1em;
     }
     #sidebar #feedbackPace #paceMarker {
-      height: 0;
-      width: 0;
-      border-right: 10px solid transparent;
-      border-left: 10px solid transparent;
-      border-top: 20px solid #333333;
-      
       left: 50%;
       position: absolute;
       transform: translate(-50%, -50%);
@@ -160,6 +154,7 @@ div.zoomed {
       -moz-transform: translate(-50%, 0);
     	-ms-transform: translate(-50%, 0);
     	-o-transform: translate(-50%, 0);
+
     }
 
     #slidemenu {
