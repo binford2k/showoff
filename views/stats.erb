@@ -21,7 +21,7 @@
             <% timestr =  (max > 3599) ?  '%H:%M:%S' : '%M:%S' %>
             <% @least.each do |slide, time| %>
               <div class="row">
-                <span class="label">Slide <%= slide %>:</span>
+                <span class="label"><%= slide %></span>
                 <div class="bar" style="width: <%= (time/max)*100 %>%;"> </div>
                 <div class="time"><%= Time.at(time).gmtime.strftime(timestr) %></div>
               </div>
@@ -36,8 +36,8 @@
             <% timestr =  (max > 3599) ?  '%H:%M:%S' : '%M:%S' %>
             <% @most.each do |slide, time| %>
               <div class="row">
-                <span class="label">Slide <%= slide %>:</span>
-                <div class="bar" style="width: <%= (time/max)*100 %>%;"> :</div>
+                <span class="label"><%= slide %></span>
+                <div class="bar" style="width: <%= (time/max)*100 %>%;"> </div>
                 <div class="time"><%= Time.at(time).gmtime.strftime(timestr) %></div>
               </div>
             <% end %>
@@ -49,7 +49,7 @@
           <%# We reuse the max value calculated from the above step. %>
           <% @all.sort.map do |slide, time| %>
               <div class="row">
-              <span class="label">Slide <%= slide %>:</span>
+              <span class="label"><%= slide %></span>
               <div class="bar" style="width: <%= (time/max)*100 %>%;"> </div>
               <div class="time"><%= Time.at(time).gmtime.strftime(timestr) %></div>
               <% if @counter %>

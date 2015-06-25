@@ -305,21 +305,21 @@ img#disconnected {
       display: inline-block;
       vertical-align: middle;
     }
-    
+
     #help .description {
       width: 30%;
     }
-    
+
     #help .action {
       width: 15%;
       font-size: 0.75em;
       color: gray;
     }
-    
+
     #help .hotkeys {
       width: 25%;
     }
-    
+
     #help .hotkeys .key {
       border: 1px solid #ccc;
       background-color: #dfdfdf;
@@ -327,11 +327,11 @@ img#disconnected {
       padding: 0.15em 0.5em;
       margin: 0.25em;
     }
- 
+
 #presenterPopup {
   display: none;
   position: absolute;
-  z-index: 2147483647;  
+  z-index: 2147483647;
   top: 24px;
   left: 25%;
   max-height: 80%;
@@ -340,15 +340,15 @@ img#disconnected {
   border-bottom: 8px solid #222222;
   font-size: .65em;
   background-color: #222222;
-  overflow: auto;  
+  overflow: auto;
 }
 
   #presenterPopup h1,
   #presenterPopup h3 {
    font-size: 2em;
-   color: #ffffff; 
+   color: #ffffff;
   }
-  
+
   #presenterPopup a {
     margin-left: 12px;
     color: #ffffff;
@@ -357,6 +357,7 @@ img#disconnected {
   #presenterPopup ul#downloads {
     margin-left: 0;
     list-style-type: none;
+    font-size: 1.25em;
   }
 
 /**********************************
@@ -704,15 +705,15 @@ body#download {
   overflow:auto;
   height: auto;
 }
-#download h1 {
+body#download h1 {
   font-size: 3em;
 }
-ul#downloads {
+body#download ul#downloads {
     margin-left:  20%;
     font-size: large;
     list-style-type: disc;
 }
-ul#downloads li {
+body#download ul#downloads li {
     margin: 0.5em;
 }
 
