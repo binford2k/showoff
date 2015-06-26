@@ -91,12 +91,13 @@ class ShowOff < Sinatra::Application
       settings.encoding = showoff_json["encoding"]
       settings.page_size = showoff_json["page-size"] || "Letter"
       settings.pres_template = showoff_json["templates"]
-
-      @highlightStyle = showoff_json['highlight'] || 'default'
     end
 
     # code execution timeout
     settings.showoff_config['timeout'] ||= 15
+
+    # highlightjs syntax style
+    @highlightStyle = settings.showoff_config['highlight'] || 'default'
 
     # variables used for building section numbering and title
     @slide_count   = 0
