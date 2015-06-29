@@ -1096,20 +1096,19 @@ function setExecutionSignal(status, codeDiv) {
  PreShow Code
  ********************/
 
-var preshow_seconds      = 0;
-var preshow_secondsLeft  = 0;
+
+var preshow_stop         = null;
 var preshow_secondsPer   = 8;
-var preshow_running      = false;
-var preshow_timerRunning = false;
+
 var preshow_current      = 0;
-var preshow_images;
+var preshow_images       = null;
 var preshow_imagesTotal  = 0;
 var preshow_des          = null;
 
 function togglePreShow() {
   // The slave window updates this flag, which seems backwards except that the
   // slave determines when to finish preshow.
-  if(preshow_running) {
+  if(preshow_stop) {
     try {
       slaveWindow.stopPreShow();
     }
@@ -1118,7 +1117,7 @@ function togglePreShow() {
     }
 
   } else {
-    var seconds = parseFloat(prompt("Minutes from now to start") * 60)
+    var seconds = parseFloat(prompt("Minutes from now to start") * 60);
 
     try {
       slaveWindow.setupPreShow(seconds);
@@ -1130,57 +1129,54 @@ function togglePreShow() {
 }
 
 function setupPreShow(seconds) {
-  if (preshow_secondsLeft = seconds) {
-    toggleFooter();
-    $.getJSON("preshow_files", false, function(data) {
-      $('#preso').after("<div id='preshow'></div><div id='tips'></div><div id='preshow_timer'></div>");
-      $.each(data, function(i, n) {
-        if(n == "preshow.json") {
-          // has a descriptions file
-          $.getJSON("/file/_preshow/preshow.json", false, function(data) {
-            preshow_des = data;
-          })
-        } else {
-          $('#preshow').append('<img ref="' + n + '" src="/file/_preshow/' + n + '"/>');
-        }
-      })
-      startPreShow();
+  preshow_stop = secondsFromNow(seconds);
+  try { presenterView.preshow_stop = preshow_stop } catch (e) {}
+
+  // footer styling looks icky. Hide it for now.
+  $('#footer').hide();
+
+  $.getJSON("preshow_files", false, function(data) {
+    $('#preso').after("<div id='preshow'></div><div id='tips'></div><div id='preshow_timer'></div>");
+    $.each(data, function(i, n) {
+      if(n == "preshow.json") {
+        // has a descriptions file
+        $.getJSON("/file/_preshow/preshow.json", false, function(data) {
+          preshow_des = data;
+        })
+      } else {
+        $('#preshow').append('<img ref="' + n + '" src="/file/_preshow/' + n + '"/>');
+      }
     })
-  }
+    preshow_images      = $('#preshow > img');
+    preshow_imagesTotal = preshow_images.size();
+
+    startPreShow();
+  });
 }
 
 function startPreShow() {
-  if (!preshow_running) {
-    try { presenterView.preshow_running = true } catch (e) {}
+  nextPreShowImage();
 
-    preshow_running     = true;
-    preshow_seconds     = 0;
-    preshow_images      = $('#preshow > img');
-    preshow_imagesTotal = preshow_images.size();
-    nextPreShowImage();
+  var nextImage = secondsFromNow(preshow_secondsPer);
+  var interval  = setInterval(function() {
+    var now = new Date();
 
-    if(!preshow_timerRunning) {
-      setInterval(function() {
-        preshow_timerRunning = true;
-        if (!preshow_running) { return }
-        preshow_seconds++;
-        preshow_secondsLeft--;
-    if (preshow_secondsLeft < 0) {
+    if (now > preshow_stop) {
+      clearInterval(interval);
       stopPreShow();
+    } else {
+      if (now > nextImage) {
+        nextImage = secondsFromNow(preshow_secondsPer);
+        nextPreShowImage();
+      }
+      var secondsLeft = Math.floor((preshow_stop.getTime() - now.getTime()) / 1000);
+      addPreShowTips(secondsLeft);
     }
-    if (preshow_seconds == preshow_secondsPer) {
-      preshow_seconds = 0;
-      nextPreShowImage();
-    }
-    addPreShowTips();
-      }, 1000)
-    }
-  }
+  }, 1000)
 }
 
-function addPreShowTips() {
-	time = secondsToTime(preshow_secondsLeft);
-	$('#preshow_timer').text('Resuming in: ' + time);
+function addPreShowTips(secondsLeft) {
+	$('#preshow_timer').text('Resuming in: ' + secondsToTime(secondsLeft));
 	var des = preshow_des && preshow_des[tmpImg.attr("ref")];
 	if(des) {
 		$('#tips').show();
@@ -1190,25 +1186,29 @@ function addPreShowTips() {
 	}
 }
 
+function secondsFromNow(seconds) {
+  var now = new Date();
+  now.setTime(now.getTime() + seconds * 1000);
+  return now;
+}
+
 function secondsToTime(sec) {
-	min = Math.floor(sec / 60)
-	sec = sec - (min * 60)
+	var min = Math.floor(sec / 60);
+	sec = sec - (min * 60);
 	if(sec < 10) {
-		sec = "0" + sec
+		sec = "0" + sec;
 	}
-	return min + ":" + sec
+	return min + ":" + sec;
 }
 
 function stopPreShow() {
-  try { presenterView.preshow_running = false } catch (e) {}
-
-	preshow_running = false;
+  try { presenterView.preshow_stop = null } catch (e) {}
+	preshow_stop = null;
 
 	$('#preshow').remove();
 	$('#tips').remove();
 	$('#preshow_timer').remove();
 
-	toggleFooter();
 	loadSlides(loadSlidesBool, loadSlidesPrefix);
 }
 
