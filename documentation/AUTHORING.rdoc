@@ -168,63 +168,88 @@ scaled to the largest size that both height and width fit within the slide.
 
 = Language Highlighting
 
-Showoff uses {shjs}[http://shjs.sourceforge.net/] to highlight code blocks. If you begin a
-code block with three @-signs followed by a programming language name, that line will be
-stripped and the rest of the block will become sparkly and colorful.
+Showoff uses {highlightjs}[https://highlightjs.org] to highlight code blocks. If
+you begin a code block with three @-signs followed by a programming language
+name, that line will be stripped and the rest of the block will become sparkly
+and colorful. You can uppercase the name if you like.
 
     @@@ Ruby
     10.times { puts "Whee!" }
 
 Supported languages include:
 
-- Bison
-- C
-- Caml
-- Changelog
-- Coffeescript
-- Cpp
-- Csharp
-- Css
-- Cucumber
-- Desktop
-- Diff
-- Docker
-- Erlang
-- Flex
-- Glsl
-- Haxe
-- Html
-- Ini
-- Java
-- Javascript
-- Javascript_dom
-- Latex
-- Ldap
-- Log
-- Lsm
-- M4
-- Makefile
-- Oracle
-- Pascal
-- Perl
-- Php
-- Prolog
-- Properties
-- Puppet
-- Puppet_output
-- Python
-- Ruby
-- Scala
-- Sh
-- Slang
-- Sml
-- Spec
-- Sql
-- Tcl
-- Xml
-- Xorg
+    1c             elm            markdown       ruleslanguage
+    actionscript   erb            mathematica    rust
+    apache         erlang-repl    matlab         scala
+    applescript    erlang         mel            scheme
+    armasm         fix            mercury        scilab
+    asciidoc       fortran        mizar          scss
+    aspectj        fsharp         monkey         smali
+    autohotkey     gcode          nginx          smalltalk
+    avrasm         gherkin        nimrod         sml
+    axapta         glsl           nix            sql
+    bash           go             nsis           stata
+    brainfuck      gradle         objectivec     step21
+    cal            groovy         ocaml          stylus
+    capnproto      haml           openscad       swift
+    ceylon         handlebars     oxygene        tcl
+    clojure-repl   haskell        parser3        tex
+    clojure        haxe           perl           thrift
+    cmake          http           pf             tp
+    coffeescript   inform7        php            twig
+    cpp            ini            powershell     typescript
+    cs             java           processing     vala
+    css            javascript     profile        vbnet
+    d              json           prolog         vbscript-html
+    dart           julia          protobuf       vbscript
+    delphi         kotlin         puppet         verilog
+    diff           lasso          python         vhdl
+    django         less           q              vim
+    dns            lisp           r              x86asm
+    dockerfile     livecodeserver rib            xl
+    dos            livescript     roboconf       xml
+    dust           lua            rsl            zephir
+    elixir         makefile       ruby
 
-Instructions for adding support for new languages can be found at http://shjs.sourceforge.net/doc/documentation.html
+Instructions for adding support for new languages can be found at
+http://highlightjs.readthedocs.org/en/latest/language-contribution.html
+
+== Syntax highlighting styles
+
+You can configure the highlighting style used by providing a <tt>highlight</tt>
+key in the <tt>showoff.json</tt> file. For example:
+
+    {
+      "name": "Something",
+      "description": "Example Presentation",
+      "highlight": "agate",
+      ...
+    }
+
+Highlighting styles include:
+
+    agate                     atelier-seaside.light        mono-blue
+    androidstudio             atelier-sulphurpool.dark     monokai
+    arta                      atelier-sulphurpool.light    monokai_sublime
+    ascetic                   brown_paper                  obsidian
+    atelier-cave.dark         codepen-embed                paraiso.dark
+    atelier-cave.light        color-brewer                 paraiso.light
+    atelier-dune.dark         dark                         pojoaque
+    atelier-dune.light        darkula                      railscasts
+    atelier-estuary.dark      default                      rainbow
+    atelier-estuary.light     docco                        school_book
+    atelier-forest.dark       far                          solarized_dark
+    atelier-forest.light      foundation                   solarized_light
+    atelier-heath.dark        github-gist                  sunburst
+    atelier-heath.light       github                       tomorrow-night-blue
+    atelier-lakeside.dark     googlecode                   tomorrow-night-bright
+    atelier-lakeside.light    hybrid                       tomorrow-night-eighties
+    atelier-plateau.dark      idea                         tomorrow-night
+    atelier-plateau.light     ir_black                     tomorrow
+    atelier-savanna.dark      kimbie.dark                  vs
+    atelier-savanna.light     kimbie.light                 xcode
+    atelier-seaside.dark      magula                       zenburn
+
 
 = Forms
 
@@ -299,11 +324,15 @@ contain any markup that the slide itself can.
 
 = Preshow
 
-If you want to show a slideshow while you wait to speak, you can run a preshow.  Add a <tt>_preshow</tt> directory
-to your project (I use a symlink, so I don't have to add all the images into Git), put a bunch of images in the <tt>_preshow</tt> directory and optionally add a <tt>preshow.json</tt> file that provides descriptions for any of the images.
-If you then press 'p' at the beginning of your presentation, it will prompt you for a number of minutes until
-you start.  Then it will count down the time until then, flipping through your pictures to entertain the
-audience in the meantime.  Press 'p' again to stop, or wait until the timer runs out.
+If you want to show a slideshow while you wait to speak, you can run a preshow.
+Add a <tt>_preshow</tt> directory to your project (I use a symlink, so I don't
+have to add all the images into Git), put a bunch of images in the
+<tt>_preshow</tt> directory and optionally add a <tt>preshow.json</tt> file that
+provides descriptions for any of the images.  If you then press '<tt>P</tt>' at the
+beginning of your presentation, it will prompt you for a number of minutes until
+you start.  Then it will count down the time until then, flipping through your
+pictures to entertain the audience in the meantime.  Press '<tt>P</tt>' again to stop, or
+wait until the timer runs out.
 
 = Download Files
 
@@ -475,10 +504,23 @@ custom layout is to create a container that uses absolute positioning
 and has width and height set to 100% which are then derived from the
 parent slide element.
 
-= Executing Ruby or shell code live
+= Live code execution
 
-Showoff can execute Ruby or shell code from a slide and display the results
-live.  To do this, mark your code block with the keyword <tt>execute</tt>.
+Showoff can execute code from a slide and display the results live for
+demonstration purposes.  To do this, mark your code block with the keyword
+<tt>execute</tt>. Any code that Showoff has handlers for can be executed. This
+includes:
+
+[Executed directly in the browser]
+  - Coffeescript
+  - Javascript
+
+[Executed on the machine running the Showoff presentation]
+  - Perl
+  - Puppet
+  - Python
+  - Ruby
+  - Shell
 
 *Security*: code must exist in a slide file on disk for Showoff to execute it.
 This doesn't mean that you're immune from attack though. It's possible to create
@@ -499,9 +541,9 @@ execution.
         num * num
     end
 
-If you need supporting libraries when you evaluate the code, you can put Ruby
-files (*.rb) into the root directory of the presentation and they will be
-required when the presentation loads.
+If you need supporting libraries when you evaluate Ruby code, you can put Ruby
+files (<tt>*.rb</tt>) into the root directory of the presentation and they will be
+auto-required when the presentation loads.
 
 = Editor Support
 
