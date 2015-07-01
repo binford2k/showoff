@@ -239,7 +239,7 @@ div.zoomed {
       }
 
       #preview .content ul li.incremental.hidden {
-        display: block;
+        visibility: visible;
         color: #ccc;
       }
 
