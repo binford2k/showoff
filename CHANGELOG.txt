@@ -1,3 +1,34 @@
+0.10.0
+  * Updated highlighting library
+  * Added ability to customize keyboard shortcuts. See CONFIGURATION.rdoc
+      * Changed defaults to be more logical
+  * Accurate preshow timer
+  * Visual revamp of several elements
+  * Presenter controls for preshow, pause, blank work better with display view
+  * Revamped executable code process
+      * Removed security holes
+      * Added Perl, Puppet, Python, Shell interpreters
+  * Follow mode on by default
+  * Removed unreliable style switching functionality
+
+Compatibility note:
+If you are currently styling code blocks in your presentations then you will
+need to update your selectors. Here is an example that will style both earlier
+Showoff versions and current.
+
+    /* Add some nice styling to the code blocks. */
+    .content pre:not(.highlight),
+    .content pre.highlight code {
+        border: 2px solid #ddd;
+        padding: 0.5em;
+        overflow: hidden;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        border-radius: 10px;
+        display: block;
+    }
+
 0.9.11.1
   * Tiny bugfix to silence deprecation warning
 
