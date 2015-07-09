@@ -434,13 +434,15 @@ class ShowOff < Sinatra::Application
       result.gsub!(/(<p>)?~~~SECTION:([^~]*)~~~/, '<div class="\2">\1')
       result.gsub!(/~~~ENDSECTION~~~(<\/p>)?/, '\1</div>')
 
+      # Turn this into a document for munging
+      doc = Nokogiri::HTML::DocumentFragment.parse(result)
+
       filename = File.join(settings.pres_dir, '_notes', "#{name}.md")
       @logger.debug "personal notes filename: #{filename}"
       if File.file? filename
         # TODO: shouldn't have to reparse config all the time
         engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
 
-        doc = Nokogiri::HTML::DocumentFragment.parse(result)
         # Make sure we've got a notes div to hang personal notes from
         doc.add_child '<div class="notes"></div>' if doc.css('div.notes').empty?
         doc.css('div.notes').each do |section|
@@ -454,9 +456,14 @@ class ShowOff < Sinatra::Application
             section.add_child(note)
           end
         end
-        result = doc.to_html
       end
-      result
+
+      # Now add a target so we open all links from notes in a new window
+      doc.css('a').each do |link|
+        link.set_attribute('target', '_blank')
+      end
+
+      doc.to_html
     end
 
     def process_content_for_all_slides(content, num_slides, opts={})
