@@ -1,3 +1,7 @@
+0.10.1
+  * Corrected print styling regression.
+  * Open links from notes in new windows.
+
 0.10.0
   * Updated highlighting library
   * Added ability to customize keyboard shortcuts. See CONFIGURATION.rdoc
