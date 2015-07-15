@@ -787,16 +787,8 @@ function blankScreen()
   }
 }
 
-var notesMode = false
-function toggleNotes()
-{
-  notesMode = !notesMode
-	if (notesMode) {
-		$('#notesInfo').show()
-		debug('notes mode on')
-	} else {
-		$('#notesInfo').hide()
-	}
+function toggleNotes() {
+  $('#notesInfo').toggle();
 }
 
 function toggleFollow()
