@@ -1,3 +1,6 @@
+0.10.2
+  * Corrected again print styling regression.
+
 0.10.1
   * Corrected print styling regression.
   * Open links from notes in new windows.
