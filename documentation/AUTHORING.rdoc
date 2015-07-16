@@ -457,12 +457,9 @@ If you would like to use CSS to change the size of your slides from the default 
 1024x768, you'll want to use rules such as:
 
     #preso,
-    .slide,
-    .content img {
+    .slide {
         width: 1280px !important;
         height: 800px !important;
-        max-width: 1280px !important;
-        max-height: 800px !important;
     }
 
 = Templates

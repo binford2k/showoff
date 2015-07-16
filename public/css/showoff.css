@@ -89,6 +89,11 @@
     transform: translateY(-50%);
   }
 
+  /* prevent large images from getting too out of hand */
+  .content img {
+    max-width: 100%;
+    max-height: 100%;
+  }
 }
 
 .slide .center {
@@ -111,12 +116,6 @@
 .content > form > blockquote {
     font-size: 250%;
     margin: 2em;
-}
-
-/* prevent large images from getting too out of hand */
-.content img {
-  max-width: 768px;
-  max-height: 1024px;
 }
 
 .center img {
@@ -887,6 +886,12 @@ body#stats {
       margin-left:auto;
       margin-right:auto;
       overflow:hidden;
+  }
+
+  /* prevent large images from running off the page */
+  .content img {
+    max-width: 7in;
+    max-height: 9.5in;
   }
 
   #footer {
