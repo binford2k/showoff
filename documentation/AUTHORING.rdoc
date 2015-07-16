@@ -453,6 +453,18 @@ is your preference. An example of adding some styling is here.
 Note that the example above uses CSS3 styling with <tt>::after</tt> and the <tt>content</tt>
 -attribute to add an image to the slides.
 
+If you would like to use CSS to change the size of your slides from the default of
+1024x768, you'll want to use rules such as:
+
+    #preso,
+    .slide,
+    .content img {
+        width: 1280px !important;
+        height: 800px !important;
+        max-width: 1280px !important;
+        max-height: 800px !important;
+    }
+
 = Templates
 
 Templates can come handy if you need more than what you can achieve

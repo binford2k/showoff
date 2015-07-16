@@ -88,7 +88,7 @@
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
   }
-  
+
 }
 
 .slide .center {
@@ -115,8 +115,8 @@
 
 /* prevent large images from getting too out of hand */
 .content img {
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 768px;
+  max-height: 1024px;
 }
 
 .center img {
