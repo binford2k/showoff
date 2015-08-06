@@ -11,11 +11,11 @@
 
   <% if @inline %>
 
-    <%= inline_css(['reset.css', 'showoff.css', 'theme/ui.all.css', 'sh_style.css', 'onepage.css', "highlight/#{@highlightStyle}.css"], 'public/css') %>
+    <%= inline_css(['reset.css', 'showoff.css', 'theme/ui.all.css', 'onepage.css', "highlight/#{@highlightStyle}.css"], 'public/css') %>
     <%= inline_css(css_files) %>
 
     <!--[if lte IE 8]>
-      <%= inline_css('ie8.css') %>
+      <%= inline_css(['ie8.css'], 'public/css') %>
     <![endif]-->
 
     <%= inline_js(['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'highlight.pack.js'], 'public/js') %>
