@@ -15,7 +15,7 @@
     <%= inline_css(css_files) %>
 
     <!--[if lte IE 8]>
-      <%= inline_css('ie8.css') %>
+      <%= inline_css(['ie8.css'], 'public/css') %>
     <![endif]-->
 
     <%= inline_js(['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'highlight.pack.js'], 'public/js') %>
