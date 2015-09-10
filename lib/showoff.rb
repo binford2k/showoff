@@ -458,9 +458,9 @@ class ShowOff < Sinatra::Application
         end
       end
 
-      # Now add a target so we open all links from notes in a new window
+      # Now add a target so we open all external links from notes in a new window
       doc.css('a').each do |link|
-        link.set_attribute('target', '_blank')
+        link.set_attribute('target', '_blank') unless link['href'].start_with? '#'
       end
 
       doc.to_html
