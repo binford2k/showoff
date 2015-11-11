@@ -641,6 +641,7 @@ div.rendered.form {
   border-radius: 0.5em;
   margin: 1em;
   padding: 0.25em;
+  min-height: 3em;
 }
 div.rendered.form label {
   display: block;
@@ -653,6 +654,9 @@ div.rendered.form .item {
 /*   overflow: hidden; */
   height: 1.25em;
   white-space: nowrap;
+}
+div.rendered.form span.count {
+  display: none;
 }
 div.rendered.form .item.barstyle0 { background-color: #bb73bb; }
 div.rendered.form .item.barstyle1 { background-color: #59b859; }

@@ -1158,16 +1158,21 @@ class ShowOff < Sinatra::Application
 
     @@forms[id].each_with_object({}) do |(ip,form), sum|
       form.each do |key, val|
-        sum[key]      ||= {}
+        # initialize the object with an empty response if needed
+        sum[key] ||= { 'count' => 0, 'responses' => {} }
 
+        # increment the number of unique responses we've seen
+        sum[key]['count'] += 1
+
+        responses = sum[key]['responses']
         if val.class == Array
           val.each do |item|
-            sum[key][item] ||= 0
-            sum[key][item]  += 1
+            responses[item] ||= 0
+            responses[item]  += 1
           end
         else
-          sum[key][val] ||= 0
-          sum[key][val]  += 1
+          responses[val] ||= 0
+          responses[val]  += 1
         end
       end
     end.to_json

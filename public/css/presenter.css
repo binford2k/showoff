@@ -349,6 +349,17 @@ div.zoomed {
     list-style-type: disc;
   }
 
+  #notes div.rendered.form span.count {
+    display: inline;
+    float: right;
+    font-size: 2.5em;
+    background-color: #ddd;
+    padding: 0.1em 0.1em 0 0.1em;
+    border: 1px solid #333;
+    border-radius: 0 0.15em 0 0;
+    box-shadow: 2px 2px 2px #888;
+  }
+
   #bottom #notes div.personal {
     float: right;
     border-left: 4px solid #999;
