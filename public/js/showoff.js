@@ -118,7 +118,7 @@ function loadSlides(load_slides, prefix) {
 }
 
 function loadKeyDictionaries () {
-  $.getJSON('/js/keyDictionary.json', function(data) {
+  $.getJSON('js/keyDictionary.json', function(data) {
     keycode_dictionary = data['keycodeDictionary'];
     keycode_shifted_keys = data['shiftedKeyDictionary'];
   });
