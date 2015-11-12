@@ -121,8 +121,13 @@ class ShowOff < Sinatra::Application
     # Page view time accumulator. Tracks how often slides are viewed by the audience
     begin
       @@counter = JSON.parse(File.read("#{settings.statsdir}/#{settings.viewstats}"))
+
+      # port old format stats
+      unless @@counter.has_key? 'user_agents'
+        @@counter = { 'user_agents' => {}, 'pageviews' => @@counter }
+      end
     rescue
-      @@counter = Hash.new
+      @@counter = { 'user_agents' => {}, 'pageviews' => {} }
     end
 
     # keeps track of form responses. In memory to avoid concurrence issues.
@@ -970,12 +975,12 @@ class ShowOff < Sinatra::Application
 
     def stats()
       if request.env['REMOTE_HOST'] == 'localhost'
-        # the presenter should have full stats
-        @counter = @@counter
+        # the presenter should have full stats in the erb
+        @counter = @@counter['pageviews']
       end
 
       @all = Hash.new
-      @@counter.each do |slide, stats|
+      @@counter['pageviews'].each do |slide, stats|
         @all[slide] = 0
         stats.map do |host, visits|
           visits.each { |entry| @all[slide] += entry['elapsed'].to_f }
@@ -1294,14 +1299,18 @@ class ShowOff < Sinatra::Application
               slide  = control['slide']
               time   = control['time'].to_f
 
-              @logger.debug "Logged #{time} on slide #{slide} for #{remote}"
+              # record the UA of the client if we haven't seen it before
+              @@counter['user_agents'][remote] ||= request.user_agent
 
+              views = @@counter['pageviews']
               # a bucket for this slide
-              @@counter[slide] ||= Hash.new
+              views[slide] ||= Hash.new
               # a bucket of slideviews for this address
-              @@counter[slide][remote] ||= Array.new
+              views[slide][remote] ||= Array.new
               # and add this slide viewing to the bucket
-              @@counter[slide][remote] << { 'elapsed' => time, 'timestamp' => Time.now.to_i, 'presenter' => @@current[:name] }
+              views[slide][remote] << { 'elapsed' => time, 'timestamp' => Time.now.to_i, 'presenter' => @@current[:name] }
+
+              @logger.debug "Logged #{time} on slide #{slide} for #{remote}"
 
             when 'position'
               ws.send( { 'current' => @@current[:number] }.to_json ) unless @@cookie.nil?
