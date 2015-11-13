@@ -506,6 +506,11 @@ function renderForm(form) {
       var key = $(this).attr('data-name');
       var sum = 0;
 
+      // add a counter label if we haven't already
+      if( $(this).has('span.count').length == 0 ) {
+        $(this).prepend('<span class="count"></span>');
+      }
+
       $(this).find('ul > li > *').each(function() {
         $(this).parent().parent().before(this);
       });
@@ -568,16 +573,24 @@ function renderForm(form) {
 
       // only start counting and sizing bars if we actually have usable data
       if(data) {
+        // number of unique responses
+        var total = 0;
         // double loop so we can handle re-renderings of the form
         $(this).find('.item').each(function() {
           var name = $(this).attr('data-value');
 
           if(key in data) {
-            var count = data[key][name];
+            var count = data[key]['responses'][name];
             if(count) { sum += count; }
+
+            total = data[key]['count'];
           }
         });
 
+        // insert the total into the counter label
+        $(this).find('span.count').each(function() {
+          $(this).text(total);
+        });
 
         $(this).find('.item').each(function() {
           var name     = $(this).attr('data-value');
@@ -585,7 +598,7 @@ function renderForm(form) {
           var oldSum   = $(this).attr('data-sum');
 
           if(key in data) {
-            var count = data[key][name] || 0;
+            var count = data[key]['responses'][name] || 0;
           }
           else {
             var count = 0;
