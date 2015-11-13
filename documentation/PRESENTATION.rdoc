@@ -1,0 +1,126 @@
+= Creating a presentation
+
+A Showoff presentation is defined by the contents of the <tt>showoff.json</tt>
+file in the root of the presentation directory. It contains configuration keys
+that define metadata about the presentation and describes the slides themselves.
+
+== Example <tt>showoff.json</tt>
+
+The following file describes a simple presentation with only a few slides. It
+includes all current configuration keys, which will be described below.
+
+    {
+      "name": "Something",
+      "description": "Example Presentation",
+      "favicon": "favicon.ico",
+      "protected": [
+        "presenter",
+        "onepage",
+        "print"
+      ],
+      "user": "username",
+      "password": "password",
+      "version": "0.9.10.7",
+      "feedback": true,
+      "edit": "https://github.com/username/presentation/edit/master/",
+      "issues": "https://github.com/username/presentation/issues/new?title=",
+      "highlight": "atelier-cave.light",
+      "author": "Foo Bar John",
+      "templates" : {
+          "special" : "simple.tpl"
+      },
+      "pause_msg": "Paused !!!",
+      "sections": [
+        "Intro/intro.md",
+        "Intro/summary.md",
+        "Content/first.md",
+        "Content/second.md",
+        "Conclusion/overview.md",
+      ]
+    }
+
+== Configuration Settings
+
+The configuration settings you may use are listed below. Please see the
+{AUTHORING}[rdoc-ref:AUTHORING] section for more information.
+
+[author]
+  The name of the author.
+
+[description]
+  A one sentence description.
+
+[edit]
+  A link to a web based editor used when started with <tt>--review</tt>.  The
+  path to the currently viewed slide will be appended and the resulting URI will
+  be opened in a new browser tab. This is currently only tested with GitHub.
+
+[favicon]
+  The filename of a favicon image to use.
+
+[feedback]
+  Enable the interactive feedback features.
+
+[highlight]
+  The {highlight.js}[https://highlightjs.org] theme to use for code snippets.
+
+[issues]
+  A link to a web based bug reporter. The currently viewed slide will be
+  appended and the resulting URI will be opened in a new browser tab. This is
+  currently only tested with GitHub and Jira.
+
+[name]
+  A short name for the presentation.
+
+[pause_msg]
+  The message to display when paused.
+
+[protected]
+  An array of pages that should be password protected.
+
+  [username]
+    The username for protected pages.
+
+  [password]
+    The password for protected pages.
+
+[sections]
+  The slide definitions for the presentation.
+
+[templates]
+  A hash of templates to be used.
+
+[version]
+  The version of Showoff that this presentation requires. It will refuse to
+  start and will display a warning message if the Showoff version is lower.
+
+== Defining slides using the <tt>sections</tt> setting.
+
+The <tt>sections</tt> section contains the description of the slides making up
+your presentation and the order they should be displayed in. You may either list
+them in order using an array, or define sections using an array of hashes.
+
+Array configuration listing each Markdown file:
+
+    "sections": [
+      "Intro/intro.md",
+      "Intro/summary.md",
+      "Content/first.md",
+      "Content/second.md",
+      "Conclusion/overview.md",
+    ]
+
+Hash configuration listing each directory of Markdown files:
+
+    "sections": [
+      {"section":"one"},
+      {"section":"two"},
+      {"section":"three"},
+      {"section":"four"}
+    ]
+
+== Running without a <tt>showoff.json</tt>
+
+When you run Showoff without defining <tt>sections</tt>, or when you point to a
+directory instead of individual files, Showoff will enumerate all <tt>*.md</tt>
+files and assume that each is a slide file.
