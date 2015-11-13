@@ -234,6 +234,11 @@ div.zoomed {
         display: none;
       }
 
+      #preview .content form label.correct {
+        font-weight: 900;
+        border-bottom: 4px solid black;
+      }
+
       img#disconnected {
         margin: 0.5em 1em;
       }
