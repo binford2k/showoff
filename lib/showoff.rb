@@ -518,7 +518,7 @@ class ShowOff < Sinatra::Application
         form  = "<form id='#{title}' action='/form/#{title}' method='POST'>#{content}#{tools}</form>"
         doc = Nokogiri::HTML::DocumentFragment.parse(form)
         doc.css('p').each do |p|
-          if p.text =~ /^(\w*) ?(?:->)? ?([^\*]*)? ?(\*?)= ?(.*)?$/
+          if p.text =~ /^(\w*) ?(?:->)? ?(.*)? (\*?)= ?(.*)?$/
             code     = $1
             id       = "#{title}_#{code}"
             name     = $2.empty? ? code : $2
@@ -541,19 +541,19 @@ class ShowOff < Sinatra::Application
       str =  "<div class='form element #{required}' id='#{id}' data-name='#{code}'>"
       str << "<label for='#{id}'>#{name}</label>"
       case rhs
-      when /^\[\s+(\d*)\]$$/             # value = [    5]                                    (textarea)
+      when /^\[\s+(\d*)\]$$/             # value = [    5]                                     (textarea)
         str << form_element_textarea(id, code, $1)
-      when /^___+(?:\[(\d+)\])?$/        # value = ___[50]                                    (text)
+      when /^___+(?:\[(\d+)\])?$/        # value = ___[50]                                     (text)
         str << form_element_text(id, code, $1)
-      when /^\(x?\)/                     # value = (x) option one () opt2 () opt3 -> option 3 (radio)
-        str << form_element_radio(id, code, rhs.scan(/\((x?)\)\s*([^()]+)\s*/))
-      when /^\[x?\]/                     # value = [x] option one [] opt2 [] opt3 -> option 3 (checkboxes)
-        str << form_element_checkboxes(id, code, rhs.scan(/\[(x?)\] ?([^\[\]]+)/))
-      when /^\{(.*)\}$/                  # value = {BOS, SFO, (NYC)}                          (select shorthand)
-        str << form_element_select(id, code, rhs.scan(/\(?\w+\)?/))
-      when /^\{$/                        # value = {                                          (select)
+      when /^\(.?\)/                     # value = (x) option one (=) opt2 () opt3 -> option 3 (radio)
+        str << form_element_radio(id, code, rhs.scan(/\((.?)\)\s*([^()]+)\s*/))
+      when /^\[.?\]/                     # value = [x] option one [=] opt2 [] opt3 -> option 3 (checkboxes)
+        str << form_element_checkboxes(id, code, rhs.scan(/\[(.?)\] ?([^\[\]]+)/))
+      when /^\{(.*)\}$/                  # value = {BOS, [SFO], (NYC)}                         (select shorthand)
+        str << form_element_select(id, code, rhs.scan(/[(\[]?\w+[)\]]?/))
+      when /^\{$/                        # value = {                                           (select)
         str << form_element_select_multiline(id, code, text)
-      when ''                            # value =                                            (radio/checkbox list)
+      when ''                            # value =                                             (radio/checkbox list)
         str << form_element_multiline(id, code, text)
       else
         @logger.warn "Unmatched form element: #{rhs}"
@@ -602,9 +602,13 @@ class ShowOff < Sinatra::Application
         case item
         when /^   +\((\w+) -> (.+)\),?$/         # (NYC -> New York City)
           str << "<option value='#{$1}' selected>#{$2}</option>"
+        when /^   +\[(\w+) -> (.+)\],?$/         # [NYC -> New York City]
+          str << "<option value='#{$1}' class='correct'>#{$2}</option>"
         when /^   +(\w+) -> (.+),?$/             # NYC -> New, York City
           str << "<option value='#{$1}'>#{$2}</option>"
-        when /^   +\((.+)[^,],?$/                # (Boston)
+        when /^   +\((.+)\)$/                    # (Boston)
+          str << "<option value='#{$1}' selected>#{$1}</option>"
+        when /^   +\[(.+)\]$/                    # [Boston]
           str << "<option value='#{$1}' selected>#{$1}</option>"
         when /^   +([^\(].+[^\),]),?$/           # Boston
           str << "<option value='#{$1}'>#{$1}</option>"
@@ -618,20 +622,20 @@ class ShowOff < Sinatra::Application
 
       text.split("\n")[1..-1].each do |item|
         case item
-        when /\((x?)\)\s*(\w+)\s*(?:->\s*(.*)?)?/
-          checked = $1.empty? ? '': "checked='checked'"
-          type  = 'radio'
-          value = $2
-          label = $3 || $2
-        when /\[(x?)\]\s*(\w+)\s*(?:->\s*(.*)?)?/
-          checked = $1.empty? ? '': "checked='checked'"
-          type  = 'checkbox'
-          value = $2
-          label = $3 || $2
+        when /\((.?)\)\s*(\w+)\s*(?:->\s*(.*)?)?/
+          modifier = $1
+          type     = 'radio'
+          value    = $2
+          label    = $3 || $2
+        when /\[(.?)\]\s*(\w+)\s*(?:->\s*(.*)?)?/
+          modifier = $1
+          type     = 'checkbox'
+          value    = $2
+          label    = $3 || $2
         end
 
         str << '<li>'
-        str << form_element_check_or_radio(type, id, code, value, label, checked)
+        str << form_element_check_or_radio(type, id, code, value, label, modifier)
         str << '</li>'
       end
       str << '</ul>'
@@ -640,7 +644,7 @@ class ShowOff < Sinatra::Application
     def form_element_check_or_radio_set(type, id, code, items)
       str = ''
       items.each do |item|
-        checked = item[0].empty? ? '': "checked='checked'"
+        modifier = item[0]
 
         if item[1] =~ /^(\w*) -> (.*)$/
           value = $1
@@ -649,17 +653,31 @@ class ShowOff < Sinatra::Application
           value = label = item[1]
         end
 
-        str << form_element_check_or_radio(type, id, code, value, label, checked)
+        str << form_element_check_or_radio(type, id, code, value, label, modifier)
       end
       str
     end
 
-    def form_element_check_or_radio(type, id, code, value, label, checked)
+    def form_element_check_or_radio(type, id, code, value, label, modifier)
       # yes, value and id are conflated, because this is the id of the parent widget
+      checked = form_checked?(modifier)
+      classes = form_classes(modifier)
 
       name = (type == 'checkbox') ? "#{code}[]" : code
-      str  =  "<input type='#{type}' name='#{name}' id='#{id}_#{value}' value='#{value}' #{checked} />"
-      str << "<label for='#{id}_#{value}'>#{label}</label>"
+      str  =  "<input type='#{type}' name='#{name}' id='#{id}_#{value}' value='#{value}' class='#{classes}' #{checked} />"
+      str << "<label for='#{id}_#{value}' class='#{classes}'>#{label}</label>"
+    end
+
+    def form_classes(modifier)
+      modifier.downcase!
+      classes = []
+      classes << 'correct' if modifier.include?('=')
+
+      classes.join
+    end
+
+    def form_checked?(modifier)
+      modifier.downcase.include?('x') ? "checked='checked'" : ''
     end
 
     # TODO: deprecated

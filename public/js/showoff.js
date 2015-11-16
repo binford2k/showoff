@@ -534,15 +534,16 @@ function renderForm(form) {
           case 'radio':
           case 'checkbox':
             // Just render these directly and migrate the label to inside the span
-            var value = $(this).attr('value');
-            var label = $(this).next('label');
-            var text  = label.text();
+            var value   = $(this).attr('value');
+            var label   = $(this).next('label');
+            var classes = $(this).attr('class');
+            var text    = label.text();
 
             if(text.match(/^-+$/)) {
               $(this).remove();
             }
             else{
-              $(this).replaceWith('<div class="item barstyle'+style+'" data-value="'+value+'">'+text+'</div>');
+              $(this).replaceWith('<div class="item barstyle'+style+' '+classes+'" data-value="'+value+'">'+text+'</div>');
             }
             label.remove();
             break;
@@ -553,11 +554,12 @@ function renderForm(form) {
             parent = $(this).parent();
 
             $(this).children('option').each(function() {
-              var value = $(this).val();
-              var text  = $(this).text();
+              var value   = $(this).val();
+              var text    = $(this).text();
+              var classes = $(this).attr('class');
 
               if(! text.match(/^-+$/)) {
-                parent.append('<div class="item barstyle'+style+'" data-value="'+value+'">'+text+'</div>');
+                parent.append('<div class="item barstyle'+style+' '+classes+'" data-value="'+value+'">'+text+'</div>');
 
                 // loop style counter
                 style++; style %= max;

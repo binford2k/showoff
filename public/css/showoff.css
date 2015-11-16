@@ -643,6 +643,9 @@ div.rendered.form {
   padding: 0.25em;
   min-height: 3em;
 }
+div.rendered.form.element {
+  padding-left: 0.5em;
+}
 div.rendered.form label {
   display: block;
   font-weight: bold;
@@ -654,14 +657,23 @@ div.rendered.form .item {
 /*   overflow: hidden; */
   height: 1.25em;
   white-space: nowrap;
+  opacity: 0.5;
+  border-radius: 0 0.5em 0.5em 0;
+  margin: 2px 0;
+}
+div.rendered.form .item.correct {
+  font-weight: 900;
+  border-left: 4px solid black;
+  opacity: 1.0;
 }
 div.rendered.form span.count {
   display: none;
 }
+
 div.rendered.form .item.barstyle0 { background-color: #bb73bb; }
 div.rendered.form .item.barstyle1 { background-color: #59b859; }
 div.rendered.form .item.barstyle2 { background-color: #e3742f; }
-div.rendered.form .item.barstyle3 { background-color: #4848e8; }
+div.rendered.form .item.barstyle3 { background-color: #48a2ee; }
 div.rendered.form .item.barstyle4 { background-color: #f75d5d; }
 
 #notes .form.wrapper {

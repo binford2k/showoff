@@ -63,20 +63,22 @@ The right hand side (answer) can be rendered in the following ways:
   marking one as default using an `x`. This accepts the tokenized form for a key
   and a full human readable string. If options are placed on multiple lines
   indented by 3+ spaces, then the output will be rendered as a bullet list.
+  For use as a quiz, you may mark correct answers with an `=`.
 
     smartphone = () iPhone () Android () other -> Any other phone not listed
 
     awake -> Are you paying attention? = (x) No () Yes
 
-    continent =
+    continent -> Which continent is largest? =
         () Africa
         () Americas
-        () Asia
+        (=) Asia
         () Australia
         () Europe
 
 [checkboxes]
   Works exactly like radio boxes, only using square brackets as delineators.
+  Use `x` to mark the default options and `=` to mark correct options.
 
     smartphone = [] iPhone [] Android [x] other -> Any other phone not listed
 
@@ -84,9 +86,10 @@ The right hand side (answer) can be rendered in the following ways:
   Surround options on the right hand side with curly brackets and a combo select
   box will be rendered. If you place the options on multiple lines, you can use
   the long tokenized form. The shorthand single line syntax supports keys only.
-  The default option may be specified by surrounding an option with parentheses.
+  The default option may be specified by surrounding an option with parentheses
+  and the correct option may be indicated with square brackets.
 
-    smartphone = {iPhone, Android, Other }
+    phoneos -> Which phone OS is developed by Google? = {iPhone, [Android], Other }
 
     smartphone = {iPhone, Android, (Other) }
 
