@@ -623,7 +623,8 @@ function renderForm(form) {
 }
 
 function connectControlChannel() {
-  ws           = new WebSocket('ws://' + location.host + '/control');
+  protocol     = (location.protocol === 'https:') ? 'wss://' : 'ws://';
+  ws           = new WebSocket(protocol + location.host + '/control');
   ws.onopen    = function()  { connected();          };
   ws.onclose   = function()  { disconnected();       }
   ws.onmessage = function(m) { parseMessage(m.data); };
