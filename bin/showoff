@@ -117,25 +117,34 @@ default_value "."
 command :serve do |c|
 
   c.desc 'Show verbose messaging'
-  c.switch :verbose
+  c.switch [:v, :verbose]
 
   c.desc 'Enable code review'
-  c.switch :review
+  c.switch [:r, :review]
 
   c.desc 'Enable remote code execution'
-  c.switch [:x,:executecode]
+  c.switch [:x, :executecode]
 
   c.desc 'Port on which to run'
   c.default_value "9090"
-  c.flag [:p,:port]
+  c.flag [:p, :port]
 
   c.desc 'Host or ip to run on'
   c.default_value "0.0.0.0"
-  c.flag [:h,:host]
+  c.flag [:h, :host]
+
+  c.desc 'Run via HTTPS'
+  c.switch [:s, :ssl]
+
+  c.desc 'Path to SSL certificate. Showoff will generate one automatically if unset.'
+  c.flag :ssl_certificate
+
+  c.desc 'Path to SSL private key. Showoff will generate one automatically if unset.'
+  c.flag :ssl_private_key
 
   c.desc 'JSON file used to describe presentation'
   c.default_value "showoff.json"
-  c.flag [:f, :pres_file]
+  c.flag [:f, :file, :pres_file]
 
   c.action do |global_options,options,args|
 
@@ -145,8 +154,15 @@ command :serve do |c|
       raise "This presentation requires Showoff version #{config['version']} or greater."
     end
 
-    host = options[:h] == '0.0.0.0' ? 'localhost' : options[:h]
-    url  = "http://#{host}:#{options[:p].to_i}"
+    options[:host]            ||= config['host']
+    options[:port]            ||= config['port']
+    options[:ssl]             ||= config['ssl']
+    options[:ssl_certificate] ||= config['ssl_certificate']
+    options[:ssl_private_key] ||= config['ssl_private_key']
+
+    protocol = options[:ssl] ? 'https' : 'http'
+    host     = options[:host] == '0.0.0.0' ? 'localhost' : options[:host]
+    url      = "#{protocol}://#{host}:#{options[:p].to_i}"
     puts "
 -------------------------
 
@@ -160,14 +176,27 @@ To run it from presenter view, go to: [ #{url}/presenter ]
 
 "
 
-    ShowOff.run!  :host      => options[:h],
-                  :port      => options[:p].to_i,
-                  :pres_file => options[:f],
+    ShowOff.run!( :host      => options[:host],
+                  :port      => options[:port].to_i,
+                  :pres_file => options[:file],
                   :pres_dir  => args[0],
                   :verbose   => options[:verbose],
                   :review    => options[:review],
-                  :execute   => options[:x],
-                  :bind      => options[:h]
+                  :execute   => options[:executecode],
+                  :bind      => options[:host],
+    ) do |server|
+      if options[:ssl]
+        ssl_options = {
+          :cert_chain_file  => options[:ssl_certificate],
+          :private_key_file => options[:ssl_private_key],
+          :verify_peer      => false,
+        }
+
+        server.ssl = true
+        server.ssl_options = ssl_options
+      end
+    end
+
   end
 end
 
