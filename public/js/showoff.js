@@ -508,7 +508,6 @@ function renderForm(form) {
     //console.log(data);
     form.children('div.form.element').each(function() {
       var key = $(this).attr('data-name');
-      var sum = 0;
 
       // add a counter label if we haven't already
       if( $(this).has('span.count').length == 0 ) {
@@ -587,7 +586,6 @@ function renderForm(form) {
 
           if(key in data) {
             var count = data[key]['responses'][name];
-            if(count) { sum += count; }
 
             total = data[key]['count'];
           }
@@ -598,10 +596,10 @@ function renderForm(form) {
           $(this).text(total);
         });
 
+        var oldTotal = $(this).attr('data-total');
         $(this).find('.item').each(function() {
           var name     = $(this).attr('data-value');
           var oldCount = $(this).attr('data-count');
-          var oldSum   = $(this).attr('data-sum');
 
           if(key in data) {
             var count = data[key]['responses'][name] || 0;
@@ -610,14 +608,16 @@ function renderForm(form) {
             var count = 0;
           }
 
-          if(count != oldCount || sum != oldSum) {
-            var percent = (sum) ? ((count/sum)*100)+'%' : '0%';
+          if(count != oldCount || total != oldTotal) {
+            var percent = (total) ? ((count/total)*100)+'%' : '0%';
 
             $(this).attr('data-count', count);
-            $(this).attr('data-sum', sum);
             $(this).animate({width: percent});
           }
         });
+
+        // record the old total value so we only animate when it changes
+        $(this).attr('data-total', total);
       }
 
       $(this).addClass('rendered');
