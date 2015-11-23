@@ -644,6 +644,7 @@ div.rendered.form {
   min-height: 3em;
 }
 div.rendered.form.element {
+  position: relative; /* for absolutely positioning children */
   padding-left: 0.5em;
 }
 div.rendered.form label {
