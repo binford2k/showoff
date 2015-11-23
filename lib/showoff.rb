@@ -13,7 +13,7 @@ require "#{here}/commandline_parser"
 require "#{here}/keymap"
 
 begin
-  require 'RMagick'
+  require 'rmagick'
 rescue LoadError
   # nop
 end
