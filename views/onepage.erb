@@ -11,7 +11,7 @@
 
   <% if @inline %>
 
-    <%= inline_css(['reset.css', 'showoff.css', 'theme/ui.all.css', 'onepage.css', "highlight/#{@highlightStyle}.css"], 'public/css') %>
+    <%= inline_css(['showoff.css', 'theme/ui.all.css', 'onepage.css', "highlight/#{@highlightStyle}.css"], 'public/css') %>
     <%= inline_css(css_files) %>
 
     <!--[if lte IE 8]>
@@ -23,7 +23,7 @@
     <%= inline_js(js_files) %>
 
   <% else %>
-    <% ['reset.css', 'showoff.css', 'theme/ui.all.css', 'onepage.css', "highlight/#{@highlightStyle}.css"].each do |css_file| %>
+    <% ['showoff.css', 'theme/ui.all.css', 'onepage.css', "highlight/#{@highlightStyle}.css"].each do |css_file| %>
       <link rel="stylesheet" href="<%= @asset_path %>/css/<%= css_file %>" type="text/css"/>
     <% end %>
 
