@@ -508,7 +508,6 @@ function renderForm(form) {
     //console.log(data);
     form.children('div.form.element').each(function() {
       var key = $(this).attr('data-name');
-      var sum = 0;
 
       // add a counter label if we haven't already
       if( $(this).has('span.count').length == 0 ) {
@@ -587,7 +586,6 @@ function renderForm(form) {
 
           if(key in data) {
             var count = data[key]['responses'][name];
-            if(count) { sum += count; }
 
             total = data[key]['count'];
           }
