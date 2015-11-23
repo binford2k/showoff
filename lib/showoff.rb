@@ -140,6 +140,7 @@ class ShowOff < Sinatra::Application
     @@downloads = Hash.new # Track downloadable files
     @@cookie    = nil      # presenter cookie. Identifies the presenter for control messages
     @@current   = Hash.new # The current slide that the presenter is viewing
+    @@cache     = nil      # Cache slide content for subsequent hits
 
     # flush stats to disk periodically
     Thread.new do
@@ -954,7 +955,13 @@ class ShowOff < Sinatra::Application
     end
 
     def slides(static=false)
-      get_slides_html(:static=>static)
+      # if we have a cache and we're not asking to invalidate it
+      return @@cache if (@@cache and params['cache'] != 'clear')
+      content = get_slides_html(:static=>static)
+
+      # allow command line cache disabling
+      @@cache = content unless settings.nocache
+      content
     end
 
     def onepage(static=false)
