@@ -125,6 +125,9 @@ command :serve do |c|
   c.desc 'Enable remote code execution'
   c.switch [:x, :executecode]
 
+  c.desc 'Disable content caching'
+  c.switch :nocache
+
   c.desc 'Port on which to run'
   c.default_value "9090"
   c.flag [:p, :port]
@@ -183,6 +186,7 @@ To run it from presenter view, go to: [ #{url}/presenter ]
                   :verbose   => options[:verbose],
                   :review    => options[:review],
                   :execute   => options[:executecode],
+                  :nocache   => options[:nocache],
                   :bind      => options[:host],
     ) do |server|
       if options[:ssl]

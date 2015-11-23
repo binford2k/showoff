@@ -102,10 +102,14 @@ function setupPreso(load_slides, prefix) {
 */
 }
 
-function loadSlides(load_slides, prefix) {
+function loadSlides(load_slides, prefix, reload) {
+  var url = loadSlidesPrefix + "slides";
+  if (reload) {
+    url += "?cache=clear";
+  }
 	//load slides offscreen, wait for images and then initialize
 	if (load_slides) {
-		$("#slides").load(loadSlidesPrefix + "slides", false, function(){
+		$("#slides").load(url, false, function(){
 			$("#slides img").batchImageLoad({
 			loadingCompleteCallback: initializePresentation(prefix)
 		})
@@ -927,7 +931,7 @@ function toggleDebug () {
 
 function reloadSlides () {
   if (confirm('Are you sure you want to reload the slides?')) {
-    loadSlides(loadSlidesBool, loadSlidesPrefix);
+    loadSlides(loadSlidesBool, loadSlidesPrefix, true);
     showSlide();
   }
 }
