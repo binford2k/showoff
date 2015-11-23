@@ -1,3 +1,17 @@
+0.11.0
+  * The presenter now gets a visual indication of how many responses each
+    form question has received.
+  * Form bar graphs are now scaled in a more sensible fashion.
+  * Forms can now indicate correct responses.
+  * Server can now run using SSL, either providing certificates or
+    autogenerating self-signed certificates.
+  * Record user-agent in stats to help identify browser support for
+    future content updates.
+  * Faster content loading for audience members.
+  * Add full documentation of the `showoff.json` settings in one place.
+  * Bugfix: internal links in notes no longer open in new tabs.
+
+
 0.10.2
   * Corrected again print styling regression.
 
