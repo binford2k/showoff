@@ -468,20 +468,6 @@ img#disconnected {
   width: 85%;
 }
 
-#feedbackSidebar #disclaimer {
-  position: absolute;
-  bottom: 25px;
-  width: 100%;
-  text-align: center;
-}
-
-#feedbackSidebar div.row.tools {
-  position: absolute;
-  bottom: 30px;
-  width: 100%;
-  text-align: center;
-}
-
 #feedbackSidebar div.row > button {
   width: 90%;
   margin: auto 5%;
