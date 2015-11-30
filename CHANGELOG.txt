@@ -1,3 +1,6 @@
+0.11.1
+  * Fix style regression making it difficult to open the download page
+
 0.11.0
   * The presenter now gets a visual indication of how many responses each
     form question has received.
