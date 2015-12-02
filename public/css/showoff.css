@@ -606,7 +606,9 @@ code.executing:hover {
   background-color: #ff7373;
 }
 .content form div.tools {
-  font-size: 2em;
+  position: absolute;
+  bottom: 40px;
+  right: 20px;
 }
 .content form div.tools * {
   float: right;
@@ -614,6 +616,7 @@ code.executing:hover {
 .content form div.tools input[type=submit],
 .content form div.tools input[type=button] {
   margin: 1em;
+  font-size: 2em;  
 }
 .content form div.tools input[type=submit].dirty {
   color: red;
