@@ -1,3 +1,7 @@
+0.11.2
+  * Fix some small styling issues.
+  * Drop IE8 support as it has passed EOL.
+
 0.11.1
   * Fix style regression making it difficult to open the download page
 
