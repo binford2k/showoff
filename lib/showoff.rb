@@ -322,6 +322,8 @@ class ShowOff < Sinatra::Application
         content_classes.delete_if { |x| x =~ /^#([\w-]+)/ && id = $1 }
         id = name.dup unless id
         id.gsub!(/[^-A-Za-z0-9_]/, '_') # valid HTML id characters
+        id << seq.to_s if seq
+
         @logger.debug "id: #{id}" if id
         @logger.debug "classes: #{content_classes.inspect}"
         @logger.debug "transition: #{transition}"
