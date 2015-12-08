@@ -221,10 +221,6 @@ function buildOptions($cont, $slides, els, options, o) {
 
 	saveOriginalOpts(opts);
 
-	// clearType corrections
-	if (!$.support.opacity && opts.cleartype && !opts.cleartypeNoBg)
-		clearTypeFix($slides);
-
 	// container requires non-static position so that slides can be position within
 	if ($cont.css('position') == 'static')
 		$cont.css('position', 'relative');
@@ -461,9 +457,6 @@ function exposeAddSlide(opts, els) {
 			opts.currSlide++;
 			opts.nextSlide++;
 		}
-
-		if (!$.support.opacity && opts.cleartype && !opts.cleartypeNoBg)
-			clearTypeFix($s);
 
 		if (opts.fit && opts.width)
 			$s.width(opts.width);
@@ -734,28 +727,6 @@ $.fn.cycle.hopsFromLast = function(opts, fwd) {
 	else
 		hops = c < l ? l - c : l + opts.slideCount - c;
 	return hops;
-};
-
-// fix clearType problems in ie6 by setting an explicit bg color
-// (otherwise text slides look horrible during a fade transition)
-function clearTypeFix($slides) {
-	function hex(s) {
-		s = parseInt(s).toString(16);
-		return s.length < 2 ? '0'+s : s;
-	};
-	function getBg(e) {
-		for ( ; e && e.nodeName.toLowerCase() != 'html'; e = e.parentNode) {
-			var v = $.css(e,'background-color');
-			if (v.indexOf('rgb') >= 0 ) {
-				var rgb = v.match(/\d+/g);
-				return '#'+ hex(rgb[0]) + hex(rgb[1]) + hex(rgb[2]);
-			}
-			if (v && v != 'transparent')
-				return v;
-		}
-		return '#ffffff';
-	};
-	$slides.each(function() { $(this).css('background-color', getBg(this)); });
 };
 
 // reset common props before the next transition
