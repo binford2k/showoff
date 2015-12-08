@@ -5,7 +5,6 @@
   }
 
   body {
-      font-size: 100%;
       font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
       background:#333;
       overflow:hidden;
@@ -13,17 +12,9 @@
       padding:0;
   }
 
-  /* UI elements */
-  #topbar,
-  #sidebar,
-  #statusbar,
-  #bottom,
-  #feedbackSidebar {
-    font-family: 'Open Sans', 'Lucida Grande', helvetica, arial, sans-serif;
-    font-size: 0.55em;
-  }
 
-  #preso, .slide {
+  #preso,
+  .slide {
       background: #fff;
       width: 1024px;
       height: 768px;
@@ -38,6 +29,10 @@
       background-size: cover;
   }
 
+  .slide {
+    font-size: 1.8em;
+  }
+
   #preso, .slide.background-fit {
       background-size: contain;
   }
@@ -49,7 +44,6 @@
       width: 1005px;
       height: 20px;
       line-height:20px;
-      font-size:14px;
       position:relative;
       top:-24px;
       margin:0 auto;
@@ -75,7 +69,6 @@
       display: none;
       margin: auto;
       color: white;
-      font-size: 2em;
       padding: 1em;
       z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
       text-align: center;
@@ -103,18 +96,12 @@
 /* plain (non-bullet) text */
 .content > p,
 .content > form > p {
-    font-size: 2em;
     margin: 1em;
     text-align: center;
 }
 
-.content > pre,
-.content > form > pre {
-    font-size: 300%;
-}
 .content > blockquote,
 .content > form > blockquote {
-    font-size: 250%;
     margin: 2em;
 }
 
@@ -127,7 +114,6 @@
 /* numbered lists are numbered */
 .content ol {
     margin-left: 40px;
-    font-size: 3em;
     text-align: left;
     padding-left: 40px;
 }
@@ -141,7 +127,6 @@
 .content > ul,
 .content > form > ul {
     list-style: disc;
-    font-size: 3em;
     text-align: left;
     padding-left: 40px;
 }
@@ -154,16 +139,13 @@
 /* ironically, normal lists have bullets and 'bullets' lists don't */
 .bullets > ul {
     list-style: none;
-	font-size: 3em;
 	padding-left: 0px;
 }
 .bullets > ul > li {
     text-align: center;
     padding: 25px;
 }
-.smbullets > ul {
-    font-size: 2.5em;
-}
+
 .smbullets > ul > li {
     text-align: center;
     padding: 10px;
@@ -184,10 +166,6 @@
   visibility: hidden;
 }
 
-.commandline pre {
-    font-size: 2em;
-}
-
 .commandline code.command {
     color: #000;
 }
@@ -198,13 +176,10 @@
 
 .command h1 {
     white-space: pre;
-    font-family: monospace;
-    font-size: 3em;
 }
 
 .code {
     white-space: pre;
-    font-family: monospace;
 }
 
 .subsection h1 {
@@ -213,18 +188,7 @@
     padding: .25em;
 }
 
-.small {
-    font-size: 80%;
-}
-
-.smaller {
-    font-size: 70%;
-}
-
-h1,h2,h3 { font-weight: normal; text-align: center; margin: 0.5em 0; }
-h1 { font-size: 5em; }
-h2 { font-size: 3em; }
-h3 { font-size: 2em; }
+h1,h2,h3 { text-align: center; margin: 0.5em 0; }
 
 /* make this invisible as possible, while still rendering so that wkhtmltopdf doesn't ignore it */
 .content h1.section_title {
@@ -290,7 +254,6 @@ img#disconnected {
   }
 
     #help h1 {
-      font-size: 1.25em;
       border-bottom: 2px solid #ccc;
     }
 
@@ -311,7 +274,6 @@ img#disconnected {
 
     #help .action {
       width: 15%;
-      font-size: 0.75em;
       color: gray;
     }
 
@@ -337,14 +299,12 @@ img#disconnected {
   width: 50%;
   border-radius: 0 0 .5em .5em;
   border-bottom: 8px solid #222222;
-  font-size: .65em;
   background-color: #222222;
   overflow: auto;
 }
 
   #presenterPopup h1,
   #presenterPopup h3 {
-   font-size: 2em;
    color: #ffffff;
   }
 
@@ -356,7 +316,6 @@ img#disconnected {
   #presenterPopup ul#downloads {
     margin-left: 0;
     list-style-type: none;
-    font-size: 1.25em;
   }
 
 /**********************************
@@ -368,22 +327,18 @@ img#disconnected {
     margin-right: auto;
     border-collapse:collapse;
     width: 80%;
-    font-size: 1.7em;
 }
 
 .content.small table {
-    font-size: 1.6em;
     width: 90%;
 }
 .content.smaller table {
-    font-size: 1.5em;
     width: 95%;
 }
 
 .content table th {
     border-bottom: 2px solid #ccc;
     padding: 0.5em;
-    font-weight: bold;
 }
 
 .content table tr td {
@@ -418,6 +373,7 @@ img#disconnected {
 #feedbackSidebar {
   height: 100%;
   width: 200px;
+  font-size: .75em;
   background: transparent url(grippy-close.png) no-repeat right center;
   display: none;
 }
@@ -475,7 +431,6 @@ img#disconnected {
 
 .fg-menu-container {
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
-  font-size: 0.8em;
 }
 
 .fg-button { clear:left; margin:0 4px 40px 20px; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
@@ -491,21 +446,18 @@ a.fg-button { float:left; }
   top: 10px;
   left: 10px;
   width: 50px;
-  font-size: 0.8em;
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
 }
 
 .results {
   background-color:#002200;
   color:#00AA00;
-  font-size:2em;
   border:2px solid black;
   position: fixed;
   top:0px;
   width:100%;
   padding:15px;
   margin:0px;
-  font-family: monospace;
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
 }
 
@@ -547,7 +499,6 @@ code.executing:hover {
   display:inline;
   background-color:#000;
   color:#fff;
-  font-size:3em;
   border:2px solid black;
   position: fixed;
   padding:25px;
@@ -585,9 +536,7 @@ code.executing:hover {
 .content div.form.element label {
   margin-right: 0.5em;
 }
-.content div.form.element select {
-  font-size: 2em;
-}
+
 .content div.form.element textarea {
   display: block;
   width: 85%;
@@ -598,10 +547,7 @@ code.executing:hover {
 .content div.form.element ul > li {
   margin-left: 40px;
 }
-/* TODO: not sure why the preview window honks things up */
-#preview .content div.form.element select {
-  font-size: 0.8em;
-}
+
 .content div.form.element.warning {
   background-color: #ff7373;
 }
@@ -616,7 +562,6 @@ code.executing:hover {
 .content form div.tools input[type=submit],
 .content form div.tools input[type=button] {
   margin: 1em;
-  font-size: 2em;
 }
 .content form div.tools input[type=submit].dirty {
   color: red;
@@ -638,7 +583,6 @@ div.rendered.form.element {
 }
 div.rendered.form label {
   display: block;
-  font-weight: bold;
   border-bottom: 1px solid #999;
 }
 div.rendered.form .item {
@@ -652,7 +596,6 @@ div.rendered.form .item {
   margin: 2px 0;
 }
 div.rendered.form .item.correct {
-  font-weight: 900;
   border-left: 4px solid black;
   opacity: 1.0;
 }
@@ -680,29 +623,16 @@ div.rendered.form .item.barstyle4 { background-color: #f75d5d; }
   width: 8.1in;
 }
 
-.supplemental h1 { font-family: 'Arvo'; text-align: left; }
+.supplemental h1,
 .supplemental h2,
     .supplemental h3,
     .supplemental h4,
     .supplemental h5,
-    .supplemental h6 { font-family: 'PT Sans'; text-align: left; }
-
-.supplemental h1 { font-size: 2em; }
-.supplemental h2 { font-size: 1.5em; }
-.supplemental h3,
-    .supplemental h4,
-    .supplemental h5,
-    .supplemental h6 { font-size: 1.3em; text-align: left; }
-
-.supplemental .content > p,
-    .supplemental .content > ol,
-    .supplemental .content > ul { font-size: 1em; }
+    .supplemental h6 { text-align: left; }
 
 .supplemental img { max-width: 7in; }
-.supplemental .content > pre,
-  .supplemental .content > pre > code { font-size: 10pt; font-family: 'Courier New', Courier, monospace; }
+
 .supplemental ul { list-style: disc; margin-left: 1.25em !important; padding-left: inherit !important; }
-.supplemental .content table { font-size: 0.65em; } /* Ugly hack for tables, which never seem to scale properly. Ick */
 
 /* downloads page */
 /* we want scrolls! */
@@ -710,12 +640,9 @@ body#download {
   overflow:auto;
   height: auto;
 }
-body#download h1 {
-  font-size: 3em;
-}
+
 body#download ul#downloads {
     margin-left:  20%;
-    font-size: large;
     list-style-type: disc;
 }
 body#download ul#downloads li {
@@ -862,15 +789,10 @@ body#stats {
 
 /** Print **/
 @media print {
-  body {
-    font-size: 70%;
-  }
-
   #sidebarWrapper,
   #sidebar,
   #sidebarHandle {
     display:none,
-
   }
 
   #preso, .slide {
@@ -907,10 +829,6 @@ body#stats {
       height: 20  px;
       margin-left:auto;
       margin-right:auto;
-  }
-
-  pre, code {
-    font-family: Monaco, monospace;
   }
 
   /* page break styling */

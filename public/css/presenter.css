@@ -15,9 +15,17 @@ div.zoomed {
   -moz-transform-origin: 0 0;
 }
 
+#sidebar,
+#statusbar,
+#questions,
+#notes {
+  font-size: .8em;
+}
+
 #topbar {
   min-height: 24px;
   background: #222222;
+  font-size: .55em;
   vertical-align: middle;
   text-align: right;
   color: #fff;
@@ -116,7 +124,6 @@ div.zoomed {
 
     #timerSection #timerInfo {
       margin-left: 25px;
-      font-weight: bold;
     }
 
     #timerSection input[type='button'] {
@@ -136,8 +143,6 @@ div.zoomed {
     }
     #sidebar #feedbackPace #paceFast,
     #sidebar #feedbackPace #paceSlow {
-      font-size: 1.5em;
-      font-weight: bold;
       display: none;
     }
     #sidebar #feedbackPace #paceFast {
@@ -173,7 +178,6 @@ div.zoomed {
               flex: 1;
       overflow:auto;
       background-color: #fff;
-      font-family: helvetica;
     }
 
     .menu ul {
@@ -204,13 +208,10 @@ div.zoomed {
     }
     .menu > ul > li > ul {
       padding-left: 20px;
-      font-size: 120%;
-      font-weight: 100;
     }
     .menu > ul > li > a {
       padding: 10px;
       background: #eee;
-      font-size: 140%;
     }
 
   #presenter {
@@ -301,13 +302,10 @@ div.zoomed {
             order: 0;
     min-width: 210px;
     border-right: 1px solid #ccc;
-    font-size: 1.2em;
     overflow: auto;
     height: 100%;
   }
-  #questions h3 {
-    font-size: 1.25em;
-  }
+
   #questions ul {
     margin-left: 1.5em;
     margin-right: 0.25em;
@@ -328,11 +326,8 @@ div.zoomed {
             flex: 4;
     -webkit-order: 1;
             order: 1;
-    font-size: 1.5em;
     overflow: auto;
     height: 100%;
-    font-family: helvetica;
-    font-weight: 100;
   }
   #notes p,
   #notes h1,
@@ -366,7 +361,6 @@ div.zoomed {
     top: 3px;
     right: 4px;
     z-index: 10;
-    font-size: 2.5em;
     background-color: #ddd;
     border: 1px solid #333;
     border-radius: 0 0.15em 0 0;
@@ -385,8 +379,6 @@ div.zoomed {
   }
 
   #bottom #notes div.personal h1 {
-    font-size: 1em;
-    font-weight: bold;
     margin-top: 0;
     border-bottom: 1px solid #ccc;
   }
