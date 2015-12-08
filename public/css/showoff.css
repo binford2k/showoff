@@ -180,7 +180,7 @@
 
 .bullets ul ul > li { font-size: 80%; }
 
-.content ul li.incremental.hidden {
+.content .incremental.hidden {
   visibility: hidden;
 }
 
@@ -616,7 +616,7 @@ code.executing:hover {
 .content form div.tools input[type=submit],
 .content form div.tools input[type=button] {
   margin: 1em;
-  font-size: 2em;  
+  font-size: 2em;
 }
 .content form div.tools input[type=submit].dirty {
   color: red;
