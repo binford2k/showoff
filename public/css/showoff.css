@@ -38,23 +38,14 @@
   }
 
   #footer {
-      background: rgba(221,221,221,0.75);
-      color:#333;
-      padding: 2px 5px;
-      width: 1005px;
-      height: 20px;
-      line-height:20px;
-      position:relative;
-      top:-24px;
-      margin:0 auto;
-      -webkit-border-top-left-radius: 3px;
-      -webkit-border-top-right-radius: 3px;
-      -moz-border-radius-topleft: 3px;
-      -moz-border-radius-topright: 3px;
-      border-top-left-radius: 3px;
-      border-top-right-radius: 3px;
-      z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
-      display: none;
+    background: rgba(221,221,221,0.75);
+    color:#333;
+    padding: 4px 8px;
+    width: 100%;
+    position:fixed;
+    bottom: 0;
+    z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
+    display: none;
   }
   #followMode {
     display: none;
@@ -209,17 +200,17 @@ pre { margin: 1em 40px; padding: .25em; }
 .notes, .handouts, .instructor, .solguide { display: none }
 .buttonNav { display: none }
 .offscreen { position:absolute; top:0; left:-9999px; overflow:hidden; }
-#debugInfo { margin-left: 30px; }
-#notesInfo { margin-left: 30px; display: none }
+
+#debugInfo,
 #slideFilename {
-  position: absolute;
-  right: 5px;
-  bottom: 0px;
-  height: 23px;
-  padding-left: 10px;
-  background: #ccc;
-  z-index: 2147483647;
+  margin-left: 30px;
 }
+
+#notesInfo {
+  margin-left: 30px;
+  display: none;
+}
+
 img#disconnected {
   float: right;
   display: none;
