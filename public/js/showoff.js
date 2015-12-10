@@ -522,8 +522,6 @@ function renderForm(form) {
       });
 
       // replace all input widgets with spans for the bar chart
-      var max   = 5;
-      var style = 0;
       $(this).children(':input').each(function() {
         switch( $(this).attr('type') ) {
           case 'text':
@@ -537,16 +535,21 @@ function renderForm(form) {
           case 'radio':
           case 'checkbox':
             // Just render these directly and migrate the label to inside the span
-            var value   = $(this).attr('value');
             var label   = $(this).next('label');
-            var classes = $(this).attr('class');
             var text    = label.text();
+            var classes = $(this).attr('class');
 
             if(text.match(/^-+$/)) {
               $(this).remove();
-            }
-            else{
-              $(this).replaceWith('<div class="item barstyle'+style+' '+classes+'" data-value="'+value+'">'+text+'</div>');
+            } else {
+              var resultDiv = $('<div>')
+                .addClass('item barstyle')
+                .attr('data-value', $(this).attr('value'))
+                .text(text);
+              if (classes) {
+                resultDiv.addClass(classes);
+              }
+              $(this).replaceWith(resultDiv);
             }
             label.remove();
             break;
@@ -557,23 +560,23 @@ function renderForm(form) {
             parent = $(this).parent();
 
             $(this).children('option').each(function() {
-              var value   = $(this).val();
               var text    = $(this).text();
               var classes = $(this).attr('class');
 
               if(! text.match(/^-+$/)) {
-                parent.append('<div class="item barstyle'+style+' '+classes+'" data-value="'+value+'">'+text+'</div>');
-
-                // loop style counter
-                style++; style %= max;
+                var resultDiv = $('<div>')
+                  .addClass('item barstyle')
+                  .attr('data-value', $(this).val())
+                  .text(text);
+                if (classes) {
+                  resultDiv.addClass(classes);
+                }
+                parent.append(resultDiv);
               }
             });
             $(this).remove();
             break;
         }
-
-        // loop style counter
-        style++; style %= max;
       });
 
       // only start counting and sizing bars if we actually have usable data
