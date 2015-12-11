@@ -74,8 +74,7 @@ div.zoomed {
     display: inline-block;
   }
 
-#presenterPopup #stats,
-#presenterPopup #download {
+#presenterPopup {
   font-size: 0.5em;
 }
 
