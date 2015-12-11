@@ -74,6 +74,11 @@ div.zoomed {
     display: inline-block;
   }
 
+#presenterPopup #stats,
+#presenterPopup #download {
+  font-size: 0.5em;
+}
+
 #center {
   display: -webkit-flex;
   display:         flex;
