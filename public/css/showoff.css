@@ -520,85 +520,75 @@ code.executing:hover {
 /**********************************
  ***       form widgets         ***
  **********************************/
-.content div.form.element {
-    text-align: left;
-    padding-left: 40px;
+.element {
+  padding-left: 40px;
 }
-.content div.form.element label {
+.element label {
   margin-right: 0.5em;
 }
 
-.content div.form.element textarea {
+.element textarea {
   display: block;
   width: 85%;
 }
-.content div.form.element ul {
-  list-style: disc;
-}
-.content div.form.element ul > li {
+
+.element ul {
   margin-left: 40px;
 }
 
-.content div.form.element.warning {
+.warning {
   background-color: #ff7373;
 }
-.content form div.tools {
+.tools {
   position: absolute;
   bottom: 40px;
   right: 20px;
 }
-.content form div.tools * {
-  float: right;
-}
-.content form div.tools input[type=submit],
-.content form div.tools input[type=button] {
+
+.tools input[type=submit],
+.tools input[type=button] {
   margin: 1em;
 }
-.content form div.tools input[type=submit].dirty {
+.tools input[type=submit].dirty {
   color: red;
 }
-.content form div.tools input[type=button].display {
+.tools input[type=button].display {
   display: none;
 }
 
-div.rendered.form {
+.rendered {
   border: 1px solid #ccc;
   border-radius: 0.5em;
   margin: 1em;
-  padding: 0.25em;
+  padding: 0.25em 0.25em 0.25em .5em;
   min-height: 3em;
 }
-div.rendered.form.element {
-  position: relative; /* for absolutely positioning children */
-  padding-left: 0.5em;
-}
-div.rendered.form label {
-  display: block;
+
+.rendered label {
   border-bottom: 1px solid #999;
 }
-div.rendered.form .item {
+.rendered .item {
   display: block;
   width: 0;
-/*   overflow: hidden; */
   height: 1.25em;
   white-space: nowrap;
   opacity: 0.5;
   border-radius: 0 0.5em 0.5em 0;
   margin: 2px 0;
 }
-div.rendered.form .item.correct {
+.rendered .item.correct {
   border-left: 4px solid black;
   opacity: 1.0;
 }
-div.rendered.form span.count {
+.rendered .count {
   display: none;
 }
 
-div.rendered.form .item.barstyle0 { background-color: #bb73bb; }
-div.rendered.form .item.barstyle1 { background-color: #59b859; }
-div.rendered.form .item.barstyle2 { background-color: #e3742f; }
-div.rendered.form .item.barstyle3 { background-color: #48a2ee; }
-div.rendered.form .item.barstyle4 { background-color: #f75d5d; }
+.barstyle:nth-child(5n + 0) { background-color: #bb73bb; }
+.barstyle:nth-child(5n + 1) { background-color: #59b859; }
+.barstyle:nth-child(5n + 2) { background-color: #e3742f; }
+.barstyle:nth-child(5n + 3) { background-color: #48a2ee; }
+.barstyle:nth-child(5n + 4) { background-color: #f75d5d; }
 
 #notes .form.wrapper {
   display: none;
