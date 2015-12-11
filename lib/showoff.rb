@@ -502,9 +502,11 @@ class ShowOff < Sinatra::Application
       content
     end
 
-    # find any lines that start with a <p>.(something) and turn them into <p class="something">
-    def update_p_classes(markdown)
-      markdown.gsub(/<p>\.(.*?) /, '<p class="\1">')
+    # Find any lines that start with a <p>.(something), remove the ones tagged with
+    # .break and .comment, then turn the remainder into <p class="something">
+    def update_p_classes(content)
+      content.gsub!(/<p>\.(?:break|comment).*<\/p>/, '')
+      content.gsub(/<p>\.(.*?) /, '<p class="\1">')
     end
 
     # replace custom markup with html forms
