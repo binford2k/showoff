@@ -511,7 +511,7 @@ function renderForm(form) {
 
       // add a counter label if we haven't already
       if( $(this).next('.count').length === 0 ) {
-        $(this).after($('<h2>').addClass('count'));
+        $(this).after($('<h1>').addClass('count'));
       }
 
       $(this).find('ul > li > *').each(function() {
