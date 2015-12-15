@@ -595,7 +595,7 @@ function renderForm(form) {
         });
 
         // insert the total into the counter label
-        $(this).parent().find('.count').each(function() {
+        $(this).next('.count').each(function() {
           $(this).text(total);
         });
 
