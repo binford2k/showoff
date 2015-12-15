@@ -341,12 +341,16 @@ div.zoomed {
     list-style-type: disc;
   }
 
+  #notes .element {
+    display: inline-block;
+    width: 90%;
+  }
+
   #notes .count {
-    display: inline;
-    padding: 0 2px;
-    background-color: #ddd;
-    border: 1px solid #333;
-    border-radius: 0 0.15em 0 0;
+    display: inline-block;
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 2px;
   }
 
   #bottom #notes div.personal {
