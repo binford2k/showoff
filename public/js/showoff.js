@@ -506,12 +506,12 @@ function renderForm(form) {
   var action = form.attr("action");
   $.getJSON(action, function( data ) {
     //console.log(data);
-    form.children('div.form.element').each(function() {
+    form.children('.element').each(function() {
       var key = $(this).attr('data-name');
 
       // add a counter label if we haven't already
-      if( $(this).has('span.count').length == 0 ) {
-        $(this).prepend('<span class="count"></span>');
+      if( $(this).next('.count').length === 0 ) {
+        $(this).after($('<h1>').addClass('count'));
       }
 
       $(this).find('ul > li > *').each(function() {
@@ -557,7 +557,7 @@ function renderForm(form) {
           default:
             // select doesn't have a type attribute... yay html
             // poke inside to get options, then render each as a span and replace the select
-            parent = $(this).parent();
+            var parent = $(this).parent();
 
             $(this).children('option').each(function() {
               var text    = $(this).text();
@@ -595,7 +595,7 @@ function renderForm(form) {
         });
 
         // insert the total into the counter label
-        $(this).find('span.count').each(function() {
+        $(this).next('.count').each(function() {
           $(this).text(total);
         });
 

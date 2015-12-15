@@ -524,7 +524,7 @@ code.executing:hover {
   padding-left: 40px;
 }
 .element label {
-  margin-right: 0.5em;
+  margin-left: 0.5em;
 }
 
 .element textarea {
@@ -580,7 +580,7 @@ code.executing:hover {
   border-left: 4px solid black;
   opacity: 1.0;
 }
-.rendered .count {
+.count {
   display: none;
 }
 
