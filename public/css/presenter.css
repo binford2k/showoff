@@ -348,9 +348,12 @@ div.zoomed {
 
   #notes .count {
     display: inline-block;
-    background-color: #e74c3c;
-    color: #fff;
-    padding: 2px;
+    background-color: #27ae60;
+    color: #ffffff;
+    padding: 0 8px;
+    font-size: 2.5em;
+    vertical-align: top;
+    border-radius: .2em;
   }
 
   #bottom #notes div.personal {
