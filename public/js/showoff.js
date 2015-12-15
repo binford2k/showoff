@@ -94,12 +94,6 @@ function setupPreso(load_slides, prefix) {
   if(mode.track) {
     connectControlChannel();
   }
-/*
-  ws           = new WebSocket('ws://' + location.host + '/control');
-  ws.onopen    = function()  { connected();          };
-  ws.onclose   = function()  { disconnected();       }
-  ws.onmessage = function(m) { parseMessage(m.data); };
-*/
 }
 
 function loadSlides(load_slides, prefix, reload) {
@@ -1274,16 +1268,5 @@ function setupStats()
 
 /* Is this a mobile device? */
 function mobile() {
-/*
-  return ( navigator.userAgent.match(/Android/i)
-            || navigator.userAgent.match(/webOS/i)
-            || navigator.userAgent.match(/iPhone/i)
-            || navigator.userAgent.match(/iPad/i)
-            || navigator.userAgent.match(/iPod/i)
-            || navigator.userAgent.match(/BlackBerry/i)
-            || navigator.userAgent.match(/Windows Phone/i)
-  );
-*/
-
   return ( $(window).width() <= 480 )
 }
