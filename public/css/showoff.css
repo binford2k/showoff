@@ -38,8 +38,10 @@
   }
 
   #footer {
-    background: rgba(221,221,221,0.75);
-    color:#333;
+    background-color: #f2f2f2;
+    -webkit-box-shadow:0 0 25px rgba(0,0,0,0.35);
+    -moz-box-shadow:0 0 25px rgba(0,0,0,0.35);
+    box-shadow:0 0 25px rgba(0,0,0,0.35);
     padding: 4px 8px;
     width: 100%;
     position:fixed;

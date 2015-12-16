@@ -74,14 +74,15 @@
 </div>
 
 <div id="preso"><center>loading presentation...</center></div>
-<div id="footer">
+
+<footer id="footer">
   <span id="followMode"></span>
   <span id="slideInfo"></span>
   <span id="debugInfo"></span>
   <span id="notesInfo"></span>
   <span id="slideFilename"></span>
   <img id="disconnected" src="<%= @asset_path %>/css/disconnected.png" />
-</div>
+</footer>
 
 <div id="slides" class="offscreen" <%= 'style="display:none;"' if @slides %>>
 <%= @slides %>
