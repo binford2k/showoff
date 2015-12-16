@@ -200,7 +200,7 @@ pre { margin: 1em 40px; padding: .25em; }
 }
 
 .notes, .handouts, .instructor, .solguide { display: none }
-.buttonNav { display: none }
+
 .offscreen { position:absolute; top:0; left:-9999px; overflow:hidden; }
 
 #debugInfo,
