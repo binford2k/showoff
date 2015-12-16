@@ -72,7 +72,7 @@ class ShowOff < Sinatra::Application
     @root_path = "."
 
     # Load up the default keymap, then merge in any customizations
-    keymapfile   = File.expand_path(File.join('~', '.showoff', 'keymap.json'))
+    keymapfile   = File.expand_path(File.join('~', '.showoff', 'keymap.json')) rescue nil
     @keymap      = Keymap.default
     @keymap.merge! JSON.parse(File.read(keymapfile)) rescue {}
 
