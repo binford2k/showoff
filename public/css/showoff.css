@@ -351,74 +351,87 @@ img#disconnected {
 /**********************************
  ***      Sidebar styling       ***
  **********************************/
-
-#feedbackWrapper {
-  float: left;
-  height: 100%;
+#hamburger {
   position: fixed;
-  background-color: #dfdfdf;
-  opacity: 0.98;
-  z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
+  padding: 4px 8px;
+  opacity: .2;
+  border-radius: .1em;
+  transition: all .2s;
+  z-index: 2147483647;
+  float: left;
 }
 
-#feedbackSidebar {
-  height: 100%;
-  width: 200px;
-  font-size: .75em;
-  background: transparent url(grippy-close.png) no-repeat right center;
+#hamburger:hover {
+  opacity: 1;
+  background-color: #1abc9c;
+  color: #ffffff;
+}
+
+#feedbackSidebar,
+.submenu {
   display: none;
 }
 
-#feedbackSidebar img#feedbackActivity {
+.sideMenu {
   position: absolute;
-  right: 3px;
-  top: 3px;
-  display: none;
-}
-
-#feedbackHandle {
   height: 100%;
-  width: 9px;
-  background: transparent url(grippy.png) no-repeat center;
+  width: 240px;
+  padding-top: 24px;
+  background-color: #f2f2f2;
+  box-shadow:0 0 25px rgba(0,0,0,0.35);
+  overflow: auto;
+  z-index: 2147483647;
 }
 
-#feedbackSidebar div.row {
-  text-align: center;
-  margin: 5px 0;
-  padding: 5px 0;
-}
-
-#feedbackWrapper h4 {
-  text-align: left;
-  margin-left: 3px;
-}
-#feedbackSidebar span.buttonWrapper {
-  height: 60px;
-  width: 85px;
-  padding: 5px;
-  display: inline-block;
-}
-#feedbackSidebar span.buttonWrapper button {
-  margin: 44px auto 0 auto;
-}
-
-#feedbackSidebar span.buttonWrapper.slower {
-  background: transparent url(slow.png) no-repeat center top;
-}
-
-#feedbackSidebar span.buttonWrapper.faster {
-  background: transparent url(fast.png) no-repeat center top;
-}
-
-#feedbackSidebar textarea {
-  height: 85px;
-  width: 85%;
-}
-
-#feedbackSidebar div.row > button {
+.sideMenu textarea {
+  min-height: 80px;
   width: 90%;
-  margin: auto 5%;
+  margin: 8px;
+  border-color: #dddddd;
+  border-radius: .3em;
 }
+
+.sideMenu p {
+  text-align: center;
+  margin: 0;
+}
+
+.sideMenu i {
+  margin-right: 8px;
+}
+
+.buttonWrapper {
+  display: inline-block;
+  line-height: 48px;
+  width: 100%;
+  padding: 0 16px;
+  font-weight: bold;
+}
+
+.buttonWrapper:hover {
+  background-color: #333333;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.buttonWrapper.split {
+  float: left;
+  width: 50%;
+  line-height: 30px;
+  margin: 12px 0;
+  padding: 0;
+  text-align: center;
+}
+
+.buttonWrapper.split i {
+  margin-right: 0;
+}
+
+.submenu {
+  background-color: #cccccc;
+}
+
+/* End Sidebar styling */
 
 .fg-menu-container {
   z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */

@@ -46,6 +46,7 @@ function setupPreso(load_slides, prefix) {
 	loadSlides(loadSlidesBool, loadSlidesPrefix)
 
   loadKeyDictionaries();
+  setupSideMenu();
 
 	doDebugStuff()
 
@@ -70,25 +71,6 @@ function setupPreso(load_slides, prefix) {
   // Make sure the slides always look right.
   // Better would be dynamic calculations, but this is enough for now.
   $(window).resize(function(){location.reload();});
-
-  $("#feedbackWrapper").hover(
-    function() {
-      $('#feedbackSidebar').show();
-      toggleKeybinding();
-    },
-    function() {
-      $('#feedbackSidebar').hide();
-      toggleKeybinding();
-    }
-  );
-
-  $("#paceSlower").click(function() { sendPace('slower'); });
-  $("#paceFaster").click(function() { sendPace('faster'); });
-  $("#askQuestion").click(function() { askQuestion( $("textarea#question").val()) });
-  $("#sendFeedback").click(function() {
-    sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("textarea#feedback").val())
-  });
-  $("#editSlide").click(function() { editSlide(); });
 
   // Open up our control socket
   if(mode.track) {
@@ -210,6 +192,58 @@ function zoom()
     $(".zoomed").css("-webkit-zoom", newZoom);
     $(".zoomed").css("-moz-transform", "scale("+newZoom+")");
     $(".zoomed").css("-moz-transform-origin", "left top");
+  }
+}
+
+function setupSideMenu() {
+  $("#hamburger").click(function() {
+    $('#feedbackSidebar').toggle();
+    toggleKeybinding();
+  });
+
+  $('#fileDownloads').click(function() {
+    closeMenu();
+    window.open('/download');
+  })
+
+  $("#paceSlower").click(function() {
+    sendPace('slower');
+  });
+
+  $("#paceFaster").click(function() {
+    sendPace('faster');
+  });
+
+  $('#questionToggle').click(function() {
+    $('#questionSubmenu').toggle();
+  });
+  $("#askQuestion").click(function() {
+    askQuestion( $("#question").val());
+    $('#questionSubmenu').hide();
+    closeMenu();
+  });
+
+  $('#feedbackToggle').click(function() {
+    $('#feedbackSubmenu').toggle();
+  });
+  $("#sendFeedback").click(function() {
+    sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("#feedback").val());
+    $('#feedbackSubmenu').hide();
+    closeMenu();
+  });
+
+  $("#editSlide").click(function() {
+    editSlide();
+    closeMenu();
+  });
+
+  $('#closeMenu').click(function() {
+    closeMenu();
+  });
+
+  function closeMenu() {
+    $('#feedbackSidebar').hide();
+    toggleKeybinding('on');
   }
 }
 
