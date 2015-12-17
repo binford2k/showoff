@@ -219,7 +219,7 @@ function setupSideMenu() {
   });
   $("#askQuestion").click(function() {
     askQuestion( $("#question").val());
-    feedback_response(this, "Hand Raised");
+    feedback_response(this, "Sending...");
   });
 
   $('#feedbackToggle').click(function() {
@@ -227,7 +227,7 @@ function setupSideMenu() {
   });
   $("#sendFeedback").click(function() {
     sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("#feedback").val());
-    feedback_response(this, "SENT");
+    feedback_response(this, "Sending...");
   });
 
   $("#editSlide").click(function() {
