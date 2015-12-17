@@ -66,14 +66,6 @@
       z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
       text-align: center;
   }
-  .content {
-    position: relative;
-    /* for some reason, setting top to 50% is pushing the content too far down, no idea why */
-    top: 42%;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-  }
 
   /* prevent large images from getting too out of hand */
   .content img {
@@ -84,6 +76,12 @@
 
 .slide .center {
   text-align: center;
+  position: relative;
+  /* for some reason, setting top to 50% is pushing the content too far down, no idea why */
+  top: 42%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 /* plain (non-bullet) text */
