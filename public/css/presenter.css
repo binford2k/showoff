@@ -74,6 +74,10 @@ div.zoomed {
     display: inline-block;
   }
 
+#presenterPopup {
+  font-size: 0.5em;
+}
+
 #center {
   display: -webkit-flex;
   display:         flex;
