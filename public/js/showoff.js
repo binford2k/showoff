@@ -219,13 +219,7 @@ function setupSideMenu() {
   });
   $("#askQuestion").click(function() {
     askQuestion( $("#question").val());
-    var originalText = $(this).text();
-    $(this).text("Hand raised");
-    window.setTimeout(function() {
-      $('#questionSubmenu').hide();
-      closeMenu();
-      $(this).text(originalText);
-    }, 1000);
+    feedback_response(this, "Hand Raised");
   });
 
   $('#feedbackToggle').click(function() {
@@ -233,13 +227,7 @@ function setupSideMenu() {
   });
   $("#sendFeedback").click(function() {
     sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("#feedback").val());
-    var originalText = $(this).text();
-    $(this).text("SENT");
-    window.setTimeout(function() {
-      $('#feedbackSubmenu').hide();
-      closeMenu();
-      $(this).text(originalText);
-    }, 1000);
+    feedback_response(this, "SENT");
   });
 
   $("#editSlide").click(function() {
@@ -254,6 +242,16 @@ function setupSideMenu() {
   function closeMenu() {
     $('#feedbackSidebar').hide();
     toggleKeybinding('on');
+  }
+
+  function feedback_response(elem, response) {
+    var originalText = $(elem).text();
+    $(elem).text(response);
+    window.setTimeout(function() {
+      $(elem).parent().hide();
+      closeMenu();
+      $(elem).text(originalText);
+    }, 1000);
   }
 }
 
