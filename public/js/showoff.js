@@ -219,8 +219,13 @@ function setupSideMenu() {
   });
   $("#askQuestion").click(function() {
     askQuestion( $("#question").val());
-    $('#questionSubmenu').hide();
-    closeMenu();
+    var originalText = $(this).text();
+    $(this).text("Hand raised");
+    window.setTimeout(function() {
+      $('#questionSubmenu').hide();
+      closeMenu();
+      $(this).text(originalText);
+    }, 1000);
   });
 
   $('#feedbackToggle').click(function() {
@@ -228,8 +233,13 @@ function setupSideMenu() {
   });
   $("#sendFeedback").click(function() {
     sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("#feedback").val());
-    $('#feedbackSubmenu').hide();
-    closeMenu();
+    var originalText = $(this).text();
+    $(this).text("SENT");
+    window.setTimeout(function() {
+      $('#feedbackSubmenu').hide();
+      closeMenu();
+      $(this).text(originalText);
+    }, 1000);
   });
 
   $("#editSlide").click(function() {
