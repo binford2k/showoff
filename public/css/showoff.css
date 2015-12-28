@@ -354,7 +354,7 @@ img#disconnected {
 #hamburger {
   position: fixed;
   padding: 4px 8px;
-  opacity: .2;
+  opacity: .05;
   border-radius: .1em;
   transition: all .2s;
   z-index: 2147483647;
