@@ -533,7 +533,7 @@ code.executing:hover {
 /**********************************
  ***       form widgets         ***
  **********************************/
-.element {
+.checkpoint .element {
   font-size: .8em;
   width: 90%;
   margin: 0 auto;
