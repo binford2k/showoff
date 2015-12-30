@@ -534,9 +534,14 @@ code.executing:hover {
  ***       form widgets         ***
  **********************************/
 .element {
-  padding-left: 40px;
+  font-size: .8em;
+  width: 90%;
+  margin: 0 auto;
 }
-.element label {
+
+.element input + label,
+.element label + input,
+.element select {
   margin-left: 0.5em;
 }
 
@@ -546,7 +551,8 @@ code.executing:hover {
 }
 
 .element ul {
-  margin-left: 40px;
+  list-style: none;
+  margin-top: 0;
 }
 
 .warning {
