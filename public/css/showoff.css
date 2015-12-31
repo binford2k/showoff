@@ -5,11 +5,10 @@
   }
 
   body {
-      font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-      background:#333;
-      overflow:hidden;
-      margin:0;
-      padding:0;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    background:#333;
+    margin:0;
+    padding:0;
   }
 
 
@@ -635,12 +634,6 @@ code.executing:hover {
 .supplemental ul { list-style: disc; margin-left: 1.25em !important; padding-left: inherit !important; }
 
 /* downloads page */
-/* we want scrolls! */
-body#download {
-  overflow:auto;
-  height: auto;
-}
-
 body#download ul#downloads {
     margin-left:  20%;
     list-style-type: disc;
@@ -652,11 +645,6 @@ body#download ul#downloads li {
 /**********************
  ***   stats page   ***
  **********************/
-/* we want scrolls! */
-body#stats {
-  overflow:auto;
-  height: auto;
-}
 
 /* apply some nifty rounding styles to the row */
 #stats div.row {
