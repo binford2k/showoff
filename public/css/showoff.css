@@ -82,7 +82,7 @@
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-
+ 
 /* plain (non-bullet) text */
 .content > p,
 .content > form > p {
@@ -101,14 +101,27 @@
     margin-right:auto;
 }
 
+/**********************************
+ ***       List styling         ***
+ **********************************/
+ 
 .content ol {
-  margin-left: 40px;
+  margin-left: .5em;
+}
+
+.content ol > li {
+  margin-bottom: .5em;
 }
 
 .content > ul > li,
 .content > form > ul > li {
   padding: .5em;
   margin-left: 40px;
+}
+
+.content ul ul,
+.content ol ul {
+  margin: 10px;
 }
 
 /* ironically, normal lists have bullets and 'bullets' lists don't */
@@ -126,14 +139,11 @@
   padding: 10px;
 }
 
-.content ul ul,
-.content ol ul {
-  margin: 10px;
-}
-
 .bullets ul ul > li { 
   font-size: 80%;
 }
+
+
 
 .content .incremental.hidden {
   visibility: hidden;
