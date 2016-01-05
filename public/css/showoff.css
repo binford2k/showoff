@@ -105,23 +105,15 @@
  ***       List styling         ***
  **********************************/
  
-.content ol {
-  margin-left: .5em;
+.content > ol,
+.content > ul {
+  margin-left: 2em;
 }
 
-.content ol > li {
-  margin-bottom: .5em;
-}
-
-.content > ul > li,
-.content > form > ul > li {
-  padding: .5em;
-  margin-left: 40px;
-}
-
-.content ul ul,
-.content ol ul {
-  margin: 10px;
+.content ol > li,
+.content > ul li,
+.content > form > ul li {
+  margin: .5em;
 }
 
 /* ironically, normal lists have bullets and 'bullets' lists don't */
