@@ -256,8 +256,6 @@ function setupSideMenu() {
 }
 
 function setupMenu() {
-	$('#navmenu').hide();
-
   var nav = $("<ul>"),
       currentSection = '',
       sectionUL = '';
@@ -299,12 +297,6 @@ function setupMenu() {
 
     sectionUL.append(navItem);
   });
-
-  $('#navigation').html(nav);
-  $('#navmenu').menu({
-		content: $('#navigation').html(),
-		flyOut: true
-	});
 }
 
 function checkSlideParameter() {
