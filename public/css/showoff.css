@@ -82,7 +82,7 @@
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-
+ 
 /* plain (non-bullet) text */
 .content > p,
 .content > form > p {
@@ -101,56 +101,41 @@
     margin-right:auto;
 }
 
-/* numbered lists are numbered */
-.content ol {
-    margin-left: 40px;
-    text-align: left;
-    padding-left: 40px;
-}
-.content ol > li {
-    list-style: decimal;
-    display: list-item;
+/**********************************
+ ***       List styling         ***
+ **********************************/
+ 
+.content > ol,
+.content > ul {
+  margin-left: 2em;
 }
 
-
-/* ironically, normal lists have bullets and 'bullets' lists don't */
-.content > ul,
-.content > form > ul {
-    list-style: disc;
-    text-align: left;
-    padding-left: 40px;
-}
-.content > ul > li,
-.content > form > ul > li {
-    padding: .5em;
-    margin-left: 40px;
+.content ol > li,
+.content > ul li,
+.content > form > ul li {
+  margin: .5em;
 }
 
 /* ironically, normal lists have bullets and 'bullets' lists don't */
 .bullets > ul {
-    list-style: none;
-	padding-left: 0px;
+  list-style: none;
+  padding-left: 0px;
 }
 .bullets > ul > li {
-    text-align: center;
-    padding: 25px;
+  text-align: center;
+  padding: 25px;
 }
 
 .smbullets > ul > li {
-    text-align: center;
-    padding: 10px;
+  text-align: center;
+  padding: 10px;
 }
 
-/* nested lists get their bullets back */
-.content ul ul,
-.content ol ul {
-  list-style: disc;
-  margin: 10px 10px;
-  padding-left: 40px;
-  text-align: left;
+.bullets ul ul > li { 
+  font-size: 80%;
 }
 
-.bullets ul ul > li { font-size: 80%; }
+
 
 .content .incremental.hidden {
   visibility: hidden;
