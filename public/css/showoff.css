@@ -112,14 +112,6 @@
     display: list-item;
 }
 
-
-/* ironically, normal lists have bullets and 'bullets' lists don't */
-.content > ul,
-.content > form > ul {
-    list-style: disc;
-    text-align: left;
-    padding-left: 40px;
-}
 .content > ul > li,
 .content > form > ul > li {
     padding: .5em;
