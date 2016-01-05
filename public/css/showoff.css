@@ -141,13 +141,9 @@
     padding: 10px;
 }
 
-/* nested lists get their bullets back */
 .content ul ul,
 .content ol ul {
-  list-style: disc;
-  margin: 10px 10px;
-  padding-left: 40px;
-  text-align: left;
+  margin: 10px;
 }
 
 .bullets ul ul > li { font-size: 80%; }
