@@ -101,36 +101,29 @@
     margin-right:auto;
 }
 
-/* numbered lists are numbered */
 .content ol {
-    margin-left: 40px;
-    text-align: left;
-    padding-left: 40px;
-}
-.content ol > li {
-    list-style: decimal;
-    display: list-item;
+  margin-left: 40px;
 }
 
 .content > ul > li,
 .content > form > ul > li {
-    padding: .5em;
-    margin-left: 40px;
+  padding: .5em;
+  margin-left: 40px;
 }
 
 /* ironically, normal lists have bullets and 'bullets' lists don't */
 .bullets > ul {
-    list-style: none;
-	padding-left: 0px;
+  list-style: none;
+  padding-left: 0px;
 }
 .bullets > ul > li {
-    text-align: center;
-    padding: 25px;
+  text-align: center;
+  padding: 25px;
 }
 
 .smbullets > ul > li {
-    text-align: center;
-    padding: 10px;
+  text-align: center;
+  padding: 10px;
 }
 
 .content ul ul,
@@ -138,7 +131,9 @@
   margin: 10px;
 }
 
-.bullets ul ul > li { font-size: 80%; }
+.bullets ul ul > li { 
+  font-size: 80%;
+}
 
 .content .incremental.hidden {
   visibility: hidden;
