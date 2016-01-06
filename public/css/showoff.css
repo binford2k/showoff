@@ -342,7 +342,7 @@ img#disconnected {
 
 #hamburger:hover {
   opacity: 1;
-  background-color: #1abc9c;
+  background-color: #337ab7;
   color: #ffffff;
 }
 
@@ -380,7 +380,6 @@ img#disconnected {
 }
 
 .buttonWrapper {
-  display: inline-block;
   line-height: 48px;
   width: 100%;
   padding: 0 16px;
@@ -388,8 +387,7 @@ img#disconnected {
 }
 
 .buttonWrapper:hover {
-  background-color: #333333;
-  color: #ffffff;
+  background-color: #cccccc;
   cursor: pointer;
 }
 
@@ -406,8 +404,22 @@ img#disconnected {
   margin-right: 0;
 }
 
-.submenu {
-  background-color: #cccccc;
+.submenu .buttonWrapper{
+  display: inline-block;
+  width: 90%;
+  margin: 0 5%;
+  padding: 0;
+  background-color: #337ab7;
+  border: 1px solid #2e6da4;
+  color: #ffffff;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 36px;
+}
+
+.submenu .buttonWrapper:hover {
+  background-color: #286090;
+  border-color: #204d74;
 }
 
 /* End Sidebar styling */
