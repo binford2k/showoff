@@ -274,7 +274,10 @@ function setupMenu() {
       var newSection  = $("<li>");
       var sectionLink = $("<a>")
         .attr('href', '#')
-        .text(slidePath);
+        .text(slidePath)
+        .click(function() {
+            $(this).next().toggle();
+        });
       sectionUL = $("<ul>");
       newSection.append(sectionLink, sectionUL);
       nav.append(newSection);
@@ -292,11 +295,22 @@ function setupMenu() {
     var navLink = $("<a>")
       .attr('rel', s)
       .attr('href', '#')
-      .text((s + 1) + ". " + slideTitle);
+      .text((s + 1) + ". " + slideTitle)
+      .click(function() {
+          gotoSlide(s);
+          if (slaveWindow) {
+              slaveWindow.gotoSlide(s, false);
+              postSlide();
+              update();
+          }
+          return false;
+      });
     var navItem = $("<li>").append(navLink);
 
     sectionUL.append(navItem);
   });
+  
+  $("#navigation").append(nav);
 }
 
 function checkSlideParameter() {
@@ -435,14 +449,14 @@ function showSlide(back_step, updatepv) {
       $(".menu > ul > li > ul > li").removeClass('highlighted');
       $(this).addClass('highlighted'); //Highlight current menu item
       $(this).parent().show();         //Show nav block containing current slide
-
+      
       if( ! mobile() ) {
         $(this).get(0).scrollIntoView(); //Scroll so current item is at the top of the view
       }
     }
   });
-
-	return ret;
+  
+  return ret;
 }
 
 function getSlideProgress()
