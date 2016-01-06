@@ -277,6 +277,7 @@ function setupMenu() {
         .text(slidePath)
         .click(function() {
             $(this).next().toggle();
+            return false;
         });
       sectionUL = $("<ul>");
       newSection.append(sectionLink, sectionUL);
