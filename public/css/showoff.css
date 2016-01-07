@@ -386,7 +386,8 @@ img#disconnected {
 }
 
 .buttonWrapper:hover,
-.submenu a:hover {
+.submenu a:hover,
+.submenu .highlighted a {
   background-color:#337ab7;
   color: #ffffff;
   cursor: pointer;
@@ -442,11 +443,6 @@ img#disconnected {
 
 .navItem {
   padding: .5em 1.5em;
-}
-
-.highlighted {
-  border-right: 6px solid #337ab7;
-  padding-right: -6px;
 }
 
 /* End Sidebar styling */
