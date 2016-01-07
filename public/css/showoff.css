@@ -424,6 +424,7 @@ img#disconnected {
 }
 
 .submenu ul {
+  font-size: .9em;
   list-style: none;
   margin: 0;
   padding: 0;
