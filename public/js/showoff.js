@@ -305,7 +305,7 @@ function setupMenu() {
       .text((s + 1) + ". " + slideTitle)
       .click(function() {
           gotoSlide(s);
-          if (typeof slaveWindow !== 'undefined') {
+          if (typeof slaveWindow !== 'undefined' && slaveWindow !== null) 
               slaveWindow.gotoSlide(s, false);
               postSlide();
               update();
