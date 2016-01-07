@@ -355,7 +355,6 @@ img#disconnected {
   position: absolute;
   height: 100%;
   width: 240px;
-  padding-top: 24px;
   background-color: #ffffff;
   box-shadow:0 0 25px rgba(0,0,0,0.35);
   overflow: auto;
@@ -425,6 +424,7 @@ img#disconnected {
 }
 
 .submenu ul {
+  font-size: .9em;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -434,6 +434,10 @@ img#disconnected {
   display: block;
   color: #000;
   text-decoration: none;
+}
+
+.submenu a i {
+  float: right;
 }
 
 .navSection {
