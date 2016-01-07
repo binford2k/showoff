@@ -200,6 +200,10 @@ function setupSideMenu() {
     $('#feedbackSidebar').toggle();
     toggleKeybinding();
   });
+  
+  $("#navToggle").click(function() {
+      $("#navigation").toggle();
+  });
 
   $('#fileDownloads').click(function() {
     closeMenu();
@@ -273,6 +277,7 @@ function setupMenu() {
       currentSection = slidePath;
       var newSection  = $("<li>");
       var sectionLink = $("<a>")
+        .addClass('navSection')
         .attr('href', '#')
         .text(slidePath)
         .click(function() {
@@ -294,12 +299,13 @@ function setupMenu() {
     }
 
     var navLink = $("<a>")
+      .addClass('navItem')
       .attr('rel', s)
       .attr('href', '#')
       .text((s + 1) + ". " + slideTitle)
       .click(function() {
           gotoSlide(s);
-          if (slaveWindow) {
+          if (typeof slaveWindow !== 'undefined') {
               slaveWindow.gotoSlide(s, false);
               postSlide();
               update();

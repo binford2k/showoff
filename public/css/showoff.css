@@ -356,7 +356,7 @@ img#disconnected {
   height: 100%;
   width: 240px;
   padding-top: 24px;
-  background-color: #f2f2f2;
+  background-color: #ffffff;
   box-shadow:0 0 25px rgba(0,0,0,0.35);
   overflow: auto;
   z-index: 2147483647;
@@ -381,13 +381,14 @@ img#disconnected {
 
 .buttonWrapper {
   line-height: 48px;
-  width: 100%;
   padding: 0 16px;
   font-weight: bold;
 }
 
-.buttonWrapper:hover {
-  background-color: #cccccc;
+.buttonWrapper:hover,
+.submenu a:hover {
+  background-color:#337ab7;
+  color: #ffffff;
   cursor: pointer;
 }
 
@@ -420,6 +421,32 @@ img#disconnected {
 .submenu .buttonWrapper:hover {
   background-color: #286090;
   border-color: #204d74;
+}
+
+.submenu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.submenu a {
+  display: block;
+  color: #000;
+  text-decoration: none;
+}
+
+.navSection {
+  border-top: 1px solid #ccc;
+  padding: .8em;
+}
+
+.navItem {
+  padding: .5em 1.5em;
+}
+
+.highlighted {
+  border-right: 6px solid #337ab7;
+  padding-right: -6px;
 }
 
 /* End Sidebar styling */
