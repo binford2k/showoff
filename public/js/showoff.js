@@ -457,10 +457,6 @@ function showSlide(back_step, updatepv) {
   $(active).addClass('highlighted');
   $(active).parent().show();
   
-  if( ! mobile() ) {
-    active.scrollIntoView(); //Scroll so current item is at the top of the view
-  }
-  
   return ret;
 }
 

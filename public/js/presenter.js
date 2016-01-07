@@ -316,6 +316,9 @@ gotoSlide = function (slideNum)
 {
     origGotoSlide.call(this, slideNum)
     try { slaveWindow.gotoSlide(slideNum, false) } catch (e) {}
+    if ( !mobile() ) {
+      $("#navigation li li").get(slidenum).scrollIntoView();
+    }
     postSlide()
 }
 
