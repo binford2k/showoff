@@ -15,7 +15,7 @@ div.zoomed {
   -moz-transform-origin: 0 0;
 }
 
-#sidebar,
+#timerSection,
 #statusbar,
 #questions,
 #notes {
@@ -154,43 +154,9 @@ div.zoomed {
 
     }
 
-    .menu {
-      overflow:auto;
-      background-color: #fff;
-    }
-
-    .menu ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .menu ul li {
-      padding: 5px;
-    }
-
-    .menu a {
+    .submenu {
       display: block;
-      color: #000;
-      margin: 1px;
-      padding: 0.25em;
-      -moz-border-radius: 0.25em;
-      -webkit-border-radius: 0.25em;
-      -khtml-border-radius: 0.25em;
-      border-radius: 0.25em;
-      text-decoration: none;
-    }
-    .menu li.highlighted a,
-    .menu a:hover {
-      margin: 0;
-      border: 1px solid #ccc;
-      background-color: #dedede;
-    }
-    .menu > ul > li > ul {
-      padding-left: 20px;
-    }
-    .menu > ul > li > a {
-      padding: 10px;
-      background: #eee;
+      overflow: auto;
     }
 
   #presenter {
