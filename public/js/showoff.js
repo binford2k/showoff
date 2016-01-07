@@ -197,8 +197,9 @@ function zoom()
 
 function setupSideMenu() {
   $("#hamburger").click(function() {
-    $('#feedbackSidebar').toggle();
+    $('#feedbackSidebar, #sidebarExit').toggle();
     toggleKeybinding();
+    
   });
   
   $("#navToggle").click(function() {
@@ -239,12 +240,12 @@ function setupSideMenu() {
     closeMenu();
   });
 
-  $('#closeMenu').click(function() {
+  $('#closeMenu, #sidebarExit').click(function() {
     closeMenu();
   });
 
   function closeMenu() {
-    $('#feedbackSidebar').hide();
+    $('#feedbackSidebar, #sidebarExit').hide();
     toggleKeybinding('on');
   }
 

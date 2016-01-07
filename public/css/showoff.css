@@ -346,7 +346,16 @@ img#disconnected {
   color: #ffffff;
 }
 
+#sidebarExit {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 240px;
+  z-index: 2147483647;
+}
+
 #feedbackSidebar,
+#sidebarExit,
 .submenu {
   display: none;
 }
