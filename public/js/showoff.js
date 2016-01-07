@@ -461,9 +461,7 @@ function showSlide(back_step, updatepv) {
   
   var active = $("#navigation li li").get(slidenum);
   $(active).addClass('highlighted');
-  $(active).parent().show(0, function() {
-    $(this).find('.fa').toggleClass('fa-angle-up fa-angle-down');
-  });
+  $(active).parent().prev().trigger('click');
   
   return ret;
 }
