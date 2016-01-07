@@ -455,11 +455,13 @@ function showSlide(back_step, updatepv) {
 
   // Update nav
   $('.highlighted').removeClass('highlighted');
-  $('#navigation ul ul').hide();
+  $('#navigation ul ul').hide(0, function() {
+      $(this).find('.fa-angle-up').toggleClass('fa-angle-up fa-angle-down');
+  });
   
   var active = $("#navigation li li").get(slidenum);
   $(active).addClass('highlighted');
-  $(active).parent().show();
+  $(active).parent().prev().trigger('click');
   
   return ret;
 }
