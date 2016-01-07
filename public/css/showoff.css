@@ -436,6 +436,10 @@ img#disconnected {
   text-decoration: none;
 }
 
+.submenu a i {
+  float: right;
+}
+
 .navSection {
   border-top: 1px solid #ccc;
   padding: .8em;

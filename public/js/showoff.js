@@ -276,11 +276,15 @@ function setupMenu() {
     if (currentSection !== slidePath) {
       currentSection = slidePath;
       var newSection  = $("<li>");
+      var icon        = $('<i>')
+        .addClass('fa fa-angle-down');
       var sectionLink = $("<a>")
         .addClass('navSection')
         .attr('href', '#')
         .text(slidePath)
+        .append(icon)
         .click(function() {
+            icon.toggleClass('fa-angle-down fa-angle-up');
             $(this).next().toggle();
             return false;
         });
