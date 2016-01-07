@@ -154,18 +154,7 @@ div.zoomed {
 
     }
 
-    #slidemenu {
-      -webkit-flex: 1;
-              flex: 1;
-      background-color: #fff;
-    }
-    #slidemenu ul li {
-      padding: 5px;
-    }
-
     .menu {
-      -webkit-flex: 1;
-              flex: 1;
       overflow:auto;
       background-color: #fff;
     }

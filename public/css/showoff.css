@@ -176,11 +176,6 @@ h1,h2,h3 { text-align: center; margin: 0.5em 0; }
 
 pre { margin: 1em 40px; padding: .25em; }
 
-#navigation.hidden,
-#stylepicker.hidden {
-  position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden;
-}
-
 .notes, .handouts, .instructor, .solguide { display: none }
 
 .offscreen { position:absolute; top:0; left:-9999px; overflow:hidden; }
@@ -347,7 +342,7 @@ img#disconnected {
 
 #hamburger:hover {
   opacity: 1;
-  background-color: #1abc9c;
+  background-color: #337ab7;
   color: #ffffff;
 }
 
@@ -361,7 +356,7 @@ img#disconnected {
   height: 100%;
   width: 240px;
   padding-top: 24px;
-  background-color: #f2f2f2;
+  background-color: #ffffff;
   box-shadow:0 0 25px rgba(0,0,0,0.35);
   overflow: auto;
   z-index: 2147483647;
@@ -385,15 +380,15 @@ img#disconnected {
 }
 
 .buttonWrapper {
-  display: inline-block;
   line-height: 48px;
-  width: 100%;
   padding: 0 16px;
   font-weight: bold;
 }
 
-.buttonWrapper:hover {
-  background-color: #333333;
+.buttonWrapper:hover,
+.submenu a:hover,
+.submenu .highlighted a {
+  background-color:#337ab7;
   color: #ffffff;
   cursor: pointer;
 }
@@ -411,31 +406,46 @@ img#disconnected {
   margin-right: 0;
 }
 
-.submenu {
-  background-color: #cccccc;
+.submenu .buttonWrapper{
+  display: inline-block;
+  width: 90%;
+  margin: 0 5%;
+  padding: 0;
+  background-color: #337ab7;
+  border: 1px solid #2e6da4;
+  color: #ffffff;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 36px;
+}
+
+.submenu .buttonWrapper:hover {
+  background-color: #286090;
+  border-color: #204d74;
+}
+
+.submenu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.submenu a {
+  display: block;
+  color: #000;
+  text-decoration: none;
+}
+
+.navSection {
+  border-top: 1px solid #ccc;
+  padding: .8em;
+}
+
+.navItem {
+  padding: .5em 1.5em;
 }
 
 /* End Sidebar styling */
-
-.fg-menu-container {
-  z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
-}
-
-.fg-button { clear:left; margin:0 4px 40px 20px; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
-.fg-button .ui-icon { position: absolute; top: 50%; margin-top: -8px; left: 50%; margin-left: -8px; }
-a.fg-button { float:left; }
-.fg-button-icon-right { padding-right: 2.1em; }
-.fg-button-icon-right .ui-icon { left: auto; right: .2em; margin-left: 0; }
-
-.fg-button.ui-state-loading .ui-icon { background: url(spinner_bar.gif) no-repeat 0 0; }
-
-#navmenu {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 50px;
-  z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
-}
 
 .results {
   background-color:#002200;

@@ -200,6 +200,10 @@ function setupSideMenu() {
     $('#feedbackSidebar').toggle();
     toggleKeybinding();
   });
+  
+  $("#navToggle").click(function() {
+      $("#navigation").toggle();
+  });
 
   $('#fileDownloads').click(function() {
     closeMenu();
@@ -256,8 +260,6 @@ function setupSideMenu() {
 }
 
 function setupMenu() {
-	$('#navmenu').hide();
-
   var nav = $("<ul>"),
       currentSection = '',
       sectionUL = '';
@@ -275,8 +277,13 @@ function setupMenu() {
       currentSection = slidePath;
       var newSection  = $("<li>");
       var sectionLink = $("<a>")
+        .addClass('navSection')
         .attr('href', '#')
-        .text(slidePath);
+        .text(slidePath)
+        .click(function() {
+            $(this).next().toggle();
+            return false;
+        });
       sectionUL = $("<ul>");
       newSection.append(sectionLink, sectionUL);
       nav.append(newSection);
@@ -292,19 +299,25 @@ function setupMenu() {
     }
 
     var navLink = $("<a>")
+      .addClass('navItem')
       .attr('rel', s)
       .attr('href', '#')
-      .text((s + 1) + ". " + slideTitle);
+      .text((s + 1) + ". " + slideTitle)
+      .click(function() {
+          gotoSlide(s);
+          if (typeof slaveWindow !== 'undefined' && slaveWindow !== null) {
+              slaveWindow.gotoSlide(s, false);
+              postSlide();
+              update();
+          }
+          return false;
+      });
     var navItem = $("<li>").append(navLink);
 
     sectionUL.append(navItem);
   });
-
-  $('#navigation').html(nav);
-  $('#navmenu').menu({
-		content: $('#navigation').html(),
-		flyOut: true
-	});
+  
+  $("#navigation").append(nav);
 }
 
 function checkSlideParameter() {
@@ -436,21 +449,15 @@ function showSlide(back_step, updatepv) {
 
 	}
 
-  // Update presenter view nav for current slide
-  $( ".menu > ul > li > ul > li" ).each(function() {
-    if ($(this).text().split(". ")[0] == slidenum+1) {
-      $(".menu > ul > li > ul ").hide();  //Collapse nav
-      $(".menu > ul > li > ul > li").removeClass('highlighted');
-      $(this).addClass('highlighted'); //Highlight current menu item
-      $(this).parent().show();         //Show nav block containing current slide
-
-      if( ! mobile() ) {
-        $(this).get(0).scrollIntoView(); //Scroll so current item is at the top of the view
-      }
-    }
-  });
-
-	return ret;
+  // Update nav
+  $('.highlighted').removeClass('highlighted');
+  $('#navigation ul ul').hide();
+  
+  var active = $("#navigation li li").get(slidenum);
+  $(active).addClass('highlighted');
+  $(active).parent().show();
+  
+  return ret;
 }
 
 function getSlideProgress()

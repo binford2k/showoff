@@ -16,22 +16,6 @@ $(document).ready(function(){
   // the presenter window doesn't need the reload on resize bit
   $(window).unbind('resize');
 
-  // side menu accordian crap
-	$("#preso").bind("showoff:loaded", function (event) {
-		$(".menu > ul ul").hide()
-		$(".menu > ul a").click(function() {
-			if ($(this).next().is('ul')) {
-				$(this).next().toggle()
-			} else {
-				gotoSlide($(this).attr('rel'));
-				try { slaveWindow.gotoSlide($(this).attr('rel'), false) } catch (e) {}
-				postSlide();
-				update();
-			}
-			return false;
-		}).next().hide();
-	});
-
   $("#minStop").hide();
   $("#startTimer").click(function() { toggleTimer() });
   $("#stopTimer").click(function() { toggleTimer() });
@@ -332,6 +316,9 @@ gotoSlide = function (slideNum)
 {
     origGotoSlide.call(this, slideNum)
     try { slaveWindow.gotoSlide(slideNum, false) } catch (e) {}
+    if ( !mobile() ) {
+      $("#navigation li li").get(slidenum).scrollIntoView();
+    }
     postSlide()
 }
 
