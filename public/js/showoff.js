@@ -285,9 +285,8 @@ function setupMenu() {
         .text(slidePath)
         .append(icon)
         .click(function() {
-            icon.toggleClass('fa-angle-down fa-angle-up');
-            $(this).next().toggle();
-            return false;
+          $(this).next().toggle();
+          return false;
         });
       sectionUL = $("<ul>");
       newSection.append(sectionLink, sectionUL);
@@ -456,13 +455,11 @@ function showSlide(back_step, updatepv) {
 
   // Update nav
   $('.highlighted').removeClass('highlighted');
-  $('#navigation ul ul').hide(0, function() {
-      $(this).find('.fa-angle-up').toggleClass('fa-angle-up fa-angle-down');
-  });
+  $('#navigation ul ul').hide();
   
-  var active = $("#navigation li li").get(slidenum);
-  $(active).addClass('highlighted');
-  $(active).parent().prev().trigger('click');
+  var active = $(".navItem").get(slidenum);
+  $(active).parent().addClass('highlighted');
+  $(active).parent().parent().show();
   
   return ret;
 }
