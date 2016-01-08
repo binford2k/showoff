@@ -14,7 +14,7 @@
     <%= inline_css(['showoff.css', 'font-awesome-4.4.0/css/font-awesome.min.css', 'onepage.css', "highlight/#{@highlightStyle}.css"], 'public/css') %>
     <%= inline_css(css_files) %>
 
-    <%= inline_js(['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'highlight.pack.js'], 'public/js') %>
+    <%= inline_js(['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'highlight.pack.js'], 'public/js') %>
     <%= inline_js(@languages, 'public/js') if @languages %>
     <%= inline_js(js_files) %>
 
@@ -27,7 +27,7 @@
       <link rel="stylesheet" href="<%= @asset_path %>/file/<%= css_file %>" type="text/css"/>
     <% end %>
 
-    <% ['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'onepage.js', 'highlight.pack.js'].each do |js_file| %>
+    <% ['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'highlight.pack.js'].each do |js_file| %>
       <script type="text/javascript" src="<%= @asset_path %>/js/<%= js_file %>"></script>
     <% end %>
     <% js_files.each do |js_file| %>
