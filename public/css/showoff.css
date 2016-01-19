@@ -321,39 +321,32 @@ img#disconnected {
  **********************************/
 
 .content table {
-    margin-left: auto;
-    margin-right: auto;
-    border-collapse:collapse;
-    width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse:collapse;
+  width: 90%;
+  font-size: .9em;
 }
 
-.content.small table {
-    width: 90%;
-}
-.content.smaller table {
-    width: 95%;
+.content thead {
+  border-bottom: 2px solid #ccc;
 }
 
-.content table th {
-    border-bottom: 2px solid #ccc;
-    padding: 0.5em;
+.content tr:not(:last-child) {
+  border-bottom: 1px solid #ccc;
 }
 
-.content table tr td {
-    border-right: 1px solid #eee;
-    border-bottom: 1px solid #efefef;
-    text-align: center;
-    padding: 0.5em;
+.content tbody tr:nth-child(2n+1) {
+  background-color: #f9f9f9;
 }
 
-.content table tr td:last-child {
-    border-right: none;
+.content td {
+  padding: .25em .5em;
 }
 
-.content table li {
-    list-style-type: disc;
+.content td:first-child {
+  border-right: 2px solid #ccc;
 }
-
 
 /**********************************
  ***      Sidebar styling       ***
