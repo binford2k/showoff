@@ -23,55 +23,42 @@ div.zoomed {
 }
 
 #topbar {
-  min-height: 24px;
+  line-height: 24px;
   background: #222222;
   font-size: .55em;
-  vertical-align: middle;
-  text-align: right;
   color: #fff;
+  padding: 0 1em;
 }
 
-  #slideSource {
-    float: left;
-    margin: 0.5em 0 0 0.5em;
-  }
-    #slideSource a {
-      color: #fff;
-      text-decoration: none;
-    }
-    #slideSource a:hover {
-      background-color: #555;
-    }
-  #links {
-    position: relative;
-    top: 0.7em;
-    padding: 0 1em;
-  }
-  #links a {
-    color: #fff;
-    padding: 0.35em;
+  #topbar a {
     text-decoration: none;
-    border: 1px solid #ccc;
-    -moz-border-radius: 0.5em;
-    -webkit-border-radius: 0.5em;
-    -khtml-border-radius: 0.5em;
-    border-radius: 0.5em;
+    color: #fff;
+    padding: .35em;
   }
-  #links a:hover {
-    background-color: #555;
+  
+  #topbar a:hover{
+    background-color: #555;    
+  }
+  
+  #links {
+    float: right;
   }
 
-  #topbar #links a.enabled {
+  #links a {
+    border: 1px solid #ccc;
+    border-radius: 0.5em;
+  }
+
+  #links a.enabled {
     background-color: #003d96;
   }
 
-  #topbar #links .mobile {
+  #links .mobile {
     display: none;
   }
 
-  #topbar #links span.spacer {
-    width: 2em;
-    display: inline-block;
+  .desktop span {
+    margin: 0 1em;
   }
 
 #presenterPopup {

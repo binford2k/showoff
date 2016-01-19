@@ -16,14 +16,14 @@
 
 <div id="main">
   <div id="topbar">
-    <div id="slideSource">
+    <span id="slideSource">
       Source:
       <% if @request.host == 'localhost' %>
         <a href="javascript:openEditor();"><span id="slideFile"></span></a>
       <% else %>
         <span id="slideFile">
       <% end %>
-    </div>
+    </span>
     <span id="links">
       <span class="desktop">
         <% if @edit %>
@@ -32,18 +32,19 @@
         <% if @issues %>
           <a id="report" href="javascript:reportIssue();" title="Report an issue with the current slide.">Report Issue With Slide</a>
         <% end %>
-        <span class="spacer"> </span>
-        <a id="statslink" href="">Viewing Statistics <i class="fa fa-chevron-down"></i></a>
-
-        <a id="downloadslink" href="">Downloads <i class="fa fa-chevron-down"></i></a>
-
-        <span class="spacer"> </span>
-        <a id="slaveWindow" href="javascript:toggleSlave();" title="Enable the display window.">Display Window <i class="fa fa-clone"></i></a>
-        <a id="nextWindow" href="javascript:toggleNext();" title="Enable the next window view.">Next Window <i class="fa fa-clone"></i></a>
-        <a id="notesWindow" href="javascript:toggleNotes();" title="Enable the popout notes window.">Notes Window <i class="fa fa-clone"></i></a>
-        <span class="spacer"> </span>
-        <a id="generatePDF" href="/pdf" title="Call out to wkhtmltopdf to generate a PDF.">Generate PDF</a>
-        <a id="onePage" href="/onepage" title="Load the single page view. Useful for printing.">Single Page</a>
+        <span>
+          <a id="statslink" href="">Viewing Statistics <i class="fa fa-chevron-down"></i></a>
+          <a id="downloadslink" href="">Downloads <i class="fa fa-chevron-down"></i></a>
+        </span>
+        <span>
+          <a id="slaveWindow" href="javascript:toggleSlave();" title="Enable the display window.">Display Window <i class="fa fa-clone"></i></a>
+          <a id="nextWindow" href="javascript:toggleNext();" title="Enable the next window view.">Next Window <i class="fa fa-clone"></i></a>
+          <a id="notesWindow" href="javascript:toggleNotes();" title="Enable the popout notes window.">Notes Window <i class="fa fa-clone"></i></a>
+        </span>
+        <span>
+          <a id="generatePDF" href="/pdf" title="Call out to wkhtmltopdf to generate a PDF.">Generate PDF</a>
+          <a id="onePage" href="/onepage" title="Load the single page view. Useful for printing.">Single Page</a>
+        </span>
       </span>
       <span class="mobile">
         <a id="update" href="">Update</a>
