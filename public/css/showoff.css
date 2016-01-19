@@ -501,8 +501,8 @@ img#disconnected {
 /* Add a Shell "code highlighting" style to resemble the look of a terminal window. */
 .content pre.highlight code.language-shell {
   display: block;
-  background-color: black;
-  color: green;
+  background-color: #111;
+  color: #00ff40;
   border: 2px solid #ddd;
   padding: 0.5em;
   overflow: hidden;
