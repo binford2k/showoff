@@ -1,18 +1,38 @@
 body {
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-  background:#333;
+  color: #222;    
 }
 
 h1,
 h2,
-h3 { 
-  text-align: center; 
-  margin: 0.5em 0; 
+h3 {
+  margin: 8px 0;
+  padding: 0 8px;
+  font-weight: normal;
+}
+
+h1:first-child {
+  border-bottom: 2px solid #222;
 }
 
 pre { 
   margin: 1em 40px; 
-  padding: .25em; 
+  padding: .25em;
+}
+
+/* applies to inline code only */
+code {
+  padding: 2px 4px;
+  font-size: 1.1em;
+  background-color: #ededed;
+  border-radius: 4px;
+}
+
+pre code {
+  padding: unset;
+  font-size: unset;
+  background-color: unset;
+  border-radius: unset;
 }
 
 @media screen {
@@ -26,18 +46,17 @@ pre {
     padding:0;
   }
 
-
   #preso,
   .slide {
-      background: #fff;
-      width: 1024px;
-      height: 768px;
-      margin-left:auto;
-      margin-right:auto;
-      overflow:hidden;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
+    background: #fff;
+    width: 1024px;
+    height: 768px;
+    margin-left:auto;
+    margin-right:auto;
+    overflow:hidden;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
   }
 
   .slide {
@@ -85,6 +104,27 @@ pre {
   }
 }
 
+/* plain (non-bullet) text */
+.content > p,
+.content > form > p {
+  margin: 1em;
+}
+
+.content > blockquote,
+.content > form > blockquote {
+  margin: 2em;
+}
+
+.content img {
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.cover h1 {
+  border: none;
+}
+
 .slide .center {
   text-align: center;
   position: relative;
@@ -94,23 +134,11 @@ pre {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
- 
-/* plain (non-bullet) text */
-.content > p,
-.content > form > p {
-    margin: 1em;
-    text-align: center;
-}
-
-.content > blockquote,
-.content > form > blockquote {
-    margin: 2em;
-}
-
-.center img {
-    display:block;
-    margin-left:auto;
-    margin-right:auto;
+  
+.center h1,
+.center h2,
+.center h3 {
+  text-align: center;
 }
 
 /**********************************
@@ -165,12 +193,6 @@ pre {
 
 .code {
     white-space: pre;
-}
-
-.subsection h1 {
-    background: #008;
-    color: #fff;
-    padding: .25em;
 }
 
 /* make this invisible as possible, while still rendering so that wkhtmltopdf doesn't ignore it */
