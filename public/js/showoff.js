@@ -63,14 +63,13 @@ function setupPreso(load_slides, prefix) {
 
   // make sure that the next view doesn't bugger things on the first load
   if(query.next == 'true') {
-    $('#preso').addClass('zoomed');
     mode.next = true;
-    zoom();
   }
 
   // Make sure the slides always look right.
   // Better would be dynamic calculations, but this is enough for now.
-  $(window).resize(function(){location.reload();});
+  zoom();
+  $(window).resize(function() {zoom();});
 
   // Open up our control socket
   if(mode.track) {
@@ -173,26 +172,24 @@ function initializePresentation(prefix) {
 	$("#preso").trigger("showoff:loaded");
 }
 
-/* This looks like the zoom() function for the presenter preview, but it uses a different algorithm */
-function zoom()
-{
-  if(window.innerWidth <= 480) {
-    $(".zoomed").css("zoom", 0.32);
-  }
-  else {
-    var hSlide = parseFloat($("#preso").height());
-    var wSlide = parseFloat($("#preso").width());
-    var hBody  = parseFloat($("html").height());
-    var wBody  = parseFloat($("html").width());
-
-    newZoom = Math.min(hBody/hSlide, wBody/wSlide) - 0.04;
-
-    $(".zoomed").css("zoom", newZoom);
-    $(".zoomed").css("-ms-zoom", newZoom);
-    $(".zoomed").css("-webkit-zoom", newZoom);
-    $(".zoomed").css("-moz-transform", "scale("+newZoom+")");
-    $(".zoomed").css("-moz-transform-origin", "left top");
-  }
+function zoom() {
+  var preso = $("#preso");  
+  var hSlide = parseFloat(preso.height());
+  var wSlide = parseFloat(preso.width());
+  var hBody  = parseFloat(preso.parent().height());
+  var wBody  = parseFloat(preso.parent().width());
+  
+  var newZoom = Math.min(hBody/hSlide, wBody/wSlide);
+  // Because Firefox's transform doesn't scale up very well
+  newZoom = newZoom > 1 ? 1 : newZoom - .04;
+ 
+  preso.css("zoom", newZoom);
+  preso.css("-ms-zoom", newZoom);
+  preso.css("-webkit-zoom", newZoom);
+  // Firefox doesn't support zoom
+  // Don't use standard transform to avoid modifying Chrome
+  preso.css("-moz-transform", "scale(" + newZoom + ")");
+  preso.css("-moz-transform-origin", "0 0 0");
 }
 
 function setupSideMenu() {

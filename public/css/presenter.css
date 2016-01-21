@@ -9,12 +9,6 @@
   min-width: 630px;
 }
 
-div.zoomed {
-  zoom: 50%;
-  -moz-transform: scale(0.5);
-  -moz-transform-origin: 0 0;
-}
-
 #timerSection,
 #statusbar,
 #questions,
@@ -219,9 +213,6 @@ div.zoomed {
         -moz-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
         box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
       }
-      #zoomer {
-        float: right;
-      }
 
 #bottom {
   display: -webkit-flex;
@@ -383,7 +374,6 @@ a.controls {
     overflow: hidden;
   }
   #topbar #links .desktop,
-  #zoomer,
   #separator,
   #stylepicker {
     display: none !important;
