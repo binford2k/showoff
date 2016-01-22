@@ -288,28 +288,6 @@ function updatePace() {
   }
 }
 
-function zoom()
-{
-  if(window.innerWidth <= 480) {
-    $(".zoomed").css("zoom", 0.32);
-  }
-  else {
-    var hSlide = parseFloat($("#preso").height());
-    var wSlide = parseFloat($("#preso").width());
-    var hPreview = parseFloat($("#preview").height());
-    var wPreview = parseFloat($("#preview").width());
-    var factor = parseFloat($("#zoomer").val());
-
-    newZoom = factor * Math.min(hPreview/hSlide, wPreview/wSlide) - 0.04;
-
-    $(".zoomed").css("zoom", newZoom);
-    $(".zoomed").css("-ms-zoom", newZoom);
-    $(".zoomed").css("-webkit-zoom", newZoom);
-    $(".zoomed").css("-moz-transform", "scale("+newZoom+")");
-    $(".zoomed").css("-moz-transform-origin", "left top");
-  }
-}
-
 // extend this function to add presenter bits
 var origGotoSlide = gotoSlide;
 gotoSlide = function (slideNum)
