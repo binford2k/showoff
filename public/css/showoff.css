@@ -195,15 +195,6 @@ pre code {
     white-space: pre;
 }
 
-/* make this invisible as possible, while still rendering so that wkhtmltopdf doesn't ignore it */
-.content h1.section_title {
-  color: transparent !important;
-  opacity: 0 !important;
-  font-size: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
 .notes, .handouts, .instructor, .solguide { display: none }
 
 .offscreen { position:absolute; top:0; left:-9999px; overflow:hidden; }
@@ -783,31 +774,23 @@ body#download ul#downloads li {
 
 /** Print **/
 @media print {
-  #sidebarWrapper,
-  #sidebar,
-  #sidebarHandle {
-    display:none,
+   #preso, 
+  .slide:not(.center) {
+    height: 100% !important; /* because otherwise handout notes are cutoff by the inline height set on the slide */
   }
-
-  #preso, .slide {
-    border: 1px solid #999;
+  
+  /* make this invisible as possible, while still rendering so that wkhtmltopdf doesn't ignore it */
+  h1.section_title {
+    color: transparent !important;
+    opacity: 0 !important;
+    font-size: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
-
-  .slide .center {
-    width: 800px;
-    height: 600px;
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  #preso, .slide {
-      background: #fff;
-      width: 800px;
-      height: 600px;
-      margin-left:auto;
-      margin-right:auto;
-      overflow:hidden;
+  
+  /* because the above section headers are h1 elements rendered only in print */
+  h1:nth-child(2) {
+    border-bottom: 2px solid #222;
   }
 
   /* prevent large images from running off the page */
@@ -817,16 +800,28 @@ body#download ul#downloads li {
   }
 
   #footer {
-      background: #eee;
-      padding: 2px;
-      width: 590px;
-      height: 20  px;
-      margin-left:auto;
-      margin-right:auto;
+    background: #eee;
+    padding: 2px;
+    width: 590px;
+    height: 20  px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  
+  /* Styling to make the handout notes appear in the printed output. */
+  .handouts {
+    display: block;
+  }
+
+  /* prepend the first element of the .handouts div with Notes: */
+  .handouts > :first-child:before {
+    display: block;
+    content: "Notes:";
+    border-top: 2px dashed #999;
   }
 
   /* page break styling */
-  div.break {
+  .break {
     page-break-after: always;
     font-size: small;
     font-style: italic;
