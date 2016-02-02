@@ -774,15 +774,9 @@ body#download ul#downloads li {
 
 /** Print **/
 @media print {
-  #preso, 
-  .slide {
-    border: 1px solid #999;
-    background: #fff;
-    width: 800px;
-    height: 600px;
-    margin-left:auto;
-    margin-right:auto;
-    overflow:hidden;
+   #preso, 
+  .slide:not(.center) {
+    height: 100% !important; /* because otherwise handout notes are cutoff by the inline height set on the slide */
   }
   
   /* make this invisible as possible, while still rendering so that wkhtmltopdf doesn't ignore it */
@@ -796,7 +790,7 @@ body#download ul#downloads li {
   
   /* because the above section headers are h1 elements rendered only in print */
   h1:nth-child(2) {
-    border-bottom: 3px solid #222;
+    border-bottom: 2px solid #222;
   }
 
   /* prevent large images from running off the page */
@@ -813,9 +807,21 @@ body#download ul#downloads li {
     margin-left:auto;
     margin-right:auto;
   }
+  
+  /* Styling to make the handout notes appear in the printed output. */
+  .handouts {
+    display: block;
+  }
+
+  /* prepend the first element of the .handouts div with Notes: */
+  .handouts > :first-child:before {
+    display: block;
+    content: "Notes:";
+    border-top: 2px dashed #999;
+  }
 
   /* page break styling */
-  div.break {
+  .break {
     page-break-after: always;
     font-size: small;
     font-style: italic;
