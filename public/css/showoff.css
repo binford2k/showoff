@@ -11,7 +11,7 @@ h3 {
   font-weight: normal;
 }
 
-.slide h1:first-child {
+h1:first-child {
   border-bottom: 3px solid #222;
 }
 
