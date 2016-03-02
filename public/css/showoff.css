@@ -821,7 +821,7 @@ body#download ul#downloads li {
   }
 
   /* page break styling */
-  .break {
+  .pagebreak {
     page-break-after: always;
     font-size: small;
     font-style: italic;
