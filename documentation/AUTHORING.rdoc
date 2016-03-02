@@ -169,7 +169,7 @@ scaled to the largest size that both height and width fit within the slide.
 = Language Highlighting
 
 Showoff uses {highlightjs}[https://highlightjs.org] to highlight code blocks. If
-you begin a code block with three @-signs followed by a programming language
+you begin a code block with *four spaces* and three @-signs followed by a programming language
 name, that line will be stripped and the rest of the block will become sparkly
 and colorful. You can uppercase the name if you like.
 
