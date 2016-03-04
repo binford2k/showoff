@@ -594,16 +594,14 @@ code.executing:hover {
 
 .tools input[type=submit],
 .tools input[type=button] {
-  color: #fff;
-  background-color: #2e6da4;
   height: 24px;
   width: 52px;
   font-size: .6em;
   border: none;
-  opacity: .65;
 }
 .tools input[type=submit].dirty {
-  opacity: 1;
+  color: #fff;
+  background-color: #2e6da4;
 }
 .tools input[type=button].display {
   display: none;
