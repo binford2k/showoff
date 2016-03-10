@@ -93,7 +93,7 @@
       vertical-align: middle;
     }
 
-    #timerSection #timerInfo {
+    #timerInfo {
       margin-left: 25px;
     }
 
@@ -106,25 +106,25 @@
     .tRed    { background: #d99; }
     .tYellow { background: #dd9; }
 
-    #sidebar #feedbackPace {
+    #feedbackPace {
       height: 40px;
       min-height: 40px;
       position: relative;
       background: transparent url(pace.png) no-repeat center bottom;
     }
-    #sidebar #feedbackPace #paceFast,
-    #sidebar #feedbackPace #paceSlow {
+    #paceFast,
+    #paceSlow {
       display: none;
     }
-    #sidebar #feedbackPace #paceFast {
+    #paceFast {
       float: left;
       margin-left: 1em;
     }
-    #sidebar #feedbackPace #paceSlow {
+    #paceSlow {
       float: right;
       margin-right: 1em;
     }
-    #sidebar #feedbackPace #paceMarker {
+    #paceMarker {
       left: 50%;
       position: absolute;
       transform: translate(-50%, -50%);
@@ -160,23 +160,23 @@
       padding: 1em;
     }
 
-      #preview .content form div.tools input[type=button].display {
+      #preview input[type=button].display {
         display: inline;
       }
-      #preview .content form div.tools input[type=submit] {
+      #preview .tools input[type=submit] {
         display: none;
       }
 
-      #preview .content form label.correct {
+      .correct {
         font-weight: 900;
         border-bottom: 4px solid black;
       }
 
-      img#disconnected {
+      #disconnected {
         margin: 0.5em 1em;
       }
 
-      #preview .content .incremental.hidden {
+      #preview .incremental.hidden {
         visibility: visible;
         color: #ccc;
       }
@@ -239,10 +239,8 @@
     margin-left: 1.5em;
     margin-right: 0.25em;
   }
-  #questions ul li {
-    list-style-type: disc;
-  }
-  #questions ul li:hover {
+
+  #questions li:hover {
     background: #dedede url(close.png) no-repeat top right;
     -moz-border-radius: 0.25em;
     -webkit-border-radius: 0.25em;
@@ -299,7 +297,7 @@
     border-radius: .2em;
   }
 
-  #bottom #notes div.personal {
+  #notes .personal {
     float: right;
     border-left: 4px solid #999;
     border-bottom: 4px solid #999;
@@ -310,7 +308,7 @@
     max-width: 25%;
   }
 
-  #bottom #notes div.personal h1 {
+  #notes .personal h1 {
     margin-top: 0;
     border-bottom: 1px solid #ccc;
   }
@@ -346,12 +344,12 @@ a.controls {
     -webkit-flex: 1;
             flex: 1;
   }
-    #bottom #questions {
+    #questions {
       border-bottom: 1px solid #ccc;
       -webkit-flex: 1;
               flex: 1;
     }
-    #bottom #notes {
+    #notes {
       -webkit-flex: 2;
               flex: 2;
     }
@@ -359,13 +357,13 @@ a.controls {
     margin: 0;
     padding: 0;
   }
-  #topbar #slideSource {
+  #slideSource {
     max-width: 256px;
     overflow: hidden;
     height: 16px;
     padding-left: 16px;
   }
-  #topbar #slideSource #slideFile {
+  #slideFile {
     display: inline-block;
     width: 205px;
     max-width: 205px;
@@ -373,16 +371,16 @@ a.controls {
     text-overflow: ellipsis;
     overflow: hidden;
   }
-  #topbar #links .desktop,
+  #links .desktop,
   #separator,
   #stylepicker {
     display: none !important;
   }
-  #topbar #links {
+  #links {
     top: 0.5em;
     padding: 0 0.5em;
   }
-  #topbar #links .mobile {
+  #links .mobile {
     display: inline;
   }
 
@@ -400,8 +398,8 @@ a.controls {
     overflow: scroll;
     display: none;
   }
-    #sidebar #timerSection,
-    #sidebar #feedbackPace {
+    #timerSection,
+    #feedbackPace {
       display: none;
     }
 
@@ -410,14 +408,14 @@ a.controls {
     height: auto;
     line-height: inherit;
   }
-  #statusbar #enableRemote,
-  #statusbar #enableFollower {
+  #enableRemote,
+  #enableFollower {
     border: none;
     margin: 0;
     padding: 0;
   }
-  #statusbar #remoteToggle,
-  #statusbar #followerToggle {
+  #remoteToggle,
+  #followerToggle {
     line-height: 1em;
     height: 1em;
     margin: 0 0 0 0.25em;
