@@ -225,6 +225,7 @@ img#disconnected {
 #help {
   display: none;
   position:absolute;
+  overflow: auto;
   top: 5%;
   left: 25%;
   width: 50%;
