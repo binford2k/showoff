@@ -611,27 +611,21 @@ code.executing:hover {
   border-bottom: 1px solid #999;
 }
 .rendered .item {
-  display: block;
-  width: 0;
   height: 1.25em;
   white-space: nowrap;
-  opacity: 0.5;
-  border-radius: 0 0.5em 0.5em 0;
-  margin: 2px 0;
+  background-color: #f2dede;
+  border: 1px solid #f45f5f;
+  border-left: none;
+  border-radius: 0 0.4em 0.4em 0;
 }
 .rendered .item.correct {
-  border-left: 4px solid black;
-  opacity: 1.0;
+  background-color: #dff0d8;
+  border: 1px solid #00AA00;
+  border-left: none;
 }
 .count {
   display: none;
 }
-
-.barstyle:nth-child(5n + 0) { background-color: #bb73bb; }
-.barstyle:nth-child(5n + 1) { background-color: #59b859; }
-.barstyle:nth-child(5n + 2) { background-color: #e3742f; }
-.barstyle:nth-child(5n + 3) { background-color: #48a2ee; }
-.barstyle:nth-child(5n + 4) { background-color: #f75d5d; }
 
 #notes .form.wrapper {
   display: none;

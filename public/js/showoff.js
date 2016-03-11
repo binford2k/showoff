@@ -618,7 +618,7 @@ function renderForm(form) {
               $(this).remove();
             } else {
               var resultDiv = $('<div>')
-                .addClass('item barstyle')
+                .addClass('item')
                 .attr('data-value', $(this).attr('value'))
                 .text(text);
               if (classes) {
@@ -640,7 +640,7 @@ function renderForm(form) {
 
               if(! text.match(/^-+$/)) {
                 var resultDiv = $('<div>')
-                  .addClass('item barstyle')
+                  .addClass('item')
                   .attr('data-value', $(this).val())
                   .text(text);
                 if (classes) {
