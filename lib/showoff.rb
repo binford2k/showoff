@@ -504,9 +504,10 @@ class ShowOff < Sinatra::Application
 
     # Find any lines that start with a <p>.(something), remove the ones tagged with
     # .break and .comment, then turn the remainder into <p class="something">
+    # The perlism line noise is splitting multiple classes (.class1.class2) on the period.
     def update_p_classes(content)
       content.gsub!(/<p>\.(?:break|comment).*<\/p>/, '')
-      content.gsub(/<p>\.(.*?) /, '<p class="\1">')
+      content.gsub(/<p>\.(.*?) /) { "<p class=\"#{$1.gsub('.', ' ')}\">" }
     end
 
     # replace custom markup with html forms
