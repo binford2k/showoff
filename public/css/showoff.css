@@ -763,8 +763,10 @@ body#download ul#downloads li {
    font-family: FontAwesome;
    font-style: normal;
    font-weight: normal;
+   font-size: 2em;
    text-decoration: inherit;
    padding: 0 8px;
+   float: left;
  }
  
  .callout.info:before     { content: "\f05a"; } /* fa-info-circle */
