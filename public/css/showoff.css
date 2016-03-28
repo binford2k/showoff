@@ -747,6 +747,36 @@ body#download ul#downloads li {
 /**********************
  *** end stats page ***
  **********************/
+ 
+ /**********************
+ ***    Callouts    ***
+ **********************/
+ 
+ .callout {
+   padding: 12px 0;
+   border: 1px solid #222;
+   border-radius: 4px;
+   background-color: transparent; /* because there's a warning class with a red background */
+ }
+ 
+ .callout:before {
+   font-family: FontAwesome;
+   font-style: normal;
+   font-weight: normal;
+   text-decoration: inherit;
+   padding: 0 8px;
+ }
+ 
+ .callout.info:before     { content: "\f05a"; } /* fa-info-circle */
+ .callout.warning:before  { content: "\f071"; } /* fa-exclamation-triangle */
+ .callout.question:before { content: "\f059"; } /* fa-question-circle */
+ .callout.exercise:before { content: "\f41b"; } /* fa-pencil-square */
+ .callout.stop:before     { content: "\f05e"; } /* fa-ban */
+ 
+ /**********************
+ ***  end callouts   ***
+ **********************/
+ 
 
 /* iPhone */
 /* Portrait */
