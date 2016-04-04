@@ -108,9 +108,12 @@ tools that you should be familiar with.
 [Notes Window]
   Opens a separate and resizable instructor notes window.
 
-[Single Page]
-  Loads up all slides as a single monolithic page. Useful for printing or when an
-  ancient browser is used.
+[Print Slides]
+  Prints the slides using the browser's native print functionality. Many browsers allow
+  you to print to PDF.
+
+[Switch View]
+  Changes to the Display view that your audience normally sees.
 
 === Presenter Tools
 
