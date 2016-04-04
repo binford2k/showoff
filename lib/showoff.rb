@@ -969,13 +969,6 @@ class ShowOff < Sinatra::Application
       content
     end
 
-    def onepage(static=false)
-      @slides = get_slides_html(:static=>static, :toc=>true)
-      @favicon = settings.showoff_config['favicon']
-
-      erb :onepage
-    end
-
     def print(static=false)
       @slides = get_slides_html(:static=>static, :toc=>true, :print=>true)
       @favicon = settings.showoff_config['favicon']
