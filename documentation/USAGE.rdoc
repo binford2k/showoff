@@ -41,11 +41,6 @@ web browser. The following URL paths are available for use by you and your audie
   control the presentation if enabled with the <tt>Enable Remote</tt>  button. Showoff
   tries to be intelligent about which slide change updates to track.
 
-[http://localhost:9090/onepage]
-  This will generate a single page representing your entire presentation. It is primarily
-  useful when a viewer has an older browser than cannot handle the transitions properly
-  or is a luddite ;-) and wants to scroll rather than page.
-
 [http://localhost:9090/print]
   This will generate printable version of your presentation, including any slides that
   were tagged as _printonly_. This view can be printed directly from the browser, or
