@@ -248,6 +248,15 @@ command [:static] do |c|
   end
 end
 
+desc 'Generate PDF version of presentation'
+arg_name 'name'
+long_desc 'Creates a PDF version of the presentation as {name}.pdf'
+command [:pdf] do |c|
+  c.action do |global_options,options,args|
+    ShowOff.do_static(['pdf'].concat args)
+  end
+end
+
 pre do |global,command,options,args|
   # Pre logic here
   # Return true to proceed; false to abourt and not call the

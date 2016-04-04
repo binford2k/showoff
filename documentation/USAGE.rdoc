@@ -113,9 +113,6 @@ tools that you should be familiar with.
 [Notes Window]
   Opens a separate and resizable instructor notes window.
 
-[Generate PDF]
-  A link to the <tt>PDFKit</tt> generated PDF file.
-
 [Single Page]
   Loads up all slides as a single monolithic page. Useful for printing or when an
   ancient browser is used.
@@ -262,7 +259,7 @@ Options are specified *after* the command.
 [<tt>-p, --password=arg</tt>] add password protection to your heroku site
 
 
-== <tt>showoff serve </tt>
+== <tt>showoff serve</tt>
 
 Serves the showoff presentation in the current directory
 
@@ -273,29 +270,21 @@ Options are specified *after* the command.
 [<tt>-p, --port=arg</tt>] Port on which to run <i>( default: <tt>9090</tt>)</i>
 
 
-== <tt>showoff static name</tt>
+== <tt>showoff static [name]</tt>
 
-Generate static version of presentation
+Generate static version of presentation with an optional supplemental materials type.
 
-= Printable Output
+== <tt>showoff pdf [name]</tt>
 
-To generate printable output or a PDF via your browser rendering engine of choice, simply browse to
-the <tt>/onepage</tt> view and print the page using your browser's native print function. You may
-also use a rendering engine such as PrinceXML[http://www.princexml.com] to print this page to a PDF.
+Generate PDF version of presentation with an optional output filename. This requires the <tt>pdfkit</tt>
+gem and the <tt>wkhtmltopdf</tt> rendering engine installed into your <tt>$PATH</tt>.
 
-If your browser doesn't generate acceptable output, Showoff can produce a PDF version using the
-<tt>wkhtmltopdf</tt> rendering engine.
+= Browser Printable Output
 
-To do this, you must install a few things first:
+You may also generate printable output or a PDF via your browser rendering engine of choice, simply browse to
+the <tt>/print</tt> endpoint and print the page using your browser's native print function. Another option is
+using a rendering engine such as PrinceXML[http://www.princexml.com] to print this page to a PDF.
 
-    gem install pdfkit
-
-You'll then need to install a version of <tt>wkhtmltopdf</tt> available at the {wkhtmltopdf repo}[http://code.google.com/p/wkhtmltopdf/wiki/compilation] (or <tt>brew install wkhtmltopdf</tt> on a mac) and make sure that <tt>wkhtmltopdf</tt> is in your path:
-
-    export $PATH="/location/to/my/wkhtmltopdf/0.9.9:$PATH"
-
-
-Then restart showoff, and navigate to <tt>/pdf</tt> (e.g. http://localhost:9090/pdf) of your presentation and a PDF will be generated with the browser.
 
 = Shell Auto Completion
 
