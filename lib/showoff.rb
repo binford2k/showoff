@@ -1024,12 +1024,11 @@ class ShowOff < Sinatra::Application
       erb :stats
     end
 
-    def pdf(static=true)
-      @slides = get_slides_html(:static=>static, :pdf=>true)
+    def pdf(name)
+      @slides = get_slides_html(:static=>true, :toc=>true, :print=>true)
       @inline = true
 
       html = erb :onepage
-      # TODO make a random filename
 
       # Process inline css and js for included images
       # The css uses relative paths for images and we prepend the file url
@@ -1037,14 +1036,17 @@ class ShowOff < Sinatra::Application
         "url(file://#{settings.pres_dir}/#{$1})"
       end
 
-      # Todo fix javascript path
+      # remove the weird /files component, since that doesn't exist on the filesystem
+      html.gsub!(/<img src=".\/file\/([^"]*)/) do |s|
+        "<img src=\".\/#{$1}"
+      end
 
       # PDFKit.new takes the HTML and any options for wkhtmltopdf
       # run `wkhtmltopdf --extended-help` for a full list of options
       kit = PDFKit.new(html, ShowOffUtils.showoff_pdf_options(settings.pres_dir))
 
       # Save the PDF to a file
-      file = kit.to_file('/tmp/preso.pdf')
+      kit.to_file(name)
     end
 
   end
@@ -1063,14 +1065,18 @@ class ShowOff < Sinatra::Application
       path = showoff.instance_variable_get(:@root_path)
       logger = showoff.instance_variable_get(:@logger)
 
-      if what == 'supplemental'
+      case what
+      when 'supplemental'
         data = showoff.send(what, opt, true)
+      when 'pdf'
+        opt ||= "#{name}.pdf"
+        data = showoff.send(what, opt)
       else
         data = showoff.send(what, true)
       end
 
       if data.is_a?(File)
-        FileUtils.cp(data.path, "#{name}.pdf")
+        logger.warn "Generated PDF as #{opt}"
       else
         out = File.expand_path("#{path}/static")
         # First make a directory
