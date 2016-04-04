@@ -234,6 +234,17 @@ function openNotes()
   }
 }
 
+function printSlides()
+{
+  try {
+    var printWindow = window.open('/print');
+    printWindow.window.print();
+  }
+  catch(e) {
+    console.log('Failed to open print window. Popup blocker?');
+  }
+}
+
 function askQuestion(question) {
   $("#questions ul").prepend($('<li/>').text(question));
 
