@@ -1,6 +1,6 @@
 body {
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-  color: #222;    
+  color: #222;
 }
 
 h1,
@@ -15,8 +15,8 @@ h1:first-child {
   border-bottom: 3px solid #222;
 }
 
-pre { 
-  margin: 1em 40px; 
+pre {
+  margin: 1em 40px;
   padding: .25em;
 }
 
@@ -134,7 +134,7 @@ pre code {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-  
+
 .center h1,
 .center h2,
 .center h3 {
@@ -144,7 +144,7 @@ pre code {
 /**********************************
  ***       List styling         ***
  **********************************/
- 
+
 .content > ol,
 .content > ul {
   margin-left: 2em;
@@ -171,7 +171,7 @@ pre code {
   padding: 10px;
 }
 
-.bullets ul ul > li { 
+.bullets ul ul > li {
   font-size: 80%;
 }
 
@@ -237,6 +237,7 @@ img#disconnected {
   -moz-box-shadow:0 0 25px rgba(0,0,0,0.35);
   box-shadow:0 0 25px rgba(0,0,0,0.35);
   background-color: #fff;
+  font-size: 0.75em;
 }
 
   #help div {
@@ -553,7 +554,7 @@ code.executing:hover {
 /**********************************
  ***       form widgets         ***
  **********************************/
-.checkpoint .element {
+form .element {
   font-size: .8em;
   width: 90%;
   margin: 0 auto;
@@ -575,6 +576,13 @@ code.executing:hover {
   margin-top: 0;
 }
 
+.element input[type=checkbox],
+.element input[type=radio] {
+  font-size: 1em;
+  width: 1em;
+  height: 1em;
+}
+
 .warning {
   background-color: #ff7373;
 }
@@ -587,7 +595,6 @@ code.executing:hover {
 .tools input[type=submit],
 .tools input[type=button] {
   height: 24px;
-  width: 52px;
   font-size: .6em;
   border: none;
 }
@@ -747,18 +754,18 @@ body#download ul#downloads li {
 /**********************
  *** end stats page ***
  **********************/
- 
+
  /**********************
  ***    Callouts    ***
  **********************/
- 
+
  .callout {
    padding: 12px 0;
    border: 1px solid #222;
    border-radius: 4px;
    background-color: transparent; /* because there's a warning class with a red background */
  }
- 
+
  .callout:before {
    font-family: FontAwesome;
    font-style: normal;
@@ -768,17 +775,17 @@ body#download ul#downloads li {
    padding: 0 8px;
    float: left;
  }
- 
+
  .callout.info:before     { content: "\f05a"; } /* fa-info-circle */
  .callout.warning:before  { content: "\f071"; } /* fa-exclamation-triangle */
  .callout.question:before { content: "\f059"; } /* fa-question-circle */
  .callout.exercise:before { content: "\f41b"; } /* fa-pencil-square */
  .callout.stop:before     { content: "\f05e"; } /* fa-ban */
- 
+
  /**********************
  ***  end callouts   ***
  **********************/
- 
+
 
 /* iPhone */
 /* Portrait */
@@ -805,11 +812,11 @@ body#download ul#downloads li {
 
 /** Print **/
 @media print {
-   #preso, 
+   #preso,
   .slide:not(.center) {
     height: 100% !important; /* because otherwise handout notes are cutoff by the inline height set on the slide */
   }
-  
+
   /* make this invisible as possible, while still rendering so that wkhtmltopdf doesn't ignore it */
   h1.section_title {
     color: transparent !important;
@@ -818,7 +825,7 @@ body#download ul#downloads li {
     margin: 0 !important;
     padding: 0 !important;
   }
-  
+
   /* because the above section headers are h1 elements rendered only in print */
   h1:nth-child(2) {
     border-bottom: 2px solid #222;
@@ -838,7 +845,7 @@ body#download ul#downloads li {
     margin-left:auto;
     margin-right:auto;
   }
-  
+
   /* Styling to make the handout notes appear in the printed output. */
   .handouts {
     display: block;

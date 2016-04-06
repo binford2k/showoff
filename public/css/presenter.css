@@ -29,11 +29,11 @@
     color: #fff;
     padding: .35em;
   }
-  
+
   #topbar a:hover{
-    background-color: #555;    
+    background-color: #555;
   }
-  
+
   #links {
     float: right;
   }
@@ -185,7 +185,7 @@
       -moz-box-shadow:0 0 25px rgba(0,0,0,0.35);
       box-shadow:0 0 25px rgba(0,0,0,0.35);
     }
-    
+
     #statusbar {
       height: 22px;
       line-height: 22px;
@@ -280,7 +280,7 @@
   #notes ul {
     list-style-type: disc;
   }
-  
+
   #notes .element {
     display: inline-block;
     width: 90%;
@@ -310,6 +310,7 @@
   #notes .personal h1 {
     margin-top: 0;
     border-bottom: 1px solid #ccc;
+    font-size: 1.5em;
   }
 
 a.controls {
