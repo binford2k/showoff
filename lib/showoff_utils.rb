@@ -443,6 +443,7 @@ module MarkdownConfig
       Tilt.prefer Tilt::KramdownTemplate, "markdown"
 
     when 'commonmarker'
+      require 'tilt/commonmarker'
       Tilt.prefer Tilt::CommonMarkerTemplate, "markdown"
 
     else
