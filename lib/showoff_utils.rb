@@ -442,6 +442,9 @@ module MarkdownConfig
     when 'kramdown'
       Tilt.prefer Tilt::KramdownTemplate, "markdown"
 
+    when 'commonmarker'
+      Tilt.prefer Tilt::CommonMarkerTemplate, "markdown"
+
     else
       Tilt.prefer Tilt::RedcarpetTemplate, "markdown"
       require 'tilt'
