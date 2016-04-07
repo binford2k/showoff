@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'tilt', :git => 'https://github.com/raphink/tilt', :branch => 'commonmark'
+gem 'tilt', :git => 'https://github.com/rtomayko/tilt'
 
 group :development do
   gem "turn"
