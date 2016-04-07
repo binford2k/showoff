@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'tilt', :git => 'https://github.com/raphink/tilt', :branch => 'commonmark'
+
 group :development do
   gem "turn"
   gem "rack-test"
