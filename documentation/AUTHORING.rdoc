@@ -311,7 +311,7 @@ contain any markup that the slide itself can.
   optional <tt>filetype</tt> is included then the code block will be syntax highlighted appropriately.
 
 [~~~PAGEBREAK~~~]
-  Just generates a <code><div class="break">continued...</div></code> HTML snippet which is styled
+  Just generates a <code><div class="pagebreak">continued...</div></code> HTML snippet which is styled
   as a hard page break in modern HTML rendering engines.
 
 [~~~TOC~~~]
