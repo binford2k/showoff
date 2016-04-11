@@ -131,15 +131,15 @@ function initializePresentation(prefix) {
 	setupSlideParamsCheck();
 
 
-  $('pre code').each(function(i, block) {
+  $('pre.highlight code').each(function(i, block) {
     try {
       hljs.highlightBlock(block);
     } catch(e) {
       console.log('Syntax highlighting failed on ' + $(this).closest('div.slide').attr('id'));
       console.log('Syntax highlighting failed for ' + $(this).attr('class'));
       console.log(e);
-      }
-    });
+    }
+  });
 
   $(".content form").submit(function(e) {
     e.preventDefault();
