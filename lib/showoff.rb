@@ -402,7 +402,7 @@ class ShowOff < Sinatra::Application
       end
 
       # scan for pagebreak tags. Should really only be used for handout notes or supplemental materials
-      result.gsub!("~~~PAGEBREAK~~~", '<div class="break">continued...</div>')
+      result.gsub!("~~~PAGEBREAK~~~", '<div class="pagebreak">continued...</div>')
 
       # replace with form rendering placeholder
       result.gsub!(/~~~FORM:([^~]*)~~~/, '<div class="form wrapper" title="\1"></div>')

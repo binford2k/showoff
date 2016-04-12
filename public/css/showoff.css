@@ -29,10 +29,11 @@ code {
 }
 
 pre code {
+  display: block;
   padding: unset;
   font-size: unset;
-  background-color: unset;
   border-radius: unset;
+  overflow: hidden;
 }
 
 @media screen {
@@ -125,8 +126,8 @@ pre code {
   border: none;
 }
 
-.slide .center {
-  text-align: center;
+.slide .center,
+#slides.supplemental .slide .center {
   position: relative;
   /* for some reason, setting top to 50% is pushing the content too far down, no idea why */
   top: 42%;
@@ -137,7 +138,17 @@ pre code {
 
 .center h1,
 .center h2,
-.center h3 {
+.center h3,
+.center h4,
+.center h5,
+.center h6,
+#slides.supplemental .slide .center h1,
+#slides.supplemental .slide .center h2,
+#slides.supplemental .slide .center h3,
+#slides.supplemental .slide .center h4,
+#slides.supplemental .slide .center h5,
+#slides.supplemental .slide .center h6
+{
   text-align: center;
 }
 
@@ -814,6 +825,7 @@ body#download ul#downloads li {
 @media print {
    #preso,
   .slide:not(.center) {
+    max-height: inherit !important;
     height: 100% !important; /* because otherwise handout notes are cutoff by the inline height set on the slide */
   }
 
@@ -827,7 +839,7 @@ body#download ul#downloads li {
   }
 
   /* because the above section headers are h1 elements rendered only in print */
-  h1:nth-child(2) {
+  .content:not(.cover) h1:not(.section_title) {
     border-bottom: 2px solid #222;
   }
 
@@ -849,13 +861,17 @@ body#download ul#downloads li {
   /* Styling to make the handout notes appear in the printed output. */
   .handouts {
     display: block;
+    clear: both;
+    padding-top: 1em;
   }
 
   /* prepend the first element of the .handouts div with Notes: */
   .handouts > :first-child:before {
     display: block;
+    font-weight: bold;
     content: "Notes:";
     border-top: 2px dashed #999;
+    padding: 0.25em 0 0.5em 0;
   }
 
   /* page break styling */
@@ -866,4 +882,5 @@ body#download ul#downloads li {
     padding-top: 0.25em;
     padding-bottom: 0.25em;
   }
+
 }
