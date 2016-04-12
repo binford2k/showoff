@@ -766,16 +766,6 @@ body#download ul#downloads li {
  *** end stats page ***
  **********************/
 
-
-  /* this is a hacky fix to a silly problem. Markdown renderers require a block element
-   * after a list so it can tell when to *end* the list. This makes it hard to intersperse
-   * bullet points and code blocks, unless you want your code super indented. Intead, you
-   * can add a line before the code snippet like ".break" to stop the list.
-   */
-  p.break {
-    display: none;
-  }
-
  /**********************
  ***    Callouts    ***
  **********************/
