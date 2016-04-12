@@ -506,7 +506,7 @@ class ShowOff < Sinatra::Application
     # .break and .comment, then turn the remainder into <p class="something">
     # The perlism line noise is splitting multiple classes (.class1.class2) on the period.
     def update_p_classes(content)
-      content.gsub!(/<p>\.(?:break|comment).*<\/p>/, '')
+      content.gsub!(/<p>\.(?:break|comment)( .*)?<\/p>/, '')
       content.gsub(/<p>\.(.*?) /) { "<p class=\"#{$1.gsub('.', ' ')}\">" }
     end
 
