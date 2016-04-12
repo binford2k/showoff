@@ -31,7 +31,6 @@ code {
 pre code {
   display: block;
   padding: unset;
-  font-size: unset;
   border-radius: unset;
   overflow: hidden;
 }
