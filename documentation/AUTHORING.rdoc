@@ -462,6 +462,17 @@ If you would like to use CSS to change the size of your slides from the default 
         height: 800px !important;
     }
 
+You can style individual paragraphs and images by including a class name prefixed with a
+period as the first word of the text or of the description. For example, a styled paragraph
+would look like:
+
+    .customstyle This is a paragraph of text. It's nothing special except that the
+    <tt>&lt;p&rt;</tt> tag will have the class <tt>customstyle</tt> applied to it.
+
+A styled image will look like:
+
+    ![.fancyborder This is a really fancy image](../_images/unicorns_and_rainbows.png)
+
 = Templates
 
 Templates can come handy if you need more than what you can achieve
