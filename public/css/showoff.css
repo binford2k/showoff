@@ -151,6 +151,14 @@ pre code {
   text-align: center;
 }
 
+.small {
+    font-size: 80%;
+}
+
+.smaller {
+    font-size: 70%;
+}
+
 /**********************************
  ***       List styling         ***
  **********************************/
