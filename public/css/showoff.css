@@ -779,6 +779,7 @@ body#download ul#downloads li {
 
  .callout {
    padding: 12px 0;
+   min-height: 2em;
    border: 1px solid #222;
    border-radius: 4px;
    background-color: transparent; /* because there's a warning class with a red background */
