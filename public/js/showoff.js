@@ -105,7 +105,7 @@ function loadKeyDictionaries () {
 
 function initializePresentation(prefix) {
 	// unhide for height to work in static mode
-        $("#slides").show();
+  $("#slides").show();
 
 	//copy into presentation area
 	$("#preso").empty()
@@ -173,16 +173,16 @@ function initializePresentation(prefix) {
 }
 
 function zoom() {
-  var preso = $("#preso");  
+  var preso = $("#preso");
   var hSlide = parseFloat(preso.height());
   var wSlide = parseFloat(preso.width());
   var hBody  = parseFloat(preso.parent().height());
   var wBody  = parseFloat(preso.parent().width());
-  
+
   var newZoom = Math.min(hBody/hSlide, wBody/wSlide);
   // Because Firefox's transform doesn't scale up very well
   newZoom = newZoom > 1 ? 1 : newZoom - .04;
- 
+
   preso.css("zoom", newZoom);
   preso.css("-ms-zoom", newZoom);
   preso.css("-webkit-zoom", newZoom);
@@ -196,9 +196,9 @@ function setupSideMenu() {
   $("#hamburger").click(function() {
     $('#feedbackSidebar, #sidebarExit').toggle();
     toggleKeybinding();
-    
+
   });
-  
+
   $("#navToggle").click(function() {
       $("#navigation").toggle();
   });
@@ -317,7 +317,9 @@ function setupMenu() {
 
     sectionUL.append(navItem);
   });
-  
+
+  // can't use .children.replaceWith() because this starts out empty...
+  $("#navigation").empty();
   $("#navigation").append(nav);
 }
 
@@ -453,11 +455,11 @@ function showSlide(back_step, updatepv) {
   // Update nav
   $('.highlighted').removeClass('highlighted');
   $('#navigation ul ul').hide();
-  
+
   var active = $(".navItem").get(slidenum);
   $(active).parent().addClass('highlighted');
   $(active).parent().parent().show();
-  
+
   return ret;
 }
 
