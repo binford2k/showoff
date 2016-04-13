@@ -512,7 +512,7 @@ class ShowOff < Sinatra::Application
       # comment & break
       content.gsub!(/<p>\.(?:break|comment)( .*)?<\/p>/, '')
       # paragraph classes
-      content.gsub(/<p>\.(.*?) /) { "<p class=\"#{$1.gsub('.', ' ')}\">" }
+      content.gsub!(/<p>\.(.*?) /) { "<p class=\"#{$1.gsub('.', ' ')}\">" }
       # image classes
       content.gsub(/<img src="(.*)" alt="(\.\S*)\s*(.*)">/) { "<img src=\"#{$1}\" class=\"#{$2.gsub('.', ' ')}\" alt=\"#{$3}\">" }
     end
