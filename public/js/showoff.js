@@ -1087,7 +1087,6 @@ function executeCode() {
 // any code that can be run directly in the browser
 function executeLocalCode(lang, codeDiv) {
   var result = null;
-  var codeDiv = $(this);
 
   setExecutionSignal(true, codeDiv);
   setTimeout(function() { setExecutionSignal(false, codeDiv);}, 1000 );
