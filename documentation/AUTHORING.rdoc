@@ -104,6 +104,18 @@ Some useful styles for each slide are:
 
 Check out the example directory included to see examples of most of these.
 
+== Callout paragraph styles
+
+Several custom "callout" paragraph styles are included. This allows you to highlight points
+in your presentation, with a callout box and an optional icon. To do this, add <tt>.callout</tt>
+or <tt>.callout.[style]</tt> as the first word of your paragraph.
+
+[.callout] Highlights a paragraph with an outlined box.
+[.callout.info] Adds an info icon.
+[.callout.warning] Adds a warning icon.
+[.callout.question] Adds a question icon.
+[.callout.stop] Adds a stop icon.
+
 = Supplemental Materials
 
 Supplemental materials may be created by including <tt>supplemental</tt> and the name of a type
