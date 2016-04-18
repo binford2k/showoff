@@ -43,16 +43,30 @@ Gem::Specification.new do |s|
   desc
 
   s.post_install_message = <<-desc
+               _________________________________________
+              /               Ahoy ahead!               \\
+             |  Major breaking changes in this release.  |
+             |                                           |
+              \\    Please clear your browser cache.     /
+               -----------------------------------------
+                      \\   ^__^
+                       \\  (oo)\\_______
+                          (__)\\       )\\/\\
+                              ||----w |
+                              ||     ||
 
   ************************************************************************
+  The default styles have been significantly improved. Unfortunately, this
+  means that if you've created your own custom styles, that you'll need to
+  refactor them. We do hope you find the new styles simpler and better looking.
+
   ShowOff can optionally use the RMagick gem for automatic image resizing
   functionality. If RMagick is available, images included in your presentation
   will be resized down to meet size constraints of your presentation, if required.
 
-  Showoff can optionally use the PDFKit gem to autogenerate PDF files on demand.
-  Viewers can access the /pdf endpoint to download a generated PDF file. This
-  functionality is likely to be deprecated, since it is simpler and easier to
-  just print the /print endpoint directly from your browser.
+  Showoff can optionally use the PDFKit gem to build PDF files using the
+  `showoff pdf` command. If you'd like your audience to download the PDF,
+  place it in `_files/share`.
   ************************************************************************
 
   desc
