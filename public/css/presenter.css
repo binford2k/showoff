@@ -56,11 +56,6 @@
   }
 
 #presenterPopup {
-  font-size: 0.5em;
-}
-
-
-#presenterPopup {
   display: none;
   position: absolute;
   z-index: 2147483647;
@@ -71,24 +66,14 @@
   border-radius: 0 0 .5em .5em;
   border-bottom: 8px solid #222222;
   background-color: #222222;
+  color: #ffffff;
+  font-size: .8em;
   overflow: auto;
 }
 
-  #presenterPopup h1,
-  #presenterPopup h3 {
-   color: #ffffff;
-  }
-
   #presenterPopup a {
-    margin-left: 12px;
     color: #ffffff;
   }
-
-  #presenterPopup ul#downloads {
-    margin-left: 0;
-    list-style-type: none;
-  }
-
 
 #center {
   display: -webkit-flex;

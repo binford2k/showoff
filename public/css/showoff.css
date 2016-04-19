@@ -668,6 +668,7 @@ form .element {
   margin: 0.25em 1em;
   padding: 0.1em;
   background-color: #dfdfdf;
+  color: #222;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   -khtml-border-radius: 5px;
