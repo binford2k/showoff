@@ -678,12 +678,13 @@ form .element {
 .supplemental ul { list-style: disc; margin-left: 1.25em !important; padding-left: inherit !important; }
 
 /* downloads page */
-body#download ul#downloads {
-    margin-left:  20%;
-    list-style-type: disc;
+#download {
+  max-width: 90%;
+  margin: 0 auto;
 }
-body#download ul#downloads li {
-    margin: 0.5em;
+
+#download h4 {
+  margin-left: .5em;
 }
 
 /**********************
