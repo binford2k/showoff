@@ -298,35 +298,6 @@ img#disconnected {
       margin: 0.25em;
     }
 
-#presenterPopup {
-  display: none;
-  position: absolute;
-  z-index: 2147483647;
-  top: 24px;
-  left: 25%;
-  max-height: 80%;
-  width: 50%;
-  border-radius: 0 0 .5em .5em;
-  border-bottom: 8px solid #222222;
-  background-color: #222222;
-  overflow: auto;
-}
-
-  #presenterPopup h1,
-  #presenterPopup h3 {
-   color: #ffffff;
-  }
-
-  #presenterPopup a {
-    margin-left: 12px;
-    color: #ffffff;
-  }
-
-  #presenterPopup ul#downloads {
-    margin-left: 0;
-    list-style-type: none;
-  }
-
 /**********************************
  ***       Table styling        ***
  **********************************/
