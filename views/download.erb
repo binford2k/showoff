@@ -6,6 +6,7 @@
 </head>
 
 <body id="download">
+  <div id="wrapper">  <!-- wrapper needed for presenterPopupToggle() and $.get() --> 
   <h1>File Downloads</h1>
   <% if @downloads %>
       <%# [ enabled, slide name, [array, of, files] ] %>
@@ -26,5 +27,6 @@
           <% end %>
       <% end %>
   <% end %>
+  </div>
 </body>
 </html>

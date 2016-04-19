@@ -83,7 +83,8 @@ function presenterPopupToggle(page, event) {
 
       content.attr('id', page.substring(1, page.length));
       content.append(link);
-      content.append($(data).find('#wrapper').html());
+      /* use .sibliings() because of how jquery formats $(data) */
+      content.append($(data).siblings('#wrapper').html());
       popup.append(content);
 
       setupStats(); // this function is in showoff.js because /stats does not load presenter.js
