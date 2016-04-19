@@ -10,63 +10,61 @@
 </head>
 
 <body id="stats">
-    <div id="preso">
-      <div id="wrapper">
-        <h1>Viewing Statistics</h1>
+  <div id="wrapper">
+    <h1>Viewing Statistics</h1>
 
-        <div id="least">
-          <h3>Least viewed slides</h3>
-          <% if @least.size > 0 %>
-            <% max = @least.sort_by {|slide, time| -time}[0][1].to_f %>
-            <% timestr =  (max > 3599) ?  '%H:%M:%S' : '%M:%S' %>
-            <% @least.each do |slide, time| %>
-              <div class="row">
-                <span class="label"><%= slide %></span>
-                <div class="bar" style="width: <%= (time/max)*100 %>%;"> </div>
-                <div class="time"><%= Time.at(time).gmtime.strftime(timestr) %></div>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
+    <div id="least">
+      <h3>Least viewed slides</h3>
+      <% if @least.size > 0 %>
+        <% max = @least.sort_by {|slide, time| -time}[0][1].to_f %>
+        <% timestr =  (max > 3599) ?  '%H:%M:%S' : '%M:%S' %>
+        <% @least.each do |slide, time| %>
+          <div class="row">
+            <span class="label"><%= slide %></span>
+            <div class="bar" style="width: <%= (time/max)*100 %>%;"> </div>
+            <div class="time"><%= Time.at(time).gmtime.strftime(timestr) %></div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
 
-        <div id="most">
-          <h3>Most viewed slides</h3>
-          <% if @least.size > 0 %>
-            <% max = @most[0][1].to_f %>
-            <% timestr =  (max > 3599) ?  '%H:%M:%S' : '%M:%S' %>
-            <% @most.each do |slide, time| %>
-              <div class="row">
-                <span class="label"><%= slide %></span>
-                <div class="bar" style="width: <%= (time/max)*100 %>%;"> </div>
-                <div class="time"><%= Time.at(time).gmtime.strftime(timestr) %></div>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
+    <div id="most">
+      <h3>Most viewed slides</h3>
+      <% if @least.size > 0 %>
+        <% max = @most[0][1].to_f %>
+        <% timestr =  (max > 3599) ?  '%H:%M:%S' : '%M:%S' %>
+        <% @most.each do |slide, time| %>
+          <div class="row">
+            <span class="label"><%= slide %></span>
+            <div class="bar" style="width: <%= (time/max)*100 %>%;"> </div>
+            <div class="time"><%= Time.at(time).gmtime.strftime(timestr) %></div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
 
-        <div id="all">
-          <h3>All slides</h3>
-          <%# We reuse the max value calculated from the above step. %>
-          <% @all.sort.map do |slide, time| %>
-              <div class="row">
-              <span class="label"><%= slide %></span>
-              <div class="bar" style="width: <%= (time/max)*100 %>%;"> </div>
-              <div class="time"><%= Time.at(time).gmtime.strftime(timestr) %></div>
-              <% if @counter %>
-                <div class="detail">
-                  <% @counter[slide].each do |host, count| %>
-                    <div class="row">
-                      <span class="label"><%= host %>:</span>
-                      <div class="bar" style="width: <%= (count/max)*100 %>%;"> </div>
-                      <div class="time"><%= Time.at(count).gmtime.strftime(timestr) %></div>
-                    </div>
-                  <% end %>
+    <div id="all">
+      <h3>All slides</h3>
+      <%# We reuse the max value calculated from the above step. %>
+      <% @all.sort.map do |slide, time| %>
+          <div class="row">
+          <span class="label"><%= slide %></span>
+          <div class="bar" style="width: <%= (time/max)*100 %>%;"> </div>
+          <div class="time"><%= Time.at(time).gmtime.strftime(timestr) %></div>
+          <% if @counter %>
+            <div class="detail">
+              <% @counter[slide].each do |host, count| %>
+                <div class="row">
+                  <span class="label"><%= host %>:</span>
+                  <div class="bar" style="width: <%= (count/max)*100 %>%;"> </div>
+                  <div class="time"><%= Time.at(count).gmtime.strftime(timestr) %></div>
                 </div>
               <% end %>
             </div>
           <% end %>
         </div>
-      </div>
+      <% end %>
     </div>
+  </div>
 </body>
 </html>
