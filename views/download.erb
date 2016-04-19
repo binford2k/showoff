@@ -6,30 +6,22 @@
 </head>
 
 <body id="download">
-
-    <div id="preso">
-      <div id="wrapper">
-        <h1>File Downloads</h1>
-
-        <ul id="downloads">
-            <% if @downloads %>
-                <%# [ enabled, slide name, [array, of, files] ] %>
-                <% @downloads.sort.map do |key, value| %>
-                    <% enabled, title, files = value %>
-                    <% if enabled %>
-                        <% files.each do |file| %>
-                          <% if key == -999 %>
-                            <li><a href="/file/_files/share/<%= file %>"><%= title %>/<%= file %></a></li>
-                          <% else %>
-                            <li><a href="/file/_files/<%= file %>">Slide <%= key %>: <%= title %>/<%= file %></a></li>
-                          <% end %>
-                        <% end %>
-                    <% end %>
-                <% end %>
+  <h1>File Downloads</h1>
+  <% if @downloads %>
+      <%# [ enabled, slide name, [array, of, files] ] %>
+      <% @downloads.sort.map do |key, value| %>
+          <% enabled, title, files = value %>
+          <% if enabled %>
+            <%if key != -999 %>
+              <h4>Slide <%= key %></h4>
             <% end %>
-
-        </ul>
-      </div>
-    </div>
+            <ul>
+            <% files.each do |file| %>
+                <li><a href="/file/_files/share/<%= file %>"><%= title %>/<%= file %></a></li>
+            <% end %>
+            </ul>
+          <% end %>
+      <% end %>
+  <% end %>
 </body>
 </html>
