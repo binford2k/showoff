@@ -1,3 +1,25 @@
+0.12.0
+  * ##### WARNING: This is a major breaking change! ######
+  * You will need to CLEAR YOUR BROWSER CACHE before presenting.
+  * The visual look has been drastically improved.
+  * The default slide styles have been improved greatly. This means that if you
+    have built custom styles, you **will need to update your styles!**
+  * The slides now scale much more cleanly. Ctrl+ and Ctrl- to your heart's content.
+  * Many performance improvements.
+  * The toolbar has been cleaned up with deprecated functionality being replaced
+    more useful buttons.
+
+New command:
+  * To replace deprecated features, we added a new `showoff pdf` command. This
+    uses `pdfkit` to build the PDF file, which you can then put into `_files/share`
+    if you'd like the the audience to download it. This means the file is built once
+    instead of each time the endpoint is hit! Much faster and also removed a race
+    condition.
+
+Endpoint removal:
+  * Some lesser used endpoints were removed. Notably, `/onepage` and `/pdf` are gone.
+  * The `/print` endpoint had been a better replacement for `/onepage` for a long time.
+
 0.11.2
   * Fix some small styling issues.
   * Drop IE8 support as it has passed EOL.
