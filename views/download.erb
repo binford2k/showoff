@@ -13,11 +13,14 @@
           <% enabled, title, files = value %>
           <% if enabled %>
             <%if key != -999 %>
-              <h4>Slide <%= key %></h4>
+              <% path = '/file/_files' %>
+              <h4>Slide <%= key %> <small>(<%= title %>)</small></h4>
+            <% else %>
+              <% path = '/file/_files/share' %>
             <% end %>
             <ul>
             <% files.each do |file| %>
-                <li><a href="/file/_files/share/<%= file %>"><%= title %>/<%= file %></a></li>
+                <li><a href="<%= path %>/<%= file %>"><%= file %></a></li>
             <% end %>
             </ul>
           <% end %>
