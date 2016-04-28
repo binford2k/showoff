@@ -32,7 +32,7 @@ class ShowOffUtils
   end
 
   def self.create(dirname,create_samples,dir='one')
-    Dir.mkdir(dirname) if !File.exists?(dirname)
+    Dir.mkdir(dirname) if !File.exist?(dirname)
     Dir.chdir(dirname) do
       if create_samples
         # create section
@@ -152,7 +152,7 @@ class ShowOffUtils
   # [:type] - the type of slide to create
   def self.add_slide(options)
 
-    add_new_dir(options[:dir]) if options[:dir] && !File.exists?(options[:dir])
+    add_new_dir(options[:dir]) if options[:dir] && !File.exist?(options[:dir])
 
     options[:type] = 'code' if options[:code]
 
@@ -276,7 +276,7 @@ class ShowOffUtils
   def self.showoff_sections(dir,logger)
     index = File.join(dir, ShowOffUtils.presentation_config_file)
     sections = nil
-    if File.exists?(index)
+    if File.exist?(index)
       data = JSON.parse(File.read(index))
       logger.debug data
       if data.is_a?(Hash)
@@ -330,7 +330,7 @@ class ShowOffUtils
 
   def self.get_config_option(dir, option, default = nil)
     index = File.join(dir, ShowOffUtils.presentation_config_file)
-    if File.exists?(index)
+    if File.exist?(index)
       data = JSON.parse(File.read(index))
       if data.is_a?(Hash)
         if default.is_a?(Hash)
@@ -393,7 +393,7 @@ class ShowOffUtils
   #
   # Returns true if the file was created
   def self.create_file_if_needed(filename,force)
-    if !File.exists?(filename) || force
+    if !File.exist?(filename) || force
       File.open(filename, 'w+') do |f|
         yield f
       end
