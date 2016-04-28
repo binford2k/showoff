@@ -83,7 +83,7 @@ class ShowOff < Sinatra::Application
 
     # Load configuration for page size and template from the
     # configuration JSON file
-    if File.exists?(ShowOffUtils.presentation_config_file)
+    if File.exist?(ShowOffUtils.presentation_config_file)
       showoff_json = JSON.parse(File.read(ShowOffUtils.presentation_config_file))
       settings.showoff_config = showoff_json
 
@@ -337,7 +337,7 @@ class ShowOff < Sinatra::Application
           # We allow specifying a new template even when default is
           # not given.
           if settings.pres_template.include?(slide.tpl) and
-              File.exists?(settings.pres_template[slide.tpl])
+              File.exist?(settings.pres_template[slide.tpl])
             template = File.open(settings.pres_template[slide.tpl], "r").read()
           end
         end
@@ -1145,7 +1145,7 @@ class ShowOff < Sinatra::Application
   # Load a slide file from disk, parse it and return the text of a code block by index
   def get_code_from_slide(path, index)
     slide = "#{path}.md"
-    return unless File.exists? slide
+    return unless File.exist? slide
 
     html = process_markdown(slide, File.read(slide), {})
     doc  = Nokogiri::HTML::DocumentFragment.parse(html)
