@@ -1037,8 +1037,9 @@ class ShowOff < Sinatra::Application
       end
 
       # remove the weird /files component, since that doesn't exist on the filesystem
+      # replace it for file://<PATH> for correct use with wkhtmltopdf (exactly with qt-webkit)
       html.gsub!(/<img src=".\/file\/([^"]*)/) do |s|
-        "<img src=\".\/#{$1}"
+        "<img src=\"file:\/\/#{settings.pres_dir}\/#{$1}"
       end
 
       # PDFKit.new takes the HTML and any options for wkhtmltopdf
