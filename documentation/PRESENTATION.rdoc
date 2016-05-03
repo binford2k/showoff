@@ -79,13 +79,22 @@ The configuration settings you may use are listed below. Please see the
   The message to display when paused.
 
 [protected]
-  An array of pages that should be password protected.
+  An array of pages that should require a user login. Usually used for the
+  <tt>presenter</tt> view.
 
   [username]
     The username for protected pages.
 
   [password]
     The password for protected pages.
+
+[locked]
+  An array of pages that will require a presentation key entered as a password
+  in the login dialog. If a user has already logged in, that will take precedence
+  and they won't be prompted again.
+
+  [key]
+    The key for locked pages.
 
 [sections]
   The slide definitions for the presentation.
@@ -143,3 +152,29 @@ Hash configuration listing each directory of Markdown files:
 When you run Showoff without defining <tt>sections</tt>, or when you point to a
 directory instead of individual files, Showoff will enumerate all <tt>*.md</tt>
 files and assume that each is a slide file.
+
+=== Protected presentations
+
+There are two methods to protect your presentations. You can require the user to
+log in with a username and password, by defining pages in the <tt>protected</tt>
+array, or you may require viewers to provide a viewing key by defining pages in
+the <tt>locked</tt> array. This key should be entered as the password of the
+authentication dialog. The username is ignored.
+
+A useful configuration locking down the presenter view and printing to authorized
+presenter logins, but allowing the audience to view with only a viewing key is:
+
+    "key": "{key}",
+    "user": "{username}",
+    "password": "{password}",
+
+You can customize exactly which functionality is available to your audience. For
+example, if you want to restrict access to the presenter, but allow anyone with
+the viewing key to use the <tt>print</tt> endpoint to generate a PDF file:
+
+    "protected": ["presenter"],
+    "locked": ["slides", "print"],
+
+If pages are marked as protected or locked, but no corresponding password or viewing
+key is set, then only the presenter running on the presentation on the same machine
+they're viewing with will be allowed access.

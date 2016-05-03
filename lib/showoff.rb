@@ -96,6 +96,19 @@ class ShowOff < Sinatra::Application
     # code execution timeout
     settings.showoff_config['timeout'] ||= 15
 
+    # default protection levels
+    if settings.showoff_config.has_key? 'password'
+      settings.showoff_config['protected'] ||= ["presenter", "onepage", "print"]
+    else
+      settings.showoff_config['protected'] ||= Array.new
+    end
+
+    if settings.showoff_config.has_key? 'key'
+      settings.showoff_config['locked'] ||= ["slides"]
+    else
+      settings.showoff_config['locked'] ||= Array.new
+    end
+
     # highlightjs syntax style
     @highlightStyle = settings.showoff_config['highlight'] || 'default'
 
@@ -1156,20 +1169,55 @@ class ShowOff < Sinatra::Application
   # Basic auth boilerplate
   def protected!
     unless authorized?
-      response['WWW-Authenticate'] = %(Basic realm="#{@title}: Protected Area")
-      throw(:halt, [401, "Not authorized\n"])
+      response['WWW-Authenticate'] = %(Basic realm="#{@title}: Protected Area. Please log in.")
+      throw(:halt, [401, "Not authorized."])
+    end
+  end
+
+  def locked!
+    # check auth first, because if the presenter has logged in with a password, we don't want to prompt again
+    unless authorized? or unlocked?
+      response['WWW-Authenticate'] = %(Basic realm="#{@title}: Locked Area. A presentation key is required to view.")
+      throw(:halt, [401, "Not authorized."])
     end
   end
 
   def authorized?
+    # allow localhost if we have no password
     if not settings.showoff_config.has_key? 'password'
-      # if no password is set, then default to allowing access to localhost
-      request.env['REMOTE_HOST'] == 'localhost' or request.ip == '127.0.0.1'
+      localhost?
     else
-      auth   ||= Rack::Auth::Basic::Request.new(request.env)
       user     = settings.showoff_config['user'] || ''
       password = settings.showoff_config['password']
-      auth.provided? && auth.basic? && auth.credentials && auth.credentials == [user, password]
+      authenticate([user, password])
+    end
+  end
+
+  def unlocked?
+    # allow localhost if we have no key
+    if not settings.showoff_config.has_key? 'key'
+      localhost?
+    else
+      authenticate(settings.showoff_config['key'])
+    end
+  end
+
+  def localhost?
+    request.env['REMOTE_HOST'] == 'localhost' or request.ip == '127.0.0.1'
+  end
+
+  def authenticate(credentials)
+    auth = Rack::Auth::Basic::Request.new(request.env)
+
+    return false unless auth.provided? && auth.basic? && auth.credentials
+
+    case credentials
+    when Array
+       auth.credentials == credentials
+    when String
+      auth.credentials.last == credentials
+    else
+      false
     end
   end
 
@@ -1409,8 +1457,10 @@ class ShowOff < Sinatra::Application
     opt  = params[:captures][1]
     what = 'index' if "" == what
 
-    if settings.showoff_config.has_key? 'protected'
-      protected! if settings.showoff_config['protected'].include? what
+    if settings.showoff_config['protected'].include? what
+      protected!
+    elsif settings.showoff_config['locked'].include? what
+      locked!
     end
 
     @asset_path = env['SCRIPT_NAME'] == '' ? nil : env['SCRIPT_NAME'].gsub(/^\/?/, '/').gsub(/\/?$/, '/')
