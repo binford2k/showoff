@@ -14,6 +14,15 @@ require "#{here}/keymap"
 
 begin
   require 'rmagick'
+  puts "********************************************************************************"
+  puts "                    RMagick support has been deprecated."
+  puts
+  puts "CSS auto-scaling has improved greatly, and the image manipulation should no"
+  puts "longer be required. If you have images that don't scale properly, then you"
+  puts "should write custom styles to size them appropriately."
+  puts
+  puts "        RMagic support will be removed completely in the next release."
+  puts "********************************************************************************"
 rescue LoadError
   # nop
 end
