@@ -283,6 +283,11 @@ function setupMenu() {
         .append(icon)
         .click(function() {
           $(this).next().toggle();
+
+          if( $(this).parent().is(':last-child') ) {
+            $(this).next().children('li').first()[0].scrollIntoView();
+          }
+
           return false;
         });
       sectionUL = $("<ul>");
