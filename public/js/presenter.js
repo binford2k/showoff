@@ -103,14 +103,14 @@ function reportIssue() {
 
 // open browser to remote edit URL
 function editSlide() {
-  var slide = $("span#slideFile").text().replace(/\/\d+$/, '');
+  var slide = $("span#slideFile").text().replace(/:\d+$/, '');
   var link  = editUrl + slide + ".md";
   window.open(link);
 }
 
 // call the edit endpoint to open up a local file editor
 function openEditor() {
-  var slide = $("span#slideFile").text().replace(/\/\d+$/, '');
+  var slide = $("span#slideFile").text().replace(/:\d+$/, '');
   var link  = '/edit/' + slide + ".md";
   $.get(link);
 }

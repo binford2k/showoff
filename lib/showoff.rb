@@ -374,7 +374,7 @@ class ShowOff < Sinatra::Application
         # name the slide. If we've got multiple slides in this file, we'll have a sequence number
         # include that sequence number to index directly into that content
         if seq
-          content += "<div class=\"content #{classes}\" ref=\"#{name}/#{seq.to_s}\">\n"
+          content += "<div class=\"content #{classes}\" ref=\"#{name}:#{seq.to_s}\">\n"
         else
           content += "<div class=\"content #{classes}\" ref=\"#{name}\">\n"
         end
@@ -1166,10 +1166,20 @@ class ShowOff < Sinatra::Application
 
   # Load a slide file from disk, parse it and return the text of a code block by index
   def get_code_from_slide(path, index)
+    if path =~ /^(.*)(?::)(\d+)$/
+      path = $1
+      num  = $2.to_i
+    end
+
     slide = "#{path}.md"
     return unless File.exist? slide
 
-    html = process_markdown(slide, File.read(slide), {})
+    content = File.read(slide)
+    if defined? num
+      content = content.split(/^\<?!SLIDE/m).reject { |sl| sl.empty? }[num-1]
+    end
+
+    html = process_markdown(slide, content, {})
     doc  = Nokogiri::HTML::DocumentFragment.parse(html)
 
     return doc.css('code.execute')[index.to_i].text rescue 'Invalid code block index'
