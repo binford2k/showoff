@@ -1025,7 +1025,8 @@ function toggleHelp () {
 }
 
 function toggleContents () {
-  $('#navmenu').toggle().trigger('click');
+  $('#feedbackSidebar, #sidebarExit').toggle();
+  $("#navigation").toggle();
 }
 
 function swipeLeft() {
