@@ -11,7 +11,6 @@ group :development do
 end
 
 group :optional do
-  gem "rmagick"
   gem "pdfkit"
 end
 
