@@ -220,8 +220,18 @@ function setupSideMenu() {
     $('#questionSubmenu').toggle();
   });
   $("#askQuestion").click(function() {
-    askQuestion( $("#question").val());
+    var question = $("#question").val()
+    var qid = askQuestion(question);
+
     feedback_response(this, "Sending...");
+    $("#question").val('');
+
+    var questionItem = $('<li/>').text(question).attr('id', qid);
+    questionItem.click( function(e) {
+      cancelQuestion($(this).attr('id'));
+      $(this).remove();
+    });
+    $("#askedQuestions").append(questionItem);
   });
 
   $('#feedbackToggle').click(function() {
@@ -230,6 +240,7 @@ function setupSideMenu() {
   $("#sendFeedback").click(function() {
     sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("#feedback").val());
     feedback_response(this, "Sending...");
+    $("#feedback").val('')
   });
 
   $("#editSlide").click(function() {
@@ -256,6 +267,17 @@ function setupSideMenu() {
     }, 1000);
   }
 }
+
+function updateQuestionIndicator(count) {
+  if(count == 0) {
+    $('#questionsIndicator').hide();
+  }
+  else {
+    $('#questionsIndicator').show();
+    $('#questionsIndicator').text(count);
+  }
+}
+
 
 function setupMenu() {
   var nav = $("<ul>"),
@@ -745,6 +767,18 @@ function disconnected() {
   setTimeout(function() { reconnectControlChannel() } , 5000);
 }
 
+function generateGuid() {
+  var result, i, j;
+  result = 'S';
+  for(j=0; j<32; j++) {
+    if( j == 8 || j == 12|| j == 16|| j == 20)
+      result = result + '-';
+    i = Math.floor(Math.random()*16).toString(16).toUpperCase();
+    result = result + i;
+  }
+  return result;
+}
+
 function parseMessage(data) {
   var command = JSON.parse(data);
 
@@ -758,38 +792,66 @@ function parseMessage(data) {
     }
   }
 
-  if ("current" in command) { follow(command["current"]); }
-
-  // Presenter messages only, so catch errors if method doesn't exist
   try {
-    if ("pace"     in command) { paceFeedback(command["pace"]);     }
-    if ("question" in command) {  askQuestion(command["question"]); }
+    switch (command['message']) {
+      case 'current':
+        follow(command["current"]);
+        break;
+
+      case 'complete':
+        completeQuestion(command["questionID"]);
+        break;
+
+      case 'pace':
+        paceFeedback(command["pace"]);
+        break;
+
+      case 'question':
+        postQuestion(command["question"], command["questionID"]);
+        break;
+
+      case 'cancel':
+        removeQuestion(command["questionID"]);
+        break;
+    }
   }
   catch(e) {
     console.log("Not a presenter!");
   }
+
 }
 
 function sendPace(pace) {
   ws.send(JSON.stringify({ message: 'pace', pace: pace}));
-  feedbackActivity();
 }
 
 function askQuestion(question) {
-  ws.send(JSON.stringify({ message: 'question', question: question}));
-  feedbackActivity();
+  var questionID = generateGuid();
+  ws.send(JSON.stringify({ message: 'question', question: question, questionID: questionID}));
+  return questionID;
+}
+
+function cancelQuestion(questionID) {
+  ws.send(JSON.stringify({ message: 'cancel', questionID: questionID}));
+}
+
+function completeQuestion(questionID) {
+  var question = $("li#"+questionID)
+  if(question.length > 0) {
+    question.addClass('closed');
+    feedbackActivity();
+  }
 }
 
 function sendFeedback(rating, feedback) {
   var slide  = $("#slideFilename").text();
   ws.send(JSON.stringify({ message: 'feedback', rating: rating, feedback: feedback, slide: slide}));
   $("input:radio[name=rating]:checked").attr('checked', false);
-  feedbackActivity();
 }
 
 function feedbackActivity() {
-  $("img#feedbackActivity").show();
-  setTimeout(function() { $("img#feedbackActivity").hide() }, 1000);
+  $('#hamburger').addClass('highlight');
+  setTimeout(function() { $("#hamburger").removeClass('highlight') }, 75);
 }
 
 function track() {

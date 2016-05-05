@@ -6,6 +6,7 @@
 </head>
 
 <body>
+<div id="questionsIndicator"></div>
 
 <i id="hamburger" class="fa fa-bars fa-2x"></i>
 <div id="sidebarWrapper">
@@ -34,9 +35,10 @@
         <textarea id="question" placeholder="Ask a question..."></textarea>
         <div id="askQuestion" class="buttonWrapper">Ask</div>
         </div>
-        
+        <ul id="askedQuestions"></ul>
+
         <hr>
-        
+
         <div id="feedbackToggle" class="buttonWrapper"><i class="fa fa-envelope"></i> Send Feedback</div>
         <div id="feedbackSubmenu" class="submenu">
         <p>This slide is...</p>
@@ -52,7 +54,7 @@
         <textarea id="feedback" placeholder="Why...?"></textarea>
         <div id="sendFeedback" class="buttonWrapper">Send</div>
         </div>
-        
+
         <% if @edit then %>
         <hr>
         <div id="editSlide" class="buttonWrapper">Edit Current Slide</div>
