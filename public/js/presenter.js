@@ -247,11 +247,15 @@ function printSlides()
 }
 
 function askQuestion(question) {
-  $("#questions ul").prepend($('<li/>').text(question));
-
-  $('#questions ul li:first-child').click( function(e) {
-    $(this).remove();
-  });
+  var questionItem = $('<li/>').text(question);
+  
+  questionItem.click( function(e) {
+      $(this).toggleClass('answered')
+             .remove();
+      $('#answered').append($(this));
+    });
+  
+  $("#unanswered").append(questionItem);
 }
 
 function paceFeedback(pace) {
