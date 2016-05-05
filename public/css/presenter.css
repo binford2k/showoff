@@ -250,12 +250,26 @@
     height: 100%;
   }
 
-  #questions .answered {
+  #questions #answered li {
     text-decoration: line-through;
+    color: #ccc;
   }
-  
-  #questions li:hover {
+
+  #questions #unanswered li:hover {
     background-color: #dedede;
+  }
+  #questions #unanswered li:hover:after {
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    padding: 0 8px;
+    float: right;
+    content: "\f058"; /* fa-check-circle */
+  }
+
+  #questions li {
+    cursor: default;
   }
 
   #notes {

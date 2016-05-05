@@ -462,13 +462,25 @@ img#disconnected {
   padding: .5em 1.5em;
 }
 
-ul#askedQuestions {
+#askedQuestions {
   margin: 0;
 }
-ul#askedQuestions li {
-  cursor:crosshair;
+#askedQuestions li {
+  cursor: default;
 }
-ul#askedQuestions li.closed {
+#askedQuestions li:hover {
+  background-color: #dedede;
+}
+#askedQuestions li:hover:after {
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  padding: 0 8px;
+  float: right;
+  content: "\f057"; /* fa-times-circle */
+}
+#askedQuestions li.closed {
   text-decoration: line-through;
   color: #ccc;
 }
