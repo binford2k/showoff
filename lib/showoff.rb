@@ -644,7 +644,7 @@ class ShowOff < Sinatra::Application
         when /^   +\((.+)\)$/                    # (Boston)
           str << "<option value='#{$1}' selected>#{$1}</option>"
         when /^   +\[(.+)\]$/                    # [Boston]
-          str << "<option value='#{$1}' selected>#{$1}</option>"
+          str << "<option value='#{$1}' class='correct'>#{$1}</option>"
         when /^   +([^\(].+[^\),]),?$/           # Boston
           str << "<option value='#{$1}'>#{$1}</option>"
         end
