@@ -234,7 +234,7 @@
   display:         flex;
   -webkit-flex-flow: row;
           flex-flow: row;
-  height: 240px;
+  height: 180px;
   background: #F5ED9B;
   border-top: 1px solid #ccc;
 }
