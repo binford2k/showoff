@@ -343,7 +343,8 @@ img#disconnected {
   float: left;
 }
 
-#hamburger:hover {
+#hamburger:hover,
+#hamburger.highlight {
   opacity: 1;
   background-color: #337ab7;
   color: #ffffff;
@@ -461,7 +462,36 @@ img#disconnected {
   padding: .5em 1.5em;
 }
 
+ul#askedQuestions {
+  margin: 0;
+}
+ul#askedQuestions li {
+  cursor:crosshair;
+}
+ul#askedQuestions li.closed {
+  text-decoration: line-through;
+  color: #ccc;
+}
+
 /* End Sidebar styling */
+
+/* questions HUD indicator */
+#questionsIndicator {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 1em;
+  height: 1em;
+  font-size: 2em;
+  background-color: #fb8d8d;
+  border: 1px solid #900e0e;
+  border-radius: 5px;
+  padding: 0 0 0.25em 0.25em;
+  opacity: 0.5;
+  z-index: 999999999;
+  display: none;
+}
+/* end questions HUD indicator */
 
 .results {
   background-color:#002200;

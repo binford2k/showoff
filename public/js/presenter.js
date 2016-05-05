@@ -246,16 +246,31 @@ function printSlides()
   }
 }
 
-function askQuestion(question) {
-  var questionItem = $('<li/>').text(question);
-  
+function postQuestion(question, questionID) {
+  var questionItem = $('<li/>').text(question).attr('id', questionID);
+
   questionItem.click( function(e) {
-      $(this).toggleClass('answered')
-             .remove();
-      $('#answered').append($(this));
+      markCompleted($(this).attr('id'));
+      removeQuestion(questionID);
     });
-  
+
   $("#unanswered").append(questionItem);
+  updateQuestionIndicator();
+}
+
+function removeQuestion(questionID) {
+  var question = $("li#"+questionID);
+  question.toggleClass('answered')
+          .remove();
+  $('#answered').append($(question));
+  updateQuestionIndicator();
+}
+
+function updateQuestionIndicator() {
+  try {
+    slaveWindow.updateQuestionIndicator( $('#unanswered li').length )
+  }
+  catch (e) {}
 }
 
 function paceFeedback(pace) {
@@ -333,6 +348,10 @@ reconnectControlChannel = function() {
       setTimeout(reconnectControlChannel(), 5000);
     },
   });
+}
+
+function markCompleted(questionID) {
+  ws.send(JSON.stringify({ message: 'complete', questionID: questionID}));
 }
 
 function update() {

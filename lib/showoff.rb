@@ -1424,10 +1424,13 @@ class ShowOff < Sinatra::Application
             when 'position'
               ws.send( { 'current' => @@current[:number] }.to_json ) unless @@cookie.nil?
 
-            when 'pace', 'question'
+            when 'pace', 'question', 'cancel'
               # just forward to the presenter(s) along with a debounce in case a presenter is registered twice
               control['id'] = guid()
               EM.next_tick { settings.presenters.each{|s| s.send(control.to_json) } }
+
+            when 'complete'
+              EM.next_tick { settings.sockets.each{|s| s.send(control.to_json) } }
 
             when 'feedback'
               filename = "#{settings.statsdir}/#{settings.feedback}"
