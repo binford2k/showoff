@@ -34,6 +34,10 @@
     background-color: #555;
   }
 
+  #topbar .fa {
+    color: #8affeb;
+  }
+
   #links {
     float: right;
   }
