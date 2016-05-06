@@ -306,6 +306,7 @@ function setupMenu() {
         .text(slidePath)
         .append(icon)
         .click(function() {
+          $(this).children('i').toggleClass('fa-angle-down fa-angle-up');
           $(this).next().toggle();
 
           if( $(this).parent().is(':last-child') ) {
