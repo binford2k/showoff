@@ -4,6 +4,8 @@
 <head>
   <%= erb :header %>
   <link rel="stylesheet" href="<%= @asset_path %>/css/presenter.css" type="text/css"/>
+  <link href="<%= @asset_path %>/css/TimeCircles.css" rel="stylesheet">
+  <script type="text/javascript" src="<%= @asset_path %>/js/TimeCircles.js"></script>
   <script type="text/javascript" src="<%= @asset_path %>/js/presenter.js"></script>
   <script type="text/javascript">
     editUrl  = "<%= @edit %>";
@@ -55,13 +57,14 @@
   <div id="center">
     <div id="sidebar">
       <div id="timerSection">
-        Timer:
+        <input type="button" id="pauseTimer" value="Pause" />
+        <input type="button" id="stopTimer" value="Cancel" />
+        <span id="timerLabel">Timer:</span>
         <span id="minStart">
           <input type="text" size="8" id="timerMinutes"/> min
-          <input type="button" id="startTimer" value="Start">
+          <input type="button" id="startTimer" value="Start" />
         </span>
-        <span id="timerInfo"></span>
-        <span id="minStop"><input type="button" id="stopTimer" value="Stop"></span>
+        <div id="timerDisplay"></div>
       </div>
       <div id="feedbackPace">
         <span id="paceSlow">Speed Up!</span>
