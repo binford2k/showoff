@@ -298,8 +298,16 @@ function setupMenu() {
         .text(slidePath)
         .append(icon)
         .click(function() {
-          $(this).children('i').toggleClass('fa-angle-down fa-angle-up');
-          $(this).next().toggle();
+          if ($(this).next().is(':visible') ) {
+            $(this).next().hide();
+            $(this).children('i').removeClass('fa-angle-up');
+            $(this).children('i').addClass('fa-angle-down');
+          }
+          else {
+            $(this).next().show();
+            $(this).children('i').removeClass('fa-angle-down');
+            $(this).children('i').addClass('fa-angle-up');
+          }
 
           if( $(this).parent().is(':last-child') ) {
             $(this).next().children('li').first()[0].scrollIntoView();
