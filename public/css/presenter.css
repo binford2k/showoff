@@ -109,12 +109,22 @@
       vertical-align: middle;
     }
 
-    #timerInfo {
-      margin-left: 25px;
+    #timerDisplay {
+      height: 100px;
+      width: 100px;
     }
 
-    #timerSection input[type='button'] {
+    #timerSection #pauseTimer {
+      float: left;
+      display: none;
+    }
+    #timerSection #stopTimer {
       float: right;
+      display: none;
+    }
+    #timerSection #timerDisplay {
+      display: none;
+      margin: 0 auto;
     }
 
     .tBlue   { background: #79d; }

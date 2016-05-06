@@ -16,9 +16,9 @@ $(document).ready(function(){
   // the presenter window doesn't need the reload on resize bit
   $(window).unbind('resize');
 
-  $("#minStop").hide();
-  $("#startTimer").click(function() { toggleTimer() });
-  $("#stopTimer").click(function() { toggleTimer() });
+  $("#startTimer").click(function() { startTimer()  });
+  $("#pauseTimer").click(function() { toggleTimer() });
+  $("#stopTimer").click(function()  { stopTimer()   });
 
   /* zoom slide to match preview size, then set up resize handler. */
   zoom();
@@ -502,67 +502,99 @@ function presenterKeyDown(event){
 
 //* TIMER *//
 
-var timerSetUp = false;
-var timerRunning = false;
-var intervalRunning = false;
-var seconds = 0;
-var totalMinutes = 35;
+var timerRunning   = false;
+var timerIntervals = [];
 
-function toggleTimer()
-{
-  if (!timerRunning) {
-    timerRunning = true
-    totalMinutes = parseInt($("#timerMinutes").attr('value'))
-    $("#minStart").hide()
-    $("#minStop").show()
-    $("#timerInfo").text(timerStatus(0));
-    seconds = 0
-    if (!intervalRunning) {
-      intervalRunning = true
-      setInterval(function() {
-        if (!timerRunning) { return; }
-        seconds++;
-        $("#timerInfo").text(timerStatus(seconds));
-      }, 1000);  // fire every minute
+function startTimer() {
+  timerRunning = true;
+
+  $("#timerLabel").hide();
+  $("#minStart").hide();
+
+  $('#stopTimer').val('Cancel');
+  $("#stopTimer").show();
+  $("#pauseTimer").show();
+  $("#timerDisplay").show();
+  $("#timerSection").height('320px');
+
+  var time = parseInt( $("#timerMinutes").val() ) * 60;
+  if(time) {
+    $('#timerDisplay')
+        .attr('data-timer', time)
+        .TimeCircles({
+          direction:       'Counter-clockwise',
+          total_duration:  time,
+          count_past_zero: false,
+          time: {
+            Days:    { show: false },
+            Hours:   { show: false },
+            Seconds: { show: false },
+          }
+        }).addListener(timerProgress);
+
+    timerIntervals = [ time/2, time/4, time/8, time/16 ]
+  }
+}
+
+function timerProgress(unit, value, total){
+
+  if (timerIntervals.length > 0) {
+    if (total < timerIntervals[0]) {
+
+      ts = $('#timerSection');
+      ts.removeClass();
+
+      // remove all the intervals we've already passed
+      timerIntervals = timerIntervals.filter(function(val) { return val < total });
+
+      switch(timerIntervals.length) {
+        case 3:   ts.addClass('tBlue');     break;
+        case 2:   ts.addClass('tGreen');    break;
+        case 1:   ts.addClass('tYellow');   break;
+        case 0:
+          ts.addClass('tRed');
+          $("#timerDisplay").TimeCircles({circle_bg_color: "red"});
+
+          // when timing short durations, sometimes the last interval doesn't get triggered until we end.
+          if( $("#timerDisplay").TimeCircles().getTime() <= 0 ) {
+            $('#stopTimer').val('Reset');
+            $("#pauseTimer").hide();
+          }
+          break;
+      }
     }
-  } else {
-    seconds = 0
-    timerRunning = false
-    totalMinutes = 0
-    setProgressColor(false)
-    $("#timerInfo").text('')
-    $("#minStart").show()
-    $("#minStop").hide()
+  }
+  else {
+    $("#pauseTimer").hide();
   }
 }
 
-function timerStatus(seconds) {
-  var minutes = Math.round(seconds / 60);
-  var left = (totalMinutes - minutes);
-  var percent = Math.round((minutes / totalMinutes) * 100);
-  var progress = getSlidePercent() - percent;
-  setProgressColor(progress);
-  return minutes + '/' + left + ' - ' + percent + '%';
+function toggleTimer() {
+  if (!timerRunning) {
+    timerRunning = true;
+    $('#pauseTimer').val('Pause');
+    $("#timerDisplay").TimeCircles().reset();
+    $("#timerDisplay").TimeCircles().start();
+  }
+   else {
+    timerRunning = false;
+    $('#pauseTimer').val('Resume');
+    $("#timerDisplay").TimeCircles().stop();
+  }
 }
 
-function setProgressColor(progress) {
-  ts = $('#timerSection')
-  ts.removeClass('tBlue')
-  ts.removeClass('tGreen')
-  ts.removeClass('tYellow')
-  ts.removeClass('tRed')
+function stopTimer() {
+  $("#timerDisplay").TimeCircles().destroy();
 
-  if(progress === false) return;
+  $("#timerLabel").show();
+  $("#minStart").show();
 
-  if(progress > 10) {
-    ts.addClass('tBlue')
-  } else if (progress > 0) {
-    ts.addClass('tGreen')
-  } else if (progress > -10) {
-    ts.addClass('tYellow')
-  } else {
-    ts.addClass('tRed')
-  }
+  $("#stopTimer").hide();
+  $("#pauseTimer").hide();
+  $("#timerDisplay").hide();
+
+  $('#timerSection').removeClass();
+  $("#timerSection").height('auto');
 }
 
 /********************
