@@ -946,13 +946,6 @@
         return this;
     };
 
-    TC_Class.prototype.reset = function() {
-        this.foreach(function(instance) {
-            instance.reset();
-        });
-        return this;
-    };
-
     TC_Class.prototype.rebuild = function() {
         this.foreach(function(instance) {
             instance.initialize(false);
