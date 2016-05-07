@@ -532,7 +532,8 @@ function startTimer() {
           }
         }).addListener(timerProgress);
 
-    timerIntervals = [ time/2, time/4, time/8, time/16 ]
+    // add 60 seconds to each interval because the timer works on floor()
+    timerIntervals = [ time/2+60, time/4+60, time/8+60, time/16+60 ]
   }
 }
 
@@ -548,24 +549,23 @@ function timerProgress(unit, value, total){
       timerIntervals = timerIntervals.filter(function(val) { return val < total });
 
       switch(timerIntervals.length) {
-        case 3:   ts.addClass('tBlue');     break;
-        case 2:   ts.addClass('tGreen');    break;
-        case 1:   ts.addClass('tYellow');   break;
+        case 3:   ts.addClass('intervalHalf');      break;
+        case 2:   ts.addClass('intervalQuarter');   break;
+        case 1:   ts.addClass('intervalWarning');   break;
         case 0:
-          ts.addClass('tRed');
+          ts.addClass('intervalCritical');
           $("#timerDisplay").TimeCircles({circle_bg_color: "red"});
 
           // when timing short durations, sometimes the last interval doesn't get triggered until we end.
           if( $("#timerDisplay").TimeCircles().getTime() <= 0 ) {
-            $('#stopTimer').val('Reset');
-            $("#pauseTimer").hide();
+            endTimer();
           }
           break;
       }
     }
   }
   else {
-    $("#pauseTimer").hide();
+    endTimer();
   }
 }
 
@@ -573,17 +573,24 @@ function toggleTimer() {
   if (!timerRunning) {
     timerRunning = true;
     $('#pauseTimer').val('Pause');
-    $("#timerDisplay").TimeCircles().reset();
+    $('#timerDisplay').removeClass('paused');
     $("#timerDisplay").TimeCircles().start();
   }
    else {
     timerRunning = false;
     $('#pauseTimer').val('Resume');
+    $('#timerDisplay').addClass('paused');
     $("#timerDisplay").TimeCircles().stop();
   }
 }
 
+function endTimer() {
+  $('#stopTimer').val('Reset');
+  $("#pauseTimer").hide();
+}
+
 function stopTimer() {
+  $("#timerDisplay").removeData('timer');
   $("#timerDisplay").TimeCircles().destroy();
 
   $("#timerLabel").show();
@@ -592,7 +599,6 @@ function stopTimer() {
   $("#stopTimer").hide();
   $("#pauseTimer").hide();
   $("#timerDisplay").hide();
-
   $('#timerSection').removeClass();
   $("#timerSection").height('auto');
 }

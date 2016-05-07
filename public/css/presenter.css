@@ -118,6 +118,15 @@
       width: 100px;
     }
 
+    #timerDisplay.paused {
+      filter: grayscale(100%);
+      opacity: 0.25;
+    }
+
+    #timerSection input[type='button'] {
+      margin: 2px 0px;
+    }
+
     #timerSection #pauseTimer {
       float: left;
       display: none;
@@ -131,10 +140,20 @@
       margin: 0 auto;
     }
 
-    .tBlue   { background: #79d; }
-    .tGreen  { background: #9d9; }
-    .tRed    { background: #d99; }
-    .tYellow { background: #dd9; }
+    .intervalHalf,
+    .intervalQuarter,
+    .intervalWarning,
+    .intervalCritical {
+      -webkit-transition: background-color 1000ms linear;
+      -moz-transition:    background-color 1000ms linear;
+      -o-transition:      background-color 1000ms linear;
+      -ms-transition:     background-color 1000ms linear;
+      transition:         background-color 1000ms linear;
+    }
+    .intervalHalf     { background: #99ff99; }
+    .intervalQuarter  { background: #ffff66; }
+    .intervalWarning  { background: #ffcc66; }
+    .intervalCritical { background: #ffcccc; }
 
     #feedbackPace {
       height: 40px;
