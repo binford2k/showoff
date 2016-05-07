@@ -58,6 +58,20 @@ command [:create,:init] do |c|
   end
 end
 
+desc 'Build a showoff presentation from a showoff.json outling'
+arg_name 'dir_name'
+long_desc 'This command helps start a new showoff presentation by creating each slide listing in the showoff.json file.'
+command [:skeleton] do |c|
+
+  c.desc 'alternate json filename'
+  c.flag [:f,:file]
+
+  c.action do |global_options,options,args|
+    ShowOffUtils.skeleton(options[:f])
+    puts "done. run 'showoff serve' to see your slideshow"
+  end
+end
+
 desc 'Puts your showoff presentation into a gh-pages branch'
 long_desc 'Generates a static version of your presentation into your gh-pages branch for publishing to GitHub Pages'
 command :github do |c|
