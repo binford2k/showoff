@@ -3,6 +3,7 @@ require 'sinatra/base'
 require 'json'
 require 'nokogiri'
 require 'fileutils'
+require 'pathname'
 require 'logger'
 require 'htmlentities'
 require 'sinatra-websocket'
@@ -768,16 +769,22 @@ class ShowOff < Sinatra::Application
     private :update_download_links
 
     def update_image_paths(path, slide, opts={:static=>false, :pdf=>false})
-      paths = path.split('/')
-      paths.pop
-      path = paths.join('/')
-      replacement_prefix = opts[:static] ?
-        ( opts[:pdf] ? %(img src="file://#{settings.pres_dir}/#{path}) : %(img src="./file/#{path}) ) :
-        %(img src="#{@asset_path}image/#{path})
+      slide_dir = File.dirname(path)
+
+      case
+      when opts[:static] && opts[:pdf]
+        replacement_prefix = %(img src="file://#{settings.pres_dir}/)
+      when opts[:static]
+        replacement_prefix = %(img src="./file/)
+      else
+        replacement_prefix = %(img src="#{@asset_path}image/)
+      end
+
       slide.gsub(/img src=[\"\'](?!https?:\/\/)([^\/].*?)[\"\']/) do |s|
-        img_path = File.join(path, $1)
+        img_path = Pathname.new(File.join(slide_dir, $1)).cleanpath.to_path
+
         w, h     = get_image_size(img_path)
-        src      = %(#{replacement_prefix}/#{$1}")
+        src      = %(#{replacement_prefix}/#{img_path}")
         if w && h
           src << %( width="#{w}" height="#{h}")
         end
