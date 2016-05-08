@@ -769,27 +769,32 @@ class ShowOff < Sinatra::Application
     private :update_download_links
 
     def update_image_paths(path, slide, opts={:static=>false, :pdf=>false})
+      doc       = Nokogiri::HTML::DocumentFragment.parse(slide)
       slide_dir = File.dirname(path)
 
       case
       when opts[:static] && opts[:pdf]
-        replacement_prefix = %(img src="file://#{settings.pres_dir}/)
+        replacement_prefix = "file://#{settings.pres_dir}/"
       when opts[:static]
-        replacement_prefix = %(img src="./file/)
+        replacement_prefix = "./file/"
       else
-        replacement_prefix = %(img src="#{@asset_path}image/)
+        replacement_prefix = "#{@asset_path}image/"
       end
 
-      slide.gsub(/img src=[\"\'](?!https?:\/\/)([^\/].*?)[\"\']/) do |s|
-        img_path = Pathname.new(File.join(slide_dir, $1)).cleanpath.to_path
+      doc.css('img').each do |img|
+        # clean up the path and remove some of the relative nonsense
+        img_path  = Pathname.new(File.join(slide_dir, img[:src])).cleanpath.to_path
+        src       = "#{replacement_prefix}/#{img_path}"
+        img[:src] = src
 
-        w, h     = get_image_size(img_path)
-        src      = %(#{replacement_prefix}/#{img_path}")
+        # TDOD: deprecated and to be removed
+        w, h      = get_image_size(img_path)
         if w && h
-          src << %( width="#{w}" height="#{h}")
+          img[:width]  = w
+          img[:height] = h
         end
-        src
       end
+      doc.to_html
     end
 
     if defined?(Magick)
