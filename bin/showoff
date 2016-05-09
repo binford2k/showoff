@@ -125,6 +125,9 @@ command :serve do |c|
   c.desc 'Enable remote code execution'
   c.switch [:x, :executecode]
 
+  c.desc 'Run in standalone mode, with no audience interaction'
+  c.switch [:S, :standalone]
+
   c.desc 'Disable content caching'
   c.switch :nocache
 
@@ -162,6 +165,7 @@ command :serve do |c|
     options[:ssl]             ||= config['ssl']
     options[:ssl_certificate] ||= config['ssl_certificate']
     options[:ssl_private_key] ||= config['ssl_private_key']
+    options[:standalone]      ||= config['standalone']
 
     protocol = options[:ssl] ? 'https' : 'http'
     host     = options[:host] == '0.0.0.0' ? 'localhost' : options[:host]
@@ -179,15 +183,16 @@ To run it from presenter view, go to: [ #{url}/presenter ]
 
 "
 
-    ShowOff.run!( :host      => options[:host],
-                  :port      => options[:port].to_i,
-                  :pres_file => options[:file],
-                  :pres_dir  => args[0],
-                  :verbose   => options[:verbose],
-                  :review    => options[:review],
-                  :execute   => options[:executecode],
-                  :nocache   => options[:nocache],
-                  :bind      => options[:host],
+    ShowOff.run!( :host       => options[:host],
+                  :port       => options[:port].to_i,
+                  :pres_file  => options[:file],
+                  :pres_dir   => args[0],
+                  :verbose    => options[:verbose],
+                  :review     => options[:review],
+                  :execute    => options[:executecode],
+                  :nocache    => options[:nocache],
+                  :bind       => options[:host],
+                  :standalone => options[:standalone],
     ) do |server|
       if options[:ssl]
         ssl_options = {
