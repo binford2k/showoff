@@ -1132,7 +1132,7 @@ class ShowOff < Sinatra::Application
         }
 
         # ... and copy all needed image files
-        [/img src=[\"\'].\/file\/(.*?)[\"\']/, /style=[\"\']background: url\(\'file\/(.*?)'/].each do |regex|
+        [/img src=[\"\'].\/file\/(.*?)[\"\']/, /style=[\"\']background(?:-image): url\(\'file\/(.*?)'/].each do |regex|
           data.scan(regex).flatten.each do |path|
             dir = File.dirname(path)
             FileUtils.makedirs(File.join(file_dir, dir))
