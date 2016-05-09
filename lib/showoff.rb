@@ -138,8 +138,11 @@ class ShowOff < Sinatra::Application
     # Default asset path
     @asset_path = "./"
 
+    # invert the logic to maintain backwards compatibility of interactivity on by default
+    @interactive = ! settings.standalone rescue false
+
     # Create stats directory
-    FileUtils.mkdir settings.statsdir unless File.directory? settings.statsdir
+    FileUtils.mkdir settings.statsdir unless File.directory? settings.statsdir if @interactive
 
     # Page view time accumulator. Tracks how often slides are viewed by the audience
     begin
@@ -165,11 +168,13 @@ class ShowOff < Sinatra::Application
     @@current   = Hash.new # The current slide that the presenter is viewing
     @@cache     = nil      # Cache slide content for subsequent hits
 
-    # flush stats to disk periodically
-    Thread.new do
-      loop do
-        sleep 30
-        ShowOff.flush
+    if @interactive
+      # flush stats to disk periodically
+      Thread.new do
+        loop do
+          sleep 30
+          ShowOff.flush
+        end
       end
     end
 
@@ -179,24 +184,27 @@ class ShowOff < Sinatra::Application
 
   # save stats to disk
   def self.flush
-    if defined?(@@counter) and not @@counter.empty?
-      File.open("#{settings.statsdir}/#{settings.viewstats}", 'w') do |f|
-        if settings.verbose then
-          f.write(JSON.pretty_generate(@@counter))
-        else
-          f.write(@@counter.to_json)
+    begin
+      if defined?(@@counter) and not @@counter.empty?
+        File.open("#{settings.statsdir}/#{settings.viewstats}", 'w') do |f|
+          if settings.verbose then
+            f.write(JSON.pretty_generate(@@counter))
+          else
+            f.write(@@counter.to_json)
+          end
         end
       end
-    end
 
-    if defined?(@@forms) and not @@forms.empty?
-      File.open("#{settings.statsdir}/#{settings.forms}", 'w') do |f|
-        if settings.verbose then
-          f.write(JSON.pretty_generate(@@forms))
-        else
-          f.write(@@forms.to_json)
+      if defined?(@@forms) and not @@forms.empty?
+        File.open("#{settings.statsdir}/#{settings.forms}", 'w') do |f|
+          if settings.verbose then
+            f.write(JSON.pretty_generate(@@forms))
+          else
+            f.write(@@forms.to_json)
+          end
         end
       end
+    rescue Errno::ENOENT => e
     end
   end
 
@@ -1369,6 +1377,9 @@ class ShowOff < Sinatra::Application
   end
 
   get '/control' do
+    # leave the route so we don't have 404's for the parts we've missed
+    return nil unless @interactive
+
     if !request.websocket?
       raise Sinatra::NotFound
     else

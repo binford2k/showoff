@@ -734,11 +734,17 @@ function renderForm(form) {
 }
 
 function connectControlChannel() {
-  protocol     = (location.protocol === 'https:') ? 'wss://' : 'ws://';
-  ws           = new WebSocket(protocol + location.host + '/control');
-  ws.onopen    = function()  { connected();          };
-  ws.onclose   = function()  { disconnected();       }
-  ws.onmessage = function(m) { parseMessage(m.data); };
+  if (interactive) {
+    protocol     = (location.protocol === 'https:') ? 'wss://' : 'ws://';
+    ws           = new WebSocket(protocol + location.host + '/control');
+    ws.onopen    = function()  { connected();          };
+    ws.onclose   = function()  { disconnected();       }
+    ws.onmessage = function(m) { parseMessage(m.data); };
+  }
+  else {
+    ws = {}
+    ws.send = function() { /* no-op */ }
+  }
 }
 
 // This exists as an intermediary simply so the presenter view can override it
