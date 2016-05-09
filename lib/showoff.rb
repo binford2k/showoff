@@ -1374,7 +1374,7 @@ class ShowOff < Sinatra::Application
     else
       request.websocket do |ws|
         ws.onopen do
-          ws.send( { 'current' => @@current[:number] }.to_json )
+          ws.send( { 'message' => 'current', 'current' => @@current[:number] }.to_json )
           settings.sockets << ws
 
           @logger.warn "Open sockets: #{settings.sockets.size}"
@@ -1404,7 +1404,7 @@ class ShowOff < Sinatra::Application
                 @@current = { :name => name, :number => slide }
 
                 # schedule a notification for all clients
-                EM.next_tick { settings.sockets.each{|s| s.send({ 'current' => @@current[:number] }.to_json) } }
+                EM.next_tick { settings.sockets.each{|s| s.send({ 'message' => 'current', 'current' => @@current[:number] }.to_json) } }
               end
 
             when 'register'
