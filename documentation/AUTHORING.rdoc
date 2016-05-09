@@ -617,6 +617,7 @@ The "add slide" feature can allow you to add the necessary boilerplate from your
 == Commands
 [<tt>add</tt>] Add a new slide at the end in a given dir
 [<tt>create</tt>] Create new showoff presentation
+[<tt>skeleton</tt>] Generate a full presentation based on a <tt>showoff.json</tt> outline
 [<tt>help</tt>] Shows list of commands or help for one command
 [<tt>heroku</tt>] Setup your presentation to serve on Heroku
 [<tt>github</tt>] Setup your presentation to serve on GitHub Pages

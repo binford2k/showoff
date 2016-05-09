@@ -52,6 +52,28 @@ class ShowOffUtils
     end
   end
 
+  def self.skeleton(config)
+    if config
+      FileUtils.cp(config, '.')
+      ShowOffUtils.presentation_config_file = File.basename(config)
+    end
+
+    self.showoff_sections('.').each do |filename|
+      next if File.exist? filename
+
+      puts "Creating: #{filename}"
+      if filename.downcase.end_with? '.md'
+        FileUtils.mkdir_p File.dirname(filename)
+
+        File.open(filename, 'w+') do |f|
+          f.puts make_slide("#{filename.sub(/\.md$/, '')}")
+        end
+      else
+        FileUtils.mkdir_p filename
+      end
+    end
+  end
+
   HEROKU_GEMS_FILE = '.gems'
   HEROKU_BUNDLER_GEMS_FILE = 'Gemfile'
   HEROKU_CONFIG_FILE = 'config.ru'
@@ -273,7 +295,12 @@ class ShowOffUtils
     [code,lines,width]
   end
 
-  def self.showoff_sections(dir,logger)
+  def self.showoff_sections(dir, logger = nil)
+    unless logger
+      logger = Logger.new(STDOUT)
+      logger.level = Logger::WARN
+    end
+
     index = File.join(dir, ShowOffUtils.presentation_config_file)
     sections = nil
     if File.exist?(index)
