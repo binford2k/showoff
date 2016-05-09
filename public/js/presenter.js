@@ -515,7 +515,7 @@ function startTimer() {
   $("#stopTimer").show();
   $("#pauseTimer").show();
   $("#timerDisplay").show();
-  $("#timerSection").height('320px');
+  $("#timerSection").addClass('open');
 
   var time = parseInt( $("#timerMinutes").val() ) * 60;
   if(time) {
@@ -600,7 +600,6 @@ function stopTimer() {
   $("#pauseTimer").hide();
   $("#timerDisplay").hide();
   $('#timerSection').removeClass();
-  $("#timerSection").height('auto');
 }
 
 /********************

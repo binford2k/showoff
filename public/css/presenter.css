@@ -106,11 +106,14 @@
   }
     #timerSection {
       margin-bottom: 0.25em;
-      padding-left: 0.5em;
       height: 2.15em;
       min-height: 2.15em;
       line-height: 2.15em;
       vertical-align: middle;
+    }
+    #timerSection.open {
+      height: 100px;
+      min-height: 100px;
     }
 
     #timerDisplay {
@@ -119,6 +122,7 @@
     }
 
     #timerDisplay.paused {
+      -webkit-filter: grayscale(100%);
       filter: grayscale(100%);
       opacity: 0.25;
     }
