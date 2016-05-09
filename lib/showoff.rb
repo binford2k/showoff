@@ -3,6 +3,7 @@ require 'sinatra/base'
 require 'json'
 require 'nokogiri'
 require 'fileutils'
+require 'pathname'
 require 'logger'
 require 'htmlentities'
 require 'sinatra-websocket'
@@ -768,21 +769,32 @@ class ShowOff < Sinatra::Application
     private :update_download_links
 
     def update_image_paths(path, slide, opts={:static=>false, :pdf=>false})
-      paths = path.split('/')
-      paths.pop
-      path = paths.join('/')
-      replacement_prefix = opts[:static] ?
-        ( opts[:pdf] ? %(img src="file://#{settings.pres_dir}/#{path}) : %(img src="./file/#{path}) ) :
-        %(img src="#{@asset_path}image/#{path})
-      slide.gsub(/img src=[\"\'](?!https?:\/\/)([^\/].*?)[\"\']/) do |s|
-        img_path = File.join(path, $1)
-        w, h     = get_image_size(img_path)
-        src      = %(#{replacement_prefix}/#{$1}")
-        if w && h
-          src << %( width="#{w}" height="#{h}")
-        end
-        src
+      doc       = Nokogiri::HTML::DocumentFragment.parse(slide)
+      slide_dir = File.dirname(path)
+
+      case
+      when opts[:static] && opts[:pdf]
+        replacement_prefix = "file://#{settings.pres_dir}/"
+      when opts[:static]
+        replacement_prefix = "./file/"
+      else
+        replacement_prefix = "#{@asset_path}image/"
       end
+
+      doc.css('img').each do |img|
+        # clean up the path and remove some of the relative nonsense
+        img_path  = Pathname.new(File.join(slide_dir, img[:src])).cleanpath.to_path
+        src       = "#{replacement_prefix}/#{img_path}"
+        img[:src] = src
+
+        # TDOD: deprecated and to be removed
+        w, h      = get_image_size(img_path)
+        if w && h
+          img[:width]  = w
+          img[:height] = h
+        end
+      end
+      doc.to_html
     end
 
     if defined?(Magick)
