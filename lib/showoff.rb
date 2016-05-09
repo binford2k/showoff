@@ -1169,6 +1169,8 @@ class ShowOff < Sinatra::Application
     if path =~ /^(.*)(?::)(\d+)$/
       path = $1
       num  = $2.to_i
+    else
+      num = 1
     end
 
     slide = "#{path}.md"
