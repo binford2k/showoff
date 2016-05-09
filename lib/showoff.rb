@@ -964,6 +964,7 @@ class ShowOff < Sinatra::Application
     end
 
     def presenter
+      @favicon   = settings.showoff_config['favicon']
       @issues    = settings.showoff_config['issues']
       @edit      = settings.showoff_config['edit'] if @review
       @@cookie ||= guid()
