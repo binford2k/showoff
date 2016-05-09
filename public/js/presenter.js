@@ -543,7 +543,9 @@ function timerProgress(unit, value, total){
     if (total < timerIntervals[0]) {
 
       ts = $('#timerSection');
-      ts.removeClass();
+
+      // clear all classes except for the one sizing the container
+      ts.attr('class', 'open');
 
       // remove all the intervals we've already passed
       timerIntervals = timerIntervals.filter(function(val) { return val < total });
