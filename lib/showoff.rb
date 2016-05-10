@@ -106,6 +106,11 @@ class ShowOff < Sinatra::Application
     # code execution timeout
     settings.showoff_config['timeout'] ||= 15
 
+    # If favicon in presentation root, use it by default
+    if File.exist? 'favicon.ico'
+      settings.showoff_config['favicon'] ||= 'file/favicon.ico'
+    end
+
     # default protection levels
     if settings.showoff_config.has_key? 'password'
       settings.showoff_config['protected'] ||= ["presenter", "onepage", "print"]
