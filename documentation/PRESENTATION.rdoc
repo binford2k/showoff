@@ -12,7 +12,7 @@ includes all current configuration keys, which will be described below.
     {
       "name": "Something",
       "description": "Example Presentation",
-      "favicon": "favicon.ico",
+      "favicon": "file/favicon-example.ico",
       "protected": [
         "presenter",
         "onepage",
@@ -59,7 +59,11 @@ The configuration settings you may use are listed below. Please see the
   be opened in a new browser tab. This is currently only tested with GitHub.
 
 [favicon]
-  The filename of a favicon image to use.
+  The filename of a favicon image to use. Note that you must prefix the filename
+  with <tt>file</tt> as shown in the example.
+
+  If you place a <tt>favicon.ico</tt> in the root of your presentation, it will
+  be used by default without setting this.
 
 [feedback]
   Enable the interactive feedback features. Defaults to false.
