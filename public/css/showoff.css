@@ -523,33 +523,40 @@ img#disconnected {
 }
 
 /* Add a Shell "code highlighting" style to resemble the look of a terminal window. */
-.content pre.highlight code.language-shell {
+.highlight .language-shell {
   display: block;
-  background-color: #111;
+  background-color: #222;
   color: #00ff40;
   border: 2px solid #ddd;
   padding: 0.5em;
   overflow: hidden;
 }
 
-/* executable code blocks */
-code.execute {
-  cursor: context-menu;
-  background-image: url(run_code.png);
-  background-position: right 5px top 5px;
-  background-repeat: no-repeat;
-  display: block;
-  min-height: 42px;
+/**********************************
+ ***       code execution       ***
+ **********************************/
+ .execute {
+  position: relative;
+  cursor: pointer;
 }
 
-code.executing {
-  opacity: 0.5;
-  background-image: url(run_code-dim.png);
+.execute:after {
+  font-family: FontAwesome;
+  content: "\F144";
+  position: absolute;
+  right: .5em;
 }
 
-code.executing:hover {
-  cursor: wait;
+.executing:after { 
+  content: "\f1ce";
+  color: #e74c3c;
+  -webkit-animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite;
 }
+
+.executing:hover { cursor: wait; }
+/* End code execution */
+
 
 #tips, #preshow_timer {
   display:inline;
@@ -907,3 +914,30 @@ form .element {
   }
 
 }
+
+ /***********************
+ ***    Animations    ***
+ ***********************/
+
+@-webkit-keyframes spin {
+    from   {
+        -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+    to {
+        -webkit-transform: rotate(360deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+}
+@keyframes spin {
+    from   {
+        -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+    to {
+        -webkit-transform: rotate(360deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+}
+
+/* end animations */
