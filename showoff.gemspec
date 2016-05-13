@@ -19,8 +19,9 @@ Gem::Specification.new do |s|
   s.files            += Dir.glob("views/**/*")
   s.files            += Dir.glob("public/**/*")
   s.add_dependency      "sinatra", "~> 1.3"
+  s.add_dependency      "gli",     ">= 1.3.2"
+  s.add_dependency      "tilt",    ">= 2.0.3"
   s.add_dependency      "json"
-  s.add_dependency      "gli",">= 1.3.2"
   s.add_dependency      "parslet"
   s.add_dependency      "htmlentities"
   s.add_dependency      "redcarpet"
