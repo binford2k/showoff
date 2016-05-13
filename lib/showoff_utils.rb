@@ -437,48 +437,53 @@ end
 # file
 module MarkdownConfig
   def self.setup(dir_name)
-    # Load markdown configuration
-    case ShowOffUtils.showoff_markdown(dir_name)
+    require 'tilt'
+    require 'tilt/erb'
 
-    when 'rdiscount'
-      Tilt.prefer Tilt::RDiscountTemplate, "markdown"
+    renderer = ShowOffUtils.showoff_markdown(dir_name)
+    begin
+      # Load markdown configuration
+      case renderer
+      when 'rdiscount'
+        Tilt.prefer Tilt::RDiscountTemplate, "markdown"
 
-    when 'maruku'
-      Tilt.prefer Tilt::MarukuTemplate, "markdown"
-      # Now check if we can go for latex mode
-      require 'maruku'
-      require 'maruku/ext/math'
+      when 'maruku'
+        Tilt.prefer Tilt::MarukuTemplate, "markdown"
+        # Now check if we can go for latex mode
+        require 'maruku'
+        require 'maruku/ext/math'
 
-      # Load maruku options
-      opts = ShowOffUtils.showoff_renderer_options(dir_name,
-                                                   { :use_tex => false,
-                                                     :png_dir => 'images',
-                                                     :html_png_url => '/file/images/'})
+        # Load maruku options
+        opts = ShowOffUtils.showoff_renderer_options(dir_name,
+                                                     { :use_tex      => false,
+                                                       :png_dir      => 'images',
+                                                       :html_png_url => '/file/images/'})
 
-      if opts[:use_tex]
-        MaRuKu::Globals[:html_math_output_mathml] = false
-        MaRuKu::Globals[:html_math_engine] = 'none'
-        MaRuKu::Globals[:html_math_output_png] = true
-        MaRuKu::Globals[:html_png_engine] =  'blahtex'
-        MaRuKu::Globals[:html_png_dir] = opts[:png_dir]
-        MaRuKu::Globals[:html_png_url] = opts[:html_png_url]
+        if opts[:use_tex]
+          MaRuKu::Globals[:html_math_output_mathml] = false
+          MaRuKu::Globals[:html_math_output_png]    = true
+          MaRuKu::Globals[:html_math_engine]        = 'none'
+          MaRuKu::Globals[:html_png_engine] =  'blahtex'
+          MaRuKu::Globals[:html_png_dir]    = opts[:png_dir]
+          MaRuKu::Globals[:html_png_url]    = opts[:html_png_url]
+        end
+
+      when 'bluecloth'
+        Tilt.prefer Tilt::BlueClothTemplate, "markdown"
+
+      when 'kramdown'
+        Tilt.prefer Tilt::KramdownTemplate, "markdown"
+
+      when 'commonmarker'
+        Tilt.prefer Tilt::CommonMarkerTemplate, "markdown"
+
+      else
+        Tilt.prefer Tilt::RedcarpetTemplate, "markdown"
+
       end
-
-    when 'bluecloth'
-      Tilt.prefer Tilt::BlueClothTemplate, "markdown"
-
-    when 'kramdown'
-      Tilt.prefer Tilt::KramdownTemplate, "markdown"
-
-    when 'commonmarker'
-      require 'tilt/commonmarker'
-      Tilt.prefer Tilt::CommonMarkerTemplate, "markdown"
-
-    else
-      Tilt.prefer Tilt::RedcarpetTemplate, "markdown"
-      require 'tilt'
-      require 'tilt/erb'
-
+    rescue LoadError
+      puts "ERROR: The #{renderer} markdown rendering engine does not appear to be installed correctly."
+      exit! 1
     end
   end
 

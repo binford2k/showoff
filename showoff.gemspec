@@ -19,14 +19,14 @@ Gem::Specification.new do |s|
   s.files            += Dir.glob("views/**/*")
   s.files            += Dir.glob("public/**/*")
   s.add_dependency      "sinatra", "~> 1.3"
+  s.add_dependency      "gli",     ">= 1.3.2"
+  s.add_dependency      "tilt",    ">= 2.0.3"
   s.add_dependency      "json"
-  s.add_dependency      "gli",">= 1.3.2"
   s.add_dependency      "parslet"
   s.add_dependency      "htmlentities"
   s.add_dependency      "redcarpet"
   s.add_dependency      "nokogiri"
   s.add_dependency      "sinatra-websocket"
-  s.add_dependency      "commonmarker"
   # workaround a bad dependency in sinatra-websocket
   s.add_dependency      "thin", "~> 1.3"
 
