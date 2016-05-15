@@ -764,8 +764,7 @@ function connected() {
   $("img#disconnected").hide();
 
   try {
-    // If we are a presenter, then remind the server where we are
-    update();
+    // If we are a presenter, then remind the server who we are
     register();
   }
   catch (e) {}
