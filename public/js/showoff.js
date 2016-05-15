@@ -292,6 +292,7 @@ function setupMenu() {
       .shift();
     var headers = $(slide).children("h1, h2");
     var slideTitle = '';
+    var content;
 
     if (currentSection !== slidePath) {
       currentSection = slidePath;
@@ -317,13 +318,18 @@ function setupMenu() {
       nav.append(newSection);
     }
 
+    // look for first header to use as a title
     if (headers.length > 0) {
       slideTitle = headers.first().text();
     } else {
-      slideTitle = $(slide)
-        .find(".content")
-        .text()
-        .substr(0, 20);
+      // if no header, look at content
+      content    = $(slide).find(".content");
+      slideTitle = content.text().substr(0, 20).trim();
+
+      // if no content (like photo only) fall back to slide name
+      if (slideTitle == "") {
+        slideTitle = content.attr('ref').split('/').pop();
+      }
     }
 
     var navLink = $("<a>")
