@@ -316,26 +316,9 @@
             order: 1;
     overflow: auto;
     height: 100%;
+    padding: 0 1em;
   }
-  #notes p,
-  #notes h1,
-  #notes h2,
-  #notes h3,
-  #notes h4,
-  #notes ol,
-  #notes ul {
-    margin-right: 0.75em;
-    padding-left: 0.25em;
-  }
-  #notes p {
-    padding: 0.25em;
-    margin-bottom: 0.5em;
-  }
-  #notes ol, #notes ul {
-    padding-left: 2em;
-    padding-top: 0.25em;
-    margin-bottom: 0.5em;
-  }
+
   #notes ol {
     list-style-type: decimal;
   }
@@ -345,14 +328,13 @@
 
   #notes .element {
     display: inline-block;
-    width: 90%;
+      width: 90%;
   }
 
   #notes .count {
     display: inline-block;
     background-color: #27ae60;
     color: #ffffff;
-    padding: 0 8px;
     font-size: 2.5em;
     vertical-align: top;
     border-radius: .2em;
