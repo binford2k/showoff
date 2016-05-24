@@ -616,50 +616,52 @@ function renderForm(form) {
   var action = form.attr("action");
   $.getJSON(action, function( data ) {
     //console.log(data);
-    form.children('.element').each(function() {
-      var key = $(this).attr('data-name');
+    form.children('.element').each(function(index, element) {
+      var key = $(element).attr('data-name');
 
       // add a counter label if we haven't already
-      if( $(this).next('.count').length === 0 ) {
-        $(this).after($('<h1>').addClass('count'));
+      if( $(element).next('.count').length === 0 ) {
+        $(element).after($('<h1>').addClass('count'));
       }
 
-      $(this).find('ul > li > *').each(function() {
+      $(element).find('ul > li > *').each(function() {
         $(this).parent().parent().before(this);
       });
-      $(this).children('ul').each(function() {
+      $(element).children('ul').each(function() {
         $(this).remove();
       });
 
-      // replace all input widgets with spans for the bar chart
-      $(this).children(':input').each(function() {
-        switch( $(this).attr('type') ) {
+      // replace all input widgets with divs for the bar chart
+      $(element).children(':input').each(function(index, input) {
+        switch( $(input).attr('type') ) {
           case 'text':
           case 'button':
           case 'submit':
           case 'textarea':
             // we don't render these
-            $(this).parent().remove();
+            $(input).parent().remove();
             break;
 
           case 'radio':
           case 'checkbox':
             // Just render these directly and migrate the label to inside the span
-            var label   = $(this).next('label');
+            var label   = $(input).next('label');
             var text    = label.text();
-            var classes = $(this).attr('class');
+            var classes = $(input).attr('class');
 
             if(text.match(/^-+$/)) {
-              $(this).remove();
+              $(input).remove();
             } else {
               var resultDiv = $('<div>')
                 .addClass('item')
-                .attr('data-value', $(this).attr('value'))
-                .text(text);
+                .attr('data-value', $(input).attr('value'))
+                .append($('<span>').addClass('answer').text(text))
+                .append($('<div>').addClass('bar'));
+                
               if (classes) {
                 resultDiv.addClass(classes);
               }
-              $(this).replaceWith(resultDiv);
+              $(input).replaceWith(resultDiv);
             }
             label.remove();
             break;
@@ -667,24 +669,25 @@ function renderForm(form) {
           default:
             // select doesn't have a type attribute... yay html
             // poke inside to get options, then render each as a span and replace the select
-            var parent = $(this).parent();
+            var parent = $(input).parent();
 
-            $(this).children('option').each(function() {
-              var text    = $(this).text();
-              var classes = $(this).attr('class');
+            $(input).children('option').each(function() {
+              var text    = $(input).text();
+              var classes = $(input).attr('class');
 
               if(! text.match(/^-+$/)) {
                 var resultDiv = $('<div>')
                   .addClass('item')
-                  .attr('data-value', $(this).val())
-                  .text(text);
+                  .attr('data-value', $(input).val())
+                  .append($('<span>').addClass('answer').text(text))
+                  .append($('<div>').addClass('bar'));
                 if (classes) {
                   resultDiv.addClass(classes);
                 }
                 parent.append(resultDiv);
               }
             });
-            $(this).remove();
+            $(input).remove();
             break;
         }
       });
@@ -694,8 +697,8 @@ function renderForm(form) {
         // number of unique responses
         var total = 0;
         // double loop so we can handle re-renderings of the form
-        $(this).find('.item').each(function() {
-          var name = $(this).attr('data-value');
+        $(element).find('.item').each(function(index, item) {
+          var name = $(item).attr('data-value');
 
           if(key in data) {
             var count = data[key]['responses'][name];
@@ -705,12 +708,12 @@ function renderForm(form) {
         });
 
         // insert the total into the counter label
-        $(this).next('.count').each(function() {
-          $(this).text(total);
+        $(element).next('.count').each(function(index, icount) {
+          $(icount).text(total);
         });
 
-        var oldTotal = $(this).attr('data-total');
-        $(this).find('.item').each(function() {
+        var oldTotal = $(element).attr('data-total');
+        $(element).find('.item').each(function() {
           var name     = $(this).attr('data-value');
           var oldCount = $(this).attr('data-count');
 
@@ -722,18 +725,18 @@ function renderForm(form) {
           }
 
           if(count != oldCount || total != oldTotal) {
-            var percent = (total) ? ((count/total)*100)+'%' : '0%';
+            var percent = (total) ? ((count/total)*100) + '%' : '0%';
 
             $(this).attr('data-count', count);
-            $(this).animate({width: percent});
+            $(this).find('.bar').animate({width: percent});
           }
         });
 
         // record the old total value so we only animate when it changes
-        $(this).attr('data-total', total);
+        $(element).attr('data-total', total);
       }
 
-      $(this).addClass('rendered');
+      $(element).addClass('rendered');
     });
 
   });
