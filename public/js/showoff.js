@@ -616,23 +616,23 @@ function renderForm(form) {
   var action = form.attr("action");
   $.getJSON(action, function( data ) {
     //console.log(data);
-    form.children('.element').each(function() {
-      var key = $(this).attr('data-name');
+    form.children('.element').each(function(index, element) {
+      var key = $(element).attr('data-name');
 
       // add a counter label if we haven't already
-      if( $(this).next('.count').length === 0 ) {
-        $(this).after($('<h1>').addClass('count'));
+      if( $(element).next('.count').length === 0 ) {
+        $(element).after($('<h1>').addClass('count'));
       }
 
-      $(this).find('ul > li > *').each(function() {
+      $(element).find('ul > li > *').each(function() {
         $(this).parent().parent().before(this);
       });
-      $(this).children('ul').each(function() {
+      $(element).children('ul').each(function() {
         $(this).remove();
       });
 
       // replace all input widgets with divs for the bar chart
-      $(this).children(':input').each(function(index, input) {
+      $(element).children(':input').each(function(index, input) {
         switch( $(input).attr('type') ) {
           case 'text':
           case 'button':
@@ -697,8 +697,8 @@ function renderForm(form) {
         // number of unique responses
         var total = 0;
         // double loop so we can handle re-renderings of the form
-        $(this).find('.item').each(function() {
-          var name = $(this).attr('data-value');
+        $(element).find('.item').each(function(index, item) {
+          var name = $(item).attr('data-value');
 
           if(key in data) {
             var count = data[key]['responses'][name];
@@ -708,12 +708,12 @@ function renderForm(form) {
         });
 
         // insert the total into the counter label
-        $(this).next('.count').each(function() {
-          $(this).text(total);
+        $(element).next('.count').each(function(index, icount) {
+          $(icount).text(total);
         });
 
-        var oldTotal = $(this).attr('data-total');
-        $(this).find('.item').each(function() {
+        var oldTotal = $(element).attr('data-total');
+        $(element).find('.item').each(function() {
           var name     = $(this).attr('data-value');
           var oldCount = $(this).attr('data-count');
 
@@ -733,10 +733,10 @@ function renderForm(form) {
         });
 
         // record the old total value so we only animate when it changes
-        $(this).attr('data-total', total);
+        $(element).attr('data-total', total);
       }
 
-      $(this).addClass('rendered');
+      $(element).addClass('rendered');
     });
 
   });
