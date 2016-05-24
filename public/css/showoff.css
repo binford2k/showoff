@@ -654,24 +654,29 @@ form .element {
 .rendered label {
   border-bottom: 1px solid #999;
 }
-.rendered .item {
+.item {
+  width: 100%;
+  position: relative;
+}
+
+.answer {
+  position: absolute;
+  left: 0;
+}
+.bar {
   height: 1.25em;
-  white-space: nowrap;
-  background-color: #f2dede;
+  background-color: #e74c3c;
   border: 1px solid #f45f5f;
   border-left: none;
   border-radius: 0 0.4em 0.4em 0;
 }
-.rendered .item.correct {
+.correct .bar {
   background-color: #dff0d8;
   border: 1px solid #00AA00;
   border-left: none;
 }
-.count {
-  display: none;
-}
 
-#notes .form.wrapper {
+.count {
   display: none;
 }
 
