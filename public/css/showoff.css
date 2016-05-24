@@ -647,8 +647,7 @@ form .element {
 .rendered {
   border: 1px solid #ccc;
   border-radius: 0.5em;
-  margin: 1em;
-  padding: 0.25em 0.25em 0.25em .5em;
+  padding: .5em;
   min-height: 3em;
 }
 
