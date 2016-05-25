@@ -384,6 +384,17 @@ a.controls {
   }
 }
 
+@media screen and (max-width: 900px)
+{
+  #topbar .fa {
+    display: none;
+  }
+  .desktop a {
+    margin-right: 0.25em;
+  }
+}
+
+
 /* iPhone */
 /* Portrait */
 @media screen and (max-width: 480px)
