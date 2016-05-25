@@ -19,11 +19,11 @@
 <div id="main">
   <div id="topbar">
     <span id="slideSource">
-      Source:
+      <label>Source:</label>
       <% if @request.host == 'localhost' %>
         <a href="javascript:openEditor();"><span id="slideFile"></span></a>
       <% else %>
-        <span id="slideFile">
+        <span id="slideFile" />
       <% end %>
     </span>
     <span id="links">
