@@ -17,17 +17,18 @@
 }
 
 #topbar {
+  display: flex;
+  flex-flow: row;
   line-height: 24px;
+  height: 24px;
   background: #222222;
   font-size: .55em;
   color: #fff;
-  padding: 0 1em;
 }
 
   #topbar a {
     text-decoration: none;
     color: #fff;
-    padding: .35em;
   }
 
   #topbar a:hover{
@@ -38,13 +39,24 @@
     color: #8affeb;
   }
 
+  #slideSource {
+    display: flex;
+    flex-shrink: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0 0.5em;
+  }
+
   #links {
-    float: right;
+    display: flex;
+    flex-shrink: 0;
+    margin: 0 0 0 auto;
   }
 
   #links a {
     border: 1px solid #ccc;
     border-radius: 0.5em;
+    padding: .35em;
   }
 
   #links a.enabled {
@@ -56,7 +68,7 @@
   }
 
   .desktop span {
-    margin: 0 1em;
+    margin: 0 0.5em;
   }
 
 #presenterPopup {
@@ -363,6 +375,25 @@ a.controls {
   -khtml-border-radius: 0.5em;
   border-radius: 0.5em;
 }
+
+/* hide some elements when the screen is too small */
+@media screen and (max-width: 1000px)
+{
+  #slideSource label {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 900px)
+{
+  #topbar .fa {
+    display: none;
+  }
+  .desktop a {
+    margin-right: 0.25em;
+  }
+}
+
 
 /* iPhone */
 /* Portrait */
