@@ -414,7 +414,25 @@ function postSlide() {
       notes = notes.html();
     }
 
-		$('#notes').html(notes);
+    $('#notes').html(notes);
+
+    var sections = getCurrentSections();
+    if(sections.size() > 1) {
+      var ul = $('<ul>').addClass('section-selector');
+      sections.each(function(idx, value){
+        var li = $('<li/>').appendTo(ul);
+        var a  = $('<a/>')
+                      .text(value)
+                      .attr('href','javascript:setCurrentSection("'+value+'");')
+                      .appendTo(li);
+
+        if(section == value) {
+          li.addClass('selected');
+        }
+      });
+
+      $('#notes').prepend(ul);
+    }
 
     if (notesWindow && typeof(notesWindow) != 'undefined' && !notesWindow.closed) {
       $(notesWindow.document.body).html(notes);

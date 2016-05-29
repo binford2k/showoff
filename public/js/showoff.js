@@ -16,7 +16,8 @@ var incrCode = false
 var debugMode = false
 var gotoSlidenum = 0
 var lastMessageGuid = 0
-var query
+var query;
+var section = 'notes'; // which section the presenter has chosen to view
 var slideStartTime = new Date().getTime()
 
 var loadSlidesBool
@@ -501,9 +502,22 @@ function getSlideProgress()
 	return (slidenum + 1) + '/' + slideTotal
 }
 
+function getCurrentSections()
+{
+  return currentSlide.find("div.notes-section").map(function() {
+    return $(this).attr('class').split(' ').filter(function(x) { return x != 'notes-section'; });
+  });
+}
+
+function setCurrentSection(newSection)
+{
+  section = newSection;
+  postSlide();
+}
+
 function getCurrentNotes()
 {
-    var notes = currentSlide.find("div.notes");
+    var notes = currentSlide.find("div.notes-section."+section);
     return notes;
 }
 
@@ -657,7 +671,7 @@ function renderForm(form) {
                 .attr('data-value', $(input).attr('value'))
                 .append($('<span>').addClass('answer').text(text))
                 .append($('<div>').addClass('bar'));
-                
+
               if (classes) {
                 resultDiv.addClass(classes);
               }
