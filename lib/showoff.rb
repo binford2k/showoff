@@ -1037,7 +1037,8 @@ class ShowOff < Sinatra::Application
     end
 
     def supplemental(content, static=false)
-      @slides = get_slides_html(:static=>static, :supplemental=>content)
+      # supplemental material is by definition separate from the presentation, so it doesn't make sense to attach notes
+      @slides = get_slides_html(:static=>static, :supplemental=>content, :section=>false)
       @favicon = settings.showoff_config['favicon']
       @wrapper_classes = ['supplemental']
       erb :onepage
