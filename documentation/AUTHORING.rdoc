@@ -302,13 +302,46 @@ display below the slide in the printed version..
 
     ~~~SECTION:handouts~~~
 
-    This is supplementary material that will only appear in the printed version.
+    This is supplementary material that will appear in the printed version.
 
     ~~~ENDSECTION~~~
 
-Handout notes are best viewed by printing the <tt>/onepage</tt> view from your browser. Each slide will
+Handout notes are best viewed by printing the <tt>/print</tt> view from your browser. Each slide will
 be printed on a new page and handout notes will be included below the slide contents. Handout notes can
 contain any markup that the slide itself can.
+
+== Adding Notes Sections
+
+You can add arbitrary section types by simply declaring them on a slide. All sections attached to
+a slide can be chosen from a flyaway tab widget in the notes field in the presenter. For example,
+if a slide contained the following notes sections,
+
+    ~~~SECTION:notes~~~
+    This is a presenter note example.
+    ~~~ENDSECTION~~~
+
+    ~~~SECTION:handouts~~~
+    This is supplementary material that will appear in the printed version.
+    ~~~ENDSECTION~~~
+
+    ~~~SECTION:guide~~~
+    This is an additional notes section that may be chosen from the tab bar.
+    ~~~ENDSECTION~~~
+
+then the section selector would contain <tt>notes</tt>, <tt>handouts</tt>, and <tt>guide</tt>.
+
+== Printing Notes Sections
+
+When printing the presentation, you can choose which notes section to attach below the slides.
+
+    # Prints the presenter notes
+    showoff static print notes
+
+    # Prints a section called "guide"
+    showoff static print guide
+
+By default, the <tt>handouts</tt> section will be attached. In other words, <tt>showoff static print</tt>
+will behave just like <tt>showoff static print handouts</tt>.
 
 = Other Tags
 

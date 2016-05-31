@@ -213,7 +213,7 @@ pre code {
     white-space: pre;
 }
 
-.notes, .handouts, .instructor, .solguide { display: none }
+.notes-section, .instructor, .solguide { display: none }
 
 .offscreen { position:absolute; top:0; left:-9999px; overflow:hidden; }
 
@@ -547,7 +547,7 @@ img#disconnected {
   right: .5em;
 }
 
-.executing:after { 
+.executing:after {
   content: "\f1ce";
   color: #e74c3c;
   -webkit-animation: spin 1.5s linear infinite;
@@ -893,19 +893,35 @@ form .element {
   }
 
   /* Styling to make the handout notes appear in the printed output. */
-  .handouts {
+  .notes-section {
     display: block;
     clear: both;
     padding-top: 1em;
   }
 
   /* prepend the first element of the .handouts div with Notes: */
-  .handouts > :first-child:before {
+  .notes-section > :first-child:before {
     display: block;
     font-weight: bold;
     content: "Notes:";
     border-top: 2px dashed #999;
     padding: 0.25em 0 0.5em 0;
+  }
+
+  .notes-section.notes .personal {
+    float: right;
+    border-left: 2px solid #999;
+    border-bottom: 2px solid #999;
+    border-radius: 0 0 0 0.5em;
+    padding: 0.1em 0 0.25em 0.25em;
+    margin: 0 0 1em 1em;
+    max-width: 35%;
+  }
+
+  .notes-section.notes .personal h1 {
+    margin-top: 0;
+    border-bottom: 1px solid #ccc;
+    font-size: 1.5em;
   }
 
   /* page break styling */

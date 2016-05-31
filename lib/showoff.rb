@@ -284,7 +284,7 @@ class ShowOff < Sinatra::Application
       end
     end
 
-    def process_markdown(name, content, opts={:static=>false, :pdf=>false, :print=>false, :toc=>false, :supplemental=>nil})
+    def process_markdown(name, content, opts={:static=>false, :pdf=>false, :print=>false, :toc=>false, :supplemental=>nil, :section=>nil})
       if settings.encoding and content.respond_to?(:force_encoding)
         content.force_encoding(settings.encoding)
       end
@@ -409,7 +409,7 @@ class ShowOff < Sinatra::Application
         sl = Tilt[:markdown].new(nil, nil, engine_options) { sl }.render
         sl = build_forms(sl, content_classes)
         sl = update_p_classes(sl)
-        sl = process_content_for_section_tags(sl, name)
+        sl = process_content_for_section_tags(sl, name, opts)
         sl = update_special_content(sl, @slide_count, name) # TODO: deprecated
         sl = update_image_paths(name, sl, opts)
 
@@ -466,30 +466,36 @@ class ShowOff < Sinatra::Application
     end
 
     # replace section tags with classed div tags
-    def process_content_for_section_tags(content, name = nil)
+    def process_content_for_section_tags(content, name = nil, opts = {})
       return unless content
 
       # because this is post markdown rendering, we may need to shift a <p> tag around
       # remove the tags if they're by themselves
-      result = content.gsub(/<p>~~~SECTION:([^~]*)~~~<\/p>/, '<div class="\1">')
+      result = content.gsub(/<p>~~~SECTION:([^~]*)~~~<\/p>/, '<div class="notes-section \1">')
       result.gsub!(/<p>~~~ENDSECTION~~~<\/p>/, '</div>')
 
       # shove it around the div if it belongs to the contained element
-      result.gsub!(/(<p>)?~~~SECTION:([^~]*)~~~/, '<div class="\2">\1')
+      result.gsub!(/(<p>)?~~~SECTION:([^~]*)~~~/, '<div class="notes-section \2">\1')
       result.gsub!(/~~~ENDSECTION~~~(<\/p>)?/, '\1</div>')
 
       # Turn this into a document for munging
       doc = Nokogiri::HTML::DocumentFragment.parse(result)
 
+      if opts[:section]
+        doc.css('div.notes-section').each do |section|
+          section.remove unless section.attr('class').split.include? opts[:section]
+        end
+      end
+
       filename = File.join(settings.pres_dir, '_notes', "#{name}.md")
       @logger.debug "personal notes filename: #{filename}"
-      if File.file? filename
+      if [nil, 'notes'].include? opts[:section] and File.file? filename
         # TODO: shouldn't have to reparse config all the time
         engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
 
         # Make sure we've got a notes div to hang personal notes from
-        doc.add_child '<div class="notes"></div>' if doc.css('div.notes').empty?
-        doc.css('div.notes').each do |section|
+        doc.add_child '<div class="notes-section notes"></div>' if doc.css('div.notes-section.notes').empty?
+        doc.css('div.notes-section.notes').each do |section|
           text = Tilt[:markdown].new(nil, nil, engine_options) { File.read(filename) }.render
           frag = "<div class=\"personal\"><h1>Personal Notes</h1>#{text}</div>"
           note = Nokogiri::HTML::DocumentFragment.parse(frag)
@@ -879,7 +885,7 @@ class ShowOff < Sinatra::Application
       html.to_html
     end
 
-    def get_slides_html(opts={:static=>false, :pdf=>false, :toc=>false, :supplemental=>nil})
+    def get_slides_html(opts={:static=>false, :pdf=>false, :toc=>false, :supplemental=>nil, :section=>nil})
 
       sections = ShowOffUtils.showoff_sections(settings.pres_dir, @logger)
       files = []
@@ -1024,14 +1030,15 @@ class ShowOff < Sinatra::Application
       content
     end
 
-    def print(static=false)
-      @slides = get_slides_html(:static=>static, :toc=>true, :print=>true)
+    def print(static=false, section=nil)
+      @slides = get_slides_html(:static=>static, :toc=>true, :print=>true, :section=>section)
       @favicon = settings.showoff_config['favicon']
       erb :onepage
     end
 
     def supplemental(content, static=false)
-      @slides = get_slides_html(:static=>static, :supplemental=>content)
+      # supplemental material is by definition separate from the presentation, so it doesn't make sense to attach notes
+      @slides = get_slides_html(:static=>static, :supplemental=>content, :section=>false)
       @favicon = settings.showoff_config['favicon']
       @wrapper_classes = ['supplemental']
       erb :onepage
@@ -1120,6 +1127,9 @@ class ShowOff < Sinatra::Application
       when 'pdf'
         opt ||= "#{name}.pdf"
         data = showoff.send(what, opt)
+      when 'print'
+        opt ||= 'handouts'
+        data = showoff.send(what, true, opt)
       else
         data = showoff.send(what, true)
       end
