@@ -55,9 +55,12 @@ function setupPreso(load_slides, prefix) {
 	toggleKeybinding('on');
 
 	$('#preso').addSwipeEvents().
-		bind('tap', swipeLeft).         // next
+//		bind('tap', swipeLeft).         // next
 		bind('swipeleft', swipeLeft).   // next
 		bind('swiperight', swipeRight); // prev
+
+  $('#buttonNav #buttonPrev').click(prevStep);
+  $('#buttonNav #buttonNext').click(nextStep);
 
   // give us the ability to disable tracking via url parameter
   if(query.track == 'false') mode.track = false;

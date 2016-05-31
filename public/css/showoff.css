@@ -96,6 +96,9 @@ pre code {
       z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
       text-align: center;
   }
+  #buttonNav {
+    display: none;
+  }
 
   /* prevent large images from getting too out of hand */
   .content img {
@@ -832,8 +835,7 @@ form .element {
  **********************/
 
 
-/* iPhone */
-/* Portrait */
+/* Tiny mobile devices. Larger devices scale automatically. */
 @media screen and (max-width: 320px)
 {
   html,body,#footer {
@@ -852,7 +854,45 @@ form .element {
     margin: 0;
     padding: 0;
   }
+}
+/* show notes, etc. when in portrait mode with plenty of room for it. */
+@media screen and (orientation:portrait)
+{
+  /* Styling to make the handout notes appear in the printed output. */
+  .handouts {
+    display: block;
+    clear: both;
+    padding-top: 1em;
+  }
 
+  /* prepend the first element of the .handouts div with Notes: */
+  .handouts > :first-child:before {
+    display: block;
+    font-weight: bold;
+    content: "Notes:";
+    border-top: 2px dashed #999;
+    padding: 0.25em 0 0.5em 0;
+  }
+}
+/* Show button navigation on touch screen devices. */
+@media screen and (pointer: coarse)
+{
+  #buttonNav {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+  #buttonNav span {
+    width: 50%;
+    display: inline-block;
+    text-align: center;
+    margin: 0 auto;
+    padding: 1em 0;
+    background-color: #337ab7;
+    font-weight: bold;
+  }
 }
 
 /** Print **/
