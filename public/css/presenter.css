@@ -543,3 +543,9 @@ a.controls {
     padding: 0;
   }
 }
+@media screen and (pointer: coarse)
+{
+  #buttonNav {
+    position: initial;
+  }
+}

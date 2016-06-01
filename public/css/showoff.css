@@ -878,21 +878,30 @@ form .element {
 @media screen and (pointer: coarse)
 {
   #buttonNav {
-    display: block;
+    display: flex;
     position: fixed;
+    width: 100%;
     bottom: 0;
     left: 0;
-    width: 100%;
   }
   #buttonNav span {
-    width: 50%;
-    display: inline-block;
-    text-align: center;
-    margin: 0 auto;
-    padding: 1em 0;
+    display: flex;
+    flex: 1;
     background-color: #337ab7;
     font-weight: bold;
+    padding: 1em 0;
   }
+  #buttonNav span label {
+    margin: 0 auto;
+  }
+  #buttonNav #buttonNext label:before{
+    content: none;
+  }
+  #buttonNav #buttonNext label:after{
+    content: "\f054";
+    padding-left: 0.25em;
+  }
+
 }
 
 /** Print **/
