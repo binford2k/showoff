@@ -859,14 +859,16 @@ form .element {
 @media screen and (orientation:portrait)
 {
   /* Styling to make the handout notes appear in the printed output. */
-  .handouts {
+  #notes {
     display: block;
     clear: both;
     padding-top: 1em;
+    padding-bottom: 3em;
+    font-size: 9pt;
   }
 
   /* prepend the first element of the .handouts div with Notes: */
-  .handouts > :first-child:before {
+  #notes > :first-child:before {
     display: block;
     font-weight: bold;
     content: "Notes:";

@@ -497,6 +497,9 @@ function showSlide(back_step, updatepv) {
   $(active).parent().addClass('highlighted');
   $(active).parent().parent().show();
 
+  // copy notes to the notes field for mobile.
+  postSlide();
+
   return ret;
 }
 
@@ -956,6 +959,23 @@ function nextStep(updatepv)
 		incrCurr++;
 	}
 }
+
+// carrying on our grand tradition of overwriting functions of the same name with presenter.js
+function postSlide() {
+	if(currentSlide) {
+    var notes = getCurrentNotes();
+    // Replace notes with empty string if there are no notes
+    // Otherwise it fails silently and does not remove old notes
+    if (notes.length === 0) {
+      notes = "";
+    } else {
+      notes = notes.html();
+    }
+
+		$('#notes').html(notes);
+	}
+}
+
 
 function doDebugStuff()
 {
