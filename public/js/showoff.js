@@ -17,7 +17,7 @@ var debugMode = false
 var gotoSlidenum = 0
 var lastMessageGuid = 0
 var query;
-var section = 'notes'; // which section the presenter has chosen to view
+var section = 'handouts'; // default to showing handout notes for display view
 var slideStartTime = new Date().getTime()
 
 var loadSlidesBool
