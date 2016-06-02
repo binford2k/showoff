@@ -96,6 +96,9 @@ pre code {
       z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
       text-align: center;
   }
+  #buttonNav {
+    display: none;
+  }
 
   /* prevent large images from getting too out of hand */
   .content img {
@@ -213,7 +216,7 @@ pre code {
     white-space: pre;
 }
 
-.notes-section, .instructor, .solguide { display: none }
+#notes, .notes-section, .instructor, .solguide { display: none }
 
 .offscreen { position:absolute; top:0; left:-9999px; overflow:hidden; }
 
@@ -832,8 +835,7 @@ form .element {
  **********************/
 
 
-/* iPhone */
-/* Portrait */
+/* Tiny mobile devices. Larger devices scale automatically. */
 @media screen and (max-width: 320px)
 {
   html,body,#footer {
@@ -851,6 +853,54 @@ form .element {
     width: 100%;
     margin: 0;
     padding: 0;
+  }
+}
+/* show notes, etc. when in portrait mode with plenty of room for it. */
+@media screen and (orientation:portrait)
+{
+  /* Styling to make the handout notes appear in the printed output. */
+  #notes {
+    display: block;
+    clear: both;
+    padding: 1em 0.25em 3em;
+    font-size: 9pt;
+  }
+
+  /* prepend the first element of the .handouts div with Notes: */
+  #notes > :first-child:before {
+    display: block;
+    font-weight: bold;
+    content: "Notes:";
+    border-top: 2px dashed #999;
+    padding: 0.25em 0 0.5em 0;
+  }
+}
+/* Show button navigation on touch screen devices. */
+@media screen and (pointer: coarse)
+{
+  #buttonNav {
+    display: flex;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+  }
+  #buttonNav span {
+    display: flex;
+    flex: 1;
+    background-color: #337ab7;
+    font-weight: bold;
+    padding: 1em 0;
+  }
+  #buttonNav span label {
+    margin: 0 auto;
+  }
+  #buttonNav #buttonNext label:before{
+    content: none;
+  }
+  #buttonNav #buttonNext label:after{
+    content: "\f054";
+    padding-left: 0.25em;
   }
 
 }

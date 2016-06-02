@@ -5,6 +5,8 @@ var notesWindow = null;
 
 var paceData = [];
 
+section = 'notes'; // which section the presenter has chosen to view
+
 $(document).ready(function(){
   // set up the presenter modes
   mode = { track: true, follow: true, update: true, slave: false, next: false, notes: false};

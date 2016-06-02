@@ -76,6 +76,8 @@
 
 <div id="preso"><center>loading presentation...</center></div>
 
+<div id="notes"></div>
+
 <footer id="footer">
   <span id="followMode"></span>
   <span id="slideInfo"></span>
@@ -87,6 +89,10 @@
 
 <div id="slides" class="offscreen" <%= 'style="display:none;"' if @slides %>>
 <%= @slides %>
+</div>
+<div id="buttonNav">
+  <span id="buttonPrev"><label class="fa fa-chevron-left fa-lg"> Previous</label></span>
+  <span id="buttonNext"><label class="fa fa-chevron-right fa-lg">Next</label></span>
 </div>
 <div id="pauseScreen">
   <%= @pause_msg %>

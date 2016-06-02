@@ -17,7 +17,7 @@ var debugMode = false
 var gotoSlidenum = 0
 var lastMessageGuid = 0
 var query;
-var section = 'notes'; // which section the presenter has chosen to view
+var section = 'handouts'; // default to showing handout notes for display view
 var slideStartTime = new Date().getTime()
 
 var loadSlidesBool
@@ -55,9 +55,12 @@ function setupPreso(load_slides, prefix) {
 	toggleKeybinding('on');
 
 	$('#preso').addSwipeEvents().
-		bind('tap', swipeLeft).         // next
+//		bind('tap', swipeLeft).         // next
 		bind('swipeleft', swipeLeft).   // next
 		bind('swiperight', swipeRight); // prev
+
+  $('#buttonNav #buttonPrev').click(prevStep);
+  $('#buttonNav #buttonNext').click(nextStep);
 
   // give us the ability to disable tracking via url parameter
   if(query.track == 'false') mode.track = false;
@@ -493,6 +496,9 @@ function showSlide(back_step, updatepv) {
   var active = $(".navItem").get(slidenum);
   $(active).parent().addClass('highlighted');
   $(active).parent().parent().show();
+
+  // copy notes to the notes field for mobile.
+  postSlide();
 
   return ret;
 }
@@ -953,6 +959,23 @@ function nextStep(updatepv)
 		incrCurr++;
 	}
 }
+
+// carrying on our grand tradition of overwriting functions of the same name with presenter.js
+function postSlide() {
+	if(currentSlide) {
+    var notes = getCurrentNotes();
+    // Replace notes with empty string if there are no notes
+    // Otherwise it fails silently and does not remove old notes
+    if (notes.length === 0) {
+      notes = "";
+    } else {
+      notes = notes.html();
+    }
+
+		$('#notes').html(notes);
+	}
+}
+
 
 function doDebugStuff()
 {

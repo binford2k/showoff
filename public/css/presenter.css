@@ -329,6 +329,11 @@
     overflow: auto;
     height: 100%;
     padding: 0 1em;
+    display: block;
+  }
+
+  #notes > :first-child:before {
+    display: none;
   }
 
   #notes ul.section-selector {
@@ -541,5 +546,11 @@ a.controls {
     width: 100%;
     margin: 0;
     padding: 0;
+  }
+}
+@media screen and (pointer: coarse)
+{
+  #buttonNav {
+    position: initial;
   }
 }
