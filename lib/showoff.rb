@@ -968,6 +968,9 @@ class ShowOff < Sinatra::Application
       # Check to see if the presentation has enabled feedback
       @feedback = settings.showoff_config['feedback'] unless (params && params[:feedback] == 'false')
 
+      # If we're static, we need to not show the downloads page
+      @static   = static
+
       # Provide a button in the sidebar for interactive editing if configured
       @edit     = settings.showoff_config['edit'] if @review
 
