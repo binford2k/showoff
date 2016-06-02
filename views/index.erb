@@ -14,11 +14,13 @@
     <h3>Showoff Menu</h3>
     <div id="navToggle" class="buttonWrapper"><i class=" fa fa-bookmark"></i> Table of Contents</div>
     <div id="navigation" class="submenu"></div>
+    <% if not @static then %>
     <hr>
     <div id="fileDownloads" class="buttonWrapper"><i class="fa fa-download"></i> Downloads</div>
+    <% end %>
     <hr>
 
-    <% if @feedback then %>
+    <% if @feedback and not @static then %>
         <p>The presenter should...</p>
         <div id="paceSlower" class="buttonWrapper split">
         <i class="fa fa-minus"></i>
