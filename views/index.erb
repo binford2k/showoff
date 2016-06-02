@@ -20,7 +20,7 @@
     <% end %>
     <hr>
 
-    <% if @feedback then %>
+    <% if @feedback and not @static then %>
         <p>The presenter should...</p>
         <div id="paceSlower" class="buttonWrapper split">
         <i class="fa fa-minus"></i>
