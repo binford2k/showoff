@@ -86,6 +86,10 @@ class ShowOff < Sinatra::Application
     @keymap      = Keymap.default
     @keymap.merge! JSON.parse(File.read(keymapfile)) rescue {}
 
+    # map keys to the labels we're using
+    @keycode_dictionary   = Keymap.keycodeDictionary
+    @keycode_shifted_keys = Keymap.shiftedKeyDictionary
+
     settings.pres_dir = File.expand_path(settings.pres_dir)
     if (settings.pres_file)
       ShowOffUtils.presentation_config_file = settings.pres_file
