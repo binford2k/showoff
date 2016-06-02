@@ -23,9 +23,6 @@ var slideStartTime = new Date().getTime()
 var loadSlidesBool
 var loadSlidesPrefix
 
-var keycode_dictionary,
-    keycode_shifted_keys;
-
 var mode = { track: true, follow: true };
 
 $(document).on('click', 'code.execute', executeCode);
@@ -46,7 +43,6 @@ function setupPreso(load_slides, prefix) {
 	loadSlidesPrefix = prefix || '/'
 	loadSlides(loadSlidesBool, loadSlidesPrefix)
 
-  loadKeyDictionaries();
   setupSideMenu();
 
 	doDebugStuff()
@@ -95,13 +91,6 @@ function loadSlides(load_slides, prefix, reload) {
 		loadingCompleteCallback: initializePresentation(prefix)
 	})
 	}
-}
-
-function loadKeyDictionaries () {
-  $.getJSON('js/keyDictionary.json', function(data) {
-    keycode_dictionary = data['keycodeDictionary'];
-    keycode_shifted_keys = data['shiftedKeyDictionary'];
-  });
 }
 
 function initializePresentation(prefix) {
