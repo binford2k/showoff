@@ -193,7 +193,7 @@ function setupSideMenu() {
 
   $("#navToggle").click(function() {
     $("#navigation").toggle();
-    updateChevrons();
+    updateMenuChevrons();
   });
 
   $('#fileDownloads').click(function() {
@@ -271,7 +271,7 @@ function updateQuestionIndicator(count) {
   }
 }
 
-function updateChevrons() {
+function updateMenuChevrons() {
   $(".navSection + ul:not(:visible)")
       .siblings('a')
       .children('i')
@@ -310,7 +310,7 @@ function setupMenu() {
         .append(icon)
         .click(function() {
           $(this).next().toggle();
-          updateChevrons();
+          updateMenuChevrons();
 
           if( $(this).parent().is(':last-child') ) {
             $(this).next().children('li').first()[0].scrollIntoView();
@@ -498,7 +498,7 @@ function showSlide(back_step, updatepv) {
   $(active).parent().addClass('highlighted');
   $(active).parent().parent().show();
 
-  updateChevrons();
+  updateMenuChevrons();
 
   // copy notes to the notes field for mobile.
   postSlide();
@@ -1148,7 +1148,7 @@ function toggleHelp () {
 function toggleContents () {
   $('#feedbackSidebar, #sidebarExit').toggle();
   $("#navigation").toggle();
-  updateChevrons();
+  updateMenuChevrons();
 }
 
 function swipeLeft() {
