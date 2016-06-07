@@ -870,7 +870,7 @@ form .element {
   }
 }
 /* show notes, etc. when in portrait mode with plenty of room for it. */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1024px) and (orientation:portrait) {
   body { overflow: auto; }
 
   /* Styling to make the handout notes appear in the printed output. */
