@@ -870,44 +870,37 @@ form .element {
   }
 }
 /* show notes, etc. when in portrait mode with plenty of room for it. */
-@media screen and (orientation:portrait)
-{
+@media screen and (max-width: 1024px) and (orientation:portrait) {
+  body { overflow: auto; }
+
   /* Styling to make the handout notes appear in the printed output. */
   #notes {
     display: block;
     clear: both;
-    margin: 1em 0.25em 3em;
+    margin: 1em 1em 4em 1em;
     font-size: 9pt;
     border-top: 2px dashed #999;
   }
 }
 
 /* Show button navigation on touch screen devices. */
-@media screen and (pointer: coarse)
-{
+@media screen and (pointer: coarse) {
   #buttonNav {
-    display: flex;
+    display: block;
     position: fixed;
-    width: 100%;
     bottom: 0;
-    left: 0;
+    width: 100%;
   }
-  #buttonNav span {
-    display: flex;
-    flex: 1;
+
+  #buttonNav div {
+    display: inline-block;
+    width: 50%;
+    line-height: 3em;
     background-color: #337ab7;
+    color: #fff;
     font-weight: bold;
-    padding: 1em 0;
-  }
-  #buttonNav span label {
-    margin: 0 auto;
-  }
-  #buttonNav #buttonNext label:before{
-    content: none;
-  }
-  #buttonNav #buttonNext label:after{
-    content: "\f054";
-    padding-left: 0.25em;
+    text-align: center;
+    vertical-align: middle;
   }
 }
 
