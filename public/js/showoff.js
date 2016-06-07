@@ -210,30 +210,38 @@ function setupSideMenu() {
   });
 
   $('#questionToggle').click(function() {
-    $('#questionSubmenu').toggle();
+    if ( ! $(this).hasClass('disabled') ) {
+      $('#questionSubmenu').toggle();
+    }
   });
   $("#askQuestion").click(function() {
-    var question = $("#question").val()
-    var qid = askQuestion(question);
+    if ( ! $(this).hasClass('disabled') ) {
+      var question = $("#question").val()
+      var qid = askQuestion(question);
 
-    feedback_response(this, "Sending...");
-    $("#question").val('');
+      feedback_response(this, "Sending...");
+      $("#question").val('');
 
-    var questionItem = $('<li/>').text(question).attr('id', qid);
-    questionItem.click( function(e) {
-      cancelQuestion($(this).attr('id'));
-      $(this).remove();
-    });
-    $("#askedQuestions").append(questionItem);
+      var questionItem = $('<li/>').text(question).attr('id', qid);
+      questionItem.click( function(e) {
+        cancelQuestion($(this).attr('id'));
+        $(this).remove();
+      });
+      $("#askedQuestions").append(questionItem);
+    }
   });
 
   $('#feedbackToggle').click(function() {
-    $('#feedbackSubmenu').toggle();
+    if ( ! $(this).hasClass('disabled') ) {
+      $('#feedbackSubmenu').toggle();
+    }
   });
   $("#sendFeedback").click(function() {
-    sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("#feedback").val());
-    feedback_response(this, "Sending...");
-    $("#feedback").val('')
+    if ( ! $(this).hasClass('disabled') ) {
+      sendFeedback($( "input:radio[name=rating]:checked" ).val(), $("#feedback").val());
+      feedback_response(this, "Sending...");
+      $("#feedback").val('');
+    }
   });
 
   $("#editSlide").click(function() {
@@ -772,7 +780,7 @@ function reconnectControlChannel() {
 
 function connected() {
   console.log('Control socket opened');
-  $("#feedbackSidebar button").attr("disabled", false);
+  $("#feedbackSidebar .interactive").removeClass("disabled");
   $("img#disconnected").hide();
 
   try {
@@ -784,7 +792,7 @@ function connected() {
 
 function disconnected() {
   console.log('Control socket closed');
-  $("#feedbackSidebar button").attr("disabled", true);
+  $("#feedbackSidebar .interactive").addClass("disabled");
   $("img#disconnected").show();
 
   setTimeout(function() { reconnectControlChannel() } , 5000);
@@ -845,17 +853,23 @@ function parseMessage(data) {
 }
 
 function sendPace(pace) {
-  ws.send(JSON.stringify({ message: 'pace', pace: pace}));
+  if (ws.readyState == WebSocket.OPEN) {
+    ws.send(JSON.stringify({ message: 'pace', pace: pace}));
+  }
 }
 
 function askQuestion(question) {
-  var questionID = generateGuid();
-  ws.send(JSON.stringify({ message: 'question', question: question, questionID: questionID}));
-  return questionID;
+  if (ws.readyState == WebSocket.OPEN) {
+    var questionID = generateGuid();
+    ws.send(JSON.stringify({ message: 'question', question: question, questionID: questionID}));
+    return questionID;
+  }
 }
 
 function cancelQuestion(questionID) {
-  ws.send(JSON.stringify({ message: 'cancel', questionID: questionID}));
+  if (ws.readyState == WebSocket.OPEN) {
+    ws.send(JSON.stringify({ message: 'cancel', questionID: questionID}));
+  }
 }
 
 function completeQuestion(questionID) {
@@ -867,9 +881,11 @@ function completeQuestion(questionID) {
 }
 
 function sendFeedback(rating, feedback) {
-  var slide  = $("#slideFilename").text();
-  ws.send(JSON.stringify({ message: 'feedback', rating: rating, feedback: feedback, slide: slide}));
-  $("input:radio[name=rating]:checked").attr('checked', false);
+  if (ws.readyState == WebSocket.OPEN) {
+    var slide  = $("#slideFilename").text();
+    ws.send(JSON.stringify({ message: 'feedback', rating: rating, feedback: feedback, slide: slide}));
+    $("input:radio[name=rating]:checked").attr('checked', false);
+  }
 }
 
 function feedbackActivity() {
@@ -878,7 +894,7 @@ function feedbackActivity() {
 }
 
 function track() {
-  if (mode.track) {
+  if (mode.track && ws.readyState == WebSocket.OPEN) {
     var slideName    = $("#slideFilename").text();
     var slideEndTime = new Date().getTime();
     var elapsedTime  = slideEndTime - slideStartTime;

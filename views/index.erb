@@ -11,6 +11,7 @@
 <i id="hamburger" class="fa fa-bars fa-2x"></i>
 <div id="sidebarWrapper">
     <div id="feedbackSidebar" class="sideMenu">
+    <img id="disconnected" src="/css/disconnected.png">
     <h3>Showoff Menu</h3>
     <div id="navToggle" class="buttonWrapper"><i class=" fa fa-bookmark"></i> Table of Contents</div>
     <div id="navigation" class="submenu"></div>
@@ -22,26 +23,26 @@
 
     <% if @feedback and not @static then %>
         <p>The presenter should...</p>
-        <div id="paceSlower" class="buttonWrapper split">
+        <div id="paceSlower" class="buttonWrapper split interactive">
         <i class="fa fa-minus"></i>
         <br>Slow Down
         </div>
-        <div id="paceFaster" class="buttonWrapper split">
+        <div id="paceFaster" class="buttonWrapper split interactive">
         <i class="fa fa-plus"></i>
         <br>Speed Up
         </div>
 
         <hr>
-        <div id="questionToggle" class="buttonWrapper"><i class="fa fa-hand-stop-o"></i> Ask a Question</div>
+        <div id="questionToggle" class="buttonWrapper interactive"><i class="fa fa-hand-stop-o"></i> Ask a Question</div>
         <div id="questionSubmenu" class="submenu">
         <textarea id="question" placeholder="Ask a question..."></textarea>
-        <div id="askQuestion" class="buttonWrapper">Ask</div>
+        <div id="askQuestion" class="buttonWrapper interactive">Ask</div>
         </div>
         <ul id="askedQuestions"></ul>
 
         <hr>
 
-        <div id="feedbackToggle" class="buttonWrapper"><i class="fa fa-envelope"></i> Send Feedback</div>
+        <div id="feedbackToggle" class="buttonWrapper interactive"><i class="fa fa-envelope"></i> Send Feedback</div>
         <div id="feedbackSubmenu" class="submenu">
         <p>This slide is...</p>
         <small>
@@ -54,7 +55,7 @@
             Awesome
         </small>
         <textarea id="feedback" placeholder="Why...?"></textarea>
-        <div id="sendFeedback" class="buttonWrapper">Send</div>
+        <div id="sendFeedback" class="buttonWrapper interactive">Send</div>
         </div>
 
         <% if @edit then %>
