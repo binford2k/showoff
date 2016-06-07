@@ -189,11 +189,11 @@ function setupSideMenu() {
   $("#hamburger").click(function() {
     $('#feedbackSidebar, #sidebarExit').toggle();
     toggleKeybinding();
-
   });
 
   $("#navToggle").click(function() {
-      $("#navigation").toggle();
+    $("#navigation").toggle();
+    updateChevrons();
   });
 
   $('#fileDownloads').click(function() {
@@ -271,6 +271,17 @@ function updateQuestionIndicator(count) {
   }
 }
 
+function updateChevrons() {
+  $(".navSection + ul:not(:visible)")
+      .siblings('a')
+      .children('i')
+      .attr('class', 'fa fa-angle-down');
+
+  $(".navSection + ul:visible")
+      .siblings('a')
+      .children('i')
+      .attr('class', 'fa fa-angle-up');
+}
 
 function setupMenu() {
   var nav = $("<ul>"),
@@ -298,16 +309,8 @@ function setupMenu() {
         .text(slidePath)
         .append(icon)
         .click(function() {
-          if ($(this).next().is(':visible') ) {
-            $(this).next().hide();
-            $(this).children('i').removeClass('fa-angle-up');
-            $(this).children('i').addClass('fa-angle-down');
-          }
-          else {
-            $(this).next().show();
-            $(this).children('i').removeClass('fa-angle-down');
-            $(this).children('i').addClass('fa-angle-up');
-          }
+          $(this).next().toggle();
+          updateChevrons();
 
           if( $(this).parent().is(':last-child') ) {
             $(this).next().children('li').first()[0].scrollIntoView();
@@ -494,6 +497,8 @@ function showSlide(back_step, updatepv) {
   var active = $(".navItem").get(slidenum);
   $(active).parent().addClass('highlighted');
   $(active).parent().parent().show();
+
+  updateChevrons();
 
   // copy notes to the notes field for mobile.
   postSlide();
@@ -1143,6 +1148,7 @@ function toggleHelp () {
 function toggleContents () {
   $('#feedbackSidebar, #sidebarExit').toggle();
   $("#navigation").toggle();
+  updateChevrons();
 }
 
 function swipeLeft() {
