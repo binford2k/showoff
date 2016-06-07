@@ -232,6 +232,7 @@ pre code {
 
 img#disconnected {
   float: right;
+  margin: 5px;
   display: none;
 }
 
@@ -406,6 +407,18 @@ img#disconnected {
   background-color:#337ab7;
   color: #ffffff;
   cursor: pointer;
+}
+
+.buttonWrapper.disabled {
+  opacity: 0.25;
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+  background-color: initial !important;
+  color: initial !important;
+}
+.buttonWrapper.disabled:hover {
+  background-color: initial !important;
+  color: initial !important;
 }
 
 .buttonWrapper.split {
