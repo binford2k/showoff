@@ -822,7 +822,7 @@ form .element {
 
  .callout {
    padding: 12px;
-   min-height: 2em;
+   line-height: 1.6em;
    border: 1px solid #222;
    border-radius: 4px;
    background-color: transparent; /* because there's a warning class with a red background */
@@ -834,7 +834,7 @@ form .element {
    font-weight: normal;
    font-size: 2em;
    text-decoration: inherit;
-   padding: 0 8px;
+   padding: 0 8px 100% 8px;
    float: left;
  }
 
