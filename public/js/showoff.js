@@ -189,11 +189,11 @@ function setupSideMenu() {
   $("#hamburger").click(function() {
     $('#feedbackSidebar, #sidebarExit').toggle();
     toggleKeybinding();
-
   });
 
   $("#navToggle").click(function() {
-      $("#navigation").toggle();
+    $("#navigation").toggle();
+    updateMenuChevrons();
   });
 
   $('#fileDownloads').click(function() {
@@ -279,6 +279,17 @@ function updateQuestionIndicator(count) {
   }
 }
 
+function updateMenuChevrons() {
+  $(".navSection + ul:not(:visible)")
+      .siblings('a')
+      .children('i')
+      .attr('class', 'fa fa-angle-down');
+
+  $(".navSection + ul:visible")
+      .siblings('a')
+      .children('i')
+      .attr('class', 'fa fa-angle-up');
+}
 
 function setupMenu() {
   var nav = $("<ul>"),
@@ -307,6 +318,7 @@ function setupMenu() {
         .append(icon)
         .click(function() {
           $(this).next().toggle();
+          updateMenuChevrons();
 
           if( $(this).parent().is(':last-child') ) {
             $(this).next().children('li').first()[0].scrollIntoView();
@@ -493,6 +505,8 @@ function showSlide(back_step, updatepv) {
   var active = $(".navItem").get(slidenum);
   $(active).parent().addClass('highlighted');
   $(active).parent().parent().show();
+
+  updateMenuChevrons();
 
   // copy notes to the notes field for mobile.
   postSlide();
@@ -1150,6 +1164,7 @@ function toggleHelp () {
 function toggleContents () {
   $('#feedbackSidebar, #sidebarExit').toggle();
   $("#navigation").toggle();
+  updateMenuChevrons();
 }
 
 function swipeLeft() {
