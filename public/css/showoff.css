@@ -863,19 +863,12 @@ form .element {
   #notes {
     display: block;
     clear: both;
-    padding: 1em 0.25em 3em;
+    margin: 1em 0.25em 3em;
     font-size: 9pt;
-  }
-
-  /* prepend the first element of the .handouts div with Notes: */
-  #notes > :first-child:before {
-    display: block;
-    font-weight: bold;
-    content: "Notes:";
     border-top: 2px dashed #999;
-    padding: 0.25em 0 0.5em 0;
   }
 }
+
 /* Show button navigation on touch screen devices. */
 @media screen and (pointer: coarse)
 {
@@ -903,7 +896,6 @@ form .element {
     content: "\f054";
     padding-left: 0.25em;
   }
-
 }
 
 /** Print **/
@@ -947,16 +939,8 @@ form .element {
   .notes-section {
     display: block;
     clear: both;
-    padding-top: 1em;
-  }
-
-  /* prepend the first element of the .handouts div with Notes: */
-  .notes-section > :first-child:before {
-    display: block;
-    font-weight: bold;
-    content: "Notes:";
+    margin-top: 1em;
     border-top: 2px dashed #999;
-    padding: 0.25em 0 0.5em 0;
   }
 
   .notes-section.notes .personal {
