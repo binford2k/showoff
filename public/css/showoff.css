@@ -821,8 +821,9 @@ form .element {
  **********************/
 
  .callout {
-   padding: 12px;
-   line-height: 1.6em;
+   padding: 1em;
+   padding-left: 3em;
+   line-height: 1.2em;
    border: 1px solid #222;
    border-radius: 4px;
    background-color: transparent; /* because there's a warning class with a red background */
@@ -834,8 +835,8 @@ form .element {
    font-weight: normal;
    font-size: 2em;
    text-decoration: inherit;
-   padding: 0 8px 100% 8px;
-   float: left;
+   position: absolute;
+   left: 1em;
  }
 
  .callout.info:before     { content: "\f05a"; } /* fa-info-circle */
