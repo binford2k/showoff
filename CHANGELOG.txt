@@ -1,3 +1,33 @@
+0.12.1
+  * Lots of small UI cleanups.
+  * Properly disable interactivity when the websocket connection dies.
+  * New mobile-friendly presentation view.
+  * Fixed Github Pages presentation generation.
+  * Added mini-tab switcher so the presenter can view handouts or other notes.
+  * Added ability to print different notes style. For example,
+    `showoff static print notes` will generate a static page with presenter notes.
+  * Added Commonmark support, contributed by @raphink
+  * Added a new timer widget if you'd like to time your presentations.
+  * Major updates to audience interactivity:
+    * Provide on-screen notification when questions are pending.
+    * Allow audience members to cancel their questions.
+    * Notify audience members when the presenter has marked their question as answered.
+  * Updated code execution styles.
+  * More usable downloads menu.
+  * Added the ability to gate presentations behind a key.
+
+New command:
+  * The new `showoff skeleton` command will take a `showoff.json` file, either
+    in the current working directory or via a `-f` path option, and generate a
+    full file & directory structure with starter slide files for you. It's safe
+    to run on existing presentations; it will only create missing files, not
+    overwrite existing files.
+
+Deprecation warning:
+  * RMagick will be completely removed in the next major release. Pleas migrate
+    away from it now. Browsers can autoscale images on demand pretty well now,
+    so you probably won't miss it much.
+
 0.12.0
   * ##### WARNING: This is a major breaking change! ######
   * You will need to CLEAR YOUR BROWSER CACHE before presenting.
