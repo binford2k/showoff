@@ -332,10 +332,6 @@
     display: block;
   }
 
-  #notes > :first-child:before {
-    display: none;
-  }
-
   #notes ul.section-selector {
     padding: 0;
     margin: 0 0 0 -1.25em;         /* compensate for the border on #notes. 1/0.8 em */
