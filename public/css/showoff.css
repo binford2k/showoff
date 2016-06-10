@@ -822,7 +822,6 @@ form .element {
 
  .callout {
    padding: 1em;
-   padding-left: 3em;
    line-height: 1.2em;
    border: 1px solid #222;
    border-radius: 4px;
@@ -838,6 +837,14 @@ form .element {
    position: absolute;
    left: 1em;
  }
+
+  .callout.info,
+  .callout.warning,
+  .callout.question,
+  .callout.exercise,
+  .callout.stop {
+    padding-left: 3em;
+  }
 
  .callout.info:before     { content: "\f05a"; } /* fa-info-circle */
  .callout.warning:before  { content: "\f071"; } /* fa-exclamation-triangle */
