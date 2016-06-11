@@ -49,6 +49,7 @@ Theme Styles
 *******************************************************************************/
 
 body {
+  min-width: 960px;
   box-sizing: border-box;
   color:#373737;
   background: #212121;
