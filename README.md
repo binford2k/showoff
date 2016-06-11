@@ -15,9 +15,10 @@ the presentation, such as the title, any password protection, etc.
 Then you just run `showoff serve` in the presentation directory and open
 a browser window.
 
+
 ## Functionality
 
-Beyond the standard presentation functionality, Showoff can:
+Beyond the standard presentation functionality, Showoff provides:
 
 * Live presenter tools:
   * presenter view that display notes, tree representation of presentation, and other tools
@@ -51,6 +52,16 @@ Beyond the standard presentation functionality, Showoff can:
 Due to it being plain text, you can easily version control it, you can easily move
 sections between presentations, and you can rearrange or remove sections easily.
 
+
+## Installation
+
+Showoff is distributed as a RubyGem. Simply install it like any other gem. Showoff
+will run out of the box on OS X and most Linux distributions. To install on Windows,
+you'll need to install both Ruby and the Ruby DevKit for compiling native extensions.
+
+    gem install showoff
+
+
 ## Documentation
 
 Please see the [documentation](./documentation) section for further information.
@@ -58,6 +69,7 @@ Please see the [documentation](./documentation) section for further information.
 You can generate a nice & pretty local copy of the documentation by running
 `rake doc` in your clone of the repository. The generated HTML will be saved in
 the `docs` directory.
+
 
 ## Contributing
 
