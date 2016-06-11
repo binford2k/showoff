@@ -28,30 +28,23 @@
     <div id="main_content_wrap" class="outer">
       <section id="toc">
         <ul>
-          <li class="active"><a href="index.html">Home</a></li>
+          <li><a href="index.html">Home</a></li>
           <li><a href="functionality.html">Functionality</a></li>
-          <li><a href="installation.html">Installation</a></li>
+          <li class="active"><a href="installation.html">Installation</a></li>
           <li><a href="/documentation">Documentation</a></li>
           <li><a href="https://github.com/puppetlabs/showoff/blob/master/LICENSE">License</a></li>
         </ul>
       </section>
 
       <section id="main_content" class="inner">
+<h1>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h1>
 
-<p>Showoff is a slideshow presentation tool with a twist. It runs as a web application,
-with audience interactivity features. This means that your audience can follow along
-in their own browsers, can download supplemental materials, can participate in quizzes
-or polls, post questions for the presenter, etc. By default, their slideshows will
-synchronize with the presenter, but they can switch to self-navigation mode.</p>
+<p>Showoff is distributed as a RubyGem. Simply install it like any other gem. Showoff
+will run out of the box on OS X and most Linux distributions. To install on Windows,
+you'll need to install both Ruby and the Ruby DevKit for compiling native extensions.</p>
 
-<p><img src="images/presenter.png" alt="Presenter view"></p>
-
-<p>Showoff allows you to author your presentation slides in Markdown, then organize
-them with a <code>showoff.json</code> file. This file also contains metadata about
-the presentation, such as the title, any password protection, etc.</p>
-
-<p>Then you just run <code>showoff serve</code> in the presentation directory and open
-a browser window.</p>
+<pre><code>gem install showoff</code></pre>
 
       </section>
     </div>

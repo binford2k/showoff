@@ -293,6 +293,7 @@ Full-Width Styles
   background: -ms-linear-gradient(top, #373737, #212121);
   background: -o-linear-gradient(top, #373737, #212121);
   background: linear-gradient(top, #373737, #212121);
+  background: url(../images/showoff-icon.png) 5% no-repeat;
 }
 
 #header_wrap .inner {
@@ -324,6 +325,40 @@ Full-Width Styles
   height: 70px;
   background: url('../images/icon_download.png') no-repeat 0% 90%;
 }
+
+#toc {
+  float: left;
+  margin-top: 1em;
+}
+
+  #toc ul {
+    width: 10em;
+    padding-left: 0;
+    margin-left: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  }
+
+  #toc li {
+    list-style: none;
+    padding: 0.25em;
+    margin: 1px;
+    border: 1px solid #ccc;
+  }
+
+  #toc li:hover,
+  #toc li.active {
+    background-color: #dedede;
+  }
+
+  #toc li a {
+    display: block;
+    text-decoration: none;
+  }
+  #toc li a:hover {
+    text-decoration: none;
+    font-weight: bold;
+  }
+
 
 .zip_download_link {
   display: block;
@@ -361,7 +396,6 @@ Full-Width Styles
 }
 
 #main_content {
-  padding-top: 40px;
 }
 
 #footer_wrap {
