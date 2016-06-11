@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>AUTHORING - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script src="../js/jquery.js"></script>
+<script src="../js/darkfish.js"></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="file">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+  <ul class="link-list" role="directory">
+    <li><a href="#label-Slide+Format">Slide Format</a>
+    <li><a href="#label-Markdown+Format">Markdown Format</a>
+    <li><a href="#label-Slide+Styles">Slide Styles</a>
+    <li><a href="#label-Callout+paragraph+styles">Callout paragraph styles</a>
+    <li><a href="#label-Supplemental+Materials">Supplemental Materials</a>
+    <li><a href="#label-Slide+Transitions">Slide Transitions</a>
+    <li><a href="#label-Slide+Backgrounds">Slide Backgrounds</a>
+    <li><a href="#label-Language+Highlighting">Language Highlighting</a>
+    <li><a href="#label-Syntax+highlighting+styles">Syntax highlighting styles</a>
+    <li><a href="#label-Forms">Forms</a>
+    <li><a href="#label-Sections">Sections</a>
+    <li><a href="#label-Presenter+Notes">Presenter Notes</a>
+    <li><a href="#label-Personal+Notes">Personal Notes</a>
+    <li><a href="#label-Handout+Notes">Handout Notes</a>
+    <li><a href="#label-Adding+Notes+Sections">Adding Notes Sections</a>
+    <li><a href="#label-Printing+Notes+Sections">Printing Notes Sections</a>
+    <li><a href="#label-Other+Tags">Other Tags</a>
+    <li><a href="#label-Preshow">Preshow</a>
+    <li><a href="#label-Download+Files">Download Files</a>
+    <li><a href="#label-Showing+Plain+Old+Markdown">Showing Plain Old Markdown</a>
+    <li><a href="#label-Custom+JavaScript">Custom JavaScript</a>
+    <li><a href="#label-Custom+Stylesheets">Custom Stylesheets</a>
+    <li><a href="#label-Templates">Templates</a>
+    <li><a href="#label-Template+Commands">Template Commands</a>
+    <li><a href="#label-Template+Hints">Template Hints</a>
+    <li><a href="#label-Live+code+execution">Live code execution</a>
+    <li><a href="#label-Shell+code">Shell code</a>
+    <li><a href="#label-Ruby+code">Ruby code</a>
+    <li><a href="#label-Editor+Support">Editor Support</a>
+    <li><a href="#label-Command+Line+Interface">Command Line Interface</a>
+    <li><a href="#label-Commands">Commands</a>
+    <li><a href="#label-showoff+add+-5Btitle-5D"><code>showoff add [title]</code></a>
+    <li><a href="#label-showoff+create+dir_name"><code>showoff create dir_name</code></a>
+    <li><a href="#label-Markdown+Engine">Markdown Engine</a>
+    <li><a href="#label-Default+options">Default options</a>
+    <li><a href="#label-Maruku">Maruku</a>
+  </ul>
+</div>
+
+
+  <div id="project-metadata">
+    <div id="fileindex-section" class="nav-section">
+  <h3>Pages</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../documentation/AUTHORING_rdoc.html">AUTHORING</a>
+  
+    <li><a href="../documentation/CONFIGURATION_rdoc.html">CONFIGURATION</a>
+  
+    <li><a href="../documentation/FORMS_rdoc.html">FORMS</a>
+  
+    <li><a href="../documentation/INSTALLATION_rdoc.html">INSTALLATION</a>
+  
+    <li><a href="../documentation/INTERACTION_rdoc.html">INTERACTION</a>
+  
+    <li><a href="../documentation/PRESENTATION_rdoc.html">PRESENTATION</a>
+  
+    <li><a href="../documentation/USAGE_rdoc.html">USAGE</a>
+  
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-label="Page documentation/AUTHORING.rdoc">
+
+<h1 id="label-Slide+Format">Slide Format<span><a href="#label-Slide+Format">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>You can break your slides up into sections of however many subdirectories
+deep you need.  ShowOff will recursively check all the directories
+mentioned in your <code>showoff.json</code> file for any markdown files
+(.md).  Each markdown file can have any number of slides in it, separating
+each slide with the &#39;!SLIDE&#39; keyword and optional slide styles.</p>
+
+<p>For example, if you run &#39;<code>showoff create my_new_pres</code>&#39;
+it will create a new starter presentation for you with one .md file at
+one/slide.md which will have the following contents:</p>
+
+<pre>!SLIDE
+
+# My Presentation #
+
+!SLIDE bullets incremental transition=fade
+
+# Bullet Points #
+
+* first point
+* second point
+* third point</pre>
+
+<p>That represents two slides, the first contains just a large title, and the
+second is faded into view showing the title and three bullets that are then
+incrementally shown. In order for ShowOff to see those slides, your
+<code>showoff.json</code> file needs to look something like this:</p>
+
+<pre>{
+  &quot;name&quot;: &quot;Something&quot;,
+  &quot;description&quot;: &quot;Example Presentation&quot;,
+  &quot;sections&quot;: [
+    {&quot;section&quot;:&quot;one&quot;}
+  ]
+}</pre>
+
+<p>If you have multiple sections in your talk, you can make this json array
+include all the sections you want to show in which order you want to show
+them. Template configuration is done in <code>showoff.json</code> as well.</p>
+
+<p>Instead of a hash, you can use a plain string as an entry in the
+<code>sections</code> section of <code>showoff.json</code>. And if that
+plain string starts with &#39;#&#39; then it is interpreted not as a
+filename, but as markdown. This is used for inserting interstitial slides
+or notes – for instance, Alex Chaffee&#39;s <a
+href="http://github.com/alexch/ruby_notes">Ruby Notes</a> uses it to insert
+lab instructions between lecture slide sections, which may vary from venue
+to venue.</p>
+
+<p>You can use angle brackets around the `!SLIDE` keyword and styles, if
+you&#39;d like. For example:</p>
+
+<pre>&lt;!SLIDE bullets incremental transition=fade&gt;</pre>
+
+<p>This lets you keep the ability to emit an HTML document from your Markdown
+source file – say, for a TextMate preview or a GitHub rendering</p>
+
+<p>You can link to specific slides using either a slide number, or a name. The
+number can be found in the URL of your browser, and the name is shown in
+the debug output or in the upper left of the presenter view.</p>
+
+<h2 id="label-Markdown+Format">Markdown Format<span><a href="#label-Markdown+Format">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Showoff renders Markdown format as documented at <a
+href="http://daringfireball.net/projects/markdown/syntax">daringfireball.net/projects/markdown/syntax</a>.
+Many of the rendering engines supported by Showoff provide extensions
+allowing more formatting options not available in core Markdown. Each
+engine provides different options and the defaults for each are documented
+in the Markdown Engine section. The full options supported by each engine
+can be found in their respective documentations.</p>
+
+<p>Some of the extensions include:</p>
+<dl class="rdoc-list label-list"><dt>autolink
+<dd>
+<p>Recognize and parse bare links even when they are not marked up properly.</p>
+</dd><dt>definition_lists
+<dd>
+<p>Parse definition lists, <a
+href="https://michelf.ca/projects/php-markdown/extra/#def-list">PHP-Markdown</a>
+style.</p>
+</dd><dt>strikethrough
+<dd>
+<p>Parse strikethrough text surrounded with two <code>~~</code> characters.</p>
+</dd><dt>superscript
+<dd>
+<p>Parse superscripts after a `^` character.</p>
+</dd><dt>tables
+<dd>
+<p>Parse tables, <a
+href="https://michelf.ca/projects/php-markdown/extra/#table">PHP-Markdown</a>
+style.</p>
+</dd><dt>underline
+<dd>
+<p>Parse underscored emphasis as underlines. This is <code>_underlined_</code>
+but this is still <code>*emphasis*</code>.</p>
+</dd></dl>
+
+<p>Showoff extensions to the language are documented below.</p>
+
+<h1 id="label-Slide+Styles">Slide Styles<span><a href="#label-Slide+Styles">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>Some useful styles for each slide are:</p>
+<dl class="rdoc-list label-list"><dt>center
+<dd>
+<p>centers images on a slide</p>
+</dd><dt>full-page
+<dd>
+<p>allows an image to take up the whole slide</p>
+</dd><dt>bullets
+<dd>
+<p>sizes and separates bullets properly (fits up to 5, generally)</p>
+</dd><dt>smbullets
+<dd>
+<p>sizes and separates more bullets (smaller, closer together)</p>
+</dd><dt>subsection
+<dd>
+<p>creates a different background for titles</p>
+</dd><dt>command
+<dd>
+<p>monospaces h1 title slides</p>
+</dd><dt>commandline
+<dd>
+<p>for pasted commandline sections (needs leading &#39;$&#39; for commands,
+then output on subsequent lines)</p>
+</dd><dt>code
+<dd>
+<p>monospaces everything on the slide</p>
+</dd><dt>incremental
+<dd>
+<p>can be used with &#39;bullets&#39; and &#39;commandline&#39; styles, will
+incrementally update elements on arrow key rather than switch slides</p>
+</dd><dt>small
+<dd>
+<p>make all slide text 80%</p>
+</dd><dt>smaller
+<dd>
+<p>make all slide text 70%</p>
+</dd><dt>execute
+<dd>
+<p>on Javascript, Coffeescript, Ruby, and Shell highlighted code slides, you
+can click on the code to execute it and display the results on the slide</p>
+</dd><dt>printonly
+<dd>
+<p>this slide should only appear in the printed version of the presentation</p>
+</dd><dt>noprint
+<dd>
+<p>this slide will not appear in the printed version of the presentation</p>
+</dd><dt>supplemental
+<dd>
+<p>rather than adding a slide to the main presentation, add a slide to
+supplemental materials. See below.</p>
+</dd><dt>form=id
+<dd>
+<p>Render form elements on this slide with a given form ID. See below, and in
+FORMS.rdoc.</p>
+</dd><dt>background-fit
+<dd>
+<p>Scales a background image to the largest size that both height and width
+are onscreen. The default is to completely fill the slide.</p>
+</dd></dl>
+
+<p>Check out the example directory included to see examples of most of these.</p>
+
+<h2 id="label-Callout+paragraph+styles">Callout paragraph styles<span><a href="#label-Callout+paragraph+styles">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Several custom “callout” paragraph styles are included. This allows you to
+highlight points in your presentation, with a callout box and an optional
+icon. To do this, add <code>.callout</code> or
+<code>.callout.[style]</code> as the first word of your paragraph.</p>
+<dl class="rdoc-list label-list"><dt>.callout
+<dd>
+<p>Highlights a paragraph with an outlined box.</p>
+</dd><dt>.callout.info
+<dd>
+<p>Adds an info icon.</p>
+</dd><dt>.callout.warning
+<dd>
+<p>Adds a warning icon.</p>
+</dd><dt>.callout.question
+<dd>
+<p>Adds a question icon.</p>
+</dd><dt>.callout.stop
+<dd>
+<p>Adds a stop icon.</p>
+</dd></dl>
+
+<h1 id="label-Supplemental+Materials">Supplemental Materials<span><a href="#label-Supplemental+Materials">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>Supplemental materials may be created by including
+<code>supplemental</code> and the name of a type in the &lt;!SLIDE&gt;
+styles. For example, you might have a slide like</p>
+
+<pre>&lt;!SLIDE supplemental exercises&gt;
+# Lab ~~~SECTION:MAJOR~~~.~~~SECTION:MINOR~~~: This is a lab
+## Objective: Do something
+[... slide content ...]</pre>
+
+<p>The supplemental materials may be accessed at <a
+href="http://localhost:9090/supplemental/$type-name">localhost:9090/supplemental/$type-name</a>.
+For example, the material described in the example above would be accessed
+at <a
+href="http://localhost:9090/supplemental/exercises">localhost:9090/supplemental/exercises</a>.
+If you have slides and supplemental material that are related to one
+another, they could be contained in the same file. This makes it
+extraordinarily easy to reorder the presentation.</p>
+
+<h1 id="label-Slide+Transitions">Slide Transitions<span><a href="#label-Slide+Transitions">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>Transitions can be supplied through the use of transition=tname on the
+!SLIDE definition, where tname is one of the following supported
+transitions:</p>
+<ul><li>
+<p>blindX</p>
+</li><li>
+<p>blindY</p>
+</li><li>
+<p>blindZ</p>
+</li><li>
+<p>cover</p>
+</li><li>
+<p>curtainX</p>
+</li><li>
+<p>curtainY</p>
+</li><li>
+<p>fade</p>
+</li><li>
+<p>fadeZoom</p>
+</li><li>
+<p>growX</p>
+</li><li>
+<p>growY</p>
+</li><li>
+<p>none (this is the default)</p>
+</li><li>
+<p>scrollUp</p>
+</li><li>
+<p>scrollDown</p>
+</li><li>
+<p>scrollLeft</p>
+</li><li>
+<p>scrollRight</p>
+</li><li>
+<p>scrollHorz</p>
+</li><li>
+<p>scrollVert</p>
+</li><li>
+<p>shuffle</p>
+</li><li>
+<p>slideX</p>
+</li><li>
+<p>slideY</p>
+</li><li>
+<p>toss</p>
+</li><li>
+<p>turnUp</p>
+</li><li>
+<p>turnDown</p>
+</li><li>
+<p>turnLeft</p>
+</li><li>
+<p>turnRight</p>
+</li><li>
+<p>uncover</p>
+</li><li>
+<p>wipe</p>
+</li><li>
+<p>zoom</p>
+</li></ul>
+
+<p>The transitions are provided by jQuery Cycle plugin. See <a
+href="http://www.malsup.com/jquery/cycle/browser.html">www.malsup.com/jquery/cycle/browser.html</a>
+to view the effects and <a
+href="http://www.malsup.com/jquery/cycle/adv2.html">www.malsup.com/jquery/cycle/adv2.html</a>
+for how to add custom effects.</p>
+
+<h1 id="label-Slide+Backgrounds">Slide Backgrounds<span><a href="#label-Slide+Backgrounds">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>A custom per slide background can be set in the slide options. For example:</p>
+
+<pre class="ruby"><span class="ruby-operator">!</span><span class="ruby-constant">SLIDE</span>[<span class="ruby-identifier">bg</span>=<span class="ruby-identifier">customLogo</span>.<span class="ruby-identifier">png</span>]
+</pre>
+
+<p>Unlike image tags on a slide, the path to background images must start from
+the root of the presentation.</p>
+
+<p>By default, the background will be scaled to completely cover the slide. If
+you specify the <code>background-fit</code> slide style, then the
+background will be scaled to the largest size that both height and width
+fit within the slide.</p>
+
+<h1 id="label-Language+Highlighting">Language Highlighting<span><a href="#label-Language+Highlighting">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>Showoff uses <a href="https://highlightjs.org">highlightjs</a> to highlight
+code blocks. If you begin a code block with *four spaces* and three @-signs
+followed by a programming language name, that line will be stripped and the
+rest of the block will become sparkly and colorful. You can uppercase the
+name if you like.</p>
+
+<pre>@@@ Ruby
+10.times { puts &quot;Whee!&quot; }</pre>
+
+<p>Supported languages include:</p>
+
+<pre>1c             elm            markdown       ruleslanguage
+actionscript   erb            mathematica    rust
+apache         erlang-repl    matlab         scala
+applescript    erlang         mel            scheme
+armasm         fix            mercury        scilab
+asciidoc       fortran        mizar          scss
+aspectj        fsharp         monkey         smali
+autohotkey     gcode          nginx          smalltalk
+avrasm         gherkin        nimrod         sml
+axapta         glsl           nix            sql
+bash           go             nsis           stata
+brainfuck      gradle         objectivec     step21
+cal            groovy         ocaml          stylus
+capnproto      haml           openscad       swift
+ceylon         handlebars     oxygene        tcl
+clojure-repl   haskell        parser3        tex
+clojure        haxe           perl           thrift
+cmake          http           pf             tp
+coffeescript   inform7        php            twig
+cpp            ini            powershell     typescript
+cs             java           processing     vala
+css            javascript     profile        vbnet
+d              json           prolog         vbscript-html
+dart           julia          protobuf       vbscript
+delphi         kotlin         puppet         verilog
+diff           lasso          python         vhdl
+django         less           q              vim
+dns            lisp           r              x86asm
+dockerfile     livecodeserver rib            xl
+dos            livescript     roboconf       xml
+dust           lua            rsl            zephir
+elixir         makefile       ruby</pre>
+
+<p>Instructions for adding support for new languages can be found at <a
+href="http://highlightjs.readthedocs.org/en/latest/language-contribution.html">highlightjs.readthedocs.org/en/latest/language-contribution.html</a></p>
+
+<h2 id="label-Syntax+highlighting+styles">Syntax highlighting styles<span><a href="#label-Syntax+highlighting+styles">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>You can configure the highlighting style used by providing a
+<code>highlight</code> key in the <code>showoff.json</code> file. For
+example:</p>
+
+<pre>{
+  &quot;name&quot;: &quot;Something&quot;,
+  &quot;description&quot;: &quot;Example Presentation&quot;,
+  &quot;highlight&quot;: &quot;agate&quot;,
+  ...
+}</pre>
+
+<p>Highlighting styles include:</p>
+
+<pre>agate                     atelier-seaside.light        mono-blue
+androidstudio             atelier-sulphurpool.dark     monokai
+arta                      atelier-sulphurpool.light    monokai_sublime
+ascetic                   brown_paper                  obsidian
+atelier-cave.dark         codepen-embed                paraiso.dark
+atelier-cave.light        color-brewer                 paraiso.light
+atelier-dune.dark         dark                         pojoaque
+atelier-dune.light        darkula                      railscasts
+atelier-estuary.dark      default                      rainbow
+atelier-estuary.light     docco                        school_book
+atelier-forest.dark       far                          solarized_dark
+atelier-forest.light      foundation                   solarized_light
+atelier-heath.dark        github-gist                  sunburst
+atelier-heath.light       github                       tomorrow-night-blue
+atelier-lakeside.dark     googlecode                   tomorrow-night-bright
+atelier-lakeside.light    hybrid                       tomorrow-night-eighties
+atelier-plateau.dark      idea                         tomorrow-night
+atelier-plateau.light     ir_black                     tomorrow
+atelier-savanna.dark      kimbie.dark                  vs
+atelier-savanna.light     kimbie.light                 xcode
+atelier-seaside.dark      magula                       zenburn</pre>
+
+<h1 id="label-Forms">Forms<span><a href="#label-Forms">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>Showoff extends Markdown to render a limited subset of form elements. This
+is mostly useful for polls, quizzes, surveys, etc. See FORMS.rdoc for more
+complete information.</p>
+
+<h1 id="label-Sections">Sections<span><a href="#label-Sections">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<h2 id="label-Presenter+Notes">Presenter Notes<span><a href="#label-Presenter+Notes">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Surround presenter notes with <code>~~~SECTION:notes~~~</code> and
+<code>~~~ENDSECTION~~~</code> tags. It will display in the bottom section
+of the presenter view. The footer on the display window will also  display
+shorter notes. Toggle these with the n key while in the presentation.</p>
+
+<pre>~~~SECTION:notes~~~
+
+This is a presenter note example.
+
+~~~ENDSECTION~~~</pre>
+
+<h3 id="label-Personal+Notes">Personal Notes<span><a href="#label-Personal+Notes">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>In some use cases, it&#39;s useful to have personal notes that are separate
+from the presenter notes built into the presentation itself. For example,
+you might share a presentation repository with others, but would like the
+ability add your own notes to slides. This can be done by creating a
+markdown file in the <code>_notes</code> directory of your presentation.
+The filename should mirror the name of the slide.</p>
+
+<p>For example, if the name as displayed in the upper left of the presenter
+view was <code>Introduction/About</code> then the personal notes file
+should be <code>_notes/Introduction/About.md</code>.</p>
+
+<h2 id="label-Handout+Notes">Handout Notes<span><a href="#label-Handout+Notes">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Surround handout notes with <code>~~~SECTION:handouts~~~</code> and
+<code>~~~ENDSECTION~~~</code> tags. It will display below the slide in the
+printed version..</p>
+
+<pre>~~~SECTION:handouts~~~
+
+This is supplementary material that will appear in the printed version.
+
+~~~ENDSECTION~~~</pre>
+
+<p>Handout notes are best viewed by printing the <code>/print</code> view from
+your browser. Each slide will be printed on a new page and handout notes
+will be included below the slide contents. Handout notes can contain any
+markup that the slide itself can.</p>
+
+<h2 id="label-Adding+Notes+Sections">Adding Notes Sections<span><a href="#label-Adding+Notes+Sections">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>You can add arbitrary section types by simply declaring them on a slide.
+All sections attached to a slide can be chosen from a flyaway tab widget in
+the notes field in the presenter. For example, if a slide contained the
+following notes sections,</p>
+
+<pre>~~~SECTION:notes~~~
+This is a presenter note example.
+~~~ENDSECTION~~~
+
+~~~SECTION:handouts~~~
+This is supplementary material that will appear in the printed version.
+~~~ENDSECTION~~~
+
+~~~SECTION:guide~~~
+This is an additional notes section that may be chosen from the tab bar.
+~~~ENDSECTION~~~</pre>
+
+<p>then the section selector would contain <code>notes</code>,
+<code>handouts</code>, and <code>guide</code>.</p>
+
+<h2 id="label-Printing+Notes+Sections">Printing Notes Sections<span><a href="#label-Printing+Notes+Sections">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>When printing the presentation, you can choose which notes section to
+attach below the slides.</p>
+
+<pre class="ruby"><span class="ruby-comment"># Prints the presenter notes</span>
+<span class="ruby-identifier">showoff</span> <span class="ruby-identifier">static</span> <span class="ruby-identifier">print</span> <span class="ruby-identifier">notes</span>
+
+<span class="ruby-comment"># Prints a section called &quot;guide&quot;</span>
+<span class="ruby-identifier">showoff</span> <span class="ruby-identifier">static</span> <span class="ruby-identifier">print</span> <span class="ruby-identifier">guide</span>
+</pre>
+
+<p>By default, the <code>handouts</code> section will be attached. In other
+words, <code>showoff static print</code> will behave just like
+<code>showoff static print handouts</code>.</p>
+
+<h1 id="label-Other+Tags">Other Tags<span><a href="#label-Other+Tags">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<dl class="rdoc-list label-list"><dt>~~~SECTION:MAJOR~~~
+<dd>
+<p>This is the section major number. It is a counter that increments each time
+a subsection tag is encountered.</p>
+</dd><dt>~~~SECTION:MINOR~~~
+<dd>
+<p>This is the section minor number. It is incremented each time it is used
+and reset each time a subsection tag is encountered.</p>
+</dd><dt>~~~FILE:filename.ext~~~
+<dt>~~~FILE:filename.ext:filetype~~~
+<dd>
+<p>Includes the content of a file in the <code>_files</code> directory on the
+slide as code. If the optional <code>filetype</code> is included then the
+code block will be syntax highlighted appropriately.</p>
+</dd><dt>~~~PAGEBREAK~~~
+<dd>
+<p>Just generates a <code>&lt;div
+class=&quot;pagebreak&quot;&gt;continued...&lt;/div&gt;</code> HTML snippet
+which is styled as a hard page break in modern HTML rendering engines.</p>
+</dd><dt>~~~TOC~~~
+<dd>
+<p>Generates a Table of Contents using the subsection titles. Some renderers
+(such as <a href="http://www.princexml.com">PrinceXML</a>) are able to
+autonumber the table with links to content.</p>
+</dd><dt>~~~FORM:id~~~
+<dd>
+<p>Places a continuously updating block displaying the live results from the
+form with the given ID. This is most useful when you&#39;re performing a
+poll or pop quiz during the presentation.</p>
+</dd></dl>
+
+<h1 id="label-Preshow">Preshow<span><a href="#label-Preshow">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>If you want to show a slideshow while you wait to speak, you can run a
+preshow. Add a <code>_preshow</code> directory to your project (I use a
+symlink, so I don&#39;t have to add all the images into Git), put a bunch
+of images in the <code>_preshow</code> directory and optionally add a
+<code>preshow.json</code> file that provides descriptions for any of the
+images.  If you then press &#39;<code>P</code>&#39; at the beginning of
+your presentation, it will prompt you for a number of minutes until you
+start.  Then it will count down the time until then, flipping through your
+pictures to entertain the audience in the meantime.  Press
+&#39;<code>P</code>&#39; again to stop, or wait until the timer runs out.</p>
+
+<h1 id="label-Download+Files">Download Files<span><a href="#label-Download+Files">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>Add a line that starts with <code>.download</code> and contains the name of
+a file in the <code>_files</code> subdirectory of your presentation.</p>
+
+<pre>.download file.tar.gz</pre>
+
+<p>Once the instructor has viewed the next slide in your presentation, the
+file listed here will be available to download on the
+<code>/download</code> page. For example, if the file was referenced on
+page #42, then the file would be listed when the instructor advances to
+slide #43.</p>
+
+<p><em>Note, this means only the <strong>next</strong> slide, not any
+subsequent slide.</em></p>
+
+<p>To share files on an ad-hoc basis, the instructor can simply drop files
+into <code>_files/share</code>. All files existing in this directory will
+be listed when students hit the download page. Showoff does not need to be
+restarted, even if you drop files in here during a presentation.</p>
+
+<h1 id="label-Showing+Plain+Old+Markdown">Showing Plain Old Markdown<span><a href="#label-Showing+Plain+Old+Markdown">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>If a Markdown file has no !SLIDE keywords, then Showoff will treat every
+line beginning with a single hash – i.e. every H1 – as a new slide in
+“bullets” style. Remember that you can&#39;t specify classes or transitions
+in this mode, and as soon as you add one !SLIDE you need them everywhere.</p>
+
+<h1 id="label-Custom+JavaScript">Custom JavaScript<span><a href="#label-Custom+JavaScript">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>To insert custom JavaScript into your presentation you can either place it
+into a file (with extension .js) into the root directory of your
+presentation or you can embed a <code>&lt;script&gt;</code> element
+directly into your slides. This JavaScript will be executed—as usually—as
+soon as it is loaded.</p>
+
+<p>If you want to trigger some JavaScript as soon as a certain page is shown
+or when you switch to the next or previous slide, you can bind a callback
+to a custom event:</p>
+<dl class="rdoc-list note-list"><dt>showoff:show
+<dd>
+<p>will be triggered as soon as you enter a page</p>
+</dd><dt>showoff:next
+<dd>
+<p>will be triggered when you switch to the next page</p>
+</dd><dt>showoff:incr
+<dd>
+<p>will be triggered when you advance to the next increment on the page</p>
+</dd><dt>showoff:prev
+<dd>
+<p>will be triggered when you switch to the previous page</p>
+</dd></dl>
+
+<p>These events are triggered on the “div.content” child of the slide, so you
+must add a custom and unique class to your SLIDE to identify it:</p>
+
+<pre>!SLIDE custom_and_unique_class
+# 1st Example h1
+&lt;script&gt;
+// bind to custom event
+$(&quot;.custom_and_unique_class&quot;).bind(&quot;showoff:show&quot;, function (event) {
+  // animate the h1
+  var h1 = $(event.target).find(&quot;h1&quot;);
+  h1.delay(500)
+    .slideUp(300, function () { $(this).css({textDecoration: &quot;line-through&quot;}); })
+    .slideDown(300);
+});
+&lt;/script&gt;</pre>
+
+<p>This will bind an event handler for <strong>showoff:show</strong> to your
+slide. The h1-element will be animated, as soon as this event is triggered
+on that slide.</p>
+
+<p>If you bind an event handler to the custom events
+<strong>showoff:next</strong> or <strong>showoff:prev</strong>, you can
+prevent the default action (that is switching to the appropriate slide) by
+calling *event.preventDefault()*:</p>
+
+<pre>!SLIDE prevent_default
+# 2nd Example h1
+&lt;script&gt;
+$(&quot;.prevent_default&quot;).bind(&quot;showoff:next&quot;, function (event) {
+  var h1 = $(event.target).find(&quot;h1&quot;);
+  if (h1.css(&quot;text-decoration&quot;) === &quot;none&quot;) {
+    event.preventDefault();
+    h1.css({textDecoration: &quot;line-through&quot;})
+  }
+});
+&lt;/script&gt;</pre>
+
+<p>This will bind an event handler for <strong>showoff:next</strong> to your
+slide. When you press the right arrow key the first time, the h1-element
+will be decorated. When you press the right array key another time, you
+will switch to the next slide.</p>
+
+<p>The same applies to the <strong>showoff:prev</strong> event, of course.</p>
+
+<h1 id="label-Custom+Stylesheets">Custom Stylesheets<span><a href="#label-Custom+Stylesheets">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>To insert custom Stylesheets into your presentation you can either place it
+into a file (with extension .css) into the root directory of your
+presentation or you can embed a <code>&lt;link&gt;</code> element directly
+into your slides. This stylesheet will be applied as soon as it is loaded.</p>
+
+<p>The content generated by the slide is wrapped with a <code>div</code> with
+the class <code>.content</code> like this.</p>
+
+<pre>&lt;div ref=&quot;intro/01_slide/1&quot; class=&quot;content&quot; style=&quot;margin-top: 210px;&quot;&gt;
+&lt;h1&gt;jQuery &amp;amp; Sinatra&lt;/h1&gt;
+&lt;h2&gt;A Classy Combination&lt;/h2&gt;
+&lt;/div&gt;</pre>
+
+<p>This makes the <code>.content</code> tag a perfect place to add additional
+styling if that is your preference. An example of adding some styling is
+here.</p>
+
+<pre>.content {
+  color: black;
+  font-family: helvetica, arial;
+}
+h1, h2 {
+  color: rgb(79, 180, 226);
+  font-family: Georgia;
+}
+.content::after {
+  position: absolute;
+  right: 120px;
+  bottom: 120px;
+  content: url(jay_small.png);
+}</pre>
+
+<p>Note that the example above uses CSS3 styling with <code>::after</code> and
+the <code>content</code> -attribute to add an image to the slides.</p>
+
+<p>If you would like to use CSS to change the size of your slides from the
+default of 1024x768, you&#39;ll want to use rules such as:</p>
+
+<pre>#preso,
+.slide {
+    width: 1280px !important;
+    height: 800px !important;
+}</pre>
+
+<p>You can style individual paragraphs and images by including a class name
+prefixed with a period as the first word of the text or of the description.
+For example, a styled paragraph would look like:</p>
+
+<pre>.customstyle This is a paragraph of text. It&#39;s nothing special except that the
+&lt;tt&gt;&amp;lt;p&amp;rt;&lt;/tt&gt; tag will have the class &lt;tt&gt;customstyle&lt;/tt&gt; applied to it.</pre>
+
+<p>A styled image will look like:</p>
+
+<pre>![.fancyborder This is a really fancy image](../_images/unicorns_and_rainbows.png)</pre>
+
+<h1 id="label-Templates">Templates<span><a href="#label-Templates">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>Templates can come handy if you need more than what you can achieve via
+CSS. To configure templates you&#39;ll have to specify them in the
+<code>showoff.json</code> by adding an entry called “templates”. This entry
+is an object where you can specify as many templates as you want. The
+default template is marked with the “default” key.</p>
+
+<pre> {
+  &quot;name&quot;: &quot;Something&quot;,
+  &quot;description&quot;: &quot;Example Presentation&quot;,
+  &quot;templates&quot; : {
+      &quot;default&quot; : &quot;tpl1.tpl&quot;,
+      &quot;special&quot; : &quot;tpl2.tpl&quot;
+  },
+  &quot;sections&quot;: [
+    {&quot;section&quot;:&quot;one&quot;}
+  ]
+}</pre>
+
+<p>If the “default” key is not given, no template will be used for the default
+slide. If you want to apply a certain layout to a slide you have to specify
+it in the slide header:</p>
+
+<pre class="ruby"><span class="ruby-operator">!</span><span class="ruby-constant">SLIDE</span>[<span class="ruby-identifier">tpl</span>=<span class="ruby-identifier">special</span>]
+<span class="ruby-comment"># Header</span>
+</pre>
+
+<h2 id="label-Template+Commands">Template Commands<span><a href="#label-Template+Commands">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>You can place content anywhere in your template, but you have to explicitly
+mark the location using a special command:</p>
+<dl class="rdoc-list label-list"><dt>~~~CONTENT~~~
+<dd>
+<p>is replaced by the slide content</p>
+</dd><dt>~~~CURRENT_SLIDE~~~
+<dd>
+<p>is replaced by the current slide number</p>
+</dd><dt>~~~NUM_SLIDES~~~
+<dd>
+<p>is replaced by the total number of slides</p>
+</dd><dt>~~~CONFIG:*~~~
+<dd>
+<p>is replaced by any value (*) from the <code>showoff.json</code>
+configuration. This can be used to specify an author, venue, etc. A simple
+example would be <code>~~~CONFIG:author~~~</code></p>
+</dd></dl>
+
+<p>The usage of these replacements is not limited to templates, but anywhere
+in your slides.</p>
+
+<h2 id="label-Template+Hints">Template Hints<span><a href="#label-Template+Hints">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>You can basically put everything you want into templates, but you should
+make sure that the CSS is applied fine. The best way to apply a custom
+layout is to create a container that uses absolute positioning and has
+width and height set to 100% which are then derived from the parent slide
+element.</p>
+
+<h1 id="label-Live+code+execution">Live code execution<span><a href="#label-Live+code+execution">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>Showoff can execute code from a slide and display the results live for
+demonstration purposes.  To do this, mark your code block with the keyword
+<code>execute</code>. Any code that Showoff has handlers for can be
+executed. This includes:</p>
+<dl class="rdoc-list label-list"><dt>Executed directly in the browser
+<dd><ul><li>
+<p>Coffeescript</p>
+</li><li>
+<p>Javascript</p>
+</li></ul>
+</dd><dt>Executed on the machine running the Showoff presentation
+<dd><ul><li>
+<p>Perl</p>
+</li><li>
+<p>Puppet</p>
+</li><li>
+<p>Python</p>
+</li><li>
+<p>Ruby</p>
+</li><li>
+<p>Shell</p>
+</li></ul>
+</dd></dl>
+
+<p><strong>Security</strong>: code must exist in a slide file on disk for
+Showoff to execute it. This doesn&#39;t mean that you&#39;re immune from
+attack though. It&#39;s possible to create a presentation with embedded
+Javascript that will automatically call back and execute malicious code on
+a slide. To help mitigate this attack profile, Showoff must be started with
+the <code>-x</code> or <code>--execute</code> flags to enable code
+execution.</p>
+
+<h2 id="label-Shell+code">Shell code<span><a href="#label-Shell+code">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<pre>@@@ Shell execute
+find . -name &#39;*.md&#39;</pre>
+
+<h2 id="label-Ruby+code">Ruby code<span><a href="#label-Ruby+code">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<pre>@@@ Ruby execute
+[1,2,3,4].map do |num|
+    num * num
+end</pre>
+
+<p>If you need supporting libraries when you evaluate Ruby code, you can put
+Ruby files (<code>*.rb</code>) into the root directory of the presentation
+and they will be auto-required when the presentation loads.</p>
+
+<h1 id="label-Editor+Support">Editor Support<span><a href="#label-Editor+Support">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>The “add slide” feature can allow you to add the necessary boilerplate from
+your editor.</p>
+<dl class="rdoc-list label-list"><dt>TextMate Bundle
+<dd><ul><li>
+<p>Showoff.tmdbundle</p>
+</li><li>
+<p>Dr Nic Williams</p>
+</li><li>
+<p><a
+href="http://github.com/drnic/Showoff.tmbundle">github.com/drnic/Showoff.tmbundle</a></p>
+</li></ul>
+</dd><dt>Emacs
+<dd><ul><li>
+<p>major-mode - showoff-mode</p>
+</li><li>
+<p>Nick Parker</p>
+</li><li>
+<p><a
+href="http://github.com/developernotes/showoff-mode">github.com/developernotes/showoff-mode</a></p>
+</li></ul>
+</dd><dt>vim
+<dd><ul><li>
+<p><code>!showoff add -t code Check This Code</code></p>
+</li></ul>
+
+<p>And your buffer will get</p>
+
+<pre>!SLIDE
+# Check This Code #
+    @@@ Ruby
+    code_here()</pre>
+
+<p>added where your cursor was.  Binding this to a keybinding can allow you to
+add new slides quickly.</p>
+</dd></dl>
+
+<h1 id="label-Command+Line+Interface">Command Line Interface<span><a href="#label-Command+Line+Interface">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<pre>showoff [global options] command [command options] [arguments...]</pre>
+<ul><li>
+<p>Use the command <code>help</code> to get a summary of commands</p>
+</li><li>
+<p>Use the command <code>help command_name</code> to get a help for
+<code>command_name</code></p>
+</li><li>
+<p>Use <code>--</code> to stop command line argument processing; useful if
+your arguments have dashes in them</p>
+</li></ul>
+
+<h2 id="label-Commands">Commands<span><a href="#label-Commands">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<dl class="rdoc-list label-list"><dt><code>add</code>
+<dd>
+<p>Add a new slide at the end in a given dir</p>
+</dd><dt><code>create</code>
+<dd>
+<p>Create new showoff presentation</p>
+</dd><dt><code>skeleton</code>
+<dd>
+<p>Generate a full presentation based on a <code>showoff.json</code> outline</p>
+</dd><dt><code>help</code>
+<dd>
+<p>Shows list of commands or help for one command</p>
+</dd><dt><code>heroku</code>
+<dd>
+<p>Setup your presentation to serve on Heroku</p>
+</dd><dt><code>github</code>
+<dd>
+<p>Setup your presentation to serve on GitHub Pages</p>
+</dd><dt><code>serve</code>
+<dd>
+<p>Serves the showoff presentation in the current directory (or a given dir)</p>
+</dd><dt><code>static</code>
+<dd>
+<p>Generate static version of presentation</p>
+</dd></dl>
+
+<h2 id="label-showoff+add+-5Btitle-5D"><code>showoff add [title]</code><span><a href="#label-showoff+add+-5Btitle-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Add a new slide at the end in a given dir</p>
+<dl class="rdoc-list label-list"><dt>Aliases
+<dd><ul><li>
+<p><code>new</code></p>
+</li></ul>
+</dd></dl>
+
+<p>Outputs or creates a new slide. With -d and -n, a new slide is created in
+the given dir, numbered to appear as the last slide in that dir (use -u to
+avoid numbering). Without those, outputs the slide markdown to stdout
+(useful for shelling out from your editor). You may also specify a source
+file to use for a code slide.</p>
+
+<p>Options are specified <strong>after</strong> the command.</p>
+<dl class="rdoc-list label-list"><dt><code>-d, --dir=dir</code>
+<dd>
+<p>Slide dir (where to put a new slide file)</p>
+</dd><dt><code>-n, --name=basename</code>
+<dd>
+<p>Slide name (name of the new slide file)</p>
+</dd><dt><code>-s, --source=path to file</code>
+<dd>
+<p>Include code from the given file as the slide body</p>
+</dd><dt><code>-t, --style, --type=valid showoff style/type</code>
+<dd>
+<p>Slide Type/Style <em>( default: <code>title</code>)</em></p>
+</dd><dt><code>-u, --nonumber</code>
+<dd>
+<p>Dont number the slide, use the given name verbatim</p>
+</dd></dl>
+
+<h2 id="label-showoff+create+dir_name"><code>showoff create dir_name</code><span><a href="#label-showoff+create+dir_name">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Create new showoff presentation</p>
+<dl class="rdoc-list label-list"><dt>Aliases
+<dd><ul><li>
+<p><code>init</code></p>
+</li></ul>
+</dd></dl>
+
+<p>This command helps start a new showoff presentation by setting up the
+proper directory structure for you.  It takes the directory name you would
+like showoff to create for you.</p>
+
+<p>Options are specified <strong>after</strong> the command.</p>
+<dl class="rdoc-list label-list"><dt><code>-d, --slidedir=arg</code>
+<dd>
+<p>sample slide directory name <em>( default: <code>one</code>)</em></p>
+</dd><dt><code>-n, --nosamples</code>
+<dd>
+<p>Dont create sample slides</p>
+</dd></dl>
+
+<h2 id="label-Markdown+Engine">Markdown Engine<span><a href="#label-Markdown+Engine">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>It is possible to configure the markdown engine of your choice to use with
+showoff. The following engines are available:</p>
+<ul><li>
+<p>redcarpet (default)</p>
+</li><li>
+<p>bluecloth</p>
+</li><li>
+<p>maruku</p>
+</li><li>
+<p>kramdown</p>
+</li><li>
+<p>rdiscount</p>
+</li></ul>
+
+<p>You may configure special options of your markdown engine by including an
+options hash keyed off the markdown engine name in your configuration file.
+For example:</p>
+
+<pre>&quot;markdown&quot; : &quot;kramdown&quot;,
+&quot;kramdown&quot; : {
+   &quot;space_after_headers&quot;: true
+}</pre>
+
+<p>Configuring an engine (or overriding its default configuration) allows you
+to access special features of that engine.</p>
+
+<h3 id="label-Default+options">Default options<span><a href="#label-Default+options">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Showoff configures default options for some of the Markdown engines. These
+defaults can be disabled in your <code>showoff.json</code> file if needed.</p>
+
+<p>Defaults for each engine are:</p>
+<dl class="rdoc-list label-list"><dt>redcarpet
+<dd>
+<p><a href="https://github.com/vmg/redcarpet">github.com/vmg/redcarpet</a></p>
+
+<pre>&quot;redcarpet&quot; : {
+  :autolink&quot;          : true,
+  :no_intra_emphasis&quot; : true,
+  :strikethrough&quot;     : true,
+  :superscript&quot;       : true,
+  :tables&quot;            : true,
+  :underline&quot;         : true
+}</pre>
+</dd><dt>bluecloth
+<dd>
+<p><a
+href="https://github.com/ged/bluecloth/blob/master/lib/bluecloth.rb">github.com/ged/bluecloth/blob/master/lib/bluecloth.rb</a></p>
+
+<pre>&quot;bluecloth&quot; : {
+  &quot;auto_links&quot;        : true,
+  &quot;definition_lists&quot;  : true,
+  &quot;strikethrough&quot;     : true,
+  &quot;superscript&quot;       : true,
+  &quot;tables&quot;            : true
+}</pre>
+</dd><dt>rdiscount
+<dd>
+<p><a
+href="https://github.com/davidfstr/rdiscount/blob/master/lib/rdiscount.rb">github.com/davidfstr/rdiscount/blob/master/lib/rdiscount.rb</a></p>
+
+<pre>&quot;rdiscount&quot; : {
+  &quot;autolink&quot;          : true
+}</pre>
+</dd></dl>
+
+<h3 id="label-Maruku">Maruku<span><a href="#label-Maruku">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>When you prefer using Maruku as the markdown engine of choice for your
+presentation, you can use the LaTeX Math Mode features of maruku. First you
+need <a href="http://www.mediawiki.org/wiki/Extension:Blahtex">BlahTex</a>
+and then you need to configure your presentation as following:</p>
+
+<pre>&quot;markdown&quot; : &quot;maruku&quot;,
+&quot;maruku&quot; : {
+   &quot;use_tex&quot; : true,
+   &quot;png_dir&quot; : &quot;images&quot;,
+   &quot;html_png_url&quot; : &quot;/file/images/&quot;
+}</pre>
+
+<p>Note that `use_tex` is required, but configuring the `png_dir` and
+`html_png_dir` are optional.</p>
+</main>
+
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

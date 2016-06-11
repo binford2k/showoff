@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>PRESENTATION - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script src="../js/jquery.js"></script>
+<script src="../js/darkfish.js"></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="file">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+  <ul class="link-list" role="directory">
+    <li><a href="#label-Creating+a+presentation">Creating a presentation</a>
+    <li><a href="#label-Example+showoff.json">Example <code>showoff.json</code></a>
+    <li><a href="#label-Configuration+Settings">Configuration Settings</a>
+    <li><a href="#label-Defining+slides+using+the+sections+setting.">Defining slides using the <code>sections</code> setting.</a>
+    <li><a href="#label-Running+without+a+showoff.json">Running without a <code>showoff.json</code></a>
+    <li><a href="#label-Protected+presentations">Protected presentations</a>
+  </ul>
+</div>
+
+
+  <div id="project-metadata">
+    <div id="fileindex-section" class="nav-section">
+  <h3>Pages</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../documentation/AUTHORING_rdoc.html">AUTHORING</a>
+  
+    <li><a href="../documentation/CONFIGURATION_rdoc.html">CONFIGURATION</a>
+  
+    <li><a href="../documentation/FORMS_rdoc.html">FORMS</a>
+  
+    <li><a href="../documentation/INSTALLATION_rdoc.html">INSTALLATION</a>
+  
+    <li><a href="../documentation/INTERACTION_rdoc.html">INTERACTION</a>
+  
+    <li><a href="../documentation/PRESENTATION_rdoc.html">PRESENTATION</a>
+  
+    <li><a href="../documentation/USAGE_rdoc.html">USAGE</a>
+  
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-label="Page documentation/PRESENTATION.rdoc">
+
+<h1 id="label-Creating+a+presentation">Creating a presentation<span><a href="#label-Creating+a+presentation">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>A Showoff presentation is defined by the contents of the
+<code>showoff.json</code> file in the root of the presentation directory.
+It contains configuration keys that define metadata about the presentation
+and describes the slides themselves.</p>
+
+<h2 id="label-Example+showoff.json">Example <code>showoff.json</code><span><a href="#label-Example+showoff.json">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>The following file describes a simple presentation with only a few slides.
+It includes all current configuration keys, which will be described below.</p>
+
+<pre>{
+  &quot;name&quot;: &quot;Something&quot;,
+  &quot;description&quot;: &quot;Example Presentation&quot;,
+  &quot;favicon&quot;: &quot;file/favicon-example.ico&quot;,
+  &quot;protected&quot;: [
+    &quot;presenter&quot;,
+    &quot;onepage&quot;,
+    &quot;print&quot;
+  ],
+  &quot;user&quot;: &quot;username&quot;,
+  &quot;password&quot;: &quot;password&quot;,
+  &quot;version&quot;: &quot;0.9.10.7&quot;,
+  &quot;feedback&quot;: true,
+  &quot;ssl&quot;: true,
+  &quot;ssl_certificate&quot;: &quot;/path/to/some/certificate.pem&quot;,
+  &quot;ssl_private_key&quot;: &quot;/path/to/the/corresponding/private_key.pem&quot;,
+  &quot;edit&quot;: &quot;https://github.com/username/presentation/edit/master/&quot;,
+  &quot;issues&quot;: &quot;https://github.com/username/presentation/issues/new?title=&quot;,
+  &quot;highlight&quot;: &quot;atelier-cave.light&quot;,
+  &quot;author&quot;: &quot;Foo Bar John&quot;,
+  &quot;templates&quot; : {
+      &quot;special&quot; : &quot;simple.tpl&quot;
+  },
+  &quot;pause_msg&quot;: &quot;Paused !!!&quot;,
+  &quot;sections&quot;: [
+    &quot;Intro/intro.md&quot;,
+    &quot;Intro/summary.md&quot;,
+    &quot;Content/first.md&quot;,
+    &quot;Content/second.md&quot;,
+    &quot;Conclusion/overview.md&quot;,
+  ]
+}</pre>
+
+<h2 id="label-Configuration+Settings">Configuration Settings<span><a href="#label-Configuration+Settings">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>The configuration settings you may use are listed below. Please see the <a
+href="AUTHORING_rdoc.html">AUTHORING</a> section for more information.</p>
+<dl class="rdoc-list label-list"><dt>author
+<dd>
+<p>The name of the author.</p>
+</dd><dt>description
+<dd>
+<p>A one sentence description.</p>
+</dd><dt>edit
+<dd>
+<p>A link to a web based editor used when started with <code>--review</code>. 
+The path to the currently viewed slide will be appended and the resulting
+URI will be opened in a new browser tab. This is currently only tested with
+GitHub.</p>
+</dd><dt>favicon
+<dd>
+<p>The filename of a favicon image to use. Note that you must prefix the
+filename with <code>file</code> as shown in the example.</p>
+
+<p>If you place a <code>favicon.ico</code> in the root of your presentation,
+it will be used by default without setting this.</p>
+</dd><dt>feedback
+<dd>
+<p>Enable the interactive feedback features. Defaults to false.</p>
+</dd><dt>highlight
+<dd>
+<p>The <a href="https://highlightjs.org">highlight.js</a> theme to use for
+code snippets.</p>
+</dd><dt>issues
+<dd>
+<p>A link to a web based bug reporter. The currently viewed slide will be
+appended and the resulting URI will be opened in a new browser tab. This is
+currently only tested with GitHub and Jira.</p>
+</dd><dt>name
+<dd>
+<p>A short name for the presentation.</p>
+</dd><dt>pause_msg
+<dd>
+<p>The message to display when paused.</p>
+</dd><dt>protected
+<dd>
+<p>An array of pages that should require a user login. Usually used for the
+<code>presenter</code> view.</p>
+<dl class="rdoc-list label-list"><dt>username
+<dd>
+<p>The username for protected pages.</p>
+</dd><dt>password
+<dd>
+<p>The password for protected pages.</p>
+</dd></dl>
+</dd><dt>locked
+<dd>
+<p>An array of pages that will require a presentation key entered as a
+password in the login dialog. If a user has already logged in, that will
+take precedence and they won&#39;t be prompted again.</p>
+<dl class="rdoc-list label-list"><dt>key
+<dd>
+<p>The key for locked pages.</p>
+</dd></dl>
+</dd><dt>sections
+<dd>
+<p>The slide definitions for the presentation.</p>
+</dd><dt>standalone
+<dd>
+<p>If you set this to <code>true</code>, then audience interactivity features
+will be disabled.</p>
+</dd><dt>ssl
+<dd>
+<p>Enable serving the presentation via SSL. If a certificate is not provided,
+an autogenerated one will be used. Defaults to false.</p>
+<dl class="rdoc-list label-list"><dt>Warning
+<dd>
+<p>When using self-signed certificates, some browsers require that all viewers
+*permanently accept the certificate* in order for the interactivity
+features, such as pace feedback, to work properly. Form submissions are not
+affected.</p>
+</dd></dl>
+</dd><dt>ssl_certificate
+<dd>
+<p>The path to the PEM format certificate file to use. See the note above
+about self-signed certificates.</p>
+</dd><dt>ssl_private_key
+<dd>
+<p>The path of the private key for that certificate.</p>
+</dd><dt>templates
+<dd>
+<p>A hash of templates to be used.</p>
+</dd><dt>version
+<dd>
+<p>The version of Showoff that this presentation requires. It will refuse to
+start and will display a warning message if the Showoff version is lower.</p>
+</dd></dl>
+
+<h2 id="label-Defining+slides+using+the+sections+setting.">Defining slides using the <code>sections</code> setting.<span><a href="#label-Defining+slides+using+the+sections+setting.">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>The <code>sections</code> section contains the description of the slides
+making up your presentation and the order they should be displayed in. You
+may either list them in order using an array, or define sections using an
+array of hashes.</p>
+
+<p>Array configuration listing each Markdown file:</p>
+
+<pre>&quot;sections&quot;: [
+  &quot;Intro/intro.md&quot;,
+  &quot;Intro/summary.md&quot;,
+  &quot;Content/first.md&quot;,
+  &quot;Content/second.md&quot;,
+  &quot;Conclusion/overview.md&quot;,
+]</pre>
+
+<p>Hash configuration listing each directory of Markdown files:</p>
+
+<pre>&quot;sections&quot;: [
+  {&quot;section&quot;:&quot;one&quot;},
+  {&quot;section&quot;:&quot;two&quot;},
+  {&quot;section&quot;:&quot;three&quot;},
+  {&quot;section&quot;:&quot;four&quot;}
+]</pre>
+
+<h2 id="label-Running+without+a+showoff.json">Running without a <code>showoff.json</code><span><a href="#label-Running+without+a+showoff.json">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>When you run Showoff without defining <code>sections</code>, or when you
+point to a directory instead of individual files, Showoff will enumerate
+all <code>*.md</code> files and assume that each is a slide file.</p>
+
+<h3 id="label-Protected+presentations">Protected presentations<span><a href="#label-Protected+presentations">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>There are two methods to protect your presentations. You can require the
+user to log in with a username and password, by defining pages in the
+<code>protected</code> array, or you may require viewers to provide a
+viewing key by defining pages in the <code>locked</code> array. This key
+should be entered as the password of the authentication dialog. The
+username is ignored.</p>
+
+<p>A useful configuration locking down the presenter view and printing to
+authorized presenter logins, but allowing the audience to view with only a
+viewing key is:</p>
+
+<pre>&quot;key&quot;: &quot;{key}&quot;,
+&quot;user&quot;: &quot;{username}&quot;,
+&quot;password&quot;: &quot;{password}&quot;,</pre>
+
+<p>You can customize exactly which functionality is available to your
+audience. For example, if you want to restrict access to the presenter, but
+allow anyone with the viewing key to use the <code>print</code> endpoint to
+generate a PDF file:</p>
+
+<pre>&quot;protected&quot;: [&quot;presenter&quot;],
+&quot;locked&quot;: [&quot;slides&quot;, &quot;print&quot;],</pre>
+
+<p>If pages are marked as protected or locked, but no corresponding password
+or viewing key is set, then only the presenter running on the presentation
+on the same machine they&#39;re viewing with will be allowed access.</p>
+</main>
+
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
