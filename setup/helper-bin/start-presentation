@@ -1,6 +1,0 @@
-#!/bin/bash -x
-
-path="${HOME}/checkout/puppet-curriculum/${1}"
-cd ${path}
-
-ruby1.9.1 ~/checkout/showoff/bin/showoff serve
