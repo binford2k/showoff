@@ -1,6 +1,0 @@
-#!/bin/bash -x
-
-cd ${HOME}/checkout/showoff
-git pull
-cd ${HOME}/checkout/puppet-curriculum
-git pull
