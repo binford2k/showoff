@@ -32,22 +32,28 @@ class ShowOffUtils
   end
 
   def self.create(dirname,create_samples,dir='one')
-    Dir.mkdir(dirname) if !File.exist?(dirname)
+    FileUtils.mkdir_p(dirname)
     Dir.chdir(dirname) do
       if create_samples
         # create section
-        Dir.mkdir(dir)
+        FileUtils.mkdir_p(dir)
 
         # create markdown file
         File.open("#{dir}/01_slide.md", 'w+') do |f|
           f.puts make_slide("My Presentation")
+        end
+        File.open("#{dir}/02_slide.md", 'w+') do |f|
           f.puts make_slide("Bullet Points","bullets incremental",["first point","second point","third point"])
         end
       end
 
+      # Create asset directories
+      FileUtils.mkdir_p('_files/share')
+      FileUtils.mkdir_p('_images')
+
       # create showoff.json
       File.open(ShowOffUtils.presentation_config_file, 'w+') do |f|
-        f.puts "{ \"name\": \"My Preso\", \"sections\": [ {\"section\":\"#{dir}\"} ]}"
+        f.puts JSON.pretty_generate({ "name" => "My Preso", "sections" => [ { "section" => dir } ]})
       end
     end
   end
@@ -57,6 +63,10 @@ class ShowOffUtils
       FileUtils.cp(config, '.')
       ShowOffUtils.presentation_config_file = File.basename(config)
     end
+
+    # Create asset directories
+    FileUtils.mkdir_p('_files/share')
+    FileUtils.mkdir_p('_images')
 
     self.showoff_sections('.').each do |filename|
       next if File.exist? filename
@@ -138,8 +148,8 @@ class ShowOffUtils
   # [content] slide content.  Currently, if this is an array, it will make a bullet list.  Otherwise
   #           the string value of this will be put in the slide as-is
   def self.make_slide(title,classes="",content=nil)
-    slide = "!SLIDE #{classes}\n"
-    slide << "# #{title} #\n"
+    slide = "<!SLIDE #{classes}>\n"
+    slide << "# #{title}\n"
     slide << "\n"
     if content
       if content.kind_of? Array
@@ -152,13 +162,13 @@ class ShowOffUtils
   end
 
   TYPES = {
-    :default => lambda { |t,size,source,type| make_slide(t,"#{size} #{type}",source) },
-    'title' => lambda { |t,size,dontcare| make_slide(t,size) },
-    'bullets' => lambda { |t,size,dontcare| make_slide(t,"#{size} bullets incremental",["bullets","go","here"])},
-    'smbullets' => lambda { |t,size,dontcare| make_slide(t,"#{size} smbullets incremental",["bullets","go","here","and","here"])},
-    'code' => lambda { |t,size,src| make_slide(t,size,blank?(src) ? "    @@@ Ruby\n    code_here()" : src) },
-    'commandline' => lambda { |t,size,dontcare| make_slide(t,"#{size} commandline","    $ command here\n    output here")},
-    'full-page' => lambda { |t,size,dontcare| make_slide(t,"#{size} full-page","![Image Description](image/ref.png)")},
+    :default      => lambda { |t,size,source,type| make_slide(t,"#{size} #{type}",source) },
+    'title'       => lambda { |t,size,dontcare|    make_slide(t,size) },
+    'bullets'     => lambda { |t,size,dontcare|    make_slide(t,"#{size} bullets incremental",["bullets","go","here"])},
+    'smbullets'   => lambda { |t,size,dontcare|    make_slide(t,"#{size} smbullets incremental",["bullets","go","here","and","here"])},
+    'code'        => lambda { |t,size,src|         make_slide(t,size,blank?(src) ? "    @@@ Ruby\n    code_here()" : src) },
+    'commandline' => lambda { |t,size,dontcare|    make_slide(t,"#{size} commandline","    $ command here\n    output here")},
+    'full-page'   => lambda { |t,size,dontcare|    make_slide(t,"#{size} full-page","![Image Description](image/ref.png)")},
   }
 
 
@@ -187,7 +197,7 @@ class ShowOffUtils
     type = options[:type] || :default
     slide = TYPES[type].call(title,size,source)
 
-    if options[:dir]
+    if options[:name]
       filename = determine_filename(options[:dir],options[:name],options[:number])
       write_file(filename,slide)
     else
@@ -233,27 +243,29 @@ class ShowOffUtils
   end
 
   def self.determine_filename(slide_dir,slide_name,number)
-    filename = "#{slide_dir}/#{slide_name}.md"
+    raise "Slide name is required" unless slide_name
+
     if number
-      max = find_next_number(slide_dir)
-      filename = "#{slide_dir}/#{max}_#{slide_name}.md"
+      next_num   = find_next_number(slide_dir)
+      slide_name = "#{next_num}_#{slide_name}"
     end
+
+    if slide_dir
+      filename = "#{slide_dir}/#{slide_name}.md"
+    else
+      filename = "#{slide_name}.md"
+    end
+
     filename
   end
 
   # Finds the next number in the given dir to
   # name a slide as the last slide in the dir.
   def self.find_next_number(slide_dir)
-    max = 0
-    Dir.open(slide_dir).each do |file|
-      if file =~ /(\d+).*\.md/
-        num = $1.to_i
-        max = num if num > max
-      end
-    end
-    max += 1
-    max = "0#{max}" if max < 10
-    max
+    slide_dir ||= '.'
+    next_num    = Dir.glob("#{slide_dir}/*.md").size + 1
+
+    sprintf("%02d", next_num)
   end
 
   def self.determine_title(title,slide_name,code)
@@ -274,8 +286,8 @@ class ShowOffUtils
     size = "small" if lines > 15
     size = "smaller" if width > 57
     size = "smaller" if lines > 19
-    puts "warning, some lines are too long and the code may be cut off" if width > 65
-    puts "warning, your code is too long and the code may be cut off" if lines > 23
+    puts "WARNING: some lines are too long and might be truncated" if width > 65
+    puts "WARNING: your code is too long and may not fit on a slide" if lines > 23
     size
   end
 

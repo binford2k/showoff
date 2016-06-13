@@ -50,11 +50,10 @@ command [:create,:init] do |c|
   c.action do |global_options,options,args|
     raise "dir_name is required" if args.empty?
     ShowOffUtils.create(args[0],!options[:n],options[:d])
-    if !options[:n]
-      puts "done. run 'showoff serve' in #{options[:d]}/ dir to see slideshow"
-    else
-      puts "done. add slides, modify #{ShowOffUtils.presentation_config_file} and then run 'showoff serve' in #{dirname}/ dir to see slideshow"
+    if options[:n]
+      puts "Add slides and update #{args[0]}/#{ShowOffUtils.presentation_config_file}"
     end
+    puts "Run 'showoff serve' in the #{args[0]} directory to see your new slideshow"
   end
 end
 
