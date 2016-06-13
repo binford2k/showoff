@@ -43,7 +43,7 @@ command [:create,:init] do |c|
   c.desc 'Don''t create sample slides'
   c.switch [:n,:nosamples]
 
-  c.desc 'sample slide directory name'
+  c.desc 'Comma separated list of initial slide directory name(s).'
   c.default_value 'one'
   c.flag [:d,:slidedir]
 
