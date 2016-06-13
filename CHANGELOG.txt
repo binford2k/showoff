@@ -1,3 +1,8 @@
+0.12.2
+  * Fixed some glaring UI bugs with the new callout styles.
+  * Cleaned up and fixed some command line interactions.
+  * Recommended update.
+
 0.12.1
   * Lots of small UI cleanups.
   * Properly disable interactivity when the websocket connection dies.
