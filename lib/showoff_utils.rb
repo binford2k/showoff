@@ -263,9 +263,12 @@ class ShowOffUtils
   # name a slide as the last slide in the dir.
   def self.find_next_number(slide_dir)
     slide_dir ||= '.'
-    next_num    = Dir.glob("#{slide_dir}/*.md").size + 1
+    max = Dir.glob("#{slide_dir}/*.md").collect do |f|
+      next unless f =~ /^#{slide_dir}\/(\d+)/
+      $1.to_i
+    end.compact.max || 0
 
-    sprintf("%02d", next_num)
+    sprintf("%02d", max+1)
   end
 
   def self.determine_title(title,slide_name,code)
