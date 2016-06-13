@@ -820,34 +820,41 @@ form .element {
  ***    Callouts    ***
  **********************/
 
- .callout {
-   padding: 1em;
-   padding-left: 3em;
-   line-height: 1.2em;
-   border: 1px solid #222;
-   border-radius: 4px;
-   background-color: transparent; /* because there's a warning class with a red background */
- }
+.callout {
+  padding: 1em;
+  line-height: 1.2em;
+  border: 1px solid #222;
+  border-radius: 4px;
+  background-color: transparent; /* because there's a warning class with a red background */
+}
 
- .callout:before {
-   font-family: FontAwesome;
-   font-style: normal;
-   font-weight: normal;
-   font-size: 2em;
-   text-decoration: inherit;
-   position: absolute;
-   left: 1em;
- }
+  .callout:before {
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 2em;
+    text-decoration: inherit;
+    position: absolute;
+    left: 1em;
+  }
 
- .callout.info:before     { content: "\f05a"; } /* fa-info-circle */
- .callout.warning:before  { content: "\f071"; } /* fa-exclamation-triangle */
- .callout.question:before { content: "\f059"; } /* fa-question-circle */
- .callout.exercise:before { content: "\f41b"; } /* fa-pencil-square */
- .callout.stop:before     { content: "\f05e"; } /* fa-ban */
+  .callout.info,
+  .callout.warning,
+  .callout.question,
+  .callout.exercise,
+  .callout.stop {
+    padding-left: 3em;
+  }
 
- /**********************
- ***  end callouts   ***
- **********************/
+  .callout.info:before     { content: "\f05a"; } /* fa-info-circle */
+  .callout.warning:before  { content: "\f071"; } /* fa-exclamation-triangle */
+  .callout.question:before { content: "\f059"; } /* fa-question-circle */
+  .callout.exercise:before { content: "\f41b"; } /* fa-pencil-square */
+  .callout.stop:before     { content: "\f05e"; } /* fa-ban */
+
+/**********************
+***  end callouts   ***
+**********************/
 
 
 /* Tiny mobile devices. Larger devices scale automatically. */

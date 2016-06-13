@@ -330,6 +330,7 @@
     height: 100%;
     padding: 0 1em;
     display: block;
+    position: relative;
   }
 
   #notes ul.section-selector {
