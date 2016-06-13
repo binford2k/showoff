@@ -31,19 +31,23 @@ class ShowOffUtils
     @presentation_config_file = filename
   end
 
-  def self.create(dirname,create_samples,dir='one')
+  def self.create(dirname,create_samples,dirs='one')
     FileUtils.mkdir_p(dirname)
     Dir.chdir(dirname) do
-      if create_samples
-        # create section
-        FileUtils.mkdir_p(dir)
+      dirs = dirs.split(',')
 
-        # create markdown file
-        File.open("#{dir}/01_slide.md", 'w+') do |f|
-          f.puts make_slide("My Presentation")
-        end
-        File.open("#{dir}/02_slide.md", 'w+') do |f|
-          f.puts make_slide("Bullet Points","bullets incremental",["first point","second point","third point"])
+      if create_samples
+        dirs.each do |dir|
+          # create section
+          FileUtils.mkdir_p(dir)
+
+          # create markdown file
+          File.open("#{dir}/01_slide.md", 'w+') do |f|
+            f.puts make_slide("My Presentation")
+          end
+          File.open("#{dir}/02_slide.md", 'w+') do |f|
+            f.puts make_slide("Bullet Points","bullets incremental",["first point","second point","third point"])
+          end
         end
       end
 
@@ -53,7 +57,8 @@ class ShowOffUtils
 
       # create showoff.json
       File.open(ShowOffUtils.presentation_config_file, 'w+') do |f|
-        f.puts JSON.pretty_generate({ "name" => "My Preso", "sections" => [ { "section" => dir } ]})
+        sections = dirs.collect {|dir| {"section" => dir} }
+        f.puts JSON.pretty_generate({ "name" => "My Preso", "sections" => sections })
       end
     end
   end
