@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>RDoc Documentation</title>
+<title>INSTALLATION - RDoc Documentation</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -33,7 +33,6 @@
   </div>
 </div>
 
-
     <div id="search-section" role="search" class="project-section initially-hidden">
   <form action="#" method="get" accept-charset="utf-8">
     <div id="search-field-wrapper">
@@ -50,6 +49,17 @@
 </div>
 
   </div>
+
+  
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+  <ul class="link-list" role="directory">
+    <li><a href="#label-Installation">Installation</a>
+    <li><a href="#label-Requirements">Requirements</a>
+  </ul>
+</div>
+
 
   <div id="project-metadata">
     <div id="fileindex-section" class="nav-section">
@@ -76,67 +86,67 @@
   </ul>
 </div>
 
-    <div id="classindex-section" class="nav-section">
-  <h3>Class and Module Index</h3>
-
-  <ul class="link-list">
-  
-  </ul>
-</div>
-
   </div>
 </nav>
 
-<main role="main">
+<main role="main" aria-label="Page INSTALLATION.rdoc">
 
+<h1 id="label-Installation">Installation<span><a href="#label-Installation">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
-<h1 id="label-Showoff+Presenter">Showoff Presenter<span><a href="#label-Showoff+Presenter">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<p>Simply install the gem and dependencies.</p>
 
-<p>Showoff is a slideshow presentation tool with a twist. It runs as a web
-application, with audience interactivity features. This means that your
-audience can follow along in their own browsers, can download supplemental
-materials, can participate in quizzes or polls, post questions for the
-presenter, etc. By default, their slideshows will synchronize with the
-presenter, but they can switch to self-navigation mode.</p>
+<pre>$ gem install showoff</pre>
+
+<p>To use the development version you should clone the repository and build
+the gem manually instead.</p>
+
+<pre>$ git clone https://github.com/puppetlabs/showoff.git
+$ cd showoff
+$ gem build showoff.gemspec
+$ sudo gem install ./showoff-*.gem</pre>
+
+<p>Showoff is tested with Ruby 1.8.7, 1.9.3, and 2.0. It should install
+cleanly on these versions.</p>
+
+<h1 id="label-Requirements">Requirements<span><a href="#label-Requirements">&para;</a> <a href="#top">&uarr;</a></span></h1>
 <ul><li>
-<p><a href="http://puppetlabs.github.io/showoff">Showoff homepage</a></p>
+<p>Ruby</p>
 </li><li>
-<p><a href="https://github.com/puppetlabs/showoff">Github project page</a></p>
+<p>RubyGems:</p>
+<ul><li>
+<p>Sinatra (and thus Rack)</p>
+</li><li>
+<p>Supported Markdown engine</p>
+<ul><li>
+<p>Redcarpet (default)</p>
+</li><li>
+<p>BlueCloth</p>
+</li><li>
+<p>Maruku</p>
+</li><li>
+<p>Kramdown</p>
+</li><li>
+<p>rdiscount</p>
 </li></ul>
-
-<p>Showoff allows you to author your presentation slides in Markdown, then
-organize them with a <code>showoff.json</code> file. This file also
-contains metadata about the presentation, such as the title, any password
-protection, etc.</p>
-
-<p>Then you just run <code>showoff serve</code> in the presentation directory
-and open a browser window.</p>
-<dl class="rdoc-list label-list"><dt><a href="AUTHORING_rdoc.html">AUTHORING</a>
-<dd>
-<p>This page describes how to write slide files. Showoff has many extensions
-to plain old Markdown, and this page describes how to use them.</p>
-</dd><dt><a href="CONFIGURATION_rdoc.html">CONFIGURATION</a>
-<dd>
-<p>Details how to configure your keyboard hotkeys. This is most useful if you
-have a remote that maps buttons to different keys than expected.</p>
-</dd><dt><a href="FORMS_rdoc.html">FORMS</a>
-<dd>
-<p>Learn about Showoff&#39;s form authoring extensions and write your own
-quizzes and polls directly in your presentation.</p>
-</dd><dt><a href="INSTALLATION_rdoc.html">INSTALLATION</a>
-<dd>
-<p>Installation instructions, or building your own gem.</p>
-</dd><dt><a href="INTERACTION_rdoc.html">INTERACTION</a>
-<dd>
-<p>Describes the different ways you can interact with your audience.</p>
-</dd><dt><a href="PRESENTATION_rdoc.html">PRESENTATION</a>
-<dd>
-<p>Describes the <code>showoff.json</code> presentation definition file.</p>
-</dd><dt><a href="USAGE_rdoc.html">USAGE</a>
-<dd>
-<p>Starting the Showoff server and the different URL endpoints available for
-use.</p>
-</dd></dl>
+</li><li>
+<p>Nokogiri</p>
+</li><li>
+<p>json</p>
+</li><li>
+<p>GLI</p>
+</li><li>
+<p>sinatra-websocket</p>
+</li><li>
+<p>PDFKit (optional, for generating PDF of presentation)</p>
+</li></ul>
+</li><li>
+<p>Modern web browser to present or view slides</p>
+<ul><li>
+<p>Tested with Safari and Chrome, and to a lesser extent Firefox and Opera.</p>
+</li><li>
+<p>Likely to work with Internet Explorer &gt; 9.0</p>
+</li></ul>
+</li></ul>
 </main>
 
 
