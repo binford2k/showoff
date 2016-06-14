@@ -49,19 +49,21 @@
 
   <ul>
   
-    <li class="file"><a href="./documentation/AUTHORING_rdoc.html">AUTHORING</a>
+    <li class="file"><a href="./-HOME_rdoc.html">-HOME</a>
   
-    <li class="file"><a href="./documentation/CONFIGURATION_rdoc.html">CONFIGURATION</a>
+    <li class="file"><a href="./AUTHORING_rdoc.html">AUTHORING</a>
   
-    <li class="file"><a href="./documentation/FORMS_rdoc.html">FORMS</a>
+    <li class="file"><a href="./CONFIGURATION_rdoc.html">CONFIGURATION</a>
   
-    <li class="file"><a href="./documentation/INSTALLATION_rdoc.html">INSTALLATION</a>
+    <li class="file"><a href="./FORMS_rdoc.html">FORMS</a>
   
-    <li class="file"><a href="./documentation/INTERACTION_rdoc.html">INTERACTION</a>
+    <li class="file"><a href="./INSTALLATION_rdoc.html">INSTALLATION</a>
   
-    <li class="file"><a href="./documentation/PRESENTATION_rdoc.html">PRESENTATION</a>
+    <li class="file"><a href="./INTERACTION_rdoc.html">INTERACTION</a>
   
-    <li class="file"><a href="./documentation/USAGE_rdoc.html">USAGE</a>
+    <li class="file"><a href="./PRESENTATION_rdoc.html">PRESENTATION</a>
+  
+    <li class="file"><a href="./USAGE_rdoc.html">USAGE</a>
   
   </ul>
 </nav>
@@ -78,7 +80,54 @@
 </nav>
 
 <div id="documentation" class="description">
-<p>This is the API documentation for RDoc Documentation.
+
+<h1 id="label-Showoff+Presenter">Showoff Presenter<span><a href="#label-Showoff+Presenter">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
+
+<p>Showoff is a slideshow presentation tool with a twist. It runs as a web
+application, with audience interactivity features. This means that your
+audience can follow along in their own browsers, can download supplemental
+materials, can participate in quizzes or polls, post questions for the
+presenter, etc. By default, their slideshows will synchronize with the
+presenter, but they can switch to self-navigation mode.</p>
+<ul><li>
+<p><a href="http://puppetlabs.github.io/showoff">Showoff homepage</a></p>
+</li><li>
+<p><a href="https://github.com/puppetlabs/showoff">Github project page</a></p>
+</li></ul>
+
+<p>Showoff allows you to author your presentation slides in Markdown, then
+organize them with a <code>showoff.json</code> file. This file also
+contains metadata about the presentation, such as the title, any password
+protection, etc.</p>
+
+<p>Then you just run <code>showoff serve</code> in the presentation directory
+and open a browser window.</p>
+<dl class="rdoc-list label-list"><dt><a href="AUTHORING_rdoc.html">AUTHORING</a>
+<dd>
+<p>This page describes how to write slide files. Showoff has many extensions
+to plain old Markdown, and this page describes how to use them.</p>
+</dd><dt><a href="CONFIGURATION_rdoc.html">CONFIGURATION</a>
+<dd>
+<p>Details how to configure your keyboard hotkeys. This is most useful if you
+have a remote that maps buttons to different keys than expected.</p>
+</dd><dt><a href="FORMS_rdoc.html">FORMS</a>
+<dd>
+<p>Learn about Showoff&#39;s form authoring extensions and write your own
+quizzes and polls directly in your presentation.</p>
+</dd><dt><a href="INSTALLATION_rdoc.html">INSTALLATION</a>
+<dd>
+<p>Installation instructions, or building your own gem.</p>
+</dd><dt><a href="INTERACTION_rdoc.html">INTERACTION</a>
+<dd>
+<p>Describes the different ways you can interact with your audience.</p>
+</dd><dt><a href="PRESENTATION_rdoc.html">PRESENTATION</a>
+<dd>
+<p>Describes the <code>showoff.json</code> presentation definition file.</p>
+</dd><dt><a href="USAGE_rdoc.html">USAGE</a>
+<dd>
+<p>Starting the Showoff server and the different URL endpoints available for
+use.</p>
+</dd></dl>
 </div>
 
 
