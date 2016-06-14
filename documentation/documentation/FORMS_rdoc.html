@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>FORMS - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body class="file">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+<div id="table-of-contents">
+  <nav class="section">
+    <h3 class="section-header">Table of Contents</h3>
+    <ul>
+      <li><a href="#label-Form+support">Form support</a>
+      <li><a href="#label-Marking+a+slide">Marking a slide</a>
+      <li><a href="#label-Markdown+extensions">Markdown extensions</a>
+      <li><a href="#label-Form+element+syntax">Form element syntax</a>
+      <li><a href="#label-Viewing+results">Viewing results</a>
+      <li><a href="#label-Example+slide">Example slide</a>
+    </ul>
+  </nav>
+</div>
+
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../documentation/AUTHORING_rdoc.html">AUTHORING</a>
+  
+    <li class="file"><a href="../documentation/CONFIGURATION_rdoc.html">CONFIGURATION</a>
+  
+    <li class="file"><a href="../documentation/FORMS_rdoc.html">FORMS</a>
+  
+    <li class="file"><a href="../documentation/INSTALLATION_rdoc.html">INSTALLATION</a>
+  
+    <li class="file"><a href="../documentation/INTERACTION_rdoc.html">INTERACTION</a>
+  
+    <li class="file"><a href="../documentation/PRESENTATION_rdoc.html">PRESENTATION</a>
+  
+    <li class="file"><a href="../documentation/USAGE_rdoc.html">USAGE</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation" class="description">
+  
+<h1 id="label-Form+support">Form support<span><a href="#label-Form+support">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
+
+<p>Showoff extends Markdown to render a limited subset of form elements. This
+is mostly useful for polls, quizzes, surveys, etc. These extensions are
+only rendered on slide that have been marked as forms.</p>
+
+<p>Form responses are saved to a JSON file on disk,
+<code>stats/forms.json</code>, and cached in memory for quick access.
+Responses are keyed by form ID and IP address. Each IP has only one
+response saved, and subsequent submissions will overwrite.  Showoff saves
+and reloads data from disk, so you can run the presentation multiple times
+without data loss. Just like <code>stats/viewstats.json</code>, you should
+remove the file prior to starting the presentation if you&#39;d like to
+start from a clean slate.</p>
+
+<p>Responses can optionally be displayed live in the presenter view.</p>
+
+<h2 id="label-Marking+a+slide">Marking a slide<span><a href="#label-Marking+a+slide">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>Each slide containing a form must be marked as such by including that
+form&#39;s ID in the slide signature.  For example, to create a slide that
+posts to the id of `experience`, the slide signature that you might use
+could look like:</p>
+
+<pre>&lt;!SLIDE form=experience&gt;</pre>
+
+<h2 id="label-Markdown+extensions">Markdown extensions<span><a href="#label-Markdown+extensions">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>Form slides are rendered via Markdown extension with the general form of:</p>
+
+<pre>question = answer(s)</pre>
+
+<p>Both sides, the question and the answer(s) are tokenized so that they may
+be represented as either a single continuous string, or a key and a string.
+This would look like:</p>
+
+<pre>key -&gt; A human readable representation of the element</pre>
+
+<p>If the `=` sign has an asterisk prepended, then the field is marked as
+required.</p>
+
+<pre>question *= answer(s)</pre>
+
+<h3 id="label-Form+element+syntax">Form element syntax<span><a href="#label-Form+element+syntax">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<p>The right hand side (answer) can be rendered in the following ways:</p>
+<dl class="rdoc-list label-list"><dt>text field
+<dd>
+<p>Three or more consecutive underscores, followed by an optional length.</p>
+
+<pre>name = ___
+
+name = ___[50]
+
+name -&gt; What is your name? = ___[50]</pre>
+</dd><dt>text area
+<dd>
+<p>Whitespace surrounded by square brackets, including an optional number of
+rows.</p>
+
+<pre>comments = [   ]
+
+comments = [   5]</pre>
+</dd><dt>radio buttons
+<dd>
+<p>Delineate a list of options on the right hand side with parentheses,
+optionally marking one as default using an `x`. This accepts the tokenized
+form for a key and a full human readable string. If options are placed on
+multiple lines indented by 3+ spaces, then the output will be rendered as a
+bullet list. For use as a quiz, you may mark correct answers with an `=`.</p>
+
+<pre>smartphone = () iPhone () Android () other -&gt; Any other phone not listed
+
+awake -&gt; Are you paying attention? = (x) No () Yes
+
+continent -&gt; Which continent is largest? =
+    () Africa
+    () Americas
+    (=) Asia
+    () Australia
+    () Europe</pre>
+</dd><dt>checkboxes
+<dd>
+<p>Works exactly like radio boxes, only using square brackets as delineators.
+Use `x` to mark the default options and `=` to mark correct options.</p>
+
+<pre>smartphone = [] iPhone [] Android [x] other -&gt; Any other phone not listed</pre>
+</dd><dt>combo select
+<dd>
+<p>Surround options on the right hand side with curly brackets and a combo
+select box will be rendered. If you place the options on multiple lines,
+you can use the long tokenized form. The shorthand single line syntax
+supports keys only. The default option may be specified by surrounding an
+option with parentheses and the correct option may be indicated with square
+brackets.</p>
+
+<pre>phoneos -&gt; Which phone OS is developed by Google? = {iPhone, [Android], Other }
+
+smartphone = {iPhone, Android, (Other) }
+
+smartphone = {iPhone, Android, (other -&gt; Any other phone not listed) }
+
+cuisine -&gt; What is your favorite cuisine? = { American, Italian, French }
+
+cuisine -&gt; What is your favorite cuisine? = {
+      US -&gt; American
+      IT -&gt; Italian
+      FR -&gt; French
+    }</pre>
+</dd></dl>
+
+<h2 id="label-Viewing+results">Viewing results<span><a href="#label-Viewing+results">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>A continuously updating block displaying the live results from a given form
+ID can be embedded into the presenter notes using the syntax below. The ID
+should match the ID of a form created by marking a slide with a form tag.</p>
+
+<pre>~~~FORM:id~~~</pre>
+
+<p>This will display all data that can be rendered in aggregate form as a
+horizontal bar chart that updates every three seconds. Free entry elements
+are not displayed.</p>
+
+<p>The presenter view also includes a <em>Display Results</em> button instead
+of the <em>Save</em> button that audience members see. Pressing this button
+will render a single snapshot of the current results over the display
+window. This will commonly be displayed on the projector. Pressing the
+button again will update the results.</p>
+
+<h2 id="label-Example+slide">Example slide<span><a href="#label-Example+slide">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<pre class="ruby"><span class="ruby-operator">&lt;</span><span class="ruby-operator">!</span><span class="ruby-constant">SLIDE</span> <span class="ruby-identifier">form</span>=<span class="ruby-identifier">classinfo</span><span class="ruby-operator">&gt;</span>
+<span class="ruby-comment"># Making Acquaintances</span>
+<span class="ruby-comment">## Let&#39;s get to know each other</span>
+
+<span class="ruby-constant">Tell</span> <span class="ruby-identifier">me</span> <span class="ruby-identifier">a</span> <span class="ruby-identifier">little</span> <span class="ruby-identifier">bit</span> <span class="ruby-identifier">about</span> <span class="ruby-identifier">yourself</span> <span class="ruby-identifier">to</span> <span class="ruby-identifier">help</span> <span class="ruby-identifier">me</span> <span class="ruby-identifier">better</span> <span class="ruby-identifier">tailor</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">classroom</span>
+<span class="ruby-identifier">experience</span> <span class="ruby-identifier">towards</span> <span class="ruby-identifier">your</span> <span class="ruby-identifier">needs</span>.
+
+<span class="ruby-identifier">howlong</span> <span class="ruby-operator">-</span><span class="ruby-operator">&gt;</span> <span class="ruby-constant">How</span> <span class="ruby-identifier">long</span> <span class="ruby-identifier">have</span> <span class="ruby-identifier">have</span> <span class="ruby-identifier">you</span> <span class="ruby-identifier">been</span> <span class="ruby-identifier">using</span> <span class="ruby-constant">Puppet?</span> = {
+   <span class="ruby-identifier">under</span> <span class="ruby-operator">-</span><span class="ruby-operator">&gt;</span> <span class="ruby-constant">Less</span> <span class="ruby-identifier">than</span> <span class="ruby-identifier">six</span> <span class="ruby-identifier">months</span>
+   <span class="ruby-value">6</span><span class="ruby-identifier">mo</span> <span class="ruby-operator">-</span><span class="ruby-operator">&gt;</span> <span class="ruby-constant">Around</span> <span class="ruby-identifier">six</span> <span class="ruby-identifier">months</span>
+   <span class="ruby-value">1</span><span class="ruby-identifier">yr</span> <span class="ruby-operator">-</span><span class="ruby-operator">&gt;</span> <span class="ruby-constant">About</span> <span class="ruby-identifier">a</span> <span class="ruby-identifier">year</span>
+   <span class="ruby-value">2</span><span class="ruby-identifier">yr</span> <span class="ruby-operator">-</span><span class="ruby-operator">&gt;</span> <span class="ruby-constant">Two</span> <span class="ruby-identifier">years</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">so</span>
+   <span class="ruby-identifier">more</span> <span class="ruby-operator">-</span><span class="ruby-operator">&gt;</span> <span class="ruby-constant">Since</span> <span class="ruby-identifier">before</span> <span class="ruby-constant">Puppet</span> <span class="ruby-constant">Enterprise</span> <span class="ruby-identifier">was</span> <span class="ruby-identifier">a</span> <span class="ruby-identifier">sparkle</span> <span class="ruby-keyword">in</span> <span class="ruby-constant">Luke</span><span class="ruby-string">&#39;s eye, get offa my lawn.
+}
+
+job -&gt; What is your work role? =
+    [] support -&gt; Technical Support
+    [] Sysadmin
+    [] dbadmin -&gt; DB Admin
+    [] Developer
+    [] Management
+
+usedpe -&gt; Have you used Puppet Enterprise? = () Yes () No
+
+prepared -&gt; Do you feel prepared for this class? = () Yes () No
+
+~~~SECTION:notes~~~
+
+Tell the class a little bit about yourself and your own background.
+
+~~~FORM:classinfo~~~
+
+~~~ENDSECTION~~~
+</span></pre>
+
+</div>
+
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>CONFIGURATION - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body class="file">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+<div id="table-of-contents">
+  <nav class="section">
+    <h3 class="section-header">Table of Contents</h3>
+    <ul>
+      <li><a href="#label-Configuration+Options">Configuration Options</a>
+      <li><a href="#label-Custom+Keymaps">Custom Keymaps</a>
+      <li><a href="#label-keymap.json+configuration+file."><code>keymap.json</code> configuration file.</a>
+    </ul>
+  </nav>
+</div>
+
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../documentation/AUTHORING_rdoc.html">AUTHORING</a>
+  
+    <li class="file"><a href="../documentation/CONFIGURATION_rdoc.html">CONFIGURATION</a>
+  
+    <li class="file"><a href="../documentation/FORMS_rdoc.html">FORMS</a>
+  
+    <li class="file"><a href="../documentation/INSTALLATION_rdoc.html">INSTALLATION</a>
+  
+    <li class="file"><a href="../documentation/INTERACTION_rdoc.html">INTERACTION</a>
+  
+    <li class="file"><a href="../documentation/PRESENTATION_rdoc.html">PRESENTATION</a>
+  
+    <li class="file"><a href="../documentation/USAGE_rdoc.html">USAGE</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation" class="description">
+  
+<h1 id="label-Configuration+Options">Configuration Options<span><a href="#label-Configuration+Options">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
+
+<p>Showoff has a limited number of settings which can be customized.</p>
+
+<h2 id="label-Custom+Keymaps">Custom Keymaps<span><a href="#label-Custom+Keymaps">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>You can re-bind keyboard hotkeys as needed. This works on an additive
+model, so if you add a keybinding, the old binding will continue to work
+unless you also remap it to a different action.</p>
+
+<p>The actions you may choose from are:</p>
+<dl class="rdoc-list label-list"><dt>NEXT
+<dd>
+<p>Advance to the next slide.</p>
+</dd><dt>PREV
+<dd>
+<p>Move to the previous slide.</p>
+</dd><dt>FOLLOW
+<dd>
+<p>Toggle the current window in and out of follow mode. When enabled, the
+window will advance slides along with the presenter. Audience view only.</p>
+</dd><dt>CONTENTS
+<dd>
+<p>Display a table of contents menu from which the user may choose a slide to
+view. Audience or Display view only.</p>
+</dd><dt>HELP
+<dd>
+<p>Display a small help dialog showing current keybindings.</p>
+</dd><dt>FOOTER
+<dd>
+<p>Display the single line footer bar. This contains progress information,
+notes, and debugging information. Audience or Display view only.</p>
+</dd><dt>BLANK
+<dd>
+<p>Blank the screen.</p>
+</dd><dt>PAUSE
+<dd>
+<p>Pause the presentation.</p>
+</dd><dt>PRESHOW
+<dd>
+<p>Run the preshow animation. This displays images from the
+<code>_preshow</code> directory.</p>
+</dd><dt>DEBUG
+<dd>
+<p>Show debugging information, such as keypresses and current slide name.</p>
+</dd><dt>NOTES
+<dd>
+<p>Display notes. This will either bring up the Notes Window from the
+Presenter view or show the first line of notes in the Display or Audience
+view.</p>
+</dd><dt>RELOAD
+<dd>
+<p>Reload slides.</p>
+</dd><dt>EXECUTE
+<dd>
+<p>Execute code from the first visible code block marked with
+<code>execute</code>.</p>
+</dd><dt>CLEAR
+<dd>
+<p>Clear the results of the last code execution.</p>
+</dd></dl>
+
+<h2 id="label-keymap.json+configuration+file."><code>keymap.json</code> configuration file.<span><a href="#label-keymap.json+configuration+file.">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>Place a JSON file in <code>~/.showoff/keymap.json</code> with any
+keybindings you&#39;d like. You only need to include the keys you want to
+map, you don&#39;t need to include all of them.</p>
+
+<p>The default mapping is:</p>
+
+<pre class="ruby">{
+  <span class="ruby-string">&#39;space&#39;</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;NEXT&#39;</span>,
+  <span class="ruby-string">&#39;d&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;DEBUG&#39;</span>,
+  <span class="ruby-string">&#39;up&#39;</span>          =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;PREV&#39;</span>,
+  <span class="ruby-string">&#39;left&#39;</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;PREV&#39;</span>,
+  <span class="ruby-string">&#39;pageup&#39;</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;PREV&#39;</span>,
+  <span class="ruby-string">&#39;down&#39;</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;NEXT&#39;</span>,
+  <span class="ruby-string">&#39;right&#39;</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;NEXT&#39;</span>,
+  <span class="ruby-string">&#39;pagedown&#39;</span>    =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;NEXT&#39;</span>,
+  <span class="ruby-string">&#39;r&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;RELOAD&#39;</span>,
+  <span class="ruby-string">&#39;c&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;CONTENTS&#39;</span>,
+  <span class="ruby-string">&#39;t&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;CONTENTS&#39;</span>,
+  <span class="ruby-string">&#39;h&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;HELP&#39;</span>,
+  <span class="ruby-string">&#39;/&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;HELP&#39;</span>,
+  <span class="ruby-string">&#39;?&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;HELP&#39;</span>,
+  <span class="ruby-string">&#39;b&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;BLANK&#39;</span>,
+  <span class="ruby-string">&#39;.&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;BLANK&#39;</span>,
+  <span class="ruby-string">&#39;F&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;FOOTER&#39;</span>,
+  <span class="ruby-string">&#39;f&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;FOLLOW&#39;</span>,
+  <span class="ruby-string">&#39;n&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;NOTES&#39;</span>,
+  <span class="ruby-string">&#39;esc&#39;</span>         =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;CLEAR&#39;</span>,
+  <span class="ruby-string">&#39;p&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;PAUSE&#39;</span>,
+  <span class="ruby-string">&#39;P&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;PRESHOW&#39;</span>,
+  <span class="ruby-string">&#39;x&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;EXECUTE&#39;</span>,
+  <span class="ruby-string">&#39;f5&#39;</span>          =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;EXECUTE&#39;</span>,
+}
+</pre>
+
+<p>Showoff will not load this file dynamically. You will need to restart when
+it&#39;s changed.</p>
+
+</div>
+
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

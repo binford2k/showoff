@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>USAGE - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body class="file">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+<div id="table-of-contents">
+  <nav class="section">
+    <h3 class="section-header">Table of Contents</h3>
+    <ul>
+      <li><a href="#label-Usage">Usage</a>
+      <li><a href="#label-Available+URL+Paths">Available URL Paths</a>
+      <li><a href="#label-Presenter+View+Tools">Presenter View Tools</a>
+      <li><a href="#label-Toolbar">Toolbar</a>
+      <li><a href="#label-Presenter+Tools">Presenter Tools</a>
+      <li><a href="#label-Presentation+Preview">Presentation Preview</a>
+      <li><a href="#label-Presenter+Information">Presenter Information</a>
+      <li><a href="#label-Hotkeys">Hotkeys</a>
+      <li><a href="#label-Follow+Mode">Follow Mode</a>
+      <li><a href="#label-Remote+Control">Remote Control</a>
+      <li><a href="#label-Command+Line+Usage">Command Line Usage</a>
+      <li><a href="#label-showoff+help+%5Bcommand%5D"><code>showoff help [command]</code></a>
+      <li><a href="#label-showoff+heroku+heroku_name"><code>showoff heroku heroku_name</code></a>
+      <li><a href="#label-showoff+github"><code>showoff github</code></a>
+      <li><a href="#label-showoff+serve"><code>showoff serve</code></a>
+      <li><a href="#label-showoff+static+%5Bname%5D"><code>showoff static [name]</code></a>
+      <li><a href="#label-showoff+pdf+%5Bname%5D"><code>showoff pdf [name]</code></a>
+      <li><a href="#label-Browser+Printable+Output">Browser Printable Output</a>
+      <li><a href="#label-Shell+Auto+Completion">Shell Auto Completion</a>
+      <li><a href="#label-ZSH+completion">ZSH completion</a>
+      <li><a href="#label-bash+completion"><code>bash</code> completion</a>
+    </ul>
+  </nav>
+</div>
+
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../documentation/AUTHORING_rdoc.html">AUTHORING</a>
+  
+    <li class="file"><a href="../documentation/CONFIGURATION_rdoc.html">CONFIGURATION</a>
+  
+    <li class="file"><a href="../documentation/FORMS_rdoc.html">FORMS</a>
+  
+    <li class="file"><a href="../documentation/INSTALLATION_rdoc.html">INSTALLATION</a>
+  
+    <li class="file"><a href="../documentation/INTERACTION_rdoc.html">INTERACTION</a>
+  
+    <li class="file"><a href="../documentation/PRESENTATION_rdoc.html">PRESENTATION</a>
+  
+    <li class="file"><a href="../documentation/USAGE_rdoc.html">USAGE</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation" class="description">
+  
+<h1 id="label-Usage">Usage<span><a href="#label-Usage">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
+
+<p>Showoff is meant to be run in a Showoff formatted repository - that means
+that it has a <code>showoff.json</code> file and a number of sections
+(subdirectories) with markdown files for the slides you&#39;re presenting.</p>
+
+<pre>$ git clone (showoff-repo)
+$ cd (showoff-repo)
+$ showoff serve</pre>
+
+<p>If you run Showoff in the example subdirectory of Showoff itself, it will
+show an example presentation, so you can see what it&#39;s like.</p>
+
+<p>You can also run <code>showoff serve</code> inside a section subdirectory.
+If there is no <code>showoff.json</code> file then it will make its best
+guess, creating a presentation from all `.md` files in alphabetical order
+in the given (or current) directory.</p>
+
+<h2 id="label-Available+URL+Paths">Available URL Paths<span><a href="#label-Available+URL+Paths">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>Once the showoff server is running, you can connect to it via a standard
+modern web browser. The following URL paths are available for use by you
+and your audience.</p>
+<dl class="rdoc-list label-list"><dt><a href="http://localhost:9090">localhost:9090</a>
+<dd>
+<p>This is the standard no-frills presentation. You can present from this if
+you wish and your audience can also browse to this using the IP or DNS name
+of your system. Press <code>z</code> to get hotkey help.</p>
+</dd><dt><a href="http://localhost:9090/presenter">localhost:9090/presenter</a>
+<dd>
+<p>This view is useful for the presenter. It displays a more complete view of
+your presentation, including a full tree view of all slides and presenter
+notes underneath the slide itself. It will attempt to open a display window
+that you can put on the projector. The display window will follow along
+with the presenter window. If you have a popup blocker running, the display
+window may not open. There is a button in the toolbar to manually open a
+new display window in this case.</p>
+
+<p>If password protection is enabled, this view is often protected and you
+will need to authenticate to view.</p>
+
+<p>If this path is opened by a secondary device, such as a mobile browser,
+then it can also control the presentation if enabled with the <code>Enable
+Remote</code>  button. Showoff tries to be intelligent about which slide
+change updates to track.</p>
+</dd><dt><a href="http://localhost:9090/print">localhost:9090/print</a>
+<dd>
+<p>This will generate printable version of your presentation, including any
+slides that were tagged as <em>printonly</em>. This view can be printed
+directly from the browser, or processed with any HTML-to-$thing engine.</p>
+</dd><dt><a href="http://localhost:9090/download">localhost:9090/download</a>
+<dd>
+<p>Your slides can include files for viewers to download and these files will
+be listed on this page as the presenter pages past the slide containing the
+download definition.</p>
+</dd><dt><a href="http://localhost:9090/stats">localhost:9090/stats</a>
+<dd>
+<p>The showoff server keeps track of which slides your audience is viewing and
+how much time they are spending on them. Time is only accumulated for
+slides that are not the slide currently being displayed. These stats are
+available for consumption on this page. If the presenter views the page, a
+full listing of which pages and which hosts are viewing them is shown. If
+an audience member views the page, only a summary is listed.</p>
+</dd><dt><a href="http://localhost:9090/supplemental/$type-name">localhost:9090/supplemental/$type-name</a>
+<dd>
+<p>Showoff has the ability to include supplemental material that are defined
+by special slide types. This URL path will allow you and/or the audience to
+retrieve the supplemental materials. This is most often used to generate
+printed material ahead of time rather than during the presentation itself.</p>
+</dd></dl>
+
+<h2 id="label-Presenter+View+Tools">Presenter View Tools<span><a href="#label-Presenter+View+Tools">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>The presenter view is broken into several areas with tools that are mostly
+self explanatory. Nevertheless, I&#39;ll summarize their usage.</p>
+
+<h3 id="label-Toolbar">Toolbar<span><a href="#label-Toolbar">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<p>This is the black toolbar across the top of the presenter view. It has
+several important tools that you should be familiar with.</p>
+<dl class="rdoc-list label-list"><dt>Slide Name
+<dd>
+<p>This is the name of the current slide. The name is derived from the
+filename that is used to generate the slide, so is exponentially more
+useful than a slide number when correlating slide content with the source
+file used to generate it.</p>
+</dd><dt>Edit Slide
+<dd>
+<p>If the <code>showoff.json</code> file contains an <code>edit</code> key
+then this button will allow presenters to edit the source of the current
+slide using an online editor at the configured location. This is most
+useful when your slide source is stored in GitHub, or another repository
+that allows interactive editing. This button only appears when showoff is
+called with the <code>--review</code> command line flag.</p>
+</dd><dt>Report Issue With Slide
+<dd>
+<p>If the <code>showoff.json</code> file contains an <code>issues</code> key
+then this button will allow presenters to report problems with the slide
+currently being viewed using the configured issue tracker.</p>
+</dd><dt>Viewing Statistics
+<dd>
+<p>Drops down a menu of the viewer stats from the <code>/stats</code> URL
+path. Contains a link to open the full page in a new window.</p>
+</dd><dt>Downloads
+<dd>
+<p>Drops down a menu of all available downloads. Contains a link to open the
+full page in a new window.</p>
+</dd><dt>Display Window
+<dd>
+<p>Opens the display window or attempts to reconnect to an existing window.
+This window is useful to place on a projector. The presentation can be
+controlled from either the Display Window or the Presenter View.</p>
+</dd><dt>Next Window
+<dd>
+<p>Opens a small preview window for the next upcoming slide.</p>
+</dd><dt>Notes Window
+<dd>
+<p>Opens a separate and resizable instructor notes window.</p>
+</dd><dt>Print Slides
+<dd>
+<p>Prints the slides using the browser&#39;s native print functionality. Many
+browsers allow you to print to PDF.</p>
+</dd><dt>Switch View
+<dd>
+<p>Changes to the Display view that your audience normally sees.</p>
+</dd></dl>
+
+<h3 id="label-Presenter+Tools">Presenter Tools<span><a href="#label-Presenter+Tools">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<dl class="rdoc-list label-list"><dt>Countdown Timer
+<dd>
+<p>This is just a simple countdown timer. Enter the time allotted to your
+presentation and it will begin counting down for you, changing color as it
+approaches zero.</p>
+</dd><dt>Pace Feedback Gauge
+<dd>
+<p>When the audience provides pace feedback for you, it will appear on this
+gauge. You should aim to keep the gauge near the center. The left side
+indicates that you are moving too slowly and the right side is too fast.
+The feedback messages decay over time and will expire in about five
+minutes–meaning that the gauge will move back towards the center.</p>
+</dd><dt>Slideshow Tree
+<dd>
+<p>On the left side of the browser window is a tree like view of the
+presentation. Each subsection is displayed at the top level. Click on any
+of these subsections and it will expand to list all the slides in that
+section, or collapse again. Click on any slide name and the presentation
+will immediately jump to that slide.</p>
+</dd></dl>
+
+<h3 id="label-Presentation+Preview">Presentation Preview<span><a href="#label-Presentation+Preview">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<p>This contains a scaled down version of the current slide. It will attempt
+to size it to fit your screen and scale the contents as closely as
+possible. Several tools are attached to the bottom of this view.</p>
+<dl class="rdoc-list label-list"><dt>Update Follower
+<dd>
+<p>Allow other viewers in Follow Mode to track your progress.</p>
+</dd><dt>Enable Remote
+<dd>
+<p>Allow remote windows, including mobile devices, to control the presentation
+by opening the presenter view. This button will glow yellow when Showoff is
+listening for remote updates. Please see <a
+href="#label-Follow+Mode">Follow Mode</a> and <a
+href="#label-Remote+Control">Remote Control</a> below for more information.</p>
+</dd><dt>Zoom
+<dd>
+<p>Zoom in and out of the preview.</p>
+</dd></dl>
+
+<h3 id="label-Presenter+Information">Presenter Information<span><a href="#label-Presenter+Information">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<dl class="rdoc-list label-list"><dt>Audience Questions
+<dd>
+<p>When an audience member uses the anonymous <em>Ask Question</em> feature,
+it will appear in this list. The questions are listed in reverse order,
+with the newest at the top.</p>
+</dd><dt>Notes
+<dd>
+<p>Just displays all presenter nodes, including any markup, syntax
+highlighting, etc.</p>
+</dd></dl>
+
+<h2 id="label-Hotkeys">Hotkeys<span><a href="#label-Hotkeys">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>The following hotkeys are available for usage while viewing the slideshow.
+See CONFIGURATION.rdoc for information on remapping these keys.</p>
+<dl class="rdoc-list label-list"><dt>z, ?
+<dd>
+<p>Toggle help. This shows a reference table on screen.</p>
+</dd><dt>space, →
+<dd>
+<p>Advance to the next slide.</p>
+</dd><dt>shift-space, ←
+<dd>
+<p>Move to previous slide.</p>
+</dd><dt>d
+<dd>
+<p>Toggle debug mode. This will show information including the keys pressed
+and the content filename that is used to generate the current slide in the
+footer area.</p>
+</dd><dt>## &lt;return&gt;
+<dd>
+<p>Go to slide #. Type a number and press &lt;return&gt; and you will
+immediately jump to that slide.</p>
+</dd><dt>c, t
+<dd>
+<p>Table of contents. A dropdown menu allowing you to choose a section &amp;
+slide will appear.</p>
+</dd><dt>f
+<dd>
+<p>Toggle footer. The footer contains the progress indicator.</p>
+</dd><dt>g
+<dd>
+<p>Toggle follow mode. When follow mode is enabled, the presentation will
+track the page displayed by the presenter. This is often useful when an
+audience member has poor eyesight and would like to get a better view of
+your screen.</p>
+</dd><dt>r
+<dd>
+<p>Reload slides. This will reload your presentation as you generate or refine
+content.</p>
+</dd><dt>n
+<dd>
+<p>Toggle notes. This will place the first line of text from the slide notes
+in the footer.</p>
+</dd><dt>p
+<dd>
+<p>Run preshow. Start the preshow slideshow. This will cycle through images
+placed in <code>_preshow</code> for a specified time. This is useful for
+taking timed breaks or for keeping the audience attention while waiting for
+you to begin.</p>
+</dd><dt>P
+<dd>
+<p>Toggle pause. This will pause the presentation and dim the screen. You can
+use this to take a brief moment to address tangential audience questions.</p>
+</dd><dt>b
+<dd>
+<p>Toggle screenblanker. Similar to pause, this will pause the presentation
+and slide the slide off screen.</p>
+</dd><dt>s
+<dd>
+<p>Choose style. Pull open the style chooser menu. You can embed multiple
+styles (for example, style target at different screen sizes or audiences)
+and use this menu to choose the appropriate style.</p>
+</dd></dl>
+
+<h2 id="label-Follow+Mode">Follow Mode<span><a href="#label-Follow+Mode">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>The audience can choose to follow along with the presentation
+automatically, and the presenter may control the presentation in a few
+different ways. Showoff implements several strategies for keeping all views
+of the presentation in sync.</p>
+<dl class="rdoc-list label-list"><dt>Audience Follow Mode
+<dd>
+<p>If an audience member switches into follow mode by pressing the
+<code>g</code> hotkey, then their browser will automatically change slides
+to follow along with the presentation.</p>
+</dd><dt>Display Window
+<dd>
+<p>When the presenter changes slides from either the Presenter View or the
+Display Window then the other view switches to match.</p>
+</dd><dt>Remote Control
+<dd>
+<p>If the presenter opens multiple presenter views, then Showoff tries to
+heuristically guess which view should be the “controller” at any given
+time. This is most useful when the presenter opens the presenter view on a
+mobile device for a remote control.</p>
+
+<p>The presenter view will consider itself to be the authoritative source of
+the current slide indicator as long as you are actively using it. When you
+have not pressed a key for 30 seconds, it will also switch into Follow Mode
+and will track slide updates from remotes. The on screen indicator below
+the slide preview will glow yellow when it has switched into Follow Mode.</p>
+</dd></dl>
+
+<h2 id="label-Remote+Control">Remote Control<span><a href="#label-Remote+Control">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>Open the presenter view on a mobile device for a simplified remote control
+view of your presentation. You will get a slide preview, plus presentation
+notes. If you scroll down, you will also see the presentation tree and can
+navigate to any slide. If the main presenter is in Follow Mode, then it
+will track slide updates.</p>
+
+<p>To save battery, the Remote Control does not listen for slide updates.
+Instead, there is a manual <code>Update</code> button, which will request
+the current slide from the Showoff server and change to it.</p>
+<dl class="rdoc-list label-list"><dt>Advance slide forward
+<dd>
+<p>Tap on the slide, or swipe from right to left.</p>
+</dd><dt>Return to a previous slide
+<dd>
+<p>Swipe from left to right.</p>
+</dd><dt>Update
+<dd>
+<p>Press this button to quickly change to the current slide being displayed by
+the Presenter view.</p>
+</dd><dt>Update Follower
+<dd>
+<p>Enable this toggle to act as a Remote Control. Disable it to navigate
+through the slide deck without updating the slide being projected.</p>
+</dd></dl>
+
+<p><em>Warning, using the Remote Control will chew the hell out of your phone
+battery.</em></p>
+
+<h1 id="label-Command+Line+Usage">Command Line Usage<span><a href="#label-Command+Line+Usage">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
+
+<h2 id="label-showoff+help+%5Bcommand%5D"><code>showoff help [command]</code><span><a href="#label-showoff+help+%5Bcommand%5D">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>Shows list of commands or help for one command</p>
+
+<h2 id="label-showoff+heroku+heroku_name"><code>showoff heroku heroku_name</code><span><a href="#label-showoff+heroku+heroku_name">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>Setup your presentation to serve on Heroku</p>
+
+<p>Creates the Gemfile and config.ru file needed to push a showoff pres to
+heroku.  It will then run heroku create for you to register the new project
+on heroku and add the git remote for you.  Then all you need to do is
+commit the new created files and run <code>git push heroku</code> to
+deploy.</p>
+
+<h2 id="label-showoff+github"><code>showoff github</code><span><a href="#label-showoff+github">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>Generates a static version of your site and puts it in a gh-pages branch
+for static serving on GitHub.</p>
+
+<p>Options are specified <strong>after</strong> the command.</p>
+<dl class="rdoc-list label-list"><dt><code>-f, --force</code>
+<dd>
+<p>force overwrite of existing Gemfile/.gems and config.ru files if they exist</p>
+</dd><dt><code>-g, --dotgems</code>
+<dd>
+<p>Use older-style .gems file instead of bundler-style Gemfile</p>
+</dd><dt><code>-p, --password=arg</code>
+<dd>
+<p>add password protection to your heroku site</p>
+</dd></dl>
+
+<h2 id="label-showoff+serve"><code>showoff serve</code><span><a href="#label-showoff+serve">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>Serves the showoff presentation in the current directory</p>
+
+<p>Options are specified <strong>after</strong> the command.</p>
+<dl class="rdoc-list label-list"><dt><code>-f, --pres_file=arg</code>
+<dd>
+<p>Presentation file <em>(default: <code>showoff.json</code>)</em></p>
+</dd><dt><code>-h, --host=arg</code>
+<dd>
+<p>Host or ip to run on <em>( default: <code>localhost</code>)</em></p>
+</dd><dt><code>-p, --port=arg</code>
+<dd>
+<p>Port on which to run <em>( default: <code>9090</code>)</em></p>
+</dd></dl>
+
+<h2 id="label-showoff+static+%5Bname%5D"><code>showoff static [name]</code><span><a href="#label-showoff+static+%5Bname%5D">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>Generate static version of presentation with an optional supplemental
+materials type.</p>
+
+<h2 id="label-showoff+pdf+%5Bname%5D"><code>showoff pdf [name]</code><span><a href="#label-showoff+pdf+%5Bname%5D">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>Generate PDF version of presentation with an optional output filename. This
+requires the <code>pdfkit</code> gem and the <code>wkhtmltopdf</code>
+rendering engine installed into your <code>$PATH</code>.</p>
+
+<h1 id="label-Browser+Printable+Output">Browser Printable Output<span><a href="#label-Browser+Printable+Output">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
+
+<p>You may also generate printable output or a PDF via your browser rendering
+engine of choice, simply browse to the <code>/print</code> endpoint and
+print the page using your browser&#39;s native print function. Another
+option is using a rendering engine such as <a
+href="http://www.princexml.com">PrinceXML</a> to print this page to a PDF.</p>
+
+<h1 id="label-Shell+Auto+Completion">Shell Auto Completion<span><a href="#label-Shell+Auto+Completion">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
+
+<h2 id="label-ZSH+completion">ZSH completion<span><a href="#label-ZSH+completion">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>You can complete commands and options in ZSH, by installing a script:</p>
+
+<pre>mkdir -p $HOME/.zsh/Completion
+cp script/_showoff $HOME/.zsh/Completion
+echo &#39;fpath=(~/.zsh/Completion $fpath)&#39; &gt;&gt; $HOME/.zshrc</pre>
+
+<h2 id="label-bash+completion"><code>bash</code> completion<span><a href="#label-bash+completion">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>You can complete commands for showoff by putting the following in your
+<code>.bashrc</code> (or whatever you use when starting <code>bash</code>):</p>
+
+<pre>complete -F get_showoff_commands
+function get_showoff_commands()
+{
+    if [ -z $2 ] ; then
+        COMPREPLY=(`showoff help -c`)
+    else
+        COMPREPLY=(`showoff help -c $2`)
+    fi
+}</pre>
+
+<p>You can also install that as an executable script such as
+<code>/etc/bash_completion.d/showoff</code>.</p>
+
+</div>
+
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
