@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  {% include head.html %}
+  <body>
+    <!-- HEADER -->
+    {% include header.html %}
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      {% include menu.html %}
+
+      <section id="main_content" class="inner">
+        {{ content }}
+        <div style="clear:both;"></div>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    {% include footer.html %}
+  </body>
+</html>

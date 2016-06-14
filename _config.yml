@@ -1,0 +1,13 @@
+# Build settings
+markdown: kramdown
+explude: ['documentation']
+collections:
+  tutorials:
+    output: true
+
+test-github:
+  project_title: Showoff
+  project_tagline: "Don't just present; interact with your audience!"
+  owner_name: puppetlabs
+  owner_url: https://github.com/puppetlabs
+  repository_url: https://github.com/puppetlabs/showoff
