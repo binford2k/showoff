@@ -1,0 +1,41 @@
+= Showoff Presenter
+
+Showoff is a slideshow presentation tool with a twist. It runs as a web application,
+with audience interactivity features. This means that your audience can follow along
+in their own browsers, can download supplemental materials, can participate in quizzes
+or polls, post questions for the presenter, etc. By default, their slideshows will
+synchronize with the presenter, but they can switch to self-navigation mode.
+
+* {Showoff homepage}[http://puppetlabs.github.io/showoff]
+* {Github project page}[https://github.com/puppetlabs/showoff]
+
+Showoff allows you to author your presentation slides in Markdown, then organize
+them with a <tt>showoff.json</tt> file. This file also contains metadata about
+the presentation, such as the title, any password protection, etc.
+
+Then you just run <tt>showoff serve</tt> in the presentation directory and open
+a browser window.
+
+[AUTHORING]
+  This page describes how to write slide files. Showoff has many extensions to
+  plain old Markdown, and this page describes how to use them.
+
+[CONFIGURATION]
+  Details how to configure your keyboard hotkeys. This is most useful if you have
+  a remote that maps buttons to different keys than expected.
+
+[FORMS]
+  Learn about Showoff's form authoring extensions and write your own quizzes and
+  polls directly in your presentation.
+
+[INSTALLATION]
+  Installation instructions, or building your own gem.
+
+[INTERACTION]
+  Describes the different ways you can interact with your audience.
+
+[PRESENTATION]
+  Describes the <tt>showoff.json</tt> presentation definition file.
+
+[USAGE]
+  Starting the Showoff server and the different URL endpoints available for use.

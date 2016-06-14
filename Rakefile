@@ -1,8 +1,32 @@
-task default: :test
+task :default do
+  system("rake -T")
+end
 
 desc "Build HTML documentation"
 task :doc do
-  system("rdoc --main README.rdoc README.rdoc documentation/*.rdoc")
+  require 'fileutils'
+
+  FileUtils.rm_rf('doc')
+  Dir.chdir('documentation') do
+    system("rdoc --main -HOME.rdoc /*.rdoc --op ../doc")
+  end
+end
+
+desc "Update docs for webpage"
+task 'doc:update' => [:doc] do
+  require 'fileutils'
+
+  if system('git checkout gh-pages')
+    FileUtils.rm_rf('documentation')
+    FileUtils.mv('doc', 'documentation')
+    system('git commit documentation -m "updating docs"')
+    system('git checkout -')
+
+    puts "Publish updates by pushing to Github:"
+    puts
+    puts "    git push upstream gh-pages"
+    puts
+  end
 end
 
 desc "Run tests"
