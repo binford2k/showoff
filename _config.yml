@@ -1,6 +1,5 @@
 # Build settings
 baseurl: "http://puppetlabs.github.io/showoff/"
-exclude: ['documentation']
 collections:
   tutorials:
     output: true
