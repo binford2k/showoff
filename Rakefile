@@ -13,7 +13,7 @@ task :doc do
 end
 
 desc "Update docs for webpage"
-task 'web:doc' => [:doc] do
+task 'doc:website' => [:doc] do
   require 'fileutils'
 
   if system('git checkout gh-pages')
