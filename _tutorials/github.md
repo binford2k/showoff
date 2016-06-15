@@ -19,8 +19,9 @@ Just push the branch and you're live at github.io.
 
       git push origin gh-pages
 
-See a presentation example at http://binford2k.github.io/catalog_security. Note
-that the interactivity features have been appropriately disabled.
+See a presentation example at
+[http://binford2k.github.io/catalog_security](http://binford2k.github.io/catalog_security).
+Note that the interactivity features have been appropriately disabled.
 
 To get a fully interactive instance, with presenter controls and follow mode, etc.,
 you can stand up a Heroku instance. That will be covered in another tutorial.
