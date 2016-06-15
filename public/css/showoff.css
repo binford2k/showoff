@@ -47,6 +47,10 @@ pre code {
     overflow: hidden;
   }
 
+  body#download {
+    overflow: auto;
+  }
+
   #preso,
   .slide {
     background: #fff;
