@@ -24,6 +24,7 @@ Gemfile.lock
 .rvmrc
 .rake_t_cache
 vendor
+_site
 
 ## PROJECT::SPECIFIC
 dist
