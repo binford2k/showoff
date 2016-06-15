@@ -42,6 +42,9 @@ class ShowOffUtils
           FileUtils.mkdir_p(dir)
 
           # create markdown file
+          File.open("#{dir}/00_section.md", 'w+') do |f|
+            f.puts make_slide("Section Header", "center subsection")
+          end
           File.open("#{dir}/01_slide.md", 'w+') do |f|
             f.puts make_slide("My Presentation")
           end
@@ -81,7 +84,12 @@ class ShowOffUtils
         FileUtils.mkdir_p File.dirname(filename)
 
         File.open(filename, 'w+') do |f|
-          f.puts make_slide("#{filename.sub(/\.md$/, '')}")
+          if filename =~ /section/i
+            # kind of looks like a section slide
+            f.puts make_slide("#{filename.sub(/\.md$/, '')}", "center subsection")
+          else
+            f.puts make_slide("#{filename.sub(/\.md$/, '')}")
+          end
         end
       else
         FileUtils.mkdir_p filename
