@@ -1,5 +1,5 @@
 # Build settings
-baseurl: "http://puppetlabs.github.io/showoff/"
+baseurl: "http://puppetlabs.github.io/showoff"
 collections:
   tutorials:
     output: true
