@@ -84,13 +84,6 @@
     <li><a href="#label-Shell+code">Shell code</a>
     <li><a href="#label-Ruby+code">Ruby code</a>
     <li><a href="#label-Editor+Support">Editor Support</a>
-    <li><a href="#label-Command+Line+Interface">Command Line Interface</a>
-    <li><a href="#label-Commands">Commands</a>
-    <li><a href="#label-showoff+add+-5Btitle-5D"><code>showoff add [title]</code></a>
-    <li><a href="#label-showoff+create+dir_name"><code>showoff create dir_name</code></a>
-    <li><a href="#label-Markdown+Engine">Markdown Engine</a>
-    <li><a href="#label-Default+options">Default options</a>
-    <li><a href="#label-Maruku">Maruku</a>
   </ul>
 </div>
 
@@ -104,6 +97,8 @@
     <li><a href="./-HOME_rdoc.html">-HOME</a>
   
     <li><a href="./AUTHORING_rdoc.html">AUTHORING</a>
+  
+    <li><a href="./COMMANDLINE_rdoc.html">COMMANDLINE</a>
   
     <li><a href="./CONFIGURATION_rdoc.html">CONFIGURATION</a>
   
@@ -934,188 +929,10 @@ href="http://github.com/developernotes/showoff-mode">github.com/developernotes/s
     code_here()</pre>
 
 <p>added where your cursor was.  Binding this to a keybinding can allow you to
-add new slides quickly.</p>
+add new slides quickly. See the <a
+href="COMMANDLINE_rdoc.html">commandline</a> section for interesting
+Showoff commands.</p>
 </dd></dl>
-
-<h1 id="label-Command+Line+Interface">Command Line Interface<span><a href="#label-Command+Line+Interface">&para;</a> <a href="#top">&uarr;</a></span></h1>
-
-<pre>showoff [global options] command [command options] [arguments...]</pre>
-<ul><li>
-<p>Use the command <code>help</code> to get a summary of commands</p>
-</li><li>
-<p>Use the command <code>help command_name</code> to get a help for
-<code>command_name</code></p>
-</li><li>
-<p>Use <code>--</code> to stop command line argument processing; useful if
-your arguments have dashes in them</p>
-</li></ul>
-
-<h2 id="label-Commands">Commands<span><a href="#label-Commands">&para;</a> <a href="#top">&uarr;</a></span></h2>
-<dl class="rdoc-list label-list"><dt><code>add</code>
-<dd>
-<p>Add a new slide at the end in a given dir</p>
-</dd><dt><code>create</code>
-<dd>
-<p>Create new showoff presentation</p>
-</dd><dt><code>skeleton</code>
-<dd>
-<p>Generate a full presentation based on a <code>showoff.json</code> outline</p>
-</dd><dt><code>help</code>
-<dd>
-<p>Shows list of commands or help for one command</p>
-</dd><dt><code>heroku</code>
-<dd>
-<p>Setup your presentation to serve on Heroku</p>
-</dd><dt><code>github</code>
-<dd>
-<p>Setup your presentation to serve on GitHub Pages</p>
-</dd><dt><code>serve</code>
-<dd>
-<p>Serves the showoff presentation in the current directory (or a given dir)</p>
-</dd><dt><code>static</code>
-<dd>
-<p>Generate static version of presentation</p>
-</dd></dl>
-
-<h2 id="label-showoff+add+-5Btitle-5D"><code>showoff add [title]</code><span><a href="#label-showoff+add+-5Btitle-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
-
-<p>Add a new slide at the end in a given dir</p>
-<dl class="rdoc-list label-list"><dt>Aliases
-<dd><ul><li>
-<p><code>new</code></p>
-</li></ul>
-</dd></dl>
-
-<p>Outputs or creates a new slide. With -d and -n, a new slide is created in
-the given dir, numbered to appear as the last slide in that dir (use -u to
-avoid numbering). Without those, outputs the slide markdown to stdout
-(useful for shelling out from your editor). You may also specify a source
-file to use for a code slide.</p>
-
-<p>Options are specified <strong>after</strong> the command.</p>
-<dl class="rdoc-list label-list"><dt><code>-d, --dir=dir</code>
-<dd>
-<p>Slide dir (where to put a new slide file)</p>
-</dd><dt><code>-n, --name=basename</code>
-<dd>
-<p>Slide name (name of the new slide file)</p>
-</dd><dt><code>-s, --source=path to file</code>
-<dd>
-<p>Include code from the given file as the slide body</p>
-</dd><dt><code>-t, --style, --type=valid showoff style/type</code>
-<dd>
-<p>Slide Type/Style <em>( default: <code>title</code>)</em></p>
-</dd><dt><code>-u, --nonumber</code>
-<dd>
-<p>Dont number the slide, use the given name verbatim</p>
-</dd></dl>
-
-<h2 id="label-showoff+create+dir_name"><code>showoff create dir_name</code><span><a href="#label-showoff+create+dir_name">&para;</a> <a href="#top">&uarr;</a></span></h2>
-
-<p>Create new showoff presentation</p>
-<dl class="rdoc-list label-list"><dt>Aliases
-<dd><ul><li>
-<p><code>init</code></p>
-</li></ul>
-</dd></dl>
-
-<p>This command helps start a new showoff presentation by setting up the
-proper directory structure for you.  It takes the directory name you would
-like showoff to create for you.</p>
-
-<p>Options are specified <strong>after</strong> the command.</p>
-<dl class="rdoc-list label-list"><dt><code>-d, --slidedir=arg</code>
-<dd>
-<p>sample slide directory name <em>( default: <code>one</code>)</em></p>
-</dd><dt><code>-n, --nosamples</code>
-<dd>
-<p>Dont create sample slides</p>
-</dd></dl>
-
-<h2 id="label-Markdown+Engine">Markdown Engine<span><a href="#label-Markdown+Engine">&para;</a> <a href="#top">&uarr;</a></span></h2>
-
-<p>It is possible to configure the markdown engine of your choice to use with
-showoff. The following engines are available:</p>
-<ul><li>
-<p>redcarpet (default)</p>
-</li><li>
-<p>bluecloth</p>
-</li><li>
-<p>maruku</p>
-</li><li>
-<p>kramdown</p>
-</li><li>
-<p>rdiscount</p>
-</li></ul>
-
-<p>You may configure special options of your markdown engine by including an
-options hash keyed off the markdown engine name in your configuration file.
-For example:</p>
-
-<pre>&quot;markdown&quot; : &quot;kramdown&quot;,
-&quot;kramdown&quot; : {
-   &quot;space_after_headers&quot;: true
-}</pre>
-
-<p>Configuring an engine (or overriding its default configuration) allows you
-to access special features of that engine.</p>
-
-<h3 id="label-Default+options">Default options<span><a href="#label-Default+options">&para;</a> <a href="#top">&uarr;</a></span></h3>
-
-<p>Showoff configures default options for some of the Markdown engines. These
-defaults can be disabled in your <code>showoff.json</code> file if needed.</p>
-
-<p>Defaults for each engine are:</p>
-<dl class="rdoc-list label-list"><dt>redcarpet
-<dd>
-<p><a href="https://github.com/vmg/redcarpet">github.com/vmg/redcarpet</a></p>
-
-<pre>&quot;redcarpet&quot; : {
-  :autolink&quot;          : true,
-  :no_intra_emphasis&quot; : true,
-  :strikethrough&quot;     : true,
-  :superscript&quot;       : true,
-  :tables&quot;            : true,
-  :underline&quot;         : true
-}</pre>
-</dd><dt>bluecloth
-<dd>
-<p><a
-href="https://github.com/ged/bluecloth/blob/master/lib/bluecloth.rb">github.com/ged/bluecloth/blob/master/lib/bluecloth.rb</a></p>
-
-<pre>&quot;bluecloth&quot; : {
-  &quot;auto_links&quot;        : true,
-  &quot;definition_lists&quot;  : true,
-  &quot;strikethrough&quot;     : true,
-  &quot;superscript&quot;       : true,
-  &quot;tables&quot;            : true
-}</pre>
-</dd><dt>rdiscount
-<dd>
-<p><a
-href="https://github.com/davidfstr/rdiscount/blob/master/lib/rdiscount.rb">github.com/davidfstr/rdiscount/blob/master/lib/rdiscount.rb</a></p>
-
-<pre>&quot;rdiscount&quot; : {
-  &quot;autolink&quot;          : true
-}</pre>
-</dd></dl>
-
-<h3 id="label-Maruku">Maruku<span><a href="#label-Maruku">&para;</a> <a href="#top">&uarr;</a></span></h3>
-
-<p>When you prefer using Maruku as the markdown engine of choice for your
-presentation, you can use the LaTeX Math Mode features of maruku. First you
-need <a href="http://www.mediawiki.org/wiki/Extension:Blahtex">BlahTex</a>
-and then you need to configure your presentation as following:</p>
-
-<pre>&quot;markdown&quot; : &quot;maruku&quot;,
-&quot;maruku&quot; : {
-   &quot;use_tex&quot; : true,
-   &quot;png_dir&quot; : &quot;images&quot;,
-   &quot;html_png_url&quot; : &quot;/file/images/&quot;
-}</pre>
-
-<p>Note that `use_tex` is required, but configuring the `png_dir` and
-`html_png_dir` are optional.</p>
 </main>
 
 

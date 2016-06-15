@@ -61,6 +61,9 @@
     <li><a href="#label-Defining+slides+using+the+sections+setting.">Defining slides using the <code>sections</code> setting.</a>
     <li><a href="#label-Running+without+a+showoff.json">Running without a <code>showoff.json</code></a>
     <li><a href="#label-Protected+presentations">Protected presentations</a>
+    <li><a href="#label-Markdown+Engine">Markdown Engine</a>
+    <li><a href="#label-Default+options">Default options</a>
+    <li><a href="#label-Maruku">Maruku</a>
   </ul>
 </div>
 
@@ -74,6 +77,8 @@
     <li><a href="./-HOME_rdoc.html">-HOME</a>
   
     <li><a href="./AUTHORING_rdoc.html">AUTHORING</a>
+  
+    <li><a href="./COMMANDLINE_rdoc.html">COMMANDLINE</a>
   
     <li><a href="./CONFIGURATION_rdoc.html">CONFIGURATION</a>
   
@@ -295,6 +300,91 @@ generate a PDF file:</p>
 <p>If pages are marked as protected or locked, but no corresponding password
 or viewing key is set, then only the presenter running on the presentation
 on the same machine they&#39;re viewing with will be allowed access.</p>
+
+<h2 id="label-Markdown+Engine">Markdown Engine<span><a href="#label-Markdown+Engine">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>It is possible to configure the markdown engine of your choice to use with
+showoff. The following engines are available:</p>
+<ul><li>
+<p>redcarpet (default)</p>
+</li><li>
+<p>bluecloth</p>
+</li><li>
+<p>maruku</p>
+</li><li>
+<p>kramdown</p>
+</li><li>
+<p>rdiscount</p>
+</li></ul>
+
+<p>You may configure special options of your markdown engine by including an
+options hash keyed off the markdown engine name in your configuration file.
+For example:</p>
+
+<pre>&quot;markdown&quot; : &quot;kramdown&quot;,
+&quot;kramdown&quot; : {
+   &quot;space_after_headers&quot;: true
+}</pre>
+
+<p>Configuring an engine (or overriding its default configuration) allows you
+to access special features of that engine.</p>
+
+<h3 id="label-Default+options">Default options<span><a href="#label-Default+options">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Showoff configures default options for some of the Markdown engines. These
+defaults can be disabled in your <code>showoff.json</code> file if needed.</p>
+
+<p>Defaults for each engine are:</p>
+<dl class="rdoc-list label-list"><dt>redcarpet
+<dd>
+<p><a href="https://github.com/vmg/redcarpet">github.com/vmg/redcarpet</a></p>
+
+<pre>&quot;redcarpet&quot; : {
+  :autolink&quot;          : true,
+  :no_intra_emphasis&quot; : true,
+  :strikethrough&quot;     : true,
+  :superscript&quot;       : true,
+  :tables&quot;            : true,
+  :underline&quot;         : true
+}</pre>
+</dd><dt>bluecloth
+<dd>
+<p><a
+href="https://github.com/ged/bluecloth/blob/master/lib/bluecloth.rb">github.com/ged/bluecloth/blob/master/lib/bluecloth.rb</a></p>
+
+<pre>&quot;bluecloth&quot; : {
+  &quot;auto_links&quot;        : true,
+  &quot;definition_lists&quot;  : true,
+  &quot;strikethrough&quot;     : true,
+  &quot;superscript&quot;       : true,
+  &quot;tables&quot;            : true
+}</pre>
+</dd><dt>rdiscount
+<dd>
+<p><a
+href="https://github.com/davidfstr/rdiscount/blob/master/lib/rdiscount.rb">github.com/davidfstr/rdiscount/blob/master/lib/rdiscount.rb</a></p>
+
+<pre>&quot;rdiscount&quot; : {
+  &quot;autolink&quot;          : true
+}</pre>
+</dd></dl>
+
+<h3 id="label-Maruku">Maruku<span><a href="#label-Maruku">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>When you prefer using Maruku as the markdown engine of choice for your
+presentation, you can use the LaTeX Math Mode features of maruku. First you
+need <a href="http://www.mediawiki.org/wiki/Extension:Blahtex">BlahTex</a>
+and then you need to configure your presentation as following:</p>
+
+<pre>&quot;markdown&quot; : &quot;maruku&quot;,
+&quot;maruku&quot; : {
+   &quot;use_tex&quot; : true,
+   &quot;png_dir&quot; : &quot;images&quot;,
+   &quot;html_png_url&quot; : &quot;/file/images/&quot;
+}</pre>
+
+<p>Note that `use_tex` is required, but configuring the `png_dir` and
+`html_png_dir` are optional.</p>
 </main>
 
 

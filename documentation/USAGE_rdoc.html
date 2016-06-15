@@ -65,17 +65,8 @@
     <li><a href="#label-Hotkeys">Hotkeys</a>
     <li><a href="#label-Follow+Mode">Follow Mode</a>
     <li><a href="#label-Remote+Control">Remote Control</a>
-    <li><a href="#label-Command+Line+Usage">Command Line Usage</a>
-    <li><a href="#label-showoff+help+-5Bcommand-5D"><code>showoff help [command]</code></a>
-    <li><a href="#label-showoff+heroku+heroku_name"><code>showoff heroku heroku_name</code></a>
-    <li><a href="#label-showoff+github"><code>showoff github</code></a>
-    <li><a href="#label-showoff+serve"><code>showoff serve</code></a>
-    <li><a href="#label-showoff+static+-5Bname-5D"><code>showoff static [name]</code></a>
-    <li><a href="#label-showoff+pdf+-5Bname-5D"><code>showoff pdf [name]</code></a>
-    <li><a href="#label-Browser+Printable+Output">Browser Printable Output</a>
-    <li><a href="#label-Shell+Auto+Completion">Shell Auto Completion</a>
-    <li><a href="#label-ZSH+completion">ZSH completion</a>
-    <li><a href="#label-bash+completion"><code>bash</code> completion</a>
+    <li><a href="#label-Command+Line+Interface">Command Line Interface</a>
+    <li><a href="#label-Editor+Support">Editor Support</a>
   </ul>
 </div>
 
@@ -89,6 +80,8 @@
     <li><a href="./-HOME_rdoc.html">-HOME</a>
   
     <li><a href="./AUTHORING_rdoc.html">AUTHORING</a>
+  
+    <li><a href="./COMMANDLINE_rdoc.html">COMMANDLINE</a>
   
     <li><a href="./CONFIGURATION_rdoc.html">CONFIGURATION</a>
   
@@ -415,101 +408,15 @@ through the slide deck without updating the slide being projected.</p>
 <p><em>Warning, using the Remote Control will chew the hell out of your phone
 battery.</em></p>
 
-<h1 id="label-Command+Line+Usage">Command Line Usage<span><a href="#label-Command+Line+Usage">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h2 id="label-Command+Line+Interface">Command Line Interface<span><a href="#label-Command+Line+Interface">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-<h2 id="label-showoff+help+-5Bcommand-5D"><code>showoff help [command]</code><span><a href="#label-showoff+help+-5Bcommand-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<p>See the <a href="COMMANDLINE_rdoc.html">commandline</a> section for
+interesting Showoff commands.</p>
 
-<p>Shows list of commands or help for one command</p>
+<h2 id="label-Editor+Support">Editor Support<span><a href="#label-Editor+Support">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
-<h2 id="label-showoff+heroku+heroku_name"><code>showoff heroku heroku_name</code><span><a href="#label-showoff+heroku+heroku_name">&para;</a> <a href="#top">&uarr;</a></span></h2>
-
-<p>Setup your presentation to serve on Heroku</p>
-
-<p>Creates the Gemfile and config.ru file needed to push a showoff pres to
-heroku.  It will then run heroku create for you to register the new project
-on heroku and add the git remote for you.  Then all you need to do is
-commit the new created files and run <code>git push heroku</code> to
-deploy.</p>
-
-<h2 id="label-showoff+github"><code>showoff github</code><span><a href="#label-showoff+github">&para;</a> <a href="#top">&uarr;</a></span></h2>
-
-<p>Generates a static version of your site and puts it in a gh-pages branch
-for static serving on GitHub.</p>
-
-<p>Options are specified <strong>after</strong> the command.</p>
-<dl class="rdoc-list label-list"><dt><code>-f, --force</code>
-<dd>
-<p>force overwrite of existing Gemfile/.gems and config.ru files if they exist</p>
-</dd><dt><code>-g, --dotgems</code>
-<dd>
-<p>Use older-style .gems file instead of bundler-style Gemfile</p>
-</dd><dt><code>-p, --password=arg</code>
-<dd>
-<p>add password protection to your heroku site</p>
-</dd></dl>
-
-<h2 id="label-showoff+serve"><code>showoff serve</code><span><a href="#label-showoff+serve">&para;</a> <a href="#top">&uarr;</a></span></h2>
-
-<p>Serves the showoff presentation in the current directory</p>
-
-<p>Options are specified <strong>after</strong> the command.</p>
-<dl class="rdoc-list label-list"><dt><code>-f, --pres_file=arg</code>
-<dd>
-<p>Presentation file <em>(default: <code>showoff.json</code>)</em></p>
-</dd><dt><code>-h, --host=arg</code>
-<dd>
-<p>Host or ip to run on <em>( default: <code>localhost</code>)</em></p>
-</dd><dt><code>-p, --port=arg</code>
-<dd>
-<p>Port on which to run <em>( default: <code>9090</code>)</em></p>
-</dd></dl>
-
-<h2 id="label-showoff+static+-5Bname-5D"><code>showoff static [name]</code><span><a href="#label-showoff+static+-5Bname-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
-
-<p>Generate static version of presentation with an optional supplemental
-materials type.</p>
-
-<h2 id="label-showoff+pdf+-5Bname-5D"><code>showoff pdf [name]</code><span><a href="#label-showoff+pdf+-5Bname-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
-
-<p>Generate PDF version of presentation with an optional output filename. This
-requires the <code>pdfkit</code> gem and the <code>wkhtmltopdf</code>
-rendering engine installed into your <code>$PATH</code>.</p>
-
-<h1 id="label-Browser+Printable+Output">Browser Printable Output<span><a href="#label-Browser+Printable+Output">&para;</a> <a href="#top">&uarr;</a></span></h1>
-
-<p>You may also generate printable output or a PDF via your browser rendering
-engine of choice, simply browse to the <code>/print</code> endpoint and
-print the page using your browser&#39;s native print function. Another
-option is using a rendering engine such as <a
-href="http://www.princexml.com">PrinceXML</a> to print this page to a PDF.</p>
-
-<h1 id="label-Shell+Auto+Completion">Shell Auto Completion<span><a href="#label-Shell+Auto+Completion">&para;</a> <a href="#top">&uarr;</a></span></h1>
-
-<h2 id="label-ZSH+completion">ZSH completion<span><a href="#label-ZSH+completion">&para;</a> <a href="#top">&uarr;</a></span></h2>
-
-<p>You can complete commands and options in ZSH, by installing a script:</p>
-
-<pre>mkdir -p $HOME/.zsh/Completion
-cp script/_showoff $HOME/.zsh/Completion
-echo &#39;fpath=(~/.zsh/Completion $fpath)&#39; &gt;&gt; $HOME/.zshrc</pre>
-
-<h2 id="label-bash+completion"><code>bash</code> completion<span><a href="#label-bash+completion">&para;</a> <a href="#top">&uarr;</a></span></h2>
-
-<p>You can complete commands for showoff by putting the following in your
-<code>.bashrc</code> (or whatever you use when starting <code>bash</code>):</p>
-
-<pre>complete -F get_showoff_commands
-function get_showoff_commands()
-{
-    if [ -z $2 ] ; then
-        COMPREPLY=(`showoff help -c`)
-    else
-        COMPREPLY=(`showoff help -c $2`)
-    fi
-}</pre>
-
-<p>You can also install that as an executable script such as
-<code>/etc/bash_completion.d/showoff</code>.</p>
+<p>See the <a href="AUTHORING_rdoc.html#label-Editor+Support">editor
+support</a> section for editor integrations.</p>
 </main>
 
 
