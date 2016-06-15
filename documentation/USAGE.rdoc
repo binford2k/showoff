@@ -232,80 +232,10 @@ Showoff server and change to it.
 
 <em>Warning, using the Remote Control will chew the hell out of your phone battery.</em>
 
-= Command Line Usage
+== Command Line Interface
 
-== <tt>showoff help [command]</tt>
+See the commandline[rdoc-ref:COMMANDLINE] section for interesting Showoff commands.
 
-Shows list of commands or help for one command
+== Editor Support
 
-
-== <tt>showoff heroku heroku_name</tt>
-
-Setup your presentation to serve on Heroku
-
-Creates the Gemfile and config.ru file needed to push a showoff pres to heroku.  It will then run heroku create for you to register the new project on heroku and add the git remote for you.  Then all you need to do is commit the new created files and run <tt>git push heroku</tt> to deploy.
-
-
-== <tt>showoff github</tt>
-
-Generates a static version of your site and puts it in a gh-pages branch for static serving on GitHub.
-
-Options are specified *after* the command.
-
-[<tt>-f, --force</tt>] force overwrite of existing Gemfile/.gems and config.ru files if they exist
-[<tt>-g, --dotgems</tt>] Use older-style .gems file instead of bundler-style Gemfile
-[<tt>-p, --password=arg</tt>] add password protection to your heroku site
-
-
-== <tt>showoff serve</tt>
-
-Serves the showoff presentation in the current directory
-
-Options are specified *after* the command.
-
-[<tt>-f, --pres_file=arg</tt>] Presentation file <i>(default: <tt>showoff.json</tt>)</i>
-[<tt>-h, --host=arg</tt>] Host or ip to run on <i>( default: <tt>localhost</tt>)</i>
-[<tt>-p, --port=arg</tt>] Port on which to run <i>( default: <tt>9090</tt>)</i>
-
-
-== <tt>showoff static [name]</tt>
-
-Generate static version of presentation with an optional supplemental materials type.
-
-== <tt>showoff pdf [name]</tt>
-
-Generate PDF version of presentation with an optional output filename. This requires the <tt>pdfkit</tt>
-gem and the <tt>wkhtmltopdf</tt> rendering engine installed into your <tt>$PATH</tt>.
-
-= Browser Printable Output
-
-You may also generate printable output or a PDF via your browser rendering engine of choice, simply browse to
-the <tt>/print</tt> endpoint and print the page using your browser's native print function. Another option is
-using a rendering engine such as PrinceXML[http://www.princexml.com] to print this page to a PDF.
-
-
-= Shell Auto Completion
-
-== ZSH completion
-You can complete commands and options in ZSH, by installing a script:
-
-    mkdir -p $HOME/.zsh/Completion
-    cp script/_showoff $HOME/.zsh/Completion
-    echo 'fpath=(~/.zsh/Completion $fpath)' >> $HOME/.zshrc
-
-== <tt>bash</tt> completion
-
-You can complete commands for showoff by putting the following in your <tt>.bashrc</tt> (or whatever
-you use when starting <tt>bash</tt>):
-
-    complete -F get_showoff_commands
-    function get_showoff_commands()
-    {
-        if [ -z $2 ] ; then
-            COMPREPLY=(`showoff help -c`)
-        else
-            COMPREPLY=(`showoff help -c $2`)
-        fi
-    }
-
-You can also install that as an executable script such as <tt>/etc/bash_completion.d/showoff</tt>.
+See the {editor support}[rdoc-ref:AUTHORING@Editor+Support] section for editor integrations.

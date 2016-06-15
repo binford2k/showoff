@@ -185,3 +185,83 @@ the viewing key to use the <tt>print</tt> endpoint to generate a PDF file:
 If pages are marked as protected or locked, but no corresponding password or viewing
 key is set, then only the presenter running on the presentation on the same machine
 they're viewing with will be allowed access.
+
+== Markdown Engine
+
+It is possible to configure the markdown engine of your choice to use
+with showoff. The following engines are available:
+
+- redcarpet (default)
+- bluecloth
+- maruku
+- kramdown
+- rdiscount
+
+You may configure special options of your markdown engine by including an
+options hash keyed off the markdown engine name in your configuration file.
+For example:
+
+    "markdown" : "kramdown",
+    "kramdown" : {
+       "space_after_headers": true
+    }
+
+
+Configuring an engine (or overriding its default configuration) allows you to
+access special features of that engine.
+
+=== Default options
+
+Showoff configures default options for some of the Markdown engines. These
+defaults can be disabled in your <tt>showoff.json</tt> file if needed.
+
+Defaults for each engine are:
+
+[redcarpet]
+
+  https://github.com/vmg/redcarpet
+
+    "redcarpet" : {
+      :autolink"          : true,
+      :no_intra_emphasis" : true,
+      :strikethrough"     : true,
+      :superscript"       : true,
+      :tables"            : true,
+      :underline"         : true
+    }
+
+[bluecloth]
+
+  https://github.com/ged/bluecloth/blob/master/lib/bluecloth.rb
+
+    "bluecloth" : {
+      "auto_links"        : true,
+      "definition_lists"  : true,
+      "strikethrough"     : true,
+      "superscript"       : true,
+      "tables"            : true
+    }
+
+[rdiscount]
+
+  https://github.com/davidfstr/rdiscount/blob/master/lib/rdiscount.rb
+
+    "rdiscount" : {
+      "autolink"          : true
+    }
+
+=== Maruku
+
+When you prefer using Maruku as the markdown engine of choice for your
+presentation, you can use the LaTeX Math Mode features of maruku. First you
+need {BlahTex}[http://www.mediawiki.org/wiki/Extension:Blahtex] and then
+you need to configure your presentation as following:
+
+    "markdown" : "maruku",
+    "maruku" : {
+       "use_tex" : true,
+       "png_dir" : "images",
+       "html_png_url" : "/file/images/"
+    }
+
+Note that `use_tex` is required, but configuring the `png_dir` and `html_png_dir` are optional.

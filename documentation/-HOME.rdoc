@@ -20,6 +20,9 @@ a browser window.
   This page describes how to write slide files. Showoff has many extensions to
   plain old Markdown, and this page describes how to use them.
 
+[COMMANDLINE]
+  Describes Showoff's command line interface.
+
 [CONFIGURATION]
   Details how to configure your keyboard hotkeys. This is most useful if you have
   a remote that maps buttons to different keys than expected.

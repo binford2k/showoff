@@ -1,0 +1,144 @@
+= Command Line Interface
+
+    showoff [global options] command [command options] [arguments...]
+
+- Use the command <tt>help</tt> to get a summary of commands
+- Use the command <tt>help command_name</tt> to get a help for <tt>command_name</tt>
+- Use <tt>--</tt> to stop command line argument processing; useful if your arguments have dashes in them
+
+== Commands
+[<tt>add</tt>] Add a new slide at the end in a given dir
+[<tt>create</tt>] Create new showoff presentation
+[<tt>skeleton</tt>] Generate a full presentation based on a <tt>showoff.json</tt> outline
+[<tt>help</tt>] Shows list of commands or help for one command
+[<tt>heroku</tt>] Setup your presentation to serve on Heroku
+[<tt>github</tt>] Setup your presentation to serve on GitHub Pages
+[<tt>serve</tt>] Serves the showoff presentation in the current directory (or a given dir)
+[<tt>static</tt>] Generate static version of presentation
+
+== <tt>showoff help [command]</tt>
+
+Shows list of commands or help for one command
+
+
+== <tt>showoff add [title]</tt>
+
+Add a new slide at the end in a given dir
+
+[Aliases]
+  - <tt>new</tt>
+
+Outputs or creates a new slide. With -d and -n, a new slide is created in the given dir, numbered to appear
+as the last slide in that dir (use -u to avoid numbering). Without those, outputs the slide markdown to
+stdout (useful for shelling out from your editor). You may also specify a source file to use for a code
+slide.
+
+Options are specified *after* the command.
+
+[<tt>-d, --dir=dir</tt>] Slide dir (where to put a new slide file)
+[<tt>-n, --name=basename</tt>] Slide name (name of the new slide file)
+[<tt>-s, --source=path to file</tt>] Include code from the given file as the slide body
+[<tt>-t, --style, --type=valid showoff style/type</tt>] Slide Type/Style <i>( default: <tt>title</tt>)</i>
+[<tt>-u, --nonumber</tt>] Don't number the slide, use the given name verbatim
+
+
+== <tt>showoff create dir_name</tt>
+
+Create new showoff presentation
+
+[Aliases]
+    - <tt>init</tt>
+
+This command helps start a new Showoff presentation by setting up the proper directory
+structure for you.  It takes the directory name you would like Showoff to create for you.
+
+Options are specified *after* the command.
+
+[<tt>-d, --slidedir=arg</tt>]
+  sample slide directory name <i>( default: <tt>one</tt>)</i>. Pass a comma-separated
+  list to create multiple directories.
+[<tt>-n, --nosamples</tt>]
+  Don't create sample slides
+
+
+== <tt>showoff heroku heroku_name</tt>
+
+Setup your presentation to serve on Heroku
+
+Creates the Gemfile and config.ru file needed to push a showoff pres to heroku.  It will then run heroku create for you to register the new project on heroku and add the git remote for you.  Then all you need to do is commit the new created files and run <tt>git push heroku</tt> to deploy.
+
+
+== <tt>showoff github</tt>
+
+Generates a static version of your site and puts it in a gh-pages branch for static serving on GitHub.
+
+Options are specified *after* the command.
+
+[<tt>-f, --force</tt>] force overwrite of existing Gemfile/.gems and config.ru files if they exist
+[<tt>-g, --dotgems</tt>] Use older-style .gems file instead of bundler-style Gemfile
+[<tt>-p, --password=arg</tt>] add password protection to your heroku site
+
+
+== <tt>showoff serve</tt>
+
+Serves the showoff presentation in the current directory
+
+Options are specified *after* the command.
+
+[<tt>-f, --pres_file=arg</tt>] Presentation file <i>(default: <tt>showoff.json</tt>)</i>
+[<tt>-h, --host=arg</tt>] Host or ip to run on <i>( default: <tt>localhost</tt>)</i>
+[<tt>-p, --port=arg</tt>] Port on which to run <i>( default: <tt>9090</tt>)</i>
+
+
+== <tt>showoff skeleton</tt>
+
+Reads a <tt>showoff.json</tt> file and generates a skeleton presentation, with one
+sample slide file for each entry in the <tt>showoff.json</tt>. Clearly this only
+works when listing all slide files. If you're only listing sections, then it will
+only create the directories for you.
+
+Options are specified *after* the command.
+
+[<tt>-f, --file=arg</tt>] Presentation file <i>(default: <tt>showoff.json</tt>)</i>
+
+
+== <tt>showoff static [name]</tt>
+
+Generate static version of presentation with an optional supplemental materials type.
+
+
+== <tt>showoff pdf [name]</tt>
+
+Generate PDF version of presentation with an optional output filename. This requires
+the <tt>pdfkit</tt> gem and the <tt>wkhtmltopdf</tt> rendering engine installed into
+your <tt>$PATH</tt>.
+
+Note: It's sometimes easier to browse to the <tt>/print</tt> endpoint and print the
+page using your browser's native print function or use <tt>showoff static</tt> and
+using another tool to render the HTML files into a PDF.
+
+= Shell Auto Completion
+
+== ZSH completion
+You can complete commands and options in ZSH, by installing a script:
+
+    mkdir -p $HOME/.zsh/Completion
+    cp script/_showoff $HOME/.zsh/Completion
+    echo 'fpath=(~/.zsh/Completion $fpath)' >> $HOME/.zshrc
+
+== <tt>bash</tt> completion
+
+You can complete commands for showoff by putting the following in your <tt>.bashrc</tt> (or whatever
+you use when starting <tt>bash</tt>):
+
+    complete -F get_showoff_commands
+    function get_showoff_commands()
+    {
+        if [ -z $2 ] ; then
+            COMPREPLY=(`showoff help -c`)
+        else
+            COMPREPLY=(`showoff help -c $2`)
+        fi
+    }
+
+You can also install that as an executable script such as <tt>/etc/bash_completion.d/showoff</tt>.
