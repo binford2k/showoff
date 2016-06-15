@@ -19,7 +19,8 @@ task 'doc:update' => [:doc] do
   if system('git checkout gh-pages')
     FileUtils.rm_rf('documentation')
     FileUtils.mv('doc', 'documentation')
-    system('git commit documentation -m "updating docs"')
+    system('git add documentation')
+    system('git commit -m "updating docs"')
     system('git checkout -')
 
     puts "Publish updates by pushing to Github:"
