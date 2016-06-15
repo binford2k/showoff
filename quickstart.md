@@ -34,8 +34,10 @@ files are enumerated in shell globbing order. This means that to add a slide,
 just make a file in that directory. It will show up in the presentation in the
 same order as it would if you ran `ls` in the directory.
 
-Maybe you wanted to start out with a few more sections. Let's try that out.
+Maybe you wanted to start out with a few more sections. Let's start over and try
+that out.
 
+    $ rm -rf hello-world
     $ showoff init hello-world -d introduction,hello,world,conclusion
     Run 'showoff serve' in the hello-world directory to see your new slideshow
     $ tree hello-world/
@@ -100,8 +102,10 @@ content. Luckily, the Presenter makes it easy to update each slide.
 <img src="../images/edit_link.png" alt="Edit Link" style="float:right;" />
 
 The slide name is displayed in the upper left of the Presenter window. Click that,
-and Showoff will open the editor you have associated with Markdown files. Update
-and save the file, then reload your presentation.
+and Showoff will open the editor you have associated with Markdown files. Slides
+are written in mostly vanilla Markdown, with a few extensions. Pop open the
+[User Manual](http://puppetlabs.github.io/showoff/documentation/AUTHORING_rdoc.html)
+if you want a reference. Update and save the file, then reload your presentation.
 
 Well, that was a little disappointing, wasn't it? Showoff will compile the
 presentation the first time it's requested and cache it. This makes every load

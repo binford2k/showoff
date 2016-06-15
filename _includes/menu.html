@@ -2,11 +2,11 @@
 <section id="toc">
   <ul>
     {% for p in pages %}
-      <li {% if p.url == page.url %}class="active"{% endif %}><a href="{{site.baseurl}}/{{ p.url }}">{{ p.title }}</a></li>
+      <li {% if p.url == page.url %}class="active"{% endif %}><a href="{{site.baseurl}}{{ p.url }}">{{ p.title }}</a></li>
       {% if p.url == '/quickstart.html' and (page.url == '/quickstart.html' or page.url contains 'tutorials') %}
           <li><ul>
             {% for t in site.tutorials %}
-              <li {% if t.url == page.url %}class="active"{% endif %}><a href="{{site.baseurl}}/{{ t.url }}">{{ t.title }}</a></li>
+              <li {% if t.url == page.url %}class="active"{% endif %}><a href="{{site.baseurl}}{{ t.url }}">{{ t.title }}</a></li>
             {% endfor %}
           </ul></li>
       {% endif %}
