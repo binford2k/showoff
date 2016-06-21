@@ -15,5 +15,13 @@ quiz_responses.png:
 ask_question.png:
   md5: 3508f734f454aebd254d51077c755ff3
   thumb: thumb.ask_question.png
-  text: Audience members can ask questions anonymously. This can be useful for large audiences or webinars.
-
+  text: Audience members can ask questions anonymously. This can be useful for large
+    audiences or webinars.
+executing_code.png:
+  md5: 531426baeadd5ab8a1cec464dbc128b3
+  thumb: thumb.executing_code.png
+  text: Showoff can live execute code embedded in slides.
+executing_code_results.png:
+  md5: 56c69aa4be8b88f52e6bfdab2b079ac3
+  thumb: thumb.executing_code_results.png
+  text: The code execution results are shown in a slide-down console window over the slideshow.
