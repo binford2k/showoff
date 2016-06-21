@@ -1,6 +1,6 @@
 desc "Process screenshot thumbnails"
 task :screenshots do
-  require 'RMagick'
+#  require 'RMagick'
   require 'yaml'
   require 'digest/md5'
 
