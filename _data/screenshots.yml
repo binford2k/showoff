@@ -24,4 +24,9 @@ executing_code.png:
 executing_code_results.png:
   md5: 56c69aa4be8b88f52e6bfdab2b079ac3
   thumb: thumb.executing_code_results.png
-  text: The code execution results are shown in a slide-down console window over the slideshow.
+  text: The code execution results are shown in a slide-down console window over the
+    slideshow.
+help.png:
+  md5: 1ae7c5b9692ba5cdd70b5571334230b3
+  thumb: thumb.help.png
+  text: Press <tt>?</tt> to get a help dialog in either view.
