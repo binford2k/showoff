@@ -56,7 +56,7 @@ the order they're listed in the file.
 }
 ```
 
-There are many more configuration options you can include, from defining passwork
+There are many more configuration options you can include, from defining password
 protection, to choosing a syntax highlighting theme, to even choosing and configuring
 a Markdown rendering engine. More information is available in the
 [User Manual](../documentation/PRESENTATION_rdoc.html)
