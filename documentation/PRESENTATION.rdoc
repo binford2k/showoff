@@ -196,6 +196,7 @@ with showoff. The following engines are available:
 - maruku
 - kramdown
 - rdiscount
+- commonmark
 
 You may configure special options of your markdown engine by including an
 options hash keyed off the markdown engine name in your configuration file.

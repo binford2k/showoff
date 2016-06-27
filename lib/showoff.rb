@@ -453,7 +453,7 @@ class ShowOff < Sinatra::Application
       end
 
       # Load and replace any file tags
-      content.scan(/(~~~FILE:([^:]*):?(.*)?~~~)/).each do |match|
+      content.scan(/(~~~FILE:([^:~]*):?(.*)?~~~)/).each do |match|
         # make a list of code highlighting classes to include
         css  = match[2].split.collect {|i| "language-#{i.downcase}" }.join(' ')
 
