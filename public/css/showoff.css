@@ -961,6 +961,11 @@ form .element {
     border-top: 2px dashed #999;
   }
 
+  .notes-section .callout {
+    margin-right: 1em;
+    margin-left: 1em;
+  }
+
   .notes-section.notes .personal {
     float: right;
     border-left: 2px solid #999;
