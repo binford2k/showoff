@@ -18,6 +18,10 @@ includes all current configuration keys, which will be described below.
         "onepage",
         "print"
       ],
+      "validators": {
+        "puppet": "puppet parser validate",
+        "ruby": "ruby -c"
+      },
       "user": "username",
       "password": "password",
       "version": "0.9.10.7",
@@ -129,6 +133,9 @@ The configuration settings you may use are listed below. Please see the
   The version of Showoff that this presentation requires. It will refuse to
   start and will display a warning message if the Showoff version is lower.
 
+[validators]
+  Define any custom validation scripts to run against code blocks in your slides.
+
 == Defining slides using the <tt>sections</tt> setting.
 
 The <tt>sections</tt> section contains the description of the slides making up
@@ -185,6 +192,23 @@ the viewing key to use the <tt>print</tt> endpoint to generate a PDF file:
 If pages are marked as protected or locked, but no corresponding password or viewing
 key is set, then only the presenter running on the presentation on the same machine
 they're viewing with will be allowed access.
+
+=== In-slide code validation scripts
+
+Showoff can validate all the code blocks on your slides by running <tt>showoff validate</tt>
+by running validation scripts against each. Validators are defined for Perl, Puppet,
+Python, Ruby, and Shell.
+
+It's also easy to define your own custom scripts with the <tt>validators</tt> key in
+<tt>showoff.json</tt>:
+
+    "validators": {
+      "java": "javac",
+      "html": "tidy -q -i --show-errors 0"
+    },
+
+The validator is passed the path to a temporary file containing the code to be checked.
+Any output is suppressed and a non-zero exit code is considered to be a failure.
 
 == Markdown Engine
 

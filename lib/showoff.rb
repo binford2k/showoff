@@ -7,6 +7,7 @@ require 'pathname'
 require 'logger'
 require 'htmlentities'
 require 'sinatra-websocket'
+require 'tempfile'
 
 here = File.expand_path(File.dirname(__FILE__))
 require "#{here}/showoff_utils"
@@ -127,6 +128,14 @@ class ShowOff < Sinatra::Application
     else
       settings.showoff_config['locked'] ||= Array.new
     end
+
+    # default code validators
+    settings.showoff_config['validators'] ||= {}
+    settings.showoff_config['validators']['perl']   ||= 'perl -cw'
+    settings.showoff_config['validators']['puppet'] ||= 'puppet parser validate'
+    settings.showoff_config['validators']['python'] ||= 'python -m py_compile'
+    settings.showoff_config['validators']['ruby']   ||= 'ruby -c'
+    settings.showoff_config['validators']['shell']  ||= 'sh -n'
 
     # highlightjs syntax style
     @highlightStyle = settings.showoff_config['highlight'] || 'default'
@@ -1208,13 +1217,15 @@ class ShowOff < Sinatra::Application
     end
 
   # Load a slide file from disk, parse it and return the text of a code block by index
-  def get_code_from_slide(path, index)
+  def get_code_from_slide(path, index, executable=true)
     if path =~ /^(.*)(?::)(\d+)$/
       path = $1
       num  = $2.to_i
     else
       num = 1
     end
+
+    classes = executable ? 'code.execute' : 'code'
 
     slide = "#{path}.md"
     return unless File.exist? slide
@@ -1227,7 +1238,14 @@ class ShowOff < Sinatra::Application
     html = process_markdown(slide, content, {})
     doc  = Nokogiri::HTML::DocumentFragment.parse(html)
 
-    return doc.css('code.execute')[index.to_i].text rescue 'Invalid code block index'
+    if index == 'all'
+      doc.css(classes).collect do |code|
+        lang = code.attr('class') =~ /language-(\S*)/ ? $1 : nil
+        [lang, code.text]
+      end
+    else
+      doc.css(classes)[index.to_i].text rescue 'Invalid code block index'
+    end
   end
 
   # Basic auth boilerplate
