@@ -846,7 +846,8 @@ form .element {
   .callout.warning,
   .callout.question,
   .callout.exercise,
-  .callout.stop {
+  .callout.stop,
+  .callout.thumbsup {
     padding-left: 3em;
   }
 
@@ -855,6 +856,7 @@ form .element {
   .callout.question:before { content: "\f059"; } /* fa-question-circle */
   .callout.exercise:before { content: "\f41b"; } /* fa-pencil-square */
   .callout.stop:before     { content: "\f05e"; } /* fa-ban */
+  .callout.thumbsup:before { content: "\f164"; } /* fa-thumbs-up */
 
 /**********************
 ***  end callouts   ***
