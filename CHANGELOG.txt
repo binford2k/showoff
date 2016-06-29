@@ -1,3 +1,22 @@
+0.13.0
+  * Added on-slide code block validation
+  * Add .thumbsup callout style
+  * Extended showoff init to support multiple directories
+  * Fix the download page lack of scrolling
+  * Added a simple example build_pdf.sh script
+  * Remove RMagick support, as browser scaling works better anyway
+
+New command:
+  * The new `showoff validate` command will ensure that all directories and
+    slide files listed in the `showoff.json` file exist and then will run
+    validation commands against all code blocks of known styles in your
+    presentation. Add your own validation commands by defining `validators`.
+  * Validates perl/python/ruby/shell/puppet code snippets.
+
+Removed functionality:
+  * RMagick support has been removed. Browsers can autoscale images on demand
+    pretty well now, so you probably won't miss it much.
+
 0.12.2
   * Fixed some glaring UI bugs with the new callout styles.
   * Cleaned up and fixed some command line interactions.
@@ -29,7 +48,7 @@ New command:
     overwrite existing files.
 
 Deprecation warning:
-  * RMagick will be completely removed in the next major release. Pleas migrate
+  * RMagick will be completely removed in the next major release. Please migrate
     away from it now. Browsers can autoscale images on demand pretty well now,
     so you probably won't miss it much.
 
