@@ -36,7 +36,6 @@ desc
 
 
 desc 'Create new showoff presentation'
-arg_name 'dir_name'
 long_desc 'This command helps start a new showoff presentation by setting up the proper directory structure for you.  It takes the directory name you would like showoff to create for you.'
 command [:create,:init] do |c|
 
@@ -48,12 +47,16 @@ command [:create,:init] do |c|
   c.flag [:d,:slidedir]
 
   c.action do |global_options,options,args|
-    raise "dir_name is required" if args.empty?
-    ShowOffUtils.create(args[0],!options[:n],options[:d])
+    dir_name = args.first || '.'
+    ShowOffUtils.create(dir_name,!options[:n],options[:d])
     if options[:n]
-      puts "Add slides and update #{args[0]}/#{ShowOffUtils.presentation_config_file}"
+      puts "Add slides and update #{dir_name}/#{ShowOffUtils.presentation_config_file}"
     end
-    puts "Run 'showoff serve' in the #{args[0]} directory to see your new slideshow"
+    if args.empty?
+      puts "Run 'showoff serve' to see your new slideshow"
+    else
+      puts "Run 'showoff serve' in the #{dir_name} directory to see your new slideshow"
+    end
   end
 end
 
