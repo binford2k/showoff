@@ -14,21 +14,6 @@ require "#{here}/commandline_parser"
 require "#{here}/keymap"
 
 begin
-  require 'rmagick'
-  puts "********************************************************************************"
-  puts "                    RMagick support has been deprecated."
-  puts
-  puts "CSS auto-scaling has improved greatly, and the image manipulation should no"
-  puts "longer be required. If you have images that don't scale properly, then you"
-  puts "should write custom styles to size them appropriately."
-  puts
-  puts "        RMagic support will be removed completely in the next release."
-  puts "********************************************************************************"
-rescue LoadError
-  # nop
-end
-
-begin
   require 'pdfkit'
 rescue LoadError
   # nop
@@ -809,33 +794,8 @@ class ShowOff < Sinatra::Application
         img_path  = Pathname.new(File.join(slide_dir, img[:src])).cleanpath.to_path
         src       = "#{replacement_prefix}/#{img_path}"
         img[:src] = src
-
-        # TDOD: deprecated and to be removed
-        w, h      = get_image_size(img_path)
-        if w && h
-          img[:width]  = w
-          img[:height] = h
-        end
       end
       doc.to_html
-    end
-
-    if defined?(Magick)
-      def get_image_size(path)
-        if !cached_image_size.key?(path)
-          img = Magick::Image.ping(path).first
-          # don't set a size for svgs so they can expand to fit their container
-          if img.mime_type == 'image/svg+xml'
-            cached_image_size[path] = [nil, nil]
-          else
-            cached_image_size[path] = [img.columns, img.rows]
-          end
-        end
-        cached_image_size[path]
-      end
-    else
-      def get_image_size(path)
-      end
     end
 
     def update_commandline_code(slide)

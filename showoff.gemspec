@@ -61,10 +61,6 @@ Gem::Specification.new do |s|
   means that if you've created your own custom styles, that you'll need to
   refactor them. We do hope you find the new styles simpler and better looking.
 
-  RMagick will be completely removed in the next major release. Pleas migrate
-  away from it now. Browsers can autoscale images on demand pretty well now,
-  so you probably won't miss it much.
-
   Showoff can optionally use the PDFKit gem to build PDF files using the
   `showoff pdf` command. If you'd like your audience to download the PDF,
   place it in `_files/share`.
