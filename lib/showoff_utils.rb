@@ -97,6 +97,55 @@ class ShowOffUtils
     end
   end
 
+  def self.validate(config)
+    showoff    = ShowOff.new!(:pres_file  => config)
+    validators = showoff.settings.showoff_config['validators'] || {}
+    files      = []
+    errors     = []
+
+    # get a list of actual filenames
+    self.showoff_sections('.').each do |section|
+      if File.directory?(section)
+        files << showoff.load_section_files(section)
+      else
+        files << section
+      end
+    end
+
+    files.flatten!
+    files.each do |filename|
+      unless File.exist? filename
+        errors << "Missing path: #{filename}"
+        next
+      end
+
+      if filename.downcase.end_with? '.md'
+        print '.'
+        showoff.get_code_from_slide(filename.sub('.md',''), 'all', false).each_with_index do |block, index|
+          lang, code = block
+          validator = validators[lang]
+          if validator
+            # write out a tempfile because many validators require files to with
+            Tempfile.open('showoff-validation') do |f|
+              File.write(f.path, code)
+              unless system("#{validator} #{f.path}", :out => File::NULL, :err => File::NULL)
+                print 'F'
+                errors << "Invalid #{lang} code on #{filename} [#{index}]"
+              end
+            end
+          end
+       end
+      end
+    end
+
+    puts
+    puts "Found #{errors.size} errors."
+    unless errors.empty?
+      errors.each { |err| puts " * #{err}" }
+      exit!
+    end
+  end
+
   HEROKU_GEMS_FILE = '.gems'
   HEROKU_BUNDLER_GEMS_FILE = 'Gemfile'
   HEROKU_CONFIG_FILE = 'config.ru'
