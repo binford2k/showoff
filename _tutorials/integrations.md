@@ -17,7 +17,9 @@ view will have a button to *Report Issue With Slide*. When you click the button,
 a new window or tab is opened up with the issue title pre-filled with the name
 of the slide you're currently viewing.
 
-    "issues": "https://github.com/username/presentation/issues/new?title=",
+```json
+"issues": "https://github.com/username/presentation/issues/new?title=",
+```
 
 This example links into a Github repository where the presentation source is
 located, but you can use any issue tracker with a similar URL scheme. If you're
@@ -33,7 +35,9 @@ buttons in both the Presenter view and the Audience view for editing the current
 slide in a web-based editor. This is designed for group editing sessions.
 Simultaneous editing of multiple slide files is easy to do.
 
-    "edit": "https://github.com/username/presentation/edit/master/",
+```json
+"edit": "https://github.com/username/presentation/edit/master/",
+```
 
 Showoff must be started with the `--edit` flag.
 

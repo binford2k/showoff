@@ -26,7 +26,7 @@ A validator is just a command that accepts a file path containing code. For
 example, you would use `ruby -c $filename` to validate Ruby code in the file
 `$filename`.  Configuring custom validators is done in your `showoff.json`:
 
-```json
+``` json
 "validators": {
     "clojure": "java -jar clojure-syntax-check.jar",
     "java": "javac"
@@ -40,14 +40,14 @@ will do the job. Because the filename is in the middle of that command pipeline,
 we cannot use it as a Showoff validator directly. Instead, we can wrap it in a
 shell script like so:
 
-```shell
+``` shell
 #! /bin/sh
 erb -P -x -T '-' $1 | ruby -c
 ```
 
 And then tell Showoff about it:
 
-```json
+``` json
 "validators": {
     "erb": "/usr/local/bin/erb_validator"
 },
