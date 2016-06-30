@@ -61,6 +61,7 @@
     <li><a href="#label-Defining+slides+using+the+sections+setting.">Defining slides using the <code>sections</code> setting.</a>
     <li><a href="#label-Running+without+a+showoff.json">Running without a <code>showoff.json</code></a>
     <li><a href="#label-Protected+presentations">Protected presentations</a>
+    <li><a href="#label-In-slide+code+validation+scripts">In-slide code validation scripts</a>
     <li><a href="#label-Markdown+Engine">Markdown Engine</a>
     <li><a href="#label-Default+options">Default options</a>
     <li><a href="#label-Maruku">Maruku</a>
@@ -121,6 +122,10 @@ It includes all current configuration keys, which will be described below.</p>
     &quot;onepage&quot;,
     &quot;print&quot;
   ],
+  &quot;validators&quot;: {
+    &quot;puppet&quot;: &quot;puppet parser validate&quot;,
+    &quot;ruby&quot;: &quot;ruby -c&quot;
+  },
   &quot;user&quot;: &quot;username&quot;,
   &quot;password&quot;: &quot;password&quot;,
   &quot;version&quot;: &quot;0.9.10.7&quot;,
@@ -238,6 +243,10 @@ about self-signed certificates.</p>
 <dd>
 <p>The version of Showoff that this presentation requires. It will refuse to
 start and will display a warning message if the Showoff version is lower.</p>
+</dd><dt>validators
+<dd>
+<p>Define any custom validation scripts to run against code blocks in your
+slides.</p>
 </dd></dl>
 
 <h2 id="label-Defining+slides+using+the+sections+setting.">Defining slides using the <code>sections</code> setting.<span><a href="#label-Defining+slides+using+the+sections+setting.">&para;</a> <a href="#top">&uarr;</a></span></h2>
@@ -300,6 +309,24 @@ generate a PDF file:</p>
 <p>If pages are marked as protected or locked, but no corresponding password
 or viewing key is set, then only the presenter running on the presentation
 on the same machine they&#39;re viewing with will be allowed access.</p>
+
+<h3 id="label-In-slide+code+validation+scripts">In-slide code validation scripts<span><a href="#label-In-slide+code+validation+scripts">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Showoff can validate all the code blocks on your slides by running
+<code>showoff validate</code> by running validation scripts against each.
+Validators are defined for Perl, Puppet, Python, Ruby, and Shell.</p>
+
+<p>It&#39;s also easy to define your own custom scripts with the
+<code>validators</code> key in <code>showoff.json</code>:</p>
+
+<pre>&quot;validators&quot;: {
+  &quot;java&quot;: &quot;javac&quot;,
+  &quot;html&quot;: &quot;tidy -q -i --show-errors 0&quot;
+},</pre>
+
+<p>The validator is passed the path to a temporary file containing the code to
+be checked. Any output is suppressed and a non-zero exit code is considered
+to be a failure.</p>
 
 <h2 id="label-Markdown+Engine">Markdown Engine<span><a href="#label-Markdown+Engine">&para;</a> <a href="#top">&uarr;</a></span></h2>
 

@@ -65,6 +65,7 @@
     <li><a href="#label-showoff+serve"><code>showoff serve</code></a>
     <li><a href="#label-showoff+skeleton"><code>showoff skeleton</code></a>
     <li><a href="#label-showoff+static+-5Bname-5D"><code>showoff static [name]</code></a>
+    <li><a href="#label-showoff+validate"><code>showoff validate</code></a>
     <li><a href="#label-showoff+pdf+-5Bname-5D"><code>showoff pdf [name]</code></a>
     <li><a href="#label-Shell+Auto+Completion">Shell Auto Completion</a>
     <li><a href="#label-ZSH+completion">ZSH completion</a>
@@ -143,6 +144,9 @@ your arguments have dashes in them</p>
 </dd><dt><code>static</code>
 <dd>
 <p>Generate static version of presentation</p>
+</dd><dt><code>validate</code>
+<dd>
+<p>Validate the consistency of your presentation</p>
 </dd></dl>
 
 <h2 id="label-showoff+help+-5Bcommand-5D"><code>showoff help [command]</code><span><a href="#label-showoff+help+-5Bcommand-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
@@ -266,6 +270,25 @@ directories for you.</p>
 
 <p>Generate static version of presentation with an optional supplemental
 materials type.</p>
+
+<h2 id="label-showoff+validate"><code>showoff validate</code><span><a href="#label-showoff+validate">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>This will validate the consistency of a presentation. If a
+<code>showoff.json</code> file is present, it will be used to determine the
+list of slide files. If not, it will use shell globbing to identify the
+list.</p>
+
+<p>Each missing file or section directory is identified, then validation
+scripts are run against code blocks on each file. By default, validators
+are known for Perl, Puppet, Python, Ruby, and Shell. See <a
+href="PRESENTATION_rdoc.html">PRESENTATION.rdoc</a> to define custom
+validators.</p>
+
+<p>Options are specified <strong>after</strong> the command.</p>
+<dl class="rdoc-list label-list"><dt><code>-f, --file=arg</code>
+<dd>
+<p>Presentation file <em>(default: <code>showoff.json</code>)</em></p>
+</dd></dl>
 
 <h2 id="label-showoff+pdf+-5Bname-5D"><code>showoff pdf [name]</code><span><a href="#label-showoff+pdf+-5Bname-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
