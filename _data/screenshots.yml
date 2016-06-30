@@ -17,6 +17,18 @@ ask_question.png:
   thumb: thumb.ask_question.png
   text: Audience members can ask questions anonymously. This can be useful for large
     audiences or webinars.
+mobile_audience.png:
+  md5: d426d45e24913b955e7eb5c2d941ab77
+  thumb: thumb.mobile_audience.png
+  text: The presentation is responsive. When viewed on mobile you can navigate usin
+    buttons or with swipe gestures. If the screen is in portrait orientation, then
+    the handout notes are displayed below.
+mobile_presenter.png:
+  md5: 7921450b3e1b4928afdc749ed7ada581
+  thumb: thumb.mobile_presenter.png
+  text: The Presenter view can be loaded on a mobile device and used as a remote for
+    your presentation. You can change slides, read presenter notes, see audience
+    questions, etc.
 executing_code.png:
   md5: 531426baeadd5ab8a1cec464dbc128b3
   thumb: thumb.executing_code.png
