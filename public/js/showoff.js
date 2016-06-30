@@ -702,14 +702,14 @@ function renderForm(form) {
             // poke inside to get options, then render each as a span and replace the select
             var parent = $(input).parent();
 
-            $(input).children('option').each(function() {
-              var text    = $(input).text();
-              var classes = $(input).attr('class');
+            $(input).children('option').each(function(index, option) {
+              var text    = $(option).text();
+              var classes = $(option).attr('class');
 
               if(! text.match(/^-+$/)) {
                 var resultDiv = $('<div>')
                   .addClass('item')
-                  .attr('data-value', $(input).val())
+                  .attr('data-value', $(option).val())
                   .append($('<span>').addClass('answer').text(text))
                   .append($('<div>').addClass('bar'));
                 if (classes) {
