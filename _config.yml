@@ -1,4 +1,5 @@
 # Build settings
+highlighter: rouge
 collections:
   tutorials:
     output: true
