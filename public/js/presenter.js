@@ -443,7 +443,7 @@ function postSlide() {
 		var fileName = currentSlide.children().first().attr('ref');
 		$('#slideFile').text(fileName);
 
-    $("#notes div.form.wrapper").each(function(e) {
+    $("div.form.wrapper").each(function(e) {
       renderFormInterval = renderFormWatcher($(this));
     });
 	}

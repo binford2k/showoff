@@ -992,6 +992,11 @@ function postSlide() {
     }
 
 		$('#notes').html(notes);
+
+    // Render forms even on display windows
+    $("div.form.wrapper").each(function(e) {
+      renderFormInterval = renderFormWatcher($(this));
+    });
 	}
 }
 
