@@ -8,8 +8,8 @@ weight: 3
 
 {% for screenshot in site.data.screenshots %}
   <div class="screenshot">
-    <a href="/screenshots/{{ screenshot[0] }}" data-title="{{ screenshot[1].text }}" data-lightbox="screenshots">
-      <img src="/screenshots/{{ screenshot[1].thumb }}" />
+    <a href="{{site.github.url}}/screenshots/{{ screenshot[0] }}" data-title="{{ screenshot[1].text }}" data-lightbox="screenshots">
+      <img src="{{site.github.url}}/screenshots/{{ screenshot[1].thumb }}" />
     </a>
     {% if screenshot[1].text %}
     <span class="description">{{ screenshot[1].text }}</span>
@@ -18,7 +18,7 @@ weight: 3
 {% endfor %}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script src="/js/lightbox.min.js"></script>
+<script src="{{site.github.url}}/js/lightbox.min.js"></script>
 <script>
     lightbox.option({
       'fadeDuration': 250,

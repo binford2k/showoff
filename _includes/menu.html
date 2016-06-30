@@ -2,16 +2,16 @@
 <section id="toc">
   <ul>
     {% for p in pages %}
-      <li {% if p.url == page.url %}class="active"{% endif %}><a href="{{ p.url }}">{{ p.title }}</a></li>
+      <li {% if p.url == page.url %}class="active"{% endif %}><a href="{{site.github.url}}{{ p.url }}">{{ p.title }}</a></li>
       {% if p.url == '/quickstart.html' and (page.url == '/quickstart.html' or page.url contains 'tutorials') %}
           <li><ul>
             {% for t in site.tutorials %}
-              <li {% if t.url == page.url %}class="active"{% endif %}><a href="{{ t.url }}">{{ t.title }}</a></li>
+              <li {% if t.url == page.url %}class="active"{% endif %}><a href="{{site.github.url}}{{ t.url }}">{{ t.title }}</a></li>
             {% endfor %}
           </ul></li>
       {% endif %}
     {% endfor %}
-    <li><a href="/documentation/index.html" target="showoff_docs">User Manual</a></li>
+    <li><a href="{{site.github.url}}/documentation/index.html" target="showoff_docs">User Manual</a></li>
     <li><a href="https://github.com/puppetlabs/showoff/blob/master/LICENSE">License</a></li>
   </ul>
 </section>
