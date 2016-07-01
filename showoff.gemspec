@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.date              = Date.today.to_s
   s.summary           = "The best damn presentation software a developer could ever love."
   s.homepage          = "http://github.com/puppetlabs/showoff"
+  s.license           = 'MIT'
   s.email             = "schacon@gmail.com"
   s.authors           = ["Scott Chacon"]
   s.has_rdoc          = false

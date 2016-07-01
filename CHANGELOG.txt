@@ -1,3 +1,7 @@
+0.13.1
+  * Fixed style regression in form rendering and mobile view.
+  * Bumped size of live code execution results.
+
 0.13.0
   * Added on-slide code block validation
   * Add .thumbsup callout style
