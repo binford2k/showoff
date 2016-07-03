@@ -39,6 +39,7 @@
       setupPreso(<%= @slides.nil? ? "true" : "false"%>, '<%= @asset_path %>');
     });
 
+    editUrl     = "<%= @edit %>";
     interactive = <%= @interactive %>;
 
     keymap               = <%= JSON.pretty_generate @keymap %>;
