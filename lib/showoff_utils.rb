@@ -204,6 +204,20 @@ class ShowOffUtils
     `git update-ref refs/heads/gh-pages #{commit_sha}`
   end
 
+  # clone a repo url, then run a provided block
+  def self.clone(url, verbose=false)
+    require 'tmpdir'
+    Dir.mktmpdir do |dir|
+      Dir.chdir dir do
+        puts "Cloning presentation repository to #{dir}..." if verbose
+        system('git', 'clone', '--depth', '1', url, '.')
+
+        yield if block_given?
+      end
+    end
+
+  end
+
   # Makes a slide as a string.
   # [title] title of the slide
   # [classes] any "classes" to include, such as 'smaller', 'transition', etc.

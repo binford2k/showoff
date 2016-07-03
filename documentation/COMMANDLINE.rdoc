@@ -84,11 +84,12 @@ Options are specified *after* the command.
 
 Serves the showoff presentation in the current directory
 
-Options are specified *after* the command.
+Options are specified *after* the command. More arguments can be seen by running <tt>showoff serve --help</tt>.
 
 [<tt>-f, --pres_file=arg</tt>] Presentation file <i>(default: <tt>showoff.json</tt>)</i>
 [<tt>-h, --host=arg</tt>] Host or ip to run on <i>( default: <tt>localhost</tt>)</i>
 [<tt>-p, --port=arg</tt>] Port on which to run <i>( default: <tt>9090</tt>)</i>
+[<tt>-u, --url=address</tt>] Git URL to a repository containing the presentation <i>( default: <tt>none</tt>)</i>
 
 
 == <tt>showoff skeleton</tt>
