@@ -1148,6 +1148,7 @@ function toggleDebug () {
 
 function reloadSlides () {
   if (confirm('Are you sure you want to reload the slides?')) {
+    location.reload(true);
     loadSlides(loadSlidesBool, loadSlidesPrefix, true);
     showSlide();
   }
