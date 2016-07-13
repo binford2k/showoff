@@ -88,8 +88,8 @@ class ShowOff < Sinatra::Application
       settings.showoff_config = showoff_json
 
       # Set options for encoding, template and page size
-      settings.encoding = showoff_json["encoding"]
-      settings.page_size = showoff_json["page-size"] || "Letter"
+      settings.encoding      = showoff_json["encoding"]  || 'UTF-8'
+      settings.page_size     = showoff_json["page-size"] || "Letter"
       settings.pres_template = showoff_json["templates"]
     end
 

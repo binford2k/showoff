@@ -25,6 +25,7 @@ includes all current configuration keys, which will be described below.
       "user": "username",
       "password": "password",
       "version": "0.9.10.7",
+      "encoding": "ISO-8859-1",
       "feedback": true,
       "ssl": true,
       "ssl_certificate": "/path/to/some/certificate.pem",
@@ -61,6 +62,9 @@ The configuration settings you may use are listed below. Please see the
   A link to a web based editor used when started with <tt>--review</tt>.  The
   path to the currently viewed slide will be appended and the resulting URI will
   be opened in a new browser tab. This is currently only tested with GitHub.
+
+[encoding]
+  The character encoding of the presentation. Defaults to <tt>UTF-8</tt>.
 
 [favicon]
   The filename of a favicon image to use. Note that you must prefix the filename
