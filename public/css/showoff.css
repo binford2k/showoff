@@ -558,14 +558,22 @@ pre.highlight code.language-console {
 }
 
 pre.highlight code.language-powershellconsole {
-  background: black;
-  background: url(titlebar/powershell-controls.png) right top no-repeat, url(titlebar/powershell.png) left top repeat-x black;
+  background: rgb(1, 36, 86);
+  background: url(titlebar/powershell-controls.png) right top no-repeat, url(titlebar/powershell.png) left top repeat-x rgb(1, 36, 86);
   color: rgb(238, 237, 240);
   padding: 32px 0.5em 0.5em;
   border: 6px solid rgb(102, 202, 234);
   border-top: 2px solid rgb(102, 202, 234);
   border-radius: 4px;
   overflow: hidden;
+}
+
+pre.highlight code.language-console.nochrome,
+pre.highlight code.language-powershellconsole.nochrome {
+  background-image: none;
+  border-width: 1px;
+  padding: 0.5em;
+  border-radius: 4px;
 }
 
 /* to avoid breaking changes */
