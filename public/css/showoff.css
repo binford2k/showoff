@@ -543,7 +543,32 @@ img#disconnected {
   padding: 0;
 }
 
-/* Add a Shell "code highlighting" style to resemble the look of a terminal window. */
+/* Add Console "code highlighting" styles to resemble the look of a terminal window. */
+pre.highlight code.language-console {
+  background: #222;
+  background: url(titlebar/left.png) left top no-repeat, url(titlebar/right.png) right top no-repeat, url(titlebar/center.png) center top repeat-x #222;
+  color: #63de00;
+  padding: 30px 0.5em 0.5em;
+  border: 1px solid #acacac;
+  border-radius: 6px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  box-shadow: 0px 0px 10px #acacac;
+  overflow: hidden;
+}
+
+pre.highlight code.language-powershellconsole {
+  background: black;
+  background: url(titlebar/powershell-controls.png) right top no-repeat, url(titlebar/powershell.png) left top repeat-x black;
+  color: rgb(238, 237, 240);
+  padding: 32px 0.5em 0.5em;
+  border: 6px solid rgb(102, 202, 234);
+  border-top: 2px solid rgb(102, 202, 234);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* to avoid breaking changes */
 .highlight .language-shell {
   display: block;
   background-color: #222;
@@ -552,6 +577,8 @@ img#disconnected {
   padding: 0.5em;
   overflow: hidden;
 }
+
+
 
 /**********************************
  ***       code execution       ***
