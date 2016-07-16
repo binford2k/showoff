@@ -1,3 +1,10 @@
+0.13.2
+  # Add the ability to serve from a Git url.
+  * Add a Dockerfile.
+  * Make the content reloading action more predictable.
+  * Set a default UTF8 encoding.
+  * Add console window styles to differentiate from Bash code.
+
 0.13.1
   * Fixed style regression in form rendering and mobile view.
   * Bumped size of live code execution results.
