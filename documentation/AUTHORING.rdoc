@@ -266,6 +266,32 @@ Highlighting styles include:
     atelier-seaside.dark      magula                       zenburn
 
 
+== Console Windows
+
+If you'd like to show a representation of a console window, you can use the syntax highlight
+styles of <tt>Console</tt> and <tt>PowerShellConsole</tt>. You can also add the class of
+<tt>nochrome</tt> if you don't want the window titlebars drawn.
+
+For example:
+
+    @@@ Console
+    root@localhost # echo "This is a console window"
+
+<br>
+
+    @@@ PowerShellConsole
+    PS C:\> echo "This is a PowerShell window"
+
+<br>
+
+    @@@ Console nochrome
+    root@localhost # echo "This is a console window with no titlebar"
+
+<br>
+
+    @@@ PowerShellConsole nochrome
+    PS C:\> echo "This is a PowerShell window with no titlebar"
+
 = Forms
 
 Showoff extends Markdown to render a limited subset of form elements. This is mostly useful for polls,
