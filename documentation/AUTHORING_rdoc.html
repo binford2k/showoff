@@ -64,6 +64,7 @@
     <li><a href="#label-Slide+Backgrounds">Slide Backgrounds</a>
     <li><a href="#label-Language+Highlighting">Language Highlighting</a>
     <li><a href="#label-Syntax+highlighting+styles">Syntax highlighting styles</a>
+    <li><a href="#label-Console+Windows">Console Windows</a>
     <li><a href="#label-Forms">Forms</a>
     <li><a href="#label-Sections">Sections</a>
     <li><a href="#label-Presenter+Notes">Presenter Notes</a>
@@ -496,6 +497,33 @@ atelier-plateau.light     ir_black                     tomorrow
 atelier-savanna.dark      kimbie.dark                  vs
 atelier-savanna.light     kimbie.light                 xcode
 atelier-seaside.dark      magula                       zenburn</pre>
+
+<h2 id="label-Console+Windows">Console Windows<span><a href="#label-Console+Windows">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>If you&#39;d like to show a representation of a console window, you can use
+the syntax highlight styles of <code>Console</code> and
+<code>PowerShellConsole</code>. You can also add the class of
+<code>nochrome</code> if you don&#39;t want the window titlebars drawn.</p>
+
+<p>For example:</p>
+
+<pre>@@@ Console
+root@localhost # echo &quot;This is a console window&quot;</pre>
+
+<p><br></p>
+
+<pre>@@@ PowerShellConsole
+PS C:\&gt; echo &quot;This is a PowerShell window&quot;</pre>
+
+<p><br></p>
+
+<pre>@@@ Console nochrome
+root@localhost # echo &quot;This is a console window with no titlebar&quot;</pre>
+
+<p><br></p>
+
+<pre>@@@ PowerShellConsole nochrome
+PS C:\&gt; echo &quot;This is a PowerShell window with no titlebar&quot;</pre>
 
 <h1 id="label-Forms">Forms<span><a href="#label-Forms">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
