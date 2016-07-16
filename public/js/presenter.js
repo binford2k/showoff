@@ -138,6 +138,9 @@ function openSlave()
       slaveWindow.presenterView = window;
       slaveWindow.mode = { track: false, slave: true, follow: false };
 
+      // Add a class to differentiate from the audience view
+      slaveWindow.document.getElementById("preso").className = 'display';
+
       $('#slaveWindow').addClass('enabled');
     }
     catch(e) {
