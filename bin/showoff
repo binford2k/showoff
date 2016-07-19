@@ -195,6 +195,7 @@ command :serve do |c|
 
     options[:pres_dir]          = args[0]
     options[:port]              = options[:port].to_i
+    options[:bind]              = options[:host]
 
     ssl_options = {
       :cert_chain_file  => options[:ssl_certificate],

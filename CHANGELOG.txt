@@ -1,5 +1,8 @@
+0.13.3
+  * Hotfix to correct interface binding behaviour.
+
 0.13.2
-  # Add the ability to serve from a Git url.
+  * Add the ability to serve from a Git url.
   * Add a Dockerfile.
   * Make the content reloading action more predictable.
   * Set a default UTF8 encoding.
