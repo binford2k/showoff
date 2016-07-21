@@ -82,18 +82,21 @@ function loadSlides(load_slides, prefix, reload) {
   if (reload) {
     url += "?cache=clear";
   }
-	//load slides offscreen, wait for images and then initialize
-	if (load_slides) {
-		$("#slides").load(url, false, function(){
-			$("#slides img").batchImageLoad({
-			loadingCompleteCallback: initializePresentation(prefix)
-		})
-		})
-	} else {
-	$("#slides img").batchImageLoad({
-		loadingCompleteCallback: initializePresentation(prefix)
-	})
-	}
+  //load slides offscreen, wait for images and then initialize
+  if (load_slides) {
+    $("#slides").load(url, false, function(){
+      $("#slides img").batchImageLoad({
+        loadingCompleteCallback: initializePresentation(prefix)
+      });
+      if (reload) {
+        location.reload(true);
+      }
+    })
+  } else {
+    $("#slides img").batchImageLoad({
+      loadingCompleteCallback: initializePresentation(prefix)
+    })
+  }
 }
 
 function initializePresentation(prefix) {
@@ -1148,7 +1151,7 @@ function toggleDebug () {
 
 function reloadSlides () {
   if (confirm('Are you sure you want to reload the slides?')) {
-    location.reload(true);
+    $('html,body').css('cursor','progress');
     loadSlides(loadSlidesBool, loadSlidesPrefix, true);
     showSlide();
   }
