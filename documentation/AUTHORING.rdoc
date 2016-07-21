@@ -115,6 +115,7 @@ or <tt>.callout.[style]</tt> as the first word of your paragraph.
 [.callout.warning] Adds a warning icon.
 [.callout.question] Adds a question icon.
 [.callout.stop] Adds a stop icon.
+[.callout.thumbsup] Adds a thumbs up icon.
 
 = Supplemental Materials
 
