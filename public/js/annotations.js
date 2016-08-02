@@ -21,7 +21,7 @@ function Annotate(params) {
 
   this.setActiveCanvas = function(canvas) {
     // dereference so we can use raw DOM objects or jQuery collections
-    canvas = canvas[0] || canvas
+    canvas = canvas[0] || canvas;
     if (canvas.nodeName.toLowerCase() !== 'canvas' ) {
       throw new TypeError('Expected a DOM canvas element');
     }
