@@ -391,6 +391,8 @@ class ShowOff < Sinatra::Application
           content += "<div class=\"content #{classes}\" ref=\"#{name}\">\n"
         end
 
+        content += "  <canvas class=\"annotations\"></canvas>\n"
+
         # renderers like wkhtmltopdf needs an <h1> tag to use for a section title, but only when printing.
         if opts[:print]
           # reset subsection each time we encounter a new subsection slide. Do this in a regex, because it's much
@@ -1457,6 +1459,9 @@ class ShowOff < Sinatra::Application
 
             when 'complete'
               EM.next_tick { settings.sockets.each{|s| s.send(control.to_json) } }
+
+            when 'annotation', 'annotationConfig'
+              EM.next_tick { (settings.sockets - settings.presenters).each{|s| s.send(control.to_json) } }
 
             when 'feedback'
               filename = "#{settings.statsdir}/#{settings.feedback}"

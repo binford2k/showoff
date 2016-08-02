@@ -71,6 +71,11 @@ function setupPreso(load_slides, prefix) {
   zoom();
   $(window).resize(function() {zoom();});
 
+  // yes, this is a global
+  annotations = new Annotate({
+    zoom: $('#preso').css('zoom'),
+  });
+
   // Open up our control socket
   if(mode.track) {
     connectControlChannel();
@@ -443,6 +448,11 @@ function showSlide(back_step, updatepv) {
 		return
 	}
 
+  // stop annotations on old slide if we're a presenter
+  if(currentSlide && typeof slaveWindow !== 'undefined') {
+    currentSlide.find('canvas.annotations').first().stopAnnotation();
+  }
+
 	currentSlide = slides.eq(slidenum)
 
 	var transition = currentSlide.attr('data-transition')
@@ -481,12 +491,23 @@ function showSlide(back_step, updatepv) {
 
 	var ret = setCurrentNotes();
 
-	var fileName = currentSlide.children().first().attr('ref');
+	var fileName = currentSlide.children('div').first().attr('ref');
   $('#slideFilename').text(fileName);
 
   if (query.next) {
     $(currentSlide).find('li').removeClass('hidden');
   }
+
+  if(typeof slaveWindow == 'undefined') {
+    // hook up the annotations for viewing
+    currentSlide.find('canvas.annotations').annotationListener(annotations);
+  }
+  else {
+    if (mode.annotations) {
+      currentSlide.find('canvas.annotations').annotate(annotations);
+    }
+  }
+
 
   // Update presenter view, if we spawned one
 	if (updatepv && 'presenterView' in window && ! mode.next) {
@@ -861,6 +882,18 @@ function parseMessage(data) {
       case 'cancel':
         removeQuestion(command["questionID"]);
         break;
+
+      case 'annotation':
+        invokeAnnotation(command["type"], command["x"], command["y"]);
+        break;
+
+      case 'annotationConfig':
+        setting = command['setting'];
+        value   = command['value'];
+
+        annotations[setting] = value;
+        break;
+
     }
   }
   catch(e) {
@@ -902,6 +935,34 @@ function sendFeedback(rating, feedback) {
     var slide  = $("#slideFilename").text();
     ws.send(JSON.stringify({ message: 'feedback', rating: rating, feedback: feedback, slide: slide}));
     $("input:radio[name=rating]:checked").attr('checked', false);
+  }
+}
+
+function sendAnnotation(type, x, y) {
+  if (ws.readyState == WebSocket.OPEN) {
+    ws.send(JSON.stringify({ message: 'annotation', type: type, x: x, y: y }));
+  }
+}
+
+function sendAnnotationConfig(setting, value) {
+  if (ws.readyState == WebSocket.OPEN) {
+    ws.send(JSON.stringify({ message: 'annotationConfig', setting: setting, value: value }));
+  }
+}
+
+function invokeAnnotation(type, x, y) {
+  switch (type) {
+    case 'erase':
+      annotations.erase();
+      break;
+
+    case 'draw':
+      annotations.draw(x,y);
+      break;
+
+    case 'click':
+      annotations.click(x,y);
+      break;
   }
 }
 
