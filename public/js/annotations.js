@@ -82,12 +82,12 @@ function Annotate(params) {
 
     switch(this.tool) {
       case 'leftArrow':
-        var left  = new Path2D(`m${x},${y} 40,-40 0,20 50,0 0,40 -50,0 0,20 -40,-40 z`);
+        var left  = new Path2D('m'+x+','+y+' 40,-40 0,20 50,0 0,40 -50,0 0,20 -40,-40 z');
         this.context.fill(left);
         break;
 
       case 'rightArrow':
-        var right = new Path2D(`m${x},${y} -40,-40 0,20 -50,0 0,40 50,0 0,20 40,-40 z`);
+        var right = new Path2D('m'+x+','+y+' -40,-40 0,20 -50,0 0,40 50,0 0,20 40,-40 z');
         this.context.fill(right);
         break;
 
