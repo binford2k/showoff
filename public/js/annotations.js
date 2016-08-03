@@ -162,11 +162,6 @@ jQuery.fn.extend({
       var height = $(this).parent().height();
       var width  = $(this).parent().width();
 
-/*
-      annotations.top  = $(this).offset().top;
-      annotations.left = $(this).offset().left;
-*/
-
       // We only want to do this the first time. It clears the canvas.
       // Note that if the browser is resized, then the annotations are cleared.
       if (this.height != height) {
@@ -235,9 +230,6 @@ jQuery.fn.extend({
       // the canvas cannot be css sized because reasons.
       height = $(this).parent().height();
       width  = $(this).parent().width();
-
-      annotations.top  = $(this).offset().top;
-      annotations.left = $(this).offset().left;
 
       // We only want to do this the first time. It clears the canvas.
       // Note that if the browser is resized, then the annotations are cleared.
