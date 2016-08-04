@@ -5,9 +5,11 @@ function Annotate(params) {
   }
   params = typeof params !== 'undefined' ? params : {};
 
-  this.tool      = null;
-  this.context   = null;
-  this.callbacks = null;
+  this.tool       = 'draw';
+  this.context    = null;
+  this.callbacks  = null;
+  this.concurrent = 0;
+  this.imgData    = null;
 
   // I'd like this to be styled, but this is enough for MVP
   this.lineWidth          = params.lineWidth           || 5;
@@ -46,21 +48,23 @@ function Annotate(params) {
   }
 
   this.draw = function(x, y) {
-    // undo the effects of the zoom
-    x = x / this.zoom;
-    y = y / this.zoom;
+    if (this.tool == 'draw') {
+      // undo the effects of the zoom
+      x = x / this.zoom;
+      y = y / this.zoom;
 
-    if ( this.callbacks && this.callbacks['draw'] ) {
-      try {
-        this.callbacks['draw'](x, y);
-      } catch (e) {
-        console.log('Draw callback failed. ' + e);
+      if ( this.callbacks && this.callbacks['draw'] ) {
+        try {
+          this.callbacks['draw'](x, y);
+        } catch (e) {
+          console.log('Draw callback failed. ' + e);
+        }
       }
-    }
 
-    this.context.strokeStyle = this.lineColor;
-    this.context.lineTo(x, y);
-    this.context.stroke();
+      this.context.strokeStyle = this.lineColor;
+      this.context.lineTo(x, y);
+      this.context.stroke();
+    }
   }
 
   this.click = function(x, y) {
@@ -76,7 +80,7 @@ function Annotate(params) {
       }
     }
 
-    this.context.fillStyle   = this.fillColor;
+    this.context.fillStyle = this.fillColor;
     this.context.beginPath();
     this.context.moveTo(x, y);
 
@@ -93,9 +97,14 @@ function Annotate(params) {
 
       case 'highlight':
         // save the current state of the canvas so we can restore it
-        var width   = this.context.canvas.width;
-        var height  = this.context.canvas.height;
-        var imgData = this.context.getImageData(0, 0, width, height);
+        var width  = this.context.canvas.width;
+        var height = this.context.canvas.height;
+
+        // save the canvas so we can restore it, but only if the user hasn't clicked multiple times.
+        if ( this.concurrent == 0 ) {
+          this.imgData = this.context.getImageData(0, 0, width, height);
+        }
+        this.concurrent += 1;
 
         var period = this.highlightPeriod;
         var start  = null;
@@ -126,11 +135,15 @@ function Annotate(params) {
             window.requestAnimationFrame(animate);
           }
           else {
-            // We're done animating, restore the canvas
-            settings.context.clearRect(0, 0, width, height);
-            settings.context.putImageData(imgData, 0, 0);
-            settings.context.strokeStyle = settings.lineColor;
-            settings.context.fillStyle   = settings.fillColor;
+            settings.concurrent -= 1;
+            if (settings.concurrent == 0) {
+              // We're done animating, restore the canvas
+              settings.context.clearRect(0, 0, width, height);
+              settings.context.putImageData(settings.imgData, 0, 0);
+              settings.context.strokeStyle = settings.lineColor;
+              settings.context.fillStyle   = settings.fillColor;
+              settings.imgData = null;
+            }
           }
         }
         window.requestAnimationFrame(animate);
@@ -179,7 +192,6 @@ jQuery.fn.extend({
 
       $(this).unbind( "mousedown" );
       $(this).mousedown(function(e){
-        console.log(e);
         painting = true;
         annotations.click(e.offsetX, e.offsetY)
       });
