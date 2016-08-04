@@ -111,12 +111,6 @@ pre code {
     max-height: 100%;
   }
 
-  /* explicit size so child elements can be sized from it */
-  .content {
-    height: 100%;
-    width: 100%;
-  }
-
   /* set up annotation overlays */
   .slide canvas.annotations {
     position: absolute;

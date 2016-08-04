@@ -391,8 +391,6 @@ class ShowOff < Sinatra::Application
           content += "<div class=\"content #{classes}\" ref=\"#{name}\">\n"
         end
 
-        content += "  <canvas class=\"annotations\"></canvas>\n"
-
         # renderers like wkhtmltopdf needs an <h1> tag to use for a section title, but only when printing.
         if opts[:print]
           # reset subsection each time we encounter a new subsection slide. Do this in a regex, because it's much
@@ -415,6 +413,7 @@ class ShowOff < Sinatra::Application
 
         content += sl
         content += "</div>\n"
+        content += "<canvas class=\"annotations\"></canvas>\n"
         content += "</div>\n"
 
         final += update_commandline_code(content)
