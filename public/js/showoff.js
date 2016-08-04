@@ -897,7 +897,7 @@ function parseMessage(data) {
     }
   }
   catch(e) {
-    console.log("Not a presenter!");
+    console.log("Not a presenter! " + e);
   }
 
 }
