@@ -1370,13 +1370,16 @@ class ShowOff < Sinatra::Application
   end
 
   get %r{(?:image|file)/(.*)} do
-    path = params[:captures].first
-    full_path = File.join(settings.pres_dir, path)
-    if File.exist?(full_path)
-        send_file full_path
-    else
-        raise Sinatra::NotFound
-    end
+	path = params[:captures].first
+	full_path = File.join(settings.pres_dir, path)
+
+	if File.exist?(full_path)
+		send_file full_path
+	elsif File.exist?(path) # windows compatibility
+		send_file path
+	else
+		raise Sinatra::NotFound
+	end
   end
 
   get '/control' do
