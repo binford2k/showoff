@@ -1027,16 +1027,8 @@ function blankScreen()
   }
 }
 
-var notesMode = false
-function toggleNotes()
-{
-  notesMode = !notesMode
-	if (notesMode) {
-		$('#notesInfo').show()
-		debug('notes mode on')
-	} else {
-		$('#notesInfo').hide()
-	}
+function toggleFooterNotes() {
+  $('#notesInfo').toggle();
 }
 
 function toggleFollow()
@@ -1087,7 +1079,7 @@ function keyDown(event){
     case 'BLANK':     blankScreen();    break;
     case 'FOOTER':    toggleFooter();   break;
     case 'FOLLOW':    toggleFollow();   break;
-    case 'NOTES':     toggleNotes();    break;
+    case 'NOTES':     toggleFooterNotes();    break;
     case 'CLEAR':     removeResults();  break;
     case 'PAUSE':     togglePause();    break;
     case 'PRESHOW':   togglePreShow();  break;
