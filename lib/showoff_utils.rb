@@ -215,8 +215,14 @@ class ShowOffUtils
         yield if block_given?
       end
     end
-
   end
+
+  # just update the repo in cwd
+  def self.update(verbose=false)
+    puts "Updating presentation repository..." if verbose
+    system('git', 'pull')
+  end
+
 
   # Makes a slide as a string.
   # [title] title of the slide

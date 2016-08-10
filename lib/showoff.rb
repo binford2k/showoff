@@ -997,6 +997,9 @@ class ShowOff < Sinatra::Application
     end
 
     def slides(static=false)
+      # If we're displaying from a repository, let's update it
+      ShowOffUtils.update(settings.verbose) if settings.url
+
       # if we have a cache and we're not asking to invalidate it
       return @@cache if (@@cache and params['cache'] != 'clear')
       content = get_slides_html(:static=>static)
