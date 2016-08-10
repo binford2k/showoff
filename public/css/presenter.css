@@ -202,7 +202,8 @@
 
     .submenu {
       display: block;
-      overflow: auto;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
   #presenter {
