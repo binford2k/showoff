@@ -20,6 +20,11 @@ pre {
   padding: .25em;
 }
 
+/* when code blocks are embedded in a table, we don't need giant whitespace */
+table pre {
+  margin: 0;
+}
+
 /* applies to inline code only */
 code {
   padding: 2px 4px;
