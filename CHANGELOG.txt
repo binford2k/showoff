@@ -1,3 +1,8 @@
+0.13.4
+  * A couple updates which make reloading fresh content more reliable.
+  * Refresh content when serving from a git url
+  * Fixed a couple styling issues
+
 0.13.3
   * Hotfix to correct interface binding behaviour.
 
