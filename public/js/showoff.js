@@ -71,9 +71,15 @@ function setupPreso(load_slides, prefix) {
   zoom();
   $(window).resize(function() {zoom();});
 
+  // because screw IE. That's why. Screw. IE.
+  var zoomLevel = parseFloat( $('#preso').css('zoom') );
+  if (zoomLevel > 1) {
+    zoomLevel = zoomLevel / 100.0;
+  }
+
   // yes, this is a global
   annotations = new Annotate({
-    zoom: $('#preso').css('zoom'),
+    zoom: zoomLevel
   });
 
   // Open up our control socket
