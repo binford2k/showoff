@@ -33,6 +33,16 @@ $(document).ready(function(){
     presenterPopupToggle('/download', e);
   });
 
+  // Get the float value of the zoom. Because it's a string.
+  // Unless it's IE. Screw IE. Also, screw Firefox. It's supposed to be better than these shenanigans.
+  // IE returns a string percentage but we don't want to use it. Because it's lies. When we fix
+  // the presenter on IE so the viewport isn't all wack, we may have to revisit this.
+  // Firefox returns `undefined`.
+  var zoomLevel = Number( $('#preso').css('zoom') ) || 1;
+
+  // correct the zoom factor for the presenter
+  annotations.zoom = 1 / zoomLevel
+
   // Bind events for mobile viewing
   if( mobile() ) {
     $('#preso').unbind('tap').unbind('swipeleft').unbind('swiperight');

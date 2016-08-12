@@ -50,8 +50,9 @@ function Annotate(params) {
   this.draw = function(x, y) {
     if (this.tool == 'draw') {
       // undo the effects of the zoom
-      x = x / this.zoom;
-      y = y / this.zoom;
+      x = x * this.zoom;
+      y = y * this.zoom;
+
 
       if ( this.callbacks && this.callbacks['draw'] ) {
         try {
@@ -69,8 +70,8 @@ function Annotate(params) {
 
   this.click = function(x, y) {
     // undo the effects of the zoom
-    x = x / this.zoom;
-    y = y / this.zoom;
+    x = x * this.zoom;
+    y = y * this.zoom;
 
     if ( this.callbacks && this.callbacks['click'] ) {
       try {
