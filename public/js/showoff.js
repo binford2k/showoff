@@ -263,6 +263,10 @@ function setupSideMenu() {
     closeMenu();
   });
 
+  $('#clearAnnotations').click(function() {
+    annotations.erase();
+  });
+
   $('#closeMenu, #sidebarExit').click(function() {
     closeMenu();
   });
