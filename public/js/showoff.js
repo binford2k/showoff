@@ -171,7 +171,7 @@ function initializePresentation(prefix) {
 	$("#preso").trigger("showoff:loaded");
 }
 
-function zoom() {
+function zoom(presenter=false) {
   var preso = $("#preso");
   var hSlide = parseFloat(preso.height());
   var wSlide = parseFloat(preso.width());
@@ -189,6 +189,21 @@ function zoom() {
   // Don't use standard transform to avoid modifying Chrome
   preso.css("-moz-transform", "scale(" + newZoom + ")");
   preso.css("-moz-transform-origin", "0 0 0");
+
+  // correct the zoom factor for the presenter
+  if (presenter) {
+    // We only want to zoom if the canvas is actually zoomed. Firefox and IE
+    // should *not* be zoomed, so we want to exclude them. We do that by reading
+    // back the zoom property. It will return a string percentage in IE, which
+    // won't parse as a number, and Firefox simply returns undefined.
+    // Because reasons.
+
+    // TODO: When we fix the presenter on IE so the viewport isn't all wack, we
+    // may have to revisit this.
+
+    var zoomLevel = Number( preso.css('zoom') ) || 1;
+    annotations.zoom = 1 / zoomLevel
+  }
 }
 
 function setupSideMenu() {
