@@ -205,13 +205,17 @@ class ShowOffUtils
   end
 
   # clone a repo url, then run a provided block
-  def self.clone(url, verbose=false)
+  def self.clone(url, branch=nil, path=nil)
     require 'tmpdir'
     Dir.mktmpdir do |dir|
-      Dir.chdir dir do
-        puts "Cloning presentation repository to #{dir}..." if verbose
-        system('git', 'clone', '--depth', '1', url, '.')
+      if branch
+        system('git', 'clone', '-b', branch, '--single-branch', '--depth', '1', url, dir)
+      else
+        system('git', 'clone', '--depth', '1', url, dir)
+      end
 
+      dir = File.join(dir, path) if path
+      Dir.chdir dir do
         yield if block_given?
       end
     end
