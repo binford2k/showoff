@@ -176,7 +176,13 @@ command :serve do |c|
   c.flag [:f, :file, :pres_file]
 
   c.desc 'Git URL to a repository containing the presentation'
-  c.flag [:u, :url]
+  c.flag [:u, :url, :git_url]
+
+  c.desc 'Branch of the git repository to use'
+  c.flag [:git_branch]
+
+  c.desc 'Path of the presentation within the git repository'
+  c.flag [:git_path]
 
   c.action do |global_options,options,args|
 
@@ -220,7 +226,7 @@ To run it from presenter view, go to: [ #{url}/presenter ]
 "
 
     if options[:url]
-      ShowOffUtils.clone(options[:url], options[:verbose]) do
+      ShowOffUtils.clone(options[:git_url], options[:git_branch], options[:git_path]) do
         ShowOff.run!(options) do |server|
           if options[:ssl]
             server.ssl         = true
