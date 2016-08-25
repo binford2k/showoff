@@ -74,9 +74,29 @@
       <div id="navigation" class="submenu"></div>
     </div>
     <div id="presenter">
-      <div id="preview">
-        <img id="disconnected" src="<%= @asset_path %>/css/disconnected-large.png" />
-        <div id="preso">loading presentation...</div>
+      <div id="frame">
+        <div id="preview">
+          <img id="disconnected" src="<%= @asset_path %>/css/disconnected-large.png" />
+          <div id="preso">loading presentation...</div>
+        </div>
+        <div id="annotationToolbar">
+          <label>Tools</label>
+            <i class="fa fa-pencil tool default active" data-action="draw" aria-hidden="true"></i>
+            <i class="fa fa-arrow-right tool"  data-action="rightArrow" aria-hidden="true"></i>
+            <i class="fa fa-arrow-left tool"  data-action="leftArrow" aria-hidden="true"></i>
+            <i class="fa fa-bullseye tool" data-action="highlight" aria-hidden="true"></i>
+            <i class="fa fa-eraser tool"  data-action="erase" aria-hidden="true"></i>
+          <label>Lines</label>
+            <i class="fa fa-square-o lines color1 active" aria-hidden="true"></i>
+            <i class="fa fa-square-o lines color2" aria-hidden="true"></i>
+            <i class="fa fa-square-o lines color3" aria-hidden="true"></i>
+            <i class="fa fa-square-o lines color4" aria-hidden="true"></i>
+          <label>Shapes</label>
+            <i class="fa fa-square shapes color1" aria-hidden="true"></i>
+            <i class="fa fa-square shapes color2" aria-hidden="true"></i>
+            <i class="fa fa-square shapes color3 active" aria-hidden="true"></i>
+            <i class="fa fa-square shapes color4" aria-hidden="true"></i>
+        </div>
       </div>
       <div id="statusbar">
         <span id="progress">
@@ -94,24 +114,6 @@
         </span>
 
       </div>
-    </div>
-    <div id="annotationToolbar">
-      <label>Tools</label>
-        <i class="fa fa-pencil tool default active" data-action="draw" aria-hidden="true"></i>
-        <i class="fa fa-arrow-right tool"  data-action="rightArrow" aria-hidden="true"></i>
-        <i class="fa fa-arrow-left tool"  data-action="leftArrow" aria-hidden="true"></i>
-        <i class="fa fa-bullseye tool" data-action="highlight" aria-hidden="true"></i>
-        <i class="fa fa-eraser tool"  data-action="erase" aria-hidden="true"></i>
-      <label>Lines</label>
-        <i class="fa fa-square-o lines color1 active" aria-hidden="true"></i>
-        <i class="fa fa-square-o lines color2" aria-hidden="true"></i>
-        <i class="fa fa-square-o lines color3" aria-hidden="true"></i>
-        <i class="fa fa-square-o lines color4" aria-hidden="true"></i>
-      <label>Shapes</label>
-        <i class="fa fa-square shapes color1" aria-hidden="true"></i>
-        <i class="fa fa-square shapes color2" aria-hidden="true"></i>
-        <i class="fa fa-square shapes color3 active" aria-hidden="true"></i>
-        <i class="fa fa-square shapes color4" aria-hidden="true"></i>
     </div>
   </div>
 
