@@ -485,6 +485,9 @@ img#disconnected {
 }
 
 .navItem {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   padding: .5em 1.5em;
 }
 

@@ -337,10 +337,11 @@ function setupMenu() {
     // look for first header to use as a title
     if (headers.length > 0) {
       slideTitle = headers.first().text();
+
     } else {
-      // if no header, look at content
+      // if no header, look at the first non-empty line of content
       content    = $(slide).find(".content");
-      slideTitle = content.text().substr(0, 20).trim();
+      slideTitle = content.text().split("\n").filter(Boolean)[0].trim();
 
       // if no content (like photo only) fall back to slide name
       if (slideTitle == "") {
