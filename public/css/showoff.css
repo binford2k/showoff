@@ -188,7 +188,7 @@ pre code {
 }
 
 /* ironically, normal lists have bullets and 'bullets' lists don't */
-.bullets > ul {
+.bullets ul {
   list-style: none;
   padding-left: 0px;
 }
