@@ -363,12 +363,15 @@ function setupMenu() {
     } else {
       // if no header, look at the first non-empty line of content
       content    = $(slide).find(".content");
-      slideTitle = content.text().split("\n").filter(Boolean)[0].trim();
+      slideTitle = content.text().split("\n").filter(Boolean)[0] || ''; // split() gives us an empty array when there's no content.
 
       // if no content (like photo only) fall back to slide name
       if (slideTitle == "") {
         slideTitle = content.attr('ref').split('/').pop();
       }
+
+      // just in case we've got any extra whitespace around.
+      slideTitle = slideTitle.trim();
     }
 
     var navLink = $("<a>")
