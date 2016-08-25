@@ -172,6 +172,18 @@ pre code {
     font-size: 70%;
 }
 
+/* inverse slide style */
+.slide.inverse {
+  color: #efefef;
+  background-color: #262626;
+}
+  .slide.inverse code {
+    color: black;
+  }
+  .slide.inverse h1:first-child {
+    border-bottom: 3px solid #efefef;
+  }
+
 /**********************************
  ***       List styling         ***
  **********************************/

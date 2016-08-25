@@ -245,6 +245,10 @@
         visibility: visible;
         color: #ccc;
       }
+      #preview .inverse .incremental.hidden {
+        color: #404040;
+      }
+
 
     #preso {
       -webkit-box-shadow:0 0 25px rgba(0,0,0,0.35);
