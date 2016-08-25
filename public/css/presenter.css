@@ -7,6 +7,7 @@
   -webkit-flex-flow: column;
           flex-flow: column;
   min-width: 630px;
+  min-height: 675px;
 }
 
 #timerSection,
@@ -217,15 +218,22 @@
             order: 1;
     min-width: 0px;
   }
+    #frame {
+      display: -webkit-flex;
+      display:         flex;
+      -webkit-flex-flow: row;
+              flex-flow: row;
+      -webkit-flex: 10;
+              flex: 10;
+    }
 
     #preview {
-      -webkit-flex: 1;
-              flex: 1;
+      -webkit-flex: 10;
+              flex: 10;
       overflow: auto;
       background: #eee;
       padding: 1em;
     }
-
       #preview input[type=button].display {
         display: inline;
       }
@@ -257,6 +265,8 @@
     }
 
     #statusbar {
+      -webkit-flex: 0.5;
+              flex: 0.5;
       height: 22px;
       line-height: 22px;
       text-transform: uppercase;
@@ -271,7 +281,8 @@
         display: inline;
       }
       #enableFollower,
-      #enableRemote {
+      #enableRemote,
+      #enableAnnotations {
         float: right;
         margin: 1px;
         padding: 0.1em;
@@ -282,6 +293,52 @@
         -moz-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
         box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
       }
+
+  #annotationToolbar {
+    display: -webkit-flex;
+    display:         flex;
+    -webkit-flex-flow: column;
+            flex-flow: column;
+    -webkit-flex: 0.5;
+            flex: 0.5;
+    -webkit-order: 2;
+            order: 2;
+    min-width: 48px;
+    width: 48px;
+    padding: 0;
+    margin: 0;
+    background-color: black;
+    color: white;
+    text-align: center;
+  }
+    #annotationToolbar label {
+      font-size: 0.8em;
+      padding-top: 1em;
+      margin-bottom: 1px;
+      border-bottom: 1px solid #ccc;
+    }
+    #annotationToolbar i {
+      padding: 5px;
+      margin: 0 6px;
+      border-radius: 3px;
+    }
+    #annotationToolbar i:hover {
+      background-color: #555;
+    }
+    #annotationToolbar i.active {
+      background-color: #003d96;
+      border: 1px solid white;
+    }
+    #annotationToolbar i.lines.color1 { color: red    }
+    #annotationToolbar i.lines.color2 { color: cyan   }
+    #annotationToolbar i.lines.color3 { color: orange }
+    #annotationToolbar i.lines.color4 { color: green  }
+    #annotationToolbar i.shapes.color1 { color: red    }
+    #annotationToolbar i.shapes.color2 { color: cyan   }
+    #annotationToolbar i.shapes.color3 { color: orange }
+    #annotationToolbar i.shapes.color4 { color: green  }
+
+
 
 #bottom {
   display: -webkit-flex;

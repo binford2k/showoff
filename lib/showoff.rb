@@ -413,6 +413,7 @@ class ShowOff < Sinatra::Application
 
         content += sl
         content += "</div>\n"
+        content += "<canvas class=\"annotations\"></canvas>\n"
         content += "</div>\n"
 
         final += update_commandline_code(content)
@@ -1460,6 +1461,9 @@ class ShowOff < Sinatra::Application
 
             when 'complete'
               EM.next_tick { settings.sockets.each{|s| s.send(control.to_json) } }
+
+            when 'annotation', 'annotationConfig'
+              EM.next_tick { (settings.sockets - settings.presenters).each{|s| s.send(control.to_json) } }
 
             when 'feedback'
               filename = "#{settings.statsdir}/#{settings.feedback}"

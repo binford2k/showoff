@@ -71,6 +71,9 @@ function setupPreso(load_slides, prefix) {
   zoom();
   $(window).resize(function() {zoom();});
 
+  // yes, this is a global
+  annotations = new Annotate();
+
   // Open up our control socket
   if(mode.track) {
     connectControlChannel();
@@ -168,7 +171,7 @@ function initializePresentation(prefix) {
 	$("#preso").trigger("showoff:loaded");
 }
 
-function zoom() {
+function zoom(presenter=false) {
   var preso = $("#preso");
   var hSlide = parseFloat(preso.height());
   var wSlide = parseFloat(preso.width());
@@ -186,6 +189,21 @@ function zoom() {
   // Don't use standard transform to avoid modifying Chrome
   preso.css("-moz-transform", "scale(" + newZoom + ")");
   preso.css("-moz-transform-origin", "0 0 0");
+
+  // correct the zoom factor for the presenter
+  if (presenter) {
+    // We only want to zoom if the canvas is actually zoomed. Firefox and IE
+    // should *not* be zoomed, so we want to exclude them. We do that by reading
+    // back the zoom property. It will return a string percentage in IE, which
+    // won't parse as a number, and Firefox simply returns undefined.
+    // Because reasons.
+
+    // TODO: When we fix the presenter on IE so the viewport isn't all wack, we
+    // may have to revisit this.
+
+    var zoomLevel = Number( preso.css('zoom') ) || 1;
+    annotations.zoom = 1 / zoomLevel
+  }
 }
 
 function setupSideMenu() {
@@ -250,6 +268,10 @@ function setupSideMenu() {
   $("#editSlide").click(function() {
     editSlide();
     closeMenu();
+  });
+
+  $('#clearAnnotations').click(function() {
+    annotations.erase();
   });
 
   $('#closeMenu, #sidebarExit').click(function() {
@@ -444,6 +466,11 @@ function showSlide(back_step, updatepv) {
 		return
 	}
 
+  // stop annotations on old slide if we're a presenter
+  if(currentSlide && typeof slaveWindow !== 'undefined') {
+    currentSlide.find('canvas.annotations').first().stopAnnotation();
+  }
+
 	currentSlide = slides.eq(slidenum)
 
 	var transition = currentSlide.attr('data-transition')
@@ -482,12 +509,23 @@ function showSlide(back_step, updatepv) {
 
 	var ret = setCurrentNotes();
 
-	var fileName = currentSlide.children().first().attr('ref');
+	var fileName = currentSlide.children('div').first().attr('ref');
   $('#slideFilename').text(fileName);
 
   if (query.next) {
     $(currentSlide).find('li').removeClass('hidden');
   }
+
+  if(typeof slaveWindow == 'undefined') {
+    // hook up the annotations for viewing
+    currentSlide.find('canvas.annotations').annotationListener(annotations);
+  }
+  else {
+    if (mode.annotations) {
+      currentSlide.find('canvas.annotations').annotate(annotations);
+    }
+  }
+
 
   // Update presenter view, if we spawned one
 	if (updatepv && 'presenterView' in window && ! mode.next) {
@@ -862,10 +900,22 @@ function parseMessage(data) {
       case 'cancel':
         removeQuestion(command["questionID"]);
         break;
+
+      case 'annotation':
+        invokeAnnotation(command["type"], command["x"], command["y"]);
+        break;
+
+      case 'annotationConfig':
+        setting = command['setting'];
+        value   = command['value'];
+
+        annotations[setting] = value;
+        break;
+
     }
   }
   catch(e) {
-    console.log("Not a presenter!");
+    console.log("Not a presenter! " + e);
   }
 
 }
@@ -903,6 +953,34 @@ function sendFeedback(rating, feedback) {
     var slide  = $("#slideFilename").text();
     ws.send(JSON.stringify({ message: 'feedback', rating: rating, feedback: feedback, slide: slide}));
     $("input:radio[name=rating]:checked").attr('checked', false);
+  }
+}
+
+function sendAnnotation(type, x, y) {
+  if (ws.readyState == WebSocket.OPEN) {
+    ws.send(JSON.stringify({ message: 'annotation', type: type, x: x, y: y }));
+  }
+}
+
+function sendAnnotationConfig(setting, value) {
+  if (ws.readyState == WebSocket.OPEN) {
+    ws.send(JSON.stringify({ message: 'annotationConfig', setting: setting, value: value }));
+  }
+}
+
+function invokeAnnotation(type, x, y) {
+  switch (type) {
+    case 'erase':
+      annotations.erase();
+      break;
+
+    case 'draw':
+      annotations.draw(x,y);
+      break;
+
+    case 'click':
+      annotations.click(x,y);
+      break;
   }
 }
 

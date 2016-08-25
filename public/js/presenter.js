@@ -9,7 +9,7 @@ section = 'notes'; // which section the presenter has chosen to view
 
 $(document).ready(function(){
   // set up the presenter modes
-  mode = { track: true, follow: true, update: true, slave: false, next: false, notes: false};
+  mode = { track: true, follow: true, update: true, slave: false, next: false, notes: false, annotations: false};
 
   // attempt to open another window for the presentation if the mode defaults
   // to enabling this. It does not by default, so this is likely a no-op.
@@ -23,8 +23,8 @@ $(document).ready(function(){
   $("#stopTimer").click(function()  { stopTimer()   });
 
   /* zoom slide to match preview size, then set up resize handler. */
-  zoom();
-  $(window).resize(function() { zoom(); });
+  zoom(true);
+  $(window).resize(function() { zoom(true); });
 
   $('#statslink').click(function(e) {
     presenterPopupToggle('/stats', e);
@@ -54,13 +54,71 @@ $(document).ready(function(){
     });
   }
 
+  // Hide with js so jquery knows what display property to assign when showing
+  toggleAnnotations();
+
+  $('#annotationToolbar i.tool').click(function(e) {
+    var action = $(this).attr('data-action');
+
+    switch (action) {
+      case 'erase':
+        annotations.erase();
+        break;
+
+      default:
+        $('#annotationToolbar i.tool').removeClass('active');
+        $(this).addClass('active');
+        annotations.tool = action;
+        if (slaveWindow) slaveWindow.annotations.tool = action;
+        sendAnnotationConfig('tool', action);
+    }
+
+  });
+
+  $('#annotationToolbar i.lines').click(function(e) {
+    $('#annotationToolbar i.lines').removeClass('active');
+    $(this).addClass('active');
+    var color = $(this).css('color');
+
+    annotations.lineColor = color;
+    if (slaveWindow) slaveWindow.annotations.lineColor = color;
+    sendAnnotationConfig('lineColor', color);
+  });
+
+  $('#annotationToolbar i.shapes').click(function(e) {
+    $('#annotationToolbar i.shapes').removeClass('active');
+    $(this).addClass('active');
+    var color = $(this).css('color');
+
+    annotations.fillColor = color;
+    if (slaveWindow) slaveWindow.annotations.fillColor = color;
+    sendAnnotationConfig('fillColor', color);
+  });
+
   $('#remoteToggle').change( toggleFollower );
   $('#followerToggle').change( toggleUpdater );
+  $('#annotationsToggle').change( toggleAnnotations );
 
   setInterval(function() { updatePace() }, 1000);
 
   // Tell the showoff server that we're a presenter
   register();
+
+  annotations.callbacks = {
+    erase: function()    {
+      if (slaveWindow) slaveWindow.annotations.erase();
+      sendAnnotation('erase');
+    },
+    draw:  function(x, y) {
+      if (slaveWindow) slaveWindow.annotations.draw(x,y);
+      sendAnnotation('draw', x, y);
+    },
+    click: function(x,y) {
+      if (slaveWindow) slaveWindow.annotations.click(x,y);
+      sendAnnotation('click', x, y);
+    }
+  };
+
 });
 
 function presenterPopupToggle(page, event) {
@@ -443,7 +501,7 @@ function postSlide() {
       $(notesWindow.document.body).html(notes);
     }
 
-		var fileName = currentSlide.children().first().attr('ref');
+		var fileName = currentSlide.children('div').first().attr('ref');
 		$('#slideFile').text(fileName);
 
     $("#notes div.form.wrapper").each(function(e) {
@@ -640,4 +698,23 @@ function toggleUpdater()
 {
   mode.update = $("#followerToggle").prop("checked");
   update();
+}
+
+/********************
+ Annotations
+ ********************/
+function toggleAnnotations()
+{
+  mode.annotations = $("#annotationsToggle").prop("checked");
+
+  if(mode.annotations) {
+    $('#annotationToolbar').show();
+    currentSlide.find('canvas.annotations').annotate(annotations);
+    $('canvas.annotations').show();
+  }
+  else {
+    $('#annotationToolbar').hide();
+    $('canvas.annotations').stopAnnotation();
+    $('canvas.annotations').hide();
+  }
 }
