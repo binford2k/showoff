@@ -1,3 +1,17 @@
+0.14.0
+  * Minor style fixes.
+  * Enhanced serving from git repository.
+      * Serve from repo / branch / path within repo
+  * Added simple annotation system
+      * Draw on the presenter slide and it shows on projector and audience view.
+      * Lines, simple shapes, colors, animated focus pointer.
+      * Annotations are attached to slides and are persistent until erased or disabled.
+      * NOTE: due to differences in browser rendering engines, annotations on
+              audience views are slightly imprecise.
+      * This makes significant changes to the rendering system. Please file
+        tickets on any regressions.
+          * https://github.com/puppetlabs/showoff/issues
+
 0.13.4
   * A couple updates which make reloading fresh content more reliable.
   * Refresh content when serving from a git url
