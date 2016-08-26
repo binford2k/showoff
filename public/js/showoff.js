@@ -171,7 +171,7 @@ function initializePresentation(prefix) {
 	$("#preso").trigger("showoff:loaded");
 }
 
-function zoom(presenter=false) {
+function zoom(presenter) {
   var preso = $("#preso");
   var hSlide = parseFloat(preso.height());
   var wSlide = parseFloat(preso.width());
