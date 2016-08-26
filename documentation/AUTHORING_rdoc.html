@@ -127,7 +127,8 @@
 deep you need.  ShowOff will recursively check all the directories
 mentioned in your <code>showoff.json</code> file for any markdown files
 (.md).  Each markdown file can have any number of slides in it, separating
-each slide with the &#39;!SLIDE&#39; keyword and optional slide styles.</p>
+each slide with the &#39;!SLIDE&#39; keyword and one or more optional slide
+styles.</p>
 
 <p>For example, if you run &#39;<code>showoff create my_new_pres</code>&#39;
 it will create a new starter presentation for you with one .md file at
@@ -223,7 +224,8 @@ but this is still <code>*emphasis*</code>.</p>
 
 <h1 id="label-Slide+Styles">Slide Styles<span><a href="#label-Slide+Styles">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
-<p>Some useful styles for each slide are:</p>
+<p>Some useful styles for each slide are listed below. Many of them can be
+combined.</p>
 <dl class="rdoc-list label-list"><dt>center
 <dd>
 <p>centers images on a slide</p>
@@ -253,6 +255,9 @@ then output on subsequent lines)</p>
 <dd>
 <p>can be used with &#39;bullets&#39; and &#39;commandline&#39; styles, will
 incrementally update elements on arrow key rather than switch slides</p>
+</dd><dt>inverse
+<dd>
+<p>changes to a dark background and light text.</p>
 </dd><dt>small
 <dd>
 <p>make all slide text 80%</p>
