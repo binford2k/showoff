@@ -4,7 +4,7 @@ You can break your slides up into sections of however many subdirectories deep
 you need.  ShowOff will recursively check all the directories mentioned in
 your <tt>showoff.json</tt> file for any markdown files (.md).  Each markdown file can
 have any number of slides in it, separating each slide with the '!SLIDE'
-keyword and optional slide styles.
+keyword and one or more optional slide styles.
 
 For example, if you run '<tt>showoff create my_new_pres</tt>' it will create a new
 starter presentation for you with one .md file at one/slide.md which will have
@@ -82,7 +82,7 @@ Showoff extensions to the language are documented below.
 
 = Slide Styles
 
-Some useful styles for each slide are:
+Some useful styles for each slide are listed below. Many of them can be combined.
 
 [center] centers images on a slide
 [full-page] allows an image to take up the whole slide
@@ -93,6 +93,7 @@ Some useful styles for each slide are:
 [commandline] for pasted commandline sections (needs leading '$' for commands, then output on subsequent lines)
 [code] monospaces everything on the slide
 [incremental] can be used with 'bullets' and 'commandline' styles, will incrementally update elements on arrow key rather than switch slides
+[inverse] changes to a dark background and light text.
 [small] make all slide text 80%
 [smaller] make all slide text 70%
 [execute] on Javascript, Coffeescript, Ruby, and Shell highlighted code slides, you can click on the code to execute it and display the results on the slide
