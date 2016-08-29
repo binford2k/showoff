@@ -1,3 +1,7 @@
+0.14.1
+  * Enabled zoom in the popout notes window for Chrome.
+  * Bugfix: allow audience members to view with IE again.
+
 0.14.0
   * Minor style fixes.
   * Enhanced serving from git repository.
