@@ -278,7 +278,9 @@ function openNotes()
   if (mode.notes) {
     try {
       if(notesWindow == null || typeof(notesWindow) == 'undefined' || notesWindow.closed){
-          notesWindow = window.open('', '', 'width=350,height=450');
+          // yes, the explicit address is needed. Because Chrome.
+          notesWindow = window.open('about:blank', '', 'width=350,height=450');
+          notesWindow.document.title = "Showoff Notes";
           postSlide();
       }
       $('#notesWindow').addClass('enabled');
