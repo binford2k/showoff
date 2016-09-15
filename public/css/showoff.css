@@ -927,6 +927,25 @@ form .element {
 ***  end callouts   ***
 **********************/
 
+/* Render hidden headlines so that when we print with wkhtmltopdf, we can use section
+   titles for page headers.  it would make sense to put this in the print section, but
+   then you get a weird double headline when previewing a print in the browser. */
+
+/* make this invisible as possible, while still rendering so that wkhtmltopdf doesn't ignore it */
+h1.section_title {
+  color: transparent !important;
+  opacity: 0 !important;
+  font-size: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* because the above section headers are h1 elements rendered only in print */
+.content:not(.cover) h1:not(.section_title) {
+  border-bottom: 2px solid #222;
+}
+
+/**** end hidden headlines ****/
 
 /* Tiny mobile devices. Larger devices scale automatically. */
 @media screen and (max-width: 320px)
@@ -989,20 +1008,6 @@ form .element {
   .slide:not(.center) {
     max-height: inherit !important;
     height: 100% !important; /* because otherwise handout notes are cutoff by the inline height set on the slide */
-  }
-
-  /* make this invisible as possible, while still rendering so that wkhtmltopdf doesn't ignore it */
-  h1.section_title {
-    color: transparent !important;
-    opacity: 0 !important;
-    font-size: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* because the above section headers are h1 elements rendered only in print */
-  .content:not(.cover) h1:not(.section_title) {
-    border-bottom: 2px solid #222;
   }
 
   /* prevent large images from running off the page */
