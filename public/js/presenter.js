@@ -54,6 +54,20 @@ $(document).ready(function(){
     });
   }
 
+  // wait until the presentation is loaded to hook up the previews.
+  // TODO: If we decide to implement this for the audience display, we can move it later
+  $("body").bind("showoff:loaded", function (event) {
+    $('#navigation li a.navItem').hover(function() {
+      var position = $(this).position();
+      $('#navigationHover').css({top: position.top, left: position.left + $('#navigation').width() + 5})
+      $('#navigationHover').html(slides.eq($(this).attr('rel')).html());
+      $('#navigationHover').show();
+    },function() {
+      $('#navigationHover').hide();
+    });
+  });
+
+
   // Hide with js so jquery knows what display property to assign when showing
   toggleAnnotations();
 
@@ -98,6 +112,7 @@ $(document).ready(function(){
   $('#remoteToggle').change( toggleFollower );
   $('#followerToggle').change( toggleUpdater );
   $('#annotationsToggle').change( toggleAnnotations );
+  $('#thumbsToggle').change( toggleThumbs );
 
   setInterval(function() { updatePace() }, 1000);
 
@@ -240,20 +255,21 @@ function openNext()
   if (mode.next) {
     try {
       if(nextWindow == null || typeof(nextWindow) == 'undefined' || nextWindow.closed){
-          nextWindow = window.open('/?track=false&feedback=false&next=true#' + nextSlideNum(true),'','width=320,height=300');
-      }
-      else if(nextWindow.location.hash != '#' + nextSlideNum(true)) {
-        // maybe we need to reset content?
-        nextWindow.location.href = '/?track=false&feedback=false&next=true#' + nextSlideNum(true);
-      }
+          nextWindow = window.open('about:blank','','width=320,height=300');
+          nextWindow.document.title = "Next Slide Preview";
 
-      // maintain the pointer back to the parent.
-      nextWindow.presenterView = window;
-      nextWindow.mode = { track: false, next: true, follow: true };
+          $('<base/>',{ "href": window.location.origin }).appendTo($(nextWindow.document.head));
+          $('link[rel="stylesheet"]').each(function() {
+            $(nextWindow.document.head).append($(this).clone());
+          });
+          $(nextWindow.document.head).append('<style type="text/css">.content { zoom: 0.25; }</style>');
+          postSlide();
+      }
 
       $('#nextWindow').addClass('enabled');
     }
     catch(e) {
+      console.log(e);
       console.log('Failed to open or connect next window. Popup blocker?');
     }
   }
@@ -499,6 +515,16 @@ function postSlide() {
       $('#notes').prepend(ul);
     }
 
+    var nextIndex = slidenum + 1;
+    var nextSlide = (nextIndex >= slides.size()) ? '' : slides.eq(nextIndex).html();
+    var prevSlide = (slidenum > 0) ? slides.eq(slidenum - 1).html() : ''
+
+    $('#nextSlide').html(nextSlide);
+    $('#prevSlide').html(prevSlide);
+    if (nextWindow && typeof(nextWindow) != 'undefined' && !nextWindow.closed) {
+      $(nextWindow.document.body).html(nextSlide);
+    }
+
     if (notesWindow && typeof(notesWindow) != 'undefined' && !notesWindow.closed) {
       $(notesWindow.document.body).html(notes);
     }
@@ -721,4 +747,22 @@ function toggleAnnotations()
     $('canvas.annotations').stopAnnotation();
     $('canvas.annotations').hide();
   }
+}
+
+/********************
+ Reposition some elements to display navigation previews
+ ********************/
+function toggleThumbs()
+{
+  mode.thumbs = $("#thumbsToggle").prop("checked");
+
+  if(mode.thumbs) {
+    $('#preview').addClass('thumbs');
+    $('#preview .thumb').show();
+  }
+  else {
+    $('#preview').removeClass('thumbs');
+    $('#preview .thumb').hide();
+  }
+  zoom();
 }

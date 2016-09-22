@@ -206,6 +206,22 @@
       overflow-x: hidden;
       overflow-y: auto;
     }
+    #navigationHover {
+      display: none;
+      position: absolute;
+      overflow: hidden;
+      z-index: 99999;
+      width: 200px;
+      height: 150px;
+      background-color: white;
+      border: 1px solid #4D4F53;
+      margin: 0px;
+      border-radius: 3px;
+      box-shadow: 3px 3px 5px #ccc;
+    }
+      #navigationHover * {
+        zoom: 0.2;
+      }
 
   #presenter {
     display: -webkit-flex;
@@ -229,13 +245,40 @@
       max-height: 95%;  /* dear Firefox; what's the point of flex-box if we still have to do this crap? */
     }
 
+
     #preview {
+      position: relative;
       -webkit-flex: 10;
               flex: 10;
       overflow: auto;
       background: #eee;
       padding: 1em;
     }
+      #preview.thumbs {
+        padding-top: 100px;
+      }
+      #preview .thumb {
+        display: none;
+        position: absolute;
+        overflow: hidden;
+        height: 150px;
+        width: 200px;
+        top: 0;
+        background-color: white;
+        border-bottom: 2px solid #ccc;
+      }
+        #preview .thumb * {
+          zoom: 0.1;
+        }
+        #prevSlide.thumb {
+          left: 0;
+          border-right: 2px solid #ccc;
+        }
+        #nextSlide.thumb {
+          right: 0;
+          border-left: 2px solid #ccc;
+        }
+
       #preview input[type=button].display {
         display: inline;
       }
@@ -247,8 +290,12 @@
         font-weight: 900;
       }
 
-      #disconnected {
+      #preview img#disconnected {
         margin: 0.5em 1em;
+        float: none;
+        position: absolute;
+        bottom: 0;
+        left: 0;
       }
 
       #preview .incremental.hidden {
@@ -285,7 +332,8 @@
       }
       #enableFollower,
       #enableRemote,
-      #enableAnnotations {
+      #enableAnnotations,
+      #enableThumbs {
         float: right;
         margin: 1px;
         padding: 0.1em;
