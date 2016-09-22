@@ -574,7 +574,8 @@ img#disconnected {
 }
 
 /* Add Console "code highlighting" styles to resemble the look of a terminal window. */
-pre.highlight code.language-console {
+pre.highlight code.language-console,
+pre.highlight code.console {
   background: #222;
   background: url(titlebar/left.png) left top no-repeat, url(titlebar/right.png) right top no-repeat, url(titlebar/center.png) center top repeat-x #222;
   color: #63de00;
@@ -587,7 +588,8 @@ pre.highlight code.language-console {
   overflow: hidden;
 }
 
-pre.highlight code.language-powershellconsole {
+pre.highlight code.language-powershellconsole,
+pre.highlight code.powershellconsole {
   background: rgb(1, 36, 86);
   background: url(titlebar/powershell-controls.png) right top no-repeat, url(titlebar/powershell.png) left top repeat-x rgb(1, 36, 86);
   color: rgb(238, 237, 240);
