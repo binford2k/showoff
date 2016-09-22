@@ -255,15 +255,8 @@ function openNext()
   if (mode.next) {
     try {
       if(nextWindow == null || typeof(nextWindow) == 'undefined' || nextWindow.closed){
-          nextWindow = window.open('about:blank','','width=320,height=300');
-          nextWindow.document.title = "Next Slide Preview";
-
-          $('<base/>',{ "href": window.location.origin }).appendTo($(nextWindow.document.head));
-          $('link[rel="stylesheet"]').each(function() {
-            $(nextWindow.document.head).append($(this).clone());
-          });
-          $(nextWindow.document.head).append('<style type="text/css">.content { zoom: 0.25; }</style>');
-          postSlide();
+        nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 0.25);
+        postSlide();
       }
 
       $('#nextWindow').addClass('enabled');
@@ -294,10 +287,8 @@ function openNotes()
   if (mode.notes) {
     try {
       if(notesWindow == null || typeof(notesWindow) == 'undefined' || notesWindow.closed){
-          // yes, the explicit address is needed. Because Chrome.
-          notesWindow = window.open('about:blank', '', 'width=350,height=450');
-          notesWindow.document.title = "Showoff Notes";
-          postSlide();
+        notesWindow = blankStyledWindow("Showoff Notes", 'width=350,height=450', 0.5);
+        postSlide();
       }
       $('#notesWindow').addClass('enabled');
     }
@@ -314,6 +305,25 @@ function openNotes()
       console.log('Notes window failed to close properly.');
     }
   }
+}
+
+function blankStyledWindow(title, dimensions, zoom) {
+  // yes, the explicit address is needed. Because Chrome.
+  newWindow = window.open('about:blank','', dimensions);
+  newWindow.document.title = title;
+
+  $('<base/>',{ "href": window.location.origin }).appendTo($(newWindow.document.head));
+  $('link[rel="stylesheet"]').each(function() {
+    $(newWindow.document.head).append($(this).clone());
+  });
+  $(newWindow.document.head).append('<style type="text/css">body { margin: 0.5em; }</style>');
+
+  if(zoom) {
+    // TODO: This will need to be updated to not be terrible on Firefox
+    $(newWindow.document.head).append('<style type="text/css">.content { zoom: '+zoom+'; }</style>');
+  }
+
+  return newWindow;
 }
 
 function printSlides()
