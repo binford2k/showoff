@@ -774,5 +774,5 @@ function toggleThumbs()
     $('#preview').removeClass('thumbs');
     $('#preview .thumb').hide();
   }
-  zoom();
+  zoom(true);
 }
