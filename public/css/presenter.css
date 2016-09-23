@@ -279,6 +279,15 @@
           border-left: 2px solid #ccc;
         }
 
+        #preview.thumbs #preso {
+          position: absolute;
+          bottom: 1em;
+          margin-left: auto;
+          margin-right: auto;
+          left: 0;
+          right: 0;
+        }
+
         /* allow us to actually see images! */
         #navigationHover img,
         .thumb img {
