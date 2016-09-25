@@ -217,6 +217,7 @@
     -webkit-order: 1;
             order: 1;
     min-width: 0px;
+    justify-content: space-between;
   }
     #frame {
       display: -webkit-flex;
@@ -225,6 +226,7 @@
               flex-flow: row;
       -webkit-flex: 10;
               flex: 10;
+      max-height: 95%;  /* dear Firefox; what's the point of flex-box if we still have to do this crap? */
     }
 
     #preview {
@@ -268,6 +270,7 @@
       -webkit-flex: 0.5;
               flex: 0.5;
       height: 22px;
+      max-height: 22px;
       line-height: 22px;
       text-transform: uppercase;
       vertical-align: middle;
