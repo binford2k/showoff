@@ -162,23 +162,33 @@ and scale the contents as closely as possible. Several tools are attached to the
 
 == Hotkeys
 
-The following hotkeys are available for usage while viewing the slideshow. See
-CONFIGURATION.rdoc for information on remapping these keys.
+The following hotkeys are available for usage while viewing the slideshow. The hotkeys
+from the _Navigation_ and the _Presenting_ section, as well as the _Reload_ action are
+useful in either the Presenter or audience view.
+
+See CONFIGURATION.rdoc for information on remapping these keys.
 
 [z, ?] Toggle help. This shows a reference table on screen.
+
+=== Navigation
 [space, →] Advance to the next slide.
 [shift-space, ←] Move to previous slide.
-[d] Toggle debug mode. This will show information including the keys pressed and the content filename that is used to generate the current slide in the footer area.
 [## <return>] Go to slide #. Type a number and press <return> and you will immediately jump to that slide.
-[c, t] Table of contents. A dropdown menu allowing you to choose a section & slide will appear.
-[f] Toggle footer. The footer contains the progress indicator.
-[g] Toggle follow mode. When follow mode is enabled, the presentation will track the page displayed by the presenter. This is often useful when an audience member has poor eyesight and would like to get a better view of your screen.
-[r] Reload slides. This will reload your presentation as you generate or refine content.
-[n] Toggle notes. This will place the first line of text from the slide notes in the footer.
+
+=== Presenting
 [p] Run preshow. Start the preshow slideshow. This will cycle through images placed in <tt>_preshow</tt> for a specified time. This is useful for taking timed breaks or for keeping the audience attention while waiting for you to begin.
 [P] Toggle pause. This will pause the presentation and dim the screen. You can use this to take a brief moment to address tangential audience questions.
 [b] Toggle screenblanker. Similar to pause, this will pause the presentation and slide the slide off screen.
-[s] Choose style. Pull open the style chooser menu. You can embed multiple styles (for example, style target at different screen sizes or audiences) and use this menu to choose the appropriate style.
+
+=== Audience view
+[f] Toggle follow mode. When follow mode is enabled, the presentation will track the page displayed by the presenter. This is often useful when an audience member has poor eyesight and would like to get a better view of your screen. This defaults to _enabled_.
+[c, t] Table of contents. A dropdown menu allowing you to choose a section & slide will appear. You may also press the "hamburger" icon in the upper left.
+[F] Toggle footer. The footer contains the progress indicator.
+[n] Display a tiny notes view. This will place the first line of text from the slide notes in the footer.
+
+=== Development
+[d] Toggle debug mode, when the audience footer is visible. This will show information including the keys pressed and the content filename that is used to generate the current slide in the footer area.
+[r] Reload slides. This will reload your presentation as you generate or refine content. Useful in either view.
 
 == Follow Mode
 
@@ -187,8 +197,8 @@ presenter may control the presentation in a few different ways. Showoff implemen
 several strategies for keeping all views of the presentation in sync.
 
 [Audience Follow Mode]
-  If an audience member switches into follow mode by pressing the <tt>g</tt> hotkey, then
-  their browser will automatically change slides to follow along with the presentation.
+  When an audience member is in follow mode, then their browser will
+  automatically change slides to follow along with the presentation.
 
 [Display Window]
   When the presenter changes slides from either the Presenter View or the Display Window
