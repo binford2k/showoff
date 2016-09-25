@@ -181,14 +181,15 @@ function zoom(presenter) {
   var newZoom = Math.min(hBody/hSlide, wBody/wSlide);
   // Because Firefox's transform doesn't scale up very well
   newZoom = newZoom > 1 ? 1 : newZoom - .04;
+  transX  = (1 - newZoom) * 25; // 0.25 * 100;
+  transY  = (1 - newZoom) * 50; // 0.50 * 100;
 
   preso.css("zoom", newZoom);
   preso.css("-ms-zoom", newZoom);
   preso.css("-webkit-zoom", newZoom);
   // Firefox doesn't support zoom
   // Don't use standard transform to avoid modifying Chrome
-  preso.css("-moz-transform", "scale(" + newZoom + ")");
-  preso.css("-moz-transform-origin", "0 0 0");
+  preso.css("-moz-transform", "scale(" + newZoom + ") translateX(-" + transX + "%) translateY(-" + transY + "%)");
 
   // correct the zoom factor for the presenter
   if (presenter) {
