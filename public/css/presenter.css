@@ -219,8 +219,16 @@
       border-radius: 3px;
       box-shadow: 3px 3px 5px #ccc;
     }
-      #navigationHover * {
+      #navigationHover .content {
         zoom: 0.2;
+        -moz-transform: scale(0.5);
+        -moz-transform-origin: 0 0;
+      }
+      /* ugh, firefox. */
+      @-moz-document url-prefix() {
+        #navigationHover .content {
+          width: 200%;
+        }
       }
 
   #presenter {

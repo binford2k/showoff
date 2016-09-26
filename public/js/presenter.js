@@ -310,18 +310,37 @@ function openNotes()
 function blankStyledWindow(title, dimensions, zoom) {
   // yes, the explicit address is needed. Because Chrome.
   newWindow = window.open('about:blank','', dimensions);
-  newWindow.document.title = title;
 
-  $('<base/>',{ "href": window.location.origin }).appendTo($(newWindow.document.head));
-  $('link[rel="stylesheet"]').each(function() {
-    $(newWindow.document.head).append($(this).clone());
-  });
-  $(newWindow.document.head).append('<style type="text/css">body { margin: 0.5em; }</style>');
+//  $(newWindow.document).ready(function() {
+//  setTimeout(function() {
+  var wtfFirefox = function() {
+    newWindow.document.title = title;
 
-  if(zoom) {
-    // TODO: This will need to be updated to not be terrible on Firefox
-    $(newWindow.document.head).append('<style type="text/css">.content { zoom: '+zoom+'; }</style>');
-  }
+    $('<base/>',{ "href": window.location.origin }).appendTo($(newWindow.document.head));
+    $('link[rel="stylesheet"]').each(function() {
+      $(newWindow.document.head).append($(this).clone());
+    });
+    $(newWindow.document.head).append('<style type="text/css">body { margin: 0.5em; }</style>');
+
+    if(zoom) {
+      // TODO: This will need to be updated to not be terrible on Firefox
+      var style = '<style type="text/css">            \
+            body { overflow: hidden; }                \
+            .content { zoom: '+zoom+';                \
+            -moz-transform: scale(' + zoom * 2 + ');  \
+            -moz-transform-origin: 0 0; }</style>';
+
+      $(newWindow.document.head).append(style);
+
+      // ugh; Firefox is the new IE.
+      if (navigator.userAgent.match(/firefox/i)) {
+        $(newWindow.document.head).append('<style type="text/css">.content { width: 200%; }</style>');
+      }
+    }
+  };
+
+  newWindow.window.onload = wtfFirefox;
+  $(newWindow.document).ready(wtfFirefox);
 
   return newWindow;
 }
