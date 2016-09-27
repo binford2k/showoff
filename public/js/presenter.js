@@ -711,8 +711,10 @@ function toggleAnnotations()
 
   if(mode.annotations) {
     $('#annotationToolbar').show();
-    currentSlide.find('canvas.annotations').annotate(annotations);
     $('canvas.annotations').show();
+    if (typeof(currentSlide) != 'undefined') {
+      currentSlide.find('canvas.annotations').annotate(annotations);
+    }
   }
   else {
     $('#annotationToolbar').hide();
