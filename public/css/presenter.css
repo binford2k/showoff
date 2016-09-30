@@ -258,7 +258,7 @@
       position: relative;
       -webkit-flex: 10;
               flex: 10;
-      overflow: auto;
+      overflow: hidden;
       background: #eee;
       padding: 1em;
     }
@@ -294,6 +294,20 @@
           margin-right: auto;
           left: 0;
           right: 0;
+        }
+        #preview.thumbs #preso.firefox {
+          position: relative;
+        }
+        #preview .thumb.firefox {
+          height: 300px;
+          width: 400px;
+          -moz-transform: scale(.5);
+        }
+        #prevSlide.thumb.firefox {
+          -moz-transform-origin: top left;
+        }
+        #nextSlide.thumb.firefox {
+          -moz-transform-origin: top right;
         }
 
         /* allow us to actually see images! */

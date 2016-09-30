@@ -786,6 +786,11 @@ function toggleThumbs()
   mode.thumbs = $("#thumbsToggle").prop("checked");
 
   if(mode.thumbs) {
+    // A solution I only arrive at with great self-loathing.
+    if(navigator.userAgent.indexOf("Firefox") != -1) {
+      $('#preso').addClass('firefox');
+      $('#preview .thumb').addClass('firefox');
+    }
     $('#preview').addClass('thumbs');
     $('#preview .thumb').show();
   }
