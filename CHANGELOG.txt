@@ -1,3 +1,9 @@
+0.14.2
+  * Corrected headline duplication in /print view.
+  * Prevent Firefox from starting annotations before it's enabled.
+  * Fixed Firefox presenter view layout.
+  * Improved scaling algorithm for Firefox.
+
 0.14.1
   * Enabled zoom in the popout notes window for Chrome.
   * Bugfix: allow audience members to view with IE again.

@@ -44,28 +44,4 @@ Gem::Specification.new do |s|
   you a URL to present from.
   desc
 
-  s.post_install_message = <<-desc
-               _________________________________________
-              /               Ahoy ahead!               \\
-             |      Style changes in this release.       |
-             |                                           |
-              \\    Please clear your browser cache.     /
-               -----------------------------------------
-                      \\   ^__^
-                       \\  (oo)\\_______
-                          (__)\\       )\\/\\
-                              ||----w |
-                              ||     ||
-
-  ************************************************************************
-  The default styles have been significantly improved. Unfortunately, this
-  means that if you've created your own custom styles, that you'll need to
-  refactor them. We do hope you find the new styles simpler and better looking.
-
-  Showoff can optionally use the PDFKit gem to build PDF files using the
-  `showoff pdf` command. If you'd like your audience to download the PDF,
-  place it in `_files/share`.
-  ************************************************************************
-
-  desc
 end
