@@ -225,10 +225,8 @@
         -moz-transform-origin: 0 0;
       }
       /* ugh, firefox. */
-      @-moz-document url-prefix() {
-        #navigationHover .content {
-          width: 200%;
-        }
+      body.no-zoom #navigationHover .content {
+        width: 200%;
       }
 
   #presenter {
@@ -295,18 +293,20 @@
           left: 0;
           right: 0;
         }
-        #preview.thumbs #preso.firefox {
+
+        /* firefoxy fixes */
+        body.no-zoom #preview.thumbs #preso {
           position: relative;
         }
-        #preview .thumb.firefox {
+        body.no-zoom #preview .thumb {
           height: 300px;
           width: 400px;
           -moz-transform: scale(.5);
         }
-        #prevSlide.thumb.firefox {
+        body.no-zoom #prevSlide.thumb {
           -moz-transform-origin: top left;
         }
-        #nextSlide.thumb.firefox {
+        body.no-zoom #nextSlide.thumb {
           -moz-transform-origin: top right;
         }
 

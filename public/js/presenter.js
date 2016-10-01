@@ -333,7 +333,7 @@ function blankStyledWindow(title, dimensions, zoom) {
       $(newWindow.document.head).append(style);
 
       // ugh; Firefox is the new IE.
-      if (navigator.userAgent.match(/firefox/i)) {
+      if (! cssPropertySupported('zoom')) {
         $(newWindow.document.head).append('<style type="text/css">.content { width: 200%; }</style>');
       }
     }
@@ -786,11 +786,6 @@ function toggleThumbs()
   mode.thumbs = $("#thumbsToggle").prop("checked");
 
   if(mode.thumbs) {
-    // A solution I only arrive at with great self-loathing.
-    if(navigator.userAgent.indexOf("Firefox") != -1) {
-      $('#preso').addClass('firefox');
-      $('#preview .thumb').addClass('firefox');
-    }
     $('#preview').addClass('thumbs');
     $('#preview .thumb').show();
   }
