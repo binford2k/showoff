@@ -926,6 +926,17 @@ form .element {
   .callout.stop:before     { content: "\f05e"; } /* fa-ban */
   .callout.thumbsup:before { content: "\f164"; } /* fa-thumbs-up */
 
+/* callouts used on error pages */
+.error .callout {
+  padding-left: 4em;
+  margin: 1em;
+  background-color: #ffe0e0;
+  padding-bottom: 0;
+}
+  .error .callout p:first-of-type {
+    margin-top: 0;
+  }
+
 /**********************
 ***  end callouts   ***
 **********************/
