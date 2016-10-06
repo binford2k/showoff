@@ -28,24 +28,31 @@ var mode = { track: true, follow: true };
 $(document).on('click', 'code.execute', executeCode);
 
 function setupPreso(load_slides, prefix) {
-	if (preso_started)
-	{
-		alert("already started")
-		return
+	if (preso_started) {
+		alert("already started");
+		return;
 	}
-	preso_started = true
+	preso_started = true;
+
+  if (! cssPropertySupported('flex') ) {
+    window.location = 'unsupported.html';
+  }
+
+  if (! cssPropertySupported('zoom') ) {
+    $('body').addClass('no-zoom');
+  }
 
 	// save our query string as an object for later use
 	query = $.parseQuery();
 
 	// Load slides fetches images
-	loadSlidesBool = load_slides
-	loadSlidesPrefix = prefix || '/'
-	loadSlides(loadSlidesBool, loadSlidesPrefix)
+	loadSlidesBool = load_slides;
+	loadSlidesPrefix = prefix || '/';
+	loadSlides(loadSlidesBool, loadSlidesPrefix);
 
   setupSideMenu();
 
-	doDebugStuff()
+	doDebugStuff();
 
 	// bind event handlers
 	toggleKeybinding('on');
@@ -1536,4 +1543,15 @@ function setupStats()
 /* Is this a mobile device? */
 function mobile() {
   return ( $(window).width() <= 480 )
+}
+
+/* check browser support for one or more css properties */
+function cssPropertySupported(properties) {
+  properties = typeof(properties) == 'string' ? Array(properties) : properties
+
+  var supported = properties.filter(function(property){
+    return property in document.body.style;
+  });
+
+  return properties.length == supported.length;
 }
