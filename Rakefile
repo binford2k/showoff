@@ -19,7 +19,7 @@ end
 desc "Build Docker image"
 task 'docker' do
   Dir.chdir('build') do
-    system("docker build -t binford2k/showoff:#{version} -t binford2k/showoff:latest .")
+    system("docker build --no-cache=true -t binford2k/showoff:#{version} -t binford2k/showoff:latest .")
   end
   puts
   puts 'Start container with: docker run -p 9090:9090 binford2k/showoff'
