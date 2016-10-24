@@ -68,11 +68,6 @@ function setupPreso(load_slides, prefix) {
   // give us the ability to disable tracking via url parameter
   if(query.track == 'false') mode.track = false;
 
-  // make sure that the next view doesn't bugger things on the first load
-  if(query.next == 'true') {
-    mode.next = true;
-  }
-
   // Make sure the slides always look right.
   // Better would be dynamic calculations, but this is enough for now.
   zoom();
@@ -543,7 +538,7 @@ function showSlide(back_step, updatepv) {
 
 
   // Update presenter view, if we spawned one
-	if (updatepv && 'presenterView' in window && ! mode.next) {
+	if (updatepv && 'presenterView' in window) {
     var pv = window.presenterView;
 		pv.slidenum = slidenum;
     pv.incrCurr = incrCurr

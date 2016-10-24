@@ -27,12 +27,15 @@
   color: #fff;
 }
 
-  #topbar a {
+  #topbar a,
+  #topbar select {
     text-decoration: none;
     color: #fff;
+    background: #222222;
   }
 
-  #topbar a:hover{
+  #topbar a:hover,
+  #topbar select:hover {
     background-color: #555;
   }
 
@@ -260,6 +263,8 @@
       background: #eee;
       padding: 1em;
     }
+
+    /* thumbnails layout */
       #preview.thumbs {
         padding-top: 100px;
       }
@@ -317,6 +322,28 @@
           height: 100%;
         }
 
+    /* beside layout */
+      #preview.beside .thumb {
+        display: none;
+        position: absolute;
+        overflow: hidden;
+        width: 34%;
+        top: 1em;
+      }
+        #preview.beside .thumb * {
+          zoom: 0.1;
+        }
+        #nextSlide.beside {
+          right: 1em;
+        }
+
+        #preview.beside #preso {
+          position: absolute;
+          left: 1em;
+          width: 64%;
+        }
+
+
       #preview input[type=button].display {
         display: inline;
       }
@@ -370,8 +397,7 @@
       }
       #enableFollower,
       #enableRemote,
-      #enableAnnotations,
-      #enableThumbs {
+      #enableAnnotations {
         float: right;
         margin: 1px;
         padding: 0.1em;

@@ -1,6 +1,6 @@
 // presenter js
 var slaveWindow = null;
-var nextWindow = null;
+var nextWindow  = null;
 var notesWindow = null;
 
 var paceData = [];
@@ -9,7 +9,7 @@ section = 'notes'; // which section the presenter has chosen to view
 
 $(document).ready(function(){
   // set up the presenter modes
-  mode = { track: true, follow: true, update: true, slave: false, next: false, notes: false, annotations: false};
+  mode = { track: true, follow: true, update: true, slave: false, notes: false, annotations: false, layout: 'default'};
 
   // attempt to open another window for the presentation if the mode defaults
   // to enabling this. It does not by default, so this is likely a no-op.
@@ -32,6 +32,10 @@ $(document).ready(function(){
   $('#downloadslink').click(function(e) {
     presenterPopupToggle('/download', e);
   });
+  $('#layoutSelector').click(function(e) {
+    chooseLayout(e.target.value);
+  });
+
 
   // Bind events for mobile viewing
   if( mobile() ) {
@@ -112,7 +116,6 @@ $(document).ready(function(){
   $('#remoteToggle').change( toggleFollower );
   $('#followerToggle').change( toggleUpdater );
   $('#annotationsToggle').change( toggleAnnotations );
-  $('#thumbsToggle').change( toggleThumbs );
 
   setInterval(function() { updatePace() }, 1000);
 
@@ -190,16 +193,26 @@ function openEditor() {
   $.get(link);
 }
 
+function windowIsClosed(window)
+{
+  return(window == null || typeof(window) == 'undefined' || window.closed);
+}
+
+function windowIsOpen(window) {
+  return (window && typeof(window) != 'undefined' && !window.closed)
+}
+
 function toggleSlave() {
   mode.slave = !mode.slave;
   openSlave();
 }
 
+// Open, or maintain connection & reopen slave window.
 function openSlave()
 {
   if (mode.slave) {
     try {
-      if(slaveWindow == null || typeof(slaveWindow) == 'undefined' || slaveWindow.closed){
+      if(windowIsClosed(slaveWindow)){
           slaveWindow = window.open('/' + window.location.hash, 'toolbar');
       }
       else if(slaveWindow.location.hash != window.location.hash) {
@@ -245,48 +258,13 @@ function nextSlideNum(url) {
   return snum;
 }
 
-function toggleNext() {
-  mode.next = !mode.next;
-  openNext();
-}
-
-function openNext()
-{
-  if (mode.next) {
-    try {
-      if(nextWindow == null || typeof(nextWindow) == 'undefined' || nextWindow.closed){
-        nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 0.25);
-        postSlide();
-      }
-
-      $('#nextWindow').addClass('enabled');
-    }
-    catch(e) {
-      console.log(e);
-      console.log('Failed to open or connect next window. Popup blocker?');
-    }
-  }
-  else {
-    try {
-      nextWindow && nextWindow.close();
-      $('#nextWindow').removeClass('enabled');
-    }
-    catch (e) {
-      console.log('Next window failed to close properly.');
-    }
-  }
-}
 
 function toggleNotes() {
   mode.notes = !mode.notes;
-  openNotes();
-}
 
-function openNotes()
-{
   if (mode.notes) {
     try {
-      if(notesWindow == null || typeof(notesWindow) == 'undefined' || notesWindow.closed){
+      if(windowIsClosed(notesWindow)){
         notesWindow = blankStyledWindow("Showoff Notes", 'width=350,height=450', 0.5);
         postSlide();
       }
@@ -550,11 +528,11 @@ function postSlide() {
 
     $('#nextSlide').html(nextSlide);
     $('#prevSlide').html(prevSlide);
-    if (nextWindow && typeof(nextWindow) != 'undefined' && !nextWindow.closed) {
+    if (windowIsOpen(nextWindow)) {
       $(nextWindow.document.body).html(nextSlide);
     }
 
-    if (notesWindow && typeof(notesWindow) != 'undefined' && !notesWindow.closed) {
+    if (windowIsOpen(notesWindow)) {
       $(notesWindow.document.body).html(notes);
     }
 
@@ -778,20 +756,89 @@ function toggleAnnotations()
   }
 }
 
-/********************
- Reposition some elements to display navigation previews
- ********************/
-function toggleThumbs()
-{
-  mode.thumbs = $("#thumbsToggle").prop("checked");
 
-  if(mode.thumbs) {
-    $('#preview').addClass('thumbs');
-    $('#preview .thumb').show();
+/********************
+ Layout selection incorporates previews and the old next window
+ ********************/
+function chooseLayout(layout)
+{
+  if (layout == mode.layout) {
+    return false;
   }
-  else {
-    $('#preview').removeClass('thumbs');
-    $('#preview .thumb').hide();
+  // in case we're being called externally, make the UI match
+  $('#layoutSelector').val(layout)
+  console.log("Setting layout to " + layout);
+
+  // what we are switching *from*
+  switch(mode.layout) {
+    case 'thumbs':
+      $('#preview').removeClass('thumbs');
+      $('#preview .thumb').hide();
+      break;
+
+    case 'beside':
+      $('#preview').removeClass('beside');
+      $('#preview #nextSlide').removeAttr("style");
+      $('#preview #nextSlide').hide();
+      break;
+
+    case 'floating':
+      try {
+        if (nextWindow) {
+          // unregister the event so we don't accidentally double-fire
+          nextWindow.window.onunload = null;
+          nextWindow.close();
+        }
+      }
+      catch (e) {
+        console.log(e);
+        console.log('Next window failed to close properly.');
+      }
+      break;
+
+    default:
+
   }
+
+  // what we are switching *to*
+  switch(layout) {
+    case 'thumbs':
+      $('#preview').addClass('thumbs');
+      $('#preview .thumb').show();
+      break;
+
+    case 'beside':
+      $('#preview').addClass('beside');
+      $('#preview #nextSlide').show();
+
+      var w = $('#nextSlide').width();
+      $('#nextSlide').height(w*.75)
+
+      break;
+
+    case 'floating':
+      try {
+        if(windowIsClosed(nextWindow)){
+          nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 0.25);
+
+          // call back and update the parent presenter if the window is closed
+          nextWindow.window.onunload = function(e) {
+            nextWindow.opener.chooseLayout('default');
+          };
+
+          postSlide();
+        }
+      }
+      catch(e) {
+        console.log(e);
+        console.log('Failed to open or connect next window. Popup blocker?');
+      }
+      break;
+
+    default:
+
+  }
+
+  mode.layout = layout;
   zoom(true);
 }
