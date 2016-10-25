@@ -75,7 +75,8 @@
     margin: 0 0.5em;
   }
 
-#presenterPopup {
+#presenterPopup,
+#nextWindowConfirmation {
   display: none;
   position: absolute;
   z-index: 2147483647;
@@ -91,9 +92,24 @@
   overflow: auto;
 }
 
-  #presenterPopup a {
+  #presenterPopup a,
+  #nextWindowConfirmation a {
     color: #ffffff;
   }
+
+#nextWindowConfirmation {
+  right: 0.25em;
+  left: auto;
+  width: 14em;
+}
+  #nextWindowConfirmation p {
+    margin: 0.25em;
+  }
+  #nextWindowConfirmation input {
+    float: right;
+    margin: 0.25em;
+  }
+
 
 #center {
   display: -webkit-flex;

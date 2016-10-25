@@ -32,7 +32,7 @@ $(document).ready(function(){
   $('#downloadslink').click(function(e) {
     presenterPopupToggle('/download', e);
   });
-  $('#layoutSelector').click(function(e) {
+  $('#layoutSelector').change(function(e) {
     chooseLayout(e.target.value);
   });
 
@@ -756,17 +756,34 @@ function toggleAnnotations()
   }
 }
 
+function openNext() {
+  $("#nextWindowConfirmation").slideUp(125);
+  try {
+    if(windowIsClosed(nextWindow)){
+      nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 0.25);
+
+      // call back and update the parent presenter if the window is closed
+      nextWindow.window.onunload = function(e) {
+        nextWindow.opener.chooseLayout('default');
+      };
+
+      postSlide();
+    }
+  }
+  catch(e) {
+    console.log(e);
+    console.log('Failed to open or connect next window. Popup blocker?');
+  }
+}
 
 /********************
  Layout selection incorporates previews and the old next window
  ********************/
 function chooseLayout(layout)
 {
-  if (layout == mode.layout) {
-    return false;
-  }
   // in case we're being called externally, make the UI match
-  $('#layoutSelector').val(layout)
+  $('#layoutSelector').val(layout);
+  $("#nextWindowConfirmation").slideUp(125);
   console.log("Setting layout to " + layout);
 
   // what we are switching *from*
@@ -817,22 +834,7 @@ function chooseLayout(layout)
       break;
 
     case 'floating':
-      try {
-        if(windowIsClosed(nextWindow)){
-          nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 0.25);
-
-          // call back and update the parent presenter if the window is closed
-          nextWindow.window.onunload = function(e) {
-            nextWindow.opener.chooseLayout('default');
-          };
-
-          postSlide();
-        }
-      }
-      catch(e) {
-        console.log(e);
-        console.log('Failed to open or connect next window. Popup blocker?');
-      }
+      $("#nextWindowConfirmation").slideDown(125);
       break;
 
     default:
