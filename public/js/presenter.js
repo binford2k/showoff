@@ -161,7 +161,7 @@ function presenterPopupToggle(page, event) {
 
       content.attr('id', page.substring(1, page.length));
       content.append(link);
-      /* use .sibliings() because of how jquery formats $(data) */
+      /* use .siblings() because of how jquery formats $(data) */
       content.append($(data).siblings('#wrapper').html());
       popup.append(content);
 
@@ -251,7 +251,6 @@ function openSlave()
 
 function nextSlideNum(url) {
   // Some fudging because the first slide is slide[0] but numbered 1 in the URL
-  console.log(typeof(url));
   var snum;
   if (typeof(url) == 'undefined') { snum = currentSlideFromParams()+1; }
   else { snum = currentSlideFromParams()+2; }
@@ -528,6 +527,7 @@ function postSlide() {
 
     $('#nextSlide').html(nextSlide);
     $('#prevSlide').html(prevSlide);
+
     if (windowIsOpen(nextWindow)) {
       $(nextWindow.document.body).html(nextSlide);
     }
@@ -762,12 +762,17 @@ function openNext() {
     if(windowIsClosed(nextWindow)){
       nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 0.25);
 
-      // call back and update the parent presenter if the window is closed
-      nextWindow.window.onunload = function(e) {
-        nextWindow.opener.chooseLayout('default');
-      };
+      // Firefox doesn't load content properly unless we delay it slightly. Yay for race conditions.
+//      nextWindow.addEventListener("unload", function() {
+      window.setTimeout(function() {
+        // call back and update the parent presenter if the window is closed
+        nextWindow.onunload = function(e) {
+          nextWindow.opener.chooseLayout('default');
+        };
 
-      postSlide();
+        postSlide();
+      }, 500);
+
     }
   }
   catch(e) {
