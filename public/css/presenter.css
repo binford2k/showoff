@@ -324,6 +324,12 @@
           width: 400px;
           -moz-transform: scale(.5);
         }
+        body.no-zoom #preview.beside .thumb {
+          width: 34%;
+          -moz-transform: none;
+          font-size: 0.5em;
+        }
+
         body.no-zoom #prevSlide.thumb {
           -moz-transform-origin: top left;
         }
@@ -357,6 +363,16 @@
           position: absolute;
           left: 1em;
           width: 64%;
+        }
+
+        /* firefoxy fixes */
+        body.no-zoom #preview.beside #preso {
+          width: 100%;
+        }
+        body.no-zoom #preview.beside .thumb {
+          width: 34%;
+          -moz-transform: none;
+          font-size: 0.5em;
         }
 
 
