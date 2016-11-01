@@ -791,6 +791,10 @@ function chooseLayout(layout)
   $("#nextWindowConfirmation").slideUp(125);
   console.log("Setting layout to " + layout);
 
+  // change focus so we don't inadvertently change layout again by changing slides
+  $("#preview").focus();
+  $("#layoutSelector").blur();
+
   // what we are switching *from*
   switch(mode.layout) {
     case 'thumbs':
