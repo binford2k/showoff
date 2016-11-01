@@ -196,8 +196,8 @@ function zoom(presenter) {
       // match the 65/35 split in the stylesheet
       wBody  *= 0.64;
       newZoom = Math.min(hBody/hSlide, wBody/wSlide);
-    } else {
-       // Because Firefox's transform doesn't scale up very well
+    } else if(presenter) { // We only need to offset from center if we're wrapped in the presenter view.
+      // Because Firefox's transform doesn't scale up very well
       newZoom = newZoom > 1 ? 1 : newZoom - .04;
 
       // Calculate the new offsets to roughly center the preview again
