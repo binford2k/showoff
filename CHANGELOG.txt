@@ -1,3 +1,7 @@
+0.14.3
+  * Add browser capability detection with error page for unsupported browsers
+  * Update Docker image with Commonmarker & trimmed size
+
 0.14.2
   * Corrected headline duplication in /print view.
   * Prevent Firefox from starting annotations before it's enabled.
