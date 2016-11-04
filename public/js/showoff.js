@@ -188,26 +188,23 @@ function zoom(presenter) {
 
   // // Firefox doesn't support zoom.
   if($("body").hasClass("no-zoom")) {
-    var hPos = 0;
-    var wPos = 0;
-
-    // Because Firefox's transform doesn't scale up very well
-    newZoom = newZoom > 1 ? 1 : newZoom - .04;
 
     // why so terrible?
     if($("#preview").hasClass("beside")) {
       // match the 65/35 split in the stylesheet
       wBody  *= 0.64;
       newZoom = Math.min(hBody/hSlide, wBody/wSlide);
-    } else if(presenter) { // We only need to offset from center if we're wrapped in the presenter view.
-
-      // Calculate the new offsets to roughly center the preview again
-      hPos = (hBody - (hSlide * newZoom)) / 2;
-      wPos = (wBody - (wSlide * newZoom)) / 2;
     }
 
-    // Don't use standard transform to avoid modifying Chrome
-    preso.css("-moz-transform", "scale(" + newZoom + ") translateX(" + wPos + "px) translateY(" + hPos + "px)");
+    // Calculate margins to center the thing *before* scaling
+    var hMargin = (hBody - hSlide) /2;
+    var wMargin = (wBody - wSlide) /2;
+
+    // Because Firefox's transform doesn't scale up very well
+    newZoom = newZoom > 1 ? 1 : newZoom - .04;
+
+    preso.css("margin", hMargin + "px " + wMargin + "px");
+    preso.css("transform", "scale(" + newZoom + ")");
   }
 
   // correct the zoom factor for the presenter

@@ -315,9 +315,6 @@
         }
 
         /* firefoxy fixes */
-        body.no-zoom #preview.thumbs #preso {
-          position: relative;
-        }
         body.no-zoom #preview .thumb {
           height: 300px;
           width: 400px;
