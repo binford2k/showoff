@@ -226,6 +226,9 @@
               flex-flow: row;
       -webkit-flex: 10;
               flex: 10;
+    }
+    /* TODO: This is absolutely not the right fix. Instead, we should figure out why Firefox needs this silly rule. */
+    body.no-zoom #frame {
       max-height: 95%;  /* dear Firefox; what's the point of flex-box if we still have to do this crap? */
     }
 
