@@ -232,7 +232,7 @@
     #preview {
       -webkit-flex: 10;
               flex: 10;
-      overflow: auto;
+      overflow: hidden;
       background: #eee;
       padding: 1em;
     }
