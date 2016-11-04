@@ -200,7 +200,6 @@ function zoom(presenter) {
   // Firefox doesn't support zoom
   // Don't use standard transform to avoid modifying Chrome
   preso.css("-moz-transform", "scale(" + newZoom + ") translateX(" + wPos + "px) translateY(" + hPos + "px)");
-  preso.css("-moz-transform-origin", "0 0");
 
   // correct the zoom factor for the presenter
   if (presenter) {

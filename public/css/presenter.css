@@ -226,7 +226,6 @@
               flex-flow: row;
       -webkit-flex: 10;
               flex: 10;
-      max-height: 95%;  /* dear Firefox; what's the point of flex-box if we still have to do this crap? */
     }
 
     #preview {
@@ -264,6 +263,9 @@
       -webkit-box-shadow:0 0 25px rgba(0,0,0,0.35);
       -moz-box-shadow:0 0 25px rgba(0,0,0,0.35);
       box-shadow:0 0 25px rgba(0,0,0,0.35);
+    }
+    body.no-zoom #preso {
+      position: absolute;
     }
 
     #statusbar {
