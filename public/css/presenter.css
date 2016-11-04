@@ -27,12 +27,15 @@
   color: #fff;
 }
 
-  #topbar a {
+  #topbar a,
+  #topbar select {
     text-decoration: none;
     color: #fff;
+    background: #222222;
   }
 
-  #topbar a:hover{
+  #topbar a:hover,
+  #topbar select:hover {
     background-color: #555;
   }
 
@@ -72,7 +75,8 @@
     margin: 0 0.5em;
   }
 
-#presenterPopup {
+#presenterPopup,
+#nextWindowConfirmation {
   display: none;
   position: absolute;
   z-index: 2147483647;
@@ -88,9 +92,24 @@
   overflow: auto;
 }
 
-  #presenterPopup a {
+  #presenterPopup a,
+  #nextWindowConfirmation a {
     color: #ffffff;
   }
+
+#nextWindowConfirmation {
+  right: 0.25em;
+  left: auto;
+  width: 14em;
+}
+  #nextWindowConfirmation p {
+    margin: 0.25em;
+  }
+  #nextWindowConfirmation input {
+    float: right;
+    margin: 0.25em;
+  }
+
 
 #center {
   display: -webkit-flex;
@@ -206,6 +225,28 @@
       overflow-x: hidden;
       overflow-y: auto;
     }
+    #navigationHover {
+      display: none;
+      position: absolute;
+      overflow: hidden;
+      z-index: 99999;
+      width: 200px;
+      height: 150px;
+      background-color: white;
+      border: 1px solid #4D4F53;
+      margin: 0px;
+      border-radius: 3px;
+      box-shadow: 3px 3px 5px #ccc;
+    }
+      #navigationHover .content {
+        zoom: 0.2;
+        -moz-transform: scale(0.5);
+        -moz-transform-origin: 0 0;
+      }
+      /* ugh, firefox. */
+      body.no-zoom #navigationHover .content {
+        width: 200%;
+      }
 
   #presenter {
     display: -webkit-flex;
@@ -226,16 +267,111 @@
               flex-flow: row;
       -webkit-flex: 10;
               flex: 10;
-      max-height: 95%;  /* dear Firefox; what's the point of flex-box if we still have to do this crap? */
     }
 
+
     #preview {
+      position: relative;
       -webkit-flex: 10;
               flex: 10;
-      overflow: auto;
+      overflow: hidden;
       background: #eee;
       padding: 1em;
     }
+
+    /* thumbnails layout */
+      #preview.thumbs {
+        padding-top: 100px;
+      }
+      #preview .thumb {
+        display: none;
+        position: absolute;
+        overflow: hidden;
+        height: 150px;
+        width: 200px;
+        top: 0;
+        background-color: white;
+        border-bottom: 2px solid #ccc;
+      }
+        #preview .thumb * {
+          zoom: 0.1;
+        }
+        #prevSlide.thumb {
+          left: 0;
+          border-right: 2px solid #ccc;
+        }
+        #nextSlide.thumb {
+          right: 0;
+          border-left: 2px solid #ccc;
+        }
+
+        #preview.thumbs #preso {
+          position: absolute;
+          bottom: 1em;
+          margin-left: auto;
+          margin-right: auto;
+          left: 0;
+          right: 0;
+        }
+
+        /* firefoxy fixes */
+        body.no-zoom #preview .thumb {
+          height: 300px;
+          width: 400px;
+          -moz-transform: scale(.5);
+        }
+        body.no-zoom #preview.beside .thumb {
+          width: 34%;
+          -moz-transform: none;
+          font-size: 0.5em;
+        }
+
+        body.no-zoom #prevSlide.thumb {
+          -moz-transform-origin: top left;
+        }
+        body.no-zoom #nextSlide.thumb {
+          -moz-transform-origin: top right;
+        }
+
+        /* allow us to actually see images! */
+        #navigationHover img,
+        .thumb img {
+          width: 100%;
+          height: 100%;
+        }
+
+    /* beside layout */
+      #preview.beside .thumb {
+        display: none;
+        position: absolute;
+        overflow: hidden;
+        width: 34%;
+        top: 1em;
+      }
+        #preview.beside .thumb * {
+          zoom: 0.1;
+        }
+        #nextSlide.beside {
+          right: 1em;
+        }
+
+        #preview.beside #preso {
+          position: absolute;
+          left: 1em;
+          width: 64%;
+        }
+
+        /* firefoxy fixes */
+        body.no-zoom #preview.beside #preso {
+          width: 100%;
+        }
+        body.no-zoom #preview.beside .thumb {
+          width: 34%;
+          -moz-transform: none;
+          font-size: 0.5em;
+        }
+
+
       #preview input[type=button].display {
         display: inline;
       }
@@ -247,8 +383,12 @@
         font-weight: 900;
       }
 
-      #disconnected {
+      #preview img#disconnected {
         margin: 0.5em 1em;
+        float: none;
+        position: absolute;
+        bottom: 0;
+        left: 0;
       }
 
       #preview .incremental.hidden {
@@ -264,6 +404,9 @@
       -webkit-box-shadow:0 0 25px rgba(0,0,0,0.35);
       -moz-box-shadow:0 0 25px rgba(0,0,0,0.35);
       box-shadow:0 0 25px rgba(0,0,0,0.35);
+    }
+    body.no-zoom #preso {
+      position: absolute;
     }
 
     #statusbar {

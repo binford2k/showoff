@@ -40,7 +40,6 @@
         </span>
         <span>
           <a id="slaveWindow" href="javascript:toggleSlave();" title="Enable the display window.">Display Window <i class="fa fa-clone"></i></a>
-          <a id="nextWindow" href="javascript:toggleNext();" title="Enable the next window view.">Next Window <i class="fa fa-clone"></i></a>
           <a id="notesWindow" href="javascript:toggleNotes();" title="Enable the popout notes window.">Notes Window <i class="fa fa-clone"></i></a>
         </span>
         <span>
@@ -48,10 +47,20 @@
           <a id="onePage" href="/" title="Switch to Display Window.">Switch Views <i class="fa fa-exchange fa-rotate-90"></i></a>
         </span>
       </span>
+      <select id="layoutSelector" autocomplete="off">
+        <option value="default" selected>Default Layout</option>
+        <option value="thumbs"   title="Display thumbnail previews of the next and previous slides.">Thumbnails</option>
+        <option value="floating" title="Open the next slide as a floating window.">Floating</option>
+        <option value="beside"   title="Display the next slide as a large preview in the main presenter view.">Side-by-Side</option>
+      </select>
       <span class="mobile">
         <a id="update" href="">Update</a>
       </span>
     </span>
+  </div>
+  <div id="nextWindowConfirmation">
+    <p>Browser security requires confirmation before opening a new window.</p>
+    <p><a href="javascript:chooseLayout('default');">cancel</a><input type="button" onClick="javascript:openNext();" value="Open Window" /></p>
   </div>
 
   <div id="center">
@@ -72,11 +81,14 @@
         <img id="paceMarker" src="<%= @asset_path %>/css/paceMarker.png" />
       </div>
       <div id="navigation" class="submenu"></div>
+      <div id="navigationHover"></div>
     </div>
     <div id="presenter">
       <div id="frame">
         <div id="preview">
           <img id="disconnected" src="<%= @asset_path %>/css/disconnected-large.png" />
+          <div id="prevSlide" class="thumb"></div>
+          <div id="nextSlide" class="thumb"></div>
           <div id="preso">loading presentation...</div>
         </div>
         <div id="annotationToolbar">
@@ -112,7 +124,6 @@
         <span id="enableAnnotations" title="Enable the annotation system.">
           <label for="annotationsToggle">Annotations</label><input type="checkbox" id="annotationsToggle" autocomplete="off" />
         </span>
-
       </div>
     </div>
   </div>

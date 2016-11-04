@@ -68,11 +68,6 @@ function setupPreso(load_slides, prefix) {
   // give us the ability to disable tracking via url parameter
   if(query.track == 'false') mode.track = false;
 
-  // make sure that the next view doesn't bugger things on the first load
-  if(query.next == 'true') {
-    mode.next = true;
-  }
-
   // Make sure the slides always look right.
   // Better would be dynamic calculations, but this is enough for now.
   zoom();
@@ -187,20 +182,30 @@ function zoom(presenter) {
 
   var newZoom = Math.min(hBody/hSlide, wBody/wSlide);
 
-  // Because Firefox's transform doesn't scale up very well
-  newZoom = newZoom > 1 ? 1 : newZoom - .04;
-
-  // Calculate the new offsets to roughly center the preview again
-  var hPos = (hBody - (hSlide * newZoom)) / 2;
-  var wPos = (wBody - (wSlide * newZoom)) / 2;
-
   preso.css("zoom", newZoom);
   preso.css("-ms-zoom", newZoom);
   preso.css("-webkit-zoom", newZoom);
-  // Firefox doesn't support zoom
-  // Don't use standard transform to avoid modifying Chrome
-  preso.css("-moz-transform", "scale(" + newZoom + ") translateX(" + wPos + "px) translateY(" + hPos + "px)");
-  preso.css("-moz-transform-origin", "0 0");
+
+  // // Firefox doesn't support zoom.
+  if($("body").hasClass("no-zoom")) {
+
+    // why so terrible?
+    if($("#preview").hasClass("beside")) {
+      // match the 65/35 split in the stylesheet
+      wBody  *= 0.64;
+      newZoom = Math.min(hBody/hSlide, wBody/wSlide);
+    }
+
+    // Calculate margins to center the thing *before* scaling
+    var hMargin = (hBody - hSlide) /2;
+    var wMargin = (wBody - wSlide) /2;
+
+    // Because Firefox's transform doesn't scale up very well
+    newZoom = newZoom > 1 ? 1 : newZoom - .04;
+
+    preso.css("margin", hMargin + "px " + wMargin + "px");
+    preso.css("transform", "scale(" + newZoom + ")");
+  }
 
   // correct the zoom factor for the presenter
   if (presenter) {
@@ -543,7 +548,7 @@ function showSlide(back_step, updatepv) {
 
 
   // Update presenter view, if we spawned one
-	if (updatepv && 'presenterView' in window && ! mode.next) {
+	if (updatepv && 'presenterView' in window) {
     var pv = window.presenterView;
 		pv.slidenum = slidenum;
     pv.incrCurr = incrCurr

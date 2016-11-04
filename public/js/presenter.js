@@ -1,6 +1,6 @@
 // presenter js
 var slaveWindow = null;
-var nextWindow = null;
+var nextWindow  = null;
 var notesWindow = null;
 
 var paceData = [];
@@ -9,7 +9,7 @@ section = 'notes'; // which section the presenter has chosen to view
 
 $(document).ready(function(){
   // set up the presenter modes
-  mode = { track: true, follow: true, update: true, slave: false, next: false, notes: false, annotations: false};
+  mode = { track: true, follow: true, update: true, slave: false, notes: false, annotations: false, layout: 'default'};
 
   // attempt to open another window for the presentation if the mode defaults
   // to enabling this. It does not by default, so this is likely a no-op.
@@ -32,6 +32,10 @@ $(document).ready(function(){
   $('#downloadslink').click(function(e) {
     presenterPopupToggle('/download', e);
   });
+  $('#layoutSelector').change(function(e) {
+    chooseLayout(e.target.value);
+  });
+
 
   // Bind events for mobile viewing
   if( mobile() ) {
@@ -53,6 +57,20 @@ $(document).ready(function(){
       });
     });
   }
+
+  // wait until the presentation is loaded to hook up the previews.
+  // TODO: If we decide to implement this for the audience display, we can move it later
+  $("body").bind("showoff:loaded", function (event) {
+    $('#navigation li a.navItem').hover(function() {
+      var position = $(this).position();
+      $('#navigationHover').css({top: position.top, left: position.left + $('#navigation').width() + 5})
+      $('#navigationHover').html(slides.eq($(this).attr('rel')).html());
+      $('#navigationHover').show();
+    },function() {
+      $('#navigationHover').hide();
+    });
+  });
+
 
   // Hide with js so jquery knows what display property to assign when showing
   toggleAnnotations();
@@ -143,7 +161,7 @@ function presenterPopupToggle(page, event) {
 
       content.attr('id', page.substring(1, page.length));
       content.append(link);
-      /* use .sibliings() because of how jquery formats $(data) */
+      /* use .siblings() because of how jquery formats $(data) */
       content.append($(data).siblings('#wrapper').html());
       popup.append(content);
 
@@ -175,16 +193,26 @@ function openEditor() {
   $.get(link);
 }
 
+function windowIsClosed(window)
+{
+  return(window == null || typeof(window) == 'undefined' || window.closed);
+}
+
+function windowIsOpen(window) {
+  return (window && typeof(window) != 'undefined' && !window.closed)
+}
+
 function toggleSlave() {
   mode.slave = !mode.slave;
   openSlave();
 }
 
+// Open, or maintain connection & reopen slave window.
 function openSlave()
 {
   if (mode.slave) {
     try {
-      if(slaveWindow == null || typeof(slaveWindow) == 'undefined' || slaveWindow.closed){
+      if(windowIsClosed(slaveWindow)){
           slaveWindow = window.open('/' + window.location.hash, 'toolbar');
       }
       else if(slaveWindow.location.hash != window.location.hash) {
@@ -223,65 +251,21 @@ function openSlave()
 
 function nextSlideNum(url) {
   // Some fudging because the first slide is slide[0] but numbered 1 in the URL
-  console.log(typeof(url));
   var snum;
   if (typeof(url) == 'undefined') { snum = currentSlideFromParams()+1; }
   else { snum = currentSlideFromParams()+2; }
   return snum;
 }
 
-function toggleNext() {
-  mode.next = !mode.next;
-  openNext();
-}
-
-function openNext()
-{
-  if (mode.next) {
-    try {
-      if(nextWindow == null || typeof(nextWindow) == 'undefined' || nextWindow.closed){
-          nextWindow = window.open('/?track=false&feedback=false&next=true#' + nextSlideNum(true),'','width=320,height=300');
-      }
-      else if(nextWindow.location.hash != '#' + nextSlideNum(true)) {
-        // maybe we need to reset content?
-        nextWindow.location.href = '/?track=false&feedback=false&next=true#' + nextSlideNum(true);
-      }
-
-      // maintain the pointer back to the parent.
-      nextWindow.presenterView = window;
-      nextWindow.mode = { track: false, next: true, follow: true };
-
-      $('#nextWindow').addClass('enabled');
-    }
-    catch(e) {
-      console.log('Failed to open or connect next window. Popup blocker?');
-    }
-  }
-  else {
-    try {
-      nextWindow && nextWindow.close();
-      $('#nextWindow').removeClass('enabled');
-    }
-    catch (e) {
-      console.log('Next window failed to close properly.');
-    }
-  }
-}
 
 function toggleNotes() {
   mode.notes = !mode.notes;
-  openNotes();
-}
 
-function openNotes()
-{
   if (mode.notes) {
     try {
-      if(notesWindow == null || typeof(notesWindow) == 'undefined' || notesWindow.closed){
-          // yes, the explicit address is needed. Because Chrome.
-          notesWindow = window.open('about:blank', '', 'width=350,height=450');
-          notesWindow.document.title = "Showoff Notes";
-          postSlide();
+      if(windowIsClosed(notesWindow)){
+        notesWindow = blankStyledWindow("Showoff Notes", 'width=350,height=450', 0.5);
+        postSlide();
       }
       $('#notesWindow').addClass('enabled');
     }
@@ -298,6 +282,44 @@ function openNotes()
       console.log('Notes window failed to close properly.');
     }
   }
+}
+
+function blankStyledWindow(title, dimensions, zoom) {
+  // yes, the explicit address is needed. Because Chrome.
+  newWindow = window.open('about:blank','', dimensions);
+
+//  $(newWindow.document).ready(function() {
+//  setTimeout(function() {
+  var wtfFirefox = function() {
+    newWindow.document.title = title;
+
+    $('<base/>',{ "href": window.location.origin }).appendTo($(newWindow.document.head));
+    $('link[rel="stylesheet"]').each(function() {
+      $(newWindow.document.head).append($(this).clone());
+    });
+    $(newWindow.document.head).append('<style type="text/css">body { margin: 0.5em; }</style>');
+
+    if(zoom) {
+      // TODO: This will need to be updated to not be terrible on Firefox
+      var style = '<style type="text/css">            \
+            body { overflow: hidden; }                \
+            .content { zoom: '+zoom+';                \
+            -moz-transform: scale(' + zoom * 2 + ');  \
+            -moz-transform-origin: 0 0; }</style>';
+
+      $(newWindow.document.head).append(style);
+
+      // ugh; Firefox is the new IE.
+      if (! cssPropertySupported('zoom')) {
+        $(newWindow.document.head).append('<style type="text/css">.content { width: 200%; }</style>');
+      }
+    }
+  };
+
+  newWindow.window.onload = wtfFirefox;
+  $(newWindow.document).ready(wtfFirefox);
+
+  return newWindow;
 }
 
 function printSlides()
@@ -499,7 +521,18 @@ function postSlide() {
       $('#notes').prepend(ul);
     }
 
-    if (notesWindow && typeof(notesWindow) != 'undefined' && !notesWindow.closed) {
+    var nextIndex = slidenum + 1;
+    var nextSlide = (nextIndex >= slides.size()) ? '' : slides.eq(nextIndex).html();
+    var prevSlide = (slidenum > 0) ? slides.eq(slidenum - 1).html() : ''
+
+    $('#nextSlide').html(nextSlide);
+    $('#prevSlide').html(prevSlide);
+
+    if (windowIsOpen(nextWindow)) {
+      $(nextWindow.document.body).html(nextSlide);
+    }
+
+    if (windowIsOpen(notesWindow)) {
       $(notesWindow.document.body).html(notes);
     }
 
@@ -721,4 +754,102 @@ function toggleAnnotations()
     $('canvas.annotations').stopAnnotation();
     $('canvas.annotations').hide();
   }
+}
+
+function openNext() {
+  $("#nextWindowConfirmation").slideUp(125);
+  try {
+    if(windowIsClosed(nextWindow)){
+      nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 0.25);
+
+      // Firefox doesn't load content properly unless we delay it slightly. Yay for race conditions.
+//      nextWindow.addEventListener("unload", function() {
+      window.setTimeout(function() {
+        // call back and update the parent presenter if the window is closed
+        nextWindow.onunload = function(e) {
+          nextWindow.opener.chooseLayout('default');
+        };
+
+        postSlide();
+      }, 500);
+
+    }
+  }
+  catch(e) {
+    console.log(e);
+    console.log('Failed to open or connect next window. Popup blocker?');
+  }
+}
+
+/********************
+ Layout selection incorporates previews and the old next window
+ ********************/
+function chooseLayout(layout)
+{
+  // in case we're being called externally, make the UI match
+  $('#layoutSelector').val(layout);
+  $("#nextWindowConfirmation").slideUp(125);
+  console.log("Setting layout to " + layout);
+
+  // change focus so we don't inadvertently change layout again by changing slides
+  $("#preview").focus();
+  $("#layoutSelector").blur();
+
+  // what we are switching *from*
+  switch(mode.layout) {
+    case 'thumbs':
+      $('#preview').removeClass('thumbs');
+      $('#preview .thumb').hide();
+      break;
+
+    case 'beside':
+      $('#preview').removeClass('beside');
+      $('#preview #nextSlide').removeAttr("style");
+      $('#preview #nextSlide').hide();
+      break;
+
+    case 'floating':
+      try {
+        if (nextWindow) {
+          // unregister the event so we don't accidentally double-fire
+          nextWindow.window.onunload = null;
+          nextWindow.close();
+        }
+      }
+      catch (e) {
+        console.log(e);
+        console.log('Next window failed to close properly.');
+      }
+      break;
+
+    default:
+
+  }
+
+  // what we are switching *to*
+  switch(layout) {
+    case 'thumbs':
+      $('#preview').addClass('thumbs');
+      $('#preview .thumb').show();
+      break;
+
+    case 'beside':
+      $('#preview').addClass('beside');
+      $('#preview #nextSlide').show();
+
+      var w = $('#nextSlide').width();
+      $('#nextSlide').height(w*.75)
+
+      break;
+
+    case 'floating':
+      $("#nextWindowConfirmation").slideDown(125);
+      break;
+
+    default:
+
+  }
+
+  mode.layout = layout;
+  zoom(true);
 }
