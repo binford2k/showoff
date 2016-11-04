@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.summary           = "The best damn presentation software a developer could ever love."
   s.homepage          = "https://puppetlabs.github.io/showoff"
   s.license           = 'MIT'
-  s.email             = "schacon@gmail.com"
-  s.authors           = ["Scott Chacon"]
+  s.email             = "eduteam@puppet.com"
+  s.authors           = ["Scott Chacon","Ben Ford"]
   s.has_rdoc          = false
   s.require_path      = "lib"
   s.executables       = %w( showoff )

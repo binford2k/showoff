@@ -69,6 +69,10 @@ pre code {
     background-size: cover;
     position: relative;
   }
+  /* When we scale on Firefox, keep it centered */
+  #preso {
+    -moz-transform-origin: 0 0;
+  }
 
   .slide {
     font-size: 1.5em;
