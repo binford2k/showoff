@@ -288,14 +288,20 @@ function blankStyledWindow(title, dimensions, zoom) {
   // yes, the explicit address is needed. Because Chrome.
   newWindow = window.open('about:blank','', dimensions);
 
-//  $(newWindow.document).ready(function() {
-//  setTimeout(function() {
-  var wtfFirefox = function() {
+  // allow time for the window to load for Firefox and IE
+  window.setTimeout(function() {
     newWindow.document.title = title;
 
-    $('<base/>',{ "href": window.location.origin }).appendTo($(newWindow.document.head));
+    // IE is terrible and will explode if you try to add a DOM element to another
+    // document. Instead, serialize everything into STRINGS and let jquery rebuild
+    // them into elements again in the context of the other document.
+    // Because IE.
+
+    $(newWindow.document.head).append('<base href="' + window.location.origin + '"/>');
     $('link[rel="stylesheet"]').each(function() {
-      $(newWindow.document.head).append($(this).clone());
+      var href  = $(this).attr('href');
+      var style = '<link rel="stylesheet" type="text/css" href="' + href + '">'
+      $(newWindow.document.head).append(style);
     });
     $(newWindow.document.head).append('<style type="text/css">body { margin: 0.5em; }</style>');
 
@@ -314,10 +320,7 @@ function blankStyledWindow(title, dimensions, zoom) {
         $(newWindow.document.head).append('<style type="text/css">.content { width: 200%; }</style>');
       }
     }
-  };
-
-  newWindow.window.onload = wtfFirefox;
-  $(newWindow.document).ready(wtfFirefox);
+  }, 500);
 
   return newWindow;
 }
