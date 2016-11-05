@@ -217,7 +217,6 @@ function zoom(presenter) {
 
     // TODO: When we fix the presenter on IE so the viewport isn't all wack, we
     // may have to revisit this.
-
     var zoomLevel = Number( preso.css('zoom') ) || 1;
     annotations.zoom = 1 / zoomLevel
   }

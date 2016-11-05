@@ -264,8 +264,8 @@ function toggleNotes() {
   if (mode.notes) {
     try {
       if(windowIsClosed(notesWindow)){
-        notesWindow = blankStyledWindow("Showoff Notes", 'width=350,height=450', 0.5);
-        postSlide();
+        notesWindow = blankStyledWindow("Showoff Notes", 'width=350,height=450', 0.5, true);
+        window.setTimeout(postSlide, 500);
       }
       $('#notesWindow').addClass('enabled');
     }
@@ -284,9 +284,13 @@ function toggleNotes() {
   }
 }
 
-function blankStyledWindow(title, dimensions, zoom) {
+function blankStyledWindow(title, dimensions, zoom, scroll) {
   // yes, the explicit address is needed. Because Chrome.
-  newWindow = window.open('about:blank','', dimensions);
+  var opts = "resizable=1,status=0,toolbar=0,location=0,menubar=0,"+dimensions;
+  if(scroll) {
+    opts += ",scrollbars=1";
+  }
+  newWindow = window.open('about:blank','', opts);
 
   // allow time for the window to load for Firefox and IE
   window.setTimeout(function() {
@@ -303,23 +307,19 @@ function blankStyledWindow(title, dimensions, zoom) {
       var style = '<link rel="stylesheet" type="text/css" href="' + href + '">'
       $(newWindow.document.head).append(style);
     });
-    $(newWindow.document.head).append('<style type="text/css">body { margin: 0.5em; }</style>');
 
+    var style = '<style type="text/css">';
+    style += 'body { margin: 0.5em; }';
     if(zoom) {
-      // TODO: This will need to be updated to not be terrible on Firefox
-      var style = '<style type="text/css">            \
-            body { overflow: hidden; }                \
-            .content { zoom: '+zoom+';                \
-            -moz-transform: scale(' + zoom * 2 + ');  \
-            -moz-transform-origin: 0 0; }</style>';
-
-      $(newWindow.document.head).append(style);
-
-      // ugh; Firefox is the new IE.
-      if (! cssPropertySupported('zoom')) {
-        $(newWindow.document.head).append('<style type="text/css">.content { width: 200%; }</style>');
-      }
+      style += '.content { font-size: '+zoom+'em; }';
     }
+    if(scroll) {
+      style += 'html, body { overflow: auto; height: auto; }';
+    }
+    style += '</style>';
+
+    $(newWindow.document.head).append(style);
+
   }, 500);
 
   return newWindow;
@@ -763,7 +763,7 @@ function openNext() {
   $("#nextWindowConfirmation").slideUp(125);
   try {
     if(windowIsClosed(nextWindow)){
-      nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 0.25);
+      nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 0.5);
 
       // Firefox doesn't load content properly unless we delay it slightly. Yay for race conditions.
 //      nextWindow.addEventListener("unload", function() {
@@ -842,7 +842,6 @@ function chooseLayout(layout)
 
       var w = $('#nextSlide').width();
       $('#nextSlide').height(w*.75)
-
       break;
 
     case 'floating':
