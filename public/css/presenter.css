@@ -667,7 +667,8 @@ a.controls {
   }
   #links .desktop,
   #separator,
-  #stylepicker {
+  #stylepicker,
+  #layoutSelector {
     display: none !important;
   }
   #links {
