@@ -239,7 +239,9 @@
       box-shadow: 3px 3px 5px #ccc;
     }
       #navigationHover .content {
-        font-size: 0.5em;
+        width: 200%;
+        transform: scale(0.5);
+        transform-origin: 0 0;
       }
 
   #presenter {
@@ -287,8 +289,10 @@
         background-color: white;
         border-bottom: 2px solid #ccc;
       }
-        #preview .thumb * {
-          zoom: 0.1;
+        #preview .thumb .content {
+          transform: scale(.5);
+          transform-origin: 0 0;
+          width: 200%;
         }
         #prevSlide.thumb {
           left: 0;
@@ -308,25 +312,6 @@
           right: 0;
         }
 
-        /* firefoxy fixes */
-        body.no-zoom #preview .thumb {
-          height: 300px;
-          width: 400px;
-          -moz-transform: scale(.5);
-        }
-        body.no-zoom #preview.beside .thumb {
-          width: 34%;
-          -moz-transform: none;
-          font-size: 0.5em;
-        }
-
-        body.no-zoom #prevSlide.thumb {
-          -moz-transform-origin: top left;
-        }
-        body.no-zoom #nextSlide.thumb {
-          -moz-transform-origin: top right;
-        }
-
         /* allow us to actually see images! */
         #navigationHover img,
         .thumb img {
@@ -342,27 +327,12 @@
         width: 34%;
         top: 1em;
       }
-        #preview.beside .thumb * {
-          zoom: 0.1;
-        }
         #nextSlide.beside {
           right: 1em;
         }
-
         #preview.beside #preso {
           position: absolute;
           left: 1em;
-          width: 64%;
-        }
-
-        /* firefoxy fixes */
-        body.no-zoom #preview.beside #preso {
-          width: 100%;
-        }
-        body.no-zoom #preview.beside .thumb {
-          width: 34%;
-          -moz-transform: none;
-          font-size: 0.5em;
         }
 
 
@@ -393,13 +363,28 @@
         color: #404040;
       }
 
+    /* floating layout */
+    body.floating {
+      margin: 0.5em;
+      width: unset !important;
+      max-width: unset !important;
+    }
+      body.floating.next {
+        transform: scale(.5);
+        transform-origin: 0 0;
+        width: 200% !important;
+      }
+      html > body.floating.notes,
+      body.floating.notes {
+        overflow: auto;
+        height: auto;
+      }
+
 
     #preso {
       -webkit-box-shadow:0 0 25px rgba(0,0,0,0.35);
       -moz-box-shadow:0 0 25px rgba(0,0,0,0.35);
       box-shadow:0 0 25px rgba(0,0,0,0.35);
-    }
-    body.no-zoom #preso {
       position: absolute;
     }
 

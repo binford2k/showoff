@@ -264,7 +264,7 @@ function toggleNotes() {
   if (mode.notes) {
     try {
       if(windowIsClosed(notesWindow)){
-        notesWindow = blankStyledWindow("Showoff Notes", 'width=350,height=450', 0.5, true);
+        notesWindow = blankStyledWindow("Showoff Notes", 'width=350,height=450', 'notes', true);
         window.setTimeout(postSlide, 500);
       }
       $('#notesWindow').addClass('enabled');
@@ -284,11 +284,11 @@ function toggleNotes() {
   }
 }
 
-function blankStyledWindow(title, dimensions, zoom, scroll) {
+function blankStyledWindow(title, dimensions, classes, resizable) {
   // yes, the explicit address is needed. Because Chrome.
-  var opts = "resizable=1,status=0,toolbar=0,location=0,menubar=0,"+dimensions;
-  if(scroll) {
-    opts += ",scrollbars=1";
+  var opts = "status=0,toolbar=0,location=0,menubar=0,"+dimensions;
+  if(resizable) {
+    opts += ",resizable=1,scrollbars=1";
   }
   newWindow = window.open('about:blank','', opts);
 
@@ -308,17 +308,10 @@ function blankStyledWindow(title, dimensions, zoom, scroll) {
       $(newWindow.document.head).append(style);
     });
 
-    var style = '<style type="text/css">';
-    style += 'body { margin: 0.5em; }';
-    if(zoom) {
-      style += '.content { font-size: '+zoom+'em; }';
+    $(newWindow.document.body).addClass('floating');
+    if(classes) {
+      $(newWindow.document.body).addClass(classes);
     }
-    if(scroll) {
-      style += 'html, body { overflow: auto; height: auto; }';
-    }
-    style += '</style>';
-
-    $(newWindow.document.head).append(style);
 
   }, 500);
 
@@ -763,7 +756,7 @@ function openNext() {
   $("#nextWindowConfirmation").slideUp(125);
   try {
     if(windowIsClosed(nextWindow)){
-      nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 0.5);
+      nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 'next');
 
       // Firefox doesn't load content properly unless we delay it slightly. Yay for race conditions.
 //      nextWindow.addEventListener("unload", function() {

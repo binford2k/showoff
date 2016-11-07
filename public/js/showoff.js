@@ -182,30 +182,21 @@ function zoom(presenter) {
 
   var newZoom = Math.min(hBody/hSlide, wBody/wSlide);
 
-  preso.css("zoom", newZoom);
-  preso.css("-ms-zoom", newZoom);
-  preso.css("-webkit-zoom", newZoom);
-
-  // // Firefox doesn't support zoom.
-  if($("body").hasClass("no-zoom")) {
-
-    // why so terrible?
-    if($("#preview").hasClass("beside")) {
-      // match the 65/35 split in the stylesheet
-      wBody  *= 0.64;
-      newZoom = Math.min(hBody/hSlide, wBody/wSlide);
-    }
-
-    // Calculate margins to center the thing *before* scaling
-    var hMargin = (hBody - hSlide) /2;
-    var wMargin = (wBody - wSlide) /2;
-
-    // Because Firefox's transform doesn't scale up very well
-    newZoom = newZoom > 1 ? 1 : newZoom - .04;
-
-    preso.css("margin", hMargin + "px " + wMargin + "px");
-    preso.css("transform", "scale(" + newZoom + ")");
+  // match the 65/35 split in the stylesheet for the side-by-side layout
+  if($("#preview").hasClass("beside")) {
+    wBody  *= 0.64;
+    newZoom = Math.min(hBody/hSlide, wBody/wSlide);
   }
+
+  // Calculate margins to center the thing *before* scaling
+  var hMargin = (hBody - hSlide) /2;
+  var wMargin = (wBody - wSlide) /2;
+
+  // Because Firefox's transform doesn't scale up very well
+  newZoom = newZoom > 1 ? 1 : newZoom - .04;
+
+  preso.css("margin", hMargin + "px " + wMargin + "px");
+  preso.css("transform", "scale(" + newZoom + ")");
 
   // correct the zoom factor for the presenter
   if (presenter) {
