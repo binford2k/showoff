@@ -192,9 +192,6 @@ function zoom(presenter) {
   var hMargin = (hBody - hSlide) /2;
   var wMargin = (wBody - wSlide) /2;
 
-  // Because Firefox's transform doesn't scale up very well
-  newZoom = newZoom > 1 ? 1 : newZoom - .04;
-
   preso.css("margin", hMargin + "px " + wMargin + "px");
   preso.css("transform", "scale(" + newZoom + ")");
 
