@@ -208,7 +208,7 @@ jQuery.fn.extend({
 
       // let the annotation overlay own mouse events.
       // This means that clicking links or copying text will not work.
-      $(this).css('pointer-events', 'initial');
+      $(this).css('pointer-events', 'auto');
 
       $(this).unbind( "mousedown" );
       $(this).mousedown(function(e){
