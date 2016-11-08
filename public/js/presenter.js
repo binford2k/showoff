@@ -444,7 +444,7 @@ function markCompleted(questionID) {
 function update() {
   if(mode.update) {
     var slideName = $("#slideFile").text();
-    ws.send(JSON.stringify({ message: 'update', slide: slidenum, name: slideName}));
+    ws.send(JSON.stringify({ message: 'update', slide: slidenum, name: slideName, increment: incrCurr}));
   }
 }
 

@@ -1410,6 +1410,7 @@ class ShowOff < Sinatra::Application
               if valid_cookie()
                 name  = control['name']
                 slide = control['slide'].to_i
+                increment = control['increment'].to_i rescue 0
 
                 # check to see if we need to enable a download link
                 if @@downloads.has_key?(slide)
@@ -1419,10 +1420,10 @@ class ShowOff < Sinatra::Application
 
                 # update the current slide pointer
                 @logger.debug "Updated current slide to #{name}"
-                @@current = { :name => name, :number => slide }
+                @@current = { :name => name, :number => slide, :increment => increment }
 
                 # schedule a notification for all clients
-                EM.next_tick { settings.sockets.each{|s| s.send({ 'message' => 'current', 'current' => @@current[:number] }.to_json) } }
+                EM.next_tick { settings.sockets.each{|s| s.send({ 'message' => 'current', 'current' => @@current[:number], 'increment' => @@current[:increment] }.to_json) } }
               end
 
             when 'register'
