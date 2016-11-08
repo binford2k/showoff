@@ -448,8 +448,9 @@ function setupSlideParamsCheck() {
 function gotoSlide(slideNum, updatepv) {
   var newslide = parseInt(slideNum);
   if (slidenum != newslide && !isNaN(newslide)) {
+    var back = (newslide == (slidenum - 1))
     slidenum = newslide;
-    showSlide(false, updatepv);
+    showSlide(back, updatepv);
   }
 }
 
@@ -889,7 +890,7 @@ function parseMessage(data) {
   try {
     switch (command['message']) {
       case 'current':
-        follow(command["current"]);
+        follow(command["current"], command["increment"]);
         break;
 
       case 'complete':
@@ -1019,10 +1020,29 @@ function editSlide() {
   window.open(link);
 }
 
-function follow(slide) {
+function follow(slide, newIncrement) {
   if (mode.follow) {
+    var lastSlide = slidenum;
     console.log("New slide: " + slide);
     gotoSlide(slide);
+
+    if( ! $("body").hasClass("presenter") ) {
+      switch (slidenum - lastSlide) {
+        case -1:
+          fireEvent("showoff:prev");
+          break;
+
+        case 1:
+          fireEvent("showoff:next");
+          break;
+      }
+
+      // if the master says we're incrementing. Use a loop in case the viewer is out of sync
+      while(newIncrement > incrCurr) {
+        increment();
+      }
+
+    }
   }
 }
 
@@ -1031,41 +1051,44 @@ function getPosition() {
   ws.send(JSON.stringify({ message: 'position' }));
 }
 
+function fireEvent(ev) {
+  var event = jQuery.Event(ev);
+  $(currentSlide).find(".content").trigger(event);
+  if (event.isDefaultPrevented()) {
+    return;
+  }
+}
+
+function increment() {
+  showIncremental(incrCurr);
+
+  var incrEvent = jQuery.Event("showoff:incr");
+  incrEvent.slidenum = slidenum;
+  incrEvent.incr = incrCurr;
+  $(currentSlide).find(".content").trigger(incrEvent);
+
+  incrCurr++;
+}
+
 function prevStep(updatepv)
 {
-	var event = jQuery.Event("showoff:prev");
-	$(currentSlide).find(".content").trigger(event);
-	if (event.isDefaultPrevented()) {
-			return;
-	}
-
+  fireEvent("showoff:prev");
   track();
-
-	slidenum--
-	return showSlide(true, updatepv) // We show the slide fully loaded
+  slidenum--;
+  return showSlide(true, updatepv); // We show the slide fully loaded
 }
 
 function nextStep(updatepv)
 {
-	var event = jQuery.Event("showoff:next");
-	$(currentSlide).find(".content").trigger(event);
-	if (event.isDefaultPrevented()) {
-			return;
-	}
+  fireEvent("showoff:next");
+  track();
 
-	track();
-
-	if (incrCurr >= incrSteps) {
-		slidenum++
-		return showSlide(false, updatepv)
-	} else {
-		showIncremental(incrCurr);
-		var incrEvent = jQuery.Event("showoff:incr");
-		incrEvent.slidenum = slidenum;
-		incrEvent.incr = incrCurr;
-		$(currentSlide).find(".content").trigger(incrEvent);
-		incrCurr++;
-	}
+  if (incrCurr >= incrSteps) {
+    slidenum++;
+    return showSlide(false, updatepv);
+  } else {
+    increment();
+  }
 }
 
 // carrying on our grand tradition of overwriting functions of the same name with presenter.js
