@@ -915,16 +915,18 @@ form .element {
   .callout.question,
   .callout.exercise,
   .callout.stop,
-  .callout.thumbsup {
+  .callout.thumbsup,
+  .callout.conversation {
     padding-left: 3em;
   }
 
-  .callout.info:before     { content: "\f05a"; } /* fa-info-circle */
-  .callout.warning:before  { content: "\f071"; } /* fa-exclamation-triangle */
-  .callout.question:before { content: "\f059"; } /* fa-question-circle */
-  .callout.exercise:before { content: "\f41b"; } /* fa-pencil-square */
-  .callout.stop:before     { content: "\f05e"; } /* fa-ban */
-  .callout.thumbsup:before { content: "\f164"; } /* fa-thumbs-up */
+  .callout.info:before         { content: "\f05a"; } /* fa-info-circle */
+  .callout.warning:before      { content: "\f071"; } /* fa-exclamation-triangle */
+  .callout.question:before     { content: "\f059"; } /* fa-question-circle */
+  .callout.exercise:before     { content: "\f41b"; } /* fa-pencil-square */
+  .callout.stop:before         { content: "\f05e"; } /* fa-ban */
+  .callout.thumbsup:before     { content: "\f164"; } /* fa-thumbs-up */
+  .callout.conversation:before { content: "\f0e5"; } /* fa-comment */
 
 /* callouts used on error pages */
 .error .callout {
