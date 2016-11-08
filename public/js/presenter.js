@@ -264,8 +264,8 @@ function toggleNotes() {
   if (mode.notes) {
     try {
       if(windowIsClosed(notesWindow)){
-        notesWindow = blankStyledWindow("Showoff Notes", 'width=350,height=450', 0.5);
-        postSlide();
+        notesWindow = blankStyledWindow("Showoff Notes", 'width=350,height=450', 'notes', true);
+        window.setTimeout(postSlide, 500);
       }
       $('#notesWindow').addClass('enabled');
     }
@@ -284,40 +284,36 @@ function toggleNotes() {
   }
 }
 
-function blankStyledWindow(title, dimensions, zoom) {
+function blankStyledWindow(title, dimensions, classes, resizable) {
   // yes, the explicit address is needed. Because Chrome.
-  newWindow = window.open('about:blank','', dimensions);
+  var opts = "status=0,toolbar=0,location=0,menubar=0,"+dimensions;
+  if(resizable) {
+    opts += ",resizable=1,scrollbars=1";
+  }
+  newWindow = window.open('about:blank','', opts);
 
-//  $(newWindow.document).ready(function() {
-//  setTimeout(function() {
-  var wtfFirefox = function() {
+  // allow time for the window to load for Firefox and IE
+  window.setTimeout(function() {
     newWindow.document.title = title;
 
-    $('<base/>',{ "href": window.location.origin }).appendTo($(newWindow.document.head));
+    // IE is terrible and will explode if you try to add a DOM element to another
+    // document. Instead, serialize everything into STRINGS and let jquery rebuild
+    // them into elements again in the context of the other document.
+    // Because IE.
+
+    $(newWindow.document.head).append('<base href="' + window.location.origin + '"/>');
     $('link[rel="stylesheet"]').each(function() {
-      $(newWindow.document.head).append($(this).clone());
-    });
-    $(newWindow.document.head).append('<style type="text/css">body { margin: 0.5em; }</style>');
-
-    if(zoom) {
-      // TODO: This will need to be updated to not be terrible on Firefox
-      var style = '<style type="text/css">            \
-            body { overflow: hidden; }                \
-            .content { zoom: '+zoom+';                \
-            -moz-transform: scale(' + zoom * 2 + ');  \
-            -moz-transform-origin: 0 0; }</style>';
-
+      var href  = $(this).attr('href');
+      var style = '<link rel="stylesheet" type="text/css" href="' + href + '">'
       $(newWindow.document.head).append(style);
+    });
 
-      // ugh; Firefox is the new IE.
-      if (! cssPropertySupported('zoom')) {
-        $(newWindow.document.head).append('<style type="text/css">.content { width: 200%; }</style>');
-      }
+    $(newWindow.document.body).addClass('floating');
+    if(classes) {
+      $(newWindow.document.body).addClass(classes);
     }
-  };
 
-  newWindow.window.onload = wtfFirefox;
-  $(newWindow.document).ready(wtfFirefox);
+  }, 500);
 
   return newWindow;
 }
@@ -760,7 +756,7 @@ function openNext() {
   $("#nextWindowConfirmation").slideUp(125);
   try {
     if(windowIsClosed(nextWindow)){
-      nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 0.25);
+      nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 'next');
 
       // Firefox doesn't load content properly unless we delay it slightly. Yay for race conditions.
 //      nextWindow.addEventListener("unload", function() {
@@ -839,7 +835,6 @@ function chooseLayout(layout)
 
       var w = $('#nextSlide').width();
       $('#nextSlide').height(w*.75)
-
       break;
 
     case 'floating':

@@ -972,8 +972,9 @@ h1.section_title {
     padding: 0;
   }
   body > #preso {
-    width: 976px;
-    zoom: 0.32;
+    transform: scale(.32);
+    transform-origin: 0 0;
+    width: 2928px;
   }
   #preso .slide {
     width: 100%;
