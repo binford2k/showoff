@@ -214,6 +214,21 @@ It's also easy to define your own custom scripts with the <tt>validators</tt> ke
 The validator is passed the path to a temporary file containing the code to be checked.
 Any output is suppressed and a non-zero exit code is considered to be a failure.
 
+Add a class of <tt>no-validate</tt> to skip validation for a block of code.
+
+    @@@ Ruby no-validate
+    # Do you see the error here?
+    # The difference between == and = is easy to miss
+    # and many language won't warn you about it.
+    def fibonacci(n)
+      raise "undefined" if n < 0
+      succ = 1
+      curr = 0
+      n.times {succ, curr == succ + curr, succ}
+      curr
+    end
+
+
 == Markdown Engine
 
 It is possible to configure the markdown engine of your choice to use

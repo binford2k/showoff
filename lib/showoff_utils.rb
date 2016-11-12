@@ -122,9 +122,14 @@ class ShowOffUtils
       if filename.downcase.end_with? '.md'
         print '.'
         showoff.get_code_from_slide(filename.sub('.md',''), 'all', false).each_with_index do |block, index|
-          lang, code = block
+          lang, code, classes = block
           validator = validators[lang]
-          if validator
+
+          if classes.include? 'no-validate'
+            print '-'
+            next
+
+          elsif validator
             # write out a tempfile because many validators require files to with
             Tempfile.open('showoff-validation') do |f|
               File.write(f.path, code)
@@ -134,6 +139,7 @@ class ShowOffUtils
               end
             end
           end
+
        end
       end
     end
