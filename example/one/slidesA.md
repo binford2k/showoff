@@ -28,6 +28,22 @@
 Also, sometimes you just want to have plain text sitting in the middle
 of the screen. The quick brown fox jumps over the lazy dog.
 
+<!SLIDE bullets incremental transition=fade>
+# Sub bullets
+
+* something
+    * something else
+* a third thing
+    * and some more
+    * inconsequential things
+      * to fill up a sub bullet list
+      * of things
+* a fourth thing
+* a fifth thing
+
+<!SLIDE bullets>
+# Third Slide
+
 !SLIDE center transition=scrollUp
 .notes another dark side
 
