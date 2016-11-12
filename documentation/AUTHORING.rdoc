@@ -109,14 +109,17 @@ Check out the example directory included to see examples of most of these.
 
 Several custom "callout" paragraph styles are included. This allows you to highlight points
 in your presentation, with a callout box and an optional icon. To do this, add <tt>.callout</tt>
-or <tt>.callout.[style]</tt> as the first word of your paragraph.
+or <tt>.callout.[style]</tt> as the first word of your paragraph, such as:
 
-[.callout] Highlights a paragraph with an outlined box.
-[.callout.info] Adds an info icon.
-[.callout.warning] Adds a warning icon.
-[.callout.question] Adds a question icon.
-[.callout.stop] Adds a stop icon.
-[.callout.thumbsup] Adds a thumbs up icon.
+    <!SLIDE >
+    # Example callout paragraphs
+
+    .callout This paragraph will be highlighted with an outlined box.
+
+    .callout.info Adding the `.info` modifier adds an info icon.
+
+rdoc-image:../images/callouts.png
+
 
 = Supplemental Materials
 
