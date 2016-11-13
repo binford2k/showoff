@@ -282,6 +282,15 @@
       #preview .thumb {
         display: none;
         position: absolute;
+        top: 0;
+      }
+        #preview .thumb .label {
+        }
+        #nextSlide.thumb .label {
+          text-align: right;
+        }
+
+      #preview .thumb .container {
         overflow: hidden;
         height: 150px;
         width: 200px;
@@ -296,12 +305,16 @@
         }
         #prevSlide.thumb {
           left: 0;
-          border-right: 2px solid #ccc;
         }
+          #prevSlide.thumb .container {
+            border-right: 2px solid #ccc;
+          }
         #nextSlide.thumb {
           right: 0;
-          border-left: 2px solid #ccc;
         }
+          #nextSlide.thumb .container {
+            border-left: 2px solid #ccc;
+          }
 
         #preview.thumbs #preso {
           position: absolute;
@@ -327,6 +340,10 @@
         width: 34%;
         top: 1em;
       }
+        #preview.beside .thumb .container {
+          width: auto;
+        }
+
         #nextSlide.beside {
           right: 1em;
         }
