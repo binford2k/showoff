@@ -332,6 +332,21 @@ Validators are defined for Perl, Puppet, Python, Ruby, and Shell.</p>
 be checked. Any output is suppressed and a non-zero exit code is considered
 to be a failure.</p>
 
+<p>Add a class of <code>no-validate</code> to skip validation for a block of
+code.</p>
+
+<pre>@@@ Ruby no-validate
+# Do you see the error here?
+# The difference between == and = is easy to miss
+# and many language won&#39;t warn you about it.
+def fibonacci(n)
+  raise &quot;undefined&quot; if n &lt; 0
+  succ = 1
+  curr = 0
+  n.times {succ, curr == succ + curr, succ}
+  curr
+end</pre>
+
 <h2 id="label-Markdown+Engine">Markdown Engine<span><a href="#label-Markdown+Engine">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>It is possible to configure the markdown engine of your choice to use with
