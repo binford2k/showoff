@@ -521,8 +521,8 @@ function postSlide() {
     var nextSlide = (nextIndex >= slides.size()) ? '' : slides.eq(nextIndex).html();
     var prevSlide = (slidenum > 0) ? slides.eq(slidenum - 1).html() : ''
 
-    $('#nextSlide').html(nextSlide);
-    $('#prevSlide').html(prevSlide);
+    $('#nextSlide .container').html(nextSlide);
+    $('#prevSlide .container').html(prevSlide);
 
     if (windowIsOpen(nextWindow)) {
       $(nextWindow.document.body).html(nextSlide);
@@ -800,7 +800,7 @@ function chooseLayout(layout)
 
     case 'beside':
       $('#preview').removeClass('beside');
-      $('#preview #nextSlide').removeAttr("style");
+      $('#preview #nextSlide .container').removeAttr("style");
       $('#preview #nextSlide').hide();
       break;
 
@@ -833,8 +833,8 @@ function chooseLayout(layout)
       $('#preview').addClass('beside');
       $('#preview #nextSlide').show();
 
-      var w = $('#nextSlide').width();
-      $('#nextSlide').height(w*.75)
+      var w = $('#nextSlide .container').width();
+      $('#nextSlide .container').height(w*.75)
       break;
 
     case 'floating':
