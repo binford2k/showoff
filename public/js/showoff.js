@@ -21,13 +21,12 @@ var section = 'handouts'; // default to showing handout notes for display view
 var slideStartTime = new Date().getTime()
 
 var loadSlidesBool
-var loadSlidesPrefix
 
 var mode = { track: true, follow: true };
 
 $(document).on('click', 'code.execute', executeCode);
 
-function setupPreso(load_slides, prefix) {
+function setupPreso(load_slides) {
 	if (preso_started) {
 		alert("already started");
 		return;
@@ -47,8 +46,7 @@ function setupPreso(load_slides, prefix) {
 
 	// Load slides fetches images
 	loadSlidesBool = load_slides;
-	loadSlidesPrefix = prefix || '/';
-	loadSlides(loadSlidesBool, loadSlidesPrefix);
+	loadSlides(loadSlidesBool);
 
   setupSideMenu();
 
@@ -82,8 +80,8 @@ function setupPreso(load_slides, prefix) {
   }
 }
 
-function loadSlides(load_slides, prefix, reload) {
-  var url = loadSlidesPrefix + "slides";
+function loadSlides(load_slides, reload) {
+  var url = "slides";
   if (reload) {
     url += "?cache=clear";
   }
@@ -91,7 +89,7 @@ function loadSlides(load_slides, prefix, reload) {
   if (load_slides) {
     $("#slides").load(url, false, function(){
       $("#slides img").batchImageLoad({
-        loadingCompleteCallback: initializePresentation(prefix)
+        loadingCompleteCallback: initializePresentation()
       });
       if (reload) {
         location.reload(true);
@@ -99,12 +97,12 @@ function loadSlides(load_slides, prefix, reload) {
     })
   } else {
     $("#slides img").batchImageLoad({
-      loadingCompleteCallback: initializePresentation(prefix)
+      loadingCompleteCallback: initializePresentation()
     })
   }
 }
 
-function initializePresentation(prefix) {
+function initializePresentation() {
 	// unhide for height to work in static mode
   $("#slides").show();
 
@@ -223,7 +221,7 @@ function setupSideMenu() {
 
   $('#fileDownloads').click(function() {
     closeMenu();
-    window.open('/download');
+    window.open('download');
   })
 
   $("#paceSlower").click(function() {
@@ -826,7 +824,9 @@ function renderForm(form) {
 function connectControlChannel() {
   if (interactive) {
     protocol     = (location.protocol === 'https:') ? 'wss://' : 'ws://';
-    ws           = new WebSocket(protocol + location.host + '/control');
+    base         = $('base').attr('href') || '';
+    path         = (location.pathname + base + '/control').replace('//', '/');
+    ws           = new WebSocket(protocol + location.host + path);
     ws.onopen    = function()  { connected();          };
     ws.onclose   = function()  { disconnected();       }
     ws.onmessage = function(m) { parseMessage(m.data); };
@@ -1261,7 +1261,7 @@ function toggleDebug () {
 function reloadSlides () {
   if (confirm('Are you sure you want to reload the slides?')) {
     $('html,body').css('cursor','progress');
-    loadSlides(loadSlidesBool, loadSlidesPrefix, true);
+    loadSlides(loadSlidesBool, true);
     showSlide();
   }
 }
@@ -1515,7 +1515,7 @@ function stopPreShow() {
 	$('#tips').remove();
 	$('#preshow_timer').remove();
 
-	loadSlides(loadSlidesBool, loadSlidesPrefix);
+	loadSlides(loadSlidesBool);
 }
 
 function nextPreShowImage() {

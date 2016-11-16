@@ -138,9 +138,6 @@ class ShowOff < Sinatra::Application
     @pres_name = settings.pres_dir.split('/').pop
     require_ruby_files
 
-    # Default asset path
-    @asset_path = "./"
-
     # invert the logic to maintain backwards compatibility of interactivity on by default
     @interactive = ! settings.standalone rescue false
 
@@ -792,11 +789,11 @@ class ShowOff < Sinatra::Application
 
       case
       when opts[:static] && opts[:pdf]
-        replacement_prefix = "file://#{settings.pres_dir}/"
+        replacement_prefix = "file://#{settings.pres_dir}"
       when opts[:static]
-        replacement_prefix = "./file/"
+        replacement_prefix = './file'
       else
-        replacement_prefix = "#{@asset_path}image/"
+        replacement_prefix = 'image'
       end
 
       doc.css('img').each do |img|
@@ -932,8 +929,6 @@ class ShowOff < Sinatra::Application
         @title = ShowOffUtils.showoff_title(settings.pres_dir)
         @slides = get_slides_html(:static=>static)
         @pause_msg = ShowOffUtils.pause_msg
-
-        @asset_path = "./"
       end
 
       # Display favicon in the window if configured
@@ -1521,8 +1516,6 @@ class ShowOff < Sinatra::Application
       locked!
     end
 
-    @asset_path = env['SCRIPT_NAME'] == '' ? nil : env['SCRIPT_NAME'].gsub(/^\/?/, '/').gsub(/\/?$/, '/')
-
     begin
       if (what != "favicon.ico")
         if what == 'supplemental'
@@ -1543,8 +1536,6 @@ class ShowOff < Sinatra::Application
   end
 
   not_found do
-    # Why does the asset path start from cwd??
-    @asset_path.slice!(/^./) rescue nil
     @env = request.env
     erb :'404'
   end

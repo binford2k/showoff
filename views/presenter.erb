@@ -2,11 +2,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+  <base href=".." />
   <%= erb :header %>
-  <link rel="stylesheet" href="<%= @asset_path %>/css/presenter.css" type="text/css"/>
-  <link href="<%= @asset_path %>/css/TimeCircles.css" rel="stylesheet">
-  <script type="text/javascript" src="<%= @asset_path %>/js/TimeCircles.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>/js/presenter.js"></script>
+  <link rel="stylesheet" href="css/presenter.css" type="text/css"/>
+  <link href="css/TimeCircles.css" rel="stylesheet">
+  <script type="text/javascript" src="js/TimeCircles.js"></script>
+  <script type="text/javascript" src="js/presenter.js"></script>
   <script type="text/javascript">
     editUrl  = "<%= @edit %>";
     issueUrl = "<%= @issues %>";
@@ -78,7 +79,7 @@
       <div id="feedbackPace">
         <span id="paceSlow">Speed Up!</span>
         <span id="paceFast">Slow Down!</span>
-        <img id="paceMarker" src="<%= @asset_path %>/css/paceMarker.png" />
+        <img id="paceMarker" src="css/paceMarker.png" />
       </div>
       <div id="navigation" class="submenu"></div>
       <div id="navigationHover"></div>
@@ -86,7 +87,7 @@
     <div id="presenter">
       <div id="frame">
         <div id="preview">
-          <img id="disconnected" src="<%= @asset_path %>/css/disconnected-large.png" />
+          <img id="disconnected" src="css/disconnected-large.png" />
           <div id="prevSlide" class="thumb"><div class="container"></div><h3 class="label">Previous</h3></div>
           <div id="nextSlide" class="thumb"><div class="container"></div><h3 class="label">Next</h3></div>
           <div id="preso">loading presentation...</div>

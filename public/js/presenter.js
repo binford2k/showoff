@@ -27,10 +27,10 @@ $(document).ready(function(){
   $(window).resize(function() { zoom(true); });
 
   $('#statslink').click(function(e) {
-    presenterPopupToggle('/stats', e);
+    presenterPopupToggle('stats', e);
   });
   $('#downloadslink').click(function(e) {
-    presenterPopupToggle('/download', e);
+    presenterPopupToggle('download', e);
   });
   $('#layoutSelector').change(function(e) {
     chooseLayout(e.target.value);
