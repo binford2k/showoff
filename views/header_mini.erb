@@ -7,12 +7,12 @@
     <link rel="icon" href="<%= @favicon %>"/>
   <% end %>
 
-  <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/showoff.css" />
+  <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/showoff.css?v=<%= SHOWOFF_VERSION %>" />
   <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/font-awesome-4.4.0/css/font-awesome.min.css">
 
   <script type="text/javascript" src="<%= @asset_path %>/js/jquery-2.1.4.min.js"></script>
 
-  <script type="text/javascript" src="<%= @asset_path %>/js/showoff.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/showoff.js?v=<%= SHOWOFF_VERSION %>"></script>
 
   <% css_files.each do |css_file| %>
     <% alternate = ShowOffUtils.default_style?(css_file) ? '' : 'alternate ' %>
