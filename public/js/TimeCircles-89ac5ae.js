@@ -12,6 +12,8 @@
  * within it's collection, either fetch or create an instance of the private class.
  * Each function called upon the public class will be forwarded to each instance
  * of the private classes within the relevant element collection
+ *
+ * https://github.com/wimbarelds/TimeCircles
  **/
 (function($) {
 

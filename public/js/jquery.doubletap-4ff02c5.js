@@ -1,3 +1,4 @@
+/* https://github.com/technoweenie/jquery.doubletap */
 (function($) {
   var touchStatus = function(target, touch) {
     this.target    = $(target);
@@ -31,7 +32,7 @@
 
   touchStatus.prototype.checkForDoubleTap = function() {
     if(touchStatus.latestTap) {
-      if((new Date() - touchStatus.latestTap) < 400) 
+      if((new Date() - touchStatus.latestTap) < 400)
         this.eventType = 'doubletap'
     }
     if(!this.eventType) this.eventType = 'tap'

@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <%= erb :header %>
-  <link rel="stylesheet" href="<%= @asset_path %>/css/presenter.css" type="text/css"/>
-  <link href="<%= @asset_path %>/css/TimeCircles.css" rel="stylesheet">
-  <script type="text/javascript" src="<%= @asset_path %>/js/TimeCircles.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>/js/presenter.js"></script>
+  <link rel="stylesheet" href="<%= @asset_path %>/css/presenter.css?v=<%= SHOWOFF_VERSION %>" type="text/css"/>
+  <link href="<%= @asset_path %>/css/TimeCircles-89ac5ae.css" rel="stylesheet">
+  <script type="text/javascript" src="<%= @asset_path %>/js/TimeCircles-89ac5ae.js"></script>
+  <script type="text/javascript" src="<%= @asset_path %>/js/presenter.js?v=<%= SHOWOFF_VERSION %>"></script>
   <script type="text/javascript">
     editUrl  = "<%= @edit %>";
     issueUrl = "<%= @issues %>";
