@@ -27,7 +27,6 @@
   <script type="text/javascript" src="<%= @asset_path %>/js/showoff.js?v=<%= SHOWOFF_VERSION %>"></script>
 
   <% css_files.each do |css_file| %>
-    <% alternate = ShowOffUtils.default_style?(css_file) ? '' : 'alternate ' %>
     <link rel="stylesheet" href="<%= @asset_path %>/file/<%= css_file %>" type="text/css"/>
   <% end %>
 
