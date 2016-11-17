@@ -566,7 +566,7 @@ class ShowOff < Sinatra::Application
         tools << '<input type="button" class="display" value="Display Results">'
         tools << '<input type="submit" value="Save" disabled="disabled">'
         tools << '</div>'
-        form  = "<form id='#{title}' action='/form/#{title}' method='POST'>#{content}#{tools}</form>"
+        form  = "<form id='#{title}' action='form/#{title}' method='POST'>#{content}#{tools}</form>"
         doc = Nokogiri::HTML::DocumentFragment.parse(form)
         doc.css('p').each do |p|
           if p.text =~ /^(\w*) ?(?:->)? ?(.*)? (\*?)= ?(.*)?$/

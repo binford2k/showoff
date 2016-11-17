@@ -24,6 +24,9 @@ var loadSlidesBool
 
 var mode = { track: true, follow: true };
 
+// Make sure we have a sane value here
+location.root = location.root || location.pathname;
+
 $(document).on('click', 'code.execute', executeCode);
 
 function setupPreso(load_slides) {
@@ -824,8 +827,7 @@ function renderForm(form) {
 function connectControlChannel() {
   if (interactive) {
     protocol     = (location.protocol === 'https:') ? 'wss://' : 'ws://';
-    base         = $('base').attr('href') || '';
-    path         = (location.pathname + base + '/control').replace('//', '/');
+    path         = (location.root + '/control').replace('//', '/');
     ws           = new WebSocket(protocol + location.host + path);
     ws.onopen    = function()  { connected();          };
     ws.onclose   = function()  { disconnected();       }
@@ -1446,11 +1448,11 @@ function setupPreShow(seconds) {
     $.each(data, function(i, n) {
       if(n == "preshow.json") {
         // has a descriptions file
-        $.getJSON("/file/_preshow/preshow.json", false, function(data) {
+        $.getJSON("file/_preshow/preshow.json", false, function(data) {
           preshow_des = data;
         })
       } else {
-        $('#preshow').append('<img ref="' + n + '" src="/file/_preshow/' + n + '"/>');
+        $('#preshow').append('<img ref="' + n + '" src="file/_preshow/' + n + '"/>');
       }
     })
     preshow_images      = $('#preshow > img');

@@ -6,7 +6,7 @@
 </head>
 
 <body id="download">
-  <div id="wrapper">  <!-- wrapper needed for presenterPopupToggle() and $.get() --> 
+  <div id="wrapper">  <!-- wrapper needed for presenterPopupToggle() and $.get() -->
   <h1>File Downloads</h1>
   <% if @downloads %>
       <%# [ enabled, slide name, [array, of, files] ] %>
@@ -14,10 +14,10 @@
           <% enabled, title, files = value %>
           <% if enabled %>
             <%if key != -999 %>
-              <% path = '/file/_files' %>
+              <% path = 'file/_files' %>
               <h4>Slide <%= key %> <small>(<%= title %>)</small></h4>
             <% else %>
-              <% path = '/file/_files/share' %>
+              <% path = 'file/_files/share' %>
             <% end %>
             <ul>
             <% files.each do |file| %>

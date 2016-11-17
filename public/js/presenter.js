@@ -52,7 +52,7 @@ $(document).ready(function(){
 
     $('#topbar #update').click( function(e) {
       e.preventDefault();
-      $.get("/getpage", function(data) {
+      $.get("getpage", function(data) {
         gotoSlide(data);
       });
     });
@@ -189,7 +189,7 @@ function editSlide() {
 // call the edit endpoint to open up a local file editor
 function openEditor() {
   var slide = $("span#slideFile").text().replace(/:\d+$/, '');
-  var link  = '/edit/' + slide + ".md";
+  var link  = 'edit/' + slide + ".md";
   $.get(link);
 }
 
@@ -213,11 +213,11 @@ function openSlave()
   if (mode.slave) {
     try {
       if(windowIsClosed(slaveWindow)){
-          slaveWindow = window.open('/' + window.location.hash, 'toolbar');
+          slaveWindow = window.open('' + window.location.hash, 'toolbar');
       }
       else if(slaveWindow.location.hash != window.location.hash) {
         // maybe we need to reset content?
-        slaveWindow.location.href = '/' + window.location.hash;
+        slaveWindow.location.href = '' + window.location.hash;
       }
 
       // maintain the pointer back to the parent.
@@ -301,7 +301,7 @@ function blankStyledWindow(title, dimensions, classes, resizable) {
     // them into elements again in the context of the other document.
     // Because IE.
 
-    $(newWindow.document.head).append('<base href="' + window.location.origin + '"/>');
+    $(newWindow.document.head).append('<base href="' + location.origin + location.root + '"/>');
     $('link[rel="stylesheet"]').each(function() {
       var href  = $(this).attr('href');
       var style = '<link rel="stylesheet" type="text/css" href="' + href + '">'
@@ -321,7 +321,7 @@ function blankStyledWindow(title, dimensions, classes, resizable) {
 function printSlides()
 {
   try {
-    var printWindow = window.open('/print');
+    var printWindow = window.open('print');
     printWindow.window.print();
   }
   catch(e) {
