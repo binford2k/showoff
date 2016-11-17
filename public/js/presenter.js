@@ -551,18 +551,19 @@ function presenterKeyDown(event){
   }
 
   switch(getAction(event)) {
-    case 'DEBUG':     toggleDebug();    break;
-    case 'PREV':      presPrevStep();   break; // Watch that this uses presPrevStep and not prevStep
-    case 'NEXT':      presNextStep();   break; // Same here
-    case 'RELOAD':    reloadSlides();   break;
-    case 'CONTENTS':  toggleContents(); break;
-    case 'HELP':      toggleHelp();     break;
-    case 'BLANK':     blankScreen();    break;
-    case 'FOOTER':    toggleFooter();   break;
-    case 'FOLLOW':    toggleFollow();   break;
-    case 'NOTES':     toggleNotes();    break;
-    case 'PAUSE':     togglePause();    break;
-    case 'PRESHOW':   togglePreShow();  break;
+    case 'DEBUG':     toggleDebug();      break;
+    case 'PREV':      presPrevStep();     break; // Watch that this uses presPrevStep and not prevStep
+    case 'NEXT':      presNextStep();     break; // Same here
+    case 'REFRESH':   reloadSlides();     break;
+    case 'RELOAD':    reloadSlides(true); break;
+    case 'CONTENTS':  toggleContents();   break;
+    case 'HELP':      toggleHelp();       break;
+    case 'BLANK':     blankScreen();      break;
+    case 'FOOTER':    toggleFooter();     break;
+    case 'FOLLOW':    toggleFollow();     break;
+    case 'NOTES':     toggleNotes();      break;
+    case 'PAUSE':     togglePause();      break;
+    case 'PRESHOW':   togglePreShow();    break;
     case 'CLEAR':
       removeResults();
       try {
