@@ -82,7 +82,7 @@ function setupPreso(load_slides, prefix) {
   }
 }
 
-function loadSlides(load_slides, prefix, reload) {
+function loadSlides(load_slides, prefix, reload, hard) {
   var url = loadSlidesPrefix + "slides";
   if (reload) {
     url += "?cache=clear";
@@ -90,11 +90,13 @@ function loadSlides(load_slides, prefix, reload) {
   //load slides offscreen, wait for images and then initialize
   if (load_slides) {
     $("#slides").load(url, false, function(){
-      $("#slides img").batchImageLoad({
-        loadingCompleteCallback: initializePresentation(prefix)
-      });
-      if (reload) {
+      if(hard) {
         location.reload(true);
+      }
+      else {
+        $("#slides img").batchImageLoad({
+          loadingCompleteCallback: initializePresentation(prefix)
+        });
       }
     })
   } else {
@@ -121,7 +123,7 @@ function initializePresentation(prefix) {
 		timeout: 0
 	})
 
-	setupMenu()
+	setupMenu();
 
 	if (slidesLoaded) {
 		showSlide()
@@ -131,6 +133,8 @@ function initializePresentation(prefix) {
 	}
 	setupSlideParamsCheck();
 
+  // Remove spinner in case we're reloading
+  $('html,body').css('cursor','');
 
   $('pre.highlight code').each(function(i, block) {
     try {
@@ -1187,19 +1191,20 @@ function keyDown(event){
   }
 
   switch(getAction(event)) {
-    case 'DEBUG':     toggleDebug();    break;
-    case 'PREV':      prevStep();       break;
-    case 'NEXT':      nextStep();       break;
-    case 'RELOAD':    reloadSlides();   break;
-    case 'CONTENTS':  toggleContents(); break;
-    case 'HELP':      toggleHelp();     break;
-    case 'BLANK':     blankScreen();    break;
-    case 'FOOTER':    toggleFooter();   break;
-    case 'FOLLOW':    toggleFollow();   break;
-    case 'NOTES':     toggleNotes();    break;
-    case 'CLEAR':     removeResults();  break;
-    case 'PAUSE':     togglePause();    break;
-    case 'PRESHOW':   togglePreShow();  break;
+    case 'DEBUG':     toggleDebug();      break;
+    case 'PREV':      prevStep();         break;
+    case 'NEXT':      nextStep();         break;
+    case 'REFRESH':   reloadSlides();     break;
+    case 'RELOAD':    reloadSlides(true); break;
+    case 'CONTENTS':  toggleContents();   break;
+    case 'HELP':      toggleHelp();       break;
+    case 'BLANK':     blankScreen();      break;
+    case 'FOOTER':    toggleFooter();     break;
+    case 'FOLLOW':    toggleFollow();     break;
+    case 'NOTES':     toggleNotes();      break;
+    case 'CLEAR':     removeResults();    break;
+    case 'PAUSE':     togglePause();      break;
+    case 'PRESHOW':   togglePreShow();    break;
     case 'EXECUTE':
       debug('executeCode');
       executeVisibleCodeBlock();
@@ -1258,11 +1263,18 @@ function toggleDebug () {
   doDebugStuff();
 }
 
-function reloadSlides () {
-  if (confirm('Are you sure you want to reload the slides?')) {
+function reloadSlides (hard) {
+  if(hard) {
+    var message = 'Are you sure you want to reload Showoff?';
+  }
+  else {
+    var message = "Are you sure you want to refresh the slide content?\n\n";
+    message    += '(Use `RELOAD` to fully reload the entire UI)';
+  }
+
+  if (confirm(message)) {
     $('html,body').css('cursor','progress');
-    loadSlides(loadSlidesBool, loadSlidesPrefix, true);
-    showSlide();
+    loadSlides(loadSlidesBool, loadSlidesPrefix, true, hard);
   }
 }
 
