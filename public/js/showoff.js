@@ -87,7 +87,9 @@ function loadSlides(load_slides, prefix, reload, hard) {
   if (reload) {
     url += "?cache=clear";
   }
+
   //load slides offscreen, wait for images and then initialize
+  $('body').addClass('busy');
   if (load_slides) {
     $("#slides").load(url, false, function(){
       if(hard) {
@@ -134,7 +136,7 @@ function initializePresentation(prefix) {
 	setupSlideParamsCheck();
 
   // Remove spinner in case we're reloading
-  $('html,body').css('cursor','');
+  $('body').removeClass('busy');
 
   $('pre.highlight code').each(function(i, block) {
     try {
@@ -1273,7 +1275,6 @@ function reloadSlides (hard) {
   }
 
   if (confirm(message)) {
-    $('html,body').css('cursor','progress');
     loadSlides(loadSlidesBool, loadSlidesPrefix, true, hard);
   }
 }
