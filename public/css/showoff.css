@@ -52,6 +52,10 @@ pre code {
     overflow: hidden;
   }
 
+    body.busy {
+      cursor: progress;
+    }
+
   body#download {
     overflow: auto;
   }
