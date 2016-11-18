@@ -1,3 +1,19 @@
+0.15.0
+  * Presenter UI overhaul adding multiple layout selections.
+      * Choose layout using the selector in the upper right.
+      * The old "Notes Window" is now the "Floating" layout.
+      * Decreased memory usage.
+      * Add hover slide preview tooltips to the menu.
+  * Improved scaling algorithms so all supported browsers are treated the same.
+  * Bugfix: Fixed several bugs with incremental bullets.
+  * Bugfix: Improved UI rendering on IE and Edge.
+  * Bugfix: Fixed annotations on IE and Edge.
+  * Improved code block validation to allow skipping individual blocks.
+  * Add versioning to web assets so cached styles should be less of a problem.
+  * Restored the ability to do soft refresh of content only.
+  * Known issues:
+      * Thumbnail previews are not perfectly rendered; they're approximations.
+
 0.14.3
   * Add browser capability detection with error page for unsupported browsers
   * Update Docker image with Commonmarker & trimmed size
