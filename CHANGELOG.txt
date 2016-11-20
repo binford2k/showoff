@@ -1,3 +1,6 @@
+0.15.1
+  * Corrected some static page generation issues.
+
 0.15.0
   * Presenter UI overhaul adding multiple layout selections.
       * Choose layout using the selector in the upper right.
