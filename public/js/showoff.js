@@ -530,16 +530,17 @@ function showSlide(back_step, updatepv) {
     $(currentSlide).find('li').removeClass('hidden');
   }
 
-  if(typeof slaveWindow == 'undefined') {
-    // hook up the annotations for viewing
-    currentSlide.find('canvas.annotations').annotationListener(annotations);
-  }
-  else {
-    if (mode.annotations) {
-      currentSlide.find('canvas.annotations').annotate(annotations);
+  if (typeof annotations !== 'undefined') {
+    if(typeof slaveWindow == 'undefined') {
+      // hook up the annotations for viewing
+      currentSlide.find('canvas.annotations').annotationListener(annotations);
+    }
+    else {
+      if (mode.annotations) {
+        currentSlide.find('canvas.annotations').annotate(annotations);
+      }
     }
   }
-
 
   // Update presenter view, if we spawned one
 	if (updatepv && 'presenterView' in window) {
