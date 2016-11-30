@@ -130,7 +130,7 @@ class ShowOffUtils
             next
 
           elsif validator
-            # write out a tempfile because many validators require files to with
+            # write out a tempfile because many validators require files to work with
             Tempfile.open('showoff-validation') do |f|
               File.write(f.path, code)
               unless system("#{validator} #{f.path}", :out => File::NULL, :err => File::NULL)

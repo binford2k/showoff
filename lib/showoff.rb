@@ -114,6 +114,14 @@ class ShowOff < Sinatra::Application
       settings.showoff_config['locked'] ||= Array.new
     end
 
+    # default code parsers (for executable code blocks)
+    settings.showoff_config['parsers'] ||= {}
+    settings.showoff_config['parsers']['perl']   ||= 'perl'
+    settings.showoff_config['parsers']['puppet'] ||= 'puppet apply --color=false'
+    settings.showoff_config['parsers']['python'] ||= 'python'
+    settings.showoff_config['parsers']['ruby']   ||= 'ruby'
+    settings.showoff_config['parsers']['shell']  ||= 'sh'
+
     # default code validators
     settings.showoff_config['validators'] ||= {}
     settings.showoff_config['validators']['perl']   ||= 'perl -cw'
@@ -1320,30 +1328,27 @@ class ShowOff < Sinatra::Application
   get '/execute/:lang' do |lang|
     return 'Run showoff with -x or --executecode to enable code execution' unless @execute
 
-    code = get_code_from_slide(params[:path], params[:index])
+    code   = get_code_from_slide(params[:path], params[:index])
+    parser = settings.showoff_config['parsers'][lang]
+
+    return "No parser for #{lang}" unless parser
 
     require 'timeout'
     require 'open3' # for 1.8 compatibility :/
     begin
       Timeout::timeout(settings.showoff_config['timeout']) do
-        case lang
-        when 'ruby'
-          eval(code).to_s
-        when 'shell'
-          %x(#{code})
-        when 'puppet'
-          stdout, err = Open3.capture2('puppet', 'apply', '--color=false', '-e', code)
-          stdout
-        when 'python'
-          stdout, err = Open3.capture2('python', '-c', code)
-          stdout
-        when 'perl'
-          stdout, err = Open3.capture2('perl', '-e', code)
-          stdout
-        when 'null'
-          code
-        else
-          "No exec handler for #{lang}"
+        # write out a tempfile to make it simpler for end users to add custom language parser
+        Tempfile.open('showoff-execution') do |f|
+          File.write(f.path, code)
+          @logger.debug "Evaluating: #{parser} #{f.path}"
+          output, status = Open3.capture2e("#{parser} #{f.path}")
+
+          unless status.success?
+            @logger.warn "Command execution failed for #{params[:path]}[#{params[:index]}]"
+            @logger.warn output
+          end
+
+          output
         end
       end
     rescue => e
