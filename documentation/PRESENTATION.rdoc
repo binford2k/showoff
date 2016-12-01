@@ -156,13 +156,50 @@ Array configuration listing each Markdown file:
       "Conclusion/overview.md",
     ]
 
-Hash configuration listing each directory of Markdown files:
+Hash configuration listing each section as a directory of Markdown files:
 
     "sections": [
       {"section":"one"},
       {"section":"two"},
       {"section":"three"},
       {"section":"four"}
+    ]
+
+Hash configuration listing sections as arrays of Markdown files:
+
+    "sections": [
+      {
+        "section":[
+          "Intro/intro.md",
+          "Intro/summary.md"
+        ]
+      },
+      {
+        "section":[
+          "Content/first.md",
+          "Content/second.md"
+        ]
+      },
+      {
+        "section":[
+          "Conclusion/overview.md"
+        ]
+      }
+    ]
+
+Hash configuration including sections from other <tt>JSON</tt> files:
+
+    "sections": [
+      {"include":"Intro/section.json"},
+      {"include":"Content/section.json"},
+      {"include":"Conclusion/section.json"}
+    ]
+
+Each of the referenced <tt>JSON</tt> files should list Markdown files in an array:
+
+    [
+      "intro.md",
+      "summary.md"
     ]
 
 == Running without a <tt>showoff.json</tt>
