@@ -409,27 +409,57 @@ class ShowOffUtils
       logger.level = Logger::WARN
     end
 
-    index = File.join(dir, ShowOffUtils.presentation_config_file)
-    sections = nil
+    index    = File.join(dir, ShowOffUtils.presentation_config_file)
+    sections = ["."] # default boring showoff.json
+
     if File.exist?(index)
-      data = JSON.parse(File.read(index))
-      logger.debug data
-      if data.is_a?(Hash)
-        sections = data['sections']
-      else
-        sections = data
-      end
-      sections = sections.map do |s|
-        if s.is_a? Hash
-          s['section']
+      begin
+        data = JSON.parse(File.read(index))
+        logger.debug data
+        if data.is_a?(Hash)
+          sections = data['sections'] if data.include? 'sections'
         else
-          s
+          sections = data
         end
+
+        # each entry in sections can be:
+        # - "filename.md"
+        # - { "section": "filename.md" }
+        # - { "section": [ "array.md, "of.md, "files.md"] }
+        # - { "include": "sections.json" }
+        sections = sections.map do |entry|
+          next entry if entry.is_a? String
+          next nil unless entry.is_a? Hash
+
+          next entry['section'] if entry.include? 'section'
+
+          section = nil
+          if entry.include? 'include'
+            file = entry['include']
+            path = File.dirname(file)
+            data = JSON.parse(File.read(file))
+            if data.is_a? Array
+              if path == '.'
+                section = data
+              else
+                section = data.map do |source|
+                  "#{path}/#{source}"
+                end
+              end
+            end
+          end
+
+          section
+        end
+      rescue => e
+        logger.error "There was a problem with the presentation file #{index}"
+        logger.error e.message
+        logger.debug e.backtrace
+        sections = []
       end
-    else
-      sections = ["."] # if there's no showoff.json file, make a boring one
     end
-    sections
+
+    sections.flatten.compact
   end
 
   def self.showoff_title(dir = '.')

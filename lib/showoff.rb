@@ -234,7 +234,7 @@ class ShowOff < Sinatra::Application
       files = if File.directory? section
         Dir.glob("#{section}/**/*").sort
       else
-        [section]
+        Array(section)
       end
       @logger.debug files
       files
