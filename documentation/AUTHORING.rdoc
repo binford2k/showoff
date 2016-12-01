@@ -621,6 +621,9 @@ includes:
   - Ruby
   - Shell
 
+See PRESENTATION.rdoc to learn how to define your own handlers to evaluate any
+language you'd like.
+
 *Security*: code must exist in a slide file on disk for Showoff to execute it.
 This doesn't mean that you're immune from attack though. It's possible to create
 a presentation with embedded Javascript that will automatically call back and

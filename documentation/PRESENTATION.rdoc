@@ -19,8 +19,12 @@ includes all current configuration keys, which will be described below.
         "print"
       ],
       "validators": {
-        "puppet": "puppet parser validate",
-        "ruby": "ruby -c"
+        "java": "javac",
+        "html": "tidy -q -i --show-errors 0"
+      },
+      "parsers": {
+        "erlang": "escript",
+        "swift": "xcrun swift"
       },
       "user": "username",
       "password": "password",
@@ -84,8 +88,19 @@ The configuration settings you may use are listed below. Please see the
   appended and the resulting URI will be opened in a new browser tab. This is
   currently only tested with GitHub and Jira.
 
+[locked]
+  An array of pages that will require a presentation key entered as a password
+  in the login dialog. If a user has already logged in, that will take precedence
+  and they won't be prompted again.
+
+  [key]
+    The key for locked pages.
+
 [name]
   A short name for the presentation.
+
+[parsers]
+  Define any custom code parsers to run executable code blocks in your slides.
 
 [pause_msg]
   The message to display when paused.
@@ -100,19 +115,8 @@ The configuration settings you may use are listed below. Please see the
   [password]
     The password for protected pages.
 
-[locked]
-  An array of pages that will require a presentation key entered as a password
-  in the login dialog. If a user has already logged in, that will take precedence
-  and they won't be prompted again.
-
-  [key]
-    The key for locked pages.
-
 [sections]
   The slide definitions for the presentation.
-
-[standalone]
-  If you set this to <tt>true</tt>, then audience interactivity features will be disabled.
 
 [ssl]
   Enable serving the presentation via SSL. If a certificate is not provided, an
@@ -129,6 +133,9 @@ The configuration settings you may use are listed below. Please see the
 
 [ssl_private_key]
   The path of the private key for that certificate.
+
+[standalone]
+  If you set this to <tt>true</tt>, then audience interactivity features will be disabled.
 
 [templates]
   A hash of templates to be used.
@@ -197,6 +204,24 @@ If pages are marked as protected or locked, but no corresponding password or vie
 key is set, then only the presenter running on the presentation on the same machine
 they're viewing with will be allowed access.
 
+
+=== Custom code execution
+
+Showoff can execute code from your slides and display the output if you start with
+the proper flags. Parsers are defined for Perl, Puppet, Python, Ruby, and Shell.
+
+You can execute code in any language you like by defining your own custom parsers
+with the <tt>parsers</tt> key in <tt>showoff.json</tt>:
+
+    "parsers": {
+      "erlang": "escript",
+      "swift": "xcrun swift"
+    },
+
+The parser is passed the path to a temporary file containing the code to be run.
+<tt>stdout</tt> and <tt>stderr</tt> will be displayed in the output dialog.
+
+
 === In-slide code validation scripts
 
 Showoff can validate all the code blocks on your slides by running <tt>showoff validate</tt>
@@ -219,7 +244,7 @@ Add a class of <tt>no-validate</tt> to skip validation for a block of code.
     @@@ Ruby no-validate
     # Do you see the error here?
     # The difference between == and = is easy to miss
-    # and many language won't warn you about it.
+    # and many languages won't warn you about it.
     def fibonacci(n)
       raise "undefined" if n < 0
       succ = 1
