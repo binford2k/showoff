@@ -44,9 +44,6 @@ pre code {
   /* explicitly size parent elements so the screen blanker works */
   html, body{
     height:100%;
-  }
-
-  body {
     margin:0;
     padding:0;
     overflow: hidden;
