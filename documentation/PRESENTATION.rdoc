@@ -19,8 +19,12 @@ includes all current configuration keys, which will be described below.
         "print"
       ],
       "validators": {
-        "puppet": "puppet parser validate",
-        "ruby": "ruby -c"
+        "java": "javac",
+        "html": "tidy -q -i --show-errors 0"
+      },
+      "parsers": {
+        "erlang": "escript",
+        "swift": "xcrun swift"
       },
       "user": "username",
       "password": "password",
