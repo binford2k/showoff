@@ -61,6 +61,7 @@
     <li><a href="#label-Defining+slides+using+the+sections+setting.">Defining slides using the <code>sections</code> setting.</a>
     <li><a href="#label-Running+without+a+showoff.json">Running without a <code>showoff.json</code></a>
     <li><a href="#label-Protected+presentations">Protected presentations</a>
+    <li><a href="#label-Custom+code+execution">Custom code execution</a>
     <li><a href="#label-In-slide+code+validation+scripts">In-slide code validation scripts</a>
     <li><a href="#label-Markdown+Engine">Markdown Engine</a>
     <li><a href="#label-Default+options">Default options</a>
@@ -123,8 +124,12 @@ It includes all current configuration keys, which will be described below.</p>
     &quot;print&quot;
   ],
   &quot;validators&quot;: {
-    &quot;puppet&quot;: &quot;puppet parser validate&quot;,
-    &quot;ruby&quot;: &quot;ruby -c&quot;
+    &quot;java&quot;: &quot;javac&quot;,
+    &quot;html&quot;: &quot;tidy -q -i --show-errors 0&quot;
+  },
+  &quot;parsers&quot;: {
+    &quot;erlang&quot;: &quot;escript&quot;,
+    &quot;swift&quot;: &quot;xcrun swift&quot;
   },
   &quot;user&quot;: &quot;username&quot;,
   &quot;password&quot;: &quot;password&quot;,
@@ -189,9 +194,22 @@ code snippets.</p>
 <p>A link to a web based bug reporter. The currently viewed slide will be
 appended and the resulting URI will be opened in a new browser tab. This is
 currently only tested with GitHub and Jira.</p>
+</dd><dt>locked
+<dd>
+<p>An array of pages that will require a presentation key entered as a
+password in the login dialog. If a user has already logged in, that will
+take precedence and they won&#39;t be prompted again.</p>
+<dl class="rdoc-list label-list"><dt>key
+<dd>
+<p>The key for locked pages.</p>
+</dd></dl>
 </dd><dt>name
 <dd>
 <p>A short name for the presentation.</p>
+</dd><dt>parsers
+<dd>
+<p>Define any custom code parsers to run executable code blocks in your
+slides.</p>
 </dd><dt>pause_msg
 <dd>
 <p>The message to display when paused.</p>
@@ -206,22 +224,9 @@ currently only tested with GitHub and Jira.</p>
 <dd>
 <p>The password for protected pages.</p>
 </dd></dl>
-</dd><dt>locked
-<dd>
-<p>An array of pages that will require a presentation key entered as a
-password in the login dialog. If a user has already logged in, that will
-take precedence and they won&#39;t be prompted again.</p>
-<dl class="rdoc-list label-list"><dt>key
-<dd>
-<p>The key for locked pages.</p>
-</dd></dl>
 </dd><dt>sections
 <dd>
 <p>The slide definitions for the presentation.</p>
-</dd><dt>standalone
-<dd>
-<p>If you set this to <code>true</code>, then audience interactivity features
-will be disabled.</p>
 </dd><dt>ssl
 <dd>
 <p>Enable serving the presentation via SSL. If a certificate is not provided,
@@ -240,6 +245,10 @@ about self-signed certificates.</p>
 </dd><dt>ssl_private_key
 <dd>
 <p>The path of the private key for that certificate.</p>
+</dd><dt>standalone
+<dd>
+<p>If you set this to <code>true</code>, then audience interactivity features
+will be disabled.</p>
 </dd><dt>templates
 <dd>
 <p>A hash of templates to be used.</p>
@@ -270,7 +279,7 @@ array of hashes.</p>
   &quot;Conclusion/overview.md&quot;,
 ]</pre>
 
-<p>Hash configuration listing each directory of Markdown files:</p>
+<p>Hash configuration listing each section as a directory of Markdown files:</p>
 
 <pre>&quot;sections&quot;: [
   {&quot;section&quot;:&quot;one&quot;},
@@ -278,6 +287,45 @@ array of hashes.</p>
   {&quot;section&quot;:&quot;three&quot;},
   {&quot;section&quot;:&quot;four&quot;}
 ]</pre>
+
+<p>Hash configuration listing sections as arrays of Markdown files:</p>
+
+<pre>&quot;sections&quot;: [
+  {
+    &quot;section&quot;:[
+      &quot;Intro/intro.md&quot;,
+      &quot;Intro/summary.md&quot;
+    ]
+  },
+  {
+    &quot;section&quot;:[
+      &quot;Content/first.md&quot;,
+      &quot;Content/second.md&quot;
+    ]
+  },
+  {
+    &quot;section&quot;:[
+      &quot;Conclusion/overview.md&quot;
+    ]
+  }
+]</pre>
+
+<p>Hash configuration including sections from other <code>JSON</code> files:</p>
+
+<pre>&quot;sections&quot;: [
+  {&quot;include&quot;:&quot;Intro/section.json&quot;},
+  {&quot;include&quot;:&quot;Content/section.json&quot;},
+  {&quot;include&quot;:&quot;Conclusion/section.json&quot;}
+]</pre>
+
+<p>Each of the referenced <code>JSON</code> files should list Markdown files
+in an array:</p>
+
+<pre class="ruby">[
+  <span class="ruby-string">&quot;intro.md&quot;</span>,
+  <span class="ruby-string">&quot;summary.md&quot;</span>
+]
+</pre>
 
 <h2 id="label-Running+without+a+showoff.json">Running without a <code>showoff.json</code><span><a href="#label-Running+without+a+showoff.json">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
@@ -314,6 +362,24 @@ generate a PDF file:</p>
 or viewing key is set, then only the presenter running on the presentation
 on the same machine they&#39;re viewing with will be allowed access.</p>
 
+<h3 id="label-Custom+code+execution">Custom code execution<span><a href="#label-Custom+code+execution">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Showoff can execute code from your slides and display the output if you
+start with the proper flags. Parsers are defined for Perl, Puppet, Python,
+Ruby, and Shell.</p>
+
+<p>You can execute code in any language you like by defining your own custom
+parsers with the <code>parsers</code> key in <code>showoff.json</code>:</p>
+
+<pre>&quot;parsers&quot;: {
+  &quot;erlang&quot;: &quot;escript&quot;,
+  &quot;swift&quot;: &quot;xcrun swift&quot;
+},</pre>
+
+<p>The parser is passed the path to a temporary file containing the code to be
+run. <code>stdout</code> and <code>stderr</code> will be displayed in the
+output dialog.</p>
+
 <h3 id="label-In-slide+code+validation+scripts">In-slide code validation scripts<span><a href="#label-In-slide+code+validation+scripts">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p>Showoff can validate all the code blocks on your slides by running
@@ -338,7 +404,7 @@ code.</p>
 <pre>@@@ Ruby no-validate
 # Do you see the error here?
 # The difference between == and = is easy to miss
-# and many language won&#39;t warn you about it.
+# and many languages won&#39;t warn you about it.
 def fibonacci(n)
   raise &quot;undefined&quot; if n &lt; 0
   succ = 1
