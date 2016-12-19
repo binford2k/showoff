@@ -784,13 +784,8 @@ function openNext() {
  ********************/
 function chooseLayout(layout)
 {
-  try {
-    // yay for half-baked data storage schemes (this is retrieving a cookie)
-    layout = layout || /layout=(\w*)/.exec(document.cookie)[1];
-  }
-  catch(e) {
-    layout = layout || 'default';
-  }
+  // yay for half-baked data storage schemes
+  layout = layout || document.cookieHash['layout'] || 'default';
 
   // in case we're being called externally, make the UI match
   $('#layoutSelector').val(layout);
