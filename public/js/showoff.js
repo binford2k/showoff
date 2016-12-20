@@ -568,6 +568,9 @@ function showSlide(back_step, updatepv) {
   // copy notes to the notes field for mobile.
   postSlide();
 
+  // make all bigly text tremendous
+  $('.content.bigtext').bigtext();
+
   return ret;
 }
 
