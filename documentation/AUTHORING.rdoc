@@ -102,6 +102,7 @@ Some useful styles for each slide are listed below. Many of them can be combined
 [supplemental] rather than adding a slide to the main presentation, add a slide to supplemental materials. See below.
 [form=id] Render form elements on this slide with a given form ID. See below, and in FORMS.rdoc.
 [background-fit] Scales a background image to the largest size that both height and width are onscreen. The default is to completely fill the slide.
+[bigtext] This will enlarge all the contents of the slide to the maximum possible size. <em>Caution, this should only be used for slides with just a few words or short phrases!</em>
 
 Check out the example directory included to see examples of most of these.
 
