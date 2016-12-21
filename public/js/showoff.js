@@ -569,7 +569,7 @@ function showSlide(back_step, updatepv) {
   postSlide();
 
   // make all bigly text tremendous
-  $('.content.bigtext').bigtext();
+  currentSlide.children('.content.bigtext').bigtext();
 
   return ret;
 }
