@@ -35,6 +35,7 @@ $(document).ready(function(){
   $('#layoutSelector').change(function(e) {
     chooseLayout(e.target.value);
   });
+  chooseLayout(null);
 
 
   // Bind events for mobile viewing
@@ -783,6 +784,9 @@ function openNext() {
  ********************/
 function chooseLayout(layout)
 {
+  // yay for half-baked data storage schemes
+  layout = layout || document.cookieHash['layout'] || 'default';
+
   // in case we're being called externally, make the UI match
   $('#layoutSelector').val(layout);
   $("#nextWindowConfirmation").slideUp(125);
@@ -846,6 +850,7 @@ function chooseLayout(layout)
 
   }
 
+  document.cookie = "layout="+layout
   mode.layout = layout;
   zoom(true);
 }

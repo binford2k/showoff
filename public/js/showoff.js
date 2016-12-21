@@ -25,6 +25,17 @@ var loadSlidesPrefix
 
 var mode = { track: true, follow: true };
 
+// since javascript doesn't have a built-in way to get to cookies easily,
+// let's just add our own data structure.
+document.cookieHash = {}
+document.cookie.split(';').forEach( function(item) {
+  var pos = item.indexOf('=');
+  var key = item.slice(0,pos).trim();
+  var val = item.slice(pos+1).trim();
+
+  document.cookieHash[key] = val;
+});
+
 $(document).on('click', 'code.execute', executeCode);
 
 function setupPreso(load_slides, prefix) {
