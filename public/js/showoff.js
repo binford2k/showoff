@@ -188,7 +188,7 @@ function initializePresentation(prefix) {
   });
 
   // render diagrams
-  mermaid.init(undefined, $(".language-showoff-diagram"));
+  mermaid.init(undefined, $(".language-render-diagram"));
 
   $("#preso").trigger("showoff:loaded");
 }

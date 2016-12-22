@@ -621,10 +621,10 @@ pre.highlight code.language-powershellconsole.nochrome {
 }
 
 /* Diagram styling: overriding mermaid.css as needed */
-.language-showoff-diagram,
-.language-showoff-diagram .noteText,
-.language-showoff-diagram .node text,
-.language-showoff-diagram div.mermaidTooltip {
+.language-render-diagram,
+.language-render-diagram .noteText,
+.language-render-diagram .node text,
+.language-render-diagram div.mermaidTooltip {
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
