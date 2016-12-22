@@ -1,3 +1,7 @@
+0.15.3
+  * Remember selected layout, so you don't have to change it each time.
+  * Adds `bigtext` slide style, which will expand text size to fill the slide.
+
 0.15.2
   * Bugfix: Corrected misplaced hamburger menu.
   * Execute code of any kind by defining custom parsers.
