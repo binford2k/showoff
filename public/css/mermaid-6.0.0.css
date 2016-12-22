@@ -1,0 +1,274 @@
+/* Flowchart variables */
+/* Sequence Diagram variables */
+/* Gantt chart variables */
+/* Updated with Showoff selector to reduce collisions! */
+.language-showoff-diagram .mermaid .label {
+  color: #333;
+}
+.language-showoff-diagram .node rect,
+.language-showoff-diagram .node circle,
+.language-showoff-diagram .node ellipse,
+.language-showoff-diagram .node polygon {
+  fill: #ECECFF;
+  stroke: #CCCCFF;
+  stroke-width: 1px;
+}
+.language-showoff-diagram .edgePath .path {
+  stroke: #333333;
+}
+.language-showoff-diagram .edgeLabel {
+  background-color: #e8e8e8;
+}
+.language-showoff-diagram .cluster rect {
+  fill: #ffffde !important;
+  rx: 4 !important;
+  stroke: #aaaa33 !important;
+  stroke-width: 1px !important;
+}
+.language-showoff-diagram .cluster text {
+  fill: #333;
+}
+.language-showoff-diagram .actor {
+  stroke: #CCCCFF;
+  fill: #ECECFF;
+}
+.language-showoff-diagram text.actor {
+  fill: black;
+  stroke: none;
+}
+.language-showoff-diagram .actor-line {
+  stroke: grey;
+}
+.language-showoff-diagram .messageLine0 {
+  stroke-width: 1.5;
+  stroke-dasharray: "2 2";
+  marker-end: "url(#arrowhead)";
+  stroke: #333;
+}
+.language-showoff-diagram .messageLine1 {
+  stroke-width: 1.5;
+  stroke-dasharray: "2 2";
+  stroke: #333;
+}
+.language-showoff-diagram #arrowhead {
+  fill: #333;
+}
+.language-showoff-diagram #crosshead path {
+  fill: #333 !important;
+  stroke: #333 !important;
+}
+.language-showoff-diagram .messageText {
+  fill: #333;
+  stroke: none;
+}
+.language-showoff-diagram .labelBox {
+  stroke: #CCCCFF;
+  fill: #ECECFF;
+}
+.language-showoff-diagram .labelText {
+  fill: black;
+  stroke: none;
+}
+.language-showoff-diagram .loopText {
+  fill: black;
+  stroke: none;
+}
+.language-showoff-diagram .loopLine {
+  stroke-width: 2;
+  stroke-dasharray: "2 2";
+  marker-end: "url(#arrowhead)";
+  stroke: #CCCCFF;
+}
+.language-showoff-diagram .note {
+  stroke: #aaaa33;
+  fill: #fff5ad;
+}
+.language-showoff-diagram .noteText {
+  fill: black;
+  stroke: none;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-size: 14px;
+}
+/** Section styling */
+.language-showoff-diagram .section {
+  stroke: none;
+  opacity: 0.2;
+}
+.language-showoff-diagram .section0 {
+  fill: rgba(102, 102, 255, 0.49);
+}
+.language-showoff-diagram .section2 {
+  fill: #fff400;
+}
+.language-showoff-diagram .section1,
+.language-showoff-diagram .section3 {
+  fill: white;
+  opacity: 0.2;
+}
+.language-showoff-diagram .sectionTitle0 {
+  fill: #333;
+}
+.language-showoff-diagram .sectionTitle1 {
+  fill: #333;
+}
+.language-showoff-diagram .sectionTitle2 {
+  fill: #333;
+}
+.language-showoff-diagram .sectionTitle3 {
+  fill: #333;
+}
+.language-showoff-diagram .sectionTitle {
+  text-anchor: start;
+  font-size: 11px;
+  text-height: 14px;
+}
+/* Grid and axis */
+.language-showoff-diagram .grid .tick {
+  stroke: lightgrey;
+  opacity: 0.3;
+  shape-rendering: crispEdges;
+}
+.language-showoff-diagram .grid path {
+  stroke-width: 0;
+}
+/* Today line */
+.language-showoff-diagram .today {
+  fill: none;
+  stroke: red;
+  stroke-width: 2px;
+}
+/* Task styling */
+/* Default task */
+.language-showoff-diagram .task {
+  stroke-width: 2;
+}
+.language-showoff-diagram .taskText {
+  text-anchor: middle;
+  font-size: 11px;
+}
+.language-showoff-diagram .taskTextOutsideRight {
+  fill: black;
+  text-anchor: start;
+  font-size: 11px;
+}
+.language-showoff-diagram .taskTextOutsideLeft {
+  fill: black;
+  text-anchor: end;
+  font-size: 11px;
+}
+/* Specific task settings for the sections*/
+.language-showoff-diagram .taskText0,
+.language-showoff-diagram .taskText1,
+.language-showoff-diagram .taskText2,
+.language-showoff-diagram .taskText3 {
+  fill: white;
+}
+.language-showoff-diagram .task0,
+.language-showoff-diagram .task1,
+.language-showoff-diagram .task2,
+.language-showoff-diagram .task3 {
+  fill: #8a90dd;
+  stroke: #534fbc;
+}
+.language-showoff-diagram .taskTextOutside0,
+.language-showoff-diagram .taskTextOutside2 {
+  fill: black;
+}
+.language-showoff-diagram .taskTextOutside1,
+.language-showoff-diagram .taskTextOutside3 {
+  fill: black;
+}
+/* Active task */
+.language-showoff-diagram .active0,
+.language-showoff-diagram .active1,
+.language-showoff-diagram .active2,
+.language-showoff-diagram .active3 {
+  fill: #bfc7ff;
+  stroke: #534fbc;
+}
+.language-showoff-diagram .activeText0,
+.language-showoff-diagram .activeText1,
+.language-showoff-diagram .activeText2,
+.language-showoff-diagram .activeText3 {
+  fill: black !important;
+}
+/* Completed task */
+.language-showoff-diagram .done0,
+.language-showoff-diagram .done1,
+.language-showoff-diagram .done2,
+.language-showoff-diagram .done3 {
+  stroke: grey;
+  fill: lightgrey;
+  stroke-width: 2;
+}
+.language-showoff-diagram .doneText0,
+.language-showoff-diagram .doneText1,
+.language-showoff-diagram .doneText2,
+.language-showoff-diagram .doneText3 {
+  fill: black !important;
+}
+/* Tasks on the critical line */
+.language-showoff-diagram .crit0,
+.language-showoff-diagram .crit1,
+.language-showoff-diagram .crit2,
+.language-showoff-diagram .crit3 {
+  stroke: #ff8888;
+  fill: red;
+  stroke-width: 2;
+}
+.language-showoff-diagram .activeCrit0,
+.language-showoff-diagram .activeCrit1,
+.language-showoff-diagram .activeCrit2,
+.language-showoff-diagram .activeCrit3 {
+  stroke: #ff8888;
+  fill: #bfc7ff;
+  stroke-width: 2;
+}
+.language-showoff-diagram .doneCrit0,
+.language-showoff-diagram .doneCrit1,
+.language-showoff-diagram .doneCrit2,
+.language-showoff-diagram .doneCrit3 {
+  stroke: #ff8888;
+  fill: lightgrey;
+  stroke-width: 2;
+  cursor: pointer;
+  shape-rendering: crispEdges;
+}
+.language-showoff-diagram .doneCritText0,
+.language-showoff-diagram .doneCritText1,
+.language-showoff-diagram .doneCritText2,
+.language-showoff-diagram .doneCritText3 {
+  fill: black !important;
+}
+.language-showoff-diagram .activeCritText0,
+.language-showoff-diagram .activeCritText1,
+.language-showoff-diagram .activeCritText2,
+.language-showoff-diagram .activeCritText3 {
+  fill: black !important;
+}
+.language-showoff-diagram .titleText {
+  text-anchor: middle;
+  font-size: 18px;
+  fill: black;
+}
+/*
+
+
+*/
+.language-showoff-diagram .node text {
+  font-family: 'trebuchet ms', verdana, arial;
+  font-size: 14px;
+}
+.language-showoff-diagram div.mermaidTooltip {
+  position: absolute;
+  text-align: center;
+  max-width: 200px;
+  padding: 2px;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-size: 12px;
+  background: #ffffde;
+  border: 1px solid #aaaa33;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 100;
+}

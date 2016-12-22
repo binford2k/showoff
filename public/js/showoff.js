@@ -187,7 +187,10 @@ function initializePresentation(prefix) {
     }
   });
 
-	$("#preso").trigger("showoff:loaded");
+  // render diagrams
+  mermaid.init(undefined, $(".language-showoff-diagram"));
+
+  $("#preso").trigger("showoff:loaded");
 }
 
 function zoom(presenter) {
