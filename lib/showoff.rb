@@ -528,6 +528,10 @@ class ShowOff < Sinatra::Application
     # TODO: damn, this one is bad. This moves the notes div outside of the .content div, then removes
     #       the bigtext class from the toplevel slide div, so that the overly aggressive styles don't
     #       affect it. It's named generically so we can add to it if needed.
+    #
+    #       This method is intended to be the dumping ground for the slide fixups that we can't do in
+    #       other places until we get #615 implemented. Then this method should be refactored away.
+    #
     def final_slide_fixup(text)
       # Turn this into a document for munging
       doc     = Nokogiri::HTML::DocumentFragment.parse(text)
