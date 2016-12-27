@@ -525,9 +525,7 @@ class ShowOff < Sinatra::Application
       doc.to_html
     end
 
-    # TODO: damn, this one is bad. This moves the notes div outside of the .content div, then removes
-    #       the bigtext class from the toplevel slide div, so that the overly aggressive styles don't
-    #       affect it. It's named generically so we can add to it if needed.
+    # TODO: damn, this one is bad. It's named generically so we can add to it if needed.
     #
     #       This method is intended to be the dumping ground for the slide fixups that we can't do in
     #       other places until we get #615 implemented. Then this method should be refactored away.
@@ -535,13 +533,16 @@ class ShowOff < Sinatra::Application
     def final_slide_fixup(text)
       # Turn this into a document for munging
       doc     = Nokogiri::HTML::DocumentFragment.parse(text)
+      slide   = doc.at_css 'div.slide'
+      content = doc.at_css 'div.content'
 
-      notes   = doc.at_css 'div.notes-section'
-      content = notes.parent
-      slide   = content.parent
-      content.add_next_sibling(notes)
+      # move each notes section outside of the content div
+      doc.css('div.notes-section').each do |note|
+        content.add_next_sibling(note)
+      end
 
-      # this is a list of classes that we want applied *only* to content, and not to the slide.
+      # this is a list of classes that we want applied *only* to content, and not to the slide,
+      # typically so that overly aggressive selectors don't match more than they should.
       blacklist = ['bigtext']
       slide['class'] = slide['class'].split.reject { |klass| blacklist.include? klass }.join(' ')
 
