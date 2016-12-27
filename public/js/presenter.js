@@ -72,6 +72,12 @@ $(document).ready(function(){
     });
   });
 
+  // set up notes resizing
+  $( "#notes" ).resizable({
+    minHeight: 0,
+    handles: {"n": $(".notes-grippy")}
+  });
+
 
   // Hide with js so jquery knows what display property to assign when showing
   toggleAnnotations();
@@ -266,9 +272,17 @@ function toggleNotes() {
     try {
       if(windowIsClosed(notesWindow)){
         notesWindow = blankStyledWindow("Showoff Notes", 'width=350,height=450', 'notes', true);
-        window.setTimeout(postSlide, 500);
+        window.setTimeout(function() {
+          // call back and update the parent presenter if the window is closed
+          notesWindow.onunload = function(e) {
+            notesWindow.opener.toggleNotes();
+          };
+
+          postSlide();
+        }, 500);
+
       }
-      $('#notesWindow').addClass('enabled');
+      $('#notes').addClass('hidden');
     }
     catch(e) {
       console.log('Failed to open notes window. Popup blocker?');
@@ -277,7 +291,7 @@ function toggleNotes() {
   else {
     try {
       notesWindow && notesWindow.close();
-      $('#notesWindow').removeClass('enabled');
+      $('#notes').removeClass('hidden');
     }
     catch (e) {
       console.log('Notes window failed to close properly.');
