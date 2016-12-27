@@ -187,8 +187,8 @@ function initializePresentation(prefix) {
     }
   });
 
-  // render diagrams
-  mermaid.init(undefined, $(".language-render-diagram"));
+  // initialize mermaid, but don't render yet since the slide sizes are indeterminate
+  mermaid.initialize({startOnLoad:false});
 
   $("#preso").trigger("showoff:loaded");
 }
@@ -584,6 +584,9 @@ function showSlide(back_step, updatepv) {
 
   // make all bigly text tremendous
   currentSlide.children('.content.bigtext').bigtext();
+
+  // render any diagrams on the slide
+  mermaid.init(undefined, currentSlide.find('code.language-render-diagram'));
 
   return ret;
 }
