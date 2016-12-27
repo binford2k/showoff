@@ -424,6 +424,8 @@ class ShowOff < Sinatra::Application
         content += "<canvas class=\"annotations\"></canvas>\n"
         content += "</div>\n"
 
+        content = final_slide_fixup(content)
+
         final += update_commandline_code(content)
 
         if seq
@@ -519,6 +521,25 @@ class ShowOff < Sinatra::Application
       doc.css('a').each do |link|
         link.set_attribute('target', '_blank') unless link['href'].start_with? '#'
       end
+
+      doc.to_html
+    end
+
+    # TODO: damn, this one is bad. This moves the notes div outside of the .content div, then removes
+    #       the bigtext class from the toplevel slide div, so that the overly aggressive styles don't
+    #       affect it. It's named generically so we can add to it if needed.
+    def final_slide_fixup(text)
+      # Turn this into a document for munging
+      doc     = Nokogiri::HTML::DocumentFragment.parse(text)
+
+      notes   = doc.at_css 'div.notes-section'
+      content = notes.parent
+      slide   = content.parent
+      content.add_next_sibling(notes)
+
+      # this is a list of classes that we want applied *only* to content, and not to the slide.
+      blacklist = ['bigtext']
+      slide['class'] = slide['class'].split.reject { |klass| blacklist.include? klass }.join(' ')
 
       doc.to_html
     end
