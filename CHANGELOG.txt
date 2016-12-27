@@ -1,3 +1,7 @@
+0.15.4
+  * Bugfix: Correct issues with slide notes when using `bigtext`.
+  * Added Mermaid diagram rendering (http://knsv.github.io/mermaid/)
+
 0.15.3
   * Remember selected layout, so you don't have to change it each time.
   * Adds `bigtext` slide style, which will expand text size to fill the slide.
