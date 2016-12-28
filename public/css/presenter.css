@@ -42,6 +42,18 @@
   #topbar .fa {
     color: #8affeb;
   }
+  #topbar #close-sidebar {
+    font-size: 16px;
+    padding: 3px 6px;
+    transition: all 200ms;
+  }
+    #topbar #close-sidebar.disabled {
+      color: grey;
+    }
+    #topbar #close-sidebar.disabled:hover {
+      background-color: transparent;
+      cursor: default;
+    }
 
   #slideSource {
     display: flex;
