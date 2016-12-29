@@ -654,21 +654,23 @@ a.controls {
 /* Portrait */
 @media screen and (max-width: 480px)
 {
-  #main {
+  .no-mobile {
+    display: none;
+  }
+
+  #pagewrapper {
     min-width: 0;
   }
 
-  #center {
+  #main {
     -webkit-flex-flow: column;
             flex-flow: column;
     -webkit-flex: 1;
             flex: 1;
   }
-  #bottom {
-    -webkit-flex-flow: column;
-            flex-flow: column;
-    -webkit-flex: 1;
-            flex: 1;
+  #frame {
+    -webkit-flex: 4;
+            flex: 4;
   }
     #questions {
       border-bottom: 1px solid #ccc;
@@ -676,8 +678,9 @@ a.controls {
               flex: 1;
     }
     #notes {
-      -webkit-flex: 2;
-              flex: 2;
+      -webkit-flex: 3;
+              flex: 3;
+      margin: 0;
     }
   #topbar,#main,#center,#preview,#bottom,#sidebar {
     margin: 0;
@@ -735,12 +738,14 @@ a.controls {
     height: auto;
     line-height: inherit;
   }
+  #enableAnnotations,
   #enableRemote,
   #enableFollower {
     border: none;
     margin: 0;
     padding: 0;
   }
+  #annotationsToggle,
   #remoteToggle,
   #followerToggle {
     line-height: 1em;

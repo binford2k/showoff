@@ -120,13 +120,13 @@
     </div>
 
     <div id="statusbar">
-      <span id="progress">
+      <span id="progress" class="no-mobile">
         Slide: <span id="slideInfo"></span>
       </span>
       <div id="debugInfo"></div>
 
       <div class="controls">
-        <span id="enableAnnotations" title="Enable the annotation system.">
+        <span id="enableAnnotations" title="Enable the annotation system." class="no-mobile">
           <label for="annotationsToggle">Annotations</label><input type="checkbox" id="annotationsToggle" autocomplete="off" />
         </span>
         <span id="enableFollower" title="Send slide change notifications.">
@@ -135,8 +135,8 @@
         <span id="enableRemote" title="Enables tracking of other presenters.">
           <label for="remoteToggle">Enable Remote</label><input type="checkbox" id="remoteToggle" autocomplete="off" checked />
         </span>
-        <a class="fa fa-external-link-square" aria-hidden="true" href="javascript:toggleNotes();"></a>
-        <i class="fa fa-bars notes-grippy ui-resizable-handle ui-resizable-n" aria-hidden="true"></i>
+        <a class="no-mobile fa fa-external-link-square" aria-hidden="true" href="javascript:toggleNotes();"></a>
+        <i class="no-mobile fa fa-bars notes-grippy ui-resizable-handle ui-resizable-n" aria-hidden="true"></i>
       </div>
 
     </div>
