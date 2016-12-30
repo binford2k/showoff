@@ -65,6 +65,7 @@
     <li><a href="#label-Language+Highlighting">Language Highlighting</a>
     <li><a href="#label-Syntax+highlighting+styles">Syntax highlighting styles</a>
     <li><a href="#label-Console+Windows">Console Windows</a>
+    <li><a href="#label-Rendering+Diagrams">Rendering Diagrams</a>
     <li><a href="#label-Forms">Forms</a>
     <li><a href="#label-Sections">Sections</a>
     <li><a href="#label-Presenter+Notes">Presenter Notes</a>
@@ -527,6 +528,37 @@ root@localhost # echo &quot;This is a console window with no titlebar&quot;</pre
 
 <pre>@@@ PowerShellConsole nochrome
 PS C:\&gt; echo &quot;This is a PowerShell window with no titlebar&quot;</pre>
+
+<h2 id="label-Rendering+Diagrams">Rendering Diagrams<span><a href="#label-Rendering+Diagrams">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Showoff includes the [Mermaid](<a
+href="http://knsv.github.io/mermaid">knsv.github.io/mermaid</a>) diagram
+renderer, which allows you to describe diagrams with a simple language and
+style them with CSS. To do so, create a code block using a highlight style
+of <code>render-diagram</code>.</p>
+
+<p>For example:</p>
+
+<pre>@@@ render-diagram
+gantt
+    dateFormat  YYYY-MM-DD
+    title Adding GANTT diagram functionality to mermaid
+    section A section
+    Completed task            :done,    des1, 2014-01-06,2014-01-08
+    Active task               :active,  des2, 2014-01-09, 3d
+    Future task               :         des3, after des2, 5d
+    Future task2              :         des4, after des3, 5d
+    section Critical tasks
+    Completed task in the critical line :crit, done, 2014-01-06,24h
+    Implement parser and jison          :crit, done, after des1, 2d
+    Create tests for parser             :crit, active, 3d
+    Future task in critical line        :crit, 5d
+    Create tests for renderer           :2d
+    Add to mermaid                      :1d</pre>
+
+<p>See <a
+href="http://knsv.github.io/mermaid/index.html#flowcharts-basic-syntax">knsv.github.io/mermaid/index.html#flowcharts-basic-syntax</a>
+for a syntax tutorial.</p>
 
 <h1 id="label-Forms">Forms<span><a href="#label-Forms">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
