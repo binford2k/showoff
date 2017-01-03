@@ -582,6 +582,16 @@ function showSlide(back_step, updatepv) {
   // copy notes to the notes field for mobile.
   postSlide();
 
+  // if the slide is marked to autoplay videos, then fire them off!
+  if(typeof(presenterView) !== 'undefined' && currentSlide.hasClass('autoplay')) {
+    console.log('Autoplaying ' + currentSlide.attr('id'))
+    setTimeout(function(){
+      $(currentSlide).find('video').each(function() {
+        $(this).get(0).play();
+      });
+    }, 1000);
+  }
+
   // make all bigly text tremendous
   currentSlide.children('.content.bigtext').bigtext();
 
@@ -1099,6 +1109,11 @@ function increment() {
 
 function prevStep(updatepv)
 {
+  $(currentSlide).find('video').each(function() {
+    console.log('Pausing videos on ' + currentSlide.attr('id'))
+    $(this).get(0).pause();
+  });
+
   fireEvent("showoff:prev");
   track();
   slidenum--;
@@ -1107,6 +1122,11 @@ function prevStep(updatepv)
 
 function nextStep(updatepv)
 {
+  $(currentSlide).find('video').each(function() {
+    console.log('Pausing videos on ' + currentSlide.attr('id'))
+    $(this).get(0).pause();
+  });
+
   fireEvent("showoff:next");
   track();
 
