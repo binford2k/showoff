@@ -1308,7 +1308,7 @@ class ShowOff < Sinatra::Application
     (0..15).to_a.map{|a| rand(16).to_s(16)}.join
   end
 
-  def valid_cookie
+  def valid_cookie?
     (request.cookies['presenter'] == @@cookie)
   end
 
@@ -1440,7 +1440,7 @@ class ShowOff < Sinatra::Application
             when 'update'
               # websockets don't use the same auth standards
               # we use a session cookie to identify the presenter
-              if valid_cookie()
+              if valid_cookie?
                 name  = control['name']
                 slide = control['slide'].to_i
                 increment = control['increment'].to_i rescue 0
@@ -1461,14 +1461,14 @@ class ShowOff < Sinatra::Application
 
             when 'register'
               # save a list of presenters
-              if valid_cookie()
+              if valid_cookie?
                 remote = request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR']
                 settings.presenters << ws
                 @logger.warn "Registered new presenter: #{remote}"
               end
 
             when 'track'
-              remote = request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR']
+              remote = valid_cookie? ? 'presenter' : (request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR'])
               slide  = control['slide']
               time   = control['time'].to_f
 
@@ -1528,6 +1528,7 @@ class ShowOff < Sinatra::Application
 
           rescue Exception => e
             @logger.warn "Messaging error: #{e}"
+            @logger.debug e.backtrace.join("\n")
           end
         end
         ws.onclose do

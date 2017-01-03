@@ -1036,7 +1036,7 @@ function feedbackActivity() {
 
 function track() {
   if (mode.track && ws.readyState == WebSocket.OPEN) {
-    var slideName    = $("#slideFilename").text();
+    var slideName    = $("#slideFilename").text() || $("#slideFile").text(); // yey for consistency
     var slideEndTime = new Date().getTime();
     var elapsedTime  = slideEndTime - slideStartTime;
 
