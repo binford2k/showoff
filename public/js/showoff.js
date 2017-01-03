@@ -556,18 +556,31 @@ function showSlide(back_step, updatepv) {
     }
   }
 
-  // Update presenter view, if we spawned one
-	if (updatepv && 'presenterView' in window) {
+  // if we're a slave/display window
+  if('presenterView' in window) {
     var pv = window.presenterView;
-		pv.slidenum = slidenum;
-    pv.incrCurr = incrCurr
-    pv.incrSteps = incrSteps
-		pv.showSlide(true);
-		pv.postSlide();
 
-		pv.update();
+    // Update presenter view, if it's tracking us
+    if (updatepv) {
+      pv.slidenum  = slidenum;
+      pv.incrCurr  = incrCurr
+      pv.incrSteps = incrSteps
 
-	}
+      pv.showSlide(true);
+      pv.postSlide();
+      pv.update();
+    }
+
+    // if the slide is marked to autoplay videos, then fire them off!
+    if(currentSlide.hasClass('autoplay')) {
+      console.log('Autoplaying ' + currentSlide.attr('id'))
+      setTimeout(function(){
+        $(currentSlide).find('video').each(function() {
+          $(this).get(0).play();
+        });
+      }, 1000);
+    }
+  }
 
   // Update nav
   $('.highlighted').removeClass('highlighted');
@@ -581,16 +594,6 @@ function showSlide(back_step, updatepv) {
 
   // copy notes to the notes field for mobile.
   postSlide();
-
-  // if the slide is marked to autoplay videos, then fire them off!
-  if(typeof(presenterView) !== 'undefined' && currentSlide.hasClass('autoplay')) {
-    console.log('Autoplaying ' + currentSlide.attr('id'))
-    setTimeout(function(){
-      $(currentSlide).find('video').each(function() {
-        $(this).get(0).play();
-      });
-    }, 1000);
-  }
 
   // make all bigly text tremendous
   currentSlide.children('.content.bigtext').bigtext();
