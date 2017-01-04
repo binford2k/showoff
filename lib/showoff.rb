@@ -77,7 +77,7 @@ class ShowOff < Sinatra::Application
     @keycode_shifted_keys = Keymap.shiftedKeyDictionary
 
     settings.pres_dir = File.expand_path(settings.pres_dir)
-    if (settings.pres_file)
+    if (settings.pres_file and settings.pres_file != 'showoff.json')
       ShowOffUtils.presentation_config_file = settings.pres_file
     end
 
@@ -1122,10 +1122,12 @@ class ShowOff < Sinatra::Application
   end
 
 
-   def self.do_static(args)
+   def self.do_static(args, opts = {})
       args ||= [] # handle nil arguments
       what   = args[0] || "index"
       opt    = args[1]
+
+      ShowOffUtils.presentation_config_file = opts[:f]
 
       # Sinatra now aliases new to new!
       # https://github.com/sinatra/sinatra/blob/v1.3.3/lib/sinatra/base.rb#L1369
