@@ -59,20 +59,6 @@ $(document).ready(function(){
     });
   }
 
-  // wait until the presentation is loaded to hook up the previews.
-  // TODO: If we decide to implement this for the audience display, we can move it later
-  $("body").bind("showoff:loaded", function (event) {
-    $('#navigation li a.navItem').hover(function() {
-      var position = $(this).position();
-      $('#navigationHover').css({top: position.top, left: position.left + $('#navigation').width() + 5})
-      $('#navigationHover').html(slides.eq($(this).attr('rel')).html());
-      $('#navigationHover').show();
-    },function() {
-      $('#navigationHover').hide();
-    });
-  });
-
-
   // Hide with js so jquery knows what display property to assign when showing
   toggleAnnotations();
 

@@ -87,6 +87,18 @@ function setupPreso(load_slides, prefix) {
   // yes, this is a global
   annotations = new Annotate();
 
+  // wait until the presentation is loaded to hook up the previews.
+  $("body").bind("showoff:loaded", function (event) {
+    $('#navigation li a.navItem').hover(function() {
+      var position = $(this).position();
+      $('#navigationHover').css({top: position.top, left: position.left + $('#navigation').width() + 5})
+      $('#navigationHover').html(slides.eq($(this).attr('rel')).html());
+      $('#navigationHover').show();
+    },function() {
+      $('#navigationHover').hide();
+    });
+  });
+
   // Open up our control socket
   if(mode.track) {
     connectControlChannel();

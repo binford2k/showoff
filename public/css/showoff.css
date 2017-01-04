@@ -515,6 +515,25 @@ img#disconnected {
   padding: .5em 1.5em;
 }
 
+#navigationHover {
+  display: none;
+  position: absolute;
+  overflow: hidden;
+  z-index: 99999;
+  width: 200px;
+  height: 150px;
+  background-color: white;
+  border: 1px solid #4D4F53;
+  margin: 0px;
+  border-radius: 3px;
+  box-shadow: 3px 3px 5px #ccc;
+}
+  #navigationHover .content {
+    width: 200%;
+    transform: scale(0.5);
+    transform-origin: 0 0;
+  }
+
 #askedQuestions {
   margin: 0;
 }
