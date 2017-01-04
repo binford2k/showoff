@@ -1,5 +1,5 @@
 /* Sizes must be defined for child elements to use them in fluid calculations. */
-#main {
+#pagewrapper {
   height: 100%;
   height: 100vh;
   display: -webkit-flex;
@@ -42,6 +42,18 @@
   #topbar .fa {
     color: #8affeb;
   }
+  #topbar #close-sidebar {
+    font-size: 16px;
+    padding: 3px 6px;
+    transition: all 200ms;
+  }
+    #topbar #close-sidebar.disabled {
+      color: grey;
+    }
+    #topbar #close-sidebar.disabled:hover {
+      background-color: transparent;
+      cursor: default;
+    }
 
   #slideSource {
     display: flex;
@@ -111,7 +123,7 @@
   }
 
 
-#center {
+#main {
   display: -webkit-flex;
   display:         flex;
   -webkit-flex-flow: row;
@@ -221,6 +233,7 @@
     }
 
     .submenu {
+      flex-grow: 10;
       display: block;
       overflow-x: hidden;
       overflow-y: auto;
@@ -244,6 +257,43 @@
         transform-origin: 0 0;
       }
 
+    #questions {
+      -webkit-flex: 1;
+              flex: 1;
+      -webkit-order: 0;
+              order: 0;
+      min-width: 210px;
+      min-height: 210px;
+      height: 210px;
+      background: #F5ED9B;
+      border-top: 1px solid #ccc;
+      border-right: 1px solid #ccc;
+      overflow: auto;
+    }
+
+    #questions #answered li {
+      text-decoration: line-through;
+      color: #ccc;
+    }
+
+    #questions #unanswered li:hover {
+      background-color: #dedede;
+    }
+    #questions #unanswered li:hover:after {
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+      padding: 0 8px;
+      float: right;
+      content: "\f058"; /* fa-check-circle */
+    }
+
+    #questions li {
+      cursor: default;
+    }
+
+
   #presenter {
     display: -webkit-flex;
     display:         flex;
@@ -263,6 +313,7 @@
               flex-flow: row;
       -webkit-flex: 10;
               flex: 10;
+      min-height: 250px;
     }
 
 
@@ -422,14 +473,20 @@
       #debugInfo {
         display: inline;
       }
-      #enableFollower,
-      #enableRemote,
-      #enableAnnotations {
+      .controls {
         float: right;
-        margin: 1px;
-        padding: 0.1em;
+        margin-right: 5px;
       }
-      #enableRemote.active {
+        .controls > .fa {
+          font-size: 18px;
+        }
+        .controls > .grippy {
+          cursor:ns-resize;
+        }
+        .controls > span {
+          margin-right: 1em;
+        }
+      #enableRemote:checked {
         background-color: #fff8bf;
         -webkit-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
         -moz-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
@@ -481,60 +538,18 @@
     #annotationToolbar i.shapes.color4 { color: green  }
 
 
-
-#bottom {
-  display: -webkit-flex;
-  display:         flex;
-  -webkit-flex-flow: row;
-          flex-flow: row;
-  height: 180px;
+#notes {
+  overflow: auto;
+  height: 210px;
+  padding: 0 1em;
+  display: block;
+  position: relative;
   background: #F5ED9B;
   border-top: 1px solid #ccc;
+  top: auto !important; /* jquery-ui-resizable mucks with this */
 }
-
-  #questions {
-    -webkit-flex: 1;
-            flex: 1;
-    -webkit-order: 0;
-            order: 0;
-    min-width: 210px;
-    border-right: 1px solid #ccc;
-    overflow: auto;
-    height: 100%;
-  }
-
-  #questions #answered li {
-    text-decoration: line-through;
-    color: #ccc;
-  }
-
-  #questions #unanswered li:hover {
-    background-color: #dedede;
-  }
-  #questions #unanswered li:hover:after {
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
-    padding: 0 8px;
-    float: right;
-    content: "\f058"; /* fa-check-circle */
-  }
-
-  #questions li {
-    cursor: default;
-  }
-
-  #notes {
-    -webkit-flex: 4;
-            flex: 4;
-    -webkit-order: 1;
-            order: 1;
-    overflow: auto;
-    height: 100%;
-    padding: 0 1em;
-    display: block;
-    position: relative;
+  #notes.hidden {
+    display: none;
   }
 
   #notes ul.section-selector {
@@ -639,21 +654,23 @@ a.controls {
 /* Portrait */
 @media screen and (max-width: 480px)
 {
-  #main {
+  .no-mobile {
+    display: none;
+  }
+
+  #pagewrapper {
     min-width: 0;
   }
 
-  #center {
+  #main {
     -webkit-flex-flow: column;
             flex-flow: column;
     -webkit-flex: 1;
             flex: 1;
   }
-  #bottom {
-    -webkit-flex-flow: column;
-            flex-flow: column;
-    -webkit-flex: 1;
-            flex: 1;
+  #frame {
+    -webkit-flex: 4;
+            flex: 4;
   }
     #questions {
       border-bottom: 1px solid #ccc;
@@ -661,8 +678,9 @@ a.controls {
               flex: 1;
     }
     #notes {
-      -webkit-flex: 2;
-              flex: 2;
+      -webkit-flex: 3;
+              flex: 3;
+      margin: 0;
     }
   #topbar,#main,#center,#preview,#bottom,#sidebar {
     margin: 0;
@@ -720,12 +738,14 @@ a.controls {
     height: auto;
     line-height: inherit;
   }
+  #enableAnnotations,
   #enableRemote,
   #enableFollower {
     border: none;
     margin: 0;
     padding: 0;
   }
+  #annotationsToggle,
   #remoteToggle,
   #followerToggle {
     line-height: 1em;

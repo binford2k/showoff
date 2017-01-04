@@ -72,6 +72,12 @@ $(document).ready(function(){
     });
   });
 
+  // set up notes resizing
+  $( "#notes" ).resizable({
+    minHeight: 0,
+    handles: {"n": $(".notes-grippy")}
+  });
+
 
   // Hide with js so jquery knows what display property to assign when showing
   toggleAnnotations();
@@ -258,6 +264,40 @@ function nextSlideNum(url) {
   return snum;
 }
 
+// allows subsystems to pin the sidebar open. The sidebar will only hide when
+// all pins have been removed.
+function pinSidebar(pin) {
+  $('#topbar #close-sidebar').addClass('disabled');
+  $('#topbar #close-sidebar').removeClass('fa-rotate-90');
+  $('#sidebar').show();
+  zoom(true);
+
+  mode.pinnedSidebar = mode.pinnedSidebar || []
+  if (mode.pinnedSidebar.indexOf(pin) == -1) {
+    mode.pinnedSidebar.push(pin);
+  }
+}
+
+function unpinSidebar(pin) {
+  if (Array.isArray(mode.pinnedSidebar)) {
+    mode.pinnedSidebar = mode.pinnedSidebar.filter(function(item) {
+      return item !== pin;
+    });
+
+    if(mode.pinnedSidebar.length == 0) {
+      $('#topbar #close-sidebar').removeClass('disabled');
+      delete mode.pinnedSidebar;
+    }
+  }
+}
+
+function toggleSidebar() {
+  if (!mode.pinnedSidebar) {
+    $('#topbar #close-sidebar').toggleClass('fa-rotate-90');
+    $('#sidebar').toggle();
+    zoom(true);
+  }
+}
 
 function toggleNotes() {
   mode.notes = !mode.notes;
@@ -266,9 +306,17 @@ function toggleNotes() {
     try {
       if(windowIsClosed(notesWindow)){
         notesWindow = blankStyledWindow("Showoff Notes", 'width=350,height=450', 'notes', true);
-        window.setTimeout(postSlide, 500);
+        window.setTimeout(function() {
+          // call back and update the parent presenter if the window is closed
+          notesWindow.onunload = function(e) {
+            notesWindow.opener.toggleNotes();
+          };
+
+          postSlide();
+        }, 500);
+
       }
-      $('#notesWindow').addClass('enabled');
+      $('#notes').addClass('hidden');
     }
     catch(e) {
       console.log('Failed to open notes window. Popup blocker?');
@@ -277,12 +325,14 @@ function toggleNotes() {
   else {
     try {
       notesWindow && notesWindow.close();
-      $('#notesWindow').removeClass('enabled');
+      $('#notes').removeClass('hidden');
     }
     catch (e) {
       console.log('Notes window failed to close properly.');
     }
   }
+
+  zoom(true);
 }
 
 function blankStyledWindow(title, dimensions, classes, resizable) {
@@ -340,6 +390,9 @@ function postQuestion(question, questionID) {
 
   $("#unanswered").append(questionItem);
   updateQuestionIndicator();
+
+  // don't allow the sidebar to hid when questions exist
+  pinSidebar('question');
 }
 
 function removeQuestion(questionID) {
@@ -348,6 +401,10 @@ function removeQuestion(questionID) {
           .remove();
   $('#answered').append($(question));
   updateQuestionIndicator();
+
+  if($('#unanswered li').length == 0) {
+    unpinSidebar('question');
+  }
 }
 
 function updateQuestionIndicator() {
@@ -631,6 +688,9 @@ function startTimer() {
   $("#timerDisplay").show();
   $("#timerSection").addClass('open');
 
+  // keep the sidebar open while the timer is active
+  pinSidebar('timer');
+
   var time = parseInt( $("#timerMinutes").val() ) * 60;
   if(time) {
     $('#timerDisplay')
@@ -703,6 +763,8 @@ function toggleTimer() {
 function endTimer() {
   $('#stopTimer').val('Reset');
   $("#pauseTimer").hide();
+
+  // don't unpin yet, we don't want the timer to just wander off into the distance!
 }
 
 function stopTimer() {
@@ -716,6 +778,9 @@ function stopTimer() {
   $("#pauseTimer").hide();
   $("#timerDisplay").hide();
   $('#timerSection').removeClass();
+
+  // only unpin when the user has dismissed the timer
+  unpinSidebar('timer');
 }
 
 /********************
