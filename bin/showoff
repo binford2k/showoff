@@ -286,8 +286,12 @@ desc 'Generate static version of presentation'
 arg_name 'name'
 long_desc 'Creates a static, one page version of the presentation as {name}.html'
 command [:static] do |c|
+  c.desc 'JSON file used to describe presentation'
+  c.default_value "showoff.json"
+  c.flag [:f, :file, :pres_file]
+
   c.action do |global_options,options,args|
-    ShowOff.do_static(args)
+    ShowOff.do_static(args, options)
   end
 end
 
