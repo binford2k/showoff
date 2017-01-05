@@ -475,7 +475,7 @@ and as soon as you add one !SLIDE you need them everywhere.
 To insert custom JavaScript into your presentation you can either place it into
 a file (with extension .js) into the root directory of your presentation or you
 can embed a <code><script></code> element directly into your slides. This JavaScript will be
-executed—as usually—as soon as it is loaded.
+executed--as usually--as soon as it is loaded.
 
 If you want to trigger some JavaScript as soon as a certain page is shown or
 when you switch to the next or previous slide, you can bind a callback to a
