@@ -43,6 +43,7 @@ class ShowOff < Sinatra::Application
   set :verbose, false
   set :review,  false
   set :execute, false
+  set :nocache, false
 
   set :pres_dir, '.'
   set :pres_file, 'showoff.json'
@@ -50,6 +51,7 @@ class ShowOff < Sinatra::Application
   set :pres_template, nil
   set :showoff_config, {}
   set :encoding, nil
+  set :url, nil
 
   def initialize(app=nil)
     super(app)
