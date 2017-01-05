@@ -152,8 +152,8 @@ class ShowOffUtils
     end
   end
 
-  HEROKU_GEMS_FILE = '.gems'
-  HEROKU_BUNDLER_GEMS_FILE = 'Gemfile'
+  HEROKU_PROCFILE    = 'Procfile'
+  HEROKU_GEMS_FILE   = 'Gemfile'
   HEROKU_CONFIG_FILE = 'config.ru'
 
 	# Setup presentation to run on Heroku
@@ -161,26 +161,22 @@ class ShowOffUtils
   # name         - String containing heroku name
   # force        - boolean if .gems/Gemfile and config.ru should be overwritten if they don't exist
   # password     - String containing password to protect your heroku site; nil means no password protection
-  # use_dot_gems - boolean that, if true, indicates we should use the old, deprecated .gems file instead of Bundler
-  def self.heroku(name, force = false, password = nil, use_dot_gems = false)
-    modified_something = false
+  def self.heroku(name, force = false, password = nil)
+    modified_something = create_gems_file(HEROKU_GEMS_FILE,
+                                          !password.nil?,
+                                          force,
+                                          lambda{ |gem| "gem '#{gem}'" },
+                                          lambda{ "source :rubygems" })
 
-    if use_dot_gems
-      modified_something = create_gems_file(HEROKU_GEMS_FILE,
-                                            !password.nil?,
-                                            force,
-                                            lambda{ |gem| gem })
-    else
-      modified_something = create_gems_file(HEROKU_BUNDLER_GEMS_FILE,
-                                            !password.nil?,
-                                            force,
-                                            lambda{ |gem| "gem '#{gem}'" },
-                                            lambda{ "source :rubygems" })
+    create_file_if_needed(HEROKU_PROCFILE,force) do |file|
+      modified_something = true
+      file.puts 'bundle exec thin start -R config.ru -e production -p $PORT'
     end
 
     create_file_if_needed(HEROKU_CONFIG_FILE,force) do |file|
       modified_something = true
       file.puts 'require "showoff"'
+      file.puts 'require "showoff/version"'
       if password.nil?
         file.puts 'run ShowOff.new'
       else
@@ -567,6 +563,11 @@ class ShowOffUtils
       puts "#{filename} exists; not overwriting (see showoff help heroku)"
       false
     end
+  end
+
+  def self.command(command, error='command failed')
+    puts "Running '#{command}'..."
+    system(command) or raise error
   end
 end
 
