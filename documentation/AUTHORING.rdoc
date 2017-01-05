@@ -438,11 +438,20 @@ If you want to show a slideshow while you wait to speak, you can run a preshow.
 Add a <tt>_preshow</tt> directory to your project (I use a symlink, so I don't
 have to add all the images into Git), put a bunch of images in the
 <tt>_preshow</tt> directory and optionally add a <tt>preshow.json</tt> file that
-provides descriptions for any of the images.  If you then press '<tt>P</tt>' at the
+provides descriptions for any of the images.  If you then press '<tt>P</tt>' on the display screen at the
 beginning of your presentation, it will prompt you for a number of minutes until
 you start.  Then it will count down the time until then, flipping through your
 pictures to entertain the audience in the meantime.  Press '<tt>P</tt>' again to stop, or
 wait until the timer runs out.
+
+Your optional <tt>preshow.json<\tt> file should be formatted like so:
+
+    {
+      "ImageFileName1.png":"Image Title and/or Description",
+    }
+    {
+      "ImageFileName2.jpg":"Image Title and/or Description",
+    }
 
 = Download Files
 
