@@ -66,7 +66,12 @@ Options are specified *after* the command.
 
 Setup your presentation to serve on Heroku
 
-Creates the Gemfile and config.ru file needed to push a showoff pres to heroku.  It will then run heroku create for you to register the new project on heroku and add the git remote for you.  Then all you need to do is commit the new created files and run <tt>git push heroku</tt> to deploy.
+Creates the configuration files needed to Herokuize a Showoff presentation and then deploy it for you.
+This will register the new project on Heroku if needed and create the git remote for you.
+
+Open your new presentation by running <tt>heroku open</tt>.
+
+Requires the <tt>heroku</tt> and <tt>bundler</tt> gems to be installed properly.
 
 
 == <tt>showoff github</tt>

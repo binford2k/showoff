@@ -96,38 +96,45 @@ module Wrapper
   desc 'Serves the showoff presentation in the current directory'
   desc 'Setup your presentation to serve on Heroku'
   arg_name 'heroku_name'
-  long_desc 'Creates the Gemfile and config.ru file needed to push a showoff pres to heroku.  It will then run ''heroku create'' for you to register the new project on heroku and add the remote for you.  Then all you need to do is commit the new created files and run ''git push heroku'' to deploy.'
+  long_desc 'Creates the configuration files needed to Herokuize a Showoff presentation and then deploys it for you.'
   command :heroku do |c|
-
+  
     c.desc 'add password protection to your heroku site'
     c.flag [:p,:password]
-
+  
     c.desc 'force overwrite of existing Gemfile/.gems and config.ru files if they exist'
     c.switch [:f,:force]
-
-    c.desc 'Use older-style .gems file instead of bundler-style Gemfile'
-    c.switch [:g,:dotgems]
-
+  
     c.action do |global_options,options,args|
       raise "heroku_name is required" if args.empty?
-      if ShowOffUtils.heroku(args[0],options[:f],options[:p],options[:g])
-        puts "herokuized. run something like this to launch your heroku presentation:
-
-        heroku create #{args[0]}"
-
-        if options[:g]
-        puts "        git add .gems config.ru"
-        else
-        puts "      bundle install"
-        puts "      git add Gemfile Gemfile.lock config.ru"
+      raise "Name must start with a letter and can only contain lowercase letters, numbers, and dashes." unless args.first =~ /^[a-z][a-z1-9-]*$/
+  
+      unless system('git remote get-url heroku')
+        ShowOffUtils.command("heroku create #{args[0]}", "Please ensure that the heroku gem is installed and you're logged in.")
+      end
+  
+      if ShowOffUtils.heroku(args[0],options[:f],options[:p])
+        ShowOffUtils.command('bundle install', 'Please ensure that the bundler gem is installed.')
+  
+        begin
+          ShowOffUtils.command('git add Procfile Gemfile Gemfile.lock config.ru')
+          ShowOffUtils.command('git commit -m "Herokuized by Showoff"')
+          ShowOffUtils.command('git push heroku master')
+        rescue => e
+          puts 'Git operations failed. Please correct issues, then manually commit the following files:'
+          puts ' * Procfile'
+          puts ' * Gemfile'
+          puts ' * Gemfile.lock'
+          puts ' * config.ru'
+          puts
+          puts 'When done, please run "git push heroku master"'
         end
-        puts "      git commit -m 'herokuized'
-        git push heroku master
-        "
-
+  
         if options[:p]
           puts "CAREFUL: you are commiting your access password - anyone with read access to the repo can access the preso\n\n"
         end
+  
+        puts 'Your presentation has been Herokuized. Run `heroku open` to see it.'
       end
     end
   end
