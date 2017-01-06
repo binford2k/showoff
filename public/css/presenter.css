@@ -461,12 +461,22 @@
       }
         .controls > .fa {
           font-size: 18px;
+          text-decoration: none;
         }
-        .controls > .grippy {
-          cursor:ns-resize;
+        .controls > a {
+          color: #222;
+        }
+        .controls > .notes-grippy {
+          top: auto;
+          position: relative;
+          display: inline;
         }
         .controls > span {
-          margin-right: 1em;
+          font-size: 10px;
+        }
+        .controls > span > label {
+          margin-bottom: 4px;
+          padding-bottom: 2px;
         }
       #enableRemote:checked {
         background-color: #fff8bf;
