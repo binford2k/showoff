@@ -6,234 +6,241 @@ require 'showoff/version'
 require 'rubygems'
 require 'gli'
 
-# Support GLI and GLI2
-if GLI::VERSION.to_f > 1
+# See https://github.com/davetron5000/gli/issues/196 for rationale for this silly wrapper
+module Wrapper
   include GLI::App
-else
-  include GLI
-end
+  extend self
 
-version SHOWOFF_VERSION
-program_desc <<-desc
-A web based presentation engine with awesome interaction features.
+  version SHOWOFF_VERSION
+  program_desc <<-desc
+  A web based presentation engine with awesome interaction features.
 
-  ShowOff uses Markdown files with a few custom extensions to generate slides
-  that are served locally for presentation via web browser. Your audience can
-  view presentations directly as well, and interact with you in many ways.
+    ShowOff uses Markdown files with a few custom extensions to generate slides
+    that are served locally for presentation via web browser. Your audience can
+    view presentations directly as well, and interact with you in many ways.
 
-  Showoff can optionally use the PDFKit gem to autogenerate PDF files on demand.
-  Viewers can access the /pdf endpoint to download a generated PDF file. This
-  functionality is likely to be deprecated, since it is simpler and easier to
-  just print the /print endpoint directly from your browser.
+    Showoff can optionally use the PDFKit gem to autogenerate PDF files on demand.
+    Viewers can access the /pdf endpoint to download a generated PDF file. This
+    functionality is likely to be deprecated, since it is simpler and easier to
+    just print the /print endpoint directly from your browser.
 
-  The simplest use case is to run `showoff serve` from the directory containing
-  the showoff.json file.
-desc
+    The simplest use case is to run `showoff serve` from the directory containing
+    the showoff.json file.
+  desc
 
 
-desc 'Create new showoff presentation'
-long_desc 'This command helps start a new showoff presentation by setting up the proper directory structure for you.  It takes the directory name you would like showoff to create for you.'
-command [:create,:init] do |c|
+  desc 'Create new showoff presentation'
+  long_desc 'This command helps start a new showoff presentation by setting up the proper directory structure for you.  It takes the directory name you would like showoff to create for you.'
+  command [:create,:init] do |c|
 
-  c.desc 'Don''t create sample slides'
-  c.switch [:n,:nosamples]
+    c.desc 'Don''t create sample slides'
+    c.switch [:n,:nosamples]
 
-  c.desc 'Comma separated list of initial slide directory name(s).'
-  c.default_value 'one'
-  c.flag [:d,:slidedir]
+    c.desc 'Comma separated list of initial slide directory name(s).'
+    c.default_value 'one'
+    c.flag [:d,:slidedir]
 
-  c.action do |global_options,options,args|
-    dir_name = args.first || '.'
-    ShowOffUtils.create(dir_name,!options[:n],options[:d])
-    if options[:n]
-      puts "Add slides and update #{dir_name}/#{ShowOffUtils.presentation_config_file}"
+    c.action do |global_options,options,args|
+      dir_name = args.first || '.'
+      ShowOffUtils.create(dir_name,!options[:n],options[:d])
+      if options[:n]
+        puts "Add slides and update #{dir_name}/#{ShowOffUtils.presentation_config_file}"
+      end
+      if args.empty?
+        puts "Run 'showoff serve' to see your new slideshow"
+      else
+        puts "Run 'showoff serve' in the #{dir_name} directory to see your new slideshow"
+      end
     end
-    if args.empty?
-      puts "Run 'showoff serve' to see your new slideshow"
-    else
-      puts "Run 'showoff serve' in the #{dir_name} directory to see your new slideshow"
+  end
+
+  desc 'Build a showoff presentation from a showoff.json outline'
+  long_desc 'This command helps start a new showoff presentation by creating each slide listing in the showoff.json file.'
+  command [:skeleton] do |c|
+
+    c.desc 'alternate json filename'
+    c.flag [:f,:file]
+
+    c.action do |global_options,options,args|
+      ShowOffUtils.skeleton(options[:f])
+      puts "done. run 'showoff serve' to see your slideshow"
     end
   end
-end
 
-desc 'Build a showoff presentation from a showoff.json outline'
-long_desc 'This command helps start a new showoff presentation by creating each slide listing in the showoff.json file.'
-command [:skeleton] do |c|
+  desc 'Validate the consistency of your presentation.'
+  long_desc 'This ensures that each file listed in showoff.json exists and validates code blocks on each slide.'
+  command [:validate] do |c|
 
-  c.desc 'alternate json filename'
-  c.flag [:f,:file]
+    c.desc 'alternate json filename'
+    c.flag [:f,:file]
 
-  c.action do |global_options,options,args|
-    ShowOffUtils.skeleton(options[:f])
-    puts "done. run 'showoff serve' to see your slideshow"
-  end
-end
-
-desc 'Validate the consistency of your presentation.'
-long_desc 'This ensures that each file listed in showoff.json exists and validates code blocks on each slide.'
-command [:validate] do |c|
-
-  c.desc 'alternate json filename'
-  c.flag [:f,:file]
-
-  c.action do |global_options,options,args|
-    ShowOffUtils.validate(options[:f])
-  end
-end
-
-desc 'Puts your showoff presentation into a gh-pages branch'
-long_desc 'Generates a static version of your presentation into your gh-pages branch for publishing to GitHub Pages'
-command :github do |c|
-  c.action do |global_options,options,args|
-    puts "Generating static content"
-    ShowOffUtils.github
-    puts "I've updated your 'gh-pages' branch with the static version of your presentation."
-    puts "Push it to GitHub to publish it. Probably something like:"
-    puts
-    puts "  git push origin gh-pages"
-    puts
-  end
-end
-
-desc 'Serves the showoff presentation in the current directory'
-desc 'Setup your presentation to serve on Heroku'
-arg_name 'heroku_name'
-long_desc 'Creates the configuration files needed to Herokuize a Showoff presentation and then deploys it for you.'
-command :heroku do |c|
-
-  c.desc 'add password protection to your heroku site'
-  c.flag [:p,:password]
-
-  c.desc 'force overwrite of existing Gemfile/.gems and config.ru files if they exist'
-  c.switch [:f,:force]
-
-  c.action do |global_options,options,args|
-    raise "heroku_name is required" if args.empty?
-    raise "Name must start with a letter and can only contain lowercase letters, numbers, and dashes." unless args.first =~ /^[a-z][a-z1-9-]*$/
-
-    unless system('git remote get-url heroku')
-      ShowOffUtils.command("heroku create #{args[0]}", "Please ensure that the heroku gem is installed and you're logged in.")
+    c.action do |global_options,options,args|
+      ShowOffUtils.validate(options[:f])
     end
+  end
 
-    if ShowOffUtils.heroku(args[0],options[:f],options[:p])
-      ShowOffUtils.command('bundle install', 'Please ensure that the bundler gem is installed.')
+  desc 'Puts your showoff presentation into a gh-pages branch'
+  long_desc 'Generates a static version of your presentation into your gh-pages branch for publishing to GitHub Pages'
+  command :github do |c|
+    c.action do |global_options,options,args|
+      puts "Generating static content"
+      ShowOffUtils.github
+      puts "I've updated your 'gh-pages' branch with the static version of your presentation."
+      puts "Push it to GitHub to publish it. Probably something like:"
+      puts
+      puts "  git push origin gh-pages"
+      puts
+    end
+  end
 
-      begin
-        ShowOffUtils.command('git add Procfile Gemfile Gemfile.lock config.ru')
-        ShowOffUtils.command('git commit -m "Herokuized by Showoff"')
-        ShowOffUtils.command('git push heroku master')
-      rescue => e
-        puts 'Git operations failed. Please correct issues, then manually commit the following files:'
-        puts ' * Procfile'
-        puts ' * Gemfile'
-        puts ' * Gemfile.lock'
-        puts ' * config.ru'
-        puts
-        puts 'When done, please run "git push heroku master"'
+  desc 'Serves the showoff presentation in the current directory'
+  desc 'Setup your presentation to serve on Heroku'
+  arg_name 'heroku_name'
+  long_desc 'Creates the configuration files needed to Herokuize a Showoff presentation and then deploys it for you.'
+  command :heroku do |c|
+  
+    c.desc 'add password protection to your heroku site'
+    c.flag [:p,:password]
+  
+    c.desc 'force overwrite of existing Gemfile/.gems and config.ru files if they exist'
+    c.switch [:f,:force]
+  
+    c.action do |global_options,options,args|
+      raise "heroku_name is required" if args.empty?
+      raise "Name must start with a letter and can only contain lowercase letters, numbers, and dashes." unless args.first =~ /^[a-z][a-z1-9-]*$/
+  
+      unless system('git remote get-url heroku')
+        ShowOffUtils.command("heroku create #{args[0]}", "Please ensure that the heroku gem is installed and you're logged in.")
+      end
+  
+      if ShowOffUtils.heroku(args[0],options[:f],options[:p])
+        ShowOffUtils.command('bundle install', 'Please ensure that the bundler gem is installed.')
+  
+        begin
+          ShowOffUtils.command('git add Procfile Gemfile Gemfile.lock config.ru')
+          ShowOffUtils.command('git commit -m "Herokuized by Showoff"')
+          ShowOffUtils.command('git push heroku master')
+        rescue => e
+          puts 'Git operations failed. Please correct issues, then manually commit the following files:'
+          puts ' * Procfile'
+          puts ' * Gemfile'
+          puts ' * Gemfile.lock'
+          puts ' * config.ru'
+          puts
+          puts 'When done, please run "git push heroku master"'
+        end
+  
+        if options[:p]
+          puts "CAREFUL: you are commiting your access password - anyone with read access to the repo can access the preso\n\n"
+        end
+  
+        puts 'Your presentation has been Herokuized. Run `heroku open` to see it.'
+      end
+    end
+  end
+
+  desc 'Serves the showoff presentation in the specified (or current) directory'
+  arg_name "[pres_dir]"
+  default_value "."
+  command :serve do |c|
+
+    c.desc 'Show verbose messaging'
+    c.switch [:v, :verbose]
+
+    c.desc 'Enable code review'
+    c.switch [:r, :review]
+
+    c.desc 'Enable remote code execution'
+    c.switch [:x, :execute, :executecode]
+
+    c.desc 'Run in standalone mode, with no audience interaction'
+    c.switch [:S, :standalone]
+
+    c.desc 'Disable content caching'
+    c.switch :nocache
+
+    c.desc 'Port on which to run'
+    c.default_value "9090"
+    c.flag [:p, :port]
+
+    c.desc 'Host or ip to run on'
+    c.default_value "0.0.0.0"
+    c.flag [:h, :host]
+
+    c.desc 'Run via HTTPS'
+    c.switch [:s, :ssl]
+
+    c.desc 'Path to SSL certificate. Showoff will generate one automatically if unset.'
+    c.flag :ssl_certificate
+
+    c.desc 'Path to SSL private key. Showoff will generate one automatically if unset.'
+    c.flag :ssl_private_key
+
+    c.desc 'JSON file used to describe presentation'
+    c.default_value "showoff.json"
+    c.flag [:f, :file, :pres_file]
+
+    c.desc 'Git URL to a repository containing the presentation'
+    c.flag [:u, :url, :git_url]
+
+    c.desc 'Branch of the git repository to use'
+    c.flag [:git_branch]
+
+    c.desc 'Path of the presentation within the git repository'
+    c.flag [:git_path]
+
+    c.action do |global_options,options,args|
+
+      # This is gross. A serious revamp in config file parsing is due.
+      config = JSON.parse(File.read(options[:f])) rescue {}
+      if Gem::Version.new(config['version']) > Gem::Version.new(SHOWOFF_VERSION) then
+        raise "This presentation requires Showoff version #{config['version']} or greater."
       end
 
-      if options[:p]
-        puts "CAREFUL: you are commiting your access password - anyone with read access to the repo can access the preso\n\n"
-      end
+      options[:host]            ||= config['host']
+      options[:port]            ||= config['port']
+      options[:ssl]             ||= config['ssl']
+      options[:ssl_certificate] ||= config['ssl_certificate']
+      options[:ssl_private_key] ||= config['ssl_private_key']
+      options[:standalone]      ||= config['standalone']
 
-      puts 'Your presentation has been Herokuized. Run `heroku open` to see it.'
-    end
-  end
-end
+      options[:pres_dir]          = args[0]
+      options[:port]              = options[:port].to_i
+      options[:bind]              = options[:host]
 
-desc 'Serves the showoff presentation in the specified (or current) directory'
-arg_name "[pres_dir]"
-default_value "."
-command :serve do |c|
+      ssl_options = {
+        :cert_chain_file  => options[:ssl_certificate],
+        :private_key_file => options[:ssl_private_key],
+        :verify_peer      => false,
+      }
 
-  c.desc 'Show verbose messaging'
-  c.switch [:v, :verbose]
+      protocol = options[:ssl] ? 'https' : 'http'
+      host     = options[:host] == '0.0.0.0' ? 'localhost' : options[:host]
+      url      = "#{protocol}://#{host}:#{options[:p].to_i}"
+      puts "
+  -------------------------
 
-  c.desc 'Enable code review'
-  c.switch [:r, :review]
+  Your ShowOff presentation is now starting up.
 
-  c.desc 'Enable remote code execution'
-  c.switch [:x, :execute, :executecode]
+  To view it plainly, visit [ #{url} ]
 
-  c.desc 'Run in standalone mode, with no audience interaction'
-  c.switch [:S, :standalone]
+  To run it from presenter view, go to: [ #{url}/presenter ]
 
-  c.desc 'Disable content caching'
-  c.switch :nocache
+  -------------------------
 
-  c.desc 'Port on which to run'
-  c.default_value "9090"
-  c.flag [:p, :port]
+  "
 
-  c.desc 'Host or ip to run on'
-  c.default_value "0.0.0.0"
-  c.flag [:h, :host]
+      if options[:url]
+        ShowOffUtils.clone(options[:git_url], options[:git_branch], options[:git_path]) do
+          ShowOff.run!(options) do |server|
+            if options[:ssl]
+              server.ssl         = true
+              server.ssl_options = ssl_options
+            end
+          end
+        end
 
-  c.desc 'Run via HTTPS'
-  c.switch [:s, :ssl]
-
-  c.desc 'Path to SSL certificate. Showoff will generate one automatically if unset.'
-  c.flag :ssl_certificate
-
-  c.desc 'Path to SSL private key. Showoff will generate one automatically if unset.'
-  c.flag :ssl_private_key
-
-  c.desc 'JSON file used to describe presentation'
-  c.default_value "showoff.json"
-  c.flag [:f, :file, :pres_file]
-
-  c.desc 'Git URL to a repository containing the presentation'
-  c.flag [:u, :url, :git_url]
-
-  c.desc 'Branch of the git repository to use'
-  c.flag [:git_branch]
-
-  c.desc 'Path of the presentation within the git repository'
-  c.flag [:git_path]
-
-  c.action do |global_options,options,args|
-
-    # This is gross. A serious revamp in config file parsing is due.
-    config = JSON.parse(File.read(options[:f])) rescue {}
-    if Gem::Version.new(config['version']) > Gem::Version.new(SHOWOFF_VERSION) then
-      raise "This presentation requires Showoff version #{config['version']} or greater."
-    end
-
-    options[:host]            ||= config['host']
-    options[:port]            ||= config['port']
-    options[:ssl]             ||= config['ssl']
-    options[:ssl_certificate] ||= config['ssl_certificate']
-    options[:ssl_private_key] ||= config['ssl_private_key']
-    options[:standalone]      ||= config['standalone']
-
-    options[:pres_dir]          = args[0]
-    options[:port]              = options[:port].to_i
-    options[:bind]              = options[:host]
-
-    ssl_options = {
-      :cert_chain_file  => options[:ssl_certificate],
-      :private_key_file => options[:ssl_private_key],
-      :verify_peer      => false,
-    }
-
-    protocol = options[:ssl] ? 'https' : 'http'
-    host     = options[:host] == '0.0.0.0' ? 'localhost' : options[:host]
-    url      = "#{protocol}://#{host}:#{options[:p].to_i}"
-    puts "
--------------------------
-
-Your ShowOff presentation is now starting up.
-
-To view it plainly, visit [ #{url} ]
-
-To run it from presenter view, go to: [ #{url}/presenter ]
-
--------------------------
-
-"
-
-    if options[:url]
-      ShowOffUtils.clone(options[:git_url], options[:git_branch], options[:git_path]) do
+      else
         ShowOff.run!(options) do |server|
           if options[:ssl]
             server.ssl         = true
@@ -242,94 +249,83 @@ To run it from presenter view, go to: [ #{url}/presenter ]
         end
       end
 
-    else
-      ShowOff.run!(options) do |server|
-        if options[:ssl]
-          server.ssl         = true
-          server.ssl_options = ssl_options
-        end
-      end
     end
-
   end
-end
 
-desc 'Add a new slide at the end in a given dir'
-arg_name '[title]'
-long_desc 'Outputs or creates a new slide.  With -d and -n, a new slide is created in the given dir, numbered to appear as the last slide in that dir (use -u to avoid numbering).  Without those, outputs the slide markdown to stdout (useful for shelling out from your editor). You may also specify a source file to use for a code slide'
-command [:add,:new] do |c|
-  c.desc 'Don''t number the slide, use the given name verbatim'
-  c.switch [:u,:nonumber]
+  desc 'Add a new slide at the end in a given dir'
+  arg_name '[title]'
+  long_desc 'Outputs or creates a new slide.  With -d and -n, a new slide is created in the given dir, numbered to appear as the last slide in that dir (use -u to avoid numbering).  Without those, outputs the slide markdown to stdout (useful for shelling out from your editor). You may also specify a source file to use for a code slide'
+  command [:add,:new] do |c|
+    c.desc 'Don''t number the slide, use the given name verbatim'
+    c.switch [:u,:nonumber]
 
-  c.desc 'Include code from the given file as the slide body'
-  c.arg_name 'path to file'
-  c.flag [:s,:source]
+    c.desc 'Include code from the given file as the slide body'
+    c.arg_name 'path to file'
+    c.flag [:s,:source]
 
-  c.desc 'Slide Type/Style'
-  c.arg_name 'valid showoff style/type'
-  c.default_value 'title'
-  c.flag [:t,:type,:style]
+    c.desc 'Slide Type/Style'
+    c.arg_name 'valid showoff style/type'
+    c.default_value 'title'
+    c.flag [:t,:type,:style]
 
-  c.desc 'Slide dir (where to put a new slide file)'
-  c.arg_name 'dir'
-  c.flag [:d,:dir]
+    c.desc 'Slide dir (where to put a new slide file)'
+    c.arg_name 'dir'
+    c.flag [:d,:dir]
 
-  c.desc 'Slide name (name of the new slide file)'
-  c.arg_name 'basename'
-  c.flag [:n,:name]
+    c.desc 'Slide name (name of the new slide file)'
+    c.arg_name 'basename'
+    c.flag [:n,:name]
 
-  c.action do |global_options,options,args|
-    title = args.join(" ")
-    ShowOffUtils.add_slide(:dir => options[:d],
-                           :name => options[:n],
-                           :title => title,
-                           :number => !options[:u],
-                           :code => options[:s],
-                           :type => options[:t])
+    c.action do |global_options,options,args|
+      title = args.join(" ")
+      ShowOffUtils.add_slide(:dir => options[:d],
+                             :name => options[:n],
+                             :title => title,
+                             :number => !options[:u],
+                             :code => options[:s],
+                             :type => options[:t])
+    end
   end
-end
 
-desc 'Generate static version of presentation'
-arg_name 'name'
-long_desc 'Creates a static, one page version of the presentation as {name}.html'
-command [:static] do |c|
-  c.desc 'JSON file used to describe presentation'
-  c.default_value "showoff.json"
-  c.flag [:f, :file, :pres_file]
+  desc 'Generate static version of presentation'
+  arg_name 'name'
+  long_desc 'Creates a static, one page version of the presentation as {name}.html'
+  command [:static] do |c|
+    c.desc 'JSON file used to describe presentation'
+    c.default_value "showoff.json"
+    c.flag [:f, :file, :pres_file]
 
-  c.action do |global_options,options,args|
-    ShowOff.do_static(args, options)
+    c.action do |global_options,options,args|
+      ShowOff.do_static(args, options)
+    end
   end
-end
 
-desc 'Generate PDF version of presentation'
-arg_name 'name'
-long_desc 'Creates a PDF version of the presentation as {name}.pdf'
-command [:pdf] do |c|
-  c.action do |global_options,options,args|
-    ShowOff.do_static(['pdf'].concat args)
+  desc 'Generate PDF version of presentation'
+  arg_name 'name'
+  long_desc 'Creates a PDF version of the presentation as {name}.pdf'
+  command [:pdf] do |c|
+    c.action do |global_options,options,args|
+      ShowOff.do_static(['pdf'].concat args)
+    end
   end
-end
 
-pre do |global,command,options,args|
-  # Pre logic here
-  # Return true to proceed; false to abourt and not call the
-  # chosen command
-  true
-end
+  pre do |global,command,options,args|
+    # Pre logic here
+    # Return true to proceed; false to abourt and not call the
+    # chosen command
+    true
+  end
 
-post do |global,command,options,args|
-  # Post logic here
-end
+  post do |global,command,options,args|
+    # Post logic here
+  end
 
-on_error do |exception|
-  # Error logic here
-  # return false to skip default error handling
-  true
-end
+  on_error do |exception|
+    # Error logic here
+    # return false to skip default error handling
+    true
+  end
 
-if GLI::VERSION.to_f > 1
+  # start the application
   exit run(ARGV)
-else
-  exit GLI.run(ARGV)
 end
