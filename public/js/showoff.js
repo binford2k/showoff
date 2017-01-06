@@ -32,6 +32,10 @@ document.cookie.split(';').forEach( function(item) {
   var pos = item.indexOf('=');
   var key = item.slice(0,pos).trim();
   var val = item.slice(pos+1).trim();
+  try {
+    val = JSON.parse(val);
+  }
+  catch(e) { }
 
   document.cookieHash[key] = val;
 });
