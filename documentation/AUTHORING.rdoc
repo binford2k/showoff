@@ -190,48 +190,54 @@ scaled to the largest size that both height and width fit within the slide.
 
 = Language Highlighting
 
-Showoff uses {highlightjs}[https://highlightjs.org] to highlight code blocks. If
-you begin a code block with *four spaces* and three @-signs followed by a programming language
-name, that line will be stripped and the rest of the block will become sparkly
-and colorful. You can uppercase the name if you like.
+Showoff uses {Highlight.js}[https://highlightjs.org] (version 9.2.0) to highlight
+code blocks. If you begin a code block with *four spaces* and three @-signs followed
+by a programming language name, that line will be stripped and the rest of the block
+will become sparkly and colorful. You can uppercase the name if you like.
 
     @@@ Ruby
     10.times { puts "Whee!" }
 
 Supported languages include:
 
-    1c             elm            markdown       ruleslanguage
-    actionscript   erb            mathematica    rust
-    apache         erlang-repl    matlab         scala
-    applescript    erlang         mel            scheme
-    armasm         fix            mercury        scilab
-    asciidoc       fortran        mizar          scss
-    aspectj        fsharp         monkey         smali
-    autohotkey     gcode          nginx          smalltalk
-    avrasm         gherkin        nimrod         sml
-    axapta         glsl           nix            sql
-    bash           go             nsis           stata
-    brainfuck      gradle         objectivec     step21
-    cal            groovy         ocaml          stylus
-    capnproto      haml           openscad       swift
-    ceylon         handlebars     oxygene        tcl
-    clojure-repl   haskell        parser3        tex
-    clojure        haxe           perl           thrift
-    cmake          http           pf             tp
-    coffeescript   inform7        php            twig
-    cpp            ini            powershell     typescript
-    cs             java           processing     vala
-    css            javascript     profile        vbnet
-    d              json           prolog         vbscript-html
-    dart           julia          protobuf       vbscript
-    delphi         kotlin         puppet         verilog
-    diff           lasso          python         vhdl
-    django         less           q              vim
-    dns            lisp           r              x86asm
-    dockerfile     livecodeserver rib            xl
-    dos            livescript     roboconf       xml
-    dust           lua            rsl            zephir
-    elixir         makefile       ruby
+    1c             dts            livescript     ruby
+    accesslog      dust           lua            ruleslanguage
+    actionscript   elixir         makefile       rust
+    apache         elm            markdown       scala
+    applescript    erb            mathematica    scheme
+    arduino        erlang         matlab         scilab
+    armasm         erlang-repl    maxima         scss
+    asciidoc       fix            mel            smali
+    aspectj        fortran        mercury        smalltalk
+    autohotkey     fsharp         mipsasm        sml
+    autoit         gams           mizar          sqf
+    avrasm         gauss          mojolicious    sql
+    axapta         gcode          monkey         stan
+    bash           gherkin        nginx          stata
+    basic          glsl           nimrod         step21
+    brainfuck      go             nix            stylus
+    cal            golo           nsis           swift
+    capnproto      gradle         objectivec     taggerscript
+    ceylon         groovy         ocaml          tcl
+    clojure        haml           openscad       tex
+    clojure-repl   handlebars     oxygene        thrift
+    cmake          haskell        parser3        tp
+    coffeescript   haxe           perl           twig
+    cos            hsp            pf             typescript
+    cpp            htmlbars       php            vala
+    crmsh          http           powershell     vbnet
+    crystal        inform7        processing     vbscript
+    cs             ini            profile        vbscript-html
+    csp            irpf90         prolog         verilog
+    css            java           protobuf       vhdl
+    d              javascript     puppet         vim
+    dart           json           python         x86asm
+    delphi         julia          q              xl
+    diff           kotlin         qml            xml
+    django         lasso          r              xquery
+    dns            less           rib            yaml
+    dockerfile     lisp           roboconf       zephir
+    dos            livecodeserver rsl
 
 Instructions for adding support for new languages can be found at
 http://highlightjs.readthedocs.org/en/latest/language-contribution.html
