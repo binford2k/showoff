@@ -64,6 +64,17 @@ $(document).ready(function(){
     minHeight: 0,
     handles: {"n": $(".notes-grippy")}
   });
+  $("#notes").resize(function(){
+    document.cookie = "notes="+$('#notes').height();
+  });
+
+
+  // restore the UI settings
+  var ui = document.cookieHash['ui'];
+  $('#notes').height(document.cookieHash['notes']);
+  if(! document.cookieHash['sidebar']) {
+    toggleSidebar();
+  }
 
   // Hide with js so jquery knows what display property to assign when showing
   toggleAnnotations();
@@ -282,6 +293,8 @@ function toggleSidebar() {
     $('#topbar #close-sidebar').toggleClass('fa-rotate-90');
     $('#sidebar').toggle();
     zoom(true);
+
+    document.cookie = "sidebar="+$('#sidebar').is(':visible');
   }
 }
 
