@@ -117,6 +117,7 @@ $(document).ready(function(){
     sendAnnotationConfig('fillColor', color);
   });
 
+  $('#statusbar .controls input').checkboxradio({icon: false });
   $('#remoteToggle').change( toggleFollower );
   $('#followerToggle').change( toggleUpdater );
   $('#annotationsToggle').change( toggleAnnotations );
