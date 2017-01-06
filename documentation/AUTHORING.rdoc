@@ -592,6 +592,37 @@ A styled image will look like:
 
     ![.fancyborder This is a really fancy image](../_images/unicorns_and_rainbows.png)
 
+
+= Custom Fonts
+
+It's easy to use custom fonts in your presentations by including the font files in your
+presentation directory and referencing them from your stylesheets.
+
+For example, you may have declarations in your stylesheet to define the font you want
+to use and the file to load the font from. Remember that the path to the font should
+include the <tt>file/</tt> prefix.
+
+    @font-face {
+    	font-family: 'Tibetan Bold';
+    	src: URL('file/NotoSansTibetan-Bold.ttf') format ('ttf');
+    }
+
+    @font-face {
+    	font-family: 'Tibetan';
+    	src: URL('file/NotoSansTibetan-Regular.ttf') format ('ttf');
+    }
+
+Then you can use that named <tt>font-family</tt> anywhere in your styles.
+
+    .content {
+      font-family: 'Tibetan';
+    }
+    .content h1 {
+      font-family: 'Tibetan Bold';
+    }
+
+A good source of fonts covering all languages is the {Google Noto Font project}[https://www.google.com/get/noto/].
+
 = Templates
 
 Templates can come handy if you need more than what you can achieve
