@@ -1,3 +1,16 @@
+0.16.0
+  * Add dynamic UI functionality to the Presenter view
+    * Hide the sidebar using the hamburger icon on the top left.
+    * Resize or pop out the notes using the icons on the top right of the notes.
+  * Added autoplay as a slide option for videos on a slide.
+  * Allow `showoff static` to use alternate json files.
+  * Added slide preview hover to the audience menu.
+  * A better way to track the time presenters are on a slide.
+  * Enable the use of `pry` by wrapping GLI in a module.
+    * Dropped GLI v1.x support.
+  * Minor UI updates.
+  * Bugfix: Fix Heroku publication.
+
 0.15.4
   * Bugfix: Correct issues with slide notes when using `bigtext`.
   * Added Mermaid diagram rendering (http://knsv.github.io/mermaid/)
