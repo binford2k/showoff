@@ -165,7 +165,7 @@ function initializePresentation(prefix) {
   // Remove spinner in case we're reloading
   $('body').removeClass('busy');
 
-  $('pre.highlight code').each(function(i, block) {
+  $('pre code').each(function(i, block) {
     try {
       hljs.highlightBlock(block);
     } catch(e) {
