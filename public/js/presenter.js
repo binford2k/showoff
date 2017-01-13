@@ -72,7 +72,7 @@ $(document).ready(function(){
   // restore the UI settings
   var ui = document.cookieHash['ui'];
   $('#notes').height(document.cookieHash['notes']);
-  if(! document.cookieHash['sidebar']) {
+  if(document.cookieHash['sidebar'] == false) {
     toggleSidebar();
   }
 
