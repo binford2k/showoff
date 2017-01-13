@@ -53,7 +53,8 @@ pre code {
       cursor: progress;
     }
 
-  body#download {
+  body#download,
+  body#stats {
     overflow: auto;
   }
 
