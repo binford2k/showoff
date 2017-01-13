@@ -449,9 +449,21 @@
       background: #fff;
     }
       #progress {
-        margin-left: 1em;
-        position: relative;
+        float: left;
+        width: 25%;
+        height: 20px;
+        background: #ffb105;
       }
+        #progress .label {
+          position: absolute;
+          padding: 0 0.25em;
+          font-size: 10px;
+          color: #fff;
+        }
+        #progress .ui-progressbar-value {
+          border: 1px solid #003eff;
+          background: #007fff;
+        }
       #debugInfo {
         display: inline;
       }
