@@ -1370,7 +1370,7 @@ var removeResults = function() {
 
 var print = function(text) {
 	removeResults();
-	var _results = $('<div>').addClass('results').html('<pre>'+$.print(text, {max_string:1500})+'</pre>');
+	var _results = $('<div>').addClass('results').html('<pre>' + String(text).substring(0, 1500) + '</pre>');
 	$('body').append(_results);
 	_results.click(removeResults);
 
