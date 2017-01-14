@@ -470,7 +470,7 @@ class ShowOff < Sinatra::Application
         file = "Empty file: #{name}" if file.empty?
         file = HTMLEntities.new.encode(file) rescue "HTML parsing of #{name} failed"
 
-        result.gsub!(match[0], "<pre class=\"highlight\"><code class=\"#{css}\">#{file}</code></pre>")
+        result.gsub!(match[0], "<pre><code class=\"#{css}\">#{file}</code></pre>")
       end
 
       result
@@ -858,7 +858,6 @@ class ShowOff < Sinatra::Application
           lines = out.split("\n")
           if lines.first.strip[0, 3] == '@@@'
             lang = lines.shift.gsub('@@@', '').strip
-            pre.set_attribute('class', 'highlight')
             code.set_attribute('class', 'language-' + lang.downcase) if !lang.empty?
             code.content = lines.join("\n")
           end
