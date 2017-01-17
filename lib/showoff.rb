@@ -850,18 +850,25 @@ class ShowOff < Sinatra::Application
 
       html.css('pre').each do |pre|
         pre.css('code').each do |code|
-          out = code.text
+          out  = code.text
+          lang = code.get_attribute('class')
 
           # Skip this if we've got an empty code block
           next if out.empty?
 
-          lines = out.split("\n")
-          if lines.first.strip[0, 3] == '@@@'
-            lang = lines.shift.gsub('@@@', '').strip
+          # catch fenced code blocks from commonmarker
+          if (lang and lang.start_with? 'language-' )
+            pre.set_attribute('class', 'highlight')
+
+          # or weve started a code block with a Showoff language tag
+          elsif out.strip[0, 3] == '@@@'
+            lines = out.split("\n")
+            lang  = lines.shift.gsub('@@@', '').strip
             pre.set_attribute('class', 'highlight')
             code.set_attribute('class', 'language-' + lang.downcase) if !lang.empty?
             code.content = lines.join("\n")
           end
+
         end
       end
 
