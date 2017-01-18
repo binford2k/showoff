@@ -460,12 +460,13 @@ function currentSlideFromName(name) {
 
 function currentSlideFromParams() {
 	var result;
-	if (result = window.location.hash.match(/#([0-9]+)/)) {
-		return result[result.length - 1] - 1;
+	// Match numeric slide hashes: #241
+	if (result = window.location.hash.match(/^#([0-9]+)$/)) {
+		return result[1] - 1;
 	}
-	else {
-	  var hash = window.location.hash
-	  return currentSlideFromName(hash.substr(1, hash.length))
+	// Match slide, with optional internal mark: #slideName(+internal)
+	else if (result = window.location.hash.match(/^#([^+]+)\+?(.*)?$/)) {
+	  return currentSlideFromName(result[1]);
   }
 }
 
