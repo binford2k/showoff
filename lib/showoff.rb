@@ -519,12 +519,38 @@ class ShowOff < Sinatra::Application
         end
       end
 
-      # Now add a target so we open all external links from notes in a new window
+      # Process links
       doc.css('a').each do |link|
         next if link['href'].start_with? '#'
-        next if link['href'].start_with? 'glossary://'
 
-        link.set_attribute('target', '_blank')
+        # If these are glossary links, populate the notes/handouts sections
+        if link['href'].start_with? 'glossary://'
+          doc.add_child '<div class="notes-section notes"></div>' if doc.css('div.notes-section.notes').empty?
+          doc.add_child '<div class="notes-section handouts"></div>' if doc.css('div.notes-section.handouts').empty?
+
+          text = link['title']
+          href = link['href']
+          href.slice!('glossary://')
+
+          parts = href.split('/')
+          parts.pop
+
+          # parts will either be an empty array, or contain the name of a named glossary
+          frag = "<p class=\"callout glossary #{parts.first}\">#{text}</p>"
+          definition = Nokogiri::HTML::DocumentFragment.parse(frag)
+
+          [doc.css('div.notes-section.notes'), doc.css('div.notes-section.handouts')].each do |section|
+            if section.children.size > 0
+              section.children.after(definition.clone)
+            else
+              section.add_child(definition.clone)
+            end
+          end
+
+        else
+          # Add a target so we open all external links from notes in a new window
+          link.set_attribute('target', '_blank')
+        end
       end
 
       doc.to_html
