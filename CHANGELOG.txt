@@ -1,3 +1,10 @@
+0.16.1
+  * Switched the text based status in the presenter to a progress bar.
+  * Minor code cleanups.
+  * Bugfix: default to sidebar open.
+  * Bugfix: allow the stats page to scroll again.
+  * Bugfix: highlight code properly when using fenced code blocks (e.g. with Commonmarker).
+
 0.16.0
   * Add dynamic UI functionality to the Presenter view
     * Hide the sidebar using the hamburger icon on the top left.
