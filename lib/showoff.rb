@@ -581,31 +581,27 @@ class ShowOff < Sinatra::Application
     end
 
     def process_content_for_all_slides(content, num_slides, opts={})
+      # this has to be text replacement for now, since the string can appear in any context
       content.gsub!("~~~NUM_SLIDES~~~", num_slides.to_s)
+      doc = Nokogiri::HTML::DocumentFragment.parse(content)
 
       # Should we build a table of contents?
       if opts[:toc]
-        frag = Nokogiri::HTML::DocumentFragment.parse ""
-        toc = Nokogiri::XML::Node.new('div', frag)
-        toc['id'] = 'toc'
-        frag.add_child(toc)
+        toc = Nokogiri::HTML::DocumentFragment.parse("<p id=\"toc\"></p>")
 
-        Nokogiri::HTML(content).css('div.subsection > h1:not(.section_title)').each do |section|
-          entry = Nokogiri::XML::Node.new('div', frag)
-          entry['class'] = 'tocentry'
-          toc.add_child(entry)
+        doc.css('div.subsection > h1:not(.section_title)').each do |section|
+          href = section.parent.parent['id']
+          frag = "<div class=\"tocentry\"><a href=\"##{href}\">#{section.content}</a></div>"
+          link = Nokogiri::HTML::DocumentFragment.parse(frag)
 
-          link = Nokogiri::XML::Node.new('a', frag)
-          link['href'] = "##{section.parent.parent['id']}"
-          link.content = section.content
-          entry.add_child(link)
+          toc.add_child(link)
         end
 
         # swap out the tag, if found, with the table of contents
-        content.gsub!("~~~TOC~~~", frag.to_html)
+        doc.at('p:contains("~~~TOC~~~")').replace(toc)
       end
 
-      content
+      doc.to_html
     end
 
     # Find any lines that start with a <p>.(something), remove the ones tagged with
