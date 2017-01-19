@@ -525,12 +525,18 @@ class ShowOff < Sinatra::Application
         item['data-target'] = $2
         item['data-text']   = $3
         item.content        = $3
-        item.children.before(Nokogiri::HTML::DocumentFragment.parse("<span class=\"term\">#{$1}</span>"))
+
+        glossary = (item.attr('class').split - ['callout', 'glossary']).first
+        address  = glossary ? "#{glossary}/#{$2}" : $2
+        frag     = "<a class=\"processed\" href=\"glossary://#{address}\">#{$1}</a>"
+
+        item.children.before(Nokogiri::HTML::DocumentFragment.parse(frag))
       end
 
       # Process links
       doc.css('a').each do |link|
         next if link['href'].start_with? '#'
+        next if link['class'] == 'processed'
 
         # If these are glossary links, populate the notes/handouts sections
         if link['href'].start_with? 'glossary://'
@@ -546,10 +552,14 @@ class ShowOff < Sinatra::Application
           target = parts.pop
           name   = parts.pop # either the glossary name or nil
 
-          frag = "<p class=\"callout glossary #{name}\"
-                     data-term=\"#{term}\" data-target=\"#{target}\" data-text=\"#{text}\">
-                     <span class=\"term\">#{term}</span>#{text}</p>"
-          definition = Nokogiri::HTML::DocumentFragment.parse(frag)
+          frag = Nokogiri::HTML::DocumentFragment.parse('<p></p>')
+          definition = frag.children.first
+          definition['class'] = "callout glossary #{name}"
+          definition['data-term']   = term
+          definition['data-target'] = target
+          definition['data-text']   = text
+          definition.content = text
+          definition.children.before(link.clone)
 
           [doc.css('div.notes-section.notes'), doc.css('div.notes-section.handouts')].each do |section|
             section.children.after(definition.clone)
@@ -664,7 +674,7 @@ class ShowOff < Sinatra::Application
         name   = parts.pop # either the glossary name or nil
 
         classes = name.nil? ? ".slide.glossary" : ".slide.glossary.#{name}"
-        href    = doc.at("#{classes} .content").attr('ref')
+        href    = doc.at("#{classes} .content").attr('ref') rescue nil
 
         link['href'] = "##{href}+#{target}"
       end
