@@ -528,23 +528,22 @@ class ShowOff < Sinatra::Application
           doc.add_child '<div class="notes-section notes"></div>' if doc.css('div.notes-section.notes').empty?
           doc.add_child '<div class="notes-section handouts"></div>' if doc.css('div.notes-section.handouts').empty?
 
+          term = link.content
           text = link['title']
           href = link['href']
           href.slice!('glossary://')
 
-          parts = href.split('/')
-          parts.pop
+          parts  = href.split('/')
+          target = parts.pop
+          name   = parts.pop # either the glossary name or nil
 
-          # parts will either be an empty array, or contain the name of a named glossary
-          frag = "<p class=\"callout glossary #{parts.first}\">#{text}</p>"
+          frag = "<p class=\"callout glossary #{name}\"
+                     data-term=\"#{term}\" data-target=\"#{target}\" data-text=\"#{text}\">
+                     <span class=\"term\">#{term}</span>#{text}</p>"
           definition = Nokogiri::HTML::DocumentFragment.parse(frag)
 
           [doc.css('div.notes-section.notes'), doc.css('div.notes-section.handouts')].each do |section|
-            if section.children.size > 0
-              section.children.after(definition.clone)
-            else
-              section.add_child(definition.clone)
-            end
+            section.children.after(definition.clone)
           end
 
         else
@@ -594,11 +593,62 @@ class ShowOff < Sinatra::Application
           frag = "<div class=\"tocentry\"><a href=\"##{href}\">#{section.content}</a></div>"
           link = Nokogiri::HTML::DocumentFragment.parse(frag)
 
-          toc.add_child(link)
+          toc.children.first.add_child(link)
         end
 
         # swap out the tag, if found, with the table of contents
         doc.at('p:contains("~~~TOC~~~")').replace(toc)
+      end
+
+      doc.css('.slide.glossary .content').each do |glossary|
+        name = (glossary.attr('class').split - ['content', 'glossary']).first
+        list = Nokogiri::HTML::DocumentFragment.parse('<ul class="glossary terms"></ul>')
+        seen = []
+
+        doc.css('.callout.glossary').each do |item|
+          target = (item.attr('class').split - ['callout', 'glossary']).first
+
+          # if the name matches or if we didn't name it to begin with.
+          next unless target == name
+
+          # the definition can exist in multiple places, so de-dup it here
+          term = item.attr('data-term')
+          next if seen.include? term
+          seen << term
+
+          href   = item.parent.previous_element.attr('ref')
+          text   = item.attr('data-text')
+          link   = item.attr('data-target')
+          page   = glossary.attr('ref')
+          anchor = "#{page}+#{link}"
+          next if href.nil? or text.nil? or link.nil?
+
+
+          frag = "<li><a id=\"#{anchor}\">#{term}</a>#{text}<a href=\"##{href}\">↩</a></li>"
+          item = Nokogiri::HTML::DocumentFragment.parse(frag)
+
+          list.children.first.add_child(item)
+        end
+
+        glossary.add_child(list)
+      end
+
+      # now fix all the links to point to the glossary page
+      doc.css('a').each do |link|
+        href = link['href']
+        next if link.nil?
+        next unless link.start_with? 'glossary://'
+
+        href.slice!('glossary://')
+
+        parts  = href.split('/')
+        target = parts.pop
+        name   = parts.pop # either the glossary name or nil
+
+        classes = name.nil? ? ".slide.glossary" : ".slide.glossary.#{name}"
+        href    = doc.at("#{classes} .content").attr('ref')
+
+        link['href'] = "##{href}+#{target}"
       end
 
       doc.to_html
