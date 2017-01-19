@@ -519,6 +519,15 @@ class ShowOff < Sinatra::Application
         end
       end
 
+      doc.css('.callout.glossary').each do |item|
+        next unless item.content =~ /^([^|]+)\|([^:]+):(.*)$/
+        item['data-term']   = $1
+        item['data-target'] = $2
+        item['data-text']   = $3
+        item.content        = $3
+        item.children.before(Nokogiri::HTML::DocumentFragment.parse("<span class=\"term\">#{$1}</span>"))
+      end
+
       # Process links
       doc.css('a').each do |link|
         next if link['href'].start_with? '#'
@@ -616,13 +625,22 @@ class ShowOff < Sinatra::Application
           next if seen.include? term
           seen << term
 
-          href   = item.parent.previous_element.attr('ref')
+          # excrutiatingly find the parent slide content and grab the ref
+          # in a library less shitty, this would be something like
+          # $(this).parent().siblings('.content').attr('ref')
+          href = nil
+          item.ancestors('.slide').first.traverse do |element|
+            next if element['class'].nil?
+            next unless element['class'].split.include? 'content'
+
+            href = element.attr('ref')
+          end
+
           text   = item.attr('data-text')
           link   = item.attr('data-target')
           page   = glossary.attr('ref')
           anchor = "#{page}+#{link}"
           next if href.nil? or text.nil? or link.nil?
-
 
           frag = "<li><a id=\"#{anchor}\">#{term}</a>#{text}<a href=\"##{href}\">↩</a></li>"
           item = Nokogiri::HTML::DocumentFragment.parse(frag)
@@ -635,10 +653,10 @@ class ShowOff < Sinatra::Application
 
       # now fix all the links to point to the glossary page
       doc.css('a').each do |link|
-        href = link['href']
-        next if link.nil?
-        next unless link.start_with? 'glossary://'
+        next if link['href'].nil?
+        next unless link['href'].start_with? 'glossary://'
 
+        href = link['href']
         href.slice!('glossary://')
 
         parts  = href.split('/')
