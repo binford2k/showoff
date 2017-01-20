@@ -972,6 +972,32 @@ form .element {
 /**********************
 ***  end callouts   ***
 **********************/
+.callout.glossary a.label,
+ul.glossary.terms a.label {
+  display: block;
+  font-weight: 600;
+  text-decoration: none;
+}
+ul.glossary.terms a.return {
+  text-decoration: none;
+  padding-right: 3em;
+}
+a.term {
+  text-decoration: none;
+}
+a.term:after {
+  font-family: FontAwesome;
+  font-size: 0.8em;
+  vertical-align: super;
+  content: "\f27b";
+  text-decoration: none;/* fa-commenting-o */
+}
+
+
+/**********************
+***  glossary       ***
+**********************/
+
 
 /* Render hidden headlines so that when we print with wkhtmltopdf, we can use section
    titles for page headers.  it would make sense to put this in the print section, but

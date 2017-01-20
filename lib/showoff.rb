@@ -528,7 +528,7 @@ class ShowOff < Sinatra::Application
 
         glossary = (item.attr('class').split - ['callout', 'glossary']).first
         address  = glossary ? "#{glossary}/#{$2}" : $2
-        frag     = "<a class=\"processed\" href=\"glossary://#{address}\">#{$1}</a>"
+        frag     = "<a class=\"processed label\" href=\"glossary://#{address}\">#{$1}</a>"
 
         item.children.before(Nokogiri::HTML::DocumentFragment.parse(frag))
       end
@@ -536,7 +536,7 @@ class ShowOff < Sinatra::Application
       # Process links
       doc.css('a').each do |link|
         next if link['href'].start_with? '#'
-        next if link['class'] == 'processed'
+        next if link['class'].split.include? 'processed' rescue nil
 
         # If these are glossary links, populate the notes/handouts sections
         if link['href'].start_with? 'glossary://'
@@ -552,6 +552,11 @@ class ShowOff < Sinatra::Application
           target = parts.pop
           name   = parts.pop # either the glossary name or nil
 
+          link['class']  = 'term'
+
+          label = link.clone
+          label['class'] = 'label processed'
+
           frag = Nokogiri::HTML::DocumentFragment.parse('<p></p>')
           definition = frag.children.first
           definition['class'] = "callout glossary #{name}"
@@ -559,7 +564,7 @@ class ShowOff < Sinatra::Application
           definition['data-target'] = target
           definition['data-text']   = text
           definition.content = text
-          definition.children.before(link.clone)
+          definition.children.before(label)
 
           [doc.css('div.notes-section.notes'), doc.css('div.notes-section.handouts')].each do |section|
             section.children.after(definition.clone)
@@ -652,7 +657,7 @@ class ShowOff < Sinatra::Application
           anchor = "#{page}+#{link}"
           next if href.nil? or text.nil? or link.nil?
 
-          frag = "<li><a id=\"#{anchor}\">#{term}</a>#{text}<a href=\"##{href}\">↩</a></li>"
+          frag = "<li><a id=\"#{anchor}\" class=\"label\">#{term}</a>#{text}<a href=\"##{href}\" class=\"return\">↩</a></li>"
           item = Nokogiri::HTML::DocumentFragment.parse(frag)
 
           list.children.first.add_child(item)
