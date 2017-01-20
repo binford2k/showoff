@@ -567,7 +567,7 @@ class ShowOff < Sinatra::Application
           definition.children.before(label)
 
           [doc.css('div.notes-section.notes'), doc.css('div.notes-section.handouts')].each do |section|
-            section.children.after(definition.clone)
+            section.first.add_child(definition.clone)
           end
 
         else
