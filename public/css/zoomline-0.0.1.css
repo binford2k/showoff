@@ -1,0 +1,66 @@
+.zoomline {
+  width: 85%;
+  background-color: #efefec;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 12px auto;
+  padding-top: 1em;
+  clear: both;
+  position: relative;
+}
+
+  .zoomline .chart {
+    width: 95%;
+    height: 64px;
+    cursor: pointer;
+    font-size: 0;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-top: 3px;
+    margin: 3px auto;
+  }
+    .zoomline .chart .col {
+      position: relative;
+      display: inline-block;
+      vertical-align: bottom;
+      width: 2px;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-size: 10px;
+      transition: width 200ms;
+    }
+      .zoomline .chart .col:hover {
+        min-width: 10px;
+        background: #ffe0e7;
+        background: linear-gradient(#efefec, #ffe0e7);
+      }
+
+      .zoomline .chart .col .inner {
+        position: absolute;
+        bottom: 0;
+        display: inline-block;
+        width: 100%;
+        min-height: 4px;
+        margin: 0;
+        padding: 0;
+        background-color: #bbbbbb;
+      }
+      .zoomline .chart .col:hover .inner {
+        background-color: #f3708d;
+        border-top: 3px solid #f3708d;
+        border-radius: 3px 3px 0 0;
+      }
+
+  .zoomline .label {
+    min-height: 1em;
+    padding: 0 4px;
+    position: absolute;
+    top: 0;
+  }
+    .zoomline .label.left {
+      left: 0;
+    }
+    .zoomline .label.right {
+      right: 0;
+    }

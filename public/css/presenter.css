@@ -78,6 +78,9 @@
   #links a.enabled {
     background-color: #003d96;
   }
+  #links a.warning {
+    background-color: #8e030a;
+  }
 
   #links .mobile {
     display: none;
@@ -107,6 +110,10 @@
   #presenterPopup a,
   #nextWindowConfirmation a {
     color: #ffffff;
+  }
+
+  #presenterPopup #stats .zoomline {
+    color: #000;
   }
 
 #nextWindowConfirmation {

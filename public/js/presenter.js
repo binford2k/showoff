@@ -126,6 +126,28 @@ $(document).ready(function(){
 
   setInterval(function() { updatePace() }, 1000);
 
+  setInterval(function() {
+    $.getJSON("/stats_data", function( json ) {
+      if (json['stray_p']) {
+        var percent = json['stray_p'];
+        if(percent > 25) {
+          $('#topbar #statslink').addClass('warning');
+          $('#topbar #statslink').attr('title', percent + "% of your audience is not viewing the same slide you are.");
+        }
+        else {
+          $('#topbar #statslink').removeClass('warning');
+          $('#topbar #statslink').attr('title', "");
+        }
+      }
+
+      if( $('#presenterPopup #stats').is(':visible') ) {
+        setupStats(json);
+      }
+    });
+
+  }, 30000);
+
+
   // Tell the showoff server that we're a presenter
   register();
 
@@ -171,8 +193,6 @@ function presenterPopupToggle(page, event) {
       /* use .siblings() because of how jquery formats $(data) */
       content.append($(data).siblings('#wrapper').html());
       popup.append(content);
-
-      setupStats(); // this function is in showoff.js because /stats does not load presenter.js
 
       $('body').append(popup);
       popup.slideDown(200); // #presenterPopup is display: none by default

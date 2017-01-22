@@ -1053,18 +1053,24 @@ function feedbackActivity() {
   setTimeout(function() { $("#hamburger").removeClass('highlight') }, 75);
 }
 
-function track() {
+function track(current) {
   if (mode.track && ws.readyState == WebSocket.OPEN) {
-    var slideName    = $("#slideFilename").text() || $("#slideFile").text(); // yey for consistency
-    var slideEndTime = new Date().getTime();
-    var elapsedTime  = slideEndTime - slideStartTime;
+    var slideName = $("#slideFilename").text() || $("#slideFile").text(); // yey for consistency
 
-    // reset the timer
-    slideStartTime = slideEndTime;
+    if(current) {
+      ws.send(JSON.stringify({ message: 'track', slide: slideName}));
+    }
+    else {
+      var slideEndTime = new Date().getTime();
+      var elapsedTime  = slideEndTime - slideStartTime;
 
-    if (elapsedTime > 1000) {
-      elapsedTime /= 1000;
-      ws.send(JSON.stringify({ message: 'track', slide: slideName, time: elapsedTime}));
+      // reset the timer
+      slideStartTime = slideEndTime;
+
+      if (elapsedTime > 1000) {
+        elapsedTime /= 1000;
+        ws.send(JSON.stringify({ message: 'track', slide: slideName, time: elapsedTime}));
+      }
     }
   }
 }
@@ -1170,6 +1176,9 @@ function postSlide() {
     }
 
 		$('#notes').html(notes);
+
+		// tell Showoff what slide we ended up on
+		track(true);
 	}
 }
 
@@ -1620,12 +1629,40 @@ function togglePause() {
  Stats page
  ********************/
 
-function setupStats()
+function setupStats(data)
 {
+  console.log(data);
+  var location = window.location.pathname == '/presenter' ? '#' : '/#';
+
   $("#stats div#all div.detail").hide();
   $("#stats div#all div.row").click(function() {
+      $(this).toggleClass('active');
       $(this).find("div.detail").slideToggle("fast");
   });
+
+  if (data['stray_p']) {
+    var percent = data['stray_p'];
+    if(percent > 25) {
+      $('#stray').show();
+      $('#stray .label').text(percent+'%');
+    }
+  }
+
+  if (data['viewers']) {
+    $("#viewers").zoomline({
+      max: data['viewmax'],
+      data: data['viewers'],
+      click: function(element) { window.location = (location + element.attr("data-left")); }
+    });
+  }
+
+  if (data['elapsed']) {
+    $("#elapsed").zoomline({
+      max: data['maxtime'],
+      data: data['elapsed'],
+      click: function(element) { window.location = (location + element.attr("data-left")); }
+    });
+  }
 }
 
 /* Is this a mobile device? */
