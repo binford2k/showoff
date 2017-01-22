@@ -843,6 +843,7 @@ form .element {
   -webkit-border-radius: 5px;
   -khtml-border-radius: 5px;
   border-radius: 5px;
+  cursor: default;
 }
 /* and to the bar inside the row */
 #stats div.bar {
@@ -862,6 +863,54 @@ form .element {
   position: absolute;
   top: 0.15em;
   right: 0.25em;
+}
+
+/* Add the disclosure triangles */
+#stats div.row:before {
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.25em;
+  text-decoration: inherit;
+}
+  #stats div.row.top:hover:before {
+    position: absolute;
+    content: "\f0da"; /* fa-caret-right */
+    margin-left: -0.5em;
+  }
+  #stats div.row.top.active:before {
+    position: absolute;
+    content: "\f0d7"; /* fa-caret-down */
+    margin-left: -0.75em;
+  }
+
+#stats h2 {
+  border-bottom: 1px solid #eee;
+}
+#stats #viewers,
+#stats #elapsed {
+  text-align: center;
+  min-height: 2em;
+}
+#stats #viewers.zoomline,
+#stats #elapsed.zoomline {
+  text-align: left;
+}
+#stats .zoomline .col.current .inner {
+  background-color: #edd46f;
+  min-width: 5px;
+}
+#stats .zoomline .col.current .inner:hover {
+  background-color: #f3708d;
+}
+
+#stats #stray {
+  display: none;
+  width: 75%;
+  margin: 1em auto;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  background-color: #8e030a;
 }
 
 /* style all three boxes */

@@ -140,6 +140,7 @@ class ShowOff < Sinatra::Application
     @section_major = 0
     @section_minor = 0
     @section_title = settings.showoff_config['name'] rescue 'Showoff Presentation'
+    @@slide_titles  = [] # a list of generated slide names, used for cross references later.
 
     @logger.debug settings.pres_template
 
@@ -161,12 +162,16 @@ class ShowOff < Sinatra::Application
     begin
       @@counter = JSON.parse(File.read("#{settings.statsdir}/#{settings.viewstats}"))
 
-      # port old format stats
+      # TODO: remove this logic 4/15/2017: port old format stats
       unless @@counter.has_key? 'user_agents'
-        @@counter = { 'user_agents' => {}, 'pageviews' => @@counter }
+        @@counter['pageviews'] = @@counter
       end
+
+      @@counter['current']     ||= {}
+      @@counter['pageviews']   ||= {}
+      @@counter['user_agents'] ||= {}
     rescue
-      @@counter = { 'user_agents' => {}, 'pageviews' => {} }
+      @@counter = { 'user_agents' => {}, 'pageviews' => {}, 'current' => {} }
     end
 
     # keeps track of form responses. In memory to avoid concurrence issues.
@@ -395,11 +400,9 @@ class ShowOff < Sinatra::Application
 
         # name the slide. If we've got multiple slides in this file, we'll have a sequence number
         # include that sequence number to index directly into that content
-        if seq
-          content += "<div class=\"content #{classes}\" ref=\"#{name}:#{seq.to_s}\">\n"
-        else
-          content += "<div class=\"content #{classes}\" ref=\"#{name}\">\n"
-        end
+        ref = seq ? "#{name}:#{seq.to_s}" : name
+        content += "<div class=\"content #{classes}\" ref=\"#{ref}\">\n"
+        @@slide_titles << ref
 
         # renderers like wkhtmltopdf needs an <h1> tag to use for a section title, but only when printing.
         if opts[:print]
@@ -1046,6 +1049,7 @@ class ShowOff < Sinatra::Application
 
       # if we have a cache and we're not asking to invalidate it
       return @@cache if (@@cache and params['cache'] != 'clear')
+      @@slide_titles = []
       content = get_slides_html(:static=>static)
 
       # allow command line cache disabling
@@ -1081,12 +1085,71 @@ class ShowOff < Sinatra::Application
       erb :download
     end
 
+    def stats_data()
+      data = {}
+      begin
+
+        # what are viewers looking at right now?
+        now = Time.now.to_i # let's throw away viewers who haven't done anything in 5m
+        active  = @@counter['current'].select {|client, view| (now - view[1]).abs < 300 }
+        stray   = active.select {|client, view| view[0] != @@current[:name] }
+        stray_p = ((stray.size.to_f / active.size.to_f) * 100).to_i # percentage of stray viewers
+
+        viewers = @@slide_titles.map do |slide|
+          count = active.select {|client, view| view[0] == slide }.size
+          flags = (slide == @@current[:name]) ? 'current' : nil
+          [count, slide, nil, flags]
+        end
+
+        # trim the ends, if nobody's looking we don't much care.
+        viewers.pop while viewers.last[0] == 0
+        viewers.shift while viewers.first[0] == 0
+        viewmax = viewers.max_by {|view| view[0] }.first
+
+        data['viewers'] = viewers
+        data['viewmax'] = viewmax
+        data['stray_p'] = stray_p
+      rescue => e
+        @logger.warn "Not enough data to display current pageviews."
+        @logger.error e.message
+        @logger.error e.backtrace.join "\n"
+      end
+
+      begin
+        # current elapsed time for the zoomline view
+        elapsed = @@slide_titles.map do |slide|
+          if @@counter['pageviews'][slide].nil?
+            time = 0
+          else
+            time = @@counter['pageviews'][slide].inject(0) do |outer, (viewer, views)|
+              outer += views.inject(0) { |inner, view| inner += view['elapsed'] }
+            end
+          end
+          string = Time.at(time).gmtime.strftime('%M:%S')
+          flags  = (slide == @@current[:name]) ? 'current' : nil
+
+          [ time, slide, string, flags ]
+        end
+        maxtime = elapsed.max_by {|view| view[0] }.first
+
+        data['elapsed'] = elapsed
+        data['maxtime'] = maxtime
+      rescue => e
+        @logger.warn "Not enough data to display elapsed time."
+        @logger.debug e.message
+        @logger.debug e.backtrace.first
+      end
+
+      data.to_json
+    end
+
     def stats()
-      if request.env['REMOTE_HOST'] == 'localhost'
+      if localhost?
         # the presenter should have full stats in the erb
         @counter = @@counter['pageviews']
       end
 
+      # for the full page view. Maybe to be disappeared
       @all = Hash.new
       @@counter['pageviews'].each do |slide, stats|
         @all[slide] = 0
@@ -1094,10 +1157,6 @@ class ShowOff < Sinatra::Application
           visits.each { |entry| @all[slide] += entry['elapsed'].to_f }
         end
       end
-
-      # most and least five viewed slides
-      @least = @all.sort_by {|slide, time| time}[0..4]
-      @most = @all.sort_by {|slide, time| -time}[0..4]
 
       erb :stats
     end
@@ -1131,7 +1190,7 @@ class ShowOff < Sinatra::Application
   end
 
 
-   def self.do_static(args, opts = {})
+  def self.do_static(args, opts = {})
       args ||= [] # handle nil arguments
       what   = args[0] || "index"
       opt    = args[1]
@@ -1320,6 +1379,7 @@ class ShowOff < Sinatra::Application
   end
 
   def valid_cookie?
+    return false if @@cookie.nil?
     (request.cookies['presenter'] == @@cookie)
   end
 
@@ -1481,20 +1541,28 @@ class ShowOff < Sinatra::Application
             when 'track'
               remote = valid_cookie? ? 'presenter' : (request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR'])
               slide  = control['slide']
-              time   = control['time'].to_f
 
-              # record the UA of the client if we haven't seen it before
-              @@counter['user_agents'][remote] ||= request.user_agent
+              if control.has_key? 'time'
+                time = control['time'].to_f
 
-              views = @@counter['pageviews']
-              # a bucket for this slide
-              views[slide] ||= Hash.new
-              # a bucket of slideviews for this address
-              views[slide][remote] ||= Array.new
-              # and add this slide viewing to the bucket
-              views[slide][remote] << { 'elapsed' => time, 'timestamp' => Time.now.to_i, 'presenter' => @@current[:name] }
+                # record the UA of the client if we haven't seen it before
+                @@counter['user_agents'][remote] ||= request.user_agent
 
-              @logger.debug "Logged #{time} on slide #{slide} for #{remote}"
+                views = @@counter['pageviews']
+                # a bucket for this slide
+                views[slide] ||= Hash.new
+                # a bucket of slideviews for this address
+                views[slide][remote] ||= Array.new
+                # and add this slide viewing to the bucket
+                views[slide][remote] << { 'elapsed' => time, 'timestamp' => Time.now.to_i, 'presenter' => @@current[:name] }
+
+                @logger.debug "Logged #{time} on slide #{slide} for #{remote}"
+
+              else
+                @@counter['current'][remote] = [slide, Time.now.to_i]
+                @logger.debug "Recorded current slide #{slide} for #{remote}"
+              end
+
 
             when 'position'
               ws.send( { 'current' => @@current[:number] }.to_json ) unless @@cookie.nil?
