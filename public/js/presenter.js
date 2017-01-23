@@ -128,16 +128,15 @@ $(document).ready(function(){
 
   setInterval(function() {
     $.getJSON("/stats_data", function( json ) {
-      if (json['stray_p']) {
-        var percent = json['stray_p'];
-        if(percent > 25) {
-          $('#topbar #statslink').addClass('warning');
-          $('#topbar #statslink').attr('title', percent + "% of your audience is not viewing the same slide you are.");
-        }
-        else {
-          $('#topbar #statslink').removeClass('warning');
-          $('#topbar #statslink').attr('title', "");
-        }
+      var percent = json['stray_p'];
+      if(percent > 25) {
+        $('#topbar #statslink').addClass('warning');
+        $('#topbar #statslink').attr('title', percent + "% of your audience is not viewing the same slide you are.");
+      }
+      else {
+        $('#stray').hide(); // in case the popup is open
+        $('#topbar #statslink').removeClass('warning');
+        $('#topbar #statslink').attr('title', "");
       }
 
       if( $('#presenterPopup #stats').is(':visible') ) {

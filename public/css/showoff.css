@@ -896,13 +896,21 @@ form .element {
 #stats #elapsed.zoomline {
   text-align: left;
 }
+#stats .zoomline .col.current,
 #stats .zoomline .col.current .inner {
-  background-color: #edd46f;
+  background-color: #ffb105;
   min-width: 5px;
 }
+#stats .zoomline .col.current:hover {
+  min-width: 10px;
+  background: #ffb105;
+  background: linear-gradient(#efefec, #ffb105);
+}
+#stats .zoomline .col.current:hover .inner,
 #stats .zoomline .col.current .inner:hover {
   background-color: #f3708d;
 }
+
 
 #stats #stray {
   display: none;
