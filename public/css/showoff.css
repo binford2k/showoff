@@ -993,7 +993,8 @@ form .element {
   .callout.exercise,
   .callout.stop,
   .callout.thumbsup,
-  .callout.conversation {
+  .callout.conversation,
+  .callout.glossary {
     padding-left: 3em;
   }
 
@@ -1004,6 +1005,7 @@ form .element {
   .callout.stop:before         { content: "\f05e"; } /* fa-ban */
   .callout.thumbsup:before     { content: "\f164"; } /* fa-thumbs-up */
   .callout.conversation:before { content: "\f0e5"; } /* fa-comment */
+  .callout.glossary:before     { content: "\f02d"; } /* fa-book */
 
 /* callouts used on error pages */
 .error .callout {
@@ -1019,6 +1021,32 @@ form .element {
 /**********************
 ***  end callouts   ***
 **********************/
+.callout.glossary a.label,
+ul.glossary.terms a.label {
+  display: block;
+  font-weight: 600;
+  text-decoration: none;
+}
+ul.glossary.terms a.return {
+  text-decoration: none;
+  padding-right: 3em;
+}
+a.term {
+  text-decoration: none;
+}
+a.term:after {
+  font-family: FontAwesome;
+  font-size: 0.8em;
+  vertical-align: super;
+  content: "\f27b";
+  text-decoration: none;/* fa-commenting-o */
+}
+
+
+/**********************
+***  glossary       ***
+**********************/
+
 
 /* Render hidden headlines so that when we print with wkhtmltopdf, we can use section
    titles for page headers.  it would make sense to put this in the print section, but
