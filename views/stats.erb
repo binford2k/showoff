@@ -26,7 +26,7 @@
 
   <div id="all">
     <h3>All slides</h3>
-    <% max = @all.sort_by {|slide, time| -time}[0][1].to_f %>
+    <% max = @all.sort_by {|slide, time| -time}[0][1].to_f rescue 0 %>
     <% @all.sort.map do |slide, time| %>
         <% next if slide.empty? %>
         <% timestr = (time < 60) ? ':%S' : (time < 3599) ?  '%M:%S' : '%H:%M:%S' %>
