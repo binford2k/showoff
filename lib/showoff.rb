@@ -492,12 +492,6 @@ class ShowOff < Sinatra::Application
       # Turn this into a document for munging
       doc = Nokogiri::HTML::DocumentFragment.parse(result)
 
-      if opts[:section]
-        doc.css('div.notes-section').each do |section|
-          section.remove unless section.attr('class').split.include? opts[:section]
-        end
-      end
-
       filename = File.join(settings.pres_dir, '_notes', "#{name}.md")
       @logger.debug "personal notes filename: #{filename}"
       if [nil, 'notes'].include? opts[:section] and File.file? filename
@@ -573,6 +567,13 @@ class ShowOff < Sinatra::Application
         else
           # Add a target so we open all external links from notes in a new window
           link.set_attribute('target', '_blank')
+        end
+      end
+
+      # finally, remove any sections we don't want to print
+      if opts[:section]
+        doc.css('div.notes-section').each do |section|
+          section.remove unless section.attr('class').split.include? opts[:section]
         end
       end
 
