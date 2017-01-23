@@ -1111,8 +1111,8 @@ class ShowOff < Sinatra::Application
         data['stray_p'] = stray_p
       rescue => e
         @logger.warn "Not enough data to display current pageviews."
-        @logger.error e.message
-        @logger.error e.backtrace.join "\n"
+        @logger.debug e.message
+        @logger.debug e.backtrace.first
       end
 
       begin

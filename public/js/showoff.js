@@ -1631,29 +1631,35 @@ function togglePause() {
 
 function setupStats(data)
 {
-  console.log(data);
-  var location = window.location.pathname == '/presenter' ? '#' : '/#';
-
   $("#stats div#all div.detail").hide();
   $("#stats div#all div.row").click(function() {
       $(this).toggleClass('active');
       $(this).find("div.detail").slideToggle("fast");
   });
 
-  if (data['stray_p']) {
-    var percent = data['stray_p'];
-    if(percent > 25) {
-      $('#stray').show();
-      $('#stray .label').text(percent+'%');
-    }
+  var percent = data['stray_p'];
+  if(percent > 25) {
+    $('#stray').show();
+    $('#stray .label').text(percent+'%');
+  }
+  else {
+    $('#stray').hide();
   }
 
-  if (data['viewers']) {
-    $("#viewers").zoomline({
-      max: data['viewmax'],
-      data: data['viewers'],
-      click: function(element) { window.location = (location + element.attr("data-left")); }
-    });
+  var location = window.location.pathname == '/presenter' ? '#' : '/#';
+  var viewers  = data['viewers'];
+  if (viewers) {
+    if (viewers.length == 1 && viewers[0][3] == 'current') {
+      $("#viewers").removeClass('zoomline');
+      $("#viewers").text("All audience members are viewing the presenter's slide.");
+    }
+    else {
+      $("#viewers").zoomline({
+        max: data['viewmax'],
+        data: viewers,
+        click: function(element) { window.location = (location + element.attr("data-left")); }
+      });
+    }
   }
 
   if (data['elapsed']) {
