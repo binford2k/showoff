@@ -232,7 +232,7 @@ module Wrapper
 
   "
 
-      Fidget.current_process
+      Fidget.current_process(:all)
       if options[:url]
         ShowOffUtils.clone(options[:git_url], options[:git_branch], options[:git_path]) do
           ShowOff.run!(options) do |server|
