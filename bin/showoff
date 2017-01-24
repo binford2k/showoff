@@ -160,6 +160,9 @@ module Wrapper
     c.desc 'Disable content caching'
     c.switch :nocache
 
+    c.desc 'Prevent the computer from sleeping during your presentation'
+    c.switch :nosleep
+
     c.desc 'Port on which to run'
     c.default_value "9090"
     c.flag [:p, :port]
@@ -222,7 +225,6 @@ module Wrapper
   -------------------------
 
   Your ShowOff presentation is now starting up.
-   **** System sleep has been suspended. ****
 
   To view it plainly, visit [ #{url} ]
 
@@ -232,7 +234,11 @@ module Wrapper
 
   "
 
-      Fidget.current_process(:all)
+      if options[:nosleep] and Fidget.current_process
+        puts '**** System sleep has been suspended. ****'
+        puts
+      end
+
       if options[:url]
         ShowOffUtils.clone(options[:git_url], options[:git_branch], options[:git_path]) do
           ShowOff.run!(options) do |server|
