@@ -652,7 +652,7 @@ class ShowOff < Sinatra::Application
             next if element['class'].nil?
             next unless element['class'].split.include? 'content'
 
-            href = element.attr('ref')
+            href = element.attr('ref').gsub('/', '_')
           end
 
           text   = item.attr('data-text')

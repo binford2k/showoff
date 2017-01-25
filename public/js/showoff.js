@@ -448,6 +448,10 @@ function currentSlideFromName(name) {
   var count = 0;
   if(name.length > 0 ) {
   	slides.each(function(s, slide) {
+      if (name == $(slide).attr("id") ) {
+        found = count;
+        return false;
+      }
   	  if (name == $(slide).find(".content").attr("ref") ) {
   	    found = count;
   	    return false;
