@@ -1201,8 +1201,16 @@ class ShowOff < Sinatra::Application
         # what are viewers looking at right now?
         now = Time.now.to_i # let's throw away viewers who haven't done anything in 5m
         active  = @@counter['current'].select {|client, view| (now - view[1]).abs < 300 }
+
+        # percentage of stray viewers
         stray   = active.select {|client, view| view[0] != @@current[:name] }
-        stray_p = ((stray.size.to_f / active.size.to_f) * 100).to_i # percentage of stray viewers
+        stray_p = ((stray.size.to_f / active.size.to_f) * 100).to_i rescue 0
+        data['stray_p'] = stray_p
+
+        # percentage of idle viewers
+        idle    = @@counter['current'].size - active.size
+        idle_p  = ((idle.to_f / @@counter['current'].size.to_f) * 100).to_i rescue 0
+        data['idle_p']  = idle_p
 
         viewers = @@slide_titles.map do |slide|
           count = active.select {|client, view| view[0] == slide }.size
@@ -1217,9 +1225,8 @@ class ShowOff < Sinatra::Application
 
         data['viewers'] = viewers
         data['viewmax'] = viewmax
-        data['stray_p'] = stray_p
       rescue => e
-        @logger.warn "Not enough data to display current pageviews."
+        @logger.warn "Not enough data to generate pageviews."
         @logger.debug e.message
         @logger.debug e.backtrace.first
       end
@@ -1244,7 +1251,8 @@ class ShowOff < Sinatra::Application
         data['elapsed'] = elapsed
         data['maxtime'] = maxtime
       rescue => e
-        @logger.warn "Not enough data to display elapsed time."
+        # expected if this is loaded before a presentation has been compiled
+        @logger.warn "Not enough data to generate elapsed time."
         @logger.debug e.message
         @logger.debug e.backtrace.first
       end

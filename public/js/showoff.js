@@ -1642,14 +1642,18 @@ function setupStats(data)
       $(this).find("div.detail").slideToggle("fast");
   });
 
-  var percent = data['stray_p'];
-  if(percent > 25) {
-    $('#stray').show();
-    $('#stray .label').text(percent+'%');
-  }
-  else {
-    $('#stray').hide();
-  }
+  ['stray', 'idle'].forEach(function(stat){
+    var percent = data[stat+'_p'];
+    var selector = '#'+stat;
+
+    if(percent > 25) {
+      $(selector).show();
+      $(selector+' .label').text(percent+'%');
+    }
+    else {
+      $(selector).hide();
+    }
+  });
 
   var location = window.location.pathname == '/presenter' ? '#' : '/#';
   var viewers  = data['viewers'];
