@@ -40,8 +40,13 @@
               <% count = views.inject(0) { |sum, view| sum += view['elapsed'] } %>
               <% timestr = (count < 60) ? ':%S' : (count < 3599) ?  '%M:%S' : '%H:%M:%S' %>
               <div class="row">
-                <span class="label"><%= host %>:</span>
-                <div class="bar" style="width: <%= (count/max)*100 %>%;"> </div>
+                <% if host == 'presenter' %>
+                  <% bgcolor = '' %>
+                  <span class="label"><%= host %>:</span>
+                <% else %>
+                  <% bgcolor = "background-color: ##{host[0...6]}" %>
+                <% end %>
+                <div class="bar" style="width: <%= (count/max)*100 %>%; <%= bgcolor %>"> </div>
                 <div class="time"><%= Time.at(count).gmtime.strftime(timestr) %></div>
               </div>
             <% end %>

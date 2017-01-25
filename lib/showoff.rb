@@ -1103,6 +1103,14 @@ class ShowOff < Sinatra::Application
       # Provide a button in the sidebar for interactive editing if configured
       @edit     = settings.showoff_config['edit'] if @review
 
+      # store a cookie to tell clients apart. More reliable than using IP due to proxies, etc.
+      unless request.cookies['client_id']
+        @client_id = guid()
+        response.set_cookie('client_id', @client_id)
+      else
+        @client_id = request.cookies['client_id']
+      end
+
       erb :index
     end
 
@@ -1487,19 +1495,20 @@ class ShowOff < Sinatra::Application
     (0..15).to_a.map{|a| rand(16).to_s(16)}.join
   end
 
-  def valid_cookie?
+  def valid_presenter_cookie?
     return false if @@cookie.nil?
     (request.cookies['presenter'] == @@cookie)
   end
 
   post '/form/:id' do |id|
-    @logger.warn("Saving form answers from ip:#{request.ip} for id:##{id}")
+    client_id = request.cookies['client_id']
+    @logger.warn("Saving form answers from ip:#{request.ip} with ID of #{client_id} for id:##{id}")
 
     form = params.reject { |k,v| ['splat', 'captures', 'id'].include? k }
 
     # make sure we've got a bucket for this form, then save our answers
     @@forms[id] ||= {}
-    @@forms[id][request.ip] = form
+    @@forms[id][client_id] = form
 
     form.to_json
   end
@@ -1614,13 +1623,13 @@ class ShowOff < Sinatra::Application
           begin
             control = JSON.parse(data)
 
-            @logger.warn "#{control.inspect}"
+            @logger.debug "#{control.inspect}"
 
             case control['message']
             when 'update'
               # websockets don't use the same auth standards
               # we use a session cookie to identify the presenter
-              if valid_cookie?
+              if valid_presenter_cookie?
                 name  = control['name']
                 slide = control['slide'].to_i
                 increment = control['increment'].to_i rescue 0
@@ -1641,14 +1650,14 @@ class ShowOff < Sinatra::Application
 
             when 'register'
               # save a list of presenters
-              if valid_cookie?
+              if valid_presenter_cookie?
                 remote = request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR']
                 settings.presenters << ws
                 @logger.warn "Registered new presenter: #{remote}"
               end
 
             when 'track'
-              remote = valid_cookie? ? 'presenter' : (request.env['REMOTE_HOST'] || request.env['REMOTE_ADDR'])
+              remote = valid_presenter_cookie? ? 'presenter' : request.cookies['client_id']
               slide  = control['slide']
 
               if control.has_key? 'time'
