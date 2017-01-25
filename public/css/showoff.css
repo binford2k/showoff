@@ -960,6 +960,7 @@ form .element {
 }
 #stats div#all div.bar {
   background: #66b366;
+  border-color: #000;
 }
 
 /* detail view */
