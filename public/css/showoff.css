@@ -912,14 +912,20 @@ form .element {
 }
 
 
-#stats #stray {
+#stats #stray,
+#stats #idle {
   display: none;
   width: 75%;
   margin: 1em auto;
   padding: 0.5em;
   border: 1px solid #ccc;
-  background-color: #8e030a;
 }
+  #stats #stray {
+    background-color: #8e030a;
+  }
+  #stats #idle {
+    background-color: #3a64c1;
+  }
 
 /* style all three boxes */
 #stats div#least,
