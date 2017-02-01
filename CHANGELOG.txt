@@ -1,3 +1,9 @@
+0.16.2
+  * More useful real-time viewing statistics.
+  * Prevent the system from sleeping with --nosleep.
+  * Allow quizzes and stats to work behind a proxy.
+  * Experimental: glossary item tags (undocumented for now).
+
 0.16.1
   * Switched the text based status in the presenter to a progress bar.
   * Minor code cleanups.
