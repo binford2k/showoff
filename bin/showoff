@@ -4,6 +4,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'showoff'
 require 'showoff/version'
 require 'rubygems'
+require 'fidget'
 require 'gli'
 
 # See https://github.com/davetron5000/gli/issues/196 for rationale for this silly wrapper
@@ -98,24 +99,24 @@ module Wrapper
   arg_name 'heroku_name'
   long_desc 'Creates the configuration files needed to Herokuize a Showoff presentation and then deploys it for you.'
   command :heroku do |c|
-  
+
     c.desc 'add password protection to your heroku site'
     c.flag [:p,:password]
-  
+
     c.desc 'force overwrite of existing Gemfile/.gems and config.ru files if they exist'
     c.switch [:f,:force]
-  
+
     c.action do |global_options,options,args|
       raise "heroku_name is required" if args.empty?
       raise "Name must start with a letter and can only contain lowercase letters, numbers, and dashes." unless args.first =~ /^[a-z][a-z1-9-]*$/
-  
+
       unless system('git remote get-url heroku')
         ShowOffUtils.command("heroku create #{args[0]}", "Please ensure that the heroku gem is installed and you're logged in.")
       end
-  
+
       if ShowOffUtils.heroku(args[0],options[:f],options[:p])
         ShowOffUtils.command('bundle install', 'Please ensure that the bundler gem is installed.')
-  
+
         begin
           ShowOffUtils.command('git add Procfile Gemfile Gemfile.lock config.ru')
           ShowOffUtils.command('git commit -m "Herokuized by Showoff"')
@@ -129,11 +130,11 @@ module Wrapper
           puts
           puts 'When done, please run "git push heroku master"'
         end
-  
+
         if options[:p]
           puts "CAREFUL: you are commiting your access password - anyone with read access to the repo can access the preso\n\n"
         end
-  
+
         puts 'Your presentation has been Herokuized. Run `heroku open` to see it.'
       end
     end
@@ -158,6 +159,9 @@ module Wrapper
 
     c.desc 'Disable content caching'
     c.switch :nocache
+
+    c.desc 'Prevent the computer from sleeping during your presentation'
+    c.switch :nosleep
 
     c.desc 'Port on which to run'
     c.default_value "9090"
@@ -229,6 +233,11 @@ module Wrapper
   -------------------------
 
   "
+
+      if options[:nosleep] and Fidget.current_process
+        puts '**** System sleep has been suspended. ****'
+        puts
+      end
 
       if options[:url]
         ShowOffUtils.clone(options[:git_url], options[:git_branch], options[:git_path]) do
