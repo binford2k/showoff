@@ -66,91 +66,90 @@
     <p><a href="javascript:chooseLayout('default');">cancel</a><input type="button" onClick="javascript:openNext();" value="Open Window" /></p>
   </div>
 
-<div id="main">
-  <div id="sidebar">
-    <div id="timerSection">
-      <input type="button" id="pauseTimer" value="Pause" />
-      <input type="button" id="stopTimer" value="Cancel" />
-      <span id="timerLabel">Timer:</span>
-      <span id="minStart">
-        <input type="text" size="8" id="timerMinutes"/> min
-        <input type="button" id="startTimer" value="Start" />
-      </span>
-      <div id="timerDisplay"></div>
+  <div id="main">
+    <div id="sidebar">
+      <div id="timerSection">
+        <input type="button" id="pauseTimer" value="Pause" />
+        <input type="button" id="stopTimer" value="Cancel" />
+        <span id="timerLabel">Timer:</span>
+        <span id="minStart">
+          <input type="text" size="8" id="timerMinutes"/> min
+          <input type="button" id="startTimer" value="Start" />
+        </span>
+        <div id="timerDisplay"></div>
+      </div>
+      <div id="feedbackPace">
+        <span id="paceSlow">Speed Up!</span>
+        <span id="paceFast">Slow Down!</span>
+        <img id="paceMarker" src="<%= @asset_path %>/css/paceMarker.png" />
+      </div>
+      <div id="navigation" class="submenu"></div>
+      <div id="navigationHover"></div>
+      <div id="questions">
+        <h3>Audience Questions</h3>
+        <ol id="unanswered"></ol>
+        <ol id="answered"></ol>
+      </div>
     </div>
-    <div id="feedbackPace">
-      <span id="paceSlow">Speed Up!</span>
-      <span id="paceFast">Slow Down!</span>
-      <img id="paceMarker" src="<%= @asset_path %>/css/paceMarker.png" />
-    </div>
-    <div id="navigation" class="submenu"></div>
-    <div id="navigationHover"></div>
-    <div id="questions">
-      <h3>Audience Questions</h3>
-      <ol id="unanswered"></ol>
-      <ol id="answered"></ol>
-    </div>
+
+    <div id="presenter">
+      <div id="frame">
+        <div id="preview">
+          <img id="disconnected" src="<%= @asset_path %>/css/disconnected-large.png" />
+          <div id="prevSlide" class="thumb"><div class="container"></div><h3 class="label">Previous</h3></div>
+          <div id="nextSlide" class="thumb"><div class="container"></div><h3 class="label">Next</h3></div>
+          <div id="preso">loading presentation...</div>
+        </div>
+        <div id="annotationToolbar">
+          <label>Tools</label>
+            <i class="fa fa-pencil tool default active" data-action="draw" aria-hidden="true"></i>
+            <i class="fa fa-arrow-right tool"  data-action="rightArrow" aria-hidden="true"></i>
+            <i class="fa fa-arrow-left tool"  data-action="leftArrow" aria-hidden="true"></i>
+            <i class="fa fa-bullseye tool" data-action="highlight" aria-hidden="true"></i>
+            <i class="fa fa-eraser tool"  data-action="erase" aria-hidden="true"></i>
+          <label>Lines</label>
+            <i class="fa fa-square-o lines color1 active" aria-hidden="true"></i>
+            <i class="fa fa-square-o lines color2" aria-hidden="true"></i>
+            <i class="fa fa-square-o lines color3" aria-hidden="true"></i>
+            <i class="fa fa-square-o lines color4" aria-hidden="true"></i>
+          <label>Shapes</label>
+            <i class="fa fa-square shapes color1" aria-hidden="true"></i>
+            <i class="fa fa-square shapes color2" aria-hidden="true"></i>
+            <i class="fa fa-square shapes color3 active" aria-hidden="true"></i>
+            <i class="fa fa-square shapes color4" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div id="statusbar">
+        <div id="progress" class="no-mobile"><span class="label">Slide: <span id="slideInfo"></span></span></div>
+        <div id="debugInfo"></div>
+
+        <div class="controls">
+          <span id="enableAnnotations" title="Enable the annotation system." class="no-mobile">
+            <label for="annotationsToggle">Annotations</label><input type="checkbox" id="annotationsToggle" autocomplete="off" />
+          </span>
+          <span id="enableFollower" title="Send slide change notifications.">
+            <label for="followerToggle">Update Follower</label><input type="checkbox" id="followerToggle" autocomplete="off" checked />
+          </span>
+          <span id="enableRemote" title="Enables tracking of other presenters.">
+            <label for="remoteToggle">Enable Remote</label><input type="checkbox" id="remoteToggle" autocomplete="off" checked />
+          </span>
+          <a class="no-mobile fa fa-external-link-square" aria-hidden="true" href="javascript:toggleNotes();"></a>
+          <i class="no-mobile fa fa-bars notes-grippy ui-resizable-handle ui-resizable-n" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div id="buttonNav">
+        <div id="buttonPrev"><i class="fa fa-chevron-left fa-lg"></i> Previous</div><div id="buttonNext">Next <i class="fa fa-chevron-right fa-lg"></i></div>
+      </div>
+
+      <div id="notes"></div>
+    </div><!-- end presenter -->
+  </div><!-- end main -->
+
+  <div id="slides" class="offscreen" <%= 'style="display:none;"' if @slides %>>
+  <%= @slides %>
   </div>
-
-  <div id="presenter">
-    <div id="frame">
-      <div id="preview">
-        <img id="disconnected" src="<%= @asset_path %>/css/disconnected-large.png" />
-        <div id="prevSlide" class="thumb"><div class="container"></div><h3 class="label">Previous</h3></div>
-        <div id="nextSlide" class="thumb"><div class="container"></div><h3 class="label">Next</h3></div>
-        <div id="preso">loading presentation...</div>
-      </div>
-      <div id="annotationToolbar">
-        <label>Tools</label>
-          <i class="fa fa-pencil tool default active" data-action="draw" aria-hidden="true"></i>
-          <i class="fa fa-arrow-right tool"  data-action="rightArrow" aria-hidden="true"></i>
-          <i class="fa fa-arrow-left tool"  data-action="leftArrow" aria-hidden="true"></i>
-          <i class="fa fa-bullseye tool" data-action="highlight" aria-hidden="true"></i>
-          <i class="fa fa-eraser tool"  data-action="erase" aria-hidden="true"></i>
-        <label>Lines</label>
-          <i class="fa fa-square-o lines color1 active" aria-hidden="true"></i>
-          <i class="fa fa-square-o lines color2" aria-hidden="true"></i>
-          <i class="fa fa-square-o lines color3" aria-hidden="true"></i>
-          <i class="fa fa-square-o lines color4" aria-hidden="true"></i>
-        <label>Shapes</label>
-          <i class="fa fa-square shapes color1" aria-hidden="true"></i>
-          <i class="fa fa-square shapes color2" aria-hidden="true"></i>
-          <i class="fa fa-square shapes color3 active" aria-hidden="true"></i>
-          <i class="fa fa-square shapes color4" aria-hidden="true"></i>
-      </div>
-    </div>
-
-    <div id="statusbar">
-      <div id="progress" class="no-mobile"><span class="label">Slide: <span id="slideInfo"></span></span></div>
-      <div id="debugInfo"></div>
-
-      <div class="controls">
-        <span id="enableAnnotations" title="Enable the annotation system." class="no-mobile">
-          <label for="annotationsToggle">Annotations</label><input type="checkbox" id="annotationsToggle" autocomplete="off" />
-        </span>
-        <span id="enableFollower" title="Send slide change notifications.">
-          <label for="followerToggle">Update Follower</label><input type="checkbox" id="followerToggle" autocomplete="off" checked />
-        </span>
-        <span id="enableRemote" title="Enables tracking of other presenters.">
-          <label for="remoteToggle">Enable Remote</label><input type="checkbox" id="remoteToggle" autocomplete="off" checked />
-        </span>
-        <a class="no-mobile fa fa-external-link-square" aria-hidden="true" href="javascript:toggleNotes();"></a>
-        <i class="no-mobile fa fa-bars notes-grippy ui-resizable-handle ui-resizable-n" aria-hidden="true"></i>
-      </div>
-
-    </div>
-    <div id="buttonNav">
-      <div id="buttonPrev"><i class="fa fa-chevron-left fa-lg"></i> Previous</div><div id="buttonNext">Next <i class="fa fa-chevron-right fa-lg"></i></div>
-    </div>
-
-    <div id="notes"></div>
-  </div>
-
-</div>
-
-<div id="slides" class="offscreen" <%= 'style="display:none;"' if @slides %>>
-<%= @slides %>
-</div>
-
+</div><!-- end pagewrapper -->
 </body>
 </html>
