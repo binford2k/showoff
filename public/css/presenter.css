@@ -254,7 +254,6 @@
       min-width: 210px;
       min-height: 210px;
       height: 210px;
-      background: #F5ED9B;
       border-top: 1px solid #ccc;
       border-right: 1px solid #ccc;
       overflow: auto;
@@ -554,7 +553,6 @@
   padding: 0 1em;
   display: block;
   position: relative;
-  background: #F5ED9B;
   border-top: 1px solid #ccc;
   top: auto !important; /* jquery-ui-resizable mucks with this */
 }
