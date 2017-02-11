@@ -5,7 +5,6 @@
   <%= erb :header %>
   <link rel="stylesheet" href="<%= @asset_path %>/css/presenter.css?v=<%= SHOWOFF_VERSION %>" type="text/css"/>
   <link href="<%= @asset_path %>/css/TimeCircles-89ac5ae.css" rel="stylesheet">
-  <link href="<%= @asset_path %>/css/jquery-ui-1.12.1.css" rel="stylesheet">
 
   <script type="text/javascript" src="<%= @asset_path %>/js/TimeCircles-89ac5ae.js"></script>
   <script type="text/javascript" src="<%= @asset_path %>/js/presenter.js?v=<%= SHOWOFF_VERSION %>"></script>
@@ -31,7 +30,11 @@
         <span id="slideFile"></span>
       <% end %>
     </span>
+
     <span id="links">
+      <span>
+        <a id="settings" href="#">Settings <i class="fa fa-cog"></i></a>
+      </span>
       <span class="desktop">
         <% if @edit %>
           <a id="edit" href="javascript:editSlide();" title="Edit current slide in new window.">Edit Slide <i class="fa fa-pencil-square-o"></i></a>
@@ -128,12 +131,7 @@
           <span id="enableAnnotations" title="Enable the annotation system." class="no-mobile">
             <label for="annotationsToggle">Annotations</label><input type="checkbox" id="annotationsToggle" autocomplete="off" />
           </span>
-          <span id="enableFollower" title="Send slide change notifications.">
-            <label for="followerToggle">Update Follower</label><input type="checkbox" id="followerToggle" autocomplete="off" checked />
-          </span>
-          <span id="enableRemote" title="Enables tracking of other presenters.">
-            <label for="remoteToggle">Enable Remote</label><input type="checkbox" id="remoteToggle" autocomplete="off" checked />
-          </span>
+
           <a class="no-mobile fa fa-external-link-square" aria-hidden="true" href="javascript:toggleNotes();"></a>
           <i class="no-mobile fa fa-bars notes-grippy ui-resizable-handle ui-resizable-n" aria-hidden="true"></i>
         </div>
@@ -146,6 +144,15 @@
       <div id="notes"></div>
     </div><!-- end presenter -->
   </div><!-- end main -->
+
+  <div id="settings-modal" title="Settings">
+    <div id="enableFollower" class="setting" title="Send slide change notifications.">
+      <label for="followerToggle">Update Follower</label><input type="checkbox" id="followerToggle" autocomplete="off" checked />
+    </div>
+    <div id="enableRemote" class="setting" title="Enables tracking of other presenters.">
+      <label for="remoteToggle">Enable Remote</label><input type="checkbox" id="remoteToggle" autocomplete="off" checked />
+    </div>
+  </div>
 
   <div id="slides" class="offscreen" <%= 'style="display:none;"' if @slides %>>
   <%= @slides %>
