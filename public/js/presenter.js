@@ -26,6 +26,11 @@ $(document).ready(function(){
   zoom(true);
   $(window).resize(function() { zoom(true); });
 
+  $("#settings").click(function() {
+    $("#settings-modal").dialog("open");
+  });
+
+
   $('#statslink').click(function(e) {
     presenterPopupToggle('/stats', e);
   });
@@ -37,6 +42,20 @@ $(document).ready(function(){
   });
   chooseLayout(null);
 
+  $("#settings-modal").dialog({
+    autoOpen: false,
+    dialogClass: "no-close",
+    draggable: false,
+    height: "auto",
+    modal: true,
+    resizable: false,
+    width: 400,
+    buttons: {
+      Close: function() {
+        $( this ).dialog( "close" );
+      }
+    }
+  });
 
   // Bind events for mobile viewing
   if( mobile() ) {

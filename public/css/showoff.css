@@ -797,6 +797,46 @@ form .element {
   display: none;
 }
 
+/*****************
+ ***   modals   ***
+ *****************/
+.ui-dialog.ui-widget-content {
+  border: none;
+  box-shadow:0 0 25px rgba(0,0,0,0.35);
+}
+
+.ui-dialog .ui-dialog-buttonpane{
+  border: none;
+  padding: 0;
+  margin-top: 0;
+}
+
+.ui-dialog .ui-widget-header {
+  border: none;
+  background-color: transparent;
+}
+
+.ui-dialog .setting {
+  margin-bottom: 8px;
+}
+
+.ui-dialog .setting input {
+  float: left;
+  margin-right: 8px;
+}
+
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+  float: none;
+  padding-left: 1em;
+}
+
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+ /*****************
+  *** end modal ***
+  *****************/
+
 /**********************************
  ***   supplemental materials   ***
  **********************************/
