@@ -438,6 +438,13 @@ function setupMenu() {
   $("#navigation").append(nav);
 }
 
+// at some point this should get more sophisticated. Our needs are pretty minimal so far.
+function clearCookies() {
+  document.cookie = "sidebar=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";
+  document.cookie = "layout=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";
+  document.cookie = "notes=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";
+}
+
 function checkSlideParameter() {
 	if (slideParam = currentSlideFromParams()) {
 		slidenum = slideParam;
