@@ -833,6 +833,12 @@ form .element {
 .no-close .ui-dialog-titlebar-close {
   display: none;
 }
+
+.ui-dialog .description {
+  margin-left: 30px;
+  font-size: 0.75em;
+  color: #666;
+}
  /*****************
   *** end modal ***
   *****************/
