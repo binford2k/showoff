@@ -13466,7 +13466,7 @@ var widgetsProgressbar = $.widget( "ui.progressbar", {
 
 		this.valueDiv
 			.toggle( this.indeterminate || value > this.min )
-			.width( percentage.toFixed( 0 ) + "%" );
+			.width( percentage.toFixed( 1 ) + "%" );
 
 		this
 			._toggleClass( this.valueDiv, "ui-progressbar-complete", null,

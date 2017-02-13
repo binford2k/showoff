@@ -446,61 +446,46 @@
     }
 
     #statusbar {
-      -webkit-flex: 0.5;
-              flex: 0.5;
-      height: 22px;
-      max-height: 22px;
-      line-height: 22px;
       text-transform: uppercase;
-      vertical-align: middle;
-      background: #fff;
     }
-      #progress {
-        float: left;
-        width: 25%;
-        height: 20px;
-        background: #ededed;
+    #progress {
+      width: 100%;
+      height: 8px;
+    }
+      #progress.ui-widget.ui-widget-content{
+        border: none;
+        border-radius: 0;
       }
-        #progress .label {
-          position: absolute;
-          padding: 0 0.25em;
-          font-size: 10px;
-        }
-        #progress .ui-progressbar-value {
-          border: 1px solid #ffa215;
-          background: #ffb105;
-        }
-      #debugInfo {
+      #progress .ui-progressbar-value {
+        border: none;
+        background: #f44336;
+        border-radius: 0;
+      }
+    #debugInfo {
+      display: inline;
+    }
+    .controls {
+      float: right;
+      margin-right: 5px;
+    }
+      .controls > .fa {
+        font-size: 18px;
+        text-decoration: none;
+      }
+      .controls > a {
+        color: #222;
+      }
+      .controls > .notes-grippy {
+        top: auto;
+        position: relative;
         display: inline;
       }
-      .controls {
-        float: right;
-        margin-right: 5px;
+      .controls > span {
+        font-size: 10px;
       }
-        .controls > .fa {
-          font-size: 18px;
-          text-decoration: none;
-        }
-        .controls > a {
-          color: #222;
-        }
-        .controls > .notes-grippy {
-          top: auto;
-          position: relative;
-          display: inline;
-        }
-        .controls > span {
-          font-size: 10px;
-        }
-        .controls > span > label {
-          margin-bottom: 4px;
-          padding-bottom: 2px;
-        }
-      #enableRemote:checked {
-        background-color: #fff8bf;
-        -webkit-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
-        -moz-box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
-        box-shadow: 0px 0px 15px 5px rgba(255, 255, 190, .75);
+      .controls > span > label {
+        margin-bottom: 4px;
+        padding-bottom: 2px;
       }
 
   #annotationToolbar {
