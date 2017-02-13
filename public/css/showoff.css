@@ -549,20 +549,15 @@ img#disconnected {
   display: none;
   position: absolute;
   overflow: hidden;
+  width: 1024px;
+  height: 768px;
   z-index: 99999;
-  width: 200px;
-  height: 150px;
-  background-color: white;
-  border: 1px solid #4D4F53;
+  background-color: inherit;
   margin: 0px;
-  border-radius: 3px;
-  box-shadow: 3px 3px 5px #ccc;
+  box-shadow:0 0 25px rgba(0,0,0,0.35);
+  transform: scale(0.3);
+  transform-origin: 0 0;
 }
-  #navigationHover .content {
-    width: 200%;
-    transform: scale(0.5);
-    transform-origin: 0 0;
-  }
 
 #askedQuestions {
   margin: 0;
