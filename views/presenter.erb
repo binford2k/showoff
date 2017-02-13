@@ -32,16 +32,21 @@
     </span>
 
     <span id="links">
-      <span>
-        <a id="settings" href="#">Settings <i class="fa fa-cog"></i></a>
-      </span>
       <span class="desktop">
+        <span id="enableAnnotations" title="Enable the annotation system." class="no-mobile">
+          <label for="annotationsToggle">Annotations <i class="fa fa-pencil"></i></label>
+          <input type="checkbox" id="annotationsToggle" autocomplete="off" />
+        </span>
+        <span>
+          <a id="settings" href="#">Settings <i class="fa fa-cog"></i></a>
+        </span>
         <% if @edit %>
           <a id="edit" href="javascript:editSlide();" title="Edit current slide in new window.">Edit Slide <i class="fa fa-pencil-square-o"></i></a>
         <% end %>
         <% if @issues %>
           <a id="report" href="javascript:reportIssue();" title="Report an issue with the current slide.">Report Issue With Slide <i class="fa fa-list-alt"></i></a>
         <% end %>
+
         <span>
           <a id="statslink" href="">Viewing Statistics <i class="fa fa-chevron-down"></i></a>
           <a id="downloadslink" href="">Downloads <i class="fa fa-chevron-down"></i></a>
@@ -128,10 +133,6 @@
         <div id="debugInfo"></div>
 
         <div class="controls">
-          <span id="enableAnnotations" title="Enable the annotation system." class="no-mobile">
-            <label for="annotationsToggle">Annotations</label><input type="checkbox" id="annotationsToggle" autocomplete="off" />
-          </span>
-
           <a class="no-mobile fa fa-external-link-square" aria-hidden="true" href="javascript:toggleNotes();"></a>
           <i class="no-mobile fa fa-bars notes-grippy ui-resizable-handle ui-resizable-n" aria-hidden="true"></i>
         </div>

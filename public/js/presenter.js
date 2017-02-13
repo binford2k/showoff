@@ -53,6 +53,10 @@ $(document).ready(function(){
     }
   });
 
+  $("#annotationsToggle").checkboxradio({
+    icon: false
+  });
+
   // Bind events for mobile viewing
   if( mobile() ) {
     $('#preso').unbind('tap').unbind('swipeleft').unbind('swiperight');
@@ -841,8 +845,7 @@ function toggleUpdater()
 /********************
  Annotations
  ********************/
-function toggleAnnotations()
-{
+function toggleAnnotations() {
   mode.annotations = $("#annotationsToggle").prop("checked");
 
   if(mode.annotations) {
