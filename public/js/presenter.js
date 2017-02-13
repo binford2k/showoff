@@ -22,10 +22,6 @@ $(document).ready(function(){
   $("#pauseTimer").click(function() { toggleTimer() });
   $("#stopTimer").click(function()  { stopTimer()   });
 
-  /* zoom slide to match preview size, then set up resize handler. */
-  zoom(true);
-  $(window).resize(function() { zoom(true); });
-
   $("#settings").click(function() {
     $("#settings-modal").dialog("open");
   });
@@ -165,7 +161,6 @@ $(document).ready(function(){
 
   }, 30000);
 
-
   // Tell the showoff server that we're a presenter
   register();
 
@@ -183,6 +178,10 @@ $(document).ready(function(){
       sendAnnotation('click', x, y);
     }
   };
+
+  /* zoom slide to match preview size, then set up resize handler. */
+  zoom(true);
+  $(window).resize(function() { zoom(true); });
 
 });
 
