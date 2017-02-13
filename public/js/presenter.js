@@ -87,9 +87,6 @@ $(document).ready(function(){
     document.cookie = "notes="+$('#notes').height();
   });
 
-  // Turn the progress display into an actual progressbar
-  $('#progress').progressbar({max:100})
-
   // restore the UI settings
   var ui = document.cookieHash['ui'];
   $('#notes').height(document.cookieHash['notes']);
@@ -635,7 +632,8 @@ function postSlide() {
 
 		var fileName = currentSlide.children('div').first().attr('ref');
 		$('#slideFile').text(fileName);
-    $('#progress').progressbar('value', getSlidePercent());
+    $('#progress').progressbar({ max: slideTotal })
+                  .progressbar('value', slidenum);
 
     $("#notes div.form.wrapper").each(function(e) {
       renderFormInterval = renderFormWatcher($(this));
