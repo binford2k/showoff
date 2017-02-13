@@ -830,6 +830,11 @@ form .element {
   padding-left: 1em;
 }
 
+.ui-dialog .links {
+  text-align: right;
+  font-size: 0.75em;
+}
+
 .no-close .ui-dialog-titlebar-close {
   display: none;
 }
