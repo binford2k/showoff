@@ -566,6 +566,9 @@
     display: inline;
     background-color: #ccc;
   }
+  #notes ul.section-selector:hover {
+    font-size: 1.5em;
+  }
   #notes ul.section-selector:hover li {
     display: inline;
   }
