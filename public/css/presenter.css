@@ -28,14 +28,16 @@
 }
 
   #topbar a,
-  #topbar select {
+  #topbar select,
+  #topbar .ui-widget {
     text-decoration: none;
     color: #fff;
     background: #222222;
   }
 
   #topbar a:hover,
-  #topbar select:hover {
+  #topbar select:hover,
+  #topbar .ui-widget:hover {
     background-color: #555;
   }
 
@@ -69,13 +71,15 @@
     margin: 0 0 0 auto;
   }
 
-  #links a {
+  #links a,
+  #topbar .ui-widget {
     border: 1px solid #ccc;
     border-radius: 0.5em;
     padding: .35em;
   }
 
-  #links a.enabled {
+  #links a.enabled,
+  #topbar .ui-state-active {
     background-color: #003d96;
   }
   #links a.warning {

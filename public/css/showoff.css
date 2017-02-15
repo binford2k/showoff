@@ -59,34 +59,6 @@ pre code {
     overflow: auto;
   }
 
-  .ui-button {
-    color: inherit;
-    background-color: transparent;
-    border-radius: 0.5em;
-    padding: .35em;
-  }
-
-  .ui-state-active,
-  .ui-widget-content .ui-state-active,
-  .ui-widget-header .ui-state-active,
-  a.ui-button:active,
-  .ui-button:active,
-  .ui-button.ui-state-active:hover {
-    background-color: #555;
-    border: 1px solid #ccc;
-  }
-
-  .ui-state-hover,
-  .ui-widget-content .ui-state-hover,
-  .ui-widget-header .ui-state-hover,
-  .ui-state-focus, .ui-widget-content .ui-state-focus,
-  .ui-widget-header .ui-state-focus,
-  .ui-button:hover,
-  .ui-button:focus {
-    border: 1px solid #ccc;
-    background-color: #555;
-  }
-
   #preso,
   .slide {
     background: #fff;
