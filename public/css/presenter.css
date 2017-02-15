@@ -25,7 +25,7 @@
   background: #222222;
   font-size: .55em;
   color: #fff;
-  box-shadow:0 0 25px rgba(0,0,0,0.35);
+  box-shadow:0 0 1em rgba(0,0,0,0.35);
   z-index: 3;
 }
 
@@ -159,7 +159,7 @@
     padding: 0;
     margin: 0;
     background-color: #fff;
-    box-shadow:0 0 25px rgba(0,0,0,0.35);
+    box-shadow:0 0 1em rgba(0,0,0,0.35);
     z-index: 3;
   }
     #timerSection {
@@ -340,7 +340,7 @@
         width: 200px;
         top: 0;
         background-color: #ffffff;
-        box-shadow:0 0 25px rgba(0,0,0,0.35);
+        box-shadow:0 0 1em rgba(0,0,0,0.35);
       }
         #preview .thumb .content {
           transform: scale(.5);
@@ -438,12 +438,13 @@
 
 
     #preso {
-      box-shadow:0 0 25px rgba(0,0,0,0.35);
+      box-shadow:0 0 1em rgba(0,0,0,0.35);
       position: absolute;
     }
 
     #statusbar {
       text-transform: uppercase;
+      padding: 0 1em;
     }
     #progress {
       width: 100%;
@@ -538,7 +539,7 @@
   display: block;
   position: relative;
   top: auto !important; /* jquery-ui-resizable mucks with this */
-  box-shadow:0 0 25px rgba(0,0,0,0.35);
+  box-shadow:0 0 1em rgba(0,0,0,0.35);
   background-color: #ffffff;
 }
   #notes.hidden {
