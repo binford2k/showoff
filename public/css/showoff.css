@@ -596,7 +596,7 @@ pre.highlight code.language-console,
 pre.highlight code.console {
   background: #222;
   background: url(titlebar/left.png) left top no-repeat, url(titlebar/right.png) right top no-repeat, url(titlebar/center.png) center top repeat-x #222;
-  color: #63de00;
+  color: #fff;
   padding: 30px 0.5em 0.5em;
   border: 1px solid #acacac;
   border-radius: 6px;
