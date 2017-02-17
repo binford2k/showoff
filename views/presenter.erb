@@ -22,14 +22,6 @@
 <div id="pagewrapper">
   <div id="topbar">
     <a id="close-sidebar" class="fa fa-bars" aria-hidden="true" href="javascript:toggleSidebar();"></a>
-    <span id="slideSource">
-      <label>Source:</label>
-      <% if @request.host == 'localhost' %>
-        <a href="javascript:openEditor();"><span id="slideFile"></span></a>
-      <% else %>
-        <span id="slideFile"></span>
-      <% end %>
-    </span>
 
     <span id="links">
       <span class="desktop">
@@ -130,7 +122,15 @@
 
       <div id="statusbar">
         <span class="label">Slide: <span id="slideInfo"></span></span>
-        <div id="debugInfo"></div>
+        <span id="debugInfo"></span>
+        <span id="slideSource">
+          <label>Source:</label>
+          <% if @request.host == 'localhost' %>
+            <a href="javascript:openEditor();"><span id="slideFile"></span></a>
+          <% else %>
+            <span id="slideFile"></span>
+          <% end %>
+        </span>
       </div>
       <div id="progress" class="no-mobile"></div>
 

@@ -60,11 +60,7 @@
     }
 
   #slideSource {
-    display: flex;
-    flex-shrink: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    margin: 0 0.5em;
+    float: right;
   }
 
   #links {
