@@ -463,29 +463,6 @@
     #debugInfo {
       display: inline;
     }
-    .controls {
-      float: right;
-      margin-right: 5px;
-    }
-      .controls > .fa {
-        font-size: 18px;
-        text-decoration: none;
-      }
-      .controls > a {
-        color: #222;
-      }
-      .controls > .notes-grippy {
-        top: auto;
-        position: relative;
-        display: inline;
-      }
-      .controls > span {
-        font-size: 10px;
-      }
-      .controls > span > label {
-        margin-bottom: 4px;
-        padding-bottom: 2px;
-      }
 
   #annotationToolbar {
     display: -webkit-flex;
@@ -532,6 +509,11 @@
     #annotationToolbar i.shapes.color4 { color: green  }
 
 
+#notes-wrapper {
+  box-shadow:0 0 1em rgba(0,0,0,0.35);
+  background-color: #78909C;
+}
+
 #notes {
   overflow: auto;
   height: 210px;
@@ -539,44 +521,56 @@
   display: block;
   position: relative;
   top: auto !important; /* jquery-ui-resizable mucks with this */
-  box-shadow:0 0 1em rgba(0,0,0,0.35);
   background-color: #ffffff;
 }
   #notes.hidden {
     display: none;
   }
 
-  #notes ul.section-selector {
+  .section-selector {
+    display: inline-block;
     padding: 0;
-    margin: 0 0 0 -1.25em;         /* compensate for the border on #notes. 1/0.8 em */
+    margin: 0;
     text-align: center;
-    border-bottom: 1px solid #ccc;
     font-size: 0.8em;
-    position: absolute;
-    background-color: #F5ED9B;
   }
-  #notes ul.section-selector li {
-    display: none;
-    padding: 0 1em;
-  }
-  #notes ul.section-selector li:hover {
-    background-color: #b9b9b9;
-    transition-duration: 0.5s;
-  }
-  #notes ul.section-selector li.selected {
+  .section-selector li {
     display: inline;
-    background-color: #ccc;
-  }
-  #notes ul.section-selector:hover {
-    font-size: 1.5em;
-  }
-  #notes ul.section-selector:hover li {
-    display: inline;
+    padding: .1em 1em;
   }
 
-  #notes ul.section-selector li a {
+  .section-selector li a {
+    color: #ffffff;
     text-decoration: none;
   }
+
+  .section-selector li.selected {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background-color: #ffffff;
+  }
+
+  .section-selector li.selected a {
+    color: #222;
+  }
+
+  .controls {
+    float: right;
+    margin-right: .5em;
+  }
+    .controls .fa {
+      font-size: 1em;
+      text-decoration: none;
+    }
+    .controls a,
+    .controls i {
+      color: #fff;
+    }
+    .controls .notes-grippy {
+      top: auto;
+      position: relative;
+      display: inline;
+    }
 
   #notes ol { list-style-type: decimal; }
   #notes ul { list-style-type: disc; }
