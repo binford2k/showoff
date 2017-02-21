@@ -60,11 +60,7 @@
     }
 
   #slideSource {
-    display: flex;
-    flex-shrink: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    margin: 0 0.5em;
+    float: right;
   }
 
   #links {
@@ -443,7 +439,6 @@
     }
 
     #statusbar {
-      text-transform: uppercase;
       padding: 0 1em;
     }
     #progress {
@@ -623,13 +618,6 @@ a.controls {
 }
 
 /* hide some elements when the screen is too small */
-@media screen and (max-width: 1000px)
-{
-  #slideSource label {
-    display: none;
-  }
-}
-
 @media screen and (max-width: 900px)
 {
   #topbar .fa {
@@ -676,12 +664,7 @@ a.controls {
     margin: 0;
     padding: 0;
   }
-  #slideSource {
-    max-width: 256px;
-    overflow: hidden;
-    height: 16px;
-    padding-left: 16px;
-  }
+
   #slideFile {
     display: inline-block;
     width: 205px;
