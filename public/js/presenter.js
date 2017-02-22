@@ -879,7 +879,7 @@ function toggleAnnotations() {
 }
 
 function openNext() {
-  $("#nextWindowConfirmation").slideUp(125);
+  $("#nextWindowConfirmation").hide();
   try {
     if(windowIsClosed(nextWindow)){
       nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 'next');
@@ -894,7 +894,7 @@ function openNext() {
 
         postSlide();
       }, 500);
-
+      $("#settings-modal").dialog("close");
     }
   }
   catch(e) {
@@ -913,7 +913,7 @@ function chooseLayout(layout)
 
   // in case we're being called externally, make the UI match
   $('#layoutSelector').val(layout);
-  $("#nextWindowConfirmation").slideUp(125);
+  $("#nextWindowConfirmation").hide();
   console.log("Setting layout to " + layout);
 
   // change focus so we don't inadvertently change layout again by changing slides
@@ -967,7 +967,7 @@ function chooseLayout(layout)
       break;
 
     case 'floating':
-      $("#nextWindowConfirmation").slideDown(125);
+      $("#nextWindowConfirmation").show();
       break;
 
     default:

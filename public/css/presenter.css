@@ -30,7 +30,6 @@
 }
 
   #topbar a,
-  #topbar select,
   #topbar .ui-widget {
     text-decoration: none;
     color: #fff;
@@ -38,7 +37,6 @@
   }
 
   #topbar a:hover,
-  #topbar select:hover,
   #topbar .ui-widget:hover {
     background-color: #555;
   }
@@ -92,8 +90,7 @@
     margin: 0 0.5em;
   }
 
-#presenterPopup,
-#nextWindowConfirmation {
+#presenterPopup {
   display: none;
   position: absolute;
   z-index: 2147483647;
@@ -109,28 +106,13 @@
   overflow: auto;
 }
 
-  #presenterPopup a,
-  #nextWindowConfirmation a {
+  #presenterPopup a {
     color: #ffffff;
   }
 
   #presenterPopup #stats .zoomline {
     color: #000;
   }
-
-#nextWindowConfirmation {
-  right: 0.25em;
-  left: auto;
-  width: 14em;
-}
-  #nextWindowConfirmation p {
-    margin: 0.25em;
-  }
-  #nextWindowConfirmation input {
-    float: right;
-    margin: 0.25em;
-  }
-
 
 #main {
   display: -webkit-flex;

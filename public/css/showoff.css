@@ -1,5 +1,9 @@
 body,
-.ui-widget {
+.ui-widget,
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   color: #222;
 }
@@ -801,6 +805,12 @@ form .element {
   box-shadow:0 0 25px rgba(0,0,0,0.35);
 }
 
+.ui-dialog .links,
+.ui-dialog .description,
+.ui-dialog select {
+  font-size: .75em;
+}
+
 .ui-dialog .ui-dialog-buttonpane{
   border: none;
   padding: 0;
@@ -817,8 +827,7 @@ form .element {
 }
 
 .ui-dialog .setting input {
-  float: left;
-  margin-right: 8px;
+  margin-left: 1em;
 }
 
 .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
@@ -828,18 +837,22 @@ form .element {
 
 .ui-dialog .links {
   text-align: right;
-  font-size: 0.75em;
+}
+
+.ui-dialog p,
+.ui-dialog select {
+  margin-left: 30px;
+}
+
+.ui-dialog p {
+  margin-top: .5em;
+  margin-bottom: .5em;
 }
 
 .no-close .ui-dialog-titlebar-close {
   display: none;
 }
 
-.ui-dialog .description {
-  margin-left: 30px;
-  font-size: 0.75em;
-  color: #666;
-}
  /*****************
   *** end modal ***
   *****************/
