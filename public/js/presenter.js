@@ -33,6 +33,16 @@ $(document).ready(function(){
   $("#nextWinCancel").click( function() { chooseLayout('default') });
   $("#openNextWindow").click(function() { openNext() });
 
+  $("#notes-wrapper .fa-minus").click( function() {
+    notesFontSize('decrease');
+  });
+  $("#notes-wrapper .fa-dot-circle-o").click( function() {
+    notesFontSize('reset');
+  });
+  $("#notes-wrapper .fa-plus").click( function() {
+    notesFontSize('increase');
+  });
+
   $('#statslink').click(function(e) { presenterPopupToggle('/stats', e); });
   $('#downloadslink').click(function(e) { presenterPopupToggle('/download', e); });
 
