@@ -553,6 +553,10 @@
     float: right;
     margin-right: .5em;
   }
+    .controls .spacer {
+      display: inline-block;
+      width: 1em;
+    }
     .controls .fa {
       font-size: 1em;
       text-decoration: none;
