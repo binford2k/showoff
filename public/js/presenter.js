@@ -18,24 +18,26 @@ $(document).ready(function(){
   // the presenter window doesn't need the reload on resize bit
   $(window).unbind('resize');
 
-  $("#startTimer").click(function() { startTimer()  });
-  $("#pauseTimer").click(function() { toggleTimer() });
-  $("#stopTimer").click(function()  { stopTimer()   });
+  $("#startTimer").click(    function() { startTimer()    });
+  $("#pauseTimer").click(    function() { toggleTimer()   });
+  $("#stopTimer").click(     function() { stopTimer()     });
+  $("#close-sidebar").click( function() { toggleSidebar() });
+  $("#edit").click(          function() { editSlide()     });
+  $("#report").click(        function() { reportIssue()   });
+  $("#slaveWindow").click(   function() { toggleSlave()   });
+  $("#printSlides").click(   function() { printSlides()   });
+  $("#settings").click(      function() { $("#settings-modal").dialog("open"); });
+  $("#slideSource a").click( function() { openEditor() });
+  $("#notesToggle").click(   function() { toggleNotes() });
+  $("#clearCookies").click(  function() { clearCookies() });
+  $("#nextWinCancel").click( function() { chooseLayout('default') });
+  $("#openNextWindow").click(function() { openNext() });
 
-  $("#settings").click(function() {
-    $("#settings-modal").dialog("open");
-  });
+  $('#statslink').click(function(e) { presenterPopupToggle('/stats', e); });
+  $('#downloadslink').click(function(e) { presenterPopupToggle('/download', e); });
 
+  $('#layoutSelector').change(function(e) { chooseLayout(e.target.value); });
 
-  $('#statslink').click(function(e) {
-    presenterPopupToggle('/stats', e);
-  });
-  $('#downloadslink').click(function(e) {
-    presenterPopupToggle('/download', e);
-  });
-  $('#layoutSelector').change(function(e) {
-    chooseLayout(e.target.value);
-  });
   chooseLayout(null);
 
   $("#settings-modal").dialog({
