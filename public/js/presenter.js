@@ -375,6 +375,23 @@ function toggleNotes() {
   zoom(true);
 }
 
+function notesFontSize(action) {
+  var current = parseInt($('#notes').css('font-size'));
+  switch (action) {
+    case 'increase':
+      $('#notes').css('font-size', current * 1.1);
+      break;
+
+    case 'decrease':
+      $('#notes').css('font-size', current * 0.9);
+      break;
+
+    case 'reset':
+      $('#notes').css('font-size', '');
+      break;
+  }
+}
+
 function blankStyledWindow(title, dimensions, classes, resizable) {
   // yes, the explicit address is needed. Because Chrome.
   var opts = "status=0,toolbar=0,location=0,menubar=0,"+dimensions;
