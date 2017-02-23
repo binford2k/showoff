@@ -236,17 +236,6 @@ class ShowOff < Sinatra::Application
   end
 
   helpers do
-    def load_section_files(section)
-      section = File.join(settings.pres_dir, section)
-      files = if File.directory? section
-        Dir.glob("#{section}/**/*").sort
-      else
-        Array(section)
-      end
-      @logger.debug files
-      files
-    end
-
     def css_files
       Dir.glob("#{settings.pres_dir}/*.css").map { |path| File.basename(path) }
     end
@@ -297,7 +286,7 @@ class ShowOff < Sinatra::Application
       end
     end
 
-    def process_markdown(name, content, opts={:static=>false, :pdf=>false, :print=>false, :toc=>false, :supplemental=>nil, :section=>nil})
+    def process_markdown(name, section, content, opts={:static=>false, :pdf=>false, :print=>false, :toc=>false, :supplemental=>nil, :section=>nil})
       if settings.encoding and content.respond_to?(:force_encoding)
         content.force_encoding(settings.encoding)
       end
@@ -393,7 +382,7 @@ class ShowOff < Sinatra::Application
 
         # create html for the slide
         classes = content_classes.join(' ')
-        content = "<div"
+        content = "<div data-section=\"#{section}\" data-title=\"#{File.basename(name)}\""
         content += " id=\"#{id}\"" if id
         content += " style=\"background-image: url('file/#{slide.bg}');\"" if slide.bg
         content += " class=\"slide #{classes}\" data-transition=\"#{transition}\">"
@@ -1017,28 +1006,26 @@ class ShowOff < Sinatra::Application
     def get_slides_html(opts={:static=>false, :pdf=>false, :toc=>false, :supplemental=>nil, :section=>nil})
 
       sections = ShowOffUtils.showoff_sections(settings.pres_dir, @logger)
-      files = []
       if sections
         data = ''
-        sections.each do |section|
-          if section =~ /^#/
-            name = section.each_line.first.gsub(/^#*/,'').strip
-            data << process_markdown(name, "<!SLIDE subsection>\n" + section, opts)
-          else
-            files = []
-            files << load_section_files(section)
-            files = files.flatten
-            files = files.select { |f| f =~ /.md$/ }
-            files.each do |f|
-              fname = f.gsub(settings.pres_dir + '/', '').gsub('.md', '')
-              begin
-                data << process_markdown(fname, File.read(f), opts)
-              rescue Errno::ENOENT => e
-                @logger.error e.message
-                data << process_markdown(fname, "!SLIDE\n# Missing File!\n## #{fname}", opts)
-              end
+        sections.each do |section, slides|
+          slides.each do |filename|
+            next unless filename.end_with? '.md'
+            path = filename.chomp('.md') # TODO: I don't know why we do this silly thing
+            begin
+              data << process_markdown(path, section, File.read(filename), opts)
+            rescue Errno::ENOENT => e
+              @logger.error e.message
+              data << process_markdown(path, section, "!SLIDE\n# Missing File!\n## #{fname}", opts)
             end
           end
+
+# I don't know what this part was supposed to do
+#           if section =~ /^#/
+#             name = section.each_line.first.gsub(/^#*/,'').strip
+#             data << process_markdown(name, "<!SLIDE subsection>\n" + section, opts)
+#           else
+
         end
       end
       process_content_for_all_slides(data, @slide_count, opts)
@@ -1432,7 +1419,7 @@ class ShowOff < Sinatra::Application
       content = content.split(/^\<?!SLIDE/m).reject { |sl| sl.empty? }[num-1]
     end
 
-    html = process_markdown(slide, content, {})
+    html = process_markdown(slide, '', content, {})
     doc  = Nokogiri::HTML::DocumentFragment.parse(html)
 
     if index == 'all'
