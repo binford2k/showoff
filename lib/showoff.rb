@@ -625,7 +625,7 @@ class ShowOff < Sinatra::Application
         end
 
         # swap out the tag, if found, with the table of contents
-        doc.at('p:contains("~~~TOC~~~")').replace(toc)
+        doc.at('p:contains("~~~TOC~~~")').replace(toc) rescue nil
       end
 
       doc.css('.slide.glossary .content').each do |glossary|
