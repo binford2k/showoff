@@ -42,19 +42,23 @@
     text-decoration: none;
   }
 
+  #topbar a i {
+    padding-left: .25em;
+  }
+
   #topbar a:hover,
   #topbar .ui-widget:hover {
     background-color: #263238;
   }
 
-  #topbar #close-sidebar {
-    padding: 1em;
+  #close-sidebar {
+    padding: .25em;
     transition: all 200ms;
   }
-    #topbar #close-sidebar.disabled {
+    #close-sidebar.disabled {
       color: grey;
     }
-    #topbar #close-sidebar.disabled:hover {
+    #close-sidebar.disabled:hover {
       background-color: transparent;
       cursor: default;
     }
