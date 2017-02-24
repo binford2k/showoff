@@ -23,7 +23,8 @@ $(document).ready(function(){
   $("#stopTimer").click(     function() { stopTimer()     });
   $("#close-sidebar").click( function() { toggleSidebar() });
   $("#edit").click(          function() { editSlide()     });
-  $("#report").click(        function() { reportIssue()   });
+// browser security causes a click event to react differently than an actual user click. Even though they're the same damn thing.
+//  $("#report").click(        function() { reportIssue()   });
   $("#slaveWindow").click(   function() { toggleSlave()   });
   $("#printSlides").click(   function() { printSlides()   });
   $("#settings").click(      function() { $("#settings-modal").dialog("open"); });
