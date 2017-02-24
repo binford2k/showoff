@@ -1104,11 +1104,15 @@ class ShowOff < Sinatra::Application
       @edit     = settings.showoff_config['edit'] if @review
 
       # store a cookie to tell clients apart. More reliable than using IP due to proxies, etc.
-      unless request.cookies['client_id']
+      if request.nil?   # when running showoff static
         @client_id = guid()
-        response.set_cookie('client_id', @client_id)
       else
-        @client_id = request.cookies['client_id']
+        if request.cookies['client_id']
+          @client_id = request.cookies['client_id']
+        else
+          @client_id = guid()
+          response.set_cookie('client_id', @client_id)
+        end
       end
 
       erb :index
