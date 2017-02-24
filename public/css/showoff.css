@@ -525,8 +525,8 @@ img#disconnected {
   display: none;
   position: absolute;
   overflow: hidden;
-  width: 1024px;
-  height: 768px;
+  width: 640px;
+  height: 500px;
   z-index: 99999;
   background-color: inherit;
   margin: 0px;
