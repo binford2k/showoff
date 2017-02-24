@@ -556,6 +556,10 @@
     .controls i {
       color: #fff;
     }
+    .controls .small {
+      font-size: 0.75em;
+      vertical-align: 15%;
+    }
     .controls .notes-grippy {
       top: auto;
       position: relative;
