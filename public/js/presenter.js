@@ -18,24 +18,36 @@ $(document).ready(function(){
   // the presenter window doesn't need the reload on resize bit
   $(window).unbind('resize');
 
-  $("#startTimer").click(function() { startTimer()  });
-  $("#pauseTimer").click(function() { toggleTimer() });
-  $("#stopTimer").click(function()  { stopTimer()   });
+  $("#startTimer").click(    function() { startTimer()    });
+  $("#pauseTimer").click(    function() { toggleTimer()   });
+  $("#stopTimer").click(     function() { stopTimer()     });
+  $("#close-sidebar").click( function() { toggleSidebar() });
+  $("#edit").click(          function() { editSlide()     });
+  $("#report").click(        function() { reportIssue()   });
+  $("#slaveWindow").click(   function() { toggleSlave()   });
+  $("#printSlides").click(   function() { printSlides()   });
+  $("#settings").click(      function() { $("#settings-modal").dialog("open"); });
+  $("#slideSource a").click( function() { openEditor() });
+  $("#notesToggle").click(   function() { toggleNotes() });
+  $("#clearCookies").click(  function() { clearCookies() });
+  $("#nextWinCancel").click( function() { chooseLayout('default') });
+  $("#openNextWindow").click(function() { openNext() });
 
-  $("#settings").click(function() {
-    $("#settings-modal").dialog("open");
+  $("#notes-wrapper .fa-minus").click( function() {
+    notesFontSize('decrease');
+  });
+  $("#notes-wrapper .fa-dot-circle-o").click( function() {
+    notesFontSize('reset');
+  });
+  $("#notes-wrapper .fa-plus").click( function() {
+    notesFontSize('increase');
   });
 
+  $('#statslink').click(function(e) { presenterPopupToggle('/stats', e); });
+  $('#downloadslink').click(function(e) { presenterPopupToggle('/download', e); });
 
-  $('#statslink').click(function(e) {
-    presenterPopupToggle('/stats', e);
-  });
-  $('#downloadslink').click(function(e) {
-    presenterPopupToggle('/download', e);
-  });
-  $('#layoutSelector').change(function(e) {
-    chooseLayout(e.target.value);
-  });
+  $('#layoutSelector').change(function(e) { chooseLayout(e.target.value); });
+
   chooseLayout(null);
 
   $("#settings-modal").dialog({
@@ -877,7 +889,7 @@ function toggleAnnotations() {
 }
 
 function openNext() {
-  $("#nextWindowConfirmation").slideUp(125);
+  $("#nextWindowConfirmation").hide();
   try {
     if(windowIsClosed(nextWindow)){
       nextWindow = blankStyledWindow("Next Slide Preview", 'width=320,height=300', 'next');
@@ -892,7 +904,7 @@ function openNext() {
 
         postSlide();
       }, 500);
-
+      $("#settings-modal").dialog("close");
     }
   }
   catch(e) {
@@ -911,7 +923,7 @@ function chooseLayout(layout)
 
   // in case we're being called externally, make the UI match
   $('#layoutSelector').val(layout);
-  $("#nextWindowConfirmation").slideUp(125);
+  $("#nextWindowConfirmation").hide();
   console.log("Setting layout to " + layout);
 
   // change focus so we don't inadvertently change layout again by changing slides
@@ -965,7 +977,7 @@ function chooseLayout(layout)
       break;
 
     case 'floating':
-      $("#nextWindowConfirmation").slideDown(125);
+      $("#nextWindowConfirmation").show();
       break;
 
     default:

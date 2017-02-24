@@ -13,48 +13,52 @@
 #timerSection,
 #statusbar,
 #questions,
-#notes {
+#notes,
+#topbar,
+#presenterPopup {
   font-size: .8em;
+}
+
+#topbar,
+#topbar a,
+#topbar .ui-widget,
+#presenterPopup,
+#notes-wrapper {
+  color: #ffffff;
+  background-color: #546E7A;
 }
 
 #topbar {
   display: flex;
   flex-flow: row;
-  line-height: 24px;
-  height: 24px;
-  background: #222222;
-  font-size: .55em;
-  color: #fff;
+  line-height: 3em;
+  height: 3em;
   box-shadow:0 0 1em rgba(0,0,0,0.35);
   z-index: 3;
 }
 
   #topbar a,
-  #topbar select,
   #topbar .ui-widget {
     text-decoration: none;
-    color: #fff;
-    background: #222222;
+  }
+
+  #topbar a i {
+    padding-left: .25em;
   }
 
   #topbar a:hover,
-  #topbar select:hover,
   #topbar .ui-widget:hover {
-    background-color: #555;
+    background-color: #263238;
   }
 
-  #topbar .fa {
-    color: #8affeb;
-  }
-  #topbar #close-sidebar {
-    font-size: 16px;
-    padding: 3px 6px;
+  #close-sidebar {
+    padding: .25em;
     transition: all 200ms;
   }
-    #topbar #close-sidebar.disabled {
+    #close-sidebar.disabled {
       color: grey;
     }
-    #topbar #close-sidebar.disabled:hover {
+    #close-sidebar.disabled:hover {
       background-color: transparent;
       cursor: default;
     }
@@ -71,14 +75,20 @@
 
   #links a,
   #topbar .ui-widget {
-    border: 1px solid #ccc;
-    border-radius: 0.5em;
-    padding: .35em;
+    display: inline-block;
+    padding: 0 1em;
+  }
+
+  #topbar .ui-button {
+    border: none;
+    border-radius: 0;
+    line-height: 3em;
+    margin-top: -1px; /* hell if I know why, but probably somewhere in jquery-ui */
   }
 
   #links a.enabled,
   #topbar .ui-state-active {
-    background-color: #003d96;
+    background-color: #263238;
   }
   #links a.warning {
     background-color: #8e030a;
@@ -92,45 +102,26 @@
     margin: 0 0.5em;
   }
 
-#presenterPopup,
-#nextWindowConfirmation {
+#presenterPopup {
   display: none;
   position: absolute;
   z-index: 2147483647;
-  top: 24px;
+  top: 3em;
   left: 25%;
   max-height: 80%;
   width: 50%;
+  padding-bottom: 1em;
   border-radius: 0 0 .5em .5em;
-  border-bottom: 8px solid #222222;
-  background-color: #222222;
-  color: #ffffff;
-  font-size: .8em;
   overflow: auto;
 }
 
-  #presenterPopup a,
-  #nextWindowConfirmation a {
+  #presenterPopup a {
     color: #ffffff;
   }
 
   #presenterPopup #stats .zoomline {
     color: #000;
   }
-
-#nextWindowConfirmation {
-  right: 0.25em;
-  left: auto;
-  width: 14em;
-}
-  #nextWindowConfirmation p {
-    margin: 0.25em;
-  }
-  #nextWindowConfirmation input {
-    float: right;
-    margin: 0.25em;
-  }
-
 
 #main {
   display: -webkit-flex;
@@ -506,7 +497,6 @@
 
 #notes-wrapper {
   box-shadow:0 0 1em rgba(0,0,0,0.35);
-  background-color: #78909C;
 }
 
 #notes {
@@ -517,6 +507,7 @@
   position: relative;
   top: auto !important; /* jquery-ui-resizable mucks with this */
   background-color: #ffffff;
+  color: #222;
 }
   #notes.hidden {
     display: none;
