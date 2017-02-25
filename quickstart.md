@@ -101,7 +101,7 @@ content. Luckily, the Presenter makes it easy to update each slide.
 
 <img src="{{ site.github.url }}/images/edit_link.png" alt="Edit Link" style="float:right;" />
 
-The slide name is displayed in the upper left of the Presenter window. Click that,
+The slide name is displayed below the slide preview in the Presenter window. Click that,
 and Showoff will open the editor you have associated with Markdown files. Slides
 are written in mostly vanilla Markdown, with a few extensions. Pop open the
 [User Manual]({{ site.github.url }}/documentation/AUTHORING_rdoc.html)
