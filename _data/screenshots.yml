@@ -1,15 +1,15 @@
 ---
 presenter.png:
-  md5: 17db7a10e6d1e09a2af54936c02c2507
+  md5: 80a2a11e66a8ccfcaff82738d33bc764
   thumb: thumb.presenter.png
   text: This is a typical view of the Presenter window.
 downloads.png:
-  md5: 18eb82cea8ee32d02e4d5d77ec6a3cce
+  md5: dc4fdc804b159ded344a6467b0736d68
   thumb: thumb.downloads.png
   text: Viewers can download files directly from your presentation. Files can even
     be attached to slides so they only show up when they're useful!
 quiz_responses.png:
-  md5: 9251d378936448c26a886e839289e87b
+  md5: d919628e0238f4b8715c796c987e61e0
   thumb: thumb.quiz_responses.png
   text: See a live view of audience responses during quizzes or polls.
 ask_question.png:
@@ -24,11 +24,11 @@ mobile_audience.png:
     buttons or with swipe gestures. If the screen is in portrait orientation, then
     the handout notes are displayed below.
 mobile_presenter.png:
-  md5: 7921450b3e1b4928afdc749ed7ada581
+  md5: 9552edec5a07459ddedb118b40fd5a03
   thumb: thumb.mobile_presenter.png
   text: The Presenter view can be loaded on a mobile device and used as a remote for
-    your presentation. You can change slides, read presenter notes, see audience
-    questions, etc.
+    your presentation. You can change slides, read presenter notes, see audience questions,
+    etc.
 executing_code.png:
   md5: 531426baeadd5ab8a1cec464dbc128b3
   thumb: thumb.executing_code.png
@@ -39,6 +39,6 @@ executing_code_results.png:
   text: The code execution results are shown in a slide-down console window over the
     slideshow.
 help.png:
-  md5: 1ae7c5b9692ba5cdd70b5571334230b3
+  md5: 89fa0b57e4ff5e8420d099c30d494cfd
   thumb: thumb.help.png
   text: Press <tt>?</tt> to get a help dialog in either view.
