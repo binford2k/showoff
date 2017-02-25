@@ -76,7 +76,7 @@ class ShowOffUtils
     FileUtils.mkdir_p('_files/share')
     FileUtils.mkdir_p('_images')
 
-    self.showoff_sections('.').each do |filename|
+    self.showoff_slide_files('.').each do |filename|
       next if File.exist? filename
 
       puts "Creating: #{filename}"
@@ -104,15 +104,7 @@ class ShowOffUtils
     errors     = []
 
     # get a list of actual filenames
-    self.showoff_sections('.').each do |section|
-      if File.directory?(section)
-        files << showoff.load_section_files(section)
-      else
-        files << section
-      end
-    end
-
-    files.flatten!
+    files = self.showoff_slide_files('.')
     files.each do |filename|
       unless File.exist? filename
         errors << "Missing path: #{filename}"
@@ -405,57 +397,94 @@ class ShowOffUtils
       logger.level = Logger::WARN
     end
 
-    index    = File.join(dir, ShowOffUtils.presentation_config_file)
-    sections = ["."] # default boring showoff.json
-
-    if File.exist?(index)
-      begin
-        data = JSON.parse(File.read(index))
-        logger.debug data
-        if data.is_a?(Hash)
-          sections = data['sections'] if data.include? 'sections'
-        else
-          sections = data
-        end
-
-        # each entry in sections can be:
-        # - "filename.md"
-        # - { "section": "filename.md" }
-        # - { "section": [ "array.md, "of.md, "files.md"] }
-        # - { "include": "sections.json" }
-        sections = sections.map do |entry|
-          next entry if entry.is_a? String
-          next nil unless entry.is_a? Hash
-
-          next entry['section'] if entry.include? 'section'
-
-          section = nil
-          if entry.include? 'include'
-            file = entry['include']
-            path = File.dirname(file)
-            data = JSON.parse(File.read(file))
-            if data.is_a? Array
-              if path == '.'
-                section = data
-              else
-                section = data.map do |source|
-                  "#{path}/#{source}"
-                end
-              end
-            end
-          end
-
-          section
-        end
-      rescue => e
-        logger.error "There was a problem with the presentation file #{index}"
-        logger.error e.message
-        logger.debug e.backtrace
-        sections = []
+    index = File.join(dir, ShowOffUtils.presentation_config_file)
+    begin
+      data = JSON.parse(File.read(index)) rescue ["."] # default boring showoff.json
+      logger.debug data
+      if data.is_a?(Hash)
+        sections = data['sections'] if data.include? 'sections'
+      else
+        sections = data
       end
+
+      if sections.is_a? Array
+        sections = showoff_legacy_sections(sections)
+      elsif sections.is_a? Hash
+        sections.each do |key, value|
+          next if value.is_a? Array
+          cwd  = File.expand_path(dir)
+          path = File.dirname(value)
+          data = JSON.parse(File.read(value))
+          raise "The section file #{value} must contain an array of filenames." unless data.is_a? Array
+
+          # get relative paths to each slide in the array
+          sections[key] = data.map do |filename|
+            File.expand_path("#{path}/#{filename}").sub(/^#{cwd}\//, '')
+          end
+        end
+      else
+        raise "The `sections` key must be an Array or Hash, not a #{sections.class}."
+      end
+
+    rescue => e
+      logger.error "There was a problem with the presentation file #{index}"
+      logger.error e.message
+      logger.debug e.backtrace
+      sections = {}
     end
 
-    sections.flatten.compact
+    sections
+  end
+
+  def self.showoff_legacy_sections(data)
+    # each entry in sections can be:
+    # - "filename.md"
+    # - { "section": "filename.md" }
+    # - { "section": [ "array.md, "of.md, "files.md"] }
+    # - { "include": "sections.json" }
+    sections = {}
+    data.map do |entry|
+      if entry.is_a? String
+        if File.directory? entry
+          next Dir.glob("#{entry}/**/*.md").sort
+        else
+          next entry
+        end
+      end
+      next nil unless entry.is_a? Hash
+      next entry['section'] if entry.include? 'section'
+
+      section = nil
+      if entry.include? 'include'
+        file = entry['include']
+        path = File.dirname(file)
+        data = JSON.parse(File.read(file))
+        if data.is_a? Array
+          if path == '.'
+            section = data
+          else
+            section = data.map do |source|
+              "#{path}/#{source}"
+            end
+          end
+        end
+      end
+
+      section
+    end.flatten.compact.each do |filename|
+      # We do this in two passes simply because most of it was already done
+      # and I don't want to waste time on legacy functionality.
+      path = File.dirname(filename)
+
+      sections[path] ||= []
+      sections[path]  << filename
+    end
+    sections
+  end
+
+  def self.showoff_slide_files(dir, logger = nil)
+    data = showoff_sections(dir, logger)
+    data.map { |key, value| value }.flatten
   end
 
   def self.showoff_title(dir = '.')

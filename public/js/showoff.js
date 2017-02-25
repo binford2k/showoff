@@ -362,11 +362,7 @@ function setupMenu() {
       sectionUL = '';
 
   slides.each(function(s, slide){
-    var slidePath = $(slide)
-      .find(".content")
-      .attr('ref')
-      .split('/')
-      .shift();
+    var slidePath = $(slide).attr('data-section');
     var headers = $(slide).children("h1, h2");
     var slideTitle = '';
     var content;
