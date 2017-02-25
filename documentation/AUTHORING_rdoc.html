@@ -79,6 +79,7 @@
     <li><a href="#label-Showing+Plain+Old+Markdown">Showing Plain Old Markdown</a>
     <li><a href="#label-Custom+JavaScript">Custom JavaScript</a>
     <li><a href="#label-Custom+Stylesheets">Custom Stylesheets</a>
+    <li><a href="#label-Custom+Fonts">Custom Fonts</a>
     <li><a href="#label-Templates">Templates</a>
     <li><a href="#label-Template+Commands">Template Commands</a>
     <li><a href="#label-Template+Hints">Template Hints</a>
@@ -135,17 +136,18 @@ styles.</p>
 it will create a new starter presentation for you with one .md file at
 one/slide.md which will have the following contents:</p>
 
-<pre>!SLIDE
+<pre class="ruby"><span class="ruby-operator">!</span><span class="ruby-constant">SLIDE</span>
 
-# My Presentation #
+<span class="ruby-comment"># My Presentation #</span>
 
-!SLIDE bullets incremental transition=fade
+<span class="ruby-operator">!</span><span class="ruby-constant">SLIDE</span> <span class="ruby-identifier">bullets</span> <span class="ruby-identifier">incremental</span> <span class="ruby-identifier">transition</span>=<span class="ruby-identifier">fade</span>
 
-# Bullet Points #
+<span class="ruby-comment"># Bullet Points #</span>
 
-* first point
-* second point
-* third point</pre>
+  <span class="ruby-identifier">first</span> <span class="ruby-identifier">point</span>
+  <span class="ruby-identifier">second</span> <span class="ruby-identifier">point</span>
+  <span class="ruby-identifier">third</span> <span class="ruby-identifier">point</span>
+</pre>
 
 <p>That represents two slides, the first contains just a large title, and the
 second is faded into view showing the title and three bullets that are then
@@ -292,6 +294,10 @@ are onscreen. The default is to completely fill the slide.</p>
 <p>This will enlarge all the contents of the slide to the maximum possible
 size. <em>Caution, this should only be used for slides with just a few
 words or short phrases!</em></p>
+</dd><dt>autoplay
+<dd>
+<p>If you&#39;ve included videos on the slide, this style will cause them to
+play when you switch to this slide.</p>
 </dd></dl>
 
 <p>Check out the example directory included to see examples of most of these.</p>
@@ -418,49 +424,55 @@ fit within the slide.</p>
 
 <h1 id="label-Language+Highlighting">Language Highlighting<span><a href="#label-Language+Highlighting">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
-<p>Showoff uses <a href="https://highlightjs.org">highlightjs</a> to highlight
-code blocks. If you begin a code block with *four spaces* and three @-signs
-followed by a programming language name, that line will be stripped and the
-rest of the block will become sparkly and colorful. You can uppercase the
-name if you like.</p>
+<p>Showoff uses <a href="https://highlightjs.org">Highlight.js</a> (version
+9.2.0) to highlight code blocks. If you begin a code block with *four
+spaces* and three @-signs followed by a programming language name, that
+line will be stripped and the rest of the block will become sparkly and
+colorful. You can uppercase the name if you like.</p>
 
 <pre>@@@ Ruby
 10.times { puts &quot;Whee!&quot; }</pre>
 
 <p>Supported languages include:</p>
 
-<pre>1c             elm            markdown       ruleslanguage
-actionscript   erb            mathematica    rust
-apache         erlang-repl    matlab         scala
-applescript    erlang         mel            scheme
-armasm         fix            mercury        scilab
-asciidoc       fortran        mizar          scss
-aspectj        fsharp         monkey         smali
-autohotkey     gcode          nginx          smalltalk
-avrasm         gherkin        nimrod         sml
-axapta         glsl           nix            sql
-bash           go             nsis           stata
-brainfuck      gradle         objectivec     step21
-cal            groovy         ocaml          stylus
-capnproto      haml           openscad       swift
-ceylon         handlebars     oxygene        tcl
-clojure-repl   haskell        parser3        tex
-clojure        haxe           perl           thrift
-cmake          http           pf             tp
-coffeescript   inform7        php            twig
-cpp            ini            powershell     typescript
-cs             java           processing     vala
-css            javascript     profile        vbnet
-d              json           prolog         vbscript-html
-dart           julia          protobuf       vbscript
-delphi         kotlin         puppet         verilog
-diff           lasso          python         vhdl
-django         less           q              vim
-dns            lisp           r              x86asm
-dockerfile     livecodeserver rib            xl
-dos            livescript     roboconf       xml
-dust           lua            rsl            zephir
-elixir         makefile       ruby</pre>
+<pre>1c             dts            livescript     ruby
+accesslog      dust           lua            ruleslanguage
+actionscript   elixir         makefile       rust
+apache         elm            markdown       scala
+applescript    erb            mathematica    scheme
+arduino        erlang         matlab         scilab
+armasm         erlang-repl    maxima         scss
+asciidoc       fix            mel            smali
+aspectj        fortran        mercury        smalltalk
+autohotkey     fsharp         mipsasm        sml
+autoit         gams           mizar          sqf
+avrasm         gauss          mojolicious    sql
+axapta         gcode          monkey         stan
+bash           gherkin        nginx          stata
+basic          glsl           nimrod         step21
+brainfuck      go             nix            stylus
+cal            golo           nsis           swift
+capnproto      gradle         objectivec     taggerscript
+ceylon         groovy         ocaml          tcl
+clojure        haml           openscad       tex
+clojure-repl   handlebars     oxygene        thrift
+cmake          haskell        parser3        tp
+coffeescript   haxe           perl           twig
+cos            hsp            pf             typescript
+cpp            htmlbars       php            vala
+crmsh          http           powershell     vbnet
+crystal        inform7        processing     vbscript
+cs             ini            profile        vbscript-html
+csp            irpf90         prolog         verilog
+css            java           protobuf       vhdl
+d              javascript     puppet         vim
+dart           json           python         x86asm
+delphi         julia          q              xl
+diff           kotlin         qml            xml
+django         lasso          r              xquery
+dns            less           rib            yaml
+dockerfile     lisp           roboconf       zephir
+dos            livecodeserver rsl</pre>
 
 <p>Instructions for adding support for new languages can be found at <a
 href="http://highlightjs.readthedocs.org/en/latest/language-contribution.html">highlightjs.readthedocs.org/en/latest/language-contribution.html</a></p>
@@ -687,11 +699,22 @@ preshow. Add a <code>_preshow</code> directory to your project (I use a
 symlink, so I don&#39;t have to add all the images into Git), put a bunch
 of images in the <code>_preshow</code> directory and optionally add a
 <code>preshow.json</code> file that provides descriptions for any of the
-images.  If you then press &#39;<code>P</code>&#39; at the beginning of
-your presentation, it will prompt you for a number of minutes until you
-start.  Then it will count down the time until then, flipping through your
-pictures to entertain the audience in the meantime.  Press
-&#39;<code>P</code>&#39; again to stop, or wait until the timer runs out.</p>
+images.  If you then press &#39;<code>P</code>&#39; on the display screen
+at the beginning of your presentation, it will prompt you for a number of
+minutes until you start.  Then it will count down the time until then,
+flipping through your pictures to entertain the audience in the meantime. 
+Press &#39;<code>P</code>&#39; again to stop, or wait until the timer runs
+out.</p>
+
+<p>Your optional &lt;tt&gt;preshow.json&lt;tt&gt; file should be formatted
+like so:</p>
+
+<pre>{
+  &quot;ImageFileName1.png&quot;:&quot;Image Title and/or Description&quot;,
+}
+{
+  &quot;ImageFileName2.jpg&quot;:&quot;Image Title and/or Description&quot;,
+}</pre>
 
 <h1 id="label-Download+Files">Download Files<span><a href="#label-Download+Files">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
@@ -726,7 +749,7 @@ in this mode, and as soon as you add one !SLIDE you need them everywhere.</p>
 <p>To insert custom JavaScript into your presentation you can either place it
 into a file (with extension .js) into the root directory of your
 presentation or you can embed a <code>&lt;script&gt;</code> element
-directly into your slides. This JavaScript will be executed—as usually—as
+directly into your slides. This JavaScript will be executed–as usually–as
 soon as it is loaded.</p>
 
 <p>If you want to trigger some JavaScript as soon as a certain page is shown
@@ -767,9 +790,11 @@ slide. The h1-element will be animated, as soon as this event is triggered
 on that slide.</p>
 
 <p>If you bind an event handler to the custom events
-<strong>showoff:next</strong> or <strong>showoff:prev</strong>, you can
-prevent the default action (that is switching to the appropriate slide) by
-calling *event.preventDefault()*:</p>
+<strong>showoff:next</strong> or</p>
+
+<pre>showoff:prev*, you can prevent the default action (that is switching to the</pre>
+
+<p>appropriate slide) by calling *event.preventDefault()*:</p>
 
 <pre>!SLIDE prevent_default
 # 2nd Example h1
@@ -806,8 +831,8 @@ the class <code>.content</code> like this.</p>
 &lt;/div&gt;</pre>
 
 <p>This makes the <code>.content</code> tag a perfect place to add additional
-styling if that is your preference. An example of adding some styling is
-here.</p>
+styling if that is your preference. An example of adding some styling might
+look like:</p>
 
 <pre>.content {
   color: black;
@@ -825,7 +850,16 @@ h1, h2 {
 }</pre>
 
 <p>Note that the example above uses CSS3 styling with <code>::after</code> and
-the <code>content</code> -attribute to add an image to the slides.</p>
+the <code>content</code> -attribute to add an image to the slides. Another
+example might be to customize the <code>Console</code> styling to look more
+retro:</p>
+
+<pre>   rock it old school   
+pre.highlight code.language-console,
+pre.highlight code.console {
+  color: #ffcc00;    amber   
+  font-weight: bold;
+}</pre>
 
 <p>If you would like to use CSS to change the size of your slides from the
 default of 1024x768, you&#39;ll want to use rules such as:</p>
@@ -846,6 +880,39 @@ For example, a styled paragraph would look like:</p>
 <p>A styled image will look like:</p>
 
 <pre>![.fancyborder This is a really fancy image](../_images/unicorns_and_rainbows.png)</pre>
+
+<h1 id="label-Custom+Fonts">Custom Fonts<span><a href="#label-Custom+Fonts">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>It&#39;s easy to use custom fonts in your presentations by including the
+font files in your presentation directory and referencing them from your
+stylesheets.</p>
+
+<p>For example, you may have declarations in your stylesheet to define the
+font you want to use and the file to load the font from. Remember that the
+path to the font should include the <code>file/</code> prefix.</p>
+
+<pre>@font-face {
+    font-family: &#39;Tibetan Bold&#39;;
+    src: URL(&#39;file/NotoSansTibetan-Bold.ttf&#39;) format (&#39;ttf&#39;);
+}
+
+@font-face {
+    font-family: &#39;Tibetan&#39;;
+    src: URL(&#39;file/NotoSansTibetan-Regular.ttf&#39;) format (&#39;ttf&#39;);
+}</pre>
+
+<p>Then you can use that named <code>font-family</code> anywhere in your
+styles.</p>
+
+<pre>.content {
+  font-family: &#39;Tibetan&#39;;
+}
+.content h1 {
+  font-family: &#39;Tibetan Bold&#39;;
+}</pre>
+
+<p>A good source of fonts covering all languages is the <a
+href="https://www.google.com/get/noto/">Google Noto Font project</a>.</p>
 
 <h1 id="label-Templates">Templates<span><a href="#label-Templates">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
@@ -935,12 +1002,13 @@ executed. This includes:</p>
 <p>See <a href="PRESENTATION_rdoc.html">PRESENTATION.rdoc</a> to learn how to
 define your own handlers to evaluate any language you&#39;d like.</p>
 
-<p><strong>Security</strong>: code must exist in a slide file on disk for
-Showoff to execute it. This doesn&#39;t mean that you&#39;re immune from
-attack though. It&#39;s possible to create a presentation with embedded
-Javascript that will automatically call back and execute malicious code on
-a slide. To help mitigate this attack profile, Showoff must be started with
-the <code>-x</code> or <code>--executecode</code> flags to enable code
+<pre>Security*: code must exist in a slide file on disk for Showoff to execute it.</pre>
+
+<p>This doesn&#39;t mean that you&#39;re immune from attack though. It&#39;s
+possible to create a presentation with embedded Javascript that will
+automatically call back and execute malicious code on a slide. To help
+mitigate this attack profile, Showoff must be started with the
+<code>-x</code> or <code>--executecode</code> flags to enable code
 execution.</p>
 
 <h2 id="label-Shell+code">Shell code<span><a href="#label-Shell+code">&para;</a> <a href="#top">&uarr;</a></span></h2>

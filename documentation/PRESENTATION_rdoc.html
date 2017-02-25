@@ -327,6 +327,48 @@ in an array:</p>
 ]
 </pre>
 
+<p>Named sections, decoupled from filesystem layout. Notice that the section
+names don&#39;t necessarily match the directory the files are in:</p>
+
+<pre>&quot;sections&quot;: {
+    &quot;Course Overview&quot;: [
+         &quot;Course_Overview/Course_Intro.md&quot;,
+         &quot;Course_Overview/Puppet_Certification.md&quot;,
+         &quot;shared/Table_of_contents.md&quot;,
+         &quot;Course_Overview/Course_Objectives.md&quot;,
+         &quot;Course_Overview/Course_Overview.md&quot;,
+         &quot;Course_Overview/Course_Agenda.md&quot;,
+         &quot;shared/demo_install.md&quot;,
+         &quot;shared/Lab-preinstall.md&quot;,
+         &quot;shared/Lab-install.md&quot;,
+         &quot;Course_Overview/Class_Architecture.md&quot;,
+         &quot;Course_Overview/Lab-update_ca.md&quot;,
+    ],
+    &quot;Basics Review&quot;: [
+         &quot;Core_Concepts/Section.md&quot;,
+         &quot;Core_Concepts/Objectives.md&quot;,
+         &quot;Core_Concepts/How_Puppet_Works.md&quot;,
+         &quot;Core_Concepts/Data_Flow_for_Nodes.md&quot;,
+         &quot;Core_Concepts/resource_overview.md&quot;,
+         &quot;Core_Concepts/resource_type_code.md&quot;,
+         &quot;Core_Concepts/RAL_overview.md&quot;,
+         &quot;Core_Concepts/RAL_type_provider.md&quot;,
+         &quot;Core_Concepts/RAL_providers.md&quot;,
+         &quot;Core_Concepts/resource_imperative.md&quot;,
+         &quot;Core_Concepts/resource_idempotent.md&quot;,
+         &quot;Core_Concepts/describe_state.md&quot;,
+         &quot;Core_Concepts/Lab-create_module.md&quot;,
+    ],
+}</pre>
+
+<p>Named sections by including <code>JSON</code> files:</p>
+
+<pre>&quot;sections&quot;: {
+     &quot;Course Overview&quot; : &quot;Course_Overview/virtual.json&quot;,
+     &quot;Session One&quot;     : &quot;Session_One/sections.json&quot;,
+     &quot;About Puppet&quot;    : &quot;About_Puppet/sections.json&quot;,
+}</pre>
+
 <h2 id="label-Running+without+a+showoff.json">Running without a <code>showoff.json</code><span><a href="#label-Running+without+a+showoff.json">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>When you run Showoff without defining <code>sections</code>, or when you

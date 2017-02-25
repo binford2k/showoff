@@ -213,11 +213,14 @@ comma-separated list to create multiple directories.</p>
 
 <p>Setup your presentation to serve on Heroku</p>
 
-<p>Creates the Gemfile and config.ru file needed to push a showoff pres to
-heroku.  It will then run heroku create for you to register the new project
-on heroku and add the git remote for you.  Then all you need to do is
-commit the new created files and run <code>git push heroku</code> to
-deploy.</p>
+<p>Creates the configuration files needed to Herokuize a Showoff presentation
+and then deploy it for you. This will register the new project on Heroku if
+needed and create the git remote for you.</p>
+
+<p>Open your new presentation by running <code>heroku open</code>.</p>
+
+<p>Requires the <code>heroku</code> and <code>bundler</code> gems to be
+installed properly.</p>
 
 <h2 id="label-showoff+github"><code>showoff github</code><span><a href="#label-showoff+github">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
