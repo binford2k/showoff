@@ -209,6 +209,49 @@ Each of the referenced <tt>JSON</tt> files should list Markdown files in an arra
       "summary.md"
     ]
 
+Named sections, decoupled from filesystem layout. Notice that the section names
+don't necessarily match the directory the files are in:
+
+    "sections": {
+        "Course Overview": [
+             "Course_Overview/Course_Intro.md",
+             "Course_Overview/Puppet_Certification.md",
+             "shared/Table_of_contents.md",
+             "Course_Overview/Course_Objectives.md",
+             "Course_Overview/Course_Overview.md",
+             "Course_Overview/Course_Agenda.md",
+             "shared/demo_install.md",
+             "shared/Lab-preinstall.md",
+             "shared/Lab-install.md",
+             "Course_Overview/Class_Architecture.md",
+             "Course_Overview/Lab-update_ca.md",
+        ],
+        "Basics Review": [
+             "Core_Concepts/Section.md",
+             "Core_Concepts/Objectives.md",
+             "Core_Concepts/How_Puppet_Works.md",
+             "Core_Concepts/Data_Flow_for_Nodes.md",
+             "Core_Concepts/resource_overview.md",
+             "Core_Concepts/resource_type_code.md",
+             "Core_Concepts/RAL_overview.md",
+             "Core_Concepts/RAL_type_provider.md",
+             "Core_Concepts/RAL_providers.md",
+             "Core_Concepts/resource_imperative.md",
+             "Core_Concepts/resource_idempotent.md",
+             "Core_Concepts/describe_state.md",
+             "Core_Concepts/Lab-create_module.md",
+        ],
+    }
+
+Named sections by including <tt>JSON</tt> files:
+
+    "sections": {
+         "Course Overview" : "Course_Overview/virtual.json",
+         "Session One"     : "Session_One/sections.json",
+         "About Puppet"    : "About_Puppet/sections.json",
+    }
+
+
 == Running without a <tt>showoff.json</tt>
 
 When you run Showoff without defining <tt>sections</tt>, or when you point to a

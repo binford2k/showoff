@@ -1,3 +1,17 @@
+0.17.0
+  * Presenter UX overhaul:
+    * Flatter UI with larger widget target sizes.
+    * Nicer full-width slide progress bar.
+    * Subdued colors, making it less blinding in darker settings.
+    * Relocated some elements to make them more contextual.
+      * Of note, the slide source is now located below the slide preview.
+    * Presenter/handout note tabs are more accessible.
+    * Notes font sizes can be altered.
+    * Lesser used settings have been moved into a dialog.
+  * Backwards compatible `showoff.json` file format update allowing named sections.
+  * Bug fix: missing table of contents tag no longer causes crash.
+  * Regression fix: `showoff static` works properly again.
+
 0.16.2
   * More useful real-time viewing statistics.
   * Prevent the system from sleeping with --nosleep.
