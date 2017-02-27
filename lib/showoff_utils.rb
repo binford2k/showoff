@@ -441,17 +441,12 @@ class ShowOffUtils
     # each entry in sections can be:
     # - "filename.md"
     # - { "section": "filename.md" }
+    # - { "section": "directory" }
     # - { "section": [ "array.md, "of.md, "files.md"] }
     # - { "include": "sections.json" }
     sections = {}
     data.map do |entry|
-      if entry.is_a? String
-        if File.directory? entry
-          next Dir.glob("#{entry}/**/*.md").sort
-        else
-          next entry
-        end
-      end
+      next entry if entry.is_a? String
       next nil unless entry.is_a? Hash
       next entry['section'] if entry.include? 'section'
 
@@ -476,9 +471,15 @@ class ShowOffUtils
       # We do this in two passes simply because most of it was already done
       # and I don't want to waste time on legacy functionality.
       path = File.dirname(filename)
-
       sections[path] ||= []
-      sections[path]  << filename
+
+      if File.directory? filename
+        Dir.glob("#{filename}/**/*.md").sort.each do |slidefile|
+          sections[path]  << slidefile
+        end
+      else
+        sections[path]  << filename
+      end
     end
     sections
   end
