@@ -79,10 +79,6 @@ $(document).ready(function(){
       bind('swipeleft', presNextStep).  // next
       bind('swiperight', presPrevStep); // prev
 
-    $('#topbar #slideSource').click( function(e) {
-      $('#sidebar').toggle();
-    });
-
     $('#topbar #update').click( function(e) {
       e.preventDefault();
       $.get("/getpage", function(data) {

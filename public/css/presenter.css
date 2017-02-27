@@ -617,21 +617,22 @@ a.controls {
 }
 
 /* hide some elements when the screen is too small */
-@media screen and (max-width: 900px)
-{
-  #topbar .fa {
+@media screen and (max-width: 1024px) {
+  #links .fa {
     display: none;
-  }
-  .desktop a {
-    margin-right: 0.25em;
   }
 }
 
+@media screen and (max-width: 880px) {
+  #topbar #printSlides,
+  #topbar #statslink {
+    display: none;
+  }
+}
 
 /* iPhone */
 /* Portrait */
-@media screen and (max-width: 480px)
-{
+@media screen and (max-width: 640px) {
   .no-mobile {
     display: none;
   }
@@ -686,15 +687,9 @@ a.controls {
     display: inline;
   }
 
-  #topbar {
-    background-image: url(menu.png);
-    background-position: left center;
-    background-repeat: no-repeat;
-  }
   #sidebar {
     display: block;
     position: absolute;
-    top: 25px;
     z-index: 99999;
     height: 100%;
     overflow: scroll;
