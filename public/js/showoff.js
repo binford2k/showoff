@@ -91,6 +91,21 @@ function setupPreso(load_slides, prefix) {
   // yes, this is a global
   annotations = new Annotate();
 
+  $("#help-modal").dialog({
+    autoOpen: false,
+    dialogClass: "no-close",
+    draggable: false,
+    height: 640,
+    modal: true,
+    resizable: false,
+    width: 640,
+    buttons: {
+      Close: function() {
+        $( this ).dialog( "close" );
+      }
+    }
+  });
+
   // wait until the presentation is loaded to hook up the previews.
   $("body").bind("showoff:loaded", function (event) {
     $('#navigation li a.navItem').hover(function() {
@@ -1361,7 +1376,8 @@ function toggleFooter() {
 }
 
 function toggleHelp () {
-  $('#help').toggle();
+  var help = $("#help-modal");
+  help.dialog("isOpen") ? help.dialog("close") : help.dialog("open");
 }
 
 function toggleContents () {
