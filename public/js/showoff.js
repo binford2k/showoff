@@ -1689,7 +1689,7 @@ function setupStats(data)
 
 /* Is this a mobile device? */
 function mobile() {
-  return ( $(window).width() <= 480 )
+  return ( $(window).width() <= 640 )
 }
 
 /* check browser support for one or more css properties */
