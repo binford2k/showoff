@@ -240,7 +240,15 @@ function zoom(presenter) {
   }
 
   // Calculate margins to center the thing *before* scaling
-  var hMargin = (hBody - hSlide) /2;
+  // On mobile, we'll top align, everywhere else vertical center it.
+  if(mobile()) {
+    // (center of slide to top) - (half of the zoomed slide)
+    //var hMargin = (hSlide/2 * newZoom) - (hSlide / 2);
+    var hMargin = (hSlide * newZoom - hSlide) / 2;
+  }
+  else {
+    var hMargin = (hBody - hSlide) /2;
+  }
   var wMargin = (wBody - wSlide) /2;
 
   preso.css("margin", hMargin + "px " + wMargin + "px");
