@@ -1,84 +1,85 @@
-<div id="help">
-  <h1>Showoff Hotkeys</h1>
-  <div>
-    <span class="description">Move to the next slide.</span>
-    <span class="action">NEXT</span>
-    <span class="hotkeys"><%= mapped_keys('NEXT') %></span>
-  </div>
-  <div>
-    <span class="description">Move to the previous slide.</span>
-    <span class="action">PREV</span>
-    <span class="hotkeys"><%= mapped_keys('PREV') %></span>
-  </div>
-  <div>
-    <span class="description">Show the table of contents menu.</span>
-    <span class="action">CONTENTS</span>
-    <span class="hotkeys"><%= mapped_keys('CONTENTS') %></span>
-  </div>
-  <div>
-    <span class="description">Toggle follow mode.</span>
-    <span class="action">FOLLOW</span>
-    <span class="hotkeys"><%= mapped_keys('FOLLOW') %></span>
-  </div>
-  <div>
-    <span class="description">Show this help dialog.</span>
-    <span class="action">HELP</span>
-    <span class="hotkeys"><%= mapped_keys('HELP') %></span>
-  </div>
+<div id="help-modal" title="Help">
+  <div id="help">
+    <div>
+      <span class="description">Move to the next slide.</span>
+      <span class="action">NEXT</span>
+      <span class="hotkeys"><%= mapped_keys('NEXT') %></span>
+    </div>
+    <div>
+      <span class="description">Move to the previous slide.</span>
+      <span class="action">PREV</span>
+      <span class="hotkeys"><%= mapped_keys('PREV') %></span>
+    </div>
+    <div>
+      <span class="description">Show the table of contents menu.</span>
+      <span class="action">CONTENTS</span>
+      <span class="hotkeys"><%= mapped_keys('CONTENTS') %></span>
+    </div>
+    <div>
+      <span class="description">Toggle follow mode.</span>
+      <span class="action">FOLLOW</span>
+      <span class="hotkeys"><%= mapped_keys('FOLLOW') %></span>
+    </div>
+    <div>
+      <span class="description">Show this help dialog.</span>
+      <span class="action">HELP</span>
+      <span class="hotkeys"><%= mapped_keys('HELP') %></span>
+    </div>
 
-  <hr />
+    <hr />
 
-  <div>
-    <span class="description">Refresh slide content.</span>
-    <span class="action">REFRESH</span>
-    <span class="hotkeys"><%= mapped_keys('REFRESH') %></span>
-  </div>
-  <div>
-    <span class="description">Completely reload Showoff.</span>
-    <span class="action">RELOAD</span>
-    <span class="hotkeys"><%= mapped_keys('RELOAD') %></span>
-  </div>
-  <div>
-    <span class="description">Blank the screen.</span>
-    <span class="action">BLANK</span>
-    <span class="hotkeys"><%= mapped_keys('BLANK') %></span>
-  </div>
-  <div>
-    <span class="description">Toggle the display footer.</span>
-    <span class="action">FOOTER</span>
-    <span class="hotkeys"><%= mapped_keys('FOOTER') %></span>
-  </div>
-  <div>
-    <span class="description">Toggle notes display.</span>
-    <span class="action">NOTES</span>
-    <span class="hotkeys"><%= mapped_keys('NOTES') %></span>
-  </div>
-  <div>
-    <span class="description">Clear code execution results.</span>
-    <span class="action">CLEAR</span>
-    <span class="hotkeys"><%= mapped_keys('CLEAR') %></span>
-  </div>
-  <div>
-    <span class="description">Pause the presentation.</span>
-    <span class="action">PAUSE</span>
-    <span class="hotkeys"><%= mapped_keys('PAUSE') %></span>
-  </div>
-  <div>
-    <span class="description">Display slideshow of <tt>preshow</tt> images on a timer.</span>
-    <span class="action">PRESHOW</span>
-    <span class="hotkeys"><%= mapped_keys('PRESHOW') %></span>
-  </div>
-  <div>
-    <span class="description">Execute the first visible code block.</span>
-    <span class="action">EXECUTE</span>
-    <span class="hotkeys"><%= mapped_keys('EXECUTE') %></span>
-  </div>
+    <div>
+      <span class="description">Refresh slide content.</span>
+      <span class="action">REFRESH</span>
+      <span class="hotkeys"><%= mapped_keys('REFRESH') %></span>
+    </div>
+    <div>
+      <span class="description">Completely reload Showoff.</span>
+      <span class="action">RELOAD</span>
+      <span class="hotkeys"><%= mapped_keys('RELOAD') %></span>
+    </div>
+    <div>
+      <span class="description">Blank the screen.</span>
+      <span class="action">BLANK</span>
+      <span class="hotkeys"><%= mapped_keys('BLANK') %></span>
+    </div>
+    <div>
+      <span class="description">Toggle the display footer.</span>
+      <span class="action">FOOTER</span>
+      <span class="hotkeys"><%= mapped_keys('FOOTER') %></span>
+    </div>
+    <div>
+      <span class="description">Toggle notes display.</span>
+      <span class="action">NOTES</span>
+      <span class="hotkeys"><%= mapped_keys('NOTES') %></span>
+    </div>
+    <div>
+      <span class="description">Clear code execution results.</span>
+      <span class="action">CLEAR</span>
+      <span class="hotkeys"><%= mapped_keys('CLEAR') %></span>
+    </div>
+    <div>
+      <span class="description">Pause the presentation.</span>
+      <span class="action">PAUSE</span>
+      <span class="hotkeys"><%= mapped_keys('PAUSE') %></span>
+    </div>
+    <div>
+      <span class="description">Display slideshow of <tt>preshow</tt> images on a timer.</span>
+      <span class="action">PRESHOW</span>
+      <span class="hotkeys"><%= mapped_keys('PRESHOW') %></span>
+    </div>
+    <div>
+      <span class="description">Execute the first visible code block.</span>
+      <span class="action">EXECUTE</span>
+      <span class="hotkeys"><%= mapped_keys('EXECUTE') %></span>
+    </div>
 
-  <hr />
+    <hr />
 
-  <div>
-    <span class="description">Show debugging information.</span>
-    <span class="action">DEBUG</span>
-    <span class="hotkeys"><%= mapped_keys('DEBUG') %></span>
+    <div>
+      <span class="description">Show debugging information.</span>
+      <span class="action">DEBUG</span>
+      <span class="hotkeys"><%= mapped_keys('DEBUG') %></span>
+    </div>
   </div>
 </div>

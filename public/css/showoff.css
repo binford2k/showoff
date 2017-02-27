@@ -135,6 +135,11 @@ pre code {
   }
 }
 
+.ui-button:active {
+  border-color: #263238;
+  background-color: #263238;
+}
+
 /* plain (non-bullet) text */
 .content > p,
 .content > form > p {
@@ -283,64 +288,6 @@ img#disconnected {
   height: 100%;
   display: none;
 }
-
-#help {
-  display: none;
-  position:absolute;
-  overflow: auto;
-  top: 5%;
-  left: 25%;
-  width: 50%;
-  max-height: 90%;
-  z-index: 2147483647;
-  padding: 0 16px 16px 16px;
-  border-radius: 4px;
-  -webkit-box-shadow:0 0 25px rgba(0,0,0,0.35);
-  -moz-box-shadow:0 0 25px rgba(0,0,0,0.35);
-  box-shadow:0 0 25px rgba(0,0,0,0.35);
-  background-color: #fff;
-  font-size: 0.75em;
-}
-
-  #help div {
-    padding: 6px 0;
-  }
-
-    #help h1 {
-      border-bottom: 2px solid #ccc;
-    }
-
-    #help div + div {
-      border-top: 1px solid #eee;
-    }
-
-    #help .description,
-    #help .action,
-    #help .hotkeys {
-      display: inline-block;
-      vertical-align: middle;
-    }
-
-    #help .description {
-      width: 30%;
-    }
-
-    #help .action {
-      width: 15%;
-      color: gray;
-    }
-
-    #help .hotkeys {
-      width: 25%;
-    }
-
-    #help .hotkeys .key {
-      border: 1px solid #ccc;
-      background-color: #dfdfdf;
-      border-radius: 0.25em;
-      padding: 0.15em 0.5em;
-      margin: 0.25em;
-    }
 
 /**********************************
  ***       Table styling        ***
@@ -800,13 +747,21 @@ form .element {
 /*****************
  ***   modals   ***
  *****************/
+#help-modal {
+  font-size: .9em;
+}
+
+#help-modal .ui-dialog .ui-dialog-title {
+  font-size: 1em;
+}
+
 .ui-dialog.ui-widget-content {
   border: none;
   box-shadow:0 0 25px rgba(0,0,0,0.35);
 }
 
 .ui-dialog .links,
-.ui-dialog .description,
+#settings-modal .description,
 .ui-dialog select {
   font-size: .75em;
 }
@@ -835,6 +790,10 @@ form .element {
   padding-left: 1em;
 }
 
+.ui-dialog .ui-button {
+  font-size: .8em;
+}
+
 .ui-dialog .links {
   text-align: right;
 }
@@ -852,6 +811,42 @@ form .element {
 .no-close .ui-dialog-titlebar-close {
   display: none;
 }
+
+#help div {
+  padding: 6px 0;
+}
+
+  #help div + div {
+    border-top: 1px solid #eee;
+  }
+
+  #help .description,
+  #help .action,
+  #help .hotkeys {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  #help .description {
+    width: 30%;
+  }
+
+  #help .action {
+    width: 15%;
+    color: gray;
+  }
+
+  #help .hotkeys {
+    width: 25%;
+  }
+
+  #help .hotkeys .key {
+    border: 1px solid #ccc;
+    background-color: #dfdfdf;
+    border-radius: 0.25em;
+    padding: 0.15em 0.5em;
+    margin: 0.25em;
+  }
 
  /*****************
   *** end modal ***
