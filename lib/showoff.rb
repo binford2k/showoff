@@ -521,6 +521,8 @@ class ShowOff < Sinatra::Application
 
       # Process links
       doc.css('a').each do |link|
+        next unless link.include? 'href'
+        next unless link.include? 'class'
         next if link['href'].start_with? '#'
         next if link['class'].split.include? 'processed' rescue nil
 
@@ -1766,6 +1768,8 @@ class ShowOff < Sinatra::Application
       end
     rescue NoMethodError => e
       @logger.warn "Invalid object #{what} requested."
+      @logger.warn e.message
+      @logger.debug e.backtrace.join("\n")
       raise Sinatra::NotFound
     end
   end
