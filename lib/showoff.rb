@@ -1018,7 +1018,7 @@ class ShowOff < Sinatra::Application
               data << process_markdown(path, section, File.read(filename), opts)
             rescue Errno::ENOENT => e
               @logger.error e.message
-              data << process_markdown(path, section, "!SLIDE\n# Missing File!\n## #{fname}", opts)
+              data << process_markdown(path, section, "!SLIDE\n# Missing File!\n## #{filename}", opts)
             end
           end
 
