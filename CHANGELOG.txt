@@ -1,3 +1,8 @@
+0.17.1
+  * Several style updates, including the help dialog and mobile view.
+  * Bugfix: fixed failure when manually creating HTML anchors.
+  * Bugfix: Properly parse some legacy forms of the showoff.json
+
 0.17.0
   * Presenter UX overhaul:
     * Flatter UI with larger widget target sizes.
