@@ -1056,6 +1056,16 @@ form .element {
     position: absolute;
     left: 1em;
   }
+  .callout:after {
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.5em;
+    text-decoration: inherit;
+    position: absolute;
+    left: 1.42em;
+    color: #fff;
+  }
 
   .callout.info,
   .callout.warning,
@@ -1064,7 +1074,8 @@ form .element {
   .callout.stop,
   .callout.thumbsup,
   .callout.conversation,
-  .callout.glossary {
+  .callout.glossary,
+  .callout.terminal {
     padding-left: 3em;
   }
 
@@ -1076,6 +1087,10 @@ form .element {
   .callout.thumbsup:before     { content: "\f164"; } /* fa-thumbs-up */
   .callout.conversation:before { content: "\f0e5"; } /* fa-comment */
   .callout.glossary:before     { content: "\f02d"; } /* fa-book */
+
+  .callout.terminal:before     { content: "\f0c8"; } /* fa-square */
+  .callout.terminal:after      { content: "\f120"; } /* fa-terminal */
+
 
 /* callouts used on error pages */
 .error .callout {
