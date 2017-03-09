@@ -741,6 +741,10 @@ function submitForm(form) {
       var submit = form.find("input[type=submit]")
       submit.attr("disabled", "disabled");
       submit.removeClass("dirty");
+
+      // stop blocking follow mode
+      activityIncomplete = false;
+      getPosition();
     });
   }
 }
@@ -769,7 +773,10 @@ function validateForm(form) {
 function enableForm(element) {
   var submit = element.closest('form').find(':submit')
   submit.removeAttr("disabled");
-  submit.addClass("dirty")
+  submit.addClass("dirty");
+
+  // once a form is started, stop following the presenter
+  activityIncomplete = true;
 }
 
 function renderFormWatcher(element) {
