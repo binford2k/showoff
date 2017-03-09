@@ -1041,6 +1041,7 @@ form .element {
 
 .callout {
   padding: 1em;
+  position: relative;
   line-height: 1.2em;
   border: 1px solid #222;
   border-radius: 4px;
@@ -1054,7 +1055,7 @@ form .element {
     font-size: 2em;
     text-decoration: inherit;
     position: absolute;
-    left: 1em;
+    left: 0.3em;
   }
   .callout:after {
     font-family: FontAwesome;
@@ -1063,7 +1064,8 @@ form .element {
     font-size: 1.5em;
     text-decoration: inherit;
     position: absolute;
-    left: 1.42em;
+    left: 0.5em;
+    top: 0.65em;
     color: #fff;
   }
 
