@@ -416,6 +416,7 @@ class ShowOff < Sinatra::Application
 
         content += sl
         content += "</div>\n"
+        content += '<i class="fa activity" aria-hidden="true"></i>' if content_classes.include? 'activity'
         content += "<canvas class=\"annotations\"></canvas>\n"
         content += "</div>\n"
 
@@ -1699,9 +1700,8 @@ class ShowOff < Sinatra::Application
                 @logger.debug "Recorded current slide #{slide} for #{remote}"
               end
 
-
             when 'position'
-              ws.send( { 'current' => @@current[:number] }.to_json ) unless @@cookie.nil?
+              ws.send( { 'message' => 'current', 'current' => @@current[:number] }.to_json ) unless @@cookie.nil?
 
             when 'pace', 'question', 'cancel'
               # just forward to the presenter(s) along with a debounce in case a presenter is registered twice

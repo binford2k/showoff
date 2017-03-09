@@ -19,6 +19,7 @@ var lastMessageGuid = 0
 var query;
 var section = 'handouts'; // default to showing handout notes for display view
 var slideStartTime = new Date().getTime()
+var activityIncomplete = false; // slides won't advance when this is on
 
 var loadSlidesBool
 var loadSlidesPrefix
@@ -116,6 +117,8 @@ function setupPreso(load_slides, prefix) {
     },function() {
       $('#navigationHover').hide();
     });
+
+    $('.slide.activity i.activity').click(toggleComplete);
   });
 
   // Open up our control socket
@@ -642,6 +645,14 @@ function showSlide(back_step, updatepv) {
   // copy notes to the notes field for mobile.
   postSlide();
 
+  // is this an activity slide that has not yet been marked complete?
+  if(currentSlide.hasClass('activity') && ! currentSlide.children('i.activity').hasClass('complete')) {
+    activityIncomplete = true;
+  }
+  else {
+    activityIncomplete = false;
+  }
+
   // make all bigly text tremendous
   currentSlide.children('.content.bigtext').bigtext();
 
@@ -1114,7 +1125,7 @@ function editSlide() {
 }
 
 function follow(slide, newIncrement) {
-  if (mode.follow) {
+  if (mode.follow && ! activityIncomplete) {
     var lastSlide = slidenum;
     console.log("New slide: " + slide);
     gotoSlide(slide);
@@ -1358,6 +1369,20 @@ function getKeyName (event) {
     }
   }
   return keyName;
+}
+
+function toggleComplete() {
+  $(this).toggleClass('complete');
+
+  if($(this).hasClass('complete')) {
+    activityIncomplete = false;
+    if(mode.follow) {
+      getPosition();
+    }
+  }
+  else {
+    activityIncomplete = true;
+  }
 }
 
 function toggleDebug () {
