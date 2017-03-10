@@ -470,14 +470,15 @@ class ShowOffUtils
     end.flatten.compact.each do |filename|
       # We do this in two passes simply because most of it was already done
       # and I don't want to waste time on legacy functionality.
-      path = File.dirname(filename)
-      sections[path] ||= []
-
       if File.directory? filename
+        path = filename
+        sections[path] ||= []
         Dir.glob("#{filename}/**/*.md").sort.each do |slidefile|
-          sections[path]  << slidefile
+          sections[path] << slidefile
         end
       else
+        path = File.dirname(filename)
+        sections[path] ||= []
         sections[path]  << filename
       end
     end
