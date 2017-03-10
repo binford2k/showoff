@@ -656,6 +656,7 @@ function showSlide(back_step, updatepv) {
   }
   else {
     activityIncomplete = false;
+    sendActivityStatus(true);
   }
 
   // make all bigly text tremendous
