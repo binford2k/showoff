@@ -438,6 +438,9 @@ will behave just like <tt>showoff static print handouts</tt>.
   Places a continuously updating block displaying the live results from the form with the given ID.
   This is most useful when you're performing a poll or pop quiz during the presentation.
 
+[~~~DIV:class~~~]
+  Places content in a classed div to enable more complex layouts and styling.
+
 = Preshow
 
 If you want to show a slideshow while you wait to speak, you can run a preshow.
