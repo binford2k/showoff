@@ -126,8 +126,10 @@ rdoc-image:../images/callouts.png
 
 Font awesome icons can be included by using <tt>[fa-iconname]</tt> which creates an <i> tag
 with the "fa" class and any other classes contained in the <tt>[</tt> and <tt>]</tt> characters. The "fa-" string
-needs to be the first thing in the brackets so <tt>[fa-iconname someclass]</tt> will render as an <i> tag but
-<tt>[someclass fa-iconname]</tt> will not.
+needs to be the first thing in the brackets so <tt>[fa-smile-o someclass]</tt> will render as an <i> tag but
+<tt>[someclass fa-smile-o]</tt> will not.
+
+See the {Font Awesome project}[http://fontawesome.io/icons/] for a list of icons you can use.
 
 = Supplemental Materials
 
