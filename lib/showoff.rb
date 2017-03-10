@@ -466,6 +466,9 @@ class ShowOff < Sinatra::Application
         result.gsub!(match[0], "<pre class=\"highlight\"><code class=\"#{css}\">#{file}</code></pre>")
       end
 
+      result.gsub!(/\[(fa-.*)\]/, '<i class="fa \1"></i>')
+
+
       result
     end
 
