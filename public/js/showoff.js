@@ -1404,6 +1404,7 @@ function toggleComplete() {
   }
   else {
     activityIncomplete = true;
+    sendActivityStatus(false);
   }
 }
 
