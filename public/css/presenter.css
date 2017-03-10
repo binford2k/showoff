@@ -208,30 +208,62 @@
       height: 40px;
       min-height: 40px;
       position: relative;
-      background: transparent url(pace.png) no-repeat center bottom;
+      border-bottom: 1px solid #ccc;
     }
-    #paceFast,
-    #paceSlow {
-      display: none;
-    }
-    #paceFast {
-      float: left;
-      margin-left: 1em;
-    }
-    #paceSlow {
-      float: right;
-      margin-right: 1em;
-    }
-    #paceMarker {
-      left: 50%;
-      position: absolute;
-      transform: translate(-50%, -50%);
-      -webkit-transform: translate(-50%, 0);
-      -moz-transform: translate(-50%, 0);
-    	-ms-transform: translate(-50%, 0);
-    	-o-transform: translate(-50%, 0);
+      #feedbackPace .gradient {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 20px;
+        background-color:#ff0000;
+        filter:progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr=#ff0000, endColorstr=#eeff00);
+        background-image:-moz-linear-gradient(left, #ff0000 10%, #eeff00 30%,#00ff00 50%,#eeff00 70%,#ff0000 90%);
+        background-image:linear-gradient(left, #ff0000 10%, #eeff00 30%,#00ff00 50%,#eeff00 70%,#ff0000 90%);
+        background-image:-webkit-linear-gradient(left, #ff0000 10%, #eeff00 30%,#00ff00 50%,#eeff00 70%,#ff0000 90%);
+        background-image:-o-linear-gradient(left, #ff0000 10%, #eeff00 30%,#00ff00 50%,#eeff00 70%,#ff0000 90%);
+        background-image:-ms-linear-gradient(left, #ff0000 10%, #eeff00 30%,#00ff00 50%,#eeff00 70%,#ff0000 90%);
+        background-image:-webkit-gradient(linear, left bottom, right bottom, color-stop(10%,#ff0000), color-stop(30%,#eeff00),color-stop(50%,#00ff00),color-stop(70%,#eeff00),color-stop(90%,#ff0000));
+      }
+      #feedbackPace .obscure {
+        position: absolute;
+        background-color: #f0f0f0;
+        bottom: 0;
+        height: 20px;
+        transition: width 0.25s;
+      }
+      #feedbackPace .obscure.left {
+        left: 0;
+        width: 50%;
+        border-right: 1px solid black;
+      }
+      #feedbackPace .obscure.right {
+        right: 0;
+        width: 50%;
+        border-left: 1px solid black;
+      }
 
-    }
+      #paceFast,
+      #paceSlow {
+        display: none;
+      }
+      #paceFast {
+        float: left;
+        margin-left: 1em;
+      }
+      #paceSlow {
+        float: right;
+        margin-right: 1em;
+      }
+      #paceMarker {
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, 0);
+        -moz-transform: translate(-50%, 0);
+        -ms-transform: translate(-50%, 0);
+        -o-transform: translate(-50%, 0);
+        transition: left 0.25s;
+      }
 
     .submenu {
       flex-grow: 10;
