@@ -514,6 +514,15 @@ function updatePace() {
   var position = Math.max(Math.min(sum, 90), 10); // between 10 and 90
   $("#paceMarker").css({ left: position+"%" });
 
+  if (position > 50) {
+    $("#feedbackPace .obscure.left").css({ width: "50%" });
+    $("#feedbackPace .obscure.right").css({ width: (100-position)+"%" });
+  }
+  else {
+    $("#feedbackPace .obscure.right").css({ width: "50%" });
+    $("#feedbackPace .obscure.left").css({ width: position+"%" });
+  }
+
   if(position > 75) {
     $("#paceFast").show();
   } else {
