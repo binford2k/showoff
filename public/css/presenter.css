@@ -229,6 +229,7 @@
         background-color: #f0f0f0;
         bottom: 0;
         height: 20px;
+        transition: width 0.25s;
       }
       #feedbackPace .obscure.left {
         left: 0;
@@ -261,6 +262,7 @@
         -moz-transform: translate(-50%, 0);
         -ms-transform: translate(-50%, 0);
         -o-transform: translate(-50%, 0);
+        transition: left 0.25s;
       }
 
     .submenu {
