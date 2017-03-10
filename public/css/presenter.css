@@ -606,6 +606,7 @@
     width: 90%;
   }
 
+  .slide.activity .count,
   #notes .count {
     display: inline-block;
     background-color: #2e2e2e;
@@ -635,6 +636,13 @@
   #notes .pagebreak {
     display: none;
   }
+
+.slide.activity .count {
+  position: absolute;
+  bottom: .25em;
+  right: .5em;
+  padding: 0 0.25em;
+}
 
 
 a.controls {

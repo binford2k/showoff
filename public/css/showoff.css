@@ -1137,6 +1137,9 @@ a.term:after {
 /**************************
 *** activity indicators ***
 ***************************/
+.slide.activity i.activity{
+  cursor: pointer;
+}
 .slide.activity i.activity:after {
   position: absolute;
   bottom: .25em;

@@ -117,8 +117,6 @@ function setupPreso(load_slides, prefix) {
     },function() {
       $('#navigationHover').hide();
     });
-
-    $('.slide.activity i.activity').click(toggleComplete);
   });
 
   // Open up our control socket
@@ -220,6 +218,12 @@ function initializePresentation(prefix) {
       renderForm($(this).closest('form'));
     }
   });
+
+  // The display window doesn't need the extra chrome
+  if(typeof(presenterView) != 'undefined') {
+    $('.slide.activity').removeClass('activity').children('i.activity').remove();
+  }
+  $('.slide.activity i.activity').click(toggleComplete);
 
   // initialize mermaid, but don't render yet since the slide sizes are indeterminate
   mermaid.initialize({startOnLoad:false});
@@ -648,6 +652,7 @@ function showSlide(back_step, updatepv) {
   // is this an activity slide that has not yet been marked complete?
   if(currentSlide.hasClass('activity') && ! currentSlide.children('i.activity').hasClass('complete')) {
     activityIncomplete = true;
+    sendActivityStatus(false);
   }
   else {
     activityIncomplete = false;
@@ -1014,6 +1019,9 @@ function parseMessage(data) {
         removeQuestion(command["questionID"]);
         break;
 
+      case 'activity':
+        updateActivityCompletion(command['count']);
+
       case 'annotation':
         invokeAnnotation(command["type"], command["x"], command["y"]);
         break;
@@ -1078,6 +1086,12 @@ function sendAnnotation(type, x, y) {
 function sendAnnotationConfig(setting, value) {
   if (ws.readyState == WebSocket.OPEN) {
     ws.send(JSON.stringify({ message: 'annotationConfig', setting: setting, value: value }));
+  }
+}
+
+function sendActivityStatus(status) {
+  if (ws.readyState == WebSocket.OPEN) {
+    ws.send(JSON.stringify({ message: 'activity', slide: slidenum, status: status }));
   }
 }
 
@@ -1383,6 +1397,7 @@ function toggleComplete() {
 
   if($(this).hasClass('complete')) {
     activityIncomplete = false;
+    sendActivityStatus(true);
     if(mode.follow) {
       getPosition();
     }
