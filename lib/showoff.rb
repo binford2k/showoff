@@ -1131,6 +1131,7 @@ class ShowOff < Sinatra::Application
       @favicon   = settings.showoff_config['favicon']
       @issues    = settings.showoff_config['issues']
       @edit      = settings.showoff_config['edit'] if @review
+      @feedback  = settings.showoff_config['feedback']
       @@cookie ||= guid()
       response.set_cookie('presenter', @@cookie)
       erb :presenter
