@@ -64,6 +64,8 @@
         </span>
         <div id="timerDisplay"></div>
       </div>
+
+      <% if @feedback and not @static then %>
       <div id="feedbackPace">
         <div class="gradient"> </div>
         <div class="left obscure"> </div>
@@ -72,13 +74,19 @@
         <span id="paceFast">Slow Down!</span>
         <img id="paceMarker" src="<%= @asset_path %>/css/paceMarker.png" />
       </div>
+      <% end %>
+
       <div id="navigation" class="submenu"></div>
       <div id="navigationHover"></div>
+
+      <% if @feedback and not @static then %>
       <div id="questions">
         <h3>Audience Questions</h3>
         <ol id="unanswered"></ol>
         <ol id="answered"></ol>
       </div>
+      <% end %>
+
     </div>
 
     <div id="presenter">
