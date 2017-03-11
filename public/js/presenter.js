@@ -678,7 +678,7 @@ function postSlide() {
     });
 
     if(currentSlide.hasClass('activity')) {
-      currentSlide.children('i.activity').replaceWith('<span class="count">0</span>');
+      currentSlide.children('.activityToggle').replaceWith('<span class="count">0</span>');
     }
 	}
 }

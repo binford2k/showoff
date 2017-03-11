@@ -417,7 +417,12 @@ class ShowOff < Sinatra::Application
 
         content += sl
         content += "</div>\n"
-        content += '<i class="fa activity" aria-hidden="true"></i>' if content_classes.include? 'activity'
+        if content_classes.include? 'activity'
+          content += '<span class="activityToggle">'
+          content += "  <label for=\"activity-#{ref}\">Activity complete</label>"
+          content += "  <input type=\"checkbox\" class=\"activity\" name=\"activity-#{ref}\" id=\"activity-#{ref}\">"
+          content += '</span>'
+        end
         content += "<canvas class=\"annotations\"></canvas>\n"
         content += "</div>\n"
 
@@ -1713,7 +1718,7 @@ class ShowOff < Sinatra::Application
               @@activity[slide][remote] = status
 
               current  = @@current[:number]
-              activity = @@activity[current]
+              activity = @@activity[current] rescue nil
 
               @logger.debug "Current activity status: #{activity.inspect}"
               if activity

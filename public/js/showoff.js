@@ -221,9 +221,10 @@ function initializePresentation(prefix) {
 
   // The display window doesn't need the extra chrome
   if(typeof(presenterView) != 'undefined') {
-    $('.slide.activity').removeClass('activity').children('i.activity').remove();
+    $('.slide.activity').removeClass('activity').children('.activityToggle').remove();
   }
-  $('.slide.activity i.activity').click(toggleComplete);
+  $('.slide.activity .activityToggle input.activity').checkboxradio();
+  $('.slide.activity .activityToggle input.activity').change(toggleComplete);
 
   // initialize mermaid, but don't render yet since the slide sizes are indeterminate
   mermaid.initialize({startOnLoad:false});
@@ -650,13 +651,18 @@ function showSlide(back_step, updatepv) {
   postSlide();
 
   // is this an activity slide that has not yet been marked complete?
-  if(currentSlide.hasClass('activity') && ! currentSlide.children('i.activity').hasClass('complete')) {
-    activityIncomplete = true;
-    sendActivityStatus(false);
+  if (currentSlide.hasClass('activity')) {
+     if (currentSlide.find('input.activity').is(":checked")) {
+      activityIncomplete = false;
+      sendActivityStatus(true);
+    }
+    else {
+      activityIncomplete = true;
+      sendActivityStatus(false);
+    }
   }
   else {
     activityIncomplete = false;
-    sendActivityStatus(true);
   }
 
   // make all bigly text tremendous
@@ -1394,9 +1400,7 @@ function getKeyName (event) {
 }
 
 function toggleComplete() {
-  $(this).toggleClass('complete');
-
-  if($(this).hasClass('complete')) {
+  if($(this).is(':checked')) {
     activityIncomplete = false;
     sendActivityStatus(true);
     if(mode.follow) {
