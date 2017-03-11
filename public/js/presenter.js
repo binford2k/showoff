@@ -535,6 +535,10 @@ function updatePace() {
   }
 }
 
+function updateActivityCompletion(count) {
+  currentSlide.children('.count').text(count);
+}
+
 // extend this function to add presenter bits
 var origGotoSlide = gotoSlide;
 gotoSlide = function (slideNum)
@@ -672,6 +676,10 @@ function postSlide() {
     $("#notes div.form.wrapper").each(function(e) {
       renderFormInterval = renderFormWatcher($(this));
     });
+
+    if(currentSlide.hasClass('activity')) {
+      currentSlide.children('.activityToggle').replaceWith('<span class="count">0</span>');
+    }
 	}
 }
 

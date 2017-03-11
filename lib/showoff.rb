@@ -185,6 +185,7 @@ class ShowOff < Sinatra::Application
     @@cookie    = nil      # presenter cookie. Identifies the presenter for control messages
     @@current   = Hash.new # The current slide that the presenter is viewing
     @@cache     = nil      # Cache slide content for subsequent hits
+    @@activity  = []       # keep track of completion for activity slides
 
     if @interactive
       # flush stats to disk periodically
@@ -416,6 +417,12 @@ class ShowOff < Sinatra::Application
 
         content += sl
         content += "</div>\n"
+        if content_classes.include? 'activity'
+          content += '<span class="activityToggle">'
+          content += "  <label for=\"activity-#{ref}\">Activity complete</label>"
+          content += "  <input type=\"checkbox\" class=\"activity\" name=\"activity-#{ref}\" id=\"activity-#{ref}\">"
+          content += '</span>'
+        end
         content += "<canvas class=\"annotations\"></canvas>\n"
         content += "</div>\n"
 
@@ -1703,9 +1710,26 @@ class ShowOff < Sinatra::Application
                 @logger.debug "Recorded current slide #{slide} for #{remote}"
               end
 
-
             when 'position'
-              ws.send( { 'current' => @@current[:number] }.to_json ) unless @@cookie.nil?
+              ws.send( { 'message' => 'current', 'current' => @@current[:number] }.to_json ) unless @@cookie.nil?
+
+            when 'activity'
+              next if valid_presenter_cookie?
+              remote = request.cookies['client_id']
+              slide  = control['slide']
+              status = control['status']
+              @@activity[slide] ||= {}
+              @@activity[slide][remote] = status
+
+              current  = @@current[:number]
+              activity = @@activity[current] rescue nil
+
+              @logger.debug "Current activity status: #{activity.inspect}"
+              if activity
+                # select all activity on this slide where completion status is false
+                count = activity.select {|viewer, status| status == false }.size
+                EM.next_tick { settings.presenters.each{|s| s.send({ 'message' => 'activity', 'count' => count }.to_json) } }
+              end
 
             when 'pace', 'question', 'cancel'
               # just forward to the presenter(s) along with a debounce in case a presenter is registered twice

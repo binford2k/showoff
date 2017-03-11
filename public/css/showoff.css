@@ -1134,6 +1134,14 @@ a.term:after {
 ***  glossary       ***
 **********************/
 
+/**************************
+*** activity indicators ***
+***************************/
+.slide.activity .activityToggle {
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+}
 
 /* Render hidden headlines so that when we print with wkhtmltopdf, we can use section
    titles for page headers.  it would make sense to put this in the print section, but

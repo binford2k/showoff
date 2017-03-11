@@ -19,6 +19,7 @@ var lastMessageGuid = 0
 var query;
 var section = 'handouts'; // default to showing handout notes for display view
 var slideStartTime = new Date().getTime()
+var activityIncomplete = false; // slides won't advance when this is on
 
 var loadSlidesBool
 var loadSlidesPrefix
@@ -217,6 +218,13 @@ function initializePresentation(prefix) {
       renderForm($(this).closest('form'));
     }
   });
+
+  // The display window doesn't need the extra chrome
+  if(typeof(presenterView) != 'undefined') {
+    $('.slide.activity').removeClass('activity').children('.activityToggle').remove();
+  }
+  $('.slide.activity .activityToggle input.activity').checkboxradio();
+  $('.slide.activity .activityToggle input.activity').change(toggleComplete);
 
   // initialize mermaid, but don't render yet since the slide sizes are indeterminate
   mermaid.initialize({startOnLoad:false});
@@ -642,6 +650,21 @@ function showSlide(back_step, updatepv) {
   // copy notes to the notes field for mobile.
   postSlide();
 
+  // is this an activity slide that has not yet been marked complete?
+  if (currentSlide.hasClass('activity')) {
+     if (currentSlide.find('input.activity').is(":checked")) {
+      activityIncomplete = false;
+      sendActivityStatus(true);
+    }
+    else {
+      activityIncomplete = true;
+      sendActivityStatus(false);
+    }
+  }
+  else {
+    activityIncomplete = false;
+  }
+
   // make all bigly text tremendous
   currentSlide.children('.content.bigtext').bigtext();
 
@@ -730,6 +753,10 @@ function submitForm(form) {
       var submit = form.find("input[type=submit]")
       submit.attr("disabled", "disabled");
       submit.removeClass("dirty");
+
+      // stop blocking follow mode
+      activityIncomplete = false;
+      getPosition();
     });
   }
 }
@@ -758,7 +785,10 @@ function validateForm(form) {
 function enableForm(element) {
   var submit = element.closest('form').find(':submit')
   submit.removeAttr("disabled");
-  submit.addClass("dirty")
+  submit.addClass("dirty");
+
+  // once a form is started, stop following the presenter
+  activityIncomplete = true;
 }
 
 function renderFormWatcher(element) {
@@ -996,6 +1026,9 @@ function parseMessage(data) {
         removeQuestion(command["questionID"]);
         break;
 
+      case 'activity':
+        updateActivityCompletion(command['count']);
+
       case 'annotation':
         invokeAnnotation(command["type"], command["x"], command["y"]);
         break;
@@ -1063,6 +1096,12 @@ function sendAnnotationConfig(setting, value) {
   }
 }
 
+function sendActivityStatus(status) {
+  if (ws.readyState == WebSocket.OPEN) {
+    ws.send(JSON.stringify({ message: 'activity', slide: slidenum, status: status }));
+  }
+}
+
 function invokeAnnotation(type, x, y) {
   switch (type) {
     case 'erase':
@@ -1114,7 +1153,7 @@ function editSlide() {
 }
 
 function follow(slide, newIncrement) {
-  if (mode.follow) {
+  if (mode.follow && ! activityIncomplete) {
     var lastSlide = slidenum;
     console.log("New slide: " + slide);
     gotoSlide(slide);
@@ -1358,6 +1397,20 @@ function getKeyName (event) {
     }
   }
   return keyName;
+}
+
+function toggleComplete() {
+  if($(this).is(':checked')) {
+    activityIncomplete = false;
+    sendActivityStatus(true);
+    if(mode.follow) {
+      getPosition();
+    }
+  }
+  else {
+    activityIncomplete = true;
+    sendActivityStatus(false);
+  }
 }
 
 function toggleDebug () {
