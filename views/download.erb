@@ -6,8 +6,8 @@
 </head>
 
 <body id="download">
-  <div id="wrapper">  <!-- wrapper needed for presenterPopupToggle() and $.get() --> 
-  <h1>File Downloads</h1>
+  <div id="wrapper">  <!-- wrapper needed for presenterPopupToggle() and $.get() -->
+  <h1><%= I18n.t('downloads.title') %></h1>
   <% if @downloads %>
       <%# [ enabled, slide name, [array, of, files] ] %>
       <% @downloads.sort.map do |key, value| %>

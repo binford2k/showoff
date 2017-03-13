@@ -8,6 +8,8 @@ require 'logger'
 require 'htmlentities'
 require 'sinatra-websocket'
 require 'tempfile'
+require 'i18n'
+require 'i18n/backend/fallbacks'
 
 here = File.expand_path(File.dirname(__FILE__))
 require "#{here}/showoff_utils"
@@ -52,6 +54,12 @@ class ShowOff < Sinatra::Application
   set :showoff_config, {}
   set :encoding, nil
   set :url, nil
+
+  configure do
+    I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
+    I18n.load_path += Dir[File.join(settings.root, '..', 'locales', '*.yml')]
+    I18n.backend.load_translations
+  end
 
   def initialize(app=nil)
     super(app)
@@ -139,7 +147,7 @@ class ShowOff < Sinatra::Application
     @slide_count   = 0
     @section_major = 0
     @section_minor = 0
-    @section_title = settings.showoff_config['name'] rescue 'Showoff Presentation'
+    @section_title = settings.showoff_config['name'] rescue I18n.t('name')
     @@slide_titles  = [] # a list of generated slide names, used for cross references later.
 
     @logger.debug settings.pres_template
@@ -521,7 +529,7 @@ class ShowOff < Sinatra::Application
         doc.add_child '<div class="notes-section notes"></div>' if doc.css('div.notes-section.notes').empty?
         doc.css('div.notes-section.notes').each do |section|
           text = Tilt[:markdown].new(nil, nil, engine_options) { File.read(filename) }.render
-          frag = "<div class=\"personal\"><h1>Personal Notes</h1>#{text}</div>"
+          frag = "<div class=\"personal\"><h1>#{I18n.t('presenter.notes.personal')}</h1>#{text}</div>"
           note = Nokogiri::HTML::DocumentFragment.parse(frag)
 
           if section.children.size > 0
@@ -732,8 +740,8 @@ class ShowOff < Sinatra::Application
 
       begin
         tools =  '<div class="tools">'
-        tools << '<input type="button" class="display" value="Display Results">'
-        tools << '<input type="submit" value="Save" disabled="disabled">'
+        tools << "<input type=\"button\" class=\"display\" value=\"#{I18n.t('forms.display')}\">"
+        tools << "<input type=\"submit\" value=\"#{I18n.t('forms.save')}\" disabled=\"disabled\">"
         tools << '</div>'
         form  = "<form id='#{title}' action='/form/#{title}' method='POST'>#{content}#{tools}</form>"
         doc = Nokogiri::HTML::DocumentFragment.parse(form)
@@ -1119,6 +1127,9 @@ class ShowOff < Sinatra::Application
       # Provide a button in the sidebar for interactive editing if configured
       @edit     = settings.showoff_config['edit'] if @review
 
+      # translated UI strings, according to the current locale
+      @language = I18n.backend.send(:translations)[I18n.locale]
+
       # store a cookie to tell clients apart. More reliable than using IP due to proxies, etc.
       if request.nil?   # when running showoff static
         @client_id = guid()
@@ -1139,6 +1150,7 @@ class ShowOff < Sinatra::Application
       @issues    = settings.showoff_config['issues']
       @edit      = settings.showoff_config['edit'] if @review
       @feedback  = settings.showoff_config['feedback']
+      @language  = I18n.backend.send(:translations)[I18n.locale]
       @@cookie ||= guid()
       response.set_cookie('presenter', @@cookie)
       erb :presenter
