@@ -64,9 +64,10 @@ you'll need to install both Ruby and the Ruby DevKit for compiling native extens
 
 ## Documentation
 
-Please see the [documentation](./documentation) section for further information.
+Please see the user manual on the [Showoff homepage](http://puppetlabs.github.io/showoff)
+for further information.
 
-You can generate a nice & pretty local copy of the documentation by running
+You can also generate a nice & pretty local copy of the user manual by running
 `rake doc` in your clone of the repository. The generated HTML will be saved in
 the `docs` directory.
 
