@@ -51,6 +51,7 @@ function setupPreso(load_slides, prefix) {
 	preso_started = true;
 
   if (! cssPropertySupported('flex') ) {
+    // TODO: translate this this page!
     window.location = 'unsupported.html';
   }
 
@@ -92,6 +93,11 @@ function setupPreso(load_slides, prefix) {
   // yes, this is a global
   annotations = new Annotate();
 
+  // must be defined using [] syntax for a variable button name on IE.
+  var closeLabel      = I18n.t('help.close');
+  var buttons         = {};
+  buttons[closeLabel] = function() { $(this).dialog( "close" ); };
+
   $("#help-modal").dialog({
     autoOpen: false,
     dialogClass: "no-close",
@@ -100,11 +106,7 @@ function setupPreso(load_slides, prefix) {
     modal: true,
     resizable: false,
     width: 640,
-    buttons: {
-      Close: function() {
-        $( this ).dialog( "close" );
-      }
-    }
+    buttons: buttons
   });
 
   // wait until the presentation is loaded to hook up the previews.
@@ -310,7 +312,7 @@ function setupSideMenu() {
       var question = $("#question").val()
       var qid = askQuestion(question);
 
-      feedback_response(this, "Sending...");
+      feedback_response(this, I18n.t('menu.sending'));
       $("#question").val('');
 
       var questionItem = $('<li/>').text(question).attr('id', qid);
@@ -462,6 +464,32 @@ function setupMenu() {
   // can't use .children.replaceWith() because this starts out empty...
   $("#navigation").empty();
   $("#navigation").append(nav);
+}
+
+// this function generates an object that consumes the JSON form of translations
+// provided by the i18n gem. It provides pretty nearly the same calling syntax
+// as the Ruby library's dot-form.
+//
+// var I18n = new translation(data);
+// console.log(I18n.t('some.key.to.translate'));
+function translation(data) {
+  this.localized = data;
+  this.translate = function(key) {
+    var item = this.localized;
+    try {
+      key.split('.').forEach(function(val) {
+        item = item[val];
+      });
+      if(typeof(item) != 'string') {
+        item = null;
+      }
+    }
+    catch(e) {
+      item = null;
+    }
+    return item || ("No translation for " + key);
+  }
+  this.t = function(key) { return this.translate(key); }
 }
 
 // at some point this should get more sophisticated. Our needs are pretty minimal so far.
@@ -1297,7 +1325,7 @@ function toggleFollow()
   mode.follow = ! mode.follow;
 
   if(mode.follow) {
-    $("#followMode").show().text('Follow Mode:');
+    $("#followMode").show().text(I18n.t('follow.label'));
     getPosition();
   } else {
     $("#followMode").hide();
@@ -1419,11 +1447,10 @@ function toggleDebug () {
 
 function reloadSlides (hard) {
   if(hard) {
-    var message = 'Are you sure you want to reload Showoff?';
+    var message = I18n.t('reload');
   }
   else {
-    var message = "Are you sure you want to refresh the slide content?\n\n";
-    message    += '(Use `RELOAD` to fully reload the entire UI)';
+    var message = I18n.t('refresh');
   }
 
   if (confirm(message)) {
@@ -1589,7 +1616,7 @@ function togglePreShow() {
     }
 
   } else {
-    var seconds = parseFloat(prompt("Minutes from now to start") * 60);
+    var seconds = parseFloat(prompt(I18n.t('preshow.prompt')) * 60);
 
     try {
       slaveWindow.setupPreShow(seconds);
@@ -1648,7 +1675,7 @@ function startPreShow() {
 }
 
 function addPreShowTips(secondsLeft) {
-	$('#preshow_timer').text('Resuming in: ' + secondsToTime(secondsLeft));
+	$('#preshow_timer').text(I18n.t('preshow.resume') + ' ' + secondsToTime(secondsLeft));
 	var des = preshow_des && preshow_des[tmpImg.attr("ref")];
 	if(des) {
 		$('#tips').show();
@@ -1739,7 +1766,7 @@ function setupStats(data)
   if (viewers) {
     if (viewers.length == 1 && viewers[0][3] == 'current') {
       $("#viewers").removeClass('zoomline');
-      $("#viewers").text("All audience members are viewing the presenter's slide.");
+      $("#viewers").text(I18n.t('stats.allcurrent'));
     }
     else {
       $("#viewers").zoomline({
