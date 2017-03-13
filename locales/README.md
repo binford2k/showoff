@@ -6,7 +6,7 @@ update an existing one.
 
 ## Generating a new strings file
 
-1. Copy `en.yml` to a new file named after the language.
+1. Copy `en.yml` to a new file in the `locales` directory named after the language.
     * Use the two-letter [ISO_639-1](https://en.wikipedia.org/wiki/ISO_639-1) code.
     * The extension *must be* `.yml`; for example `de.yml`.
 1. Translate each value without changing the file structure.
