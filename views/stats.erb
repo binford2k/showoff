@@ -16,13 +16,13 @@
         });
     </script>
 
-    <h1>Viewing Statistics</h1>
-    <p id="stray"><span class="label"></span> of your audience is not viewing the same slide you are.</p>
-    <p id="idle"><span class="label"></span> of your audience is idle.</p>
-    <h2>Slides currently being viewed:</h2>
-    <div id="viewers">No data to display.</div>
-    <h2>Elapsed time spent on each slide:</h2>
-    <div id="elapsed">No data to display.</div>
+    <h1><%= I18n.t('stats.title') %></h1>
+    <p id="stray"><span class="label"></span> <%= I18n.t('stats.stray') %></p>
+    <p id="idle"><span class="label"></span> <%= I18n.t('stats.idle') %></p>
+    <h2><%= I18n.t('stats.current') %></h2>
+    <div id="viewers"><%= I18n.t('stats.nodata') %></div>
+    <h2><%= I18n.t('stats.elapsed') %></h2>
+    <div id="elapsed"><%= I18n.t('stats.nodata') %></div>
   </div>
 
   <div id="all">
