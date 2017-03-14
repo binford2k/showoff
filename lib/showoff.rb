@@ -1605,6 +1605,10 @@ class ShowOff < Sinatra::Application
     # Docs suggest that old versions of Sinatra might provide an array here, so just make sure.
     filename = path.class == Array ? path.first : path
     @logger.debug "Editing #{filename}"
+
+    # When a relative path is used, it's sometimes fully expanded. But then when
+    # it's passed via URL, the initial slash is lost. Here we try to get it back.
+    filename = "/#{filename}" unless File.exist? filename
     return unless File.exist? filename
 
     if request.host != 'localhost'
