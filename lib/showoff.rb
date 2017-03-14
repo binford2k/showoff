@@ -430,7 +430,7 @@ class ShowOff < Sinatra::Application
         content += "</div>\n"
         if content_classes.include? 'activity'
           content += '<span class="activityToggle">'
-          content += "  <label for=\"activity-#{ref}\">Activity complete</label>"
+          content += "  <label for=\"activity-#{ref}\">#{I18n.t('activity_complete')}</label>"
           content += "  <input type=\"checkbox\" class=\"activity\" name=\"activity-#{ref}\" id=\"activity-#{ref}\">"
           content += '</span>'
         end
