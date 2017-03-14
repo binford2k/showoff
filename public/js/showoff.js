@@ -120,9 +120,8 @@ function setupPreso(load_slides, prefix) {
   });
 
   // Open up our control socket
-  if(mode.track) {
-    connectControlChannel();
-  }
+  connectControlChannel();
+
 }
 
 function loadSlides(load_slides, prefix, reload, hard) {
