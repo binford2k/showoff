@@ -9,6 +9,8 @@ update an existing one.
 1. Copy `en.yml` to a new file in the `locales` directory named after the language.
     * Use the two-letter [ISO_639-1](https://en.wikipedia.org/wiki/ISO_639-1) code.
     * The extension *must be* `.yml`; for example `de.yml`.
+1. Change the toplevel key from `:en` to the language code as a symbol.
+    * For example, `:de` or `:es`.
 1. Translate each value without changing the file structure.
     * Quotes around the string are not necessary unless it contains a special character, such as `:`
 1. Submit a PR with your new language!
