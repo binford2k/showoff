@@ -10,7 +10,7 @@ en:
       slower: Slow Down
       faster: Speed Up
     question:
-      label: XAsk a Question
+      label: Ask a Question
       placeholder: Ask a question...
     feedback:
       label: Send Feedback
