@@ -8,8 +8,11 @@ require 'logger'
 require 'htmlentities'
 require 'sinatra-websocket'
 require 'tempfile'
+
 require 'i18n'
 require 'i18n/backend/fallbacks'
+require 'rack'
+require 'rack/contrib'
 
 here = File.expand_path(File.dirname(__FILE__))
 require "#{here}/showoff_utils"
@@ -55,10 +58,14 @@ class ShowOff < Sinatra::Application
   set :encoding, nil
   set :url, nil
 
+  # automatically select the translation based on the user's configured browser language
+  use Rack::Locale
+
   configure do
     I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
     I18n.load_path += Dir[File.join(settings.root, '..', 'locales', '*.yml')]
     I18n.backend.load_translations
+    I18n.enforce_available_locales = false
   end
 
   def initialize(app=nil)
@@ -70,10 +77,6 @@ class ShowOff < Sinatra::Application
     @review  = settings.review
     @execute = settings.execute
 
-    dir = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-    @logger.debug(dir)
-
-    showoff_dir = File.expand_path(File.join(File.dirname(__FILE__), '..'))
     settings.pres_dir ||= Dir.pwd
     @root_path = "."
 
