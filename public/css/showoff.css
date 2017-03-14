@@ -747,14 +747,6 @@ form .element {
 /*****************
  ***   modals   ***
  *****************/
-#help-modal {
-  font-size: .9em;
-}
-
-#help-modal .ui-dialog .ui-dialog-title {
-  font-size: 1em;
-}
-
 .ui-dialog.ui-widget-content {
   border: none;
   box-shadow:0 0 25px rgba(0,0,0,0.35);
@@ -810,6 +802,15 @@ form .element {
 
 .no-close .ui-dialog-titlebar-close {
   display: none;
+}
+
+#help-modal {
+  display: none;
+  font-size: .9em;
+}
+
+#help-modal .ui-dialog .ui-dialog-title {
+  font-size: 1em;
 }
 
 #help div {
