@@ -271,6 +271,12 @@ class ShowOff < Sinatra::Application
       end
     end
 
+    def get_translations
+      languages = I18n.backend.send(:translations)
+      fallback  = I18n.fallbacks[I18n.locale].select { |f| languages.keys.include? f }.first
+      languages[fallback]
+    end
+
     # todo: move more behavior into this class
     class Slide
       attr_reader :classes, :text, :tpl, :bg
@@ -1131,7 +1137,7 @@ class ShowOff < Sinatra::Application
       @edit     = settings.showoff_config['edit'] if @review
 
       # translated UI strings, according to the current locale
-      @language = I18n.backend.send(:translations)[I18n.locale]
+      @language = get_translations()
 
       # store a cookie to tell clients apart. More reliable than using IP due to proxies, etc.
       if request.nil?   # when running showoff static
@@ -1153,7 +1159,7 @@ class ShowOff < Sinatra::Application
       @issues    = settings.showoff_config['issues']
       @edit      = settings.showoff_config['edit'] if @review
       @feedback  = settings.showoff_config['feedback']
-      @language  = I18n.backend.send(:translations)[I18n.locale]
+      @language  = get_translations()
       @@cookie ||= guid()
       response.set_cookie('presenter', @@cookie)
       erb :presenter
