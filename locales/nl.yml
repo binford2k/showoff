@@ -1,0 +1,145 @@
+en:
+  name: Showoff Presentatie
+  menu:
+    title: Showoff Menu
+    table_of_contents: Inhoudsopgave
+    downloads: Downloads
+    feedback: Verzenden...
+    pace:
+      label: De spreker gaat...
+      slower: Te snel
+      faster: Te langzaam
+    question:
+      label: Stel een vraag
+      placeholder: Stel een vraag...
+    feedback:
+      label: Stuur Feedback
+      description: Deze slide is...
+      worst: Vreselijk
+      best: Geweldig
+      why: Waarom...?
+      send: Verstuur
+    edit: Bewerk huidige slide
+    clear_annotations: Wis aantekeningen
+    close: Sluiten
+    help: Druk op <code>?</code> voor help.
+    anonymous: Alle opties zijn anoniem.
+  navigation:
+    next: Volgende
+    previous: Vorige
+  loading: Laden van presentatie...
+  activity_complete: Activiteiten voltooid
+  follow:
+    label: "Volgmodus:"
+  refresh: "Weet je zeker dat je de presentatie wilt vernieuwen?\n\n(Gebruik `RELOAD` om de hele UI te vernieuwen)"
+  reload: Weet je zeker dat je Showoff wilt herstarten?
+  preshow:
+    prompt: Hoeveel minuten tot het begin?
+    resume: "Start over:"
+
+  downloads:
+    title: Downloads
+
+  help:
+    title: Help
+    next: Ga naar de volgende slide.
+    prev: Ga naar de vorige slide.
+    contents: Toon de inhoudsopgave.
+    follow: Schakel volgmodus in.
+    help: Toon dit scherm.
+    refresh: Ververs de presentatie.
+    reload: Herstart Showoff.
+    blank: Maak het scherm zwart.
+    footer: Schakel de footer in of uit.
+    notes: Schakel de notities in of uit.
+    clear: Wis het resultaat van code executie.
+    pause: Pauzeer de presentatie.
+    preshow: Toon de slideshow van <tt>preshow</tt> afbeeldingen.
+    execute: Vooer het eerst zichtbare code block uit.
+    debug: Toon debugging info.
+    close: Sluiten
+
+  stats:
+    title: Statistieken
+    stray: van je publiek zit niet op dezelfde slide als jij.
+    idle: van je publiek doet niet mee.
+    current: Slides die worden getoont
+    elapsed: Tijd doorgebracht op slides
+    nodata: Geen data om te tonen.
+    allcurrent: Alle deelnemers zitten op dezelfde slide als jij.
+
+  forms:
+    display: Toon resultaten
+    save: Opslaan
+
+  presenter:
+    topbar:
+      annotations: Aantekeningen
+      edit: Bewerk Slide
+      report: Rapporteer probleem met Slide
+      stats: Bekijk Statistieken
+      downloads: Downloads
+      display: Presentatiescherm
+      print: Print Slides
+      settings: Instellingen
+      newpage: Open op een nieuwe pagina...
+      tooltip:
+        annotations: Schakel aantekeningen in.
+        edit: Bewerk huidige slide in nieuw scherm.
+        report: Meld een probleem met de huidige slide.
+        stats: Bekijk met welke slides je publiek bezig zijn.
+        downloads: Open de Downloads in een menu of nieuwe pagina.
+        display: Open het Presentatiescherm, deze kun je op de projector zetten.
+        print: Print je slides in een nieuw scherm.
+        settings: Open het Instellingen scherm.
+    preview:
+      next: Volgende
+      previous: Vorige
+    mobile:
+      update: Update
+    notes:
+      label:  Showoff Notities
+      personal: Persoonlijke Notities
+    timer:
+      label: "Timer:"
+      start: Start
+      pause: Pause
+      resume: Hervatten
+      cancel: Annuleren
+      unit: minuten
+    pace:
+      faster: Sneller!
+      slower: Langzamer!
+    questions: Vragen van het publiek
+    annotation:
+      tools: Tools
+      lines: Lijnen
+      shapes: Vormen
+    status:
+      label: "Slides:"
+    settings:
+      label: Instellingen
+      close: Sluiten
+      follower:
+        label: Update Volger
+        tooltip: Stuur slide wisselingen naar volgers.
+        description: Wanneer dit is ingeschakeld, geeft de Showoff server de slide wisselingen door. Schakel dit uit om door de slides te bladeren zonder ze te wisselen bij je publiek.
+      remote:
+        label: Schakel remote in
+        tooltip: Hiermee kun je de slides wisselen vanaf andere presenters.
+        description: Wanneer dit is ingeschakeld, kun je de presentatie besturen vanaf een andere browser (Bijvoorbeeld je mobiele telefoon).
+      layout:
+        label: Update Volgers
+        default: Standaard layout
+        thumbs: Toon previews van de volgende en vorige slides.
+        beside: Toon de volgende slide als grote preview.
+        floating: Open de volgende slide in een apart scherm.
+        confirmation: De beveiligingsinstellingen van de browser vereist een bevestiging om een nieuw scherm te openen.
+        open: Open Scherm
+        cancel: annuleren
+        reset:
+          label: Reset Showoff instellingen.
+          tooltip: Reset Showoff UI instellingen naar standaard.
+
+  error:
+    file_not_found: Bestand niet gevonden!
