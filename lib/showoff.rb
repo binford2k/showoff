@@ -195,7 +195,7 @@ class ShowOff < Sinatra::Application
     @@downloads = Hash.new # Track downloadable files
     @@cookie    = nil      # presenter cookie. Identifies the presenter for control messages
     @@current   = Hash.new # The current slide that the presenter is viewing
-    @@cache     = nil      # Cache slide content for subsequent hits
+    @@cache     = Hash.new # Cache slide content for subsequent hits
     @@activity  = []       # keep track of completion for activity slides
 
     if @interactive
@@ -269,6 +269,27 @@ class ShowOff < Sinatra::Application
       else
         list.join ', '
       end
+    end
+
+    # This function returns the directory containing translated *content*, defaulting
+    # to cwd. This works similarly to I18n fallback, but we cannot reuse that as it's
+    # a different translation mechanism.
+    def get_locale_dir(prefix)
+      locale = I18n.locale
+
+      until (locale.empty?) do
+        path = "#{prefix}/#{locale}"
+        return path if File.directory?(path)
+
+        # if not found, chop off a section and try again
+        locale = locale.rpartition('-').first
+      end
+      '.'
+    end
+
+    def locale
+      languages = I18n.backend.send(:translations)
+      I18n.fallbacks[I18n.locale].select { |f| languages.keys.include? f }.first
     end
 
     def get_translations
@@ -1050,8 +1071,11 @@ class ShowOff < Sinatra::Application
     end
 
     def get_slides_html(opts={:static=>false, :pdf=>false, :toc=>false, :supplemental=>nil, :section=>nil})
+      sections = nil
+      Dir.chdir(get_locale_dir('locale')) do
+        sections = ShowOffUtils.showoff_sections(settings.pres_dir, settings.showoff_config, @logger)
+      end
 
-      sections = ShowOffUtils.showoff_sections(settings.pres_dir, @logger)
       if sections
         data = ''
         sections.each do |section, slides|
@@ -1203,16 +1227,21 @@ class ShowOff < Sinatra::Application
     end
 
     def slides(static=false)
+      @logger.debug "Cached presentations: #{@@cache.keys}"
+
+      # if we have a cache and we're not asking to invalidate it
+      return @@cache[@locale] if (@@cache[@locale] and params['cache'] != 'clear')
+
+      @logger.debug "Generating locale: #{@locale}"
+
       # If we're displaying from a repository, let's update it
       ShowOffUtils.update(settings.verbose) if settings.url
 
-      # if we have a cache and we're not asking to invalidate it
-      return @@cache if (@@cache and params['cache'] != 'clear')
       @@slide_titles = []
       content = get_slides_html(:static=>static)
 
       # allow command line cache disabling
-      @@cache = content unless settings.nocache
+      @@cache[@locale] = content unless settings.nocache
       content
     end
 
