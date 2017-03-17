@@ -87,59 +87,59 @@ en:
         annotations: Schakel aantekeningen in.
         edit: Bewerk huidige slide in nieuw scherm.
         report: Meld een probleem met de huidige slide.
-        stats: See the slides your audience is interacting with.
-        downloads: Open the file downloads in a menu or new page.
-        display: Enable the Display Window; you should put this on the projector.
-        print: Print slides using a new window.
-        settings: Open the Settings dialog.
+        stats: Bekijk met welke slides je publiek bezig zijn.
+        downloads: Open de Downloads in een menu of nieuwe pagina.
+        display: Open het Presentatiescherm, deze kun je op de projector zetten.
+        print: Print je slides in een nieuw scherm.
+        settings: Open het Instellingen scherm.
     preview:
-      next: Next
-      previous: Previous
+      next: Volgende
+      previous: Vorige
     mobile:
       update: Update
     notes:
-      label:  Showoff Notes
-      personal: Personal Notes
+      label:  Showoff Notities
+      personal: Persoonlijke Notities
     timer:
       label: "Timer:"
       start: Start
       pause: Pause
-      resume: Resume
-      cancel: Cancel
-      unit: minutes
+      resume: Hervatten
+      cancel: Annuleren
+      unit: minuten
     pace:
-      faster: Speed Up!
-      slower: Slow Down!
-    questions: Audience Questions
+      faster: Sneller!
+      slower: Langzamer!
+    questions: Vragen van het publiek
     annotation:
       tools: Tools
-      lines: Lines
-      shapes: Shapes
+      lines: Lijnen
+      shapes: Vormen
     status:
       label: "Slides:"
     settings:
-      label: Settings
-      close: Close
+      label: Instellingen
+      close: Sluiten
       follower:
-        label: Update Follower
-        tooltip: Send slide change notifications.
-        description: When this is enabled, the Showoff server will track your slide changes. Disable it to observe the presentation without inadvertently causing slide changes.
+        label: Update Volger
+        tooltip: Stuur slide wisselingen naar volgers.
+        description: Wanneer dit is ingeschakeld, geeft de Showoff server de slide wisselingen door. Schakel dit uit om door de slides te bladeren zonder ze te wisselen bij je publiek.
       remote:
-        label: Enable Remote
-        tooltip: Enables tracking of other presenters.
-        description: When this is enabled, you can load the presenter in another browser (typically on your mobile phone) to control the presentation.
+        label: Schakel remote in
+        tooltip: Hiermee kun je de slides wisselen vanaf andere presenters.
+        description: Wanneer dit is ingeschakeld, kun je de presentatie besturen vanaf een andere browser (Bijvoorbeeld je mobiele telefoon).
       layout:
-        label: Update Follower
-        default: Default Layout
-        thumbs: Display thumbnail previews of the next and previous slides.
-        beside: Display the next slide as a large preview in the main presenter view.
-        floating: Open the next slide as a floating window.
-        confirmation: Browser security requires confirmation before opening a new window.
-        open: Open Window
-        cancel: cancel
+        label: Update Volgers
+        default: Standaard layout
+        thumbs: Toon previews van de volgende en vorige slides.
+        beside: Toon de volgende slide als grote preview.
+        floating: Open de volgende slide in een apart scherm.
+        confirmation: De beveiligingsinstellingen van de browser vereist een bevestiging om een nieuw scherm te openen.
+        open: Open Scherm
+        cancel: annuleren
         reset:
-          label: Clear Showoff settings.
-          tooltip: Reset Showoff UI settings to default values.
+          label: Reset Showoff instellingen.
+          tooltip: Reset Showoff UI instellingen naar standaard.
 
   error:
-    file_not_found: File Not Found!
+    file_not_found: Bestand niet gevonden!
