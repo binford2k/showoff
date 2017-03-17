@@ -275,7 +275,7 @@ class ShowOff < Sinatra::Application
     # to cwd. This works similarly to I18n fallback, but we cannot reuse that as it's
     # a different translation mechanism.
     def get_locale_dir(prefix)
-      locale = I18n.locale
+      locale = I18n.locale.to_s
 
       until (locale.empty?) do
         path = "#{prefix}/#{locale}"
