@@ -1072,7 +1072,7 @@ class ShowOff < Sinatra::Application
 
     def get_slides_html(opts={:static=>false, :pdf=>false, :toc=>false, :supplemental=>nil, :section=>nil})
       sections = nil
-      Dir.chdir(get_locale_dir('locale')) do
+      Dir.chdir(get_locale_dir('locales')) do
         sections = ShowOffUtils.showoff_sections(settings.pres_dir, settings.showoff_config, @logger)
       end
 
@@ -1227,12 +1227,12 @@ class ShowOff < Sinatra::Application
     end
 
     def slides(static=false)
-      @logger.debug "Cached presentations: #{@@cache.keys}"
+      @logger.warn "Cached presentations: #{@@cache.keys}"
 
       # if we have a cache and we're not asking to invalidate it
       return @@cache[@locale] if (@@cache[@locale] and params['cache'] != 'clear')
 
-      @logger.debug "Generating locale: #{@locale}"
+      @logger.warn "Generating locale: #{@locale}"
 
       # If we're displaying from a repository, let's update it
       ShowOffUtils.update(settings.verbose) if settings.url
@@ -1838,7 +1838,8 @@ class ShowOff < Sinatra::Application
 
   # gawd, this whole routing scheme is bollocks
   get %r{/([^/]*)/?([^/]*)} do
-    @title = ShowOffUtils.showoff_title(settings.pres_dir)
+    @locale    = locale()
+    @title     = ShowOffUtils.showoff_title(settings.pres_dir)
     @pause_msg = ShowOffUtils.pause_msg
     what = params[:captures].first
     opt  = params[:captures][1]
