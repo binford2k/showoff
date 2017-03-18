@@ -183,6 +183,16 @@ function initializePresentation(prefix) {
   $('pre.highlight code').each(function(i, block) {
     try {
       hljs.highlightBlock(block);
+
+      // Highlight requested lines
+      block.innerHTML = block.innerHTML.split(/\r?\n/).map(function (line, i) {
+        if (line.indexOf('* ') === 0) {
+          return line.replace(/^\*(.*)$/, '<div class="highlightedLine">$1</div>');
+        }
+
+        return line;
+      }).join('\n');
+
     } catch(e) {
       console.log('Syntax highlighting failed on ' + $(this).closest('div.slide').attr('id'));
       console.log('Syntax highlighting failed for ' + $(this).attr('class'));

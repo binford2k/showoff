@@ -1457,10 +1457,10 @@ class ShowOff < Sinatra::Application
         classes = code.attr('class').split rescue []
         lang    = classes.shift =~ /language-(\S*)/ ? $1 : nil
 
-        [lang, code.text, classes]
+        [lang, code.text.gsub(/^\* /, ' '), classes]
       end
     else
-      doc.css(classes)[index.to_i].text rescue 'Invalid code block index'
+      doc.css(classes)[index.to_i].text.gsub(/^\* /, ' ') rescue 'Invalid code block index'
     end
   end
 

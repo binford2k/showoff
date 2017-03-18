@@ -207,6 +207,14 @@ will become sparkly and colorful. You can uppercase the name if you like.
     @@@ Ruby
     10.times { puts "Whee!" }
 
+To highlight a specific line in your snippet of code, simply prefix it with a <tt>*</tt>.
+
+    @@@ Ruby execute
+    ['one', 'two', 'three'].collect do |item|
+      puts item
+    *  puts item.upcase  # This line will be highlighted to call attention to it
+    end
+
 Supported languages include:
 
     1c             dts            livescript     ruby
