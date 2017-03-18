@@ -8,6 +8,7 @@ require 'logger'
 require 'htmlentities'
 require 'sinatra-websocket'
 require 'tempfile'
+require 'pry'
 
 here = File.expand_path(File.dirname(__FILE__))
 require "#{here}/showoff_utils"
@@ -407,11 +408,8 @@ class ShowOff < Sinatra::Application
 
         # Apply the template to the slide and replace the key to generate the content of the slide
         sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
-        sl = Tilt[:markdown].new(nil, nil, engine_options) { sl }.render
         sl = build_forms(sl, content_classes)
-        sl = update_p_classes(sl)
         sl = process_content_for_section_tags(sl, name, opts)
-        sl = process_content_for_div_tags(sl, name, opts)
         sl = update_special_content(sl, @slide_count, name) # TODO: deprecated
         sl = update_image_paths(name, sl, opts)
 
@@ -440,6 +438,10 @@ class ShowOff < Sinatra::Application
     # This method processes the content of the slide and replaces
     # content markers with their actual value information
     def process_content_for_replacements(content)
+      return unless content
+      
+      engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
+      
       # update counters, incrementing section:minor if needed
       result = content.gsub("~~~CURRENT_SLIDE~~~", @slide_count.to_s)
       result.gsub!("~~~SECTION:MAJOR~~~", @section_major.to_s)
@@ -447,6 +449,34 @@ class ShowOff < Sinatra::Application
         @section_minor += 1
         result.gsub!("~~~SECTION:MINOR~~~", @section_minor.to_s)
       end
+
+      # Font Awesome
+      result.gsub!(/\[(fa-.*)\]/, '<i class="fa \1"></i>')
+      # comment & break
+      result.gsub!(/\.(?:break|comment)( .*)?/, '')
+      # image classes
+      result.gsub!(/\s+\!\[(\.\S*)\s*(.*?)\]\(([^\]]*)\)/) { 
+        " <img src=\"#{$3}\" class=\"#{$1.gsub('.', ' ')}\" alt=\"#{$2}\">"
+      }
+      result.gsub!(/\.([^\[\!\ ]*?)\[(\d?)\s(.*?)\2\]/m) {
+        inner = process_content_for_replacements($3)
+        classes = $1.gsub('.',' ')
+        " <div markdown=\"1\" class=\"#{classes}\">\n#{inner}</div>"
+      }
+      result.gsub!(/~~~DIV:([^~]*)~~~(.*?)~~~ENDDIV~~~/m) {
+        inner = process_content_for_replacements($2)
+        " <div markdown=\"1\" class=\"#{$1}\">#{inner}</div>"
+      }
+      result.gsub!(/~~~SECTION:([^~]*)~~~(.*?)~~~ENDSECTION~~~/m) {
+        inner = process_content_for_replacements($2)
+        " <div markdown=\"1\" class=\"notes-section #{$1}\">#{inner}</div>"
+      }
+      # paragraph classes
+      result.gsub!(/^\s+\.(\S*) (.*)$/) { 
+        inner = process_content_for_replacements($2)
+        " <p markdown=\"1\" class=\"#{$1.gsub('.', ' ')}\">#{inner}</p>"
+      }
+
 
       # scan for pagebreak tags. Should really only be used for handout notes or supplemental materials
       result.gsub!("~~~PAGEBREAK~~~", '<div class="pagebreak">continued...</div>')
@@ -473,49 +503,25 @@ class ShowOff < Sinatra::Application
         result.gsub!(match[0], "<pre class=\"highlight\"><code class=\"#{css}\">#{file}</code></pre>")
       end
 
-      result.gsub!(/\[(fa-.*)\]/, '<i class="fa \1"></i>')
-
-
-      result
-    end
-
-    # Replace DIV tags with classed div tags
-    def process_content_for_div_tags(content, name = nil, opts = {})
-      return unless content
-
-      # because this is post markdown rendering, we may need to shift a <p> tag around
-      # remove the tags if they're by themselves
-      result = content.gsub(/<p>~~~DIV:([^~]*)~~~<\/p>/, '<div class="\1">')
-      result.gsub!(/<p>~~~ENDDIV~~~<\/p>/, '</div>')
-
-      # shove it around the div if it belongs to the contained element
-      result.gsub!(/(<p>)?~~~DIV:([^~]*)~~~/, '<div class="\2">\1')
-      result.gsub!(/~~~ENDDIV~~~(<\/p>)?/, '\1</div>')
+      result = Tilt[:markdown].new(nil, nil, engine_options) { result }.render
 
       result
     end
+
 
     # replace section tags with classed div tags including notes-section class
     def process_content_for_section_tags(content, name = nil, opts = {})
       return unless content
 
-      # because this is post markdown rendering, we may need to shift a <p> tag around
-      # remove the tags if they're by themselves
-      result = content.gsub(/<p>~~~SECTION:([^~]*)~~~<\/p>/, '<div class="notes-section \1">')
-      result.gsub!(/<p>~~~ENDSECTION~~~<\/p>/, '</div>')
-
-      # shove it around the div if it belongs to the contained element
-      result.gsub!(/(<p>)?~~~SECTION:([^~]*)~~~/, '<div class="notes-section \2">\1')
-      result.gsub!(/~~~ENDSECTION~~~(<\/p>)?/, '\1</div>')
+      # TODO: shouldn't have to reparse config all the time
+      engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
 
       # Turn this into a document for munging
-      doc = Nokogiri::HTML::DocumentFragment.parse(result)
+      doc = Nokogiri::HTML::DocumentFragment.parse(content)
 
       filename = File.join(settings.pres_dir, '_notes', "#{name}.md")
       @logger.debug "personal notes filename: #{filename}"
       if [nil, 'notes'].include? opts[:section] and File.file? filename
-        # TODO: shouldn't have to reparse config all the time
-        engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
 
         # Make sure we've got a notes div to hang personal notes from
         doc.add_child '<div class="notes-section notes"></div>' if doc.css('div.notes-section.notes').empty?
@@ -707,21 +713,6 @@ class ShowOff < Sinatra::Application
       end
 
       doc.to_html
-    end
-
-    # Find any lines that start with a <p>.(something), remove the ones tagged with
-    # .break and .comment, then turn the remainder into <p class="something">
-    # The perlism line noise is splitting multiple classes (.class1.class2) on the period.
-    #
-    # TODO: We really need to update this to use the DOM instead of text parsing :/
-    #
-    def update_p_classes(content)
-      # comment & break
-      content.gsub!(/<p>\.(?:break|comment)( .*)?<\/p>/, '')
-      # paragraph classes
-      content.gsub!(/<p>\.(.*?) /) { "<p class=\"#{$1.gsub('.', ' ')}\">" }
-      # image classes
-      content.gsub(/<img src="(.*)" alt="(\.\S*)\s*(.*)">/) { "<img src=\"#{$1}\" class=\"#{$2.gsub('.', ' ')}\" alt=\"#{$3}\">" }
     end
 
     # replace custom markup with html forms
