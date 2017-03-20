@@ -1227,20 +1227,12 @@ class ShowOff < Sinatra::Application
     end
 
     def slides(static=false)
-<<<<<<< HEAD
       @logger.warn "Cached presentations: #{@@cache.keys}"
-=======
-      @logger.debug "Cached presentations: #{@@cache.keys}"
->>>>>>> 992e55c11e9bc224475ade811007f406279f3861
 
       # if we have a cache and we're not asking to invalidate it
       return @@cache[@locale] if (@@cache[@locale] and params['cache'] != 'clear')
 
-<<<<<<< HEAD
       @logger.warn "Generating locale: #{@locale}"
-=======
-      @logger.debug "Generating locale: #{@locale}"
->>>>>>> 992e55c11e9bc224475ade811007f406279f3861
 
       # If we're displaying from a repository, let's update it
       ShowOffUtils.update(settings.verbose) if settings.url
