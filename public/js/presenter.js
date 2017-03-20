@@ -30,7 +30,10 @@ $(document).ready(function(){
   $("#settings").click(      function() { $("#settings-modal").dialog("open"); });
   $("#slideSource a").click( function() { openEditor() });
   $("#notesToggle").click(   function() { toggleNotes() });
-  $("#clearCookies").click(  function() { clearCookies() });
+  $("#clearCookies").click(  function() {
+    clearCookies();
+    location.reload(false);
+  });
   $("#nextWinCancel").click( function() { chooseLayout('default') });
   $("#openNextWindow").click(function() { openNext() });
 
