@@ -8,6 +8,7 @@ require 'logger'
 require 'htmlentities'
 require 'sinatra-websocket'
 require 'tempfile'
+require 'pry'
 
 here = File.expand_path(File.dirname(__FILE__))
 require "#{here}/showoff_utils"
@@ -303,25 +304,25 @@ class ShowOff < Sinatra::Application
       # todo: unit test
       lines = content.split("\n")
       @logger.debug "#{name}: #{lines.length} lines"
-      slides = []
-      slides << (slide = Slide.new)
+      slideset = []
+      slideset << (slide = Slide.new)
       until lines.empty?
         line = lines.shift
         if line =~ /^<?!SLIDE(.*)>?/
           ctx = $1 ? $1.strip : $1
-          slides << (slide = Slide.new(ctx))
+          slideset << (slide = Slide.new(ctx))
         else
           slide << line
         end
       end
 
-      slides.delete_if {|slide| slide.empty? and not slide.bg }
+      slideset.delete_if {|slide| slide.empty? and not slide.bg }
 
       final = ''
-      if slides.size > 1
+      if slideset.size > 1
         seq = 1
       end
-      slides.each do |slide|
+      slideset.each do |slide|
         # update section counters before we reject slides so the numbering is consistent
         if slide.classes.include? 'subsection'
           @section_major += 1
@@ -376,7 +377,7 @@ class ShowOff < Sinatra::Application
           # We allow specifying a new template even when default is
           # not given.
           if settings.pres_template.include?(slide.tpl) and
-              File.exist?(settings.pres_template[slide.tpl])
+            File.exist?(settings.pres_template[slide.tpl])
             template = File.open(settings.pres_template[slide.tpl], "r").read()
           end
         end
@@ -407,11 +408,8 @@ class ShowOff < Sinatra::Application
 
         # Apply the template to the slide and replace the key to generate the content of the slide
         sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
-        sl = Tilt[:markdown].new(nil, nil, engine_options) { sl }.render
         sl = build_forms(sl, content_classes)
-        sl = update_p_classes(sl)
         sl = process_content_for_section_tags(sl, name, opts)
-        sl = process_content_for_div_tags(sl, name, opts)
         sl = update_special_content(sl, @slide_count, name) # TODO: deprecated
         sl = update_image_paths(name, sl, opts)
 
@@ -437,85 +435,170 @@ class ShowOff < Sinatra::Application
       final
     end
 
+    def custom_syntax_templates 
+      {
+        "current" => {
+          "matchers" => [
+            /~~~CURRENT_SLIDE~~~/
+          ],
+          "block" => proc { 
+            @slide_count.to_s 
+          }
+        },
+        "section_major" => {
+          "matchers" => [
+            /~~~SECTION:MAJOR~~~/
+          ],
+          "block" => proc {
+            @section_major.to_s
+          }
+        },
+        "section_minor" => {
+          "matchers" => [
+            /~~~SECTION:MINOR~~~/
+          ],
+          "block" => proc {
+            @section_minor += 1
+            @section_minor.to_s
+          }
+        },
+        "font_awesome" => {
+          "matchers" => [
+            /\[(?<icon>fa-.*)\]/
+          ],
+          "block" => proc { |match_data|
+            %Q(\n<i class="fa #{match_data[:icon]}"></i>)
+          }
+        },
+        # Remove comments and breaks from final html
+        "comment_break" => {
+          "matchers" => [
+            /\.(?:break|comment)( .*)?/
+          ],
+          "block" => proc {''}
+        },
+        "image" => {
+          "matchers" => [
+            /\s+\!\[(?<classes>\.\S*)\s*(?<alt>.*?)\]\((?<src>[^\]]*)\)/
+          ],
+          "block" => proc { |match_data|
+            classes = match_data[:classes].gsub('.', ' ')
+            %Q(\n<img src="#{match_data[:src]}" class="#{classes}" alt="#{match_data[:alt]}">\n)
+          }
+        },
+        "div" => {
+          "matchers" => [
+            /\.(?<classes>[^\[\!\ ]*?)\[(?<indent_level>\d)\s(?<inner>.*?)\k<indent_level>\]/m,
+            /\.(?<classes>[^\[\!\ ]*?)\[\D(?<inner>.*?)\D\]/m,
+            /~~~DIV:(?<classes>[^~]*)~~~(?<inner>.*?)~~~ENDDIV~~~/m
+          ],
+          "block" => proc { |match_data|
+            inner = process_content_for_replacements(match_data[:inner])
+            classes = match_data[:classes].gsub('.',' ')
+            %Q(\n<div markdown="1" class="#{classes}">\n#{inner}\n</div>\n)
+          },
+        },
+        "section" => {
+          "matchers" => [
+            /~~~SECTION:(?<classes>[^~]*)~~~(?<inner>.*?)~~~ENDSECTION~~~/m
+          ],
+          "block" => proc { |match_data|
+            inner = process_content_for_replacements(match_data[:inner])
+            classes = match_data[:classes].gsub('.',' ')
+            %Q(\n<div markdown="1" class="notes-section #{classes}">\n#{inner}</div>)
+          },
+        },
+        "paragraph" => {
+          "matchers" => [
+            /^\s+\.(?<classes>\S*) (?<inner>.*)$/
+          ],
+          "block" => proc { |match_data|
+            inner = process_content_for_replacements(match_data[:inner])
+            classes = match_data[:classes].gsub('.', ' ')
+            %Q(\n<p markdown="1" class="#{classes}">#{inner}</p>)
+          },
+        },
+        "pagebreak" => {
+          "matchers" => [
+            /~~~PAGEBREAK~~~/
+          ],
+          "block" => proc {
+            %Q(<div class="pagebreak">continued...</div>)
+          }
+        },
+        "form" => {
+          "matchers" => [
+            /~~~FORM:(?<title>[^~]*)~~~/
+          ], 
+          "block" => proc { |match_data|
+            %Q(<div class="form wrapper" title="#{match_data[:title]}"></div>)
+          }
+        },
+        # Check for any kind of options
+        "config" => {
+          "matchers" => [
+            /~~~CONFIG:(?<setting>.*?)~~~/
+          ],
+          "block" => proc { |match_data|
+            settings.showoff_config[match_data[:setting]] if settings.showoff_config.key?(match_data[:setting])
+            # Change setting and return empty string
+            ''
+          }
+        },
+        # Load and replace any file tags
+        "file" => {
+          "matchers" => [
+            /~~~FILE:(?<name>[^:~]*):?(?<languages>.*)?~~~/
+          ],
+          "block" => proc { |match_data|
+            # make a list of code highlighting classes to include
+            css = match_data[:languages].split.collect {|l| "language-#{l.downcase}" }.join(' ')
+
+            # get the file content and parse out html entities
+            file = File.read(File.join(settings.pres_dir, '_files', match_data[:name])) rescue "Nonexistent file: #{match_data[:name]}"
+            file = "Empty file: #{match_data[:name]}" if file.empty?
+            file = HTMLEntities.new.encode(file) rescue "HTML parsing of #{match_data[:name]} failed"
+
+            %Q(<pre class="highlight"><code class="#{css}">#{file}</code></pre>)
+          }
+        }
+      }
+    end
+
+
     # This method processes the content of the slide and replaces
     # content markers with their actual value information
     def process_content_for_replacements(content)
-      # update counters, incrementing section:minor if needed
-      result = content.gsub("~~~CURRENT_SLIDE~~~", @slide_count.to_s)
-      result.gsub!("~~~SECTION:MAJOR~~~", @section_major.to_s)
-      if result.include? "~~~SECTION:MINOR~~~"
-        @section_minor += 1
-        result.gsub!("~~~SECTION:MINOR~~~", @section_minor.to_s)
-      end
-
-      # scan for pagebreak tags. Should really only be used for handout notes or supplemental materials
-      result.gsub!("~~~PAGEBREAK~~~", '<div class="pagebreak">continued...</div>')
-
-      # replace with form rendering placeholder
-      result.gsub!(/~~~FORM:([^~]*)~~~/, '<div class="form wrapper" title="\1"></div>')
-
-      # Now check for any kind of options
-      content.scan(/(~~~CONFIG:(.*?)~~~)/).each do |match|
-        result.gsub!(match[0], settings.showoff_config[match[1]]) if settings.showoff_config.key?(match[1])
-      end
-
-      # Load and replace any file tags
-      content.scan(/(~~~FILE:([^:~]*):?(.*)?~~~)/).each do |match|
-        # make a list of code highlighting classes to include
-        css  = match[2].split.collect {|i| "language-#{i.downcase}" }.join(' ')
-
-        # get the file content and parse out html entities
-        name = match[1]
-        file = File.read(File.join(settings.pres_dir, '_files', name)) rescue "Nonexistent file: #{name}"
-        file = "Empty file: #{name}" if file.empty?
-        file = HTMLEntities.new.encode(file) rescue "HTML parsing of #{name} failed"
-
-        result.gsub!(match[0], "<pre class=\"highlight\"><code class=\"#{css}\">#{file}</code></pre>")
-      end
-
-      result.gsub!(/\[(fa-.*)\]/, '<i class="fa \1"></i>')
-
-
-      result
-    end
-
-    # Replace DIV tags with classed div tags
-    def process_content_for_div_tags(content, name = nil, opts = {})
       return unless content
 
-      # because this is post markdown rendering, we may need to shift a <p> tag around
-      # remove the tags if they're by themselves
-      result = content.gsub(/<p>~~~DIV:([^~]*)~~~<\/p>/, '<div class="\1">')
-      result.gsub!(/<p>~~~ENDDIV~~~<\/p>/, '</div>')
-
-      # shove it around the div if it belongs to the contained element
-      result.gsub!(/(<p>)?~~~DIV:([^~]*)~~~/, '<div class="\2">\1')
-      result.gsub!(/~~~ENDDIV~~~(<\/p>)?/, '\1</div>')
+      result = content
+      custom_syntax_templates.each do |name, syntax|
+        syntax['matchers'].each do |matcher|
+          result.gsub!(matcher) {
+            syntax['block'].($~)
+          }  
+        end
+      end
 
       result
     end
+
 
     # replace section tags with classed div tags including notes-section class
     def process_content_for_section_tags(content, name = nil, opts = {})
       return unless content
 
-      # because this is post markdown rendering, we may need to shift a <p> tag around
-      # remove the tags if they're by themselves
-      result = content.gsub(/<p>~~~SECTION:([^~]*)~~~<\/p>/, '<div class="notes-section \1">')
-      result.gsub!(/<p>~~~ENDSECTION~~~<\/p>/, '</div>')
-
-      # shove it around the div if it belongs to the contained element
-      result.gsub!(/(<p>)?~~~SECTION:([^~]*)~~~/, '<div class="notes-section \2">\1')
-      result.gsub!(/~~~ENDSECTION~~~(<\/p>)?/, '\1</div>')
+      # TODO: shouldn't have to reparse config all the time
+      engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
 
       # Turn this into a document for munging
-      doc = Nokogiri::HTML::DocumentFragment.parse(result)
+      doc = Nokogiri::HTML::DocumentFragment.parse(
+        Tilt[:markdown].new(nil, nil, engine_options) { content }.render
+      )
 
       filename = File.join(settings.pres_dir, '_notes', "#{name}.md")
       @logger.debug "personal notes filename: #{filename}"
       if [nil, 'notes'].include? opts[:section] and File.file? filename
-        # TODO: shouldn't have to reparse config all the time
-        engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
 
         # Make sure we've got a notes div to hang personal notes from
         doc.add_child '<div class="notes-section notes"></div>' if doc.css('div.notes-section.notes').empty?
@@ -707,21 +790,6 @@ class ShowOff < Sinatra::Application
       end
 
       doc.to_html
-    end
-
-    # Find any lines that start with a <p>.(something), remove the ones tagged with
-    # .break and .comment, then turn the remainder into <p class="something">
-    # The perlism line noise is splitting multiple classes (.class1.class2) on the period.
-    #
-    # TODO: We really need to update this to use the DOM instead of text parsing :/
-    #
-    def update_p_classes(content)
-      # comment & break
-      content.gsub!(/<p>\.(?:break|comment)( .*)?<\/p>/, '')
-      # paragraph classes
-      content.gsub!(/<p>\.(.*?) /) { "<p class=\"#{$1.gsub('.', ' ')}\">" }
-      # image classes
-      content.gsub(/<img src="(.*)" alt="(\.\S*)\s*(.*)">/) { "<img src=\"#{$1}\" class=\"#{$2.gsub('.', ' ')}\" alt=\"#{$3}\">" }
     end
 
     # replace custom markup with html forms
@@ -990,7 +1058,7 @@ class ShowOff < Sinatra::Application
           if (lang and lang.start_with? 'language-' )
             pre.set_attribute('class', 'highlight')
 
-          # or weve started a code block with a Showoff language tag
+            # or weve started a code block with a Showoff language tag
           elsif out.strip[0, 3] == '@@@'
             lines = out.split("\n")
             lang  = lines.shift.gsub('@@@', '').strip
@@ -1037,8 +1105,8 @@ class ShowOff < Sinatra::Application
       sections = ShowOffUtils.showoff_sections(settings.pres_dir, @logger)
       if sections
         data = ''
-        sections.each do |section, slides|
-          slides.each do |filename|
+        sections.each do |section, slideset|
+          slideset.each do |filename|
             next unless filename.end_with? '.md'
             path = filename.chomp('.md') # TODO: I don't know why we do this silly thing
             begin
@@ -1049,11 +1117,11 @@ class ShowOff < Sinatra::Application
             end
           end
 
-# I don't know what this part was supposed to do
-#           if section =~ /^#/
-#             name = section.each_line.first.gsub(/^#*/,'').strip
-#             data << process_markdown(name, "<!SLIDE subsection>\n" + section, opts)
-#           else
+          # I don't know what this part was supposed to do
+          #           if section =~ /^#/
+          #             name = section.each_line.first.gsub(/^#*/,'').strip
+          #             data << process_markdown(name, "<!SLIDE subsection>\n" + section, opts)
+          #           else
 
         end
       end
@@ -1095,13 +1163,14 @@ class ShowOff < Sinatra::Application
     end
 
     def inline_all_js(jses_directory)
-       inline_js(Dir.entries(File.join(File.dirname(__FILE__), '..', jses_directory)).find_all{|filename| filename.length > 2 }, jses_directory)
+      inline_js(Dir.entries(File.join(File.dirname(__FILE__), '..', jses_directory)).find_all{|filename| filename.length > 2 }, jses_directory)
     end
 
     def index(static=false)
+
       if static
         @title = ShowOffUtils.showoff_title(settings.pres_dir)
-        @slides = get_slides_html(:static=>static)
+        @slideset = get_slides_html(:static=>static)
         @pause_msg = ShowOffUtils.pause_msg
 
         @asset_path = "./"
@@ -1165,8 +1234,8 @@ class ShowOff < Sinatra::Application
         assets << href if href
       end
 
-      slides = get_slides_html
-      html = Nokogiri::XML.parse("<slides>" + slides + "</slides>")
+      slideset = get_slides_html
+      html = Nokogiri::XML.parse("<slides>" + slideset + "</slides>")
       html.css('img').each do |link|
         href = clean_link(link['src'])
         assets << href if href
@@ -1196,14 +1265,14 @@ class ShowOff < Sinatra::Application
     end
 
     def print(static=false, section=nil)
-      @slides = get_slides_html(:static=>static, :toc=>true, :print=>true, :section=>section)
+      @slideset = get_slides_html(:static=>static, :toc=>true, :print=>true, :section=>section)
       @favicon = settings.showoff_config['favicon']
       erb :onepage
     end
 
     def supplemental(content, static=false)
       # supplemental material is by definition separate from the presentation, so it doesn't make sense to attach notes
-      @slides = get_slides_html(:static=>static, :supplemental=>content, :section=>false)
+      @slideset = get_slides_html(:static=>static, :supplemental=>content, :section=>false)
       @favicon = settings.showoff_config['favicon']
       @wrapper_classes = ['supplemental']
       erb :onepage
@@ -1308,7 +1377,7 @@ class ShowOff < Sinatra::Application
     end
 
     def pdf(name)
-      @slides = get_slides_html(:static=>true, :toc=>true, :print=>true)
+      @slideset = get_slides_html(:static=>true, :toc=>true, :print=>true)
       @inline = true
 
       html = erb :onepage
@@ -1337,69 +1406,86 @@ class ShowOff < Sinatra::Application
 
 
   def self.do_static(args, opts = {})
-      args ||= [] # handle nil arguments
-      what   = args[0] || "index"
-      opt    = args[1]
+    args ||= [] # handle nil arguments
+    what   = args[0] || "index"
+    opt    = args[1]
 
-      ShowOffUtils.presentation_config_file = opts[:f]
+    ShowOffUtils.presentation_config_file = opts[:f]
 
-      # Sinatra now aliases new to new!
-      # https://github.com/sinatra/sinatra/blob/v1.3.3/lib/sinatra/base.rb#L1369
-      showoff = ShowOff.new!
+    # Sinatra now aliases new to new!
+    # https://github.com/sinatra/sinatra/blob/v1.3.3/lib/sinatra/base.rb#L1369
+    showoff = ShowOff.new!
 
-      name = showoff.instance_variable_get(:@pres_name)
-      path = showoff.instance_variable_get(:@root_path)
-      logger = showoff.instance_variable_get(:@logger)
+    name = showoff.instance_variable_get(:@pres_name)
+    path = showoff.instance_variable_get(:@root_path)
+    logger = showoff.instance_variable_get(:@logger)
 
-      case what
-      when 'supplemental'
-        data = showoff.send(what, opt, true)
-      when 'pdf'
-        opt ||= "#{name}.pdf"
-        data = showoff.send(what, opt)
-      when 'print'
-        opt ||= 'handouts'
-        data = showoff.send(what, true, opt)
-      else
-        data = showoff.send(what, true)
+    case what
+    when 'supplemental'
+      data = showoff.send(what, opt, true)
+    when 'pdf'
+      opt ||= "#{name}.pdf"
+      data = showoff.send(what, opt)
+    when 'print'
+      opt ||= 'handouts'
+      data = showoff.send(what, true, opt)
+    else
+      data = showoff.send(what, true)
+    end
+
+    if data.is_a?(File)
+      logger.warn "Generated PDF as #{opt}"
+    else
+      out = File.expand_path("#{path}/static")
+      # First make a directory
+      FileUtils.makedirs(out)
+      # Then write the html
+      file = File.new("#{out}/index.html", "w")
+      file.puts(data)
+      file.close
+      # Now copy all the js and css
+      my_path = File.join( File.dirname(__FILE__), '..', 'public')
+      ["js", "css"].each { |dir|
+        FileUtils.copy_entry("#{my_path}/#{dir}", "#{out}/#{dir}", false, false, true)
+      }
+      # And copy the directory
+      Dir.glob("#{my_path}/#{name}/*").each { |subpath|
+        base = File.basename(subpath)
+        next if "static" == base
+        next unless File.directory?(subpath) || base.match(/\.(css|js)$/)
+        FileUtils.copy_entry(subpath, "#{out}/#{base}")
+      }
+
+      # Set up file dir
+      file_dir = File.join(out, 'file')
+      FileUtils.makedirs(file_dir)
+      pres_dir = showoff.settings.pres_dir
+
+      # ..., copy all user-defined styles and javascript files
+      Dir.glob("#{pres_dir}/*.{css,js}").each { |path|
+        FileUtils.copy(path, File.join(file_dir, File.basename(path)))
+      }
+
+      # ... and copy all needed image files
+      [/img src=[\"\'].\/file\/(.*?)[\"\']/, /style=[\"\']background(?:-image): url\(\'file\/(.*?)'/].each do |regex|
+        data.scan(regex).flatten.each do |path|
+          dir = File.dirname(path)
+          FileUtils.makedirs(File.join(file_dir, dir))
+          begin
+            FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
+          rescue Errno::ENOENT => e
+            puts "Missing source file: #{path}"
+          end
+        end
       end
-
-      if data.is_a?(File)
-        logger.warn "Generated PDF as #{opt}"
-      else
-        out = File.expand_path("#{path}/static")
-        # First make a directory
-        FileUtils.makedirs(out)
-        # Then write the html
-        file = File.new("#{out}/index.html", "w")
-        file.puts(data)
-        file.close
-        # Now copy all the js and css
-        my_path = File.join( File.dirname(__FILE__), '..', 'public')
-        ["js", "css"].each { |dir|
-          FileUtils.copy_entry("#{my_path}/#{dir}", "#{out}/#{dir}", false, false, true)
-        }
-        # And copy the directory
-        Dir.glob("#{my_path}/#{name}/*").each { |subpath|
-          base = File.basename(subpath)
-          next if "static" == base
-          next unless File.directory?(subpath) || base.match(/\.(css|js)$/)
-          FileUtils.copy_entry(subpath, "#{out}/#{base}")
-        }
-
-        # Set up file dir
-        file_dir = File.join(out, 'file')
-        FileUtils.makedirs(file_dir)
-        pres_dir = showoff.settings.pres_dir
-
-        # ..., copy all user-defined styles and javascript files
-        Dir.glob("#{pres_dir}/*.{css,js}").each { |path|
-          FileUtils.copy(path, File.join(file_dir, File.basename(path)))
-        }
-
-        # ... and copy all needed image files
-        [/img src=[\"\'].\/file\/(.*?)[\"\']/, /style=[\"\']background(?:-image): url\(\'file\/(.*?)'/].each do |regex|
-          data.scan(regex).flatten.each do |path|
+      # copy images from css too
+      Dir.glob("#{pres_dir}/*.css").each do |css_path|
+        File.open(css_path) do |file|
+          data = file.read
+          data.scan(/url\([\"\']?(?!https?:\/\/)(.*?)[\"\']?\)/).flatten.each do |path|
+            path.gsub!(/(\#.*)$/, '') # get rid of the anchor
+            path.gsub!(/(\?.*)$/, '') # get rid of the query
+            logger.debug path
             dir = File.dirname(path)
             FileUtils.makedirs(File.join(file_dir, dir))
             begin
@@ -1409,26 +1495,9 @@ class ShowOff < Sinatra::Application
             end
           end
         end
-        # copy images from css too
-        Dir.glob("#{pres_dir}/*.css").each do |css_path|
-          File.open(css_path) do |file|
-            data = file.read
-            data.scan(/url\([\"\']?(?!https?:\/\/)(.*?)[\"\']?\)/).flatten.each do |path|
-              path.gsub!(/(\#.*)$/, '') # get rid of the anchor
-              path.gsub!(/(\?.*)$/, '') # get rid of the query
-              logger.debug path
-              dir = File.dirname(path)
-              FileUtils.makedirs(File.join(file_dir, dir))
-              begin
-                FileUtils.copy(File.join(pres_dir, path), File.join(file_dir, path))
-              rescue Errno::ENOENT => e
-                puts "Missing source file: #{path}"
-              end
-            end
-          end
-        end
       end
     end
+  end
 
   # Load a slide file from disk, parse it and return the text of a code block by index
   def get_code_from_slide(path, index, executable=true)
@@ -1511,7 +1580,7 @@ class ShowOff < Sinatra::Application
 
     case credentials
     when Array
-       auth.credentials == credentials
+      auth.credentials == credentials
     when String
       auth.credentials.last == credentials
     else
@@ -1632,9 +1701,9 @@ class ShowOff < Sinatra::Application
     path = params[:captures].first
     full_path = File.join(settings.pres_dir, path)
     if File.exist?(full_path)
-        send_file full_path
+      send_file full_path
     else
-        raise Sinatra::NotFound
+      raise Sinatra::NotFound
     end
   end
 
