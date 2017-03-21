@@ -129,7 +129,7 @@ en:
         tooltip: Enables tracking of other presenters.
         description: When this is enabled, you can load the presenter in another browser (typically on your mobile phone) to control the presentation.
       layout:
-        label: Update Follower
+        label: Layout
         default: Default Layout
         thumbs: Display thumbnail previews of the next and previous slides.
         beside: Display the next slide as a large preview in the main presenter view.
