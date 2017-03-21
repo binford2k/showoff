@@ -129,7 +129,7 @@ nl:
         tooltip: Hiermee kun je de slides wisselen vanaf andere presenters.
         description: Wanneer dit is ingeschakeld, kun je de presentatie besturen vanaf een andere browser (Bijvoorbeeld je mobiele telefoon).
       layout:
-        label: Update Volgers
+        label: Layout
         default: Standaard layout
         thumbs: Toon previews van de volgende en vorige slides.
         beside: Toon de volgende slide als grote preview.
