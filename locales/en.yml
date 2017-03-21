@@ -108,8 +108,8 @@ en:
       cancel: Cancel
       unit: minutes
     pace:
-      faster: Slow Down!
-      slower: Speed Up!
+      faster: Speed Up!
+      slower: Slow Down!
     questions: Audience Questions
     annotation:
       tools: Tools
