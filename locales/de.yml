@@ -129,7 +129,7 @@ de:
         tooltip: Aktiviert das Update durch einen weiteren Präsentierer.
         description: Wenn dies aktiviert ist, dann kann man die Präsentationvon einem anderen Geräterfolgen (üblicherweise ein Mobiles Endegerät).
       layout:
-        label: Aktualisierung der Schüler
+        label: Anordnung
         default: Default Ansicht
         thumbs: Anzeigen von Miniaturansichten der nächsten und vorherigen Folie.
         beside: Anzeigen der nächsten Folie als Großansicht n der Präsentierer Ansicht.
