@@ -411,7 +411,6 @@ class ShowOff < Sinatra::Application
         sl = build_forms(sl, content_classes)
         sl = update_p_classes(sl)
         sl = process_content_for_section_tags(sl, name, opts)
-        sl = process_content_for_div_tags(sl, name, opts)
         sl = update_special_content(sl, @slide_count, name) # TODO: deprecated
         sl = update_image_paths(name, sl, opts)
 
@@ -479,23 +478,7 @@ class ShowOff < Sinatra::Application
       result
     end
 
-    # Replace DIV tags with classed div tags
-    def process_content_for_div_tags(content, name = nil, opts = {})
-      return unless content
-
-      # because this is post markdown rendering, we may need to shift a <p> tag around
-      # remove the tags if they're by themselves
-      result = content.gsub(/<p>~~~DIV:([^~]*)~~~<\/p>/, '<div class="\1">')
-      result.gsub!(/<p>~~~ENDDIV~~~<\/p>/, '</div>')
-
-      # shove it around the div if it belongs to the contained element
-      result.gsub!(/(<p>)?~~~DIV:([^~]*)~~~/, '<div class="\2">\1')
-      result.gsub!(/~~~ENDDIV~~~(<\/p>)?/, '\1</div>')
-
-      result
-    end
-
-    # replace section tags with classed div tags including notes-section class
+    # replace section tags with classed div tags
     def process_content_for_section_tags(content, name = nil, opts = {})
       return unless content
 
