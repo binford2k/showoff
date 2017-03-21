@@ -1,0 +1,145 @@
+en:
+  name: Presentación en Showoff
+  menu:
+    title: Menú de Showoff
+    table_of_contents: Tabla de Contenidos
+    downloads: Descargas
+    feedback: Enviando...
+    pace:
+      label: El Presentador Debería...
+      slower: Ir Más Despacio
+      faster: Ir Más Rápido
+    question:
+      label: Hacer una Pregunta
+      placeholder: Hacer una pregunta...
+    feedback:
+      label: Enviar Sugerencias
+      description: Esta Diapositiva es...
+      worst: Terrible
+      best: Genial
+      why: Por Qué...?
+      send: Enviar
+    edit: Editar Esta Diapositiva
+    clear_annotations: Limpiar Notas
+    close: Cerrar
+    help: Presionar <code>?</code> para ver ayuda.
+    anonymous: Todas las funciones son anónimas.
+  navigation:
+    next: Siguiente
+    previous: Anterior
+  loading: cargando presentación...
+  activity_complete: Actividad completa
+  follow:
+    label: "Modo de Seguimiento:"
+  refresh: "Está seguro que desea refrescar el contenido de la diapositiva?\n\n(Use `RELOAD` para refrescar la interfaz entera)"
+  reload: Está seguro que desea refrescar Showoff?
+  preshow:
+    prompt: Minutos desde ahora al comienzo?
+    resume: "Continuando en:"
+
+  downloads:
+    title: Descarga de Archivos
+
+  help:
+    title: Ayuda
+    next: Mover a la siguiente diapositiva.
+    prev: Mover a la diapositiva anterior.
+    contents: Mostrar el menú de la tabla de contenidos.
+    follow: Habilitar el modo de seguimiento.
+    help: Mostrar éste dialogo de ayuda.
+    refresh: Refrescar el contenido de la diapositiva.
+    reload: Refrescar el contenido total de Showoff.
+    blank: Oscurecer la pantalla.
+    footer: Habilitar/Deshabilitar las notas de pie de página.
+    notes: Habilitar/Deshabilitar notas de Showoff.
+    clear: Limpiar los resultados de la ejecución de código.
+    pause: Pausar la presentación.
+    preshow: Mostrar las diapositivas de imágenes de <tt>preshow</tt> con un contador de tiempo.
+    execute: Ejecutar el primer bloque de código visible.
+    debug: Mostrar información de debug.
+    close: Cerrar
+
+  stats:
+    title: Ver Estadísticas
+    stray: tu audiencia no está viendo la misma diapositiva que tú.
+    idle: tu audiencia no está activa.
+    current: Diapositivas que están siendo vistas
+    elapsed: Tiempo transcurrido en cada diapositiva
+    nodata: No hay información para mostrar.
+    allcurrent: Todos los miembros de la audiencia están viendo la diapositiva del presentador.
+
+  forms:
+    display: Mostrar Resultados
+    save: Guardar
+
+  presenter:
+    topbar:
+      annotations: Notas
+      edit: Editar Diapositiva
+      report: Reportar Problema con Diapositiva
+      stats: Ver Estadísticas
+      downloads: Descargas
+      display: Ventana de Presentación
+      print: Imprimir Diapositivas
+      settings: Configuraciones
+      newpage: Abrir en una nueva página...
+      tooltip:
+        annotations: Habilitar el subsistema de notas.
+        edit: Editar diapositiva actual en nueva ventana.
+        report: Reportar un problema con diapositiva actual.
+        stats: Ver las diapositivas que tu audiencia está viendo.
+        downloads: Abrir descargas en un menú o en una nueva página.
+        display: Habilitar la ventana de presentación; esta ventana debería ser mostrada en el proyector.
+        print: Imprimir diapositivas usando una nueva ventana.
+        settings: Abrir menú de Configuraciones.
+    preview:
+      next: Siguiente
+      previous: Anterior
+    mobile:
+      update: Actualizar
+    notes:
+      label:  Notas de Showoff
+      personal: Notas Personales
+    timer:
+      label: "Contador de Tiempo:"
+      start: Iniciar
+      pause: Pausar
+      resume: Continuar
+      cancel: Cancelar
+      unit: minutos
+    pace:
+      faster: Ir Más Rápido!
+      slower: Ir Más Despacio!
+    questions: Preguntas de la Audiencia
+    annotation:
+      tools: Herramientas
+      lines: Líneas
+      shapes: Figuras
+    status:
+      label: "Diapositivas:"
+    settings:
+      label: Configuraciones
+      close: Cerrar
+      follower:
+        label: Actualizar Seguidor
+        tooltip: Enviar diapositiva de cambio de notificaciones
+        description: Cuando esta opción está habilitada, el servidor de Showoff rastreará los cambios de tu diapositiva. Deshabilítalo para ver la presentación sin causar cambios inesperados.
+      remote:
+        label: Habilitar Remoto
+        tooltip: Habilita el rastreo de otros presentadores.
+        description: Cuando esta opción está habilitada, puedes cargar la presentación en otro navegador (usualmente tu teléfono celular) para controlar la presentación.
+      layout:
+        label: Actualizar Seguidor
+        default: Diseño Estándar
+        thumbs: Mostrar miniatura de las diapositivas siguiente y anterior.
+        beside: Mostrar la siguiente diapositiva en la vista principal del presentador.
+        floating: Abrir la siguiente diapositiva en una ventana flotante.
+        confirmation: La seguridad del navegador require confirmación para abrir una ventana nueva.
+        open: Abrir Ventana
+        cancel: cancelar
+        reset:
+          label: Limpiar configuraciones de Showoff.
+          tooltip: Cambia las configuraciones de Showoff a sus valores iniciales.
+
+  error:
+    file_not_found: Archivo No Encontrado!
