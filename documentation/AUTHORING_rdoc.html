@@ -59,6 +59,7 @@
     <li><a href="#label-Markdown+Format">Markdown Format</a>
     <li><a href="#label-Slide+Styles">Slide Styles</a>
     <li><a href="#label-Callout+paragraph+styles">Callout paragraph styles</a>
+    <li><a href="#label-Font+Awesome">Font Awesome</a>
     <li><a href="#label-Supplemental+Materials">Supplemental Materials</a>
     <li><a href="#label-Slide+Transitions">Slide Transitions</a>
     <li><a href="#label-Slide+Backgrounds">Slide Backgrounds</a>
@@ -298,6 +299,13 @@ words or short phrases!</em></p>
 <dd>
 <p>If you&#39;ve included videos on the slide, this style will cause them to
 play when you switch to this slide.</p>
+</dd><dt>activity
+<dd>
+<p>If you tag this slide as an <code>activity</code>, then audience
+members&#39; presentations will get a toggle button on their slide, and
+their presentation will stop tracking along until they toggle it to
+complete. The presenter sees a count of all incompletes in the lower right
+of their slide preview.</p>
 </dd></dl>
 
 <p>Check out the example directory included to see examples of most of these.</p>
@@ -317,6 +325,18 @@ icon. To do this, add <code>.callout</code> or
 .callout.info Adding the `.info` modifier adds an info icon.</pre>
 
 <p><img src="../images/callouts.png"></p>
+
+<h2 id="label-Font+Awesome">Font Awesome<span><a href="#label-Font+Awesome">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Font awesome icons can be included by using <code>[fa-iconname]</code>
+which creates an &lt;i&gt; tag with the “fa” class and any other classes
+contained in the <code>[</code> and <code>]</code> characters. The “fa-”
+string needs to be the first thing in the brackets so <code>[fa-smile-o
+someclass]</code> will render as an &lt;i&gt; tag but <code>[someclass
+fa-smile-o]</code> will not.</p>
+
+<p>See the <a href="http://fontawesome.io/icons/">Font Awesome project</a> for
+a list of icons you can use.</p>
 
 <h1 id="label-Supplemental+Materials">Supplemental Materials<span><a href="#label-Supplemental+Materials">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
@@ -432,6 +452,15 @@ colorful. You can uppercase the name if you like.</p>
 
 <pre>@@@ Ruby
 10.times { puts &quot;Whee!&quot; }</pre>
+
+<p>To highlight a specific line in your snippet of code, simply prefix it with
+a <code>*</code>.</p>
+
+<pre>@@@ Ruby execute
+[&#39;one&#39;, &#39;two&#39;, &#39;three&#39;].collect do |item|
+  puts item
+   puts item.upcase  # This line will be highlighted to call attention to it
+end</pre>
 
 <p>Supported languages include:</p>
 
