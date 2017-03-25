@@ -27,74 +27,81 @@ ja:
   navigation:
     next: 次へ
     previous: 前へ
-  loading: プレゼンテーションをロード中...
+  loading: プレゼンテーション？ロード中...
   activity_complete: アクティビティ完了
   follow:
-    label: "フォローモード:"
-  refresh: "Are you sure you want to refresh the slide content?\n\n(Use `RELOAD` to fully reload the entire UI)"
+    label: "フォロー・モード:"
+    # The below line assumes the RELOAD button is graphic instead of text, otherwise replace with リロード
+  refresh: "スライドの内容を更新してもよろしいですか？\n\n(UI全体を全部にリロードするには `RELOAD`を使います)"
   reload: Showoffをリロードしてもよろしいですか？
   preshow:
     prompt: 今から何分かかりますか？
     resume: "再開:"
 
   downloads:
-    title: File Downloads
-
+    title: ファイルダウンロード
+    
   help:
-    title: Help
-    next: Move to the next slide.
-    prev: Move to the previous slide.
-    contents: Show the table of contents menu.
-    follow: Toggle follow mode.
-    help: Show this help dialog.
-    refresh: Refresh slide content.
-    reload: Completely reload Showoff.
-    blank: Blank the screen.
-    footer: Toggle the display footer.
-    notes: Toggle notes display.
-    clear: Clear code execution results.
-    pause: Pause the presentation.
-    preshow: Display slideshow of <tt>preshow</tt> images on a timer.
-    execute: Execute the first visible code block.
-    debug: Show debugging information.
-    close: Close
+    title: ヘルプ
+    next: 次のスライドに移動します。
+    prev: 前のスライドに移動します。
+    contents: 目次メニュを表示する。
+    follow: フォローモードを切り替えます。
+    help: このヘルプダイアログを表示します。
+    refresh: スライドの内容を更新します。
+    reload: Showoffを全てにリロードする。
+    blank: 画面を空白にする。
+    footer: 表示フッターを切り替えます。
+    notes: ノートを切り替えます。
+    clear: コード実行結果をクリアします。
+    pause: プレゼンテーションを一時停止する。
+    #Not familiar with a functioning word for "preshow" so went with "preview"
+    preshow: <tt>プレビュー</ tt>画像のスライドショーをタイマーに表示します。
+    execute: 最初に表示されるコードブロックを実行します。
+    debug: デバッグ情報を表示します。
+    close: 閉じる
 
   stats:
-    title: Viewing Statistics
-    stray: of your audience is not viewing the same slide you are.
-    idle: of your audience is idle.
-    current: Slides currently being viewed
-    elapsed: Elapsed time spent on each slide
-    nodata: No data to display.
-    allcurrent: All audience members are viewing the presenter's slide.
+  #Shifted meaning to "Participant Statistics" since I couldn't identify a satisfactory parallel word with Viewing in context.
+    title: 参加者の統計
+    #It's not gramatically correct to have the number of viewers first in Japanese (Subject, Object, Verb Order), so
+    #Represented the number with ### to not break any typification in the existing parsing of bracket contents.
+    #stray alternate: 聴衆のメンバーはあなたのスライドを見ていない  # This allows the number to be at first, but may sound stilted.
+    stray: あなたの聴衆のうち###人があなたと同じスライドを見ていません。
+    #idle alternate: 聴衆のメンバーは現在を無為んでいます
+    idle: あなたの聴衆のうち###人が無為んでいます。
+    current: 現在見ているスライド
+    elapsed: 各スライドに費やされた経過時間
+    nodata: 表示するデータがありません。
+    allcurrent: すべての聴衆メンバーがプレゼンターのスライドを見ています。
 
   forms:
-    display: Display Results
-    save: Save
-
+    display: 結果を表示
+    save: セーブ
+    
   presenter:
     topbar:
-      annotations: Annotations
-      edit: Edit Slide
-      report: Report Issue With Slide
-      stats: Viewing Statistics
-      downloads: Downloads
-      display: Display Window
-      print: Print Slides
-      settings: Settings
-      newpage: Open in a new page...
+      annotations: 注釈
+      edit: スライドを編集する
+      report: スライドによる問題の報告
+      stats: 参加者の統計
+      downloads: ダウンロード
+      display: 表示ウィンドウ
+      print: スライドを印刷する
+      settings: 設定
+      newpage: 新しいページで開く...
       tooltip:
-        annotations: Enable the annotations subsystem.
-        edit: Edit current slide in new window.
-        report: Report an issue with the current slide.
+        annotations: 注釈サブシステムを有効にします。
+        edit: 現在のスライドを新しいウィンドウで編集します。
+        report: 現在のスライドで問題を報告します。
         stats: See the slides your audience is interacting with.
         downloads: Open the file downloads in a menu or new page.
         display: Enable the Display Window; you should put this on the projector.
         print: Print slides using a new window.
         settings: Open the Settings dialog.
     preview:
-      next: Next
-      previous: Previous
+      next: 次へ
+      previous: 前へ
     mobile:
       update: Update
     notes:
@@ -102,11 +109,11 @@ ja:
       personal: Personal Notes
     timer:
       label: "Timer:"
-      start: Start
-      pause: Pause
-      resume: Resume
-      cancel: Cancel
-      unit: minutes
+      start: 始める
+      pause: 一時停止
+      resume: 続ける
+      cancel: キャンセル
+      unit: 分
     pace:
       faster: Speed Up!
       slower: Slow Down!
@@ -119,7 +126,7 @@ ja:
       label: "Slides:"
     settings:
       label: Settings
-      close: Close
+      close: 閉じる
       follower:
         label: Update Follower
         tooltip: Send slide change notifications.
