@@ -19,23 +19,23 @@ ja:
       best: さいこ
       why: どうして。。。？
       send: 送信
-    edit: Edit Current Slide
-    clear_annotations: Clear Annotations
-    close: Close
-    help: Press <code>?</code> for help.
-    anonymous: All features are anonymous.
+    edit: このスライドを編集する
+    clear_annotations: 注釈をクリアする
+    close: 閉じる
+    help: <code>?</code>キーを押してヘルプを表示します。
+    anonymous: すべての機能は識別されません
   navigation:
-    next: Next
-    previous: Previous
-  loading: loading presentation...
-  activity_complete: Activity complete
+    next: 次へ
+    previous: 前へ
+  loading: プレゼンテーションをロード中...
+  activity_complete: アクティビティ完了
   follow:
-    label: "Follow Mode:"
+    label: "フォローモード:"
   refresh: "Are you sure you want to refresh the slide content?\n\n(Use `RELOAD` to fully reload the entire UI)"
-  reload: Are you sure you want to reload Showoff?
+  reload: Showoffをリロードしてもよろしいですか？
   preshow:
-    prompt: Minutes from now to start?
-    resume: "Resuming in:"
+    prompt: 今から何分かかりますか？
+    resume: "再開:"
 
   downloads:
     title: File Downloads
