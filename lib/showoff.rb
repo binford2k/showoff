@@ -665,7 +665,7 @@ class ShowOff < Sinatra::Application
           :block => proc { |match_data|
             css = match_data[:languages].split.collect {|l| "language-#{l.downcase}" }.join(' ')
             text = match_data[:text].gsub(/^\s{4}/,'')
-            %Q(<pre class="highlight"><code class="#{css}">#{text}</code></pre>)
+            %Q(\n<pre class="highlight"><code class="#{css}">#{text}</code></pre>\n)
           }
         },
         "paragraph" => {
@@ -727,7 +727,7 @@ class ShowOff < Sinatra::Application
           :matchers => [
             /\.(?:break|comment)( .*)?/
           ],
-          :block => proc { ''}
+          :block => proc { "<p></p>"}
         },
       }
     end
