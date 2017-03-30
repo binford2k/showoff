@@ -777,24 +777,3 @@ The "add slide" feature can allow you to add the necessary boilerplate from your
   new slides quickly. See the commandline[rdoc-ref:COMMANDLINE] section for
   interesting Showoff commands.
 
-
-== Experimental Syntax - Subject to change
-
-When the v2 markdown pre-parser is enabled you can use the following syntax for
-adding div elements:
-
-    .any.classes.for.styling[
-      This is a non-nested DIV
-    ]
-    
-For nested div elements, use the following syntax to keep track of closing tags:
-
-    .classes.to.be.added[1
-      Markdown to the rendered within a div
-      .other.classes.for.nested.div[2
-        Content for nested div
-      2]
-    1]
-
-This experimental syntax is subject to change and/or extension and is currently
-only supported with the "commonmarker" markdown renderer.
