@@ -414,3 +414,12 @@ you need to configure your presentation as following:
     }
 
 Note that `use_tex` is required, but configuring the `png_dir` and `html_png_dir` are optional.
+
+=== Experimental Parser
+
+There are several experimental syntax options built in to the next version of the markdown pre-parser.
+This can be enabled with the following:
+
+    "parser": "v2"
+
+The v2 parser is in development and is not yet stable.
