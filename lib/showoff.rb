@@ -505,8 +505,8 @@ class ShowOff < Sinatra::Application
         end
 
         # Apply the template to the slide and replace the key to generate the content of the slide
-        sl = process_custom_syntax(template.gsub(/~~~CONTENT~~~/, slide.text)) if settings.showoff_config['custom_syntax']
-        sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text)) unless settings.showoff_config['custom_syntax']
+        sl = process_custom_syntax(template.gsub(/~~~CONTENT~~~/, slide.text)) if settings.showoff_config['parser'] == 'v2'
+        sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text)) unless settings.showoff_config['parser'] == 'v2'
         sl = Tilt[:markdown].new(nil, nil, engine_options) { sl }.render
         sl = build_forms(sl, content_classes)
         sl = update_p_classes(sl)
