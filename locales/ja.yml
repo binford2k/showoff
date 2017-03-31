@@ -94,9 +94,9 @@ ja:
         annotations: 注釈サブシステムを有効にします。
         edit: 現在のスライドを新しいウィンドウで編集します。
         report: 現在のスライドで問題を報告します。
-        stats: See the slides your audience is interacting with.
-        downloads: Open the file downloads in a menu or new page.
-        display: Enable the Display Window; you should put this on the projector.
+        stats: 聴衆がインタラクションしているスライドを見る。
+        downloads: メニューまたは新しいページでファイルのダウンロードを開く。
+        display: 表示ウィンドウをエネーブルにする。 これをプロジェクターに置いてください。
         print: Print slides using a new window.
         settings: Open the Settings dialog.
     preview:
