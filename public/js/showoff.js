@@ -26,6 +26,10 @@ var loadSlidesPrefix
 
 var mode = { track: true, follow: true };
 
+// a dummy websocket object to make standalone presentations easier.
+var ws = {}
+ws.send = function() { /* no-op */ }
+
 // since javascript doesn't have a built-in way to get to cookies easily,
 // let's just add our own data structure.
 document.cookieHash = {}
@@ -974,10 +978,6 @@ function connectControlChannel() {
     ws.onopen    = function()  { connected();          };
     ws.onclose   = function()  { disconnected();       }
     ws.onmessage = function(m) { parseMessage(m.data); };
-  }
-  else {
-    ws = {}
-    ws.send = function() { /* no-op */ }
   }
 }
 
