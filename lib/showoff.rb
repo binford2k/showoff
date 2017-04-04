@@ -1401,6 +1401,8 @@ class ShowOff < Sinatra::Application
       path = showoff.instance_variable_get(:@root_path)
       logger = showoff.instance_variable_get(:@logger)
 
+      I18n.locale = opts[:language]
+
       case what
       when 'supplemental'
         data = showoff.send(what, opt, true)
