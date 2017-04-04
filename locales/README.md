@@ -14,8 +14,6 @@ update an existing one.
 1. Translate each value without changing the file structure.
     * Quotes around the string are not necessary unless it contains a special character, such as `:`
 1. Submit a PR with your new language!
-    * Make sure you submit it against the `internationalization` branch!
-    * This isn't being merged to `master` until it's complete.
 
 ## Using the GitHub web UI
 
