@@ -476,11 +476,16 @@ class ShowOffUtils
 
       # Normalize to a proper path from presentation root
       filename = File.expand_path(entry).sub(/^#{dir}\//, '')
+      # and then strip out the locale directory, if there is one
+      filename.sub!(/^(locales\/[\w-]+\/)/, '')
+      locale = $1
+
       if File.directory? filename
         path = entry
         sections[path] ||= []
         Dir.glob("#{filename}/**/*.md").sort.each do |slidefile|
-          sections[path] << slidefile
+          fullpath = locale.nil? ? slidefile : "#{locale}/#{slidefile}"
+          sections[path] << fullpath
         end
       else
         path = File.dirname(entry)
