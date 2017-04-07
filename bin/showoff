@@ -304,6 +304,9 @@ module Wrapper
     c.default_value "showoff.json"
     c.flag [:f, :file, :pres_file]
 
+    c.desc 'Language code to generate.'
+    c.flag [:l, :lang, :language, :locale]
+
     c.action do |global_options,options,args|
       ShowOff.do_static(args, options)
     end

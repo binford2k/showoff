@@ -1,27 +1,27 @@
-<div id="help-modal" title="Help">
+<div id="help-modal" title="<%= I18n.t('help.title') %>">
   <div id="help">
     <div>
-      <span class="description">Move to the next slide.</span>
+      <span class="description"><%= I18n.t('help.next') %></span>
       <span class="action">NEXT</span>
       <span class="hotkeys"><%= mapped_keys('NEXT') %></span>
     </div>
     <div>
-      <span class="description">Move to the previous slide.</span>
+      <span class="description"><%= I18n.t('help.prev') %></span>
       <span class="action">PREV</span>
       <span class="hotkeys"><%= mapped_keys('PREV') %></span>
     </div>
     <div>
-      <span class="description">Show the table of contents menu.</span>
+      <span class="description"><%= I18n.t('help.contents') %></span>
       <span class="action">CONTENTS</span>
       <span class="hotkeys"><%= mapped_keys('CONTENTS') %></span>
     </div>
     <div>
-      <span class="description">Toggle follow mode.</span>
+      <span class="description"><%= I18n.t('help.follow') %></span>
       <span class="action">FOLLOW</span>
       <span class="hotkeys"><%= mapped_keys('FOLLOW') %></span>
     </div>
     <div>
-      <span class="description">Show this help dialog.</span>
+      <span class="description"><%= I18n.t('help.help') %></span>
       <span class="action">HELP</span>
       <span class="hotkeys"><%= mapped_keys('HELP') %></span>
     </div>
@@ -29,47 +29,47 @@
     <hr />
 
     <div>
-      <span class="description">Refresh slide content.</span>
+      <span class="description"><%= I18n.t('help.refresh') %></span>
       <span class="action">REFRESH</span>
       <span class="hotkeys"><%= mapped_keys('REFRESH') %></span>
     </div>
     <div>
-      <span class="description">Completely reload Showoff.</span>
+      <span class="description"><%= I18n.t('help.reload') %></span>
       <span class="action">RELOAD</span>
       <span class="hotkeys"><%= mapped_keys('RELOAD') %></span>
     </div>
     <div>
-      <span class="description">Blank the screen.</span>
+      <span class="description"><%= I18n.t('help.blank') %></span>
       <span class="action">BLANK</span>
       <span class="hotkeys"><%= mapped_keys('BLANK') %></span>
     </div>
     <div>
-      <span class="description">Toggle the display footer.</span>
+      <span class="description"><%= I18n.t('help.footer') %></span>
       <span class="action">FOOTER</span>
       <span class="hotkeys"><%= mapped_keys('FOOTER') %></span>
     </div>
     <div>
-      <span class="description">Toggle notes display.</span>
+      <span class="description"><%= I18n.t('help.notes') %></span>
       <span class="action">NOTES</span>
       <span class="hotkeys"><%= mapped_keys('NOTES') %></span>
     </div>
     <div>
-      <span class="description">Clear code execution results.</span>
+      <span class="description"><%= I18n.t('help.clear') %></span>
       <span class="action">CLEAR</span>
       <span class="hotkeys"><%= mapped_keys('CLEAR') %></span>
     </div>
     <div>
-      <span class="description">Pause the presentation.</span>
+      <span class="description"><%= I18n.t('help.pause') %></span>
       <span class="action">PAUSE</span>
       <span class="hotkeys"><%= mapped_keys('PAUSE') %></span>
     </div>
     <div>
-      <span class="description">Display slideshow of <tt>preshow</tt> images on a timer.</span>
+      <span class="description"><%= I18n.t('help.preshow') %></span>
       <span class="action">PRESHOW</span>
       <span class="hotkeys"><%= mapped_keys('PRESHOW') %></span>
     </div>
     <div>
-      <span class="description">Execute the first visible code block.</span>
+      <span class="description"><%= I18n.t('help.execute') %></span>
       <span class="action">EXECUTE</span>
       <span class="hotkeys"><%= mapped_keys('EXECUTE') %></span>
     </div>
@@ -77,7 +77,7 @@
     <hr />
 
     <div>
-      <span class="description">Show debugging information.</span>
+      <span class="description"><%= I18n.t('help.debug') %></span>
       <span class="action">DEBUG</span>
       <span class="hotkeys"><%= mapped_keys('DEBUG') %></span>
     </div>

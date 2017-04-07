@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency      "htmlentities"
   s.add_dependency      "redcarpet"
   s.add_dependency      "nokogiri"
+  s.add_dependency      "i18n"
   s.add_dependency      "sinatra-websocket"
   # workaround a bad dependency in sinatra-websocket
   s.add_dependency      "thin", "~> 1.3"

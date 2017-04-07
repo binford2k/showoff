@@ -1,0 +1,152 @@
+ja:
+  name: Showoff プレゼンテーション
+  menu:
+    title: Showoff メニュー
+    table_of_contents: 目次
+    downloads: ダウンロード
+    feedback: 送信する。。。
+    pace:
+      label: 発表者は。。。
+      slower: もっと遅くしてください
+      faster: もっと早くしてください
+    question:
+      label: 質問を問いかける
+      placeholder: 質問を問いかける。。。
+    feedback:
+      label: フィードバックに送信する
+      description: このスライドは。。。
+      worst: さいてい
+      best: さいこ
+      why: どうして。。。？
+      send: 送信
+    edit: このスライドを編集する
+    clear_annotations: 注釈をクリアする
+    close: 閉じる
+    help: <code>?</code>キーを押してヘルプを表示します。
+    anonymous: すべての機能は識別されません
+  navigation:
+    next: 次へ
+    previous: 前へ
+  loading: プレゼンテーション？ロード中...
+  activity_complete: アクティビティ完了
+  follow:
+    label: "フォロー・モード:"
+    # The below line assumes the RELOAD button is graphic instead of text, otherwise replace with リロード
+  refresh: "スライドの内容を更新してもよろしいですか？\n\n(UI全体を全部にリロードするには `RELOAD`を使います)"
+  reload: Showoffをリロードしてもよろしいですか？
+  preshow:
+    prompt: 今から何分かかりますか？
+    resume: "再開:"
+
+  downloads:
+    title: ファイルダウンロード
+
+  help:
+    title: ヘルプ
+    next: 次のスライドに移動します。
+    prev: 前のスライドに移動します。
+    contents: 目次メニュを表示する。
+    follow: フォローモードを切り替えます。
+    help: このヘルプダイアログを表示します。
+    refresh: スライドの内容を更新します。
+    reload: Showoffを全てにリロードする。
+    blank: 画面を空白にする。
+    footer: 表示フッターを切り替えます。
+    notes: ノートを切り替えます。
+    clear: コード実行結果をクリアします。
+    pause: プレゼンテーションを一時停止する。
+    #Not familiar with a functioning word for "preshow" so went with "preview"
+    preshow: <tt>プレビュー</tt>画像のスライドショーをタイマーに表示します。
+    execute: 最初に表示されるコードブロックを実行します。
+    debug: デバッグ情報を表示します。
+    close: 閉じる
+
+  stats:
+  #Shifted meaning to "Participant Statistics" since I couldn't identify a satisfactory parallel word with Viewing in context.
+    title: 参加者の統計
+    #It's not gramatically correct to have the number of viewers first in Japanese (Subject, Object, Verb Order), so
+    #Represented the number with ### to not break any typification in the existing parsing of bracket contents.
+    #stray alternate: 聴衆のメンバーはあなたのスライドを見ていない  # This allows the number to be at first, but may sound stilted.
+    stray: あなたの聴衆のうち###人があなたと同じスライドを見ていません。
+    #idle alternate: 聴衆のメンバーは現在を無為んでいます
+    idle: あなたの聴衆のうち###人が無為んでいます。
+    current: 現在見ているスライド
+    elapsed: 各スライドに費やされた経過時間
+    nodata: 表示するデータがありません。
+    allcurrent: すべての聴衆メンバーがプレゼンターのスライドを見ています。
+
+  forms:
+    display: 結果を表示
+    save: セーブ
+
+  presenter:
+    topbar:
+      annotations: 注釈
+      edit: スライドを編集する
+      report: スライドによる問題の報告
+      stats: 参加者の統計
+      downloads: ダウンロード
+      display: 表示ウィンドウ
+      print: スライドを印刷する
+      settings: 設定
+      newpage: 新しいページで開く...
+      tooltip:
+        annotations: 注釈サブシステムを有効にします。
+        edit: 現在のスライドを新しいウィンドウで編集します。
+        report: 現在のスライドで問題を報告します。
+        stats: 聴衆がインタラクションしているスライドを見る。
+        downloads: メニューまたは新しいページでファイルのダウンロードを開く。
+        display: 表示ウィンドウをエネーブルにする。 これをプロジェクターに置いてください。
+        print: Print slides using a new window.
+        settings: Open the Settings dialog.
+    preview:
+      next: 次へ
+      previous: 前へ
+    mobile:
+      update: Update
+    notes:
+      label:  Showoff Notes
+      personal: Personal Notes
+    timer:
+      label: "Timer:"
+      start: 始める
+      pause: 一時停止
+      resume: 続ける
+      cancel: キャンセル
+      unit: 分
+    pace:
+      faster: Speed Up!
+      slower: Slow Down!
+    questions: Audience Questions
+    annotation:
+      tools: Tools
+      lines: Lines
+      shapes: Shapes
+    status:
+      label: "Slides:"
+    settings:
+      label: Settings
+      close: 閉じる
+      follower:
+        label: Update Follower
+        tooltip: Send slide change notifications.
+        description: When this is enabled, the Showoff server will track your slide changes. Disable it to observe the presentation without inadvertently causing slide changes.
+      remote:
+        label: Enable Remote
+        tooltip: Enables tracking of other presenters.
+        description: When this is enabled, you can load the presenter in another browser (typically on your mobile phone) to control the presentation.
+      layout:
+        label: Layout
+        default: Default Layout
+        thumbs: Display thumbnail previews of the next and previous slides.
+        beside: Display the next slide as a large preview in the main presenter view.
+        floating: Open the next slide as a floating window.
+        confirmation: Browser security requires confirmation before opening a new window.
+        open: Open Window
+        cancel: cancel
+        reset:
+          label: Clear Showoff settings.
+          tooltip: Reset Showoff UI settings to default values.
+
+  error:
+    file_not_found: File Not Found!

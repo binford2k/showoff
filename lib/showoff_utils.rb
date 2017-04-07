@@ -391,24 +391,28 @@ class ShowOffUtils
     [code,lines,width]
   end
 
-  def self.showoff_sections(dir, logger = nil)
+  def self.showoff_sections(dir, data = nil, logger = nil)
     unless logger
       logger = Logger.new(STDOUT)
       logger.level = Logger::WARN
     end
 
-    index = File.join(dir, ShowOffUtils.presentation_config_file)
     begin
-      data = JSON.parse(File.read(index)) rescue ["."] # default boring showoff.json
+      unless data
+        index = File.join(dir, ShowOffUtils.presentation_config_file)
+        data  = JSON.parse(File.read(index)) rescue ["."] # default boring showoff.json
+      end
+
       logger.debug data
       if data.is_a?(Hash)
-        sections = data['sections'] if data.include? 'sections'
+        # dup so we don't overwrite the original data structutre and make it impossible to re-localize
+        sections = data['sections'].dup
       else
-        sections = data
+        sections = data.dup
       end
 
       if sections.is_a? Array
-        sections = showoff_legacy_sections(sections)
+        sections = showoff_legacy_sections(dir, sections)
       elsif sections.is_a? Hash
         raise "Named sections are unsupported on Ruby versions less than 1.9." if RUBY_VERSION.start_with? '1.8'
         sections.each do |key, value|
@@ -437,7 +441,7 @@ class ShowOffUtils
     sections
   end
 
-  def self.showoff_legacy_sections(data)
+  def self.showoff_legacy_sections(dir, data)
     # each entry in sections can be:
     # - "filename.md"
     # - { "section": "filename.md" }
@@ -465,28 +469,36 @@ class ShowOffUtils
           end
         end
       end
-
       section
-    end.flatten.compact.each do |filename|
+    end.flatten.compact.each do |entry|
       # We do this in two passes simply because most of it was already done
       # and I don't want to waste time on legacy functionality.
+
+      # Normalize to a proper path from presentation root
+      filename = File.expand_path(entry).sub(/^#{dir}\//, '')
+      # and then strip out the locale directory, if there is one
+      filename.sub!(/^(locales\/[\w-]+\/)/, '')
+      locale = $1
+
       if File.directory? filename
-        path = filename
+        path = entry
         sections[path] ||= []
         Dir.glob("#{filename}/**/*.md").sort.each do |slidefile|
-          sections[path] << slidefile
+          fullpath = locale.nil? ? slidefile : "#{locale}/#{slidefile}"
+          sections[path] << fullpath
         end
       else
-        path = File.dirname(filename)
+        path = File.dirname(entry)
         sections[path] ||= []
         sections[path]  << filename
       end
     end
+
     sections
   end
 
-  def self.showoff_slide_files(dir, logger = nil)
-    data = showoff_sections(dir, logger)
+  def self.showoff_slide_files(dir, data = nil, logger = nil)
+    data = showoff_sections(dir, data, logger)
     data.map { |key, value| value }.flatten
   end
 
