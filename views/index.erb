@@ -13,74 +13,74 @@
     <div id="navigationHover"></div>
     <div id="feedbackSidebar" class="sideMenu">
     <img id="disconnected" src="<%= @asset_path %>/css/disconnected.png">
-    <h3>Showoff Menu</h3>
-    <div id="navToggle" class="buttonWrapper"><i class=" fa fa-bookmark"></i> Table of Contents</div>
+    <h3><%= I18n.t('menu.title') %></h3>
+    <div id="navToggle" class="buttonWrapper"><i class=" fa fa-bookmark"></i> <%= I18n.t('menu.table_of_contents') %></div>
     <div id="navigation" class="submenu"></div>
     <% if not @static then %>
     <hr>
-    <div id="fileDownloads" class="buttonWrapper"><i class="fa fa-download"></i> Downloads</div>
+    <div id="fileDownloads" class="buttonWrapper"><i class="fa fa-download"></i> <%= I18n.t('menu.downloads') %></div>
     <% end %>
     <hr>
 
     <% if @feedback and not @static then %>
-        <p>The presenter should...</p>
+        <p><%= I18n.t('menu.pace.label') %></p>
         <div id="paceSlower" class="buttonWrapper split interactive">
         <i class="fa fa-minus"></i>
-        <br>Slow Down
+        <br><%= I18n.t('menu.pace.slower') %>
         </div>
         <div id="paceFaster" class="buttonWrapper split interactive">
         <i class="fa fa-plus"></i>
-        <br>Speed Up
+        <br><%= I18n.t('menu.pace.faster') %>
         </div>
 
         <hr>
-        <div id="questionToggle" class="buttonWrapper interactive"><i class="fa fa-hand-stop-o"></i> Ask a Question</div>
+        <div id="questionToggle" class="buttonWrapper interactive"><i class="fa fa-hand-stop-o"></i> <%= I18n.t('menu.question.label') %></div>
         <div id="questionSubmenu" class="submenu">
-        <textarea id="question" placeholder="Ask a question..."></textarea>
+        <textarea id="question" placeholder="<%= I18n.t('menu.question.placeholder') %>"></textarea>
         <div id="askQuestion" class="buttonWrapper interactive">Ask</div>
         </div>
         <ul id="askedQuestions"></ul>
 
         <hr>
 
-        <div id="feedbackToggle" class="buttonWrapper interactive"><i class="fa fa-envelope"></i> Send Feedback</div>
+        <div id="feedbackToggle" class="buttonWrapper interactive"><i class="fa fa-envelope"></i> <%= I18n.t('menu.feedback.label') %></div>
         <div id="feedbackSubmenu" class="submenu">
-        <p>This slide is...</p>
+        <p><%= I18n.t('menu.feedback.label') %></p>
         <small>
-            Terrible
+            <%= I18n.t('menu.feedback.worst') %>
             <input type="radio" name="rating" value="1"></input>
             <input type="radio" name="rating" value="2"></input>
             <input type="radio" name="rating" value="3"></input>
             <input type="radio" name="rating" value="4"></input>
             <input type="radio" name="rating" value="5"></input>
-            Awesome
+            <%= I18n.t('menu.feedback.best') %>
         </small>
-        <textarea id="feedback" placeholder="Why...?"></textarea>
-        <div id="sendFeedback" class="buttonWrapper interactive">Send</div>
+        <textarea id="feedback" placeholder="<%= I18n.t('menu.feedback.why') %>"></textarea>
+        <div id="sendFeedback" class="buttonWrapper interactive"><%= I18n.t('menu.feedback.send') %></div>
         </div>
 
         <% if @edit then %>
         <hr>
-        <div id="editSlide" class="buttonWrapper">Edit Current Slide</div>
+        <div id="editSlide" class="buttonWrapper"><%= I18n.t('menu.edit') %></div>
         <% end %>
         <hr>
-        <div id="clearAnnotations" class="buttonWrapper"><i class="fa fa-eraser"></i> Clear Annotations</div>
+        <div id="clearAnnotations" class="buttonWrapper"><i class="fa fa-eraser"></i> <%= I18n.t('menu.clear_annotations') %></div>
         <hr>
     <% end %>
 
-    <div id="closeMenu" class="buttonWrapper"><i class="fa fa-close"></i> Close</div>
+    <div id="closeMenu" class="buttonWrapper"><i class="fa fa-close"></i> <%= I18n.t('menu.close') %></div>
     <hr>
 
     <small>
-        <p>Press <code>?</code> for help.</p>
-        <p>All features are anonymous</p>
+        <p><%= I18n.t('menu.help') %></p>
+        <p><%= I18n.t('menu.anonymous') %></p>
     </small>
     </div>
     <div id="sidebarExit"></div>
 </div>
 <%= erb :help %>
 
-<div id="preso"><center>loading presentation...</center></div>
+<div id="preso"><center><%= I18n.t('loading') %></center></div>
 
 <div id="notes"></div>
 
@@ -97,7 +97,7 @@
 <%= @slides %>
 </div>
 <div id="buttonNav">
-  <div id="buttonPrev"><i class="fa fa-chevron-left fa-lg"></i> Previous</div><div id="buttonNext">Next <i class="fa fa-chevron-right fa-lg"></i></div>
+  <div id="buttonPrev"><i class="fa fa-chevron-left fa-lg"></i> <%= I18n.t('navigation.previous') %></div><div id="buttonNext"><%= I18n.t('navigation.next') %> <i class="fa fa-chevron-right fa-lg"></i></div>
 </div>
 <div id="pauseScreen">
   <%= @pause_msg %>

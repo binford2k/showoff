@@ -1,0 +1,145 @@
+fr:
+  name: Showoff Présentation
+  menu:
+    title: Showoff Menu
+    table_of_contents: Table des Matières
+    downloads: Téléchargements
+    feedback: Envoi...
+    pace:
+      label: Le présentateur devrait...
+      slower: Ralentir
+      faster: Accélérer
+    question:
+      label: Poser Une Question
+      placeholder: Poser une question...
+    feedback:
+      label: Envoyer des Commentaires
+      description: Cette diapositive est...
+      worst: Mauvais
+      best: Fantastique
+      why: Pourquoi...?
+      send: Envoi
+    edit: Modifier la Diapositive Actuelle
+    clear_annotations: Effacer les Annotations
+    close: Fermer
+    help: Presse <code>?</code> pour aider.
+    anonymous: Toutes les fonctionnalités sont anonymes.
+  navigation:
+    next: Prochain
+    previous: Précédent
+  loading: Chargement de la présentation...
+  activity_complete: Activité terminée
+  follow:
+    label: "Suivre le Mode:"
+  refresh: "Voulez-vous vraiment actualiser le contenu de la diapositive?\n\n(Utilisez «RELOAD» pour recharger complètement l'interface utilisateur complète)"
+  reload: Voulez-vous vraiment recharger Showoff?
+  preshow:
+    prompt: Minutes à partir de maintenant pour commencer?
+    resume: "Reprise dans:"
+
+  downloads:
+    title: Téléchargements de fichiers
+
+  help:
+    title: Aider
+    next: Passer à la diapositive suivante.
+    prev: Passer à la diapositive précédente.
+    contents: Afficher le menu de la table des matières.
+    follow: Activer le mode de suivi.
+    help: Afficher cette fenêtre d'aide.
+    refresh: Actualiser le contenu des diapositives.
+    reload: Complètement recharger Showoff.
+    blank: Videz l'écran.
+    footer: Basculer le pied de page d'affichage.
+    notes: Affichage des notes à bascule.
+    clear: Effacer les résultats d'exécution de code.
+    pause: Mettre en pause la présentation.
+    preshow: Afficher le diaporama des images <tt>présélection</tt> sur une minuterie.
+    execute: Exécuter le premier bloc de code visible.
+    debug: Afficher les informations de débogage.
+    close: Fermer
+
+  stats:
+    title: Affichage des statistiques
+    stray: de votre public ne regarde pas la même diapositive que vous êtes.
+    idle: de votre auditoire est inactif.
+    current: Diapositives en cours d'affichage
+    elapsed: Temps écoulé passé sur chaque lame
+    nodata: Aucune donnée à afficher.
+    allcurrent: Tous les membres du public regardent la diapositive du présentateur.
+
+  forms:
+    display: Afficher les résultats
+    save: Conserver
+
+  presenter:
+    topbar:
+      annotations: Annotations
+      edit: Modifier la Diapositive
+      report: Signaler un Problème avec la Diapositive
+      stats: Affichage des Statistiques
+      downloads: Téléchargements
+      display: Fenêtre d'Affichage
+      print: Imprimer Diapositives
+      settings: Paramètres
+      newpage: Ouvrir dans une nouvelle page...
+      tooltip:
+        annotations: Activer le sous-système annotations.
+        edit: Modifier la diapositive actuelle dans une nouvelle fenêtre.
+        report: Signaler un problème avec la diapositive actuelle.
+        stats: Voir les diapositives avec lesquelles votre public interagit.
+        downloads: Ouvrez les téléchargements de fichiers dans un menu ou une nouvelle page.
+        display: Activer la fenêtre d'affichage; Vous devriez le mettre sur le projecteur.
+        print: Imprimer des diapositives à l'aide d'une nouvelle fenêtre.
+        settings: Ouvrez la boîte de dialogue Paramètres.
+    preview:
+      next: Prochain
+      previous: Précédent
+    mobile:
+      update: Réviser
+    notes:
+      label:  Showoff Remarques
+      personal: Remarques Personnelles
+    timer:
+      label: "Minuteur:"
+      start: Commencer
+      pause: Pause
+      resume: Reprendre
+      cancel: Annuler
+      unit: minutes
+    pace:
+      faster: Accélérer!
+      slower: Ralentissez!
+    questions: Questions d'Audience
+    annotation:
+      tools: Outils
+      lines: Lignes
+      shapes: Formes
+    status:
+      label: "Diapositives:"
+    settings:
+      label: Paramètres
+      close: Fermer
+      follower:
+        label: Mise à Jour
+        tooltip: Envoyer des notifications de modification de diapositive.
+        description: Lorsque cette option est activée, le serveur Showoff effectuera le suivi des modifications apportées aux diapositives. Désactivez-le pour observer la présentation sans provoquer par inadvertance des changements de diapositives.
+      remote:
+        label: Activer la télécommande
+        tooltip: Permet le suivi d'autres présentateurs.
+        description: Lorsque cette option est activée, vous pouvez charger le présentateur dans un autre navigateur (généralement sur votre téléphone portable) pour contrôler la présentation.
+      layout:
+        label: Disposition
+        default: Configuration par défaut.
+        thumbs: Afficher les aperçus des vignettes des diapositives suivantes et précédentes.
+        beside: Affichez la diapositive suivante comme un aperçu général dans la vue du présentateur principal.
+        floating: Ouvrez la diapositive suivante comme une fenêtre flottante.
+        confirmation: La sécurité du navigateur requiert confirmation avant d'ouvrir une nouvelle fenêtre.
+        open: Fenêtre ouverte
+        cancel: Annuler
+        reset:
+          label: Réinitialiser les paramètres.
+          tooltip: Réinitialiser les paramètres de l'interface utilisateur Showoff aux valeurs par défaut.
+
+  error:
+    file_not_found: Fichier non trouvé!

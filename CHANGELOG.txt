@@ -1,3 +1,13 @@
+0.17.2
+  * Slides can now be tagged as "activity", which gives audience members the ability
+    to inform the presenter when they're done.
+  * Several UI/UX improvements and refinements.
+  * Added markup to highlight specific line in code blocks.
+  * Font Awesome icon markup syntax.
+  * Bugfix: another legacy showoff.json fix
+  * Bugfix: workaround Commonmarker API breakage
+  * Bugfix: edit link works with relative paths
+
 0.17.1
   * Several style updates, including the help dialog and mobile view.
   * Bugfix: fixed failure when manually creating HTML anchors.

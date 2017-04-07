@@ -9,6 +9,11 @@ require 'htmlentities'
 require 'sinatra-websocket'
 require 'tempfile'
 
+require 'i18n'
+require 'i18n/backend/fallbacks'
+require 'rack'
+require 'rack/contrib'
+
 here = File.expand_path(File.dirname(__FILE__))
 require "#{here}/showoff_utils"
 require "#{here}/commandline_parser"
@@ -53,6 +58,16 @@ class ShowOff < Sinatra::Application
   set :encoding, nil
   set :url, nil
 
+  # automatically select the translation based on the user's configured browser language
+  use Rack::Locale
+
+  configure do
+    I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
+    I18n.load_path += Dir[File.join(settings.root, '..', 'locales', '*.yml')]
+    I18n.backend.load_translations
+    I18n.enforce_available_locales = false
+  end
+
   def initialize(app=nil)
     super(app)
     @logger = Logger.new(STDOUT)
@@ -62,10 +77,6 @@ class ShowOff < Sinatra::Application
     @review  = settings.review
     @execute = settings.execute
 
-    dir = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-    @logger.debug(dir)
-
-    showoff_dir = File.expand_path(File.join(File.dirname(__FILE__), '..'))
     settings.pres_dir ||= Dir.pwd
     @root_path = "."
 
@@ -139,7 +150,7 @@ class ShowOff < Sinatra::Application
     @slide_count   = 0
     @section_major = 0
     @section_minor = 0
-    @section_title = settings.showoff_config['name'] rescue 'Showoff Presentation'
+    @section_title = settings.showoff_config['name'] rescue I18n.t('name')
     @@slide_titles  = [] # a list of generated slide names, used for cross references later.
 
     @logger.debug settings.pres_template
@@ -184,7 +195,7 @@ class ShowOff < Sinatra::Application
     @@downloads = Hash.new # Track downloadable files
     @@cookie    = nil      # presenter cookie. Identifies the presenter for control messages
     @@current   = Hash.new # The current slide that the presenter is viewing
-    @@cache     = nil      # Cache slide content for subsequent hits
+    @@cache     = Hash.new # Cache slide content for subsequent hits
     @@activity  = []       # keep track of completion for activity slides
 
     if @interactive
@@ -261,6 +272,33 @@ class ShowOff < Sinatra::Application
       else
         list.join ', '
       end
+    end
+
+    # This function returns the directory containing translated *content*, defaulting
+    # to cwd. This works similarly to I18n fallback, but we cannot reuse that as it's
+    # a different translation mechanism.
+    def get_locale_dir(prefix)
+      locale = I18n.locale.to_s
+
+      until (locale.empty?) do
+        path = "#{prefix}/#{locale}"
+        return path if File.directory?(path)
+
+        # if not found, chop off a section and try again
+        locale = locale.rpartition('-').first
+      end
+      '.'
+    end
+
+    def locale
+      languages = I18n.backend.send(:translations)
+      I18n.fallbacks[I18n.locale].select { |f| languages.keys.include? f }.first
+    end
+
+    def get_translations
+      languages = I18n.backend.send(:translations)
+      fallback  = I18n.fallbacks[I18n.locale].select { |f| languages.keys.include? f }.first
+      languages[fallback]
     end
 
     # todo: move more behavior into this class
@@ -413,7 +451,6 @@ class ShowOff < Sinatra::Application
         sl = build_forms(sl, content_classes)
         sl = update_p_classes(sl)
         sl = process_content_for_section_tags(sl, name, opts)
-        sl = process_content_for_div_tags(sl, name, opts)
         sl = update_special_content(sl, @slide_count, name) # TODO: deprecated
         sl = update_image_paths(name, sl, opts)
 
@@ -421,7 +458,7 @@ class ShowOff < Sinatra::Application
         content += "</div>\n"
         if content_classes.include? 'activity'
           content += '<span class="activityToggle">'
-          content += "  <label for=\"activity-#{ref}\">Activity complete</label>"
+          content += "  <label for=\"activity-#{ref}\">#{I18n.t('activity_complete')}</label>"
           content += "  <input type=\"checkbox\" class=\"activity\" name=\"activity-#{ref}\" id=\"activity-#{ref}\">"
           content += '</span>'
         end
@@ -481,23 +518,7 @@ class ShowOff < Sinatra::Application
       result
     end
 
-    # Replace DIV tags with classed div tags
-    def process_content_for_div_tags(content, name = nil, opts = {})
-      return unless content
-
-      # because this is post markdown rendering, we may need to shift a <p> tag around
-      # remove the tags if they're by themselves
-      result = content.gsub(/<p>~~~DIV:([^~]*)~~~<\/p>/, '<div class="\1">')
-      result.gsub!(/<p>~~~ENDDIV~~~<\/p>/, '</div>')
-
-      # shove it around the div if it belongs to the contained element
-      result.gsub!(/(<p>)?~~~DIV:([^~]*)~~~/, '<div class="\2">\1')
-      result.gsub!(/~~~ENDDIV~~~(<\/p>)?/, '\1</div>')
-
-      result
-    end
-
-    # replace section tags with classed div tags including notes-section class
+    # replace section tags with classed div tags
     def process_content_for_section_tags(content, name = nil, opts = {})
       return unless content
 
@@ -520,7 +541,7 @@ class ShowOff < Sinatra::Application
         doc.add_child '<div class="notes-section notes"></div>' if doc.css('div.notes-section.notes').empty?
         doc.css('div.notes-section.notes').each do |section|
           text = Tilt[:markdown].new(nil, nil, @engine_options) { File.read(filename) }.render
-          frag = "<div class=\"personal\"><h1>Personal Notes</h1>#{text}</div>"
+          frag = "<div class=\"personal\"><h1>#{I18n.t('presenter.notes.personal')}</h1>#{text}</div>"
           note = Nokogiri::HTML::DocumentFragment.parse(frag)
 
           if section.children.size > 0
@@ -731,8 +752,8 @@ class ShowOff < Sinatra::Application
 
       begin
         tools =  '<div class="tools">'
-        tools << '<input type="button" class="display" value="Display Results">'
-        tools << '<input type="submit" value="Save" disabled="disabled">'
+        tools << "<input type=\"button\" class=\"display\" value=\"#{I18n.t('forms.display')}\">"
+        tools << "<input type=\"submit\" value=\"#{I18n.t('forms.save')}\" disabled=\"disabled\">"
         tools << '</div>'
         form  = "<form id='#{title}' action='/form/#{title}' method='POST'>#{content}#{tools}</form>"
         doc = Nokogiri::HTML::DocumentFragment.parse(form)
@@ -1032,8 +1053,11 @@ class ShowOff < Sinatra::Application
     end
 
     def get_slides_html(opts={:static=>false, :pdf=>false, :toc=>false, :supplemental=>nil, :section=>nil})
+      sections = nil
+      Dir.chdir(get_locale_dir('locales')) do
+        sections = ShowOffUtils.showoff_sections(settings.pres_dir, settings.showoff_config, @logger)
+      end
 
-      sections = ShowOffUtils.showoff_sections(settings.pres_dir, @logger)
       if sections
         data = ''
         sections.each do |section, slides|
@@ -1118,6 +1142,9 @@ class ShowOff < Sinatra::Application
       # Provide a button in the sidebar for interactive editing if configured
       @edit     = settings.showoff_config['edit'] if @review
 
+      # translated UI strings, according to the current locale
+      @language = get_translations()
+
       # store a cookie to tell clients apart. More reliable than using IP due to proxies, etc.
       if request.nil?   # when running showoff static
         @client_id = guid()
@@ -1138,6 +1165,7 @@ class ShowOff < Sinatra::Application
       @issues    = settings.showoff_config['issues']
       @edit      = settings.showoff_config['edit'] if @review
       @feedback  = settings.showoff_config['feedback']
+      @language  = get_translations()
       @@cookie ||= guid()
       response.set_cookie('presenter', @@cookie)
       erb :presenter
@@ -1181,16 +1209,21 @@ class ShowOff < Sinatra::Application
     end
 
     def slides(static=false)
+      @logger.warn "Cached presentations: #{@@cache.keys}"
+
+      # if we have a cache and we're not asking to invalidate it
+      return @@cache[@locale] if (@@cache[@locale] and params['cache'] != 'clear')
+
+      @logger.warn "Generating locale: #{@locale}"
+
       # If we're displaying from a repository, let's update it
       ShowOffUtils.update(settings.verbose) if settings.url
 
-      # if we have a cache and we're not asking to invalidate it
-      return @@cache if (@@cache and params['cache'] != 'clear')
       @@slide_titles = []
       content = get_slides_html(:static=>static)
 
       # allow command line cache disabling
-      @@cache = content unless settings.nocache
+      @@cache[@locale] = content unless settings.nocache
       content
     end
 
@@ -1349,6 +1382,8 @@ class ShowOff < Sinatra::Application
       name = showoff.instance_variable_get(:@pres_name)
       path = showoff.instance_variable_get(:@root_path)
       logger = showoff.instance_variable_get(:@logger)
+
+      I18n.locale = opts[:language]
 
       case what
       when 'supplemental'
@@ -1787,7 +1822,8 @@ class ShowOff < Sinatra::Application
 
   # gawd, this whole routing scheme is bollocks
   get %r{/([^/]*)/?([^/]*)} do
-    @title = ShowOffUtils.showoff_title(settings.pres_dir)
+    @locale    = locale()
+    @title     = ShowOffUtils.showoff_title(settings.pres_dir)
     @pause_msg = ShowOffUtils.pause_msg
     what = params[:captures].first
     opt  = params[:captures][1]

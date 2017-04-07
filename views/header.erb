@@ -52,4 +52,6 @@
     keycode_dictionary   = <%= JSON.pretty_generate @keycode_dictionary %>;
     keycode_shifted_keys = <%= JSON.pretty_generate @keycode_shifted_keys %>;
 
+    I18n = new translation(<%= @language.to_json %>);
+
   </script>

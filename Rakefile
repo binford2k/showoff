@@ -69,6 +69,43 @@ task :test do
   sh "turn test/*_test.rb #{suffix}"
 end
 
+
+desc 'Validate translation files'
+task 'lang:check' do
+  require 'yaml'
+
+  def compare_keys(left, right, name, stack=nil)
+    left.each do |key, val|
+      inner   = stack.nil? ? key : "#{stack}.#{key}"
+      compare = right[key]
+
+      case compare
+      when Hash
+        compare_keys(val, compare, name, inner)
+      when String
+        next
+      when NilClass
+        puts "Error: '#{inner}' is missing from #{name}"
+      else
+        puts "Error: '#{inner}' in #{name} is a #{compare.class}, not a Hash"
+      end
+    end
+
+  end
+
+  canonical = YAML.load_file('locales/en.yml')
+  languages = Dir.glob('locales/*.yml').reject {|lang| lang == 'locales/en.yml' }
+
+  languages.each do |langfile|
+    lang = YAML.load_file(langfile)
+    code = File.basename(langfile, '.yml')
+    key  = lang.keys.first
+
+    puts "Error: #{langfile} has the wrong language code (#{key})" unless code == key
+    compare_keys(canonical['en'], lang[key], langfile)
+  end
+end
+
 begin
   require 'mg'
   MG.new("showoff.gemspec")

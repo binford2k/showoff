@@ -1,0 +1,145 @@
+de:
+  name: Showoff Präsentation
+  menu:
+    title: Showoff Menü
+    table_of_contents: Inhaltsverzeichnis
+    downloads: Downloads
+    feedback: Senden...
+    pace:
+      label: Der Präsentierende soll...
+      slower: Langsamer werden
+      faster: Schneller werden
+    question:
+      label: XFrage stellen
+      placeholder: Frage stellen...
+    feedback:
+      label: Feedback senden
+      description: Diese Folie ist...
+      worst: Schrecklich
+      best: Großartig
+      why: Warum...?
+      send: Senden
+    edit: Aktuelle Folie ändern
+    clear_annotations: Anmerkungen entfernen
+    close: Schließen
+    help: Drücke das <code>?</code> für Hilfe.
+    anonymous: Alle Feedbacks sind anonym.
+  navigation:
+    next: Nächste Folie
+    previous: Vorherige Folie
+  loading: laden der Präsentation...
+  activity_complete: Aktivität vollständig
+  follow:
+    label: "Folge dem Präsentierer:"
+  refresh: "Soll der Inhalt der Folie aktualisiert werden?\n\n(Verwende `RELOAD` wenn die gesamte Präsentation neu geladen werden soll)"
+  reload: Soll Showoff neu geladen werden?
+  preshow:
+    prompt: Beginn in Minuten?
+    resume: "Fortsetzen in Minuten:"
+
+  downloads:
+    title: Datei Downloads
+
+  help:
+    title: Hilfe
+    next: Zur nächsten Folie.
+    prev: Zur vorherigen Folie.
+    contents: Anzeigen des Inhaltsverzeichnisses.
+    follow: Mitverfolgen ein/aussschalten.
+    help: Anzeigen der Hilfe.
+    refresh: Inhalte neu laden.
+    reload: Showoff vollstämdig neu laden.
+    blank: Bildschirm leeren.
+    footer: Fußzeite eun/ausschalten.
+    notes: Hinweise ein/ausschalten.
+    clear: Ergebnisse löschen.
+    pause: Pausieren der Präsentation.
+    preshow: Anzeigen der Präsentation <tt>preshow</tt> mit einem Timer.
+    execute: Ausführen des ersten sichtbaren Blocks.
+    debug: Anzeigen von Debug Informationen.
+    close: Schließen.
+
+  stats:
+    title: Ansischtsstatistiken.
+    stray: der Teilnehmer sehen eine andere Folie.
+    idle: der Teilnehmer sind inaktiv.
+    current: Aktuelle Folien.
+    elapsed: Zeit pro Folie.
+    nodata: Keine Daten zum Anzeigen vorhanden.
+    allcurrent: Alle Teilnehmer sehen die Folie des Präsentierenden.
+
+  forms:
+    display: Anzeige der Ergebnisse
+    save: Speichern
+
+  presenter:
+    topbar:
+      annotations: Anmerkungen
+      edit: Folie bearbeiten
+      report: Fehler mit Folie melden
+      stats: Ansichtsstatistiken
+      downloads: Downloads
+      display: Anzeigefenster
+      print: Folien drucken
+      settings: Einstellungen
+      newpage: Im neuen Fenster öffnen...
+      tooltip:
+        annotations: Aktivieren des Anmerkungssystems.
+        edit: Bearbeiten der Folie in einem neuen Fenster.
+        report: Einen Fehler der aktuellen Folie melden.
+        stats: Anschauen, welche Folien von den Teilnehmern betrachtet wurden.
+        downloads: Öffnen des Download Bereiches im Menü oder in einem neuen Fenster.
+        display: Aktivieren des Präsentationsfenster; dieses sollte über den Projektor gezeigt werden.
+        print: Folien in einem neuen Fenster drucken.
+        settings: Öffnen der Einstellungen.
+    preview:
+      next: Nächste Folie
+      previous: Vorherige Folie
+    mobile:
+      update: Aktualisierung
+    notes:
+      label:  Showoff Notizen
+      personal: Persönliche Notizen
+    timer:
+      label: "Timer:"
+      start: Start
+      pause: Pause
+      resume: Fortsetzen
+      cancel: Abbrechen
+      unit: Minuten
+    pace:
+      faster: Langsamer!
+      slower: Schneller!
+    questions: Frage von Teilnehmern
+    annotation:
+      tools: Werkzeuge
+      lines: Linien
+      shapes: Formen
+    status:
+      label: "Folien:"
+    settings:
+      label: Einstellungen
+      close: Schließen
+      follower:
+        label: Aktualisierung Schüler Folien
+        tooltip: Benachrichtigung üder Änderung versenden
+        description: Wenn dies aktiviert ist, bekommt der Showoff Server Informaitonen über Aktualisierungen. Deaktivieren, um versehentlicher Aktualiserungen zu verhindern.
+      remote:
+        label: Remote aktivieren
+        tooltip: Aktiviert das Update durch einen weiteren Präsentierer.
+        description: Wenn dies aktiviert ist, dann kann man die Präsentationvon einem anderen Geräterfolgen (üblicherweise ein Mobiles Endegerät).
+      layout:
+        label: Anordnung
+        default: Default Ansicht
+        thumbs: Anzeigen von Miniaturansichten der nächsten und vorherigen Folie.
+        beside: Anzeigen der nächsten Folie als Großansicht n der Präsentierer Ansicht.
+        floating: Öffnen der nächsten Folie in einem neuen Fenster.
+        confirmation: Die Sicherheitseinstellungen des Browsers machen es erforderlich, dass das Öffnen eines neuen Fensters bestätigt wird.
+        open: Fenster öffnen
+        cancel: Abbrechen
+        reset:
+          label: Löschen der Showoff Einstellungen.
+          tooltip: Zurücksetzen der Showfoff Einstellungen auf die Standardwerte.
+
+  error:
+    file_not_found: Datei nicht gefunden!

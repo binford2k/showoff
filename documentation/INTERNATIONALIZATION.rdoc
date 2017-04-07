@@ -1,0 +1,52 @@
+= Internationalization
+
+Showoff transparently supports both user interface localization and content
+translation.  Each user will see UI elements and content translated to the
+language their web browser is set to, assuming the proper translation exists.
+
+== User Interface
+
+The Showoff user interface, such as the sidebar menu and help dialog,will
+automatically localize itself to the language of the viewer. The list of
+supported languages can be seen in the
+{repository}[http://puppetlabs.github.io/https://github.com/puppetlabs/showoff/tree/master/locales].
+No configuration is required.
+
+If you'd like to contribute a translation file, please follow the
+{directions provided}[http://puppetlabs.github.io/https://github.com/puppetlabs/showoff/tree/master/locales/README.md].
+
+== Content Translation
+
+Showoff will present each user with content in the language of their choice.
+It is the author's job to create the translations in the first place.
+
+When the presentation is loaded, Showoff matches the language setting of the
+user's browser against the <tt>locales</tt> directory. If it finds a subdirectory
+matching the language, or one of the fallbacks, then that content will be served.
+
+For example, if the user's browser was set to <tt>en-GB</tt>, then Showoff would
+look for these directories in order:
+
+* <tt>locales/en-GB</tt>
+* <tt>locales/en</tt>
+* default to main presentation directory
+
+The structure of the translated presentation directory should match *exactly*
+the structure of the top-level default presentation. The same relative paths
+will be used to reference each slide.
+
+Images or other media should also be located in the localized directory. This
+allows you to translate any images with text as well. If you don't need this,
+you can symlink the directory, or you can use relative parent paths
+(<tt>../../</tt>) to point to the correct images.
+
+== Browser Configuration
+
+The language that Showoff selects is determined by the end-user browser settings.
+In other words, if the user wants to see Spanish content, they should configure
+their browser to prefer Spanish.
+
+Each browser is configured somewhat differently. For example, the language
+selection for Safari on macOS lives in the OS system preferences. On the other
+hand, Chrome has built-in language selection underneath the *Advanced* section
+of the settings and Firefox puts it under the *Content* section.

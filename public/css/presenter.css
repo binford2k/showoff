@@ -176,6 +176,9 @@
       margin: 2px 0px;
     }
 
+    #timerSection #startTimer {
+      float: right;
+    }
     #timerSection #pauseTimer {
       float: left;
       display: none;

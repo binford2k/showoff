@@ -30,7 +30,10 @@ $(document).ready(function(){
   $("#settings").click(      function() { $("#settings-modal").dialog("open"); });
   $("#slideSource a").click( function() { openEditor() });
   $("#notesToggle").click(   function() { toggleNotes() });
-  $("#clearCookies").click(  function() { clearCookies() });
+  $("#clearCookies").click(  function() {
+    clearCookies();
+    location.reload(false);
+  });
   $("#nextWinCancel").click( function() { chooseLayout('default') });
   $("#openNextWindow").click(function() { openNext() });
 
@@ -51,6 +54,11 @@ $(document).ready(function(){
 
   chooseLayout(null);
 
+  // must be defined using [] syntax for a variable button name on IE.
+  var closeLabel      = I18n.t('presenter.settings.close');
+  var buttons         = {};
+  buttons[closeLabel] = function() { $(this).dialog( "close" ); };
+
   $("#settings-modal").dialog({
     autoOpen: false,
     dialogClass: "no-close",
@@ -59,11 +67,7 @@ $(document).ready(function(){
     modal: true,
     resizable: false,
     width: 400,
-    buttons: {
-      Close: function() {
-        $( this ).dialog( "close" );
-      }
-    }
+    buttons: buttons
   });
 
   $("#annotationsToggle").checkboxradio({
@@ -156,7 +160,7 @@ $(document).ready(function(){
       var percent = json['stray_p'];
       if(percent > 25) {
         $('#topbar #statslink').addClass('warning');
-        $('#topbar #statslink').attr('title', percent + "% of your audience is not viewing the same slide you are.");
+        $('#topbar #statslink').attr('title', percent + '%' +  I18n.t('stats.stray'));
       }
       else {
         $('#stray').hide(); // in case the popup is open
@@ -213,7 +217,7 @@ function presenterPopupToggle(page, event) {
         href: page,
         target: '_new'
       });
-      link.text('Open in a new page...');
+      link.text(I18n.t('presenter.topbar.newpage'));
 
       content.attr('id', page.substring(1, page.length));
       content.append(link);
@@ -354,7 +358,7 @@ function toggleNotes() {
   if (mode.notes) {
     try {
       if(windowIsClosed(notesWindow)){
-        notesWindow = blankStyledWindow("Showoff Notes", 'width=350,height=450', 'notes', true);
+        notesWindow = blankStyledWindow(I18n.t('notes.label'), 'width=350,height=450', 'notes', true);
         window.setTimeout(function() {
           // call back and update the parent presenter if the window is closed
           notesWindow.onunload = function(e) {
