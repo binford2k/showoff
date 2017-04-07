@@ -40,7 +40,7 @@ ja:
 
   downloads:
     title: ファイルダウンロード
-    
+
   help:
     title: ヘルプ
     next: 次のスライドに移動します。
@@ -56,7 +56,7 @@ ja:
     clear: コード実行結果をクリアします。
     pause: プレゼンテーションを一時停止する。
     #Not familiar with a functioning word for "preshow" so went with "preview"
-    preshow: <tt>プレビュー</ tt>画像のスライドショーをタイマーに表示します。
+    preshow: <tt>プレビュー</tt>画像のスライドショーをタイマーに表示します。
     execute: 最初に表示されるコードブロックを実行します。
     debug: デバッグ情報を表示します。
     close: 閉じる
@@ -78,7 +78,7 @@ ja:
   forms:
     display: 結果を表示
     save: セーブ
-    
+
   presenter:
     topbar:
       annotations: 注釈
