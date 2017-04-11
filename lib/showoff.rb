@@ -693,7 +693,7 @@ class ShowOff < Sinatra::Application
         # Load and replace any file tags
         "file" => {
           :matchers => [
-            /~~~FILE:(?<name>[^:~]*):?(?<languages>.*)?~~~/
+            /^~~~FILE:(?<name>[^:~]*):?(?<languages>.*)?~~~$/
           ],
           :block => proc { |match_data|
             # make a list of code highlighting classes to include
