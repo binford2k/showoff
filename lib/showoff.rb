@@ -584,6 +584,14 @@ class ShowOff < Sinatra::Application
     # These are processed by gsub so the block should return the final result
     def custom_syntax_templates
       { 
+        "script" => {
+          :matchers => [
+            /\!SLIDE(?<classes>[^\[]*?)(?<script>[^\[]*)\[(?<script_args>[^\]])\]/
+          ],
+          :block => proc { |match_data|
+            %Q(!SLIDE #{match_data[:classes]}\n\n<script>#{match_data[:script]}\(#{match_data[:script_args]}\)</script>)
+          }
+        },
         "current" => {
           :matchers => [
             /~~~CURRENT_SLIDE~~~/
@@ -617,50 +625,29 @@ class ShowOff < Sinatra::Application
             %Q(\n<i class="fa #{match_data[:icon]}"></i>\n)
           }
         },
-        "image" => {
-          :matchers => [
-            /\s+\!\[(?<classes>\.\S*)\s*(?<alt>.*?)\]\((?<src>[^\]]*)\)/
-          ],
-          :block => proc { |match_data|
-            classes = match_data[:classes].gsub('.', ' ')
-            %Q(\n<img src="#{match_data[:src]}" class="#{classes}" alt="#{match_data[:alt]}">\n)
-          }
-        },
         "callout" => {
           :matchers => [
-            /^\.(?=callout)(?<classes>.*)\s+(?<inner>.*?)$/
+            /^\.(?=callout)(?<classes>[\S]*?)\s(?<inner>.*?)\n\n/m
           ],
           :block => proc { |match_data|
             classes = match_data[:classes].gsub('.',' ')
-            inner = process_custom_syntax(match_data[:inner])
+            inner = match_data[:inner]
             %Q(\n<div markdown="1" class="callout #{classes}">\n\n#{inner}\n\n</div>\n\n)
           }
         },
-        "div" => {
-          :matchers => [
-            /\.(?<classes>[^\[\!\ ]*)\[(?<indent_level>\d)\s(?<inner>.*?)\k<indent_level>\]/m,
-            /\.(?<classes>[^\[\!\ ]*)\[\D(?<inner>.*?)\D\]/m,
-            /~~~DIV:(?<classes>[^~]*)~~~(?<inner>.*?)~~~ENDDIV~~~/m
-          ],
-          :block => proc { |match_data|
-            inner = process_custom_syntax(match_data[:inner])
-            classes = match_data[:classes].gsub('.',' ')
-            %Q(\n<div markdown="1" class="#{classes}">\n\n#{inner}\n\n</div>\n\n)
-          },
-        },
         "section" => {
           :matchers => [
-            /~~~SECTION:(?<classes>[^~]*)~~~(?<inner>.*?)~~~ENDSECTION~~~/m
+            /^~~~SECTION:(?<classes>[^~]*?)~~~$(?<inner>.*?)^~~~ENDSECTION~~~$/m
           ],
           :block => proc { |match_data|
-            inner = process_custom_syntax(match_data[:inner])
             classes = match_data[:classes].gsub('.',' ')
+            inner = match_data[:inner]
             %Q(\n<div markdown="1" class="notes-section #{classes}">\n\n#{inner}\n\n</div>\n\n)
           },
         },
         "code" => {
           :matchers => [
-            /\s{4}@@@\s(?<languages>.*?)\n\s{4}(?<text>.*?)\n\n/m
+            /^\s{3,}@@@\s(?<languages>.*?)\n\s{3,}(?<text>.*?)\n\n/m
           ],
           :block => proc { |match_data|
             css = match_data[:languages].split.collect {|l| "language-#{l.downcase}" }.join(' ')
@@ -670,17 +657,17 @@ class ShowOff < Sinatra::Application
         },
         "paragraph" => {
           :matchers => [
-            /^\s+\.(?!break|comment)(?<classes>\S*) (?<inner>.+)$/
+            /^\.(?!break|comment)(?<classes>\S*) (?<inner>.+?)\n\n/m
           ],
           :block => proc { |match_data|
-            inner = process_custom_syntax(match_data[:inner])
+            inner = match_data[:inner]
             classes = match_data[:classes].gsub('.', ' ')
             %Q(\n<p markdown="1" class="#{classes}">\n\n#{inner}\n\n</p>\n\n)
           },
         },
         "pagebreak" => {
           :matchers => [
-            /~~~PAGEBREAK~~~/
+            /^~~~PAGEBREAK~~~$/
           ],
           :block => proc {
             %Q(<div class="pagebreak">continued...</div>)
@@ -688,7 +675,7 @@ class ShowOff < Sinatra::Application
         },
         "form" => {
           :matchers => [
-            /~~~FORM:(?<title>[^~]*)~~~/
+            /^~~~FORM:(?<title>[^~]*)~~~$/
           ],
           :block => proc { |match_data|
             %Q(<div class="form wrapper" title="#{match_data[:title]}"></div>)
@@ -697,12 +684,10 @@ class ShowOff < Sinatra::Application
         # Check for any kind of options
         "config" => {
           :matchers => [
-            /~~~CONFIG:(?<setting>.*?)~~~/
+            /^~~~CONFIG:(?<setting>.*?)~~~$/
           ],
           :block => proc { |match_data|
             settings.showoff_config[match_data[:setting]] if settings.showoff_config.key?(match_data[:setting])
-            # Change setting and return empty string
-            ''
           }
         },
         # Load and replace any file tags
@@ -727,7 +712,7 @@ class ShowOff < Sinatra::Application
           :matchers => [
             /\.(?:break|comment)( .*)?/
           ],
-          :block => proc { "<p></p>"}
+          :block => proc { "\n\n"}
         },
       }
     end
@@ -783,6 +768,16 @@ class ShowOff < Sinatra::Application
           end
         end
       end
+       
+      # Add classes to images
+      doc.css('i').each do |image|
+        alt_text = image['alt']
+        classes = /^\.\S*?/.match(alt_text).to_s
+        classes.gsub(/\./,' ')
+
+        image['class'] << classes
+      end
+
 
       doc.css('.callout.glossary').each do |item|
         next unless item.content =~ /^([^|]+)\|([^:]+):(.*)$/
