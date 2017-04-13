@@ -201,12 +201,17 @@ $(document).ready(function(){
 
 function presenterPopupToggle(page, event) {
   event.preventDefault();
+  // remove class from both so we don't lose an active state if user clicks the wrong item
+  $('#statslink').removeClass('enabled');
+  $('#downloadslink').removeClass('enabled');
+
   var popup = $('#presenterPopup');
   if (popup.length > 0) {
     popup.slideUp(200, function () {
       popup.remove();
     });
   } else {
+    $(event.target).addClass('enabled');
     popup = $('<div>');
     popup.attr('id', 'presenterPopup');
     $.get(page, function(data) {
