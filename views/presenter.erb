@@ -113,34 +113,36 @@
         </div>
       </div>
 
-      <div id="statusbar">
-        <span class="label"><%= I18n.t('presenter.status.label') %> <span id="slideInfo"></span></span>
-        <span id="debugInfo"></span>
-        <span id="slideSource">
-          <% if @request.host == 'localhost' %>
-            <a href="#"><span id="slideFile"></span></a>
-          <% else %>
-            <span id="slideFile"></span>
-          <% end %>
-        </span>
-      </div>
-      <div id="progress" class="no-mobile"></div>
-
-      <div id="buttonNav">
-        <div id="buttonPrev"><i class="fa fa-chevron-left fa-lg"></i> <%= I18n.t('navigation.previous') %></div><div id="buttonNext"><%= I18n.t('navigation.next') %> <i class="fa fa-chevron-right fa-lg"></i></div>
-      </div>
-
-      <div id="notes-wrapper">
-        <ul class="section-selector"></ul>
-        <div class="controls">
-          <a class="no-mobile fa fa-minus small" aria-hidden="true" href="#"></a>
-          <a class="no-mobile fa fa-dot-circle-o small" aria-hidden="true" href="#"></a>
-          <a class="no-mobile fa fa-plus small" aria-hidden="true" href="#"></a>
-          <span class="spacer"> </span>
-          <a id="notesToggle" class="no-mobile fa fa-external-link-square" aria-hidden="true" href="#"></a>
-          <span><i class="no-mobile fa fa-bars notes-grippy ui-resizable-handle ui-resizable-n" aria-hidden="true"></i></span>
+      <div id="notes-pane">
+        <div id="statusbar">
+          <span class="label"><%= I18n.t('presenter.status.label') %> <span id="slideInfo"></span></span>
+          <span id="debugInfo"></span>
+          <span id="slideSource">
+            <% if @request.host == 'localhost' %>
+              <a href="#"><span id="slideFile"></span></a>
+            <% else %>
+              <span id="slideFile"></span>
+            <% end %>
+          </span>
         </div>
-        <div id="notes"></div>
+        <div id="progress" class="no-mobile"></div>
+
+        <div id="buttonNav">
+          <div id="buttonPrev"><i class="fa fa-chevron-left fa-lg"></i> <%= I18n.t('navigation.previous') %></div><div id="buttonNext"><%= I18n.t('navigation.next') %> <i class="fa fa-chevron-right fa-lg"></i></div>
+        </div>
+
+        <div id="notes-wrapper">
+          <ul class="section-selector"></ul>
+          <div class="controls">
+            <a class="no-mobile fa fa-minus small" aria-hidden="true" href="#"></a>
+            <a class="no-mobile fa fa-dot-circle-o small" aria-hidden="true" href="#"></a>
+            <a class="no-mobile fa fa-plus small" aria-hidden="true" href="#"></a>
+            <span class="spacer"> </span>
+            <a id="notesToggle" class="no-mobile fa fa-external-link-square" aria-hidden="true" href="#"></a>
+            <span><i class="no-mobile fa fa-bars notes-grippy ui-resizable-handle ui-resizable-n" aria-hidden="true"></i></span>
+          </div>
+          <div id="notes"></div>
+        </div>
       </div>
     </div><!-- end presenter -->
   </div><!-- end main -->
