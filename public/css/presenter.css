@@ -50,6 +50,11 @@
   #topbar .ui-widget:hover {
     background-color: #263238;
   }
+  #topbar a:active,
+  #topbar a.enabled:active,
+  #topbar .ui-widget:active {
+    background-color: #2e424c;
+  }
 
   #close-sidebar {
     padding: .25em;
@@ -106,13 +111,14 @@
   display: none;
   position: absolute;
   z-index: 2147483647;
-  top: 3em;
+  top: 2.95em;
   left: 25%;
   max-height: 80%;
   width: 50%;
   padding-bottom: 1em;
   border-radius: 0 0 .5em .5em;
   overflow: auto;
+  background-color: #263238;
 }
 
   #presenterPopup a {
