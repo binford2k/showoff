@@ -210,8 +210,11 @@ class ShowOff < Sinatra::Application
 
     # Initialize Markdown Configuration
     MarkdownConfig::setup(settings.pres_dir)
-  end
 
+    # Process renderer config options  
+    @engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
+
+  end
   # save stats to disk
   def self.flush
     begin
@@ -329,9 +332,8 @@ class ShowOff < Sinatra::Application
       if settings.encoding and content.respond_to?(:force_encoding)
         content.force_encoding(settings.encoding)
       end
-      engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
       @logger.debug "renderer: #{Tilt[:markdown].name}"
-      @logger.debug "render options: #{engine_options.inspect}"
+      @logger.debug "render options: #{@engine_options.inspect}"
 
       # if there are no !SLIDE markers, then make every H1 define a new slide
       unless content =~ /^\<?!SLIDE/m
@@ -445,7 +447,7 @@ class ShowOff < Sinatra::Application
 
         # Apply the template to the slide and replace the key to generate the content of the slide
         sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
-        sl = Tilt[:markdown].new(nil, nil, engine_options) { sl }.render
+        sl = Tilt[:markdown].new(nil, nil, @engine_options) { sl }.render
         sl = build_forms(sl, content_classes)
         sl = update_p_classes(sl)
         sl = process_content_for_section_tags(sl, name, opts)
@@ -535,13 +537,10 @@ class ShowOff < Sinatra::Application
       filename = File.join(settings.pres_dir, '_notes', "#{name}.md")
       @logger.debug "personal notes filename: #{filename}"
       if [nil, 'notes'].include? opts[:section] and File.file? filename
-        # TODO: shouldn't have to reparse config all the time
-        engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
-
         # Make sure we've got a notes div to hang personal notes from
         doc.add_child '<div class="notes-section notes"></div>' if doc.css('div.notes-section.notes').empty?
         doc.css('div.notes-section.notes').each do |section|
-          text = Tilt[:markdown].new(nil, nil, engine_options) { File.read(filename) }.render
+          text = Tilt[:markdown].new(nil, nil, @engine_options) { File.read(filename) }.render
           frag = "<div class=\"personal\"><h1>#{I18n.t('presenter.notes.personal')}</h1>#{text}</div>"
           note = Nokogiri::HTML::DocumentFragment.parse(frag)
 
