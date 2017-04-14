@@ -11,10 +11,6 @@ $(document).ready(function(){
   // set up the presenter modes
   mode = { track: true, follow: true, update: true, slave: false, notes: false, annotations: false, layout: 'default'};
 
-  // attempt to open another window for the presentation if the mode defaults
-  // to enabling this. It does not by default, so this is likely a no-op.
-  openSlave();
-
   // the presenter window doesn't need the reload on resize bit
   $(window).unbind('resize');
 
@@ -267,22 +263,27 @@ function windowIsOpen(window) {
 
 function toggleSlave() {
   mode.slave = !mode.slave;
-  openSlave();
+  if (mode.slave) {
+    openSlave();
+  } else {
+    closeSlave();
+  }
 }
 
 // Open, or maintain connection & reopen slave window.
 function openSlave()
 {
-  if (mode.slave) {
-    try {
-      if(windowIsClosed(slaveWindow)){
-          slaveWindow = window.open('/' + window.location.hash, 'toolbar');
-      }
-      else if(slaveWindow.location.hash != window.location.hash) {
-        // maybe we need to reset content?
-        slaveWindow.location.href = '/' + window.location.hash;
-      }
+  try {
+    if(windowIsClosed(slaveWindow)){
+        slaveWindow = window.open('/' + window.location.hash, 'toolbar');
+    }
+    else if(slaveWindow.location.hash != window.location.hash) {
+      // maybe we need to reset content?
+      slaveWindow.location.href = '/' + window.location.hash;
+    }
 
+    // give the window time to load before poking at it
+    window.setTimeout(function() {
       // maintain the pointer back to the parent.
       slaveWindow.presenterView = window;
       slaveWindow.mode = { track: false, slave: true, follow: false };
@@ -290,26 +291,41 @@ function openSlave()
       // Add a class to differentiate from the audience view
       slaveWindow.document.getElementById("preso").className = 'display';
 
-      $('#slaveWindow').addClass('enabled');
-    }
-    catch(e) {
-      console.log('Failed to open or connect display window. Popup blocker?');
-    }
+      // call back and update the parent presenter if the window is closed
+      slaveWindow.onunload = function(e) {
+        slaveWindow.opener.closeSlave(true);
+      };
+    }, 500);
 
-    // Set up a maintenance loop to keep the connection between windows. I wish there were a cleaner way to do this.
-    if (typeof maintainSlave == 'undefined') {
-      maintainSlave = setInterval(openSlave, 1000);
-    }
+    $('#slaveWindow').addClass('enabled');
   }
-  else {
-    try {
+  catch(e) {
+    console.log('Failed to open or connect display window. Popup blocker?');
+  }
+}
+
+function closeSlave(calledByChild) {
+  try {
+    mode.slave = false;
+    $('#slaveWindow').removeClass('enabled');
+
+    if(calledByChild) {
+      // if this is called by the display view, we don't want to try to close it again.
+      // browsers are the worst. If the user hit *refresh*, then this should reconnect the display view
+      window.setTimeout(function() {
+        if(! windowIsClosed(slaveWindow)) {
+          openSlave();
+        }
+      }, 500);
+    } else {
+      // called normally and close the display view
       slaveWindow && slaveWindow.close();
-      $('#slaveWindow').removeClass('enabled');
-    }
-    catch (e) {
-      console.log('Display window failed to close properly.');
     }
   }
+  catch (e) {
+    console.log('Display window failed to close properly.');
+  }
+
 }
 
 function nextSlideNum(url) {
