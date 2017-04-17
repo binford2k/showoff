@@ -371,12 +371,12 @@ Defaults for each engine are:
   https://github.com/vmg/redcarpet
 
     "redcarpet" : {
-      :autolink"          : true,
-      :no_intra_emphasis" : true,
-      :strikethrough"     : true,
-      :superscript"       : true,
-      :tables"            : true,
-      :underline"         : true
+      "autolink"          : true,
+      "no_intra_emphasis" : true,
+      "strikethrough"     : true,
+      "superscript"       : true,
+      "tables"            : true,
+      "underline"         : true
     }
 
 [bluecloth]
