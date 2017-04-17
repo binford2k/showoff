@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>INTERNATIONALIZATION - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="file">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+  <ul class="link-list" role="directory">
+    <li><a href="#label-Internationalization">Internationalization</a>
+    <li><a href="#label-User+Interface">User Interface</a>
+    <li><a href="#label-Content+Translation">Content Translation</a>
+    <li><a href="#label-Browser+Configuration">Browser Configuration</a>
+  </ul>
+</div>
+
+
+  <div id="project-metadata">
+    <div id="fileindex-section" class="nav-section">
+  <h3>Pages</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./-HOME_rdoc.html">-HOME</a>
+  
+    <li><a href="./AUTHORING_rdoc.html">AUTHORING</a>
+  
+    <li><a href="./COMMANDLINE_rdoc.html">COMMANDLINE</a>
+  
+    <li><a href="./CONFIGURATION_rdoc.html">CONFIGURATION</a>
+  
+    <li><a href="./FORMS_rdoc.html">FORMS</a>
+  
+    <li><a href="./INSTALLATION_rdoc.html">INSTALLATION</a>
+  
+    <li><a href="./INTERACTION_rdoc.html">INTERACTION</a>
+  
+    <li><a href="./INTERNATIONALIZATION_rdoc.html">INTERNATIONALIZATION</a>
+  
+    <li><a href="./PRESENTATION_rdoc.html">PRESENTATION</a>
+  
+    <li><a href="./USAGE_rdoc.html">USAGE</a>
+  
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-label="Page INTERNATIONALIZATION.rdoc">
+
+<h1 id="label-Internationalization">Internationalization<span><a href="#label-Internationalization">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>Showoff transparently supports both user interface localization and content
+translation.  Each user will see UI elements and content translated to the
+language their web browser is set to, assuming the proper translation
+exists.</p>
+
+<h2 id="label-User+Interface">User Interface<span><a href="#label-User+Interface">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>The Showoff user interface, such as the sidebar menu and help dialog,will
+automatically localize itself to the language of the viewer. The list of
+supported languages can be seen in the <a
+href="http://puppetlabs.github.io/https://github.com/puppetlabs/showoff/tree/master/locales">repository</a>.
+No configuration is required.</p>
+
+<p>If you&#39;d like to contribute a translation file, please follow the <a
+href="http://puppetlabs.github.io/https://github.com/puppetlabs/showoff/tree/master/locales/README.md">directions
+provided</a>.</p>
+
+<h2 id="label-Content+Translation">Content Translation<span><a href="#label-Content+Translation">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>Showoff will present each user with content in the language of their
+choice. It is the author&#39;s job to create the translations in the first
+place.</p>
+
+<p>When the presentation is loaded, Showoff matches the language setting of
+the user&#39;s browser against the <code>locales</code> directory. If it
+finds a subdirectory matching the language, or one of the fallbacks, then
+that content will be served.</p>
+
+<p>For example, if the user&#39;s browser was set to <code>en-GB</code>, then
+Showoff would look for these directories in order:</p>
+<ul><li>
+<p><code>locales/en-GB</code></p>
+</li><li>
+<p><code>locales/en</code></p>
+</li><li>
+<p>default to main presentation directory</p>
+</li></ul>
+
+<p>The structure of the translated presentation directory should match
+<strong>exactly</strong> the structure of the top-level default
+presentation. The same relative paths will be used to reference each slide.</p>
+
+<p>Images or other media should also be located in the localized directory.
+This allows you to translate any images with text as well. If you don&#39;t
+need this, you can symlink the directory, or you can use relative parent
+paths (<code>../../</code>) to point to the correct images.</p>
+
+<h2 id="label-Browser+Configuration">Browser Configuration<span><a href="#label-Browser+Configuration">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>The language that Showoff selects is determined by the end-user browser
+settings. In other words, if the user wants to see Spanish content, they
+should configure their browser to prefer Spanish.</p>
+
+<p>Each browser is configured somewhat differently. For example, the language
+selection for Safari on macOS lives in the OS system preferences. On the
+other hand, Chrome has built-in language selection underneath the
+<strong>Advanced</strong> section of the settings and Firefox puts it under
+the <strong>Content</strong> section.</p>
+</main>
+
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.0.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
