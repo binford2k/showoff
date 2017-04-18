@@ -46,8 +46,10 @@ $(document).ready(function(){
   $('#statslink').click(function(e) { presenterPopupToggle('/stats', e); });
   $('#downloadslink').click(function(e) { presenterPopupToggle('/download', e); });
 
+  $('#languageSelector').change(function(e) { chooseLanguage(e.target.value); });
   $('#layoutSelector').change(function(e) { chooseLayout(e.target.value); });
 
+  chooseLanguage(null);
   chooseLayout(null);
 
   // must be defined using [] syntax for a variable button name on IE.
