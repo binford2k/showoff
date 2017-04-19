@@ -149,6 +149,7 @@ $(document).ready(function(){
   $('#followerToggle').change( toggleUpdater );
   $('#annotationsToggle').change( toggleAnnotations );
 
+  initializeSettings();
   setInterval(function() { updatePace() }, 1000);
 
   setInterval(function() {
@@ -890,6 +891,12 @@ function stopTimer() {
 
   // only unpin when the user has dismissed the timer
   unpinSidebar('timer');
+}
+
+function initializeSettings() {
+  // enable this if we are the "master" presenter
+  $("#followerToggle").prop("checked", master);
+  mode.update = $("#followerToggle").prop("checked");
 }
 
 /********************
