@@ -194,6 +194,7 @@ class ShowOff < Sinatra::Application
 
     @@downloads = Hash.new # Track downloadable files
     @@cookie    = nil      # presenter cookie. Identifies the presenter for control messages
+    @@master    = nil      # this holds the @client_id of the master presenter, for the cases in which multiple presenters are loaded
     @@current   = Hash.new # The current slide that the presenter is viewing
     @@cache     = Hash.new # Cache slide content for subsequent hits
     @@activity  = []       # keep track of completion for activity slides
@@ -211,7 +212,7 @@ class ShowOff < Sinatra::Application
     # Initialize Markdown Configuration
     MarkdownConfig::setup(settings.pres_dir)
 
-    # Process renderer config options  
+    # Process renderer config options
     @engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
 
   end
@@ -1146,16 +1147,7 @@ class ShowOff < Sinatra::Application
       @language = get_translations()
 
       # store a cookie to tell clients apart. More reliable than using IP due to proxies, etc.
-      if request.nil?   # when running showoff static
-        @client_id = guid()
-      else
-        if request.cookies['client_id']
-          @client_id = request.cookies['client_id']
-        else
-          @client_id = guid()
-          response.set_cookie('client_id', @client_id)
-        end
-      end
+      ensure_client_id()
 
       erb :index
     end
@@ -1166,8 +1158,12 @@ class ShowOff < Sinatra::Application
       @edit      = settings.showoff_config['edit'] if @review
       @feedback  = settings.showoff_config['feedback']
       @language  = get_translations()
+
+      ensure_client_id()
+      @@master ||= @client_id
       @@cookie ||= guid()
       response.set_cookie('presenter', @@cookie)
+
       erb :presenter
     end
 
@@ -1561,6 +1557,24 @@ class ShowOff < Sinatra::Application
   def valid_presenter_cookie?
     return false if @@cookie.nil?
     (request.cookies['presenter'] == @@cookie)
+  end
+
+  def master_presenter?
+    @@master == @client_id
+  end
+
+  def ensure_client_id
+    # store a cookie to tell clients apart. More reliable than using IP due to proxies, etc.
+    if request.nil?   # when running showoff static
+      @client_id = guid()
+    else
+      if request.cookies['client_id']
+        @client_id = request.cookies['client_id']
+      else
+        @client_id = guid()
+        response.set_cookie('client_id', @client_id)
+      end
+    end
   end
 
   post '/form/:id' do |id|
