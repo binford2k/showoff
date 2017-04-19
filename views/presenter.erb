@@ -164,11 +164,11 @@
     <div class="setting">
       <label><%= I18n.t('presenter.settings.language.label') %></label><br>
       <select id="languageSelector" autocomplete="off">
-        <option value="auto" selected><%= I18n.t('presenter.settings.language.auto') %></option>
+        <option value="auto" selected><%= I18n.t('language.auto') %></option>
         <% language_names.each do |code, name| %>
         <option value="<%= code %>"><%= name %></option>
         <% end %>
-        <option value="disable"><%= I18n.t('presenter.settings.language.disable') %></option>
+        <option value="disable"><%= I18n.t('language.disable') %></option>
       </select>
       <p class="description">
         <%= I18n.t('presenter.settings.language.description') %>

@@ -21,6 +21,7 @@ en:
       send: Send
     edit: Edit Current Slide
     clear_annotations: Clear Annotations
+    language: Content Language
     close: Close
     help: Press <code>?</code> for help.
     anonymous: All features are anonymous.
@@ -144,8 +145,10 @@ en:
         label: Content Language
         tooltip: Select from available translations, or autoselect based on your browser settings.
         description: This presentation is available in different languages. Choose the language you would like to view or leave it at <tt>automatic</tt> to use your browser settings.
-        auto: Automatic
-        disable: Disable translations
+
+  language:
+    auto: Automatic
+    disable: Disable Translations
 
   error:
     file_not_found: File Not Found!

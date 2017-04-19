@@ -1182,7 +1182,7 @@ class ShowOff < Sinatra::Application
       @language = get_translations()
 
       # store a cookie to tell clients apart. More reliable than using IP due to proxies, etc.
-      ensure_client_id()
+      manage_client_cookies()
 
       erb :index
     end
@@ -1194,10 +1194,7 @@ class ShowOff < Sinatra::Application
       @feedback  = settings.showoff_config['feedback']
       @language  = get_translations()
 
-      ensure_client_id()
-      @@master ||= @client_id
-      @@cookie ||= guid()
-      response.set_cookie('presenter', @@cookie)
+      manage_client_cookies(true)
 
       erb :presenter
     end
@@ -1598,7 +1595,7 @@ class ShowOff < Sinatra::Application
     @@master == @client_id
   end
 
-  def ensure_client_id
+  def manage_client_cookies(presenter=false)
     # store a cookie to tell clients apart. More reliable than using IP due to proxies, etc.
     if request.nil?   # when running showoff static
       @client_id = guid()
@@ -1609,6 +1606,15 @@ class ShowOff < Sinatra::Application
         @client_id = guid()
         response.set_cookie('client_id', @client_id)
       end
+    end
+
+    # if we have no content translations then remove the cookie
+    response.delete_cookie('locale') if language_names.empty?
+
+    if presenter
+      @@master ||= @client_id
+      @@cookie ||= guid()
+      response.set_cookie('presenter', @@cookie)
     end
   end
 

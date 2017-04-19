@@ -68,6 +68,20 @@
         <hr>
     <% end %>
 
+    <% unless language_names.empty? %>
+    <div id="languageMenu" class="optionWrapper">
+      <i class="fa fa-language" aria-hidden="true"></i> <%= I18n.t('menu.language') %>
+      <select id="languageSelector" autocomplete="off">
+        <option value="auto" selected><%= I18n.t('language.auto') %></option>
+        <% language_names.each do |code, name| %>
+        <option value="<%= code %>"><%= name %></option>
+        <% end %>
+        <option value="disable"><%= I18n.t('language.disable') %></option>
+      </select>
+    </div>
+    <hr>
+    <% end %>
+
     <div id="closeMenu" class="buttonWrapper"><i class="fa fa-close"></i> <%= I18n.t('menu.close') %></div>
     <hr>
 

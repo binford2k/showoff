@@ -73,7 +73,11 @@ function setupPreso(load_slides, prefix) {
 
   setupSideMenu();
 
-	doDebugStuff();
+  // Set up the language selector
+  $('#languageSelector').change(function(e) { chooseLanguage(e.target.value); });
+  chooseLanguage(null);
+
+  doDebugStuff();
 
 	// bind event handlers
 	toggleKeybinding('on');
@@ -508,7 +512,7 @@ function translation(data) {
 
 function chooseLanguage(locale) {
   // yay for half-baked data storage schemes
-  newlocale = locale || document.cookieHash['locale'] || 'automatic';
+  newlocale = locale || document.cookieHash['locale'] || 'auto';
 
   if(locale){
     document.cookie = "locale="+newlocale;
