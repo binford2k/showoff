@@ -97,8 +97,14 @@ pre code {
     z-index: 2147483647; /* max, see http://www.puidokas.com/max-z-index/ */
     display: none;
   }
+    #footer .container {
+      border: 1px solid #ccc;
+      padding: 2px 6px;
+      margin: 0 3px;
+      border-radius: 3px;
+    }
   #followMode {
-    display: none;
+    font-weight: bold;
   }
   #pauseScreen {
       background: rgba(0, 0, 0, 0.85);
@@ -265,8 +271,7 @@ pre code {
 
 .offscreen { position:absolute; top:0; left:-9999px; overflow:hidden; }
 
-#debugInfo,
-#slideFilename {
+body.presenter #debugInfo {
   margin-left: 30px;
 }
 

@@ -85,11 +85,11 @@
 <div id="notes"></div>
 
 <footer id="footer">
-  <span id="followMode"></span>
-  <span id="slideInfo"></span>
-  <span id="debugInfo"></span>
-  <span id="notesInfo"></span>
-  <span id="slideFilename"></span>
+  <span id="followLabel" class="container"><%= I18n.t('follow.label') %> <i id="followMode" class="fa fa-ban" aria-hidden="true"></i></span>
+  <span id="slideInfo" class="container"></span>
+  <span id="debugInfo" class="container"></span>
+  <span id="notesInfo" class="container"></span>
+  <span id="slideFilename" class="container"></span>
   <img id="disconnected" src="<%= @asset_path %>/css/disconnected.png" />
 </footer>
 
