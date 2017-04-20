@@ -1335,11 +1335,14 @@ function toggleFollow()
   mode.follow = ! mode.follow;
 
   if(mode.follow) {
-    $("#followMode").show().text(I18n.t('follow.label'));
+    $("#followMode").addClass('fa-check-circle');
+    $("#followMode").removeClass('fa-ban');
     getPosition();
   } else {
-    $("#followMode").hide();
+    $("#followMode").addClass('fa-ban');
+    $("#followMode").removeClass('fa-check-circle');
   }
+  showFooter();
 }
 
 function debug(data)
@@ -1470,6 +1473,19 @@ function reloadSlides (hard) {
 
 function toggleFooter() {
 	$('#footer').toggle()
+}
+
+function showFooter(timeout) {
+  timeout = (typeof timeout !== 'undefined') ?  timeout : 5000;
+
+  if($('#footer').is(':hidden')) {
+    $('#footer').show(200);
+
+    window.setTimeout(function() {
+      $('#footer').hide(200);
+    }, timeout);
+  }
+
 }
 
 function toggleHelp () {
