@@ -40,6 +40,10 @@
   #topbar a,
   #topbar .ui-widget {
     text-decoration: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 
   #topbar a i {
