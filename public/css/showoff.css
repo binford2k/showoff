@@ -391,6 +391,7 @@ img#disconnected {
   clear: both;
 }
 
+.optionWrapper,
 .buttonWrapper {
   line-height: 48px;
   padding: 0 16px;
@@ -513,6 +514,10 @@ img#disconnected {
   text-decoration: line-through;
   color: #ccc;
 }
+#languageMenu {
+  line-height: 2em;
+}
+
 
 /* End Sidebar styling */
 

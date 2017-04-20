@@ -47,8 +47,9 @@ $(document).ready(function(){
   $('#downloadslink').click(function(e) { presenterPopupToggle('/download', e); });
 
   $('#layoutSelector').change(function(e) { chooseLayout(e.target.value); });
-
   chooseLayout(null);
+
+  // the language selector is configured in showoff.js
 
   // must be defined using [] syntax for a variable button name on IE.
   var closeLabel      = I18n.t('presenter.settings.close');

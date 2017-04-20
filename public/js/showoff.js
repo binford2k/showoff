@@ -73,7 +73,11 @@ function setupPreso(load_slides, prefix) {
 
   setupSideMenu();
 
-	doDebugStuff();
+  // Set up the language selector
+  $('#languageSelector').change(function(e) { chooseLanguage(e.target.value); });
+  chooseLanguage(null);
+
+  doDebugStuff();
 
 	// bind event handlers
 	toggleKeybinding('on');
@@ -506,9 +510,22 @@ function translation(data) {
   this.t = function(key) { return this.translate(key); }
 }
 
+function chooseLanguage(locale) {
+  // yay for half-baked data storage schemes
+  newlocale = locale || document.cookieHash['locale'] || 'auto';
+
+  if(locale){
+    document.cookie = "locale="+newlocale;
+    location.reload(false);
+  } else {
+    $('#languageSelector').val(newlocale);
+  }
+}
+
 // at some point this should get more sophisticated. Our needs are pretty minimal so far.
 function clearCookies() {
   document.cookie = "sidebar=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";
+  document.cookie = "locale=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";
   document.cookie = "layout=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";
   document.cookie = "notes=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";
 }

@@ -13,6 +13,7 @@ require 'i18n'
 require 'i18n/backend/fallbacks'
 require 'rack'
 require 'rack/contrib'
+require 'iso-639'
 
 here = File.expand_path(File.dirname(__FILE__))
 require "#{here}/showoff_utils"
@@ -275,27 +276,61 @@ class ShowOff < Sinatra::Application
       end
     end
 
+    # This is just a unified lookup method that takes a full locale name
+    # and then resolves it to an available version of the name
+    def with_locale(locale)
+      locale = locale.to_s
+      until (locale.empty?) do
+        result = yield(locale)
+        return result unless result.nil?
+
+        # if not found, chop off a section and try again
+        locale = locale.rpartition(/[-_]/).first
+      end
+    end
+
+    # turns a locale code into a string name
+    def get_language_name(locale)
+      with_locale(locale) do |str|
+        result = ISO_639.find(str)
+        result[3] unless result.nil?
+      end
+    end
+
     # This function returns the directory containing translated *content*, defaulting
     # to cwd. This works similarly to I18n fallback, but we cannot reuse that as it's
     # a different translation mechanism.
-    def get_locale_dir(prefix)
-      locale = I18n.locale.to_s
+    def get_locale_dir(prefix, locale)
+      return '.' if locale == 'disable'
 
-      until (locale.empty?) do
-        path = "#{prefix}/#{locale}"
+      with_locale(locale) do |str|
+        path = "#{prefix}/#{str}"
         return path if File.directory?(path)
+      end || '.'
+    end
 
-        # if not found, chop off a section and try again
-        locale = locale.rpartition('-').first
+    # return a hash of all language codes available and the long name description of each
+    def language_names
+      Dir.glob('locales/*').inject({}) do |memo, entry|
+        locale = File.basename(entry)
+        memo.update(locale => get_language_name(locale))
       end
-      '.'
     end
 
-    def locale
-      languages = I18n.backend.send(:translations)
-      I18n.fallbacks[I18n.locale].select { |f| languages.keys.include? f }.first
+    # returns the minimized canonical version of the current selected content locale
+    # it assumes that if the user has specified a locale, that it's already minimized
+    # note: if the locale doesn't exist on disk, it will just default to no translation
+    def locale(user_locale)
+      if [nil, '', 'auto'].include? user_locale
+        languages = I18n.available_locales
+        I18n.fallbacks[I18n.locale].select { |f| languages.include? f }.first
+      else
+        user_locale
+      end
     end
 
+    # returns a hash of all translations for the current language. This is used
+    # for the javascript half of the translations
     def get_translations
       languages = I18n.backend.send(:translations)
       fallback  = I18n.fallbacks[I18n.locale].select { |f| languages.keys.include? f }.first
@@ -1055,7 +1090,7 @@ class ShowOff < Sinatra::Application
 
     def get_slides_html(opts={:static=>false, :pdf=>false, :toc=>false, :supplemental=>nil, :section=>nil})
       sections = nil
-      Dir.chdir(get_locale_dir('locales')) do
+      Dir.chdir(get_locale_dir('locales', @locale)) do
         sections = ShowOffUtils.showoff_sections(settings.pres_dir, settings.showoff_config, @logger)
       end
 
@@ -1147,7 +1182,7 @@ class ShowOff < Sinatra::Application
       @language = get_translations()
 
       # store a cookie to tell clients apart. More reliable than using IP due to proxies, etc.
-      ensure_client_id()
+      manage_client_cookies()
 
       erb :index
     end
@@ -1159,10 +1194,7 @@ class ShowOff < Sinatra::Application
       @feedback  = settings.showoff_config['feedback']
       @language  = get_translations()
 
-      ensure_client_id()
-      @@master ||= @client_id
-      @@cookie ||= guid()
-      response.set_cookie('presenter', @@cookie)
+      manage_client_cookies(true)
 
       erb :presenter
     end
@@ -1563,7 +1595,7 @@ class ShowOff < Sinatra::Application
     @@master == @client_id
   end
 
-  def ensure_client_id
+  def manage_client_cookies(presenter=false)
     # store a cookie to tell clients apart. More reliable than using IP due to proxies, etc.
     if request.nil?   # when running showoff static
       @client_id = guid()
@@ -1574,6 +1606,15 @@ class ShowOff < Sinatra::Application
         @client_id = guid()
         response.set_cookie('client_id', @client_id)
       end
+    end
+
+    # if we have no content translations then remove the cookie
+    response.delete_cookie('locale') if language_names.empty?
+
+    if presenter
+      @@master ||= @client_id
+      @@cookie ||= guid()
+      response.set_cookie('presenter', @@cookie)
     end
   end
 
@@ -1836,7 +1877,7 @@ class ShowOff < Sinatra::Application
 
   # gawd, this whole routing scheme is bollocks
   get %r{/([^/]*)/?([^/]*)} do
-    @locale    = locale()
+    @locale    = locale(request.cookies['locale'])
     @title     = ShowOffUtils.showoff_title(settings.pres_dir)
     @pause_msg = ShowOffUtils.pause_msg
     what = params[:captures].first
