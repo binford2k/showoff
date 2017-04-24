@@ -21,6 +21,7 @@ de:
       send: Senden
     edit: Aktuelle Folie ändern
     clear_annotations: Anmerkungen entfernen
+    language: Inhalt Sprache
     close: Schließen
     help: Drücke das <code>?</code> für Hilfe.
     anonymous: Alle Feedbacks sind anonym.
@@ -140,6 +141,14 @@ de:
         reset:
           label: Löschen der Showoff Einstellungen.
           tooltip: Zurücksetzen der Showfoff Einstellungen auf die Standardwerte.
+      language:
+        label: Inhalt Sprache
+        tooltip: Wählen Sie aus den verfügbaren Übersetzungen aus oder wählen Sie basierend auf Ihren Browsereinstellungen.
+        description: Diese Präsentation ist in verschiedenen Sprachen verfügbar. Wählen Sie die Sprache, die Sie anzeigen möchten, oder lassen Sie sie bei <tt>automatisch</tt>, um Ihre Browsereinstellungen zu verwenden.
+
+  language:
+    auto: Automatisch
+    disable: Deaktivieren Sie Übersetzungen
 
   error:
     file_not_found: Datei nicht gefunden!
