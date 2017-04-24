@@ -647,7 +647,7 @@ class ShowOff < Sinatra::Application
         },
         "code" => {
           :matchers => [
-            /^\s{3,}@@@\s(?<languages>.*?)\n\s{3,}(?<text>.*?)\n\n/m
+            /^\s{3,}@@@\s(?<languages>.*?)$\s{3,}(?<text>.*?)\n\n/m
           ],
           :block => proc { |match_data|
             css = match_data[:languages].split.collect {|l| "language-#{l.downcase}" }.join(' ')
