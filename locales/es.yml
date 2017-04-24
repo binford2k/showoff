@@ -21,6 +21,7 @@ es:
       send: Enviar
     edit: Editar Esta Diapositiva
     clear_annotations: Limpiar Notas
+    language: Idioma del contenido
     close: Cerrar
     help: Presionar <code>?</code> para ver ayuda.
     anonymous: Todas las funciones son anónimas.
@@ -140,6 +141,14 @@ es:
         reset:
           label: Limpiar configuraciones de Showoff.
           tooltip: Cambia las configuraciones de Showoff a sus valores iniciales.
+      language:
+        label: Idioma del contenido
+        tooltip: Seleccione de las traducciones disponibles o autoseleccione en función de la configuración de su navegador.
+        description: Esta presentación está disponible en diferentes idiomas. Elija el idioma que desea ver o déjelo en <tt>automático</tt> para usar la configuración de su navegador.
+
+  language:
+    auto: Automático
+    disable: Deshabilitar Traducciones
 
   error:
     file_not_found: Archivo No Encontrado!
