@@ -21,6 +21,7 @@ fr:
       send: Envoi
     edit: Modifier la Diapositive Actuelle
     clear_annotations: Effacer les Annotations
+    language: Langue de Contenu
     close: Fermer
     help: Presse <code>?</code> pour aider.
     anonymous: Toutes les fonctionnalités sont anonymes.
@@ -140,6 +141,14 @@ fr:
         reset:
           label: Réinitialiser les paramètres.
           tooltip: Réinitialiser les paramètres de l'interface utilisateur Showoff aux valeurs par défaut.
+      language:
+        label: Langue de Contenu
+        tooltip: Sélectionnez parmi les traductions disponibles, ou autoselect en fonction des paramètres de votre navigateur.
+        description: Cette présentation est disponible dans différentes langues. Choisissez la langue que vous souhaitez afficher ou laissez-la à <tt>automatique</tt> pour utiliser les paramètres de votre navigateur.
+
+  language:
+    auto: Automatique
+    disable: Désactiver les Traductions
 
   error:
     file_not_found: Fichier non trouvé!
