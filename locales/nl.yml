@@ -21,6 +21,7 @@ nl:
       send: Verstuur
     edit: Bewerk huidige slide
     clear_annotations: Wis aantekeningen
+    language: Inhoud Taal
     close: Sluiten
     help: Druk op <code>?</code> voor help.
     anonymous: Alle opties zijn anoniem.
@@ -140,6 +141,14 @@ nl:
         reset:
           label: Reset Showoff instellingen.
           tooltip: Reset Showoff UI instellingen naar standaard.
+      language:
+        label: Inhoud Taal
+        tooltip: Selecteer uit beschikbare vertalingen of autoselect op basis van uw browserinstellingen.
+        description: Deze presentatie is beschikbaar in verschillende talen. Kies de taal die u wilt bekijken of verlaten op <tt>automatisch</tt> om uw browserinstellingen te gebruiken.
+
+  language:
+    auto: Automatisch
+    disable: Vertalen vertalingen uit
 
   error:
     file_not_found: Bestand niet gevonden!
