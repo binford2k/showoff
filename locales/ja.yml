@@ -53,7 +53,7 @@ ja:
     reload: Showoffを全てにリロードする。
     blank: 画面を空白にする。
     footer: 表示フッターを切り替えます。
-    notes: ノートを切り替えます。
+    notes: メモを切り替えます。
     clear: コード実行結果をクリアします。
     pause: プレゼンテーションを一時停止する。
     #Not familiar with a functioning word for "preshow" so went with "preview"
@@ -98,56 +98,56 @@ ja:
         stats: 聴衆がインタラクションしているスライドを見る。
         downloads: メニューまたは新しいページでファイルのダウンロードを開く。
         display: 表示ウィンドウをエネーブルにする。 これをプロジェクターに置いてください。
-        print: Print slides using a new window.
-        settings: Open the Settings dialog.
+        print: 新しいウィンドウを使用してにスライドを印刷します。
+        settings: 設定ダイアログを開く。
     preview:
       next: 次へ
       previous: 前へ
     mobile:
-      update: Update
+      update: 更新
     notes:
-      label:  Showoff Notes
-      personal: Personal Notes
+      label:  Showoffのメモ
+      personal: 個人メモ
     timer:
-      label: "Timer:"
+      label: "タイマー:"
       start: 始める
       pause: 一時停止
       resume: 続ける
       cancel: キャンセル
       unit: 分
     pace:
-      faster: Speed Up!
-      slower: Slow Down!
-    questions: Audience Questions
+      faster: 速度を上げて下さい。
+      slower: 速度を下げて下さい。
+    questions: 聴衆の質問
     annotation:
-      tools: Tools
-      lines: Lines
-      shapes: Shapes
+      tools: ツール
+      lines: ライン
+      shapes: シェイプ
     status:
-      label: "Slides:"
+      label: "スライド:"
     settings:
-      label: Settings
+      label: 設定
       close: 閉じる
       follower:
-        label: Update Follower
-        tooltip: Send slide change notifications.
-        description: When this is enabled, the Showoff server will track your slide changes. Disable it to observe the presentation without inadvertently causing slide changes.
+        label: 学徒を更新する
+        tooltip: スライドの変更通知を送信する。
+        description: これを有効にすると、Showoffサーバーはスライドの変更を追跡します。 不注意にスライドの変更を引き起こすことなく、プレゼンテーションを観察するためにをオフにします。
       remote:
-        label: Enable Remote
-        tooltip: Enables tracking of other presenters.
-        description: When this is enabled, you can load the presenter in another browser (typically on your mobile phone) to control the presentation.
+        label: リモートを有効にします
+        tooltip: 他のプレゼンターに従うことができます。
+        description: これを有効にすると、プレゼンテーションを制御するとは、プレゼンターを別のブラウザー（普通は携帯電話）にロードすることができます。
       layout:
-        label: Layout
-        default: Default Layout
-        thumbs: Display thumbnail previews of the next and previous slides.
-        beside: Display the next slide as a large preview in the main presenter view.
-        floating: Open the next slide as a floating window.
-        confirmation: Browser security requires confirmation before opening a new window.
-        open: Open Window
-        cancel: cancel
+        label: レイアウト
+        default: デフォルトのレイアウト
+        thumbs: 次と前のスライドでサムネイルプレビューを表示します。
+        beside: 次のスライドを大プレビューでメインプレゼンタービューに表示します。
+        floating: 次のスライドをポップアップウィンドウとして開きます。
+        confirmation: ブラウザセキュリティでは、新しいウィンドウを開く前に確認が必要です。
+        open: ウィンドウを開く
+        cancel: キャンセル
         reset:
-          label: Clear Showoff settings.
-          tooltip: Reset Showoff UI settings to default values.
+          label: Showoffの設定をリセットします。
+          tooltip: Showoff UIの設定をデフォルト値にリセットする。
       language:
         label: Content Language
         tooltip: Select from available translations, or autoselect based on your browser settings.
@@ -164,4 +164,4 @@ ja:
     disable: Disable Translations
 
   error:
-    file_not_found: File Not Found!
+    file_not_found: ファイルが見つかりません
