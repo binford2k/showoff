@@ -681,14 +681,18 @@ function postSlide() {
     }
 
     var nextIndex = slidenum + 1;
-    var nextSlide = (nextIndex >= slides.size()) ? '' : slides.eq(nextIndex).html();
-    var prevSlide = (slidenum > 0) ? slides.eq(slidenum - 1).html() : ''
+    var nextSlide = (nextIndex >= slides.size()) ? $('') : slides.eq(nextIndex);
+    var prevSlide = (slidenum > 0) ? slides.eq(slidenum - 1) : $('')
 
-    $('#nextSlide .container').html(nextSlide);
-    $('#prevSlide .container').html(prevSlide);
+    $('#nextSlide .container').html(nextSlide.html());
+    $('#nextSlide .container').css('background-image', nextSlide.css('background-image'));
+    $('#nextSlide .container').css('background-size', nextSlide.css('background-size'));
+    $('#prevSlide .container').html(prevSlide.html());
+    $('#prevSlide .container').css('background-image', prevSlide.css('background-image'));
+    $('#prevSlide .container').css('background-size', prevSlide.css('background-size'));
 
     if (windowIsOpen(nextWindow)) {
-      $(nextWindow.document.body).html(nextSlide);
+      $(nextWindow.document.body).html(nextSlide.html());
     }
 
     if (windowIsOpen(notesWindow)) {
