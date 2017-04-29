@@ -312,6 +312,8 @@ class ShowOff < Sinatra::Application
     # return a hash of all language codes available and the long name description of each
     def language_names
       Dir.glob('locales/*').inject({}) do |memo, entry|
+        next memo unless File.directory? entry
+
         locale = File.basename(entry)
         memo.update(locale => get_language_name(locale))
       end
@@ -335,6 +337,18 @@ class ShowOff < Sinatra::Application
       languages = I18n.backend.send(:translations)
       fallback  = I18n.fallbacks[I18n.locale].select { |f| languages.keys.include? f }.first
       languages[fallback]
+    end
+
+    # Finds the language key from strings.json and returns the strings hash. This is
+    # used for user translations in the presentation, e.g. SVG translations.
+    def user_translations
+      return {} unless File.file? 'locales/strings.json'
+      strings = JSON.parse(File.read('locales/strings.json')) rescue {}
+
+      with_locale(@locale) do |key|
+        return strings[key] if strings.include? key
+      end
+      {}
     end
 
     # todo: move more behavior into this class

@@ -157,7 +157,8 @@ pre code {
   margin: 2em;
 }
 
-.content img {
+.content img,
+.content svg {
   display:block;
   margin-left:auto;
   margin-right:auto;

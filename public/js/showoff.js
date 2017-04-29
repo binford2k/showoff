@@ -248,6 +248,11 @@ function initializePresentation(prefix) {
   // initialize mermaid, but don't render yet since the slide sizes are indeterminate
   mermaid.initialize({startOnLoad:false});
 
+  // translate SVG images, inlining them first if needed.
+  $('img').simpleStrings({strings: user_translations});
+  $('svg').simpleStrings({strings: user_translations});
+  $('.translate').simpleStrings({strings: user_translations});
+
   $("#preso").trigger("showoff:loaded");
 }
 
@@ -483,6 +488,7 @@ function setupMenu() {
   $("#navigation").empty();
   $("#navigation").append(nav);
 }
+
 
 // this function generates an object that consumes the JSON form of translations
 // provided by the i18n gem. It provides pretty nearly the same calling syntax
