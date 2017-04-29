@@ -21,6 +21,7 @@ ja:
       send: 送信
     edit: このスライドを編集する
     clear_annotations: 注釈をクリアする
+    language: Content Language
     close: 閉じる
     help: <code>?</code>キーを押してヘルプを表示します。
     anonymous: すべての機能は識別されません
@@ -147,6 +148,14 @@ ja:
         reset:
           label: Clear Showoff settings.
           tooltip: Reset Showoff UI settings to default values.
+      language:
+        label: Content Language
+        tooltip: Select from available translations, or autoselect based on your browser settings.
+        description: This presentation is available in different languages. Choose the language you would like to view or leave it at <tt>automatic</tt> to use your browser settings.
+
+  language:
+    auto: Automatic
+    disable: Disable Translations
 
   error:
     file_not_found: File Not Found!
