@@ -750,23 +750,14 @@ function setCurrentSection(newSection)
   postSlide();
 }
 
-function getCurrentNotes()
-{
-    var notes = currentSlide.find("div.notes-section."+section);
-    return notes;
+function getCurrentNotes() {
+  return currentSlide.find("div.notes-section." + section);
 }
 
-function getCurrentNotesText()
-{
-    var notes = getCurrentNotes();
-    return notes.text();
-}
-
-function setCurrentNotes()
-{
-    var notes = getCurrentNotesText();
-    $('#notesInfo').text(notes);
-    return notes;
+function setCurrentNotes() {
+  var notes = getCurrentNotes().text();
+  $('#notesInfo').text(notes);
+  return notes;
 }
 
 function getSlidePercent()
