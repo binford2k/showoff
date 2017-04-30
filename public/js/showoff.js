@@ -737,6 +737,16 @@ function getSlideProgress()
 	return (slidenum + 1) + '/' + slideTotal
 }
 
+function getAllSections()
+{
+  memo = []
+  $("div.notes-section").each(function() {
+    section = $(this).attr('class').split(' ').filter(function(x) { return x != 'notes-section'; })[0];
+    if(! memo.includes(section)) { memo.push(section) }
+  });
+  return memo
+}
+
 function getCurrentSections()
 {
   return currentSlide.find("div.notes-section").map(function() {

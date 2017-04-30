@@ -196,6 +196,11 @@
     </div>
   </div>
 
+  <div id="print-modal" title="<%= I18n.t('presenter.print.label') %>">
+    <p><%= I18n.t('presenter.print.description') %></p>
+    <ul id="print-sections"></ul>
+  </div>
+
   <div id="slides" class="offscreen" <%= 'style="display:none;"' if @slides %>>
   <%= @slides %>
   </div>

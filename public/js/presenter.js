@@ -22,7 +22,7 @@ $(document).ready(function(){
 // browser security causes a click event to react differently than an actual user click. Even though they're the same damn thing.
 //  $("#report").click(        function() { reportIssue()   });
   $("#slaveWindow").click(   function() { toggleSlave()   });
-  $("#printSlides").click(   function() { printSlides()   });
+  $("#printSlides").click(   function() { printDialog()   });
   $("#settings").click(      function() { $("#settings-modal").dialog("open"); });
   $("#slideSource a").click( function() { openEditor() });
   $("#notesToggle").click(   function() { toggleNotes() });
@@ -56,7 +56,7 @@ $(document).ready(function(){
   var buttons         = {};
   buttons[closeLabel] = function() { $(this).dialog( "close" ); };
 
-  $("#settings-modal").dialog({
+  $("#settings-modal, #print-modal").dialog({
     autoOpen: false,
     dialogClass: "no-close",
     draggable: false,
@@ -462,15 +462,48 @@ function blankStyledWindow(title, dimensions, classes, resizable) {
   return newWindow;
 }
 
-function printSlides()
+function printDialog() {
+  var list = $('#print-modal #print-sections');
+
+  if(! list.hasClass('processed')) {
+    getAllSections().forEach(function(section) {
+      var link = $('<a>');
+      var item = $('<li>');
+      link.attr('href', '#');
+      link.click(function(){
+        printSlides(section);
+      });
+
+      switch(section) {
+        case 'notes':
+          link.text(I18n.t('presenter.print.notes'));
+          break;
+        case 'handouts':
+          link.text(I18n.t('presenter.print.handouts'));
+          break;
+        default:
+          link.text(section);
+      }
+
+      item.append(link);
+      list.append(item);
+    });
+    list.addClass('processed');
+  }
+
+  $("#print-modal").dialog("open");
+}
+
+function printSlides(section)
 {
   try {
-    var printWindow = window.open('/print');
+    var printWindow = window.open('/print/'+section);
     printWindow.window.print();
   }
   catch(e) {
     console.log('Failed to open print window. Popup blocker?');
   }
+  $("#print-modal").dialog("close");
 }
 
 function postQuestion(question, questionID) {

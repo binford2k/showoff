@@ -145,6 +145,11 @@ es:
         label: Idioma del contenido
         tooltip: Seleccione de las traducciones disponibles o autoseleccione en función de la configuración de su navegador.
         description: Esta presentación está disponible en diferentes idiomas. Elija el idioma que desea ver o déjelo en <tt>automático</tt> para usar la configuración de su navegador.
+    print:
+      label: Elija el tipo de notas impresas
+      description: Selecciona el contenido que quieras mostrar en las diapositivas.
+      notes: Notas del presentador
+      handouts: Folletos de la audiencia
 
   language:
     auto: Automático
