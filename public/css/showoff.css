@@ -1267,6 +1267,11 @@ h1.section_title {
     margin-right:auto;
   }
 
+  /* keep the activity toggle from showing in printed output */
+  .slide.activity .activityToggle {
+    display: none;
+  }
+
   /* Styling to make the handout notes appear in the printed output. */
   .notes-section {
     display: block;
