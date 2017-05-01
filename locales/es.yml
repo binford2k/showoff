@@ -148,6 +148,7 @@ es:
     print:
       label: Elija el tipo de notas impresas
       description: Selecciona el contenido que quieras mostrar en las diapositivas.
+      none: No incluir notas
       notes: Notas del presentador
       handouts: Folletos de la audiencia
 

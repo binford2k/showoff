@@ -466,7 +466,9 @@ function printDialog() {
   var list = $('#print-modal #print-sections');
 
   if(! list.hasClass('processed')) {
-    getAllSections().forEach(function(section) {
+    sections = getAllSections()
+    sections.unshift('') // add the "none" option
+    sections.forEach(function(section) {
       var link = $('<a>');
       var item = $('<li>');
       link.attr('href', '#');
@@ -475,6 +477,9 @@ function printDialog() {
       });
 
       switch(section) {
+        case '':
+          link.text(I18n.t('presenter.print.none'));
+          break;
         case 'notes':
           link.text(I18n.t('presenter.print.notes'));
           break;

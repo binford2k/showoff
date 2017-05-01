@@ -148,6 +148,7 @@ fr:
     print:
       label: Choisir le type de notes imprimées
       description: Sélectionnez le contenu que vous souhaitez afficher sous les diapositives.
+      none: Ne pas inclure de notes
       notes: Notes du présentateur
       handouts: Documents publicitaires
 

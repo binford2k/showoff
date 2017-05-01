@@ -148,6 +148,7 @@ en:
     print:
       label: Choose type of printed notes
       description: Select the content you'd like to show under the slides.
+      none: Don't include notes
       notes: Presenter Notes
       handouts: Audience Handouts
 

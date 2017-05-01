@@ -148,6 +148,7 @@ nl:
     print:
       label: Kies het type afgedrukte notities
       description: Selecteer de inhoud die u onder de dia's wilt weergeven.
+      none: Voeg geen notities toe
       notes: Aanbieder Opmerkingen
       handouts: Audience-uitdelingen
 
