@@ -145,6 +145,12 @@ de:
         label: Inhalt Sprache
         tooltip: Wählen Sie aus den verfügbaren Übersetzungen aus oder wählen Sie basierend auf Ihren Browsereinstellungen.
         description: Diese Präsentation ist in verschiedenen Sprachen verfügbar. Wählen Sie die Sprache, die Sie anzeigen möchten, oder lassen Sie sie bei <tt>automatisch</tt>, um Ihre Browsereinstellungen zu verwenden.
+    print:
+      label: Wählen Sie die Art der gedruckten Notizen aus
+      description: Wählen Sie den Inhalt aus, den Sie unter den Folien anzeigen möchten.
+      none: Notizen nicht enthalten
+      notes: Präsentierende Notizen
+      handouts: Publikum Handzettel
 
   language:
     auto: Automatisch

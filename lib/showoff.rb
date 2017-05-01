@@ -1269,8 +1269,8 @@ class ShowOff < Sinatra::Application
       content
     end
 
-    def print(static=false, section=nil)
-      @slides = get_slides_html(:static=>static, :toc=>true, :print=>true, :section=>section)
+    def print(section=nil)
+      @slides = get_slides_html(:static=>true, :toc=>true, :print=>true, :section=>section)
       @favicon = settings.showoff_config['favicon']
       erb :onepage
     end
@@ -1908,7 +1908,7 @@ class ShowOff < Sinatra::Application
 
     begin
       if (what != "favicon.ico")
-        if what == 'supplemental'
+        if ['supplemental', 'print'].include? what
           data = send(what, opt)
         else
           data = send(what)

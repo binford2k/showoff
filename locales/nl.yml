@@ -145,6 +145,12 @@ nl:
         label: Inhoud Taal
         tooltip: Selecteer uit beschikbare vertalingen of autoselect op basis van uw browserinstellingen.
         description: Deze presentatie is beschikbaar in verschillende talen. Kies de taal die u wilt bekijken of verlaten op <tt>automatisch</tt> om uw browserinstellingen te gebruiken.
+    print:
+      label: Kies het type afgedrukte notities
+      description: Selecteer de inhoud die u onder de dia's wilt weergeven.
+      none: Voeg geen notities toe
+      notes: Aanbieder Opmerkingen
+      handouts: Audience-uitdelingen
 
   language:
     auto: Automatisch

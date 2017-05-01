@@ -145,6 +145,12 @@ fr:
         label: Langue de Contenu
         tooltip: Sélectionnez parmi les traductions disponibles, ou autoselect en fonction des paramètres de votre navigateur.
         description: Cette présentation est disponible dans différentes langues. Choisissez la langue que vous souhaitez afficher ou laissez-la à <tt>automatique</tt> pour utiliser les paramètres de votre navigateur.
+    print:
+      label: Choisir le type de notes imprimées
+      description: Sélectionnez le contenu que vous souhaitez afficher sous les diapositives.
+      none: Ne pas inclure de notes
+      notes: Notes du présentateur
+      handouts: Documents publicitaires
 
   language:
     auto: Automatique

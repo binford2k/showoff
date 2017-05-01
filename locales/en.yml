@@ -145,6 +145,12 @@ en:
         label: Content Language
         tooltip: Select from available translations, or autoselect based on your browser settings.
         description: This presentation is available in different languages. Choose the language you would like to view or leave it at <tt>automatic</tt> to use your browser settings.
+    print:
+      label: Choose type of printed notes
+      description: Select the content you'd like to show under the slides.
+      none: Don't include notes
+      notes: Presenter Notes
+      handouts: Audience Handouts
 
   language:
     auto: Automatic
