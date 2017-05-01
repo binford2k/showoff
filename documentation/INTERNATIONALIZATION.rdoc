@@ -40,6 +40,44 @@ allows you to translate any images with text as well. If you don't need this,
 you can symlink the directory, or you can use relative parent paths
 (<tt>../../</tt>) to point to the correct images.
 
+== String Replacement
+
+You can also translate simple strings in your content. Start by adding a
+<tt>strings.json</tt> file to your <tt>locales</tt> directory that looks like this:
+
+    {
+      "en": {
+        "greeting": "Hello!",
+        "farewell": "Goodbye"
+      },
+      "es": {
+        "greeting": "Hola!",
+        "farewell": "Adios"
+      },
+      "fr": {
+        "greeting": "Bonjour!",
+        "farewell": "Au revoir"
+      },
+      "de": {
+        "greeting": "Hallo!",
+        "farewell": "Auf Wiedersehen"
+      },
+      "ja": {
+        "greeting": "こんにちは!",
+        "farewell": "さようなら"
+      }
+    }
+
+Then add simple tags like <tt>{{greeting}}</tt> to your content in one of two ways:
+
+* Add these tags to SVG images as text elements:
+
+rdoc-image:../images/translation_demo.svg
+
+* Add the class <tt>translate</tt> to text elements with these tags:
+
+    The localized greeting is <span class="translate">{{greeting}}</span>.
+
 == Browser Configuration
 
 The language that Showoff selects is determined by the end-user browser settings.
