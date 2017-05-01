@@ -120,9 +120,14 @@ function setupPreso(load_slides, prefix) {
   // wait until the presentation is loaded to hook up the previews.
   $("body").bind("showoff:loaded", function (event) {
     $('#navigation li a.navItem').hover(function() {
+      console.log('Ze background: '+ slides.eq($(this).attr('rel')).css('background-image'))
       var position = $(this).position();
+      var source   = slides.eq($(this).attr('rel'));
+
       $('#navigationHover').css({top: position.top, left: position.left + $('#navigation').width() + 5})
-      $('#navigationHover').html(slides.eq($(this).attr('rel')).html());
+      $('#navigationHover').html(source.html());
+      $('#navigationHover').css('background-image', source.css('background-image'));
+      $('#navigationHover').css('background-size', source.css('background-size'));
       $('#navigationHover').show();
     },function() {
       $('#navigationHover').hide();
