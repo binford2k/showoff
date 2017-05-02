@@ -740,7 +740,7 @@ function postSlide() {
 		var fileName = currentSlide.children('div').first().attr('ref');
 		$('#slideFile').text(fileName);
     $('#progress').progressbar({ max: slideTotal })
-                  .progressbar('value', slidenum);
+                  .progressbar('value', slidenum+1);
 
     $("#notes div.form.wrapper").each(function(e) {
       renderFormInterval = renderFormWatcher($(this));
