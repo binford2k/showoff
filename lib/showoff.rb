@@ -829,7 +829,7 @@ class ShowOff < Sinatra::Application
     def form_element(id, code, name, required, rhs, text)
       required = required ? 'required' : ''
       str =  "<div class='form element #{required}' id='#{id}' data-name='#{code}'>"
-      str << "<label for='#{id}'>#{name}</label>"
+      str << "<label class='question' for='#{id}'>#{name}</label>"
       case rhs
       when /^\[\s+(\d*)\]$$/             # value = [    5]                                     (textarea)
         str << form_element_textarea(id, code, $1)
@@ -960,10 +960,10 @@ class ShowOff < Sinatra::Application
 
     def form_classes(modifier)
       modifier.downcase!
-      classes = []
+      classes = ['response']
       classes << 'correct' if modifier.include?('=')
 
-      classes.join
+      classes.join(' ')
     end
 
     def form_checked?(modifier)
@@ -1843,7 +1843,7 @@ class ShowOff < Sinatra::Application
               control['id'] = guid()
               EM.next_tick { settings.presenters.each{|s| s.send(control.to_json) } }
 
-            when 'complete'
+            when 'complete', 'answerkey'
               EM.next_tick { settings.sockets.each{|s| s.send(control.to_json) } }
 
             when 'annotation', 'annotationConfig'
