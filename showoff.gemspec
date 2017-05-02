@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.files            += Dir.glob("bin/**/*")
   s.files            += Dir.glob("views/**/*")
   s.files            += Dir.glob("public/**/*")
+  s.files            += Dir.glob("locales/**/*")
   s.add_dependency      "sinatra", "~> 1.3"
   s.add_dependency      "gli",     ">= 2.0"
   s.add_dependency      "tilt",    ">= 2.0.3"
