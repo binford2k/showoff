@@ -723,11 +723,13 @@ function postSlide() {
     var prevSlide = (slidenum > 0) ? slides.eq(slidenum - 1) : $('')
 
     $('#nextSlide .container').html(nextSlide.html());
-    $('#nextSlide .container').css('background-image', nextSlide.css('background-image'));
-    $('#nextSlide .container').css('background-size', nextSlide.css('background-size'));
     $('#prevSlide .container').html(prevSlide.html());
-    $('#prevSlide .container').css('background-image', prevSlide.css('background-image'));
-    $('#prevSlide .container').css('background-size', prevSlide.css('background-size'));
+
+    // to get this to properly copy over in Firefox, we need to iterate each property instead of using shorthand
+    ['background-image', 'background-size', 'background-repeat', 'background-position', 'background-attachment'].forEach(function(property) {
+      $('#nextSlide .container').css(property, nextSlide.css(property));
+      $('#prevSlide .container').css(property, prevSlide.css(property));
+    });
 
     if (windowIsOpen(nextWindow)) {
       $(nextWindow.document.body).html(nextSlide.html());

@@ -126,8 +126,12 @@ function setupPreso(load_slides, prefix) {
 
       $('#navigationHover').css({top: position.top, left: position.left + $('#navigation').width() + 5})
       $('#navigationHover').html(source.html());
-      $('#navigationHover').css('background-image', source.css('background-image'));
-      $('#navigationHover').css('background-size', source.css('background-size'));
+
+      // to get this to properly copy over in Firefox, we need to iterate each property instead of using shorthand
+      ['background-image', 'background-size', 'background-repeat', 'background-position', 'background-attachment'].forEach(function(property) {
+        $('#navigationHover').css(property, source.css(property));
+      });
+
       $('#navigationHover').show();
     },function() {
       $('#navigationHover').hide();
