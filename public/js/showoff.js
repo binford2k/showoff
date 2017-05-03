@@ -233,13 +233,17 @@ function initializePresentation(prefix) {
   });
 
   $(".content form div.tools input.display").click(function(e) {
+    var form   = $(this).closest('form');
+    var formID = form.attr('id');
+
+    ws.send(JSON.stringify({ message: 'answerkey', formID: formID}));
     try {
       // If we're a presenter, try to bust open the slave display
-      slaveWindow.renderForm($(this).closest('form').attr('id'));
+      slaveWindow.renderForm(formID);
     }
     catch (e) {
       console.log(e);
-      renderForm($(this).closest('form'));
+      renderForm(form);
     }
   });
 
@@ -870,6 +874,15 @@ function enableForm(element) {
   activityIncomplete = true;
 }
 
+function showFormAnswers(form) {
+  // If we have any correct options, find the parent element, then tag all descendants as incorrect
+  $('.slide.form\\='+form+' label.correct').parents('.form.element').find('label.response,option').addClass('incorrect');
+  // Then remove the double tag from the correct answers.
+  $('.slide.form\\='+form+' label.correct').removeClass('incorrect');
+  // finally, style the slide so we can see the effects
+  $('.slide.form\\='+form).addClass('answerkey')
+}
+
 function renderFormWatcher(element) {
   var form = element.attr('title');
   var action = $('.content form#'+form).attr('action');
@@ -1083,6 +1096,10 @@ function parseMessage(data) {
     switch (command['message']) {
       case 'current':
         follow(command["current"], command["increment"]);
+        break;
+
+      case 'answerkey':
+        showFormAnswers(command["formID"]);
         break;
 
       case 'complete':

@@ -769,6 +769,36 @@ form .element {
   display: none;
 }
 
+/**********************************
+ ***     form answer key        ***
+ **********************************/
+
+/* no, the option styling will likely not do anything */
+.slide.answerkey form option.incorrect,
+.slide.answerkey form label.incorrect {
+  text-decoration: line-through;
+  font-weight: 100;
+  opacity: .7;
+}
+.slide.answerkey form label.correct,
+.slide.answerkey form option.correct {
+  font-weight: 900;
+}
+/* Be careful with order here; these rules depend on cascading order */
+.slide.answerkey input + option,
+.slide.answerkey input + label.incorrect,
+.slide.answerkey input:checked + label.correct,
+.slide.answerkey input:checked + option.correct {
+  color: #00AA00; /* green */
+}
+.slide.answerkey input:checked + option,
+.slide.answerkey input:checked + label.incorrect,
+.slide.answerkey input + label.correct,
+.slide.answerkey input + option.correct {
+  color: #e74c3c; /* red */
+}
+
+
 /*****************
  ***   modals   ***
  *****************/
