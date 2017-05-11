@@ -17,3 +17,5 @@ end
 group :test do
   gem 'rake'
 end
+
+gem 'rack-contrib'
