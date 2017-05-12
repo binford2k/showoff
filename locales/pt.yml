@@ -1,160 +1,160 @@
 pt:
-  name: Showoff Presentation
+  name: Apresentação Showoff
   menu:
-    title: Showoff Menu
-    table_of_contents: Table of Contents
+    title: Menu Showoff
+    table_of_contents: Índice
     downloads: Downloads
-    feedback: Sending...
+    feedback: Enviando...
     pace:
-      label: The presenter should...
-      slower: Slow Down
-      faster: Speed Up
+      label: O palestrante deve...
+      slower: Ir mais devagar
+      faster: Ir mais rapido
     question:
-      label: Ask a Question
-      placeholder: Ask a question...
+      label: Faça uma pergunta
+      placeholder: Faça uma pergunta...
     feedback:
-      label: Send Feedback
-      description: This slide is...
-      worst: Terrible
-      best: Awesome
-      why: Why...?
-      send: Send
-    edit: Edit Current Slide
-    clear_annotations: Clear Annotations
-    language: Content Language
-    close: Close
-    help: Press <code>?</code> for help.
-    anonymous: All features are anonymous.
+      label: Envie comentários
+      description: Este slide é...
+      worst: Ruim
+      best: Bom
+      why: Por quê...?
+      send: Enviar
+    edit: Editar Slide Atual
+    clear_annotations: Apagar Anotações
+    language: Idioma do conteúdo
+    close: Fechar
+    help: Digite <code>?</code> para ajuda.
+    anonymous: Todo conteúdo é anonimo.
   navigation:
-    next: Next
-    previous: Previous
-  loading: loading presentation...
-  activity_complete: Activity complete
+    next: Próximo
+    previous: Anterior
+  loading: carregando apresentação...
+  activity_complete: Atividade completada
   follow:
-    label: "Follow Mode:"
-  refresh: "Are you sure you want to refresh the slide content?\n\n(Use `RELOAD` to fully reload the entire UI)"
-  reload: Are you sure you want to reload Showoff?
+    label: "Modo Seguidor:"
+  refresh: "Você tem certeza que quer atualizar o conteúdo do slide?\n\n(Use `RELOAD` to fully reload the entire UI)"
+  reload: Você tem certeza que quer reiniciar Showoff?
   preshow:
-    prompt: Minutes from now to start?
-    resume: "Resuming in:"
+    prompt: Em quanto minutos começar?
+    resume: "Resumindo em:"
 
   downloads:
-    title: File Downloads
+    title: Arquivos de Downloads
 
   help:
-    title: Help
-    next: Move to the next slide.
-    prev: Move to the previous slide.
-    contents: Show the table of contents menu.
-    follow: Toggle follow mode.
-    help: Show this help dialog.
-    refresh: Refresh slide content.
-    reload: Completely reload Showoff.
-    blank: Blank the screen.
-    footer: Toggle the display footer.
-    notes: Toggle notes display.
-    clear: Clear code execution results.
-    pause: Pause the presentation.
-    preshow: Display slideshow of <tt>preshow</tt> images on a timer.
-    execute: Execute the first visible code block.
-    debug: Show debugging information.
-    close: Close
+    title: Ajuda
+    next: Ir para o próximo slide.
+    prev: Ir para o slide anterior.
+    contents: Mostrar o Índice.
+    follow: Alternar modo seguidor.
+    help: Mostrar esta ajuda.
+    refresh: Atualizar conteúdo do slide.
+    reload: Recarregar Showoff completamente.
+    blank: Tela vazia.
+    footer: Alternar o rodapé.
+    notes: Alternar anotaçōes.
+    clear: Limpar resultados de execução do código.
+    pause: Pausar a apresentação.
+    preshow: Mostrar images de slideshow <tt>preshow</tt> em crônometro.
+    execute: Executar o primeiro block de código visível.
+    debug: Mostrar informação de debugging.
+    close: Fechar
 
   stats:
-    title: Viewing Statistics
-    stray: of your audience is not viewing the same slide you are.
-    idle: of your audience is idle.
-    current: Slides currently being viewed
-    elapsed: Elapsed time spent on each slide
-    nodata: No data to display.
-    allcurrent: All audience members are viewing the presenter's slide.
+    title: Visualizando Estatísticas
+    stray: audiência visualizando slides diferentes do seu.
+    idle: audiência não participativa.
+    current: Slides que estão sendo visualizados no momento
+    elapsed: Tempo gasto em cada slide
+    nodata: Nenhum dado a mostrar.
+    allcurrent: Toda a audiência esta visualizando o slide do palestrante.
 
   forms:
-    display: Display Results
-    save: Save
+    display: Mostrar Resultados
+    save: Salvar
 
   presenter:
     topbar:
-      annotations: Annotations
-      edit: Edit Slide
-      report: Report Issue With Slide
-      stats: Viewing Statistics
+      annotations: Anotacoōes
+      edit: Editar Slide
+      report: Relatar Problema com Slide
+      stats: Visualizando Estatísticas
       downloads: Downloads
-      display: Display Window
-      print: Print Slides
-      settings: Settings
-      newpage: Open in a new page...
+      display: Tela de Apresentação
+      print: Imprimir Slides
+      settings: Configuraçoōes
+      newpage: Abrir em uma nova pagina...
       tooltip:
-        annotations: Enable the annotations subsystem.
-        edit: Edit current slide in new window.
-        report: Report an issue with the current slide.
-        stats: See the slides your audience is interacting with.
-        downloads: Open the file downloads in a menu or new page.
-        display: Enable the Display Window; you should put this on the projector.
-        print: Print slides using a new window.
-        settings: Open the Settings dialog.
+        annotations: Permitir anotaçōes de subsistema.
+        edit: Editar slide atual em uma nova janela.
+        report: Relatar Problema com o slide atual.
+        stats: Visualizar slides com os quais sua audiência está interagindo.
+        downloads: Abrir os arquivos de download em um menu ou nova página.
+        display: Permitir Tela de Apresentacão; você deve usá-la no projetor.
+        print: Imprimir slides usando uma nova janela.
+        settings: Abrir tela de Configuraçōes.
     preview:
-      next: Next
-      previous: Previous
+      next: Próximo
+      previous: Anterior
     mobile:
-      update: Update
+      update: Atualizar
     notes:
-      label:  Showoff Notes
-      personal: Personal Notes
+      label:  Anotaçoōes Showoff
+      personal: Anotaçoōes Pessoais
     timer:
-      label: "Timer:"
-      start: Start
-      pause: Pause
-      resume: Resume
-      cancel: Cancel
-      unit: minutes
+      label: "Cronômetro:"
+      start: Iniciar
+      pause: Pausar
+      resume: Resumir
+      cancel: Cancelar
+      unit: mminutos
     pace:
-      faster: Speed Up!
-      slower: Slow Down!
-    questions: Audience Questions
+      faster: Acelere!
+      slower: Desacelere!
+    questions: Perguntas da Audiência
     annotation:
-      tools: Tools
-      lines: Lines
-      shapes: Shapes
+      tools: Ferramentas
+      lines: Linhas
+      shapes: Formas
     status:
       label: "Slides:"
     settings:
-      label: Settings
-      close: Close
+      label: Configuracoōes
+      close: Fechar
       follower:
-        label: Update Follower
-        tooltip: Send slide change notifications.
-        description: When this is enabled, the Showoff server will track your slide changes. Disable it to observe the presentation without inadvertently causing slide changes.
+        label: Rastreamento de Atualizaçōes
+        tooltip: Enviar notificaçōes de alteração de slide.
+        description: Quando esta função estiver habilitada, o server do Showoff irá rastrear toda a alteração de slide. Desabilite esta função para visualizar a apresentação sem alterá-la inadvertidamente.
       remote:
-        label: Enable Remote
-        tooltip: Enables tracking of other presenters.
-        description: When this is enabled, you can load the presenter in another browser (typically on your mobile phone) to control the presentation.
+        label: Permitir Controle Remoto
+        tooltip: Habilita o uso de outros controles.
+        description: Quando esta função esta habilitada, você pode carregar o controle em outro navegador (geralmente seu celular) para controlar a apresentação.
       layout:
         label: Layout
-        default: Default Layout
-        thumbs: Display thumbnail previews of the next and previous slides.
-        beside: Display the next slide as a large preview in the main presenter view.
-        floating: Open the next slide as a floating window.
-        confirmation: Browser security requires confirmation before opening a new window.
-        open: Open Window
-        cancel: cancel
+        default: Layout Padrão
+        thumbs: Mostrar ícone miniatura do slide anterior e do próximo slide.
+        beside: Mostrar próximo slide na tela principal do palestrante.
+        floating: Abrir o próximo slide em uma nova janela.
+        confirmation: As configuraçoōes de segurança do seu navegador requer confirmaçaão antes de abrir uma nova janela.
+        open: Abrir Janela
+        cancel: Cancelar
         reset:
-          label: Clear Showoff settings.
-          tooltip: Reset Showoff UI settings to default values.
+          label: Limpar configuraçoōes do Showoff.
+          tooltip: Reseta configuraçoōes do Showoff UI para os valores padrão.
       language:
-        label: Content Language
-        tooltip: Select from available translations, or autoselect based on your browser settings.
-        description: This presentation is available in different languages. Choose the language you would like to view or leave it at <tt>automatic</tt> to use your browser settings.
+        label: Idioma do Conteúdo
+        tooltip: Selecione traducoōes ou auto-selecione com base nas configuracoōes de seu navegador.
+        description: Esta apresentação esta disponível em outros idiomas. Escolha o idioma que você gostaria de visualizar ou deixe em <tt>automatic</tt> para usar as configuraçōes do seu navegador.
     print:
-      label: Choose type of printed notes
-      description: Select the content you'd like to show under the slides.
-      none: Don't include notes
-      notes: Presenter Notes
-      handouts: Audience Handouts
+      label: Escolha o tipo de visualizaçao de anotaçōes
+      description: Selecione o conteúdo que voceêê gostaria de mostrar abaixo dos slides.
+      none: Não incluir anotaçōes
+      notes: Anotaçōes do Palestrante
+      handouts: Brochura para Audiência
 
   language:
-    auto: Automatic
-    disable: Disable Translations
+    auto: Automática
+    disable: Desabilitar Traduçōes
 
   error:
-    file_not_found: File Not Found!
+    file_not_found: Arquivo nao Encontrado!
