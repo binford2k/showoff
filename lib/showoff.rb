@@ -1435,7 +1435,7 @@ class ShowOff < Sinatra::Application
         data = showoff.send(what, opt)
       when 'print'
         opt ||= 'handouts'
-        data = showoff.send(what, true, opt)
+        data = showoff.send(what, opt)
       else
         data = showoff.send(what, true)
       end
