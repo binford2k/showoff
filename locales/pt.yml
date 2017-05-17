@@ -32,7 +32,7 @@ pt:
   activity_complete: Atividade completada
   follow:
     label: "Modo Seguidor:"
-  refresh: "Você tem certeza que quer atualizar o conteúdo do slide?\n\n(Use `RELOAD` to fully reload the entire UI)"
+  refresh: "Você tem certeza que quer atualizar o conteúdo do slide?\n\n(Use o `RELOAD` para recarregar completamente a UI inteira)"
   reload: Você tem certeza que quer reiniciar Showoff?
   preshow:
     prompt: Em quanto minutos começar?
