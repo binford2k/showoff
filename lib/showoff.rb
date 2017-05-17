@@ -1435,7 +1435,7 @@ class ShowOff < Sinatra::Application
         data = showoff.send(what, opt)
       when 'print'
         opt ||= 'handouts'
-        data = showoff.send(what, true, opt)
+        data = showoff.send(what, opt)
       else
         data = showoff.send(what, true)
       end
@@ -1620,10 +1620,10 @@ class ShowOff < Sinatra::Application
         @client_id = guid()
         response.set_cookie('client_id', @client_id)
       end
-    end
 
-    # if we have no content translations then remove the cookie
-    response.delete_cookie('locale') if language_names.empty?
+      # if we have no content translations then remove the cookie
+      response.delete_cookie('locale') if language_names.empty?
+    end
 
     if presenter
       @@master ||= @client_id
