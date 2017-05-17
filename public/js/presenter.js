@@ -613,7 +613,7 @@ gotoSlide = function (slideNum)
     if ( !mobile() ) {
       $("#navigation li li").get(slidenum).scrollIntoView();
     }
-    postSlide()
+    postSlide();
 }
 
 // override with an alternate implementation.
@@ -720,16 +720,15 @@ function postSlide() {
 
     var nextIndex = slidenum + 1;
     var nextSlide = (nextIndex >= slides.size()) ? $('') : slides.eq(nextIndex);
-    var prevSlide = (slidenum > 0) ? slides.eq(slidenum - 1) : $('')
+    var nextThumb = $('#nextSlide .container');
+    var prevSlide = (slidenum > 0) ? slides.eq(slidenum - 1) : $('');
+    var prevThumb = $('#prevSlide .container');
 
-    $('#nextSlide .container').html(nextSlide.html());
-    $('#prevSlide .container').html(prevSlide.html());
+    nextThumb.html(nextSlide.html());
+    prevThumb.html(prevSlide.html());
 
-    // to get this to properly copy over in Firefox, we need to iterate each property instead of using shorthand
-    ['background-image', 'background-size', 'background-repeat', 'background-position', 'background-attachment'].forEach(function(property) {
-      $('#nextSlide .container').css(property, nextSlide.css(property));
-      $('#prevSlide .container').css(property, prevSlide.css(property));
-    });
+    copyBackground(nextSlide, nextThumb);
+    copyBackground(prevSlide, prevThumb);
 
     if (windowIsOpen(nextWindow)) {
       $(nextWindow.document.body).html(nextSlide.html());

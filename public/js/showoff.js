@@ -119,22 +119,20 @@ function setupPreso(load_slides, prefix) {
 
   // wait until the presentation is loaded to hook up the previews.
   $("body").bind("showoff:loaded", function (event) {
+    var target = $('#navigationHover');
+
     $('#navigation li a.navItem').hover(function() {
-      console.log('Ze background: '+ slides.eq($(this).attr('rel')).css('background-image'))
       var position = $(this).position();
       var source   = slides.eq($(this).attr('rel'));
 
-      $('#navigationHover').css({top: position.top, left: position.left + $('#navigation').width() + 5})
-      $('#navigationHover').html(source.html());
+      target.css({top: position.top, left: position.left + $('#navigation').width() + 5})
+      target.html(source.html());
 
-      // to get this to properly copy over in Firefox, we need to iterate each property instead of using shorthand
-      ['background-image', 'background-size', 'background-repeat', 'background-position', 'background-attachment'].forEach(function(property) {
-        $('#navigationHover').css(property, source.css(property));
-      });
+      copyBackground(source, target);
 
-      $('#navigationHover').show();
+      target.show();
     },function() {
-      $('#navigationHover').hide();
+      target.hide();
     });
   });
 
@@ -263,6 +261,38 @@ function initializePresentation(prefix) {
   $('.translate').simpleStrings({strings: user_translations});
 
   $("#preso").trigger("showoff:loaded");
+}
+
+function copyBackground(source, target) {
+  // to get this to properly copy over in Firefox, we need to iterate each property instead of using shorthand
+  ['background-color',
+   'background-image',
+   'background-repeat',
+   'background-position',
+   'background-attachment'].forEach(function(property) {
+    target.css(property, source.css(property));
+  })
+
+  // we have to do this separately so we can transform it
+  var bgsize = source.css('background-size');
+
+  var regex = /^(\d+)(\S{1,2})(?: (\d+)(\S{1,2}))?$/;
+  var match = regex.exec(bgsize);
+  if(match) {
+    var width  = match[1];
+    var unit_w = match[2];
+    var height = match[3] || '';
+    var unit_h = match[4] || '';
+
+    if(unit_w != '%'                 ) { width  /= 2 };
+    if(unit_h != '%' && height != '' ) { height /= 2 };
+
+    target.css('background-size', width+unit_w+' '+height+unit_h);
+  }
+  else {
+    // contain, cover, etc
+    target.css('background-size', bgsize);
+  }
 }
 
 function zoom(presenter) {
