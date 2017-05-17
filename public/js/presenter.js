@@ -613,7 +613,7 @@ gotoSlide = function (slideNum)
     if ( !mobile() ) {
       $("#navigation li li").get(slidenum).scrollIntoView();
     }
-    postSlide()
+    postSlide();
 }
 
 // override with an alternate implementation.
@@ -720,14 +720,15 @@ function postSlide() {
 
     var nextIndex = slidenum + 1;
     var nextSlide = (nextIndex >= slides.size()) ? $('') : slides.eq(nextIndex);
-    var prevSlide = (slidenum > 0) ? slides.eq(slidenum - 1) : $('')
+    var nextThumb = $('#nextSlide .container');
+    var prevSlide = (slidenum > 0) ? slides.eq(slidenum - 1) : $('');
+    var prevThumb = $('#prevSlide .container');
 
-    $('#nextSlide .container').html(nextSlide.html());
-    $('#nextSlide .container').css('background-image', nextSlide.css('background-image'));
-    $('#nextSlide .container').css('background-size', nextSlide.css('background-size'));
-    $('#prevSlide .container').html(prevSlide.html());
-    $('#prevSlide .container').css('background-image', prevSlide.css('background-image'));
-    $('#prevSlide .container').css('background-size', prevSlide.css('background-size'));
+    nextThumb.html(nextSlide.html());
+    prevThumb.html(prevSlide.html());
+
+    copyBackground(nextSlide, nextThumb);
+    copyBackground(prevSlide, prevThumb);
 
     if (windowIsOpen(nextWindow)) {
       $(nextWindow.document.body).html(nextSlide.html());
