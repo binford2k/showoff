@@ -53,7 +53,7 @@ ja:
     reload: Showoffを全てにリロードする。
     blank: 画面を空白にする。
     footer: 表示フッターを切り替えます。
-    notes: メモを切り替えます。
+    notes: ノートを切り替えます。
     clear: コード実行結果をクリアします。
     pause: プレゼンテーションを一時停止する。
     #Not familiar with a functioning word for "preshow" so went with "preview"
@@ -98,48 +98,48 @@ ja:
         stats: 聴衆がインタラクションしているスライドを見る。
         downloads: メニューまたは新しいページでファイルのダウンロードを開く。
         display: 表示ウィンドウをエネーブルにする。 これをプロジェクターに置いてください。
-        print: 新しいウィンドウを使用してにスライドを印刷します。
+        print: 新ウィンドウでスライドを印刷する。
         settings: 設定ダイアログを開く。
     preview:
       next: 次へ
       previous: 前へ
     mobile:
-      update: 更新
+      update: アップデートする
     notes:
-      label:  Showoffのメモ
-      personal: 個人メモ
+      label:  Showoffのノート
+      personal: 自分のノート
     timer:
-      label: "タイマー:"
+      label: "ストップウォッチ:"
       start: 始める
       pause: 一時停止
       resume: 続ける
       cancel: キャンセル
       unit: 分
     pace:
-      faster: 速度を上げて下さい。
-      slower: 速度を下げて下さい。
-    questions: 聴衆の質問
+      faster: もっと早く
+      slower: もっとゆっくり
+    questions: 皆様からの質問
     annotation:
       tools: ツール
-      lines: ライン
-      shapes: シェイプ
+      lines: 線
+      shapes: 形
     status:
       label: "スライド:"
     settings:
       label: 設定
       close: 閉じる
       follower:
-        label: 学徒を更新する
-        tooltip: スライドの変更通知を送信する。
-        description: これを有効にすると、Showoffサーバーはスライドの変更を追跡します。 不注意にスライドの変更を引き起こすことなく、プレゼンテーションを観察するためにをオフにします。
+        label: Followerをアップデート
+        tooltip: 新スライドに進む時に知らせを送信する。
+        description: 有効にすると、Showoffサーバーは自分が見ているスライドを表示します。　無効にすると、表示しているスライドを変更しないで他のスライドに進まれる。
       remote:
-        label: リモートを有効にします
-        tooltip: 他のプレゼンターに従うことができます。
-        description: これを有効にすると、プレゼンテーションを制御するとは、プレゼンターを別のブラウザー（普通は携帯電話）にロードすることができます。
+        label: リモートを有効にする
+        tooltip: 他の発表者をトラックする。
+        description: 有効にすると、他の発表者は他ブラウザ（例えば、携帯電話）でスライドを管理でくる
       layout:
         label: レイアウト
         default: デフォルトのレイアウト
-        thumbs: 次と前のスライドでサムネイルプレビューを表示します。
+        thumbs: 次と前のスライドをサムネイルプレビューを表示します。
         beside: 次のスライドを大プレビューでメインプレゼンタービューに表示します。
         floating: 次のスライドをポップアップウィンドウとして開きます。
         confirmation: ブラウザセキュリティでは、新しいウィンドウを開く前に確認が必要です。
