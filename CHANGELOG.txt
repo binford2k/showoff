@@ -1,3 +1,15 @@
+0.18.0
+  * Showoff UI now fully internationalized
+    * UI appears in the language configured by the browser for both presenter and audience
+    * Content can be translated into multiple languages, see docs for info
+    * Display the appropriate language for each audience member individually
+    * CLI is not currently internationalized
+  * Choose the type of notes attached when printing from browser dialog
+  * Audience view shows follow mode more readily
+  * Preview thumbnails show backgrounds better
+  * Show correct answers for quizzes in audience view
+  * Minor UI and performance improvements
+
 0.17.2
   * Slides can now be tagged as "activity", which gives audience members the ability
     to inform the presenter when they're done.
