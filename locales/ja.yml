@@ -21,7 +21,7 @@ ja:
       send: 送信
     edit: このスライドを編集する
     clear_annotations: 注釈をクリアする
-    language: Content Language
+    language: コンテンツ言語
     close: 閉じる
     help: <code>?</code>キーを押してヘルプを表示します。
     anonymous: すべての機能は識別されません
@@ -149,19 +149,19 @@ ja:
           label: Showoffの設定をリセットします。
           tooltip: Showoff UIの設定をデフォルト値にリセットする。
       language:
-        label: Content Language
-        tooltip: Select from available translations, or autoselect based on your browser settings.
-        description: This presentation is available in different languages. Choose the language you would like to view or leave it at <tt>automatic</tt> to use your browser settings.
+        label: コンテンツ言語
+        tooltip: 使用可能な翻訳から選択するか、ブラウザ設定に基づいて自動選択します。
+        description: このプレゼンテーションは、さまざまな言語で利用できます。 あなたが見たい言語を選択するか、ブラウザ設定を使用するには<tt>自動的</ tt>にしておきます。
     print:
-      label: Choose type of printed notes
-      description: Select the content you'd like to show under the slides.
-      none: Don't include notes
-      notes: Presenter Notes
-      handouts: Audience Handouts
+      label: 表示されるノートのタイプを選択する
+      description: スライドの下に表示するコンテンツを選択します。
+      none: ノートを入れない
+      notes: 発表者のノート
+      handouts: 聴衆の配布資料
 
   language:
-    auto: Automatic
-    disable: Disable Translations
+    auto: 自動的
+    disable: 翻訳を無効にする
 
   error:
     file_not_found: ファイルが見つかりません
