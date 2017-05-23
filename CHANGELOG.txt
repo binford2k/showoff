@@ -1,3 +1,7 @@
+0.18.1
+  * Added missing gem dependency
+  * See notes below for more information about this release
+
 0.18.0
   * Showoff UI now fully internationalized
     * UI appears in the language configured by the browser for both presenter and audience
