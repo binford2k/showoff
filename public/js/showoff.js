@@ -4,6 +4,7 @@ var ShowOff = {};
 
 var preso_started = false
 var slidenum = 0
+var presenterSlideNum = 0
 var slideTotal = 0
 var slides
 var currentSlide
@@ -115,6 +116,11 @@ function setupPreso(load_slides, prefix) {
     resizable: false,
     width: 640,
     buttons: buttons
+  });
+
+  $("#synchronize").button();
+  $("#synchronize").click(function() {
+    synchronize();
   });
 
   // wait until the presentation is loaded to hook up the previews.
@@ -772,6 +778,9 @@ function showSlide(back_step, updatepv) {
     activityIncomplete = false;
   }
 
+  // show the sync button if we're not on the same slide as the presenter
+  checkSyncState();
+
   // make all bigly text tremendous
   currentSlide.children('.content.bigtext').bigtext();
 
@@ -1278,8 +1287,10 @@ function editSlide() {
   window.open(link);
 }
 
-function follow(slide, newIncrement) {
-  if (mode.follow && ! activityIncomplete) {
+function follow(slide, newIncrement, force) {
+  presenterSlideNum = slide;
+
+  if ((mode.follow && ! activityIncomplete) || force) {
     var lastSlide = slidenum;
     console.log("New slide: " + slide);
     gotoSlide(slide);
@@ -1302,6 +1313,22 @@ function follow(slide, newIncrement) {
 
     }
   }
+
+  // show the sync button if we're not on the same slide as the presenter
+  checkSyncState();
+}
+
+function checkSyncState() {
+  if (presenterSlideNum != slidenum && presenterSlideNum != null) {
+    $("#synchronize").show();
+  }
+  else {
+    $("#synchronize").hide();
+  }
+}
+
+function synchronize() {
+  follow(presenterSlideNum, 0, true);
 }
 
 function getPosition() {

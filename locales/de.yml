@@ -28,6 +28,7 @@ de:
   navigation:
     next: Nächste Folie
     previous: Vorherige Folie
+    sync: Synchronisieren der Präsentation
   loading: laden der Präsentation...
   activity_complete: Aktivität vollständig
   follow:

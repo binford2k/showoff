@@ -28,6 +28,7 @@ ja:
   navigation:
     next: 次へ
     previous: 前へ
+    sync: プレゼンテーションの同期
   loading: プレゼンテーション？ロード中...
   activity_complete: アクティビティ完了
   follow:

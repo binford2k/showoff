@@ -1199,6 +1199,14 @@ a.term:after {
   right: 1em;
 }
 
+#synchronize {
+  display: none;
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  font-size: 0.8em;
+}
+
 /* Render hidden headlines so that when we print with wkhtmltopdf, we can use section
    titles for page headers.  it would make sense to put this in the print section, but
    then you get a weird double headline when previewing a print in the browser. */

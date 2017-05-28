@@ -28,6 +28,7 @@ es:
   navigation:
     next: Siguiente
     previous: Anterior
+    sync: Sincronizar presentación
   loading: cargando presentación...
   activity_complete: Actividad completa
   follow:
