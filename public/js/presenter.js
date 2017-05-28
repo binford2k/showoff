@@ -293,6 +293,10 @@ function openSlave()
       // Add a class to differentiate from the audience view
       slaveWindow.document.getElementById("preso").className = 'display';
 
+      // remove some display view chrome
+      $('.slide.activity', slaveWindow.document).removeClass('activity').children('.activityToggle').remove();
+      $('#synchronize', slaveWindow.document).remove();
+
       // call back and update the parent presenter if the window is closed
       slaveWindow.onunload = function(e) {
         slaveWindow.opener.closeSlave(true);

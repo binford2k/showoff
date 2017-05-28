@@ -255,10 +255,6 @@ function initializePresentation(prefix) {
     }
   });
 
-  // The display window doesn't need the extra chrome
-  if(typeof(presenterView) != 'undefined') {
-    $('.slide.activity').removeClass('activity').children('.activityToggle').remove();
-  }
   $('.slide.activity .activityToggle input.activity').checkboxradio();
   $('.slide.activity .activityToggle input.activity').change(toggleComplete);
 
