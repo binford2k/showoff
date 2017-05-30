@@ -28,6 +28,7 @@ en:
   navigation:
     next: Next
     previous: Previous
+    sync: Sync Presentation
   loading: loading presentation...
   activity_complete: Activity complete
   follow:

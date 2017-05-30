@@ -28,6 +28,7 @@ nl:
   navigation:
     next: Volgende
     previous: Vorige
+    sync: Presentatie synchroniseren
   loading: Laden van presentatie...
   activity_complete: Activiteiten voltooid
   follow:

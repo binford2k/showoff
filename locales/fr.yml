@@ -28,6 +28,7 @@ fr:
   navigation:
     next: Prochain
     previous: Précédent
+    sync: Synchroniser la présentation
   loading: Chargement de la présentation...
   activity_complete: Activité terminée
   follow:
