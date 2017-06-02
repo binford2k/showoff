@@ -634,7 +634,9 @@ reconnectControlChannel = function() {
     },
     error: function() {
       console.log("Showoff server unavailable");
-      setTimeout(reconnectControlChannel(), 5000);
+      setTimeout( function() {
+        reconnectControlChannel();
+      }, 5000);
     },
   });
 }
