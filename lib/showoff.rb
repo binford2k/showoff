@@ -1036,10 +1036,17 @@ class ShowOff < Sinatra::Application
       end
 
       doc.css('img').each do |img|
-        # clean up the path and remove some of the relative nonsense
-        img_path  = Pathname.new(File.join(slide_dir, img[:src])).cleanpath.to_path
+
+        # does the image path start from the preso root?
+        if img[:src].start_with? '/'
+          img_path = img[:src]
+        else
+          # clean up the path and remove some of the relative nonsense
+          img_path = Pathname.new(File.join(slide_dir, img[:src])).cleanpath.to_path
+        end
         src       = "#{replacement_prefix}/#{img_path}"
         img[:src] = src
+
       end
       doc.to_html
     end
