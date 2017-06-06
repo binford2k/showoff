@@ -449,6 +449,8 @@ class ShowOffUtils
     # - { "section": [ "array.md, "of.md, "files.md"] }
     # - { "include": "sections.json" }
     sections = {}
+    lastpath = nil
+
     data.map do |entry|
       next entry if entry.is_a? String
       next nil unless entry.is_a? Hash
@@ -489,6 +491,24 @@ class ShowOffUtils
         end
       else
         path = File.dirname(entry)
+
+        # this nastiness just increments a counter in a case like:
+        # "sections": [
+        #   "A/a.md",
+        #   "B/b.md",
+        #   "A/b.md"
+        # ]
+        #
+        if path != lastpath
+          lastpath = path
+
+          # manipulate path *after* copying it to lastpath
+          count = sections.keys.select {|k| k =~ /^#{path}(-\d+)?$/ }.count
+          path  = "#{path}-#{count}" unless count == 0
+        else
+          lastpath = path
+        end
+
         sections[path] ||= []
         sections[path]  << filename
       end
