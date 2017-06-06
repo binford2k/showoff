@@ -449,6 +449,9 @@ class ShowOffUtils
     # - { "section": [ "array.md, "of.md, "files.md"] }
     # - { "include": "sections.json" }
     sections = {}
+    counters = {}
+    lastpath = nil
+
     data.map do |entry|
       next entry if entry.is_a? String
       next nil unless entry.is_a? Hash
@@ -489,6 +492,20 @@ class ShowOffUtils
         end
       else
         path = File.dirname(entry)
+
+        # this lastpath business allows us to reference files in a directory that aren't
+        # necessarily contiguous.
+        if path != lastpath
+          counters[path] ||= 0
+          counters[path]  += 1
+        end
+
+        # now record the last path we've seen
+        lastpath = path
+
+        # and if there are more than one disparate occurences of path, add a counter to this string
+        path = "#{path} (#{counters[path]})" unless counters[path] == 1
+
         sections[path] ||= []
         sections[path]  << filename
       end
