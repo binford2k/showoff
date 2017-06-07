@@ -705,6 +705,19 @@ custom layout is to create a container that uses absolute positioning
 and has width and height set to 100% which are then derived from the
 parent slide element.
 
+= Slide Header and Slide Footer
+
+You can also add a header and a footer to slides (outside the
+slide's <tt>div</tt> which wraps its content).
+To do so, specify the Markdown file to use in <tt>showoff.json</tt> using
+the options <tt>slide-header</tt> and <tt>slide-footer</tt>.
+Per default, Showoff will try to load <tt>slide-header.md</tt> and
+<tt>slide-footer.md</tt> from the root of the presentation directory.
+
+The template commands listed above work as well in headers and footers.
+
+An example can be found in the included example directory.
+
 = Live code execution
 
 Showoff can execute code from a slide and display the results live for
@@ -776,4 +789,3 @@ The "add slide" feature can allow you to add the necessary boilerplate from your
   added where your cursor was.  Binding this to a keybinding can allow you to add
   new slides quickly. See the commandline[rdoc-ref:COMMANDLINE] section for
   interesting Showoff commands.
-

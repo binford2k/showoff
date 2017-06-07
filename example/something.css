@@ -4,3 +4,19 @@
 .title-slide h1 {
   color: blue;
 }
+
+.slide-header, .slide-footer {
+  position: absolute;
+  font-size: .5em;
+  width: 100%;
+  text-align: center;
+  color: #888;
+}
+
+.slide-header {
+  top: 0;
+}
+
+.slide-footer {
+  bottom: 0;
+}

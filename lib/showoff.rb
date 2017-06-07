@@ -115,6 +115,10 @@ class ShowOff < Sinatra::Application
       settings.showoff_config['favicon'] ||= 'file/favicon.ico'
     end
 
+    # default slide header and footer files
+    settings.showoff_config['slide-header'] ||= 'slide-header.md'
+    settings.showoff_config['slide-footer'] ||= 'slide-footer.md'
+
     # default protection levels
     if settings.showoff_config.has_key? 'password'
       settings.showoff_config['protected'] ||= ["presenter", "onepage", "print"]
@@ -407,6 +411,20 @@ class ShowOff < Sinatra::Application
 
       slides.delete_if {|slide| slide.empty? and not slide.bg }
 
+      # load slide header markdown source
+      slide_header_source = ""
+      slide_header_file = settings.showoff_config["slide-header"]
+      if File.exist?(slide_header_file)
+        slide_header_source = File.open(slide_header_file, "r").read()
+      end
+
+      # load slide footer markdown source
+      slide_footer_source = ""
+      slide_footer_file = settings.showoff_config["slide-footer"]
+      if File.exist?(slide_footer_file)
+        slide_footer_source = File.open(slide_footer_file, "r").read()
+      end
+
       final = ''
       if slides.size > 1
         seq = 1
@@ -478,6 +496,11 @@ class ShowOff < Sinatra::Application
         content += " style=\"background-image: url('file/#{slide.bg}');\"" if slide.bg
         content += " class=\"slide #{classes}\" data-transition=\"#{transition}\">"
 
+        # render and add slide header
+        slide_header = process_content_for_replacements(slide_header_source)
+        slide_header = render_markdown(slide_header)
+        content += slide_header
+
         # name the slide. If we've got multiple slides in this file, we'll have a sequence number
         # include that sequence number to index directly into that content
         ref = seq ? "#{name}:#{seq.to_s}" : name
@@ -497,7 +520,7 @@ class ShowOff < Sinatra::Application
 
         # Apply the template to the slide and replace the key to generate the content of the slide
         sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
-        sl = Tilt[:markdown].new(nil, nil, @engine_options) { sl }.render
+        sl = render_markdown(sl)
         sl = build_forms(sl, content_classes)
         sl = update_p_classes(sl)
         sl = process_content_for_section_tags(sl, name, opts)
@@ -506,6 +529,12 @@ class ShowOff < Sinatra::Application
 
         content += sl
         content += "</div>\n"
+
+        # render and add slide footer
+        slide_footer = process_content_for_replacements(slide_footer_source)
+        slide_footer = render_markdown(slide_footer)
+        content += slide_footer
+
         if content_classes.include? 'activity'
           content += '<span class="activityToggle">'
           content += "  <label for=\"activity-#{ref}\">#{I18n.t('activity_complete')}</label>"
@@ -524,6 +553,10 @@ class ShowOff < Sinatra::Application
         end
       end
       final
+    end
+
+    def render_markdown(content)
+      Tilt[:markdown].new(nil, nil, @engine_options) { content }.render
     end
 
     # This method processes the content of the slide and replaces
@@ -590,7 +623,7 @@ class ShowOff < Sinatra::Application
         # Make sure we've got a notes div to hang personal notes from
         doc.add_child '<div class="notes-section notes"></div>' if doc.css('div.notes-section.notes').empty?
         doc.css('div.notes-section.notes').each do |section|
-          text = Tilt[:markdown].new(nil, nil, @engine_options) { File.read(filename) }.render
+          text = render_markdown(File.read(filename))
           frag = "<div class=\"personal\"><h1>#{I18n.t('presenter.notes.personal')}</h1>#{text}</div>"
           note = Nokogiri::HTML::DocumentFragment.parse(frag)
 
