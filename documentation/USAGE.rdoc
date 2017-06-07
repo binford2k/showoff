@@ -41,10 +41,11 @@ web browser. The following URL paths are available for use by you and your audie
   control the presentation if enabled with the <tt>Enable Remote</tt>  button. Showoff
   tries to be intelligent about which slide change updates to track.
 
-[http://localhost:9090/print]
+[http://localhost:9090/print/$notes-type]
   This will generate printable version of your presentation, including any slides that
   were tagged as _printonly_. This view can be printed directly from the browser, or
-  processed with any HTML-to-$thing engine.
+  processed with any HTML-to-$thing engine. Add the optional <tt>$notes-type</tt> argument
+  to select which <tt>SECTION</tt> variant to attach below the slides.
 
 [http://localhost:9090/download]
   Your slides can include files for viewers to download and these files will be listed
