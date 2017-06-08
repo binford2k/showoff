@@ -293,7 +293,7 @@
       min-width: 210px;
       min-height: 210px;
       height: 210px;
-      border-top: 1px solid #ccc;
+      border-top: 3px solid #ccc;
       overflow: auto;
     }
 
