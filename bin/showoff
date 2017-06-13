@@ -68,6 +68,21 @@ module Wrapper
     end
   end
 
+  desc 'Display information about a Showoff presentation'
+  long_desc 'This command compiles the presentation, then lists out all Markdown files, images, stylesheets, and javascripts included.'
+  command [:info] do |c|
+
+    c.desc 'alternate json filename'
+    c.flag [:f,:file]
+
+    c.desc 'render output as json'
+    c.switch [:j,:json]
+
+    c.action do |global_options,options,args|
+      ShowOffUtils.info(options[:f], options[:j])
+    end
+  end
+
   desc 'Validate the consistency of your presentation.'
   long_desc 'This ensures that each file listed in showoff.json exists and validates code blocks on each slide.'
   command [:validate] do |c|

@@ -97,6 +97,37 @@ class ShowOffUtils
     end
   end
 
+  def self.info(config, json = false)
+    ShowOffUtils.presentation_config_file = config
+    showoff = ShowOff.new!
+    content = showoff.slides
+    dom     = Nokogiri::HTML(content)
+
+    data = {}
+    data['files']   = self.showoff_slide_files('.')
+    data['images']  = dom.css('img').map {|img| img[:src].sub(/.\/image\/+/,'') }
+    data['styles']  = Dir.glob('*.css')
+    data['scripts'] = Dir.glob('*.js')
+
+    # now grep through the styles and identify referenced images
+    data['styles'].each do |style|
+      File.readlines(style).each do |line|
+        next unless line =~ /url\(\'(\S+)\'\)/
+        data['images'] << $1
+      end
+    end
+
+    if json
+      puts JSON.pretty_generate(data)
+    else
+      data.each do |key, list|
+        puts "#{key.capitalize}:"
+        list.each {|file| puts "    * #{file}" }
+        puts
+      end
+    end
+  end
+
   def self.validate(config)
     showoff    = ShowOff.new!(:pres_file  => config)
     validators = showoff.settings.showoff_config['validators'] || {}
