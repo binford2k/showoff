@@ -1,3 +1,14 @@
+0.18.2
+  * Add button to sync with the presenter. When the audience view doesn't match
+    the presenter view, they'll have a shortcut button to get back in sync.
+  * Sometimes a disconnected server could spike the CPU. Now fixed.
+  * When listing slides in an array, generate sections in the proper order, even
+    when they're disjointed.
+  * Allow for absolute from preso root paths.
+  * Add command to dump generated information about a presentation, such as all
+    slides, images, styles, javascripts used.
+  * Clean up some minor display issues.
+
 0.18.1
   * Added missing gem dependency
   * See notes below for more information about this release
