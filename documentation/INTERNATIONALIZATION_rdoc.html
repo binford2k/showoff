@@ -58,6 +58,7 @@
     <li><a href="#label-Internationalization">Internationalization</a>
     <li><a href="#label-User+Interface">User Interface</a>
     <li><a href="#label-Content+Translation">Content Translation</a>
+    <li><a href="#label-String+Replacement">String Replacement</a>
     <li><a href="#label-Browser+Configuration">Browser Configuration</a>
   </ul>
 </div>
@@ -145,6 +146,48 @@ presentation. The same relative paths will be used to reference each slide.</p>
 This allows you to translate any images with text as well. If you don&#39;t
 need this, you can symlink the directory, or you can use relative parent
 paths (<code>../../</code>) to point to the correct images.</p>
+
+<h2 id="label-String+Replacement">String Replacement<span><a href="#label-String+Replacement">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p>You can also translate simple strings in your content. Start by adding a
+<code>strings.json</code> file to your <code>locales</code> directory that
+looks like this:</p>
+
+<pre>{
+  &quot;en&quot;: {
+    &quot;greeting&quot;: &quot;Hello!&quot;,
+    &quot;farewell&quot;: &quot;Goodbye&quot;
+  },
+  &quot;es&quot;: {
+    &quot;greeting&quot;: &quot;Hola!&quot;,
+    &quot;farewell&quot;: &quot;Adios&quot;
+  },
+  &quot;fr&quot;: {
+    &quot;greeting&quot;: &quot;Bonjour!&quot;,
+    &quot;farewell&quot;: &quot;Au revoir&quot;
+  },
+  &quot;de&quot;: {
+    &quot;greeting&quot;: &quot;Hallo!&quot;,
+    &quot;farewell&quot;: &quot;Auf Wiedersehen&quot;
+  },
+  &quot;ja&quot;: {
+    &quot;greeting&quot;: &quot;こんにちは!&quot;,
+    &quot;farewell&quot;: &quot;さようなら&quot;
+  }
+}</pre>
+
+<p>Then add simple tags like <code>{{greeting}}</code> to your content in one
+of two ways:</p>
+<ul><li>
+<p>Add these tags to SVG images as text elements:</p>
+</li></ul>
+
+<p><img src="../images/translation_demo.svg"></p>
+<ul><li>
+<p>Add the class <code>translate</code> to text elements with these tags:</p>
+
+<pre>The localized greeting is &lt;span class=&quot;translate&quot;&gt;{{greeting}}&lt;/span&gt;.</pre>
+</li></ul>
 
 <h2 id="label-Browser+Configuration">Browser Configuration<span><a href="#label-Browser+Configuration">&para;</a> <a href="#top">&uarr;</a></span></h2>
 

@@ -154,11 +154,13 @@ will need to authenticate to view.</p>
 then it can also control the presentation if enabled with the <code>Enable
 Remote</code>  button. Showoff tries to be intelligent about which slide
 change updates to track.</p>
-</dd><dt><a href="http://localhost:9090/print">localhost:9090/print</a>
+</dd><dt><a href="http://localhost:9090/print/$notes-type">localhost:9090/print/$notes-type</a>
 <dd>
 <p>This will generate printable version of your presentation, including any
 slides that were tagged as <em>printonly</em>. This view can be printed
-directly from the browser, or processed with any HTML-to-$thing engine.</p>
+directly from the browser, or processed with any HTML-to-$thing engine. Add
+the optional <code>$notes-type</code> argument to select which
+<code>SECTION</code> variant to attach below the slides.</p>
 </dd><dt><a href="http://localhost:9090/download">localhost:9090/download</a>
 <dd>
 <p>Your slides can include files for viewers to download and these files will
