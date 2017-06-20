@@ -71,7 +71,7 @@ class ShowOff < Sinatra::Application
 
   def initialize(app=nil)
     super(app)
-    @logger = Logger.new(STDOUT)
+    @logger = Logger.new(STDERR)
     @logger.formatter = proc { |severity,datetime,progname,msg| "#{progname} #{msg}\n" }
     @logger.level = settings.verbose ? Logger::DEBUG : Logger::WARN
 
