@@ -378,7 +378,7 @@ class ShowOff < Sinatra::Application
       end
     end
 
-    def process_markdown(name, section, content, opts={:static=>false, :pdf=>false, :print=>false, :toc=>false, :supplemental=>nil, :section=>nil})
+    def process_markdown(name, section, content, opts={:static=>false, :pdf=>false, :print=>false, :toc=>false, :supplemental=>nil, :section=>nil, :merged=>false})
       if settings.encoding and content.respond_to?(:force_encoding)
         content.force_encoding(settings.encoding)
       end
@@ -418,26 +418,30 @@ class ShowOff < Sinatra::Application
           @section_minor = 0
         end
 
-        if opts[:supplemental]
-          # if we're looking for supplemental material, only include the content we want
-          next unless slide.classes.include? 'supplemental'
-          next unless slide.classes.include? opts[:supplemental]
-        else
-          # otherwise just skip all supplemental material completely
-          next if slide.classes.include? 'supplemental'
-        end
+        # merged output means that we just want to generate *everything*. This is used by internal,
+        # methods such as content validation, where we want all content represented.
+        unless opts[:merged]
+          if opts[:supplemental]
+            # if we're looking for supplemental material, only include the content we want
+            next unless slide.classes.include? 'supplemental'
+            next unless slide.classes.include? opts[:supplemental]
+          else
+            # otherwise just skip all supplemental material completely
+            next if slide.classes.include? 'supplemental'
+          end
 
-        unless opts[:toc]
-          # just drop the slide if we're not generating a table of contents
-          next if slide.classes.include? 'toc'
-        end
+          unless opts[:toc]
+            # just drop the slide if we're not generating a table of contents
+            next if slide.classes.include? 'toc'
+          end
 
-        if opts[:print]
-          # drop all slides not intended for the print version
-          next if slide.classes.include? 'noprint'
-        else
-          # drop slides that are intended for the print version only
-          next if slide.classes.include? 'printonly'
+          if opts[:print]
+            # drop all slides not intended for the print version
+            next if slide.classes.include? 'noprint'
+          else
+            # drop slides that are intended for the print version only
+            next if slide.classes.include? 'printonly'
+          end
         end
 
         @slide_count += 1
@@ -1257,7 +1261,7 @@ class ShowOff < Sinatra::Application
       assets.uniq.join("\n")
     end
 
-    def slides(static=false)
+    def slides(static=false, merged=false)
       @logger.info "Cached presentations: #{@@cache.keys}"
 
       # if we have a cache and we're not asking to invalidate it
@@ -1269,7 +1273,7 @@ class ShowOff < Sinatra::Application
       ShowOffUtils.update(settings.verbose) if settings.url
 
       @@slide_titles = []
-      content = get_slides_html(:static=>static)
+      content = get_slides_html(:static=>static, :merged=>merged)
 
       # allow command line cache disabling
       @@cache[@locale] = content unless settings.nocache

@@ -100,7 +100,7 @@ class ShowOffUtils
   def self.info(config, json = false)
     ShowOffUtils.presentation_config_file = config
     showoff = ShowOff.new!
-    content = showoff.slides
+    content = showoff.slides(false, true)
     dom     = Nokogiri::HTML(content)
 
     data = {}
