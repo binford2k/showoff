@@ -598,6 +598,7 @@ pre.highlight code.language-powershellconsole.nochrome {
 
 pre.highlight code .highlightedLine {
   background-color: #f5e2e2;
+  color: #000;
   display: inline-block;
   width: 100%;
 }
