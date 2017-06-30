@@ -387,6 +387,8 @@ function toggleNotes() {
       if(windowIsClosed(notesWindow)){
         notesWindow = blankStyledWindow(I18n.t('notes.label'), 'width=350,height=450', 'notes', true);
         window.setTimeout(function() {
+          $(notesWindow.document.documentElement).addClass('floatingNotes');
+
           // call back and update the parent presenter if the window is closed
           notesWindow.onunload = function(e) {
             notesWindow.opener.toggleNotes();
