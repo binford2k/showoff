@@ -8,6 +8,7 @@
           flex-flow: column;
   min-width: 630px;
   min-height: 675px;
+  top: 0; /* this is why we can't have nice things. See #776 */
 }
 
 #timerSection,
