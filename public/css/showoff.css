@@ -53,6 +53,9 @@ pre code {
     padding:0;
     overflow: hidden;
   }
+    html.floatingNotes {
+      overflow: scroll;
+    }
 
     body.busy {
       cursor: progress;
