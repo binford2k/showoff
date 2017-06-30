@@ -11,15 +11,19 @@
 
   <% if @inline %>
 
-    <%= inline_css(['showoff.css', 'font-awesome-4.4.0/css/font-awesome.min.css', 'onepage.css', "highlight/#{@highlightStyle}.css"], 'public/css') %>
+    <%= inline_css(['font-awesome-4.4.0/css/font-awesome.min.css', 'mermaid-6.0.0.css', "highlight/#{@highlightStyle}.css"], 'public/css') %>
+    <%= inline_css(['showoff.css', 'onepage.css'], 'public/css') %>
     <%= inline_css(css_files) %>
 
-    <%= inline_js(['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'highlight.pack-9.2.0.js'], 'public/js') %>
+    <%= inline_js(['jquery-2.1.4.min.js', 'showoff.js', 'highlight.pack-9.2.0.js'], 'public/js') %>
+    <%= inline_js(['bigtext-0.1.8.js', 'simpleStrings-0.0.1.js', 'mermaid-6.0.0-min.js'], 'public/js') %>
+
     <%= inline_js(@languages, 'public/js') if @languages %>
     <%= inline_js(js_files) %>
 
   <% else %>
-    <% ['showoff.css', 'font-awesome-4.4.0/css/font-awesome.min.css', 'onepage.css', "highlight/#{@highlightStyle}.css"].each do |css_file| %>
+    <% ['font-awesome-4.4.0/css/font-awesome.min.css', 'mermaid-6.0.0.css', "highlight/#{@highlightStyle}.css",
+        'showoff.css', 'onepage.css'].each do |css_file| %>
       <link rel="stylesheet" href="<%= @asset_path %>/css/<%= css_file %>" type="text/css"/>
     <% end %>
 
@@ -27,7 +31,8 @@
       <link rel="stylesheet" href="<%= @asset_path %>/file/<%= css_file %>" type="text/css"/>
     <% end %>
 
-    <% ['jquery-2.1.4.min.js', 'jquery-print.js', 'showoff.js', 'highlight.pack-9.2.0.js'].each do |js_file| %>
+    <% ['jquery-2.1.4.min.js', 'showoff.js', 'highlight.pack-9.2.0.js',
+        'bigtext-0.1.8.js', 'simpleStrings-0.0.1.js', 'mermaid-6.0.0-min.js'].each do |js_file| %>
       <script type="text/javascript" src="<%= @asset_path %>/js/<%= js_file %>"></script>
     <% end %>
     <% js_files.each do |js_file| %>
@@ -52,6 +57,16 @@
           console.log(e);
         }
       });
+
+      // render diagrams and text manipulations unconditionally instead of waiting for slide views
+      mermaid.init(undefined, $(".language-render-diagram"));
+      $('.content.bigtext').bigtext();
+
+      // translate SVG images, inlining them first if needed.
+      user_translations = <%= JSON.pretty_generate user_translations %>;
+      $('img').simpleStrings({strings: user_translations});
+      $('svg').simpleStrings({strings: user_translations});
+      $('.translate').simpleStrings({strings: user_translations});
     });
   </script>
 
