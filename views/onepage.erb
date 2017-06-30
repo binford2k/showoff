@@ -58,7 +58,15 @@
         }
       });
 
+      // render diagrams and text manipulations unconditionally instead of waiting for slide views
       mermaid.init(undefined, $(".language-render-diagram"));
+      $('.content.bigtext').bigtext();
+
+      // translate SVG images, inlining them first if needed.
+      user_translations = <%= JSON.pretty_generate user_translations %>;
+      $('img').simpleStrings({strings: user_translations});
+      $('svg').simpleStrings({strings: user_translations});
+      $('.translate').simpleStrings({strings: user_translations});
     });
   </script>
 
