@@ -205,16 +205,11 @@ function initializePresentation(prefix) {
 
   $('pre.highlight code').each(function(i, block) {
     try {
+      // syntax highlight the code
       hljs.highlightBlock(block);
 
-      // Highlight requested lines
-      block.innerHTML = block.innerHTML.split(/\r?\n/).map(function (line, i) {
-        if (line.indexOf('* ') === 0) {
-          return line.replace(/^\*(.*)$/, '<div class="highlightedLine">$1</div>');
-        }
-
-        return line;
-      }).join('\n');
+      // then add focus on any lines marked
+      highlightLines(block);
 
     } catch(e) {
       console.log('Syntax highlighting failed on ' + $(this).closest('div.slide').attr('id'));
@@ -863,6 +858,17 @@ function showIncremental(incr)
 		} else {
 			incrElem.eq(incrCurr).removeClass('hidden');
 		}
+}
+
+// focus highlight requested lines of a given code block
+function highlightLines(block) {
+  block.innerHTML = block.innerHTML.split(/\r?\n/).map(function (line, i) {
+    if (line.indexOf('* ') === 0) {
+      return line.replace(/^\*(.*)$/, '<div class="highlightedLine">$1</div>');
+    }
+
+    return line;
+  }).join('\n');
 }
 
 // form handling

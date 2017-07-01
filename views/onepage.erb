@@ -50,13 +50,18 @@
     $(document).ready(function() {
       $('pre.highlight code').each(function(i, block) {
         try {
+          // syntax highlight the code
           hljs.highlightBlock(block);
+
+          // then add focus on any lines marked
+          highlightLines(block);
         } catch(e) {
           console.log('Syntax highlighting failed on ' + $(this).closest('div.slide').attr('id'));
           console.log('Syntax highlighting failed for ' + $(this).attr('class'));
           console.log(e);
         }
       });
+
 
       // render diagrams and text manipulations unconditionally instead of waiting for slide views
       mermaid.init(undefined, $(".language-render-diagram"));
