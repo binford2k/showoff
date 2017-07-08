@@ -912,6 +912,33 @@ form .element {
   *** end modal ***
   *****************/
 
+/******************************
+ ***   Tour customization   ***
+ ******************************/
+.introjs-skipbutton {
+  color: red;
+}
+.introjs-nextbutton {
+  font-weight: bold;
+}
+.introjs-donebutton {
+  color: white;
+  font-weight: bold;
+  background-image: linear-gradient(to bottom, #62c462, #51a351);
+  border-color: #51a351 #51a351 #387038;
+  text-shadow: none;
+}
+.introjs-donebutton:focus,
+.introjs-donebutton:active {
+  background-color: #51a351;
+  background-image: none;
+}
+.tourDark {
+  background-color: rgba(183, 183, 183, 0.9);
+}
+
+
+
 /**********************************
  ***   supplemental materials   ***
  **********************************/

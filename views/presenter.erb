@@ -12,6 +12,93 @@
   <script type="text/javascript">
     editUrl  = "<%= @edit %>";
     issueUrl = "<%= @issues %>";
+
+    $(function(){
+      var tourVersion = 1;
+      var clientTour  = document.cookieHash['tourVersion'] || 0;
+
+      if(clientTour < tourVersion) {
+        toggleKeybinding('off');
+
+        var intro = introJs();
+        intro.setOptions({
+          showProgress:    true,
+          showStepNumbers: false,
+          steps: [
+            {
+              element: "#slaveWindow",
+              intro: I18n.t('tour.displayview'),
+              version: 1
+            },
+            {
+              element: "#annotationLabel",
+              intro: I18n.t('tour.annotations'),
+              version: 1
+            },
+            {
+              element: "#timerSection",
+              intro: I18n.t('tour.timer'),
+              version: 1
+            },
+            {
+              element: "#feedbackPace",
+              intro: I18n.t('tour.pace'),
+              version: 1
+            },
+            {
+              element: "#questions",
+              intro: I18n.t('tour.questions'),
+              version: 1
+            },
+            {
+              element: "#notes-controls",
+              intro: I18n.t('tour.notes'),
+              highlightClass: "tourDark",
+              version: 1
+            },
+            {
+              element: "#slideSource",
+              intro: I18n.t('tour.slidesource'),
+              version: 1
+            },
+            {
+              element: "#settings",
+              intro: I18n.t('tour.settings'),
+              version: 1
+            },
+            {
+              element: "#edit",
+              intro: I18n.t('tour.edit'),
+              version: 1
+            },
+            {
+              element: "#report",
+              intro: I18n.t('tour.report'),
+              version: 1
+            }
+          ].filter(function(item) { return (item['version'] > clientTour) && document.querySelector(item['element']) })
+          // the queryselector filter eliminates tips for features that have been turned off
+        });
+
+        // re-enable the keyboard whether the tour was completed or not
+        intro.onexit(function() {
+          toggleKeybinding('on');
+        });
+
+        // record tour completion so we don't continue to annoy people
+        intro.oncomplete(function() {
+          document.cookie = "tourVersion="+tourVersion;
+        });
+
+        // give it a chance to finish loading the catalog
+        $("body").bind("showoff:loaded", function (event) {
+          intro.start();
+        });
+
+      }
+    });
+
+
   </script>
 </head>
 
@@ -24,7 +111,7 @@
 
     <span id="links">
       <span class="desktop">
-        <label for="annotationsToggle" class="no-mobile" title="<%= I18n.t('presenter.topbar.tooltip.annotations') %>"><%= I18n.t('presenter.topbar.annotations') %> <i class="fa fa-pencil"></i></label>
+        <label id="annotationLabel" for="annotationsToggle" class="no-mobile" title="<%= I18n.t('presenter.topbar.tooltip.annotations') %>"><%= I18n.t('presenter.topbar.annotations') %> <i class="fa fa-pencil"></i></label>
         <input type="checkbox" id="annotationsToggle" autocomplete="off" class="no-mobile" />
 
         <% if @edit %>
@@ -133,7 +220,7 @@
 
         <div id="notes-wrapper">
           <ul class="section-selector"></ul>
-          <div class="controls">
+          <div class="controls" id="notes-controls">
             <a class="no-mobile fa fa-minus small" aria-hidden="true" href="#"></a>
             <a class="no-mobile fa fa-dot-circle-o small" aria-hidden="true" href="#"></a>
             <a class="no-mobile fa fa-plus small" aria-hidden="true" href="#"></a>
