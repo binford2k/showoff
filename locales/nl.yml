@@ -25,6 +25,7 @@ nl:
     close: Sluiten
     help: Druk op <code>?</code> voor help.
     anonymous: Alle opties zijn anoniem.
+    sending: Bezig met verzenden...
   navigation:
     next: Volgende
     previous: Vorige

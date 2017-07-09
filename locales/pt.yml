@@ -25,6 +25,7 @@ pt:
     close: Fechar
     help: Digite <code>?</code> para ajuda.
     anonymous: Todo conteúdo é anonimo.
+    sending: Enviando ...
   navigation:
     next: Próximo
     previous: Anterior

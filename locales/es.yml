@@ -25,6 +25,7 @@ es:
     close: Cerrar
     help: Presionar <code>?</code> para ver ayuda.
     anonymous: Todas las funciones son anónimas.
+    sending: Enviando...
   navigation:
     next: Siguiente
     previous: Anterior
