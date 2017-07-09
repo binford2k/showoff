@@ -39,6 +39,18 @@ nl:
     prompt: Hoeveel minuten tot het begin?
     resume: "Start over:"
 
+  tour:
+    displayview: Begin door op deze knop te klikken om de weergaveweergave te openen; Sleep het dan op de projector.
+    annotations: Teken op uw glijbanen overal waar de presentatie wordt weergegeven.
+    timer: Stel een countdown timer in om te helpen u op een rijtje te blijven.
+    pace: Publiekleden kunnen dit gebruiken om u te vertellen of u te snel beweegt. Probeer de indicator centraal te houden.
+    questions: Vragen die door publiek worden gevraagd, worden hier weergegeven. U ziet ook een tellerindicator in de weergaveweergave wanneer u vragen heeft om te beantwoorden.
+    notes: Configureer de notitiesweergave door tekst in te zoomen, het venster te wijzigen of zelfs het uit te blazen in een nieuw venster.
+    slidesource: De naam van de dia wordt hier weergegeven.
+    settings: Wilt u een andere presentatie layout? Kies die en andere instellingen hier.
+    edit: Deze knop zal uw web-based editor openen - meestal iets zoals GitHub.
+    report: Vergeet niet om problemen te melden wanneer u ze ziet.
+
   downloads:
     title: Downloads
 
