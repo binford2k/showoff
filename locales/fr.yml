@@ -25,6 +25,7 @@ fr:
     close: Fermer
     help: Presse <code>?</code> pour aider.
     anonymous: Toutes les fonctionnalités sont anonymes.
+    sending: Envoi...
   navigation:
     next: Prochain
     previous: Précédent

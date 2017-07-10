@@ -25,6 +25,7 @@ ja:
     close: 閉じる
     help: <code>?</code>キーを押してヘルプを表示します。
     anonymous: すべての機能は識別されません
+    sending: 送信...
   navigation:
     next: 次へ
     previous: 前へ

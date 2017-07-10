@@ -25,6 +25,7 @@ en:
     close: Close
     help: Press <code>?</code> for help.
     anonymous: All features are anonymous.
+    sending: Sending...
   navigation:
     next: Next
     previous: Previous
