@@ -16,6 +16,18 @@ def next_version(type = :patch)
   n.join '.'
 end
 
+def translate(text, lang)
+  require 'net/http'
+  require 'uri'
+  require 'json'
+
+  uri    = URI.parse("https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=#{lang}&dt=t&q=#{URI.escape(text)}")
+  result = Net::HTTP.get_response(uri)
+  data   = JSON.parse(result.body);
+
+  data.first.map { |sentence| sentence.first }.join
+end
+
 desc "Build Docker image"
 task 'docker' do
   Dir.chdir('build') do
@@ -74,18 +86,19 @@ desc 'Validate translation files'
 task 'lang:check' do
   require 'yaml'
 
-  def compare_keys(left, right, name, stack=nil)
+  def compare_keys(left, right, code, name, stack=nil)
     left.each do |key, val|
       inner   = stack.nil? ? key : "#{stack}.#{key}"
       compare = right[key]
 
       case compare
       when Hash
-        compare_keys(val, compare, name, inner)
+        compare_keys(val, compare, code, name, inner)
       when String
         next
       when NilClass
         puts "Error: '#{inner}' is missing from #{name}"
+        puts " ↳ maybe: #{translate(val, code)}" if val.is_a? String
       else
         puts "Error: '#{inner}' in #{name} is a #{compare.class}, not a Hash"
       end
@@ -102,7 +115,7 @@ task 'lang:check' do
     key  = lang.keys.first
 
     puts "Error: #{langfile} has the wrong language code (#{key})" unless code == key
-    compare_keys(canonical['en'], lang[key], langfile)
+    compare_keys(canonical['en'], lang[key], code, langfile)
   end
 end
 
