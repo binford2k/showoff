@@ -436,7 +436,7 @@ class ShowOffUtils
 
       logger.debug data
       if data.is_a?(Hash)
-        # dup so we don't overwrite the original data structutre and make it impossible to re-localize
+        # dup so we don't overwrite the original data structure and make it impossible to re-localize
         sections = data['sections'].dup
       else
         sections = data.dup

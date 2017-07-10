@@ -107,6 +107,9 @@ class ShowOff < Sinatra::Application
       settings.pres_template = showoff_json["templates"]
     end
 
+    # if no sections are provided, we'll just start from cwd
+    settings.showoff_config['sections'] ||= ['.']
+
     # code execution timeout
     settings.showoff_config['timeout'] ||= 15
 
