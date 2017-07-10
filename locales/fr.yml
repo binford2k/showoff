@@ -39,6 +39,18 @@ fr:
     prompt: Minutes à partir de maintenant pour commencer?
     resume: "Reprise dans:"
 
+  tour:
+    displayview: Commencez par cliquer sur ce bouton pour ouvrir la vue d'affichage; Puis faites-le glisser sur le projecteur.
+    annotations: Dessinez sur vos diapositives partout où la présentation s'affiche.
+    timer: Réglez un compte à rebours pour vous aider à rester en rythme.
+    pace: Les membres de l'audience peuvent utiliser cela pour vous dire si vous déménagez trop rapidement. Essayez de garder l'indicateur centré.
+    questions: Les questions posées par les membres de l'auditoire sont affichées ici. Vous verrez également un indicateur de compte-rendu sur l'affichage lorsque vous avez des questions à répondre.
+    notes: Configurez l'affichage des notes en faisant un zoom sur le texte, en redimensionnant ou en la diffusant dans une nouvelle fenêtre.
+    slidesource: Le nom de la diapositive s'affiche ici.
+    settings: Souhaitez-vous une disposition différente des présentateurs? Choisissez cela et d'autres paramètres ici.
+    edit: Ce bouton ouvrira votre éditeur Web - généralement quelque chose comme GitHub.
+    report: N'oubliez pas de signaler les problèmes lorsque vous les voyez.
+
   downloads:
     title: Téléchargements de fichiers
 

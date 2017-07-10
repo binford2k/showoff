@@ -39,6 +39,18 @@ es:
     prompt: Minutos desde ahora al comienzo?
     resume: "Continuando en:"
 
+  tour:
+    displayview: Comience haciendo clic en este botón para abrir la vista de visualización; Luego arrástrelo al proyector.
+    annotations: Dibuja tus diapositivas en todas partes donde se muestra la presentación.
+    timer: Establecer un temporizador de cuenta regresiva para ayudarle a mantenerse en el ritmo.
+    pace: Los miembros de la audiencia pueden usar esto para decirle si se mueve demasiado rápido. Trate de mantener el indicador centrado.
+    questions: Las preguntas hechas por los miembros de la audiencia se muestran aquí. También verá un indicador de recuento en la vista de pantalla cuando tenga preguntas que responder.
+    notes: Configure la visualización de notas ampliando el texto, cambiando el tamaño del panel o incluso haciéndolo saltar a una nueva ventana.
+    slidesource: Aquí se muestra el nombre de la diapositiva.
+    settings: ¿Quieres un diseño de presentador diferente? Elige eso y otros ajustes aquí.
+    edit: Este botón abrirá su editor basado en web - generalmente algo como GitHub.
+    report: No se olvide de informar de problemas cuando los vea.
+
   downloads:
     title: Descarga de Archivos
 

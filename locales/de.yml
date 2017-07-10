@@ -39,6 +39,18 @@ de:
     prompt: Beginn in Minuten?
     resume: "Fortsetzen in Minuten:"
 
+  tour:
+    displayview: Klicken Sie auf diese Schaltfläche, um die Anzeigeansicht zu öffnen. Dann ziehe es auf den Projektor.
+    annotations: Zeichnen Sie auf Ihren Dias überall, wo die Präsentation angezeigt wird.
+    timer: Stellen Sie einen Countdown-Timer ein, damit Sie im Tempo bleiben können.
+    pace: Publikum Mitglieder können dies zu sagen, wenn Sie sich zu schnell bewegen. Versuchen Sie, die Anzeige zentriert zu halten.
+    questions: Fragen, die von Publikumsmitgliedern gefragt werden, werden hier angezeigt. Sie sehen auch eine Zähleranzeige auf der Displayansicht, wenn Sie Fragen zu beantworten haben.
+    notes: Konfigurieren Sie die Notizenanzeige durch Zoomen von Text, Größenänderung des Fensters oder sogar in ein neues Fenster.
+    slidesource: Hier wird der Name der Folie angezeigt.
+    settings: Möchten Sie ein anderes Präsentationslayout? Wähle das und andere Einstellungen hier.
+    edit: Diese Schaltfläche öffnet Ihren Web-Editor - in der Regel so etwas wie GitHub.
+    report: Vergessen Sie nicht, Probleme zu melden, wenn Sie sie sehen.
+
   downloads:
     title: Datei Downloads
 
