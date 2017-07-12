@@ -265,7 +265,9 @@ class ShowOff < Sinatra::Application
     end
 
     def preshow_files
-      Dir.glob("#{settings.pres_dir}/_preshow/*").map { |path| File.basename(path) }.to_json
+      files = Dir.glob("#{settings.pres_dir}/_preshow/*")
+      files.reject { |path| ['.txt', '.md'].include? File.extname(path) }
+      files.map { |path| File.basename(path) }.to_json
     end
 
     # return a list of keys associated with a given action in the keymap
