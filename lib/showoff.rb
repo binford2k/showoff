@@ -266,7 +266,7 @@ class ShowOff < Sinatra::Application
 
     def preshow_files
       files = Dir.glob("#{settings.pres_dir}/_preshow/*")
-      files.reject { |path| ['.txt', '.md'].include? File.extname(path) }
+      files.reject! { |path| ['.txt', '.md'].include? File.extname(path) }
       files.map { |path| File.basename(path) }.to_json
     end
 
