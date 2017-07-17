@@ -13,6 +13,67 @@
     editUrl  = "<%= @edit %>";
     issueUrl = "<%= @issues %>";
 
+    tours = {};
+    tours['activity'] = [
+      {
+        element: ".count",
+        intro: 'This will count down as audience members mark their activity complete. Note that their presentation will pause until complete.',
+      }
+    ];
+
+    tours['form'] = [
+      {
+        element: "input.display",
+        intro: I18n.t('tour.displayview')
+      },
+      {
+        element: "#notes .form.wrapper",
+        intro: I18n.t('tour.displayview')
+      }
+    ];
+
+    tours['widget'] = [
+      {
+        element: "#close-sidebar",
+        intro: 'Spinny-foo.'
+      }
+    ];
+
+
+    function showTour(name) {
+      var clientTours = document.cookieHash['tours'] || [];
+
+      if(clientTours.indexOf(name) == -1) {
+        toggleKeybinding('off');
+
+        var steps = tours[name];
+        var intro = introJs();
+        intro.setOptions({
+          showStepNumbers: false,
+          showBullets: false,
+          steps: steps
+        });
+
+        if(steps.length > 1) {
+          intro.setOption("showBullets", true);
+        }
+
+        intro.onexit(function() {
+          toggleKeybinding('on');
+        });
+
+        // record tour completion so we don't continue to annoy people
+        intro.oncomplete(function() {
+          clientTours.push(name);
+          document.cookieHash['tours'] = clientTours;
+          document.cookie = "tours="+JSON.stringify(clientTours);
+        });
+
+        intro.start();
+      }
+    }
+
+
     $(function(){
       var tourVersion = 1;
       var clientTour  = document.cookieHash['tourVersion'] || 0;
@@ -90,7 +151,7 @@
           document.cookie = "tourVersion="+tourVersion;
         });
 
-        // give it a chance to finish loading the catalog
+        // give it a chance to finish loading the presentation
         $("body").bind("showoff:loaded", function (event) {
           intro.start();
         });
