@@ -10,7 +10,7 @@
   <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/highlight/<%= @highlightStyle %>.css"  />
   <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/mermaid-6.0.0.css" />
   <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/font-awesome-4.4.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/introjs-2.5.min.css">
+  <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/introjs-2.5.local.css">
   <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/jquery-ui-1.12.1.css">
   <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/showoff.css?v=<%= SHOWOFF_VERSION %>" />
   <link rel="stylesheet" type="text/css" href="<%= @asset_path %>/css/zoomline-0.0.1.css">
@@ -28,7 +28,9 @@
   <script type="text/javascript" src="<%= @asset_path %>/js/zoomline-0.0.1.js"></script>
   <script type="text/javascript" src="<%= @asset_path %>/js/simpleStrings-0.0.1.js"></script>
   <script type="text/javascript" src="<%= @asset_path %>/js/mermaid-6.0.0-min.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>/js/intro-2.5.min.js"></script>
+
+  <!-- waiting on https://github.com/usablica/intro.js/pull/727 -->
+  <script type="text/javascript" src="<%= @asset_path %>/js/intro-2.5.local.js"></script>
 
   <script type="text/javascript" src="<%= @asset_path %>/js/coffee-script-1.1.3-pre.js"></script>
 

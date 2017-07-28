@@ -51,6 +51,14 @@ en:
     settings: Would you like a different presenter layout? Choose that and other settings here.
     edit: This button will open your web-based editor--usually something like GitHub.
     report: Don't forget to report issues when you see them.
+    activity:
+      count: This will count down as audience members mark their activity complete. Their presentations will pause until completed.
+      complete: Check this box when you're ready to move on. The presentation will pause while you're working.
+    form:
+      responses: As questions are answered, they'll show up as a bar chart with the number of answers to each question on the right.
+      display: Press this button to present a snapshot of the live responses on slide.
+      save: Press this button to save your responses. The presentation will pause while answering.
+    menu: The menu in this corner allows independent navigation, file downloading, interactivity, and more.
 
   downloads:
     title: File Downloads

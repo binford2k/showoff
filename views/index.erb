@@ -3,6 +3,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <%= erb :header %>
+
+  <script type="text/javascript">
+    tours['showoff:activity'] = [
+      {
+        element: ".currentSlide .activityToggle",
+        intro: I18n.t('tour.activity.complete')
+      }
+    ];
+
+    tours['showoff:form'] = [
+      {
+        element: ".currentSlide input.save",
+        intro: I18n.t('tour.form.save')
+      }
+    ];
+
+    tours['showoff:menu'] = [
+      {
+        element: "#hamburger",
+        intro: I18n.t('tour.menu')
+      }
+    ];
+
+  </script>
 </head>
 
 <body>

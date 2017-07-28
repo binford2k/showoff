@@ -51,6 +51,14 @@ fr:
     settings: Souhaitez-vous une disposition différente des présentateurs? Choisissez cela et d'autres paramètres ici.
     edit: Ce bouton ouvrira votre éditeur Web - généralement quelque chose comme GitHub.
     report: N'oubliez pas de signaler les problèmes lorsque vous les voyez.
+    activity:
+      count: Cela compte à zéro lorsque les membres du public marquent leur activité terminée. Leurs présentations seront mises en pause jusqu'à ce qu'elles soient complétées.
+      complete: Cochez cette case lorsque vous êtes prêt à passer à autre chose. La présentation s'arrêtera pendant que vous travaillez.
+    form:
+      responses: À mesure que les questions sont répondues, elles apparaîtront comme un graphique à barres avec le nombre de réponses à chaque question à droite.
+      display: Appuyez sur ce bouton pour présenter un instantané des réponses en direct sur la diapositive.
+      save: Appuyez sur ce bouton pour enregistrer vos réponses. La présentation s'arrêtera pendant que vous travaillez.
+    menu: Le menu dans ce coin permet une navigation indépendante, le téléchargement de fichiers, l'interactivité et plus encore.
 
   downloads:
     title: Téléchargements de fichiers

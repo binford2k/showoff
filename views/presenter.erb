@@ -13,6 +13,25 @@
     editUrl  = "<%= @edit %>";
     issueUrl = "<%= @issues %>";
 
+    tours['showoff:activity'] = [
+      {
+        element: ".currentSlide .count",
+        intro: I18n.t('tour.activity.count')
+      }
+    ];
+
+    tours['showoff:form'] = [
+      {
+        element: "#notes",
+        intro: I18n.t('tour.form.responses'),
+        scrollToElement: false
+      },
+      {
+        element: ".currentSlide input.display",
+        intro: I18n.t('tour.form.display')
+      }
+    ];
+
     $(function(){
       var tourVersion = 1;
       var clientTour  = document.cookieHash['tourVersion'] || 0;
@@ -90,14 +109,13 @@
           document.cookie = "tourVersion="+tourVersion;
         });
 
-        // give it a chance to finish loading the catalog
+        // give it a chance to finish loading the presentation
         $("body").bind("showoff:loaded", function (event) {
           intro.start();
         });
 
       }
     });
-
 
   </script>
 </head>

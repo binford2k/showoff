@@ -812,7 +812,7 @@ class ShowOff < Sinatra::Application
       begin
         tools =  '<div class="tools">'
         tools << "<input type=\"button\" class=\"display\" value=\"#{I18n.t('forms.display')}\">"
-        tools << "<input type=\"submit\" value=\"#{I18n.t('forms.save')}\" disabled=\"disabled\">"
+        tools << "<input type=\"submit\" class=\"save\" value=\"#{I18n.t('forms.save')}\" disabled=\"disabled\">"
         tools << '</div>'
         form  = "<form id='#{title}' action='/form/#{title}' method='POST'>#{content}#{tools}</form>"
         doc = Nokogiri::HTML::DocumentFragment.parse(form)

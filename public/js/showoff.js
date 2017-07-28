@@ -27,6 +27,9 @@ var loadSlidesPrefix
 
 var mode = { track: true, follow: true };
 
+// global variable to register tours with
+var tours = {};
+
 // a dummy websocket object to make standalone presentations easier.
 var ws = {}
 ws.send = function() { /* no-op */ }
@@ -577,6 +580,63 @@ function clearCookies() {
   document.cookie = "tourVersion=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";
 }
 
+// called when slides with special content are displayed. (like the Activity complete toggle)
+// Show a "welcome intro" the first time it's seen.
+function showTour(name) {
+  // we don't need to show tours if we're a display view
+  if('presenterView' in window) {
+    return false;
+  }
+
+  // dont' blow up if someone calls a missing tour
+  if(!(name in tours)) {
+    console.log('No such tour: '+name);
+    return false;
+  }
+
+  var clientTours = document.cookieHash['tours'] || [];
+
+  if(clientTours.indexOf(name) == -1) {
+    toggleKeybinding('off');
+
+    var steps = tours[name] || [];
+
+    var intro = introJs();
+    intro.setOptions({
+      showStepNumbers: false,
+      showBullets: false,
+      steps: steps
+    });
+
+    if(steps.length > 1) {
+      intro.setOption("showBullets", true);
+    }
+
+    intro.onexit(function() {
+      toggleKeybinding('on');
+    });
+
+    // record tour completion so we don't continue to annoy people
+    intro.oncomplete(function() {
+      clientTours.push(name);
+      document.cookieHash['tours'] = clientTours;
+      document.cookie = "tours="+JSON.stringify(clientTours);
+    });
+
+    intro.start();
+  }
+}
+
+// get the value of an option=value class applied to a slide
+function getSlideOption(option) {
+  var classes = currentSlide.attr('class').split(' ');
+  var match   = classes.find(function(item){
+    return (item.indexOf(option+'=') == 0);
+  });
+
+  return (match ? match.split('=')[1] : null);
+}
+
 function checkSlideParameter() {
 	if (slideParam = currentSlideFromParams()) {
 		slidenum = slideParam;
@@ -659,16 +719,18 @@ function showSlide(back_step, updatepv) {
     currentSlide.find('canvas.annotations').first().stopAnnotation();
   }
 
-	currentSlide = slides.eq(slidenum)
+  if(currentSlide) { currentSlide.removeClass('currentSlide') };
+  currentSlide = slides.eq(slidenum)
+  currentSlide.addClass('currentSlide');
 
-	var transition = currentSlide.attr('data-transition')
-	var fullPage = currentSlide.find(".content").is('.full-page');
+  var transition = currentSlide.attr('data-transition')
+  var fullPage = currentSlide.find(".content").is('.full-page');
 
-	if (back_step || fullPage) {
-		transition = 'none'
-	}
+  if (back_step || fullPage) {
+    transition = 'none'
+  }
 
-	$('#preso').cycle(slidenum, transition)
+  $('#preso').cycle(slidenum, transition)
 
 	if (fullPage) {
 		$('#preso').css({'width' : '100%', 'overflow' : 'visible'});
@@ -768,6 +830,17 @@ function showSlide(back_step, updatepv) {
   }
   else {
     activityIncomplete = false;
+  }
+
+  if(currentSlide.hasClass('activity')) {
+    showTour('showoff:activity');
+  }
+  if(getSlideOption('form')) {
+    showTour('showoff:form');
+  }
+  var tour = getSlideOption('tour');
+  if(tour) {
+    showTour(tour);
   }
 
   // show the sync button if we're not on the same slide as the presenter
