@@ -583,6 +583,11 @@ function clearCookies() {
 // called when slides with special content are displayed. (like the Activity complete toggle)
 // Show a "welcome intro" the first time it's seen.
 function showTour(name) {
+  // we don't need to show tours if we're a display view
+  if('presenterView' in window) {
+    return false;
+  }
+
   // dont' blow up if someone calls a missing tour
   if(!(name in tours)) {
     console.log('No such tour: '+name);
