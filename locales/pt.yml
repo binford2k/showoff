@@ -51,6 +51,14 @@ pt:
     settings: Você gostaria de um layout de apresentador diferente? Escolha essa e outras configurações aqui.
     edit: Este botão abrirá seu editor baseado na web - geralmente algo como o GitHub.
     report: Não se esqueça de relatar problemas quando você os vê.
+    activity:
+      count: Cela compte jusqu'à zéro lorsque les membres du public marquent leur activité terminée. Leurs présentations seront mises en pause jusqu'à ce qu'elles soient complétées.
+      complete: Marque esta caixa quando estiver pronto para seguir em frente. A apresentação irá pausar enquanto você está trabalhando.
+    form:
+      responses: À medida que as perguntas são respondidas, elas aparecerão como um gráfico de barras com o número de respostas a cada pergunta à direita.
+      display: Pressione este botão para apresentar um instantâneo das respostas ao vivo no slide.
+      save: Pressione este botão para salvar suas respostas. A apresentação irá pausar enquanto responde.
+    menu: O menu neste canto permite navegação independente, download de arquivos, interatividade e muito mais.
 
   downloads:
     title: Arquivos de Downloads

@@ -51,6 +51,14 @@ es:
     settings: ¿Quieres un diseño de presentador diferente? Elige eso y otros ajustes aquí.
     edit: Este botón abrirá su editor basado en web - generalmente algo como GitHub.
     report: No se olvide de informar de problemas cuando los vea.
+    activity:
+      count: Esto hará una cuenta regresiva a medida que los miembros de la audiencia marquen su actividad terminada. Las presentaciones se detendrán mientras funcionan.
+      complete: Marque esta casilla cuando esté listo para seguir adelante. La presentación se detendrá mientras trabaja.
+    form:
+      responses: A medida que las preguntas son contestadas, aparecerán como un gráfico de barras con el número de respuestas a cada pregunta de la derecha.
+      display: Presione este botón para presentar una instantánea de las respuestas en vivo en la diapositiva.
+      save: Pulse este botón para guardar sus respuestas. La presentación se detendrá mientras responde.
+    menu: El menú en esta esquina permite una navegación independiente, descarga de archivos, interactividad y mucho más.
 
   downloads:
     title: Descarga de Archivos

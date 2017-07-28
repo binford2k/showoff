@@ -51,6 +51,14 @@ de:
     settings: Möchten Sie ein anderes Präsentationslayout? Wähle das und andere Einstellungen hier.
     edit: Diese Schaltfläche öffnet Ihren Web-Editor - in der Regel so etwas wie GitHub.
     report: Vergessen Sie nicht, Probleme zu melden, wenn Sie sie sehen.
+    activity:
+      count: Dies wird auf Null zählen, während die Zuschauer ihre Arbeit beenden. Die Präsentation wird anhalten, bis sie fertig sind.
+      complete: Überprüfen Sie dieses Kontrollkästchen, wenn Sie bereit sind, weiterzumachen. Die Präsentation wird pausieren, während du arbeitest.
+    form:
+      responses: Als Fragen beantwortet werden, erscheinen sie als Balkendiagramm mit der Anzahl der Antworten auf jede Frage auf der rechten Seite.
+      display: Drücken Sie diese Taste, um einen Schnappschuss der Live-Antworten auf Folie zu präsentieren.
+      save: Drücken Sie diese Taste, um Ihre Antworten zu speichern. Die Präsentation wird bei der Beantwortung pausieren.
+    menu: Das Menü in dieser Ecke ermöglicht unabhängige Navigation, Datei-Download, Interaktivität und vieles mehr.
 
   downloads:
     title: Datei Downloads
