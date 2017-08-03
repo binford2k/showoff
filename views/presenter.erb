@@ -41,9 +41,14 @@
 
         var intro = introJs();
         intro.setOptions({
-          showProgress:    true,
+          showProgress: true,
           showStepNumbers: false,
+          exitOnOverlayClick: false,
           steps: [
+            {
+              intro: I18n.t('tour.welcome'),
+              version: 1
+            },
             {
               element: "#slaveWindow",
               intro: I18n.t('tour.displayview'),
@@ -95,7 +100,7 @@
               intro: I18n.t('tour.report'),
               version: 1
             }
-          ].filter(function(item) { return (item['version'] > clientTour) && document.querySelector(item['element']) })
+          ].filter(function(item) { return (item['version'] > clientTour) && ((item['element'] == undefined) || document.querySelector(item['element'])) })
           // the queryselector filter eliminates tips for features that have been turned off
         });
 

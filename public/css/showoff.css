@@ -859,6 +859,15 @@ form .element {
   margin-bottom: .5em;
 }
 
+.ui-dialog .auxillary-buttons {
+  background: none;
+  border: none;
+  float: right;
+}
+  .ui-dialog .auxillary-buttons:active {
+    color: #ccc;
+  }
+
 .no-close .ui-dialog-titlebar-close {
   display: none;
 }
@@ -868,9 +877,9 @@ form .element {
   font-size: .9em;
 }
 
-#help-modal .ui-dialog .ui-dialog-title {
-  font-size: 1em;
-}
+  #help-modal .ui-dialog .ui-dialog-title {
+    font-size: 1em;
+  }
 
 #help div {
   padding: 6px 0;
@@ -936,6 +945,19 @@ form .element {
 .tourDark {
   background-color: rgba(183, 183, 183, 0.9);
 }
+.introjs-tooltip h1,
+.introjs-tooltip h2,
+.introjs-tooltip h3,
+.introjs-tooltip h4,
+.introjs-tooltip h5,
+.introjs-tooltip h6 {
+  border-bottom: 2px solid black;
+  margin: 0 0 0.5em 0;
+}
+.introjs-tooltip h1 { font-size: 1.3em; }
+.introjs-tooltip h2 { font-size: 1.2em; }
+.introjs-tooltip h3 { font-size: 1.1em; }
+.introjs-tooltip h4 { font-size: 1em;   }
 
 
 

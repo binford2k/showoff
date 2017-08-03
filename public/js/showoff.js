@@ -106,9 +106,20 @@ function setupPreso(load_slides, prefix) {
   annotations = new Annotate();
 
   // must be defined using [] syntax for a variable button name on IE.
-  var closeLabel      = I18n.t('help.close');
-  var buttons         = {};
-  buttons[closeLabel] = function() { $(this).dialog( "close" ); };
+  var buttons = [
+    {
+      text: I18n.t('help.close'),
+      click: function() { $(this).dialog( "close" ); }
+    },
+    {
+      text: I18n.t('tour.reset'),
+      "class": 'auxillary-buttons',
+      click: function() {
+        document.cookie="tours=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie="tourVersion=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      }
+    }
+  ];
 
   $("#help-modal").dialog({
     autoOpen: false,

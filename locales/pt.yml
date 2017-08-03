@@ -41,11 +41,13 @@ pt:
     resume: "Resumindo em:"
 
   tour:
-    displayview: Comece clicando neste botão para abrir a Visualização de exibição; Depois arraste-o para o projetor.
+    reset: Dicas de Reinicialização
+    welcome: <h3>Bem-vindo ao Showoff</h3>Deixe-me mostrar-lhe. Depois de terminar esta turnê, não será exibida novamente.
+    displayview: Comece clicando neste botão para abrir a visualização de exibição; depois arraste-o para o projetor.
     annotations: Desenhe nos seus slides em todos os lugares onde a apresentação é exibida.
     timer: Defina um cronômetro para ajudá-lo a permanecer no ritmo.
     pace: Os membros da audiência podem usar isso para dizer se você está se movendo muito rápido. Tente manter o indicador centrado.
-    questions: As perguntas feitas pelos membros da audiência são exibidas aqui. Você também verá um indicador de contagem na Exibição de exibição quando tiver dúvidas para responder.
+    questions: As perguntas feitas pelos membros da audiência são exibidas aqui. Você também verá um indicador de contagem na exibição de exibição quando tiver dúvidas para responder.
     notes: Configure a exibição de notas ao ampliar o texto, redimensionar o painel ou até mesmo colocá-lo em uma nova janela.
     slidesource: O nome do slide é exibido aqui.
     settings: Você gostaria de um layout de apresentador diferente? Escolha essa e outras configurações aqui.
