@@ -41,6 +41,7 @@ nl:
     resume: "Start over:"
 
   tour:
+    welcome: <h3>Welkom bij Showoff</h3>Laat me je laten zien. Nadat u deze tour hebt afgerond, wordt het niet weer getoond.
     displayview: Begin door op deze knop te klikken om het presentatiescherm te openen; Sleep het dan op de projector.
     annotations: Teken op uw glijbanen overal waar de presentatie wordt weergegeven.
     timer: Stel een countdown timer in om te helpen u op een rijtje te blijven.

@@ -41,6 +41,7 @@ fr:
     resume: "Reprise dans:"
 
   tour:
+    welcome: <h3>Bienvenue dans Showoff</h3>Laissez-moi vous montrer. Après avoir terminé cette tournée, cela ne s'affichera plus encore.
     displayview: Commencez par cliquer sur ce bouton pour ouvrir la fenêtre d'affichage; Puis faites-le glisser sur le projecteur.
     annotations: Dessinez sur vos diapositives partout où la présentation s'affiche.
     timer: Réglez un compte à rebours pour vous aider à rester en rythme.

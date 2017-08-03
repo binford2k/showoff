@@ -41,6 +41,7 @@ de:
     resume: "Fortsetzen in Minuten:"
 
   tour:
+    welcome: <h3>Willkommen bei Showoff</h3>Lass mich dich herum zeigen. Nachdem du diese Tour beendet hast, wird es nicht wieder zeigen.
     displayview: Klicken Sie auf diese Schaltfläche, um das Anzeigefenster zu öffnen. Dann ziehe es auf den Projektor.
     annotations: Zeichnen Sie auf Ihren Dias überall, wo die Präsentation angezeigt wird.
     timer: Stellen Sie einen Countdown-Timer ein, damit Sie im Tempo bleiben können.

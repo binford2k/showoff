@@ -41,6 +41,7 @@ es:
     resume: "Continuando en:"
 
   tour:
+    welcome: <h3>Bienvenido a Showoff</h3>Permítanme mostrarles todo. Después de terminar este tour, no se mostrará de nuevo.
     displayview: Comience haciendo clic en este botón para abrir la ventana de visualización; Luego arrástrelo al proyector
     annotations: Dibuja tus diapositivas en todas partes donde se muestra la presentación.
     timer: Establecer un temporizador de cuenta regresiva para ayudarle a mantenerse en el ritmo.
