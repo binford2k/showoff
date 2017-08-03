@@ -1534,9 +1534,12 @@ class ShowOff < Sinatra::Application
     classes = executable ? 'code.execute' : 'code'
 
     slide = "#{path}.md"
-    return unless File.exist? slide
+    return [] unless File.exist? slide
 
     content = File.read(slide)
+    return [] if content.nil?
+    return [] if content.empty?
+
     if defined? num
       content = content.split(/^\<?!SLIDE/m).reject { |sl| sl.empty? }[num-1]
     end
