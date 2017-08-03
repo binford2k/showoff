@@ -859,6 +859,15 @@ form .element {
   margin-bottom: .5em;
 }
 
+.ui-dialog .auxillary-buttons {
+  background: none;
+  border: none;
+  float: right;
+}
+  .ui-dialog .auxillary-buttons:active {
+    color: #ccc;
+  }
+
 .no-close .ui-dialog-titlebar-close {
   display: none;
 }
@@ -868,9 +877,9 @@ form .element {
   font-size: .9em;
 }
 
-#help-modal .ui-dialog .ui-dialog-title {
-  font-size: 1em;
-}
+  #help-modal .ui-dialog .ui-dialog-title {
+    font-size: 1em;
+  }
 
 #help div {
   padding: 6px 0;
