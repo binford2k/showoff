@@ -41,11 +41,11 @@ en:
     resume: "Resuming in:"
 
   tour:
-    displayview: Start by clicking this button to open the Display View; then drag it onto the projector.
+    displayview: Start by clicking this button to open the Display Window; then drag it onto the projector.
     annotations: Draw on your slides everywhere the presentation is displayed.
     timer: Set a countdown timer to help you stay on pace.
     pace: Audience members can use this to tell you if you're moving too quickly. Try to keep the indicator centered.
-    questions: Questions asked by audience members are displayed here. You'll also see a count indicator on the Display View when you have questions to answer.
+    questions: Questions asked by audience members are displayed here. You'll also see a count indicator on the Display Window when you have questions to answer.
     notes: Configure the notes display by zooming text, resizing the pane, or even popping it out into a new window.
     slidesource: The name of the slide is displayed here.
     settings: Would you like a different presenter layout? Choose that and other settings here.
