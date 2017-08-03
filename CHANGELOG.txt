@@ -1,3 +1,18 @@
+0.19.0
+  * This release adds a first-run interface tour. If you're already familiar with
+    the UI, just bear with it. Once you've finished it (by clicking *Done*), you
+    won't see it again.
+  * Adds tips for both the presenter and the audience for some UI elements when
+    they're first seen. For example, it will show how the *Activity complete* toggle
+    works for both parties.
+  * Corrected several minor issues:
+      * Don't crash on blank presentation.
+      * Don't show broken images when text files are included in the preshow.
+      * Show line highlighting when printing.
+      * Print mermaid diagrams and image translations properly.
+      * Allow floating notes window to scroll properly.
+      * Improve readability for highlighted code on a dark background.
+
 0.18.2
   * Add button to sync with the presenter. When the audience view doesn't match
     the presenter view, they'll have a shortcut button to get back in sync.

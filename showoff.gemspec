@@ -51,18 +51,4 @@ Gem::Specification.new do |s|
   you a URL to present from.
   desc
 
-  s.post_install_message = <<-desc
-               _________________________________________
-              /               Ahoy ahead!               \\
-             |  User interface changes in this release.  |
-             |                                           |
-              \\    Please clear your browser cache.     /
-               -----------------------------------------
-                      \\   ^__^
-                       \\  (oo)\\_______
-                          (__)\\       )\\/\\
-                              ||----w |
-                              ||     ||
-  desc
-
 end
