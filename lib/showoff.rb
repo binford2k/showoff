@@ -712,7 +712,7 @@ class ShowOff < Sinatra::Application
           :matchers => [
             /\.(?:break|comment)( .*)?/
           ],
-          :block => proc { "\n\n"}
+          :block => proc { "<p></p>"}
         },
       }
     end
