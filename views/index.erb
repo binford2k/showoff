@@ -5,27 +5,49 @@
   <%= erb :header %>
 
   <script type="text/javascript">
-    tours['showoff:activity'] = [
-      {
-        element: ".currentSlide .activityToggle",
-        intro: I18n.t('tour.activity.complete')
-      }
-    ];
+    $( document ).ready(function() {
+      tours['showoff:activity'] = [
+        {
+          element: ".currentSlide .activityToggle",
+          intro: I18n.t('tour.activity.complete')
+        }
+      ];
 
-    tours['showoff:form'] = [
-      {
-        element: ".currentSlide input.save",
-        intro: I18n.t('tour.form.save')
-      }
-    ];
+      tours['showoff:form'] = [
+        {
+          element: ".currentSlide input.save",
+          intro: I18n.t('tour.form.save')
+        }
+      ];
 
-    tours['showoff:menu'] = [
-      {
-        element: "#hamburger",
-        intro: I18n.t('tour.menu')
-      }
-    ];
-
+      tours['showoff:menu'] = [
+        {
+          element: "#hamburger",
+          intro: I18n.t('tour.menu.start')
+        },
+        {
+          element: "#navToggle",
+          intro: I18n.t('tour.menu.navigation')
+        },
+        {
+          element: "#fileDownloads",
+          intro: I18n.t('tour.menu.download')
+        },
+        {
+          element: "#paceFaster",
+          intro: I18n.t('tour.menu.pace')
+        },
+        {
+          element: "#questionToggle",
+          intro: I18n.t('tour.menu.questions')
+        },
+        {
+          element: "#feedbackToggle",
+          intro: I18n.t('tour.menu.feedback')
+        }
+      ].filter(function(item) { return (document.querySelector(item['element'])) });
+      // display tips for only the enabled features
+    });
   </script>
 </head>
 

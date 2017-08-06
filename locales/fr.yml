@@ -60,7 +60,13 @@ fr:
       responses: À mesure que les questions sont répondues, elles apparaîtront comme un graphique à barres avec le nombre de réponses à chaque question à droite.
       display: Appuyez sur ce bouton pour présenter un instantané des réponses en direct sur la diapositive.
       save: Appuyez sur ce bouton pour enregistrer vos réponses. La présentation s'arrêtera pendant que vous travaillez.
-    menu: Le menu dans ce coin permet une navigation indépendante, le téléchargement de fichiers, l'interactivité et plus encore.
+    menu:
+      start: Cliquez sur le menu pour commencer.
+      navigation: Naviguez rapidement vers n'importe quelle diapositive.
+      download: Téléchargez les fichiers de support de présentation.
+      pace: Fournir des commentaires sur la rapidité de livraison.
+      questions: Posez des questions en direct au présentateur.
+      feedback: Fournissez des suggestions pour améliorer le contenu.
 
   downloads:
     title: Téléchargements de fichiers
