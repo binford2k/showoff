@@ -60,7 +60,13 @@ nl:
       responses: Naarmate de vragen worden beantwoord, worden ze weergegeven als een staafdiagram met het aantal antwoorden op elke vraag aan de rechterkant.
       display: Druk op deze knop om een ​​momentopname van de live reacties op dia te presenteren.
       save: Druk op deze knop om uw antwoorden op te slaan. De presentatie zal onderbreken tijdens het beantwoorden.
-    menu: Het menu in deze hoek zorgt voor onafhankelijke navigatie, bestand downloaden, interactiviteit en meer.
+    menu:
+      start: Klik hier om het menu te openen.
+      navigation: Ga naar een dia.
+      download: Download presentatie ondersteuningsbestanden.
+      pace: Geef tempo feedback.
+      questions: Vraag live vragen van de presentator.
+      feedback: Geef suggesties voor het verbeteren van de inhoud.
 
   downloads:
     title: Downloads

@@ -60,7 +60,13 @@ de:
       responses: Als Fragen beantwortet werden, erscheinen sie als Balkendiagramm mit der Anzahl der Antworten auf jede Frage auf der rechten Seite.
       display: Drücken Sie diese Taste, um einen Schnappschuss der Live-Antworten auf Folie zu präsentieren.
       save: Drücken Sie diese Taste, um Ihre Antworten zu speichern. Die Präsentation wird bei der Beantwortung pausieren.
-    menu: Das Menü in dieser Ecke ermöglicht unabhängige Navigation, Datei-Download, Interaktivität und vieles mehr.
+    menu:
+      start: Klicken Sie hier, um das Menü zu öffnen.
+      navigation: Schnell zu einer Folie navigieren.
+      download: Download Präsentationsunterstützungsdateien.
+      pace: Geben Sie Tempo Feedback.
+      questions: Fragen Sie die Redner Fragen.
+      feedback: Vorschläge zur Verbesserung des Inhalts geben.
 
   downloads:
     title: Datei Downloads

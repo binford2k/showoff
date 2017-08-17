@@ -60,7 +60,14 @@ en:
       responses: As questions are answered, they'll show up as a bar chart with the number of answers to each question on the right.
       display: Press this button to present a snapshot of the live responses on slide.
       save: Press this button to save your responses. The presentation will pause while answering.
-    menu: The menu in this corner allows independent navigation, file downloading, interactivity, and more.
+    menu:
+      start: Click here to open the menu.
+      navigation: Quickly navigate to any slide.
+      download: Download presentation support files.
+      pace: Provide pace feedback.
+      questions: Ask live questions of the presenter.
+      feedback: Provide suggestions for improving the content.
+
 
   downloads:
     title: File Downloads

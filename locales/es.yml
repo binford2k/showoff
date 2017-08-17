@@ -60,7 +60,14 @@ es:
       responses: A medida que las preguntas son contestadas, aparecerán como un gráfico de barras con el número de respuestas a cada pregunta de la derecha.
       display: Presione este botón para presentar una instantánea de las respuestas en vivo en la diapositiva.
       save: Pulse este botón para guardar sus respuestas. La presentación se detendrá mientras responde.
-    menu: El menú en esta esquina permite una navegación independiente, descarga de archivos, interactividad y mucho más.
+    menu:
+      start: Haga clic aquí para abrir el menú.
+      navigation: Navegue rápidamente a cualquier diapositiva.
+      download: Descargue los archivos de soporte de la presentación.
+      pace: Proporcione la regeneración de la velocidad.
+      questions: Haga preguntas en vivo del presentador.
+      feedback: Proporcione sugerencias para mejorar el contenido.
+
 
   downloads:
     title: Descarga de Archivos

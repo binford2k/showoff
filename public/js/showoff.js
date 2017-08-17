@@ -29,6 +29,7 @@ var mode = { track: true, follow: true };
 
 // global variable to register tours with
 var tours = {};
+var menuTourRunning = false;
 
 // a dummy websocket object to make standalone presentations easier.
 var ws = {}
@@ -355,10 +356,25 @@ function zoom(presenter) {
   }
 }
 
+function openMenu() {
+  toggleKeybinding();
+  $('#feedbackSidebar').show();
+  // if the menu tour is open, make it harder to lose the menu
+  if(! menuTourRunning ) {
+    $('#sidebarExit').show();
+  }
+}
+
+function closeMenu(force) {
+  if(! menuTourRunning || force ) {
+    $('#feedbackSidebar, #sidebarExit').hide();
+    toggleKeybinding('on');
+  }
+}
+
 function setupSideMenu() {
   $("#hamburger").click(function() {
-    $('#feedbackSidebar, #sidebarExit').toggle();
-    toggleKeybinding();
+    openMenu();
   });
 
   $("#navToggle").click(function() {
@@ -426,11 +442,6 @@ function setupSideMenu() {
   $('#closeMenu, #sidebarExit').click(function() {
     closeMenu();
   });
-
-  function closeMenu() {
-    $('#feedbackSidebar, #sidebarExit').hide();
-    toggleKeybinding('on');
-  }
 
   function feedback_response(elem, response) {
     var originalText = $(elem).text();
@@ -593,13 +604,15 @@ function clearCookies() {
 
 // called when slides with special content are displayed. (like the Activity complete toggle)
 // Show a "welcome intro" the first time it's seen.
-function showTour(name) {
+function showTour(name, record) {
+  record = (typeof record == 'undefined' ? true : record) // default true
+
   // we don't need to show tours if we're a display view
   if('presenterView' in window) {
     return false;
   }
 
-  // dont' blow up if someone calls a missing tour
+  // don't blow up if someone calls a missing tour
   if(!(name in tours)) {
     console.log('No such tour: '+name);
     return false;
@@ -607,6 +620,7 @@ function showTour(name) {
 
   var clientTours = document.cookieHash['tours'] || [];
 
+  // if we haven't seen this one before...
   if(clientTours.indexOf(name) == -1) {
     toggleKeybinding('off');
 
@@ -625,14 +639,53 @@ function showTour(name) {
 
     intro.onexit(function() {
       toggleKeybinding('on');
+
+      if(menuTourRunning) {
+        menuTourRunning = false;
+        $("#hamburger").off('click', null, introNext);
+        $("#closeMenu").off('click', null, introClose);
+        closeMenu();
+      }
     });
 
     // record tour completion so we don't continue to annoy people
     intro.oncomplete(function() {
-      clientTours.push(name);
-      document.cookieHash['tours'] = clientTours;
-      document.cookie = "tours="+JSON.stringify(clientTours);
+      if(record) {
+        clientTours.push(name);
+        document.cookieHash['tours'] = clientTours;
+        document.cookie = "tours="+JSON.stringify(clientTours);
+      }
     });
+
+    // if we're showing the menu, we need to do some extra bookeeping to make it usable
+    if(name == 'showoff:menu') {
+      menuTourRunning = true;
+
+      // A couple helper functions to add to the menu bindings.
+      // We have to do it here because 'intro' is in scope
+      var introNext  = function() { intro.nextStep() };
+      var introClose = function() { intro.exit()     };
+
+      $("#hamburger").on('click', null, introNext);
+      $("#closeMenu").on('click', null, introClose);
+
+      intro.onchange(function(targetElement) {
+        switch(intro._currentStep) {
+          case 0:
+            closeMenu(true);
+            break;
+
+          case 1:
+            openMenu();
+            break;
+        }
+      });
+
+      // keep the menu visible. This is a hack, but I don't see a better way.
+      intro.onafterchange(function(targetElement) {
+        $("#feedbackSidebar").removeClass('introjs-fixParent');
+      });
+    }
 
     intro.start();
   }
