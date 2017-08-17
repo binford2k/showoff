@@ -1,3 +1,8 @@
+0.19.1
+  * The UI tour only shows by default if running from localhost.
+      * There's a new button on the help dialog (`?`) to run it on demand.
+  * Add ability to show UI tour for dropdown menu
+
 0.19.0
   * This release adds a first-run interface tour. If you're already familiar with
     the UI, just bear with it. Once you've finished it (by clicking *Done*), you
