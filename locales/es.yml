@@ -41,6 +41,7 @@ es:
     resume: "Continuando en:"
 
   tour:
+    show: Ver la gira
     reset: Restablecer Sugerencias
     welcome: <h3>Bienvenido a Showoff</h3>Permítanme mostrarles todo. Después de terminar este tour, no se mostrará de nuevo.
     displayview: Comience haciendo clic en este botón para abrir la ventana de visualización; Luego arrástrelo al proyector

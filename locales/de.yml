@@ -41,6 +41,7 @@ de:
     resume: "Fortsetzen in Minuten:"
 
   tour:
+    show: Sehen Sie die Tour
     reset: Vorschläge Zurücksetzen
     welcome: <h3>Willkommen bei Showoff</h3>Lass mich dich herum zeigen. Nachdem du diese Tour beendet hast, wird es nicht wieder zeigen.
     displayview: Klicken Sie auf diese Schaltfläche, um das Anzeigefenster zu öffnen. Dann ziehe es auf den Projektor.

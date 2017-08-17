@@ -41,6 +41,7 @@ pt:
     resume: "Resumindo em:"
 
   tour:
+    show: Veja o Tour
     reset: Dicas de Reinicialização
     welcome: <h3>Bem-vindo ao Showoff</h3>Deixe-me mostrar-lhe. Depois de terminar esta turnê, não será exibida novamente.
     displayview: Comece clicando neste botão para abrir a visualização de exibição; depois arraste-o para o projetor.

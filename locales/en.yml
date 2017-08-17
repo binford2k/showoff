@@ -41,6 +41,7 @@ en:
     resume: "Resuming in:"
 
   tour:
+    show: See the Tour
     reset: Reset Hints
     welcome: <h3>Welcome to Showoff</h3>Let me show you around. After you finish this tour, it won't show again.
     displayview: Start by clicking this button to open the Display Window; then drag it onto the projector.

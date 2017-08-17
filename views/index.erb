@@ -5,6 +5,10 @@
   <%= erb :header %>
 
   <script type="text/javascript">
+    // We want the audience members to see automatic tours. We can assume that they won't be
+    // using many server domains like the presenter might.
+    var autoTour = true;
+
     $( document ).ready(function() {
       tours['showoff:activity'] = [
         {
