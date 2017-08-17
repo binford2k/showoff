@@ -859,12 +859,16 @@ form .element {
   margin-bottom: .5em;
 }
 
-.ui-dialog .auxillary-buttons {
-  background: none;
-  border: none;
+.ui-dialog .right {
   float: right;
 }
-  .ui-dialog .auxillary-buttons:active {
+
+.ui-dialog .auxillary {
+  background: none;
+  border: none;
+  font-size: small;
+}
+  .ui-dialog .auxillary:active {
     color: #ccc;
   }
 

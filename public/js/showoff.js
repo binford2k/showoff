@@ -111,16 +111,31 @@ function setupPreso(load_slides, prefix) {
     {
       text: I18n.t('help.close'),
       click: function() { $(this).dialog( "close" ); }
-    },
-    {
+    }
+  ];
+
+  if($("body").hasClass("presenter")) {
+    buttons.push({
+      text: I18n.t('tour.show'),
+      "class": 'right',
+      click: function() {
+        $(this).dialog( "close" );
+        showTour('showoff:presenter', false);
+      }
+    });
+  }
+  else {
+    buttons.push({
       text: I18n.t('tour.reset'),
-      "class": 'auxillary-buttons',
+      "class": 'auxillary right',
       click: function() {
         document.cookie="tours=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         document.cookie="tourVersion=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        delete document.cookieHash['tours'];
+        delete document.cookieHash['tourVersion'];
       }
-    }
-  ];
+    });
+  }
 
   $("#help-modal").dialog({
     autoOpen: false,
@@ -600,6 +615,7 @@ function clearCookies() {
   document.cookie = "layout=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";
   document.cookie = "notes=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";
   document.cookie = "tourVersion=;expires=Thu, 21 Sep 1979 00:00:01 UTC;";
+  document.cookieHash = {};
 }
 
 // called when slides with special content are displayed. (like the Activity complete toggle)
@@ -655,6 +671,16 @@ function showTour(name, record) {
         document.cookieHash['tours'] = clientTours;
         document.cookie = "tours="+JSON.stringify(clientTours);
       }
+
+      // this keeps track of the version of the presenter tour we've seen
+      if(name == 'showoff:presenter:auto') {
+        document.cookie = "tourVersion="+tourVersion;
+        document.cookieHash['tourVersion'] = tourVersion;
+
+        // we don't need this anymore; let's save a byte or three
+        delete tours['showoff:presenter:auto'];
+      }
+
     });
 
     // if we're showing the menu, we need to do some extra bookeeping to make it usable
@@ -896,15 +922,17 @@ function showSlide(back_step, updatepv) {
     activityIncomplete = false;
   }
 
-  if(currentSlide.hasClass('activity')) {
-    showTour('showoff:activity');
-  }
-  if(getSlideOption('form')) {
-    showTour('showoff:form');
-  }
-  var tour = getSlideOption('tour');
-  if(tour) {
-    showTour(tour);
+  if(autoTour) {
+    if(currentSlide.hasClass('activity')) {
+      showTour('showoff:activity');
+    }
+    if(getSlideOption('form')) {
+      showTour('showoff:form');
+    }
+    var tour = getSlideOption('tour');
+    if(tour) {
+      showTour(tour);
+    }
   }
 
   // show the sync button if we're not on the same slide as the presenter

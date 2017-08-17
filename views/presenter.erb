@@ -12,112 +12,108 @@
   <script type="text/javascript">
     editUrl  = "<%= @edit %>";
     issueUrl = "<%= @issues %>";
+    autoTour = false;
 
-    tours['showoff:activity'] = [
-      {
-        element: ".currentSlide .count",
-        intro: I18n.t('tour.activity.count')
-      }
-    ];
+    // increment this each time we add features with new tour stops.
+    tourVersion = 1;
 
-    tours['showoff:form'] = [
-      {
-        element: "#notes",
-        intro: I18n.t('tour.form.responses'),
-        scrollToElement: false
-      },
-      {
-        element: ".currentSlide input.display",
-        intro: I18n.t('tour.form.display')
-      }
-    ];
+    $(function() {
+      tours['showoff:activity'] = [
+        {
+          element: ".currentSlide .count",
+          intro: I18n.t('tour.activity.count')
+        }
+      ];
 
-    $(function(){
-      var tourVersion = 1;
-      var clientTour  = document.cookieHash['tourVersion'] || 0;
+      tours['showoff:form'] = [
+        {
+          element: "#notes",
+          intro: I18n.t('tour.form.responses'),
+          scrollToElement: false
+        },
+        {
+          element: ".currentSlide input.display",
+          intro: I18n.t('tour.form.display')
+        }
+      ];
 
-      if(clientTour < tourVersion) {
-        toggleKeybinding('off');
+      tours['showoff:presenter'] = [
+        {
+          intro: I18n.t('tour.welcome'),
+          version: 1
+        },
+        {
+          element: "#slaveWindow",
+          intro: I18n.t('tour.displayview'),
+          version: 1
+        },
+        {
+          element: "#annotationLabel",
+          intro: I18n.t('tour.annotations'),
+          version: 1
+        },
+        {
+          element: "#timerSection",
+          intro: I18n.t('tour.timer'),
+          version: 1
+        },
+        {
+          element: "#feedbackPace",
+          intro: I18n.t('tour.pace'),
+          version: 1
+        },
+        {
+          element: "#questions",
+          intro: I18n.t('tour.questions'),
+          version: 1
+        },
+        {
+          element: "#notes-controls",
+          intro: I18n.t('tour.notes'),
+          highlightClass: "tourDark",
+          version: 1
+        },
+        {
+          element: "#slideSource",
+          intro: I18n.t('tour.slidesource'),
+          version: 1
+        },
+        {
+          element: "#settings",
+          intro: I18n.t('tour.settings'),
+          version: 1
+        },
+        {
+          element: "#edit",
+          intro: I18n.t('tour.edit'),
+          version: 1
+        },
+        {
+          element: "#report",
+          intro: I18n.t('tour.report'),
+          version: 1
+        }
+      ].filter(function(item) {
+        // filter out tips for features that have been turned off
+        return ((item['element'] == undefined) || document.querySelector(item['element']));
+      });
 
-        var intro = introJs();
-        intro.setOptions({
-          showProgress: true,
-          showStepNumbers: false,
-          exitOnOverlayClick: false,
-          steps: [
-            {
-              intro: I18n.t('tour.welcome'),
-              version: 1
-            },
-            {
-              element: "#slaveWindow",
-              intro: I18n.t('tour.displayview'),
-              version: 1
-            },
-            {
-              element: "#annotationLabel",
-              intro: I18n.t('tour.annotations'),
-              version: 1
-            },
-            {
-              element: "#timerSection",
-              intro: I18n.t('tour.timer'),
-              version: 1
-            },
-            {
-              element: "#feedbackPace",
-              intro: I18n.t('tour.pace'),
-              version: 1
-            },
-            {
-              element: "#questions",
-              intro: I18n.t('tour.questions'),
-              version: 1
-            },
-            {
-              element: "#notes-controls",
-              intro: I18n.t('tour.notes'),
-              highlightClass: "tourDark",
-              version: 1
-            },
-            {
-              element: "#slideSource",
-              intro: I18n.t('tour.slidesource'),
-              version: 1
-            },
-            {
-              element: "#settings",
-              intro: I18n.t('tour.settings'),
-              version: 1
-            },
-            {
-              element: "#edit",
-              intro: I18n.t('tour.edit'),
-              version: 1
-            },
-            {
-              element: "#report",
-              intro: I18n.t('tour.report'),
-              version: 1
-            }
-          ].filter(function(item) { return (item['version'] > clientTour) && ((item['element'] == undefined) || document.querySelector(item['element'])) })
-          // the queryselector filter eliminates tips for features that have been turned off
-        });
+      // Only autoshow when served from localhost, since we don't know if we have a consistent domain for our cookie otherwise.
+      if ( location.hostname == 'localhost' || location.hostname == '127.0.0.1' ) {
 
-        // re-enable the keyboard whether the tour was completed or not
-        intro.onexit(function() {
-          toggleKeybinding('on');
-        });
+        // enables the flag that shows feature tours
+        autoTour = true;
 
-        // record tour completion so we don't continue to annoy people
-        intro.oncomplete(function() {
-          document.cookie = "tourVersion="+tourVersion;
-        });
+        var clientTour = document.cookieHash['tourVersion'] || 0;
+        if(clientTour < tourVersion) {
+          // now make a temporary duplicate of only recent items
+          tours['showoff:presenter:auto'] = tours['showoff:presenter'].filter(function(item) {
+            return (item['version'] > clientTour);
+          });
 
-        // give it a chance to finish loading the presentation
-        $("body").bind("showoff:loaded", function (event) {
-          intro.start();
-        });
+          // we don't need to let this record, because we've already tested clientTour
+          showTour('showoff:presenter:auto', false);
+        }
 
       }
     });
