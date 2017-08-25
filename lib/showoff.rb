@@ -713,7 +713,14 @@ class ShowOff < Sinatra::Application
       if opts[:toc]
         toc = Nokogiri::HTML::DocumentFragment.parse("<p id=\"toc\"></p>")
 
-        doc.css('div.subsection > h1:not(.section_title)').each do |section|
+        case opts[:toc]
+          when :all
+            titles = doc.css('div.slide:not(.toc) > div.content:not(.cover) > h1:not(.section_title)')
+          else
+            titles = doc.css('div.subsection > h1:not(.section_title)')
+        end
+
+        titles.each do |section|
           href = section.parent.parent['id']
           frag = "<div class=\"tocentry\"><a href=\"##{href}\">#{section.content}</a></div>"
           link = Nokogiri::HTML::DocumentFragment.parse(frag)
@@ -1293,7 +1300,7 @@ class ShowOff < Sinatra::Application
 
     def supplemental(content, static=false)
       # supplemental material is by definition separate from the presentation, so it doesn't make sense to attach notes
-      @slides = get_slides_html(:static=>static, :supplemental=>content, :section=>false)
+      @slides = get_slides_html(:static=>static, :supplemental=>content, :section=>false, :toc=>:all)
       @favicon = settings.showoff_config['favicon']
       @wrapper_classes = ['supplemental']
       erb :onepage
