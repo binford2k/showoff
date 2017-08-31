@@ -143,7 +143,13 @@
           flex: 5;
   background-color: #fff;
   min-height: 0px;
+  transition: opacity 0.5s ease-in-out;
 }
+
+body.busy #main {
+  opacity: 0;
+}
+
   #sidebar {
     display: -webkit-flex;
     display:         flex;

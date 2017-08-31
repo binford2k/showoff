@@ -1,3 +1,9 @@
+@keyframes spinner {
+  0%   { transform: rotate(0deg)   scale(1.1); color: #ad7586; }
+  50%  { transform: rotate(180deg) scale(0.9); color: #9e6c80; }
+  100% { transform: rotate(359deg) scale(1.1); color: #ad7586; }
+}
+
 body,
 .ui-widget,
 .ui-widget input,
@@ -6,6 +12,25 @@ body,
 .ui-widget button {
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   color: #222;
+}
+
+/*
+  f110: spinner
+  f1ce: notch
+  f021: refresh
+  f013: gear
+*/
+body:after {
+  content: "\f021";
+  font-family: FontAwesome;
+  position: absolute;
+  font-size: 400px;
+  color: #9f6c8e;
+  top: 65%;
+  left: 50%;
+  margin: -300px 0 0 -200px;
+  z-index: -1;
+  animation: spinner 5s infinite linear;
 }
 
 h1,
@@ -60,6 +85,9 @@ pre code {
     body.busy {
       cursor: progress;
     }
+    body.busy.display #preso {
+      opacity: 0;
+    }
 
   body#download,
   body#stats {
@@ -78,6 +106,7 @@ pre code {
     background-position: center;
     background-size: cover;
     position: relative;
+    transition: opacity 0.5s ease-in-out;
   }
 
   .slide {
