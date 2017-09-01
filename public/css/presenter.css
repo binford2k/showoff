@@ -135,6 +135,7 @@
   }
 
 #main {
+  position: relative;
   display: -webkit-flex;
   display:         flex;
   -webkit-flex-flow: row;
@@ -143,11 +144,6 @@
           flex: 5;
   background-color: #fff;
   min-height: 0px;
-  transition: opacity 0.5s ease-in-out;
-}
-
-body.busy #main {
-  opacity: 0;
 }
 
   #sidebar {

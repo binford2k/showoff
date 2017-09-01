@@ -20,7 +20,16 @@ body,
   f021: refresh
   f013: gear
 */
-body:after {
+#interstitial {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: white;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+#interstitial #spinner:after {
   content: "\f021";
   font-family: FontAwesome;
   position: absolute;
@@ -29,8 +38,10 @@ body:after {
   top: 65%;
   left: 50%;
   margin: -300px 0 0 -200px;
-  z-index: -1;
   animation: spinner 5s infinite linear;
+}
+body.busy #interstitial {
+  opacity: 1;
 }
 
 h1,
@@ -85,9 +96,6 @@ pre code {
     body.busy {
       cursor: progress;
     }
-    body.busy.display #preso {
-      opacity: 0;
-    }
 
   body#download,
   body#stats {
@@ -106,7 +114,6 @@ pre code {
     background-position: center;
     background-size: cover;
     position: relative;
-    transition: opacity 0.5s ease-in-out;
   }
 
   .slide {
