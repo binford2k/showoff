@@ -1,9 +1,3 @@
-@keyframes spinner {
-  0%   { transform: rotate(0deg)   scale(1.1); color: #ad7586; }
-  50%  { transform: rotate(180deg) scale(0.9); color: #9e6c80; }
-  100% { transform: rotate(359deg) scale(1.1); color: #ad7586; }
-}
-
 body,
 .ui-widget,
 .ui-widget input,
@@ -38,7 +32,7 @@ body,
   top: 65%;
   left: 50%;
   margin: -300px 0 0 -200px;
-  animation: spinner 5s infinite linear;
+  animation: fa-spin 5s infinite linear;
 }
 body.busy #interstitial {
   opacity: 1;
