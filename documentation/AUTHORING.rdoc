@@ -59,7 +59,7 @@ file -- say, for a TextMate preview or a GitHub rendering
 
 You can link to specific slides using either a slide number, or a name. The number
 can be found in the URL of your browser, and the name is shown in the debug output
-or in the upper left of the presenter view.
+or in the status bar of the presenter view.
 
 == Markdown Format
 
