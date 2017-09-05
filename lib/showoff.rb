@@ -627,8 +627,7 @@ class ShowOff < Sinatra::Application
 
       # Process links
       doc.css('a').each do |link|
-        next unless link.include? 'href'
-        next unless link.include? 'class'
+        next unless link['href']
         next if link['href'].start_with? '#'
         next if link['class'].split.include? 'processed' rescue nil
 
