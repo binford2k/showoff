@@ -377,7 +377,7 @@ into the presentation itself. For example, you might share a presentation reposi
 like the ability add your own notes to slides. This can be done by creating a markdown file in the
 <tt>_notes</tt> directory of your presentation. The filename should mirror the name of the slide.
 
-For example, if the name as displayed in the upper left of the presenter view was <tt>Introduction/About</tt>
+For example, if the name displayed in the presenter view status bar was <tt>Introduction/About</tt>
 then the personal notes file should be <tt>_notes/Introduction/About.md</tt>.
 
 == Handout Notes
