@@ -8,6 +8,36 @@ body,
   color: #222;
 }
 
+/*
+  f110: spinner
+  f1ce: notch
+  f021: refresh
+  f013: gear
+*/
+#interstitial {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: white;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+#interstitial #spinner:after {
+  content: "\f021";
+  font-family: FontAwesome;
+  position: absolute;
+  font-size: 400px;
+  color: #9f6c8e;
+  top: 65%;
+  left: 50%;
+  margin: -300px 0 0 -200px;
+  animation: fa-spin 5s infinite linear;
+}
+body.busy #interstitial {
+  opacity: 1;
+}
+
 h1,
 h2,
 h3 {

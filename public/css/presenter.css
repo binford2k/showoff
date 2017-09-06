@@ -135,6 +135,7 @@
   }
 
 #main {
+  position: relative;
   display: -webkit-flex;
   display:         flex;
   -webkit-flex-flow: row;
@@ -144,6 +145,7 @@
   background-color: #fff;
   min-height: 0px;
 }
+
   #sidebar {
     display: -webkit-flex;
     display:         flex;
