@@ -1,3 +1,9 @@
+0.19.2
+  * Clarifies checkpoint answer keys by decorating correct/incorrect answers
+  * Corrects regression: opens links from notes in new a tab/window
+  * Allows for table of contents for supplemental materials
+  * Minor UI improvements
+
 0.19.1
   * The UI tour only shows by default if running from localhost.
       * There's a new button on the help dialog (`?`) to run it on demand.
