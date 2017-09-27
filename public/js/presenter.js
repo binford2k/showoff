@@ -385,7 +385,7 @@ function toggleNotes() {
   if (mode.notes) {
     try {
       if(windowIsClosed(notesWindow)){
-        notesWindow = blankStyledWindow(I18n.t('notes.label'), 'width=350,height=450', 'notes', true);
+        notesWindow = blankStyledWindow(I18n.t('presenter.notes.label'), 'width=350,height=450', 'notes', true);
         window.setTimeout(function() {
           $(notesWindow.document.documentElement).addClass('floatingNotes');
 
