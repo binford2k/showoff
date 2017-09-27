@@ -610,6 +610,7 @@
       top: auto;
       position: relative;
       display: inline;
+      cursor: row-resize;
     }
 
   #notes ol { list-style-type: decimal; }
