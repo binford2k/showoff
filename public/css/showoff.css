@@ -426,16 +426,18 @@ img#disconnected {
   color: initial !important;
 }
 
-.buttonWrapper.split {
-  float: left;
-  width: 50%;
+#paceWrapper {
+  display: flex;
+}
+
+#paceWrapper div {
+  flex: 1;
   line-height: 30px;
   margin: 12px 0;
   padding: 0;
-  text-align: center;
-}
+  text-align: center;}
 
-.buttonWrapper.split i {
+#paceWrapper i {
   margin-right: 0;
 }
 
