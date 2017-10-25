@@ -1,3 +1,7 @@
+0.19.3
+  * Dereference symlinks in compatibility themes for the syntax highlighter.
+  * This resolves an issue with older RubyGems versions which cannot unpack links properly.
+
 0.19.2
   * Clarifies checkpoint answer keys by decorating correct/incorrect answers
   * Corrects regression: opens links from notes in new a tab/window
