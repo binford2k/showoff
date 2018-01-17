@@ -77,6 +77,8 @@ en:
     title: Help
     next: Move to the next slide.
     prev: Move to the previous slide.
+    nextsec: Move to the next section.
+    prevsec: Move to the previous section.
     contents: Show the table of contents menu.
     follow: Toggle follow mode.
     help: Show this help dialog.

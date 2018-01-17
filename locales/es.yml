@@ -77,6 +77,8 @@ es:
     title: Ayuda
     next: Mover a la siguiente diapositiva.
     prev: Mover a la diapositiva anterior.
+    nextsec: Mover a la siguiente sección.
+    prevsec: Mover a la sección anterior.
     contents: Mostrar el menú de la tabla de contenidos.
     follow: Habilitar el modo de seguimiento.
     help: Mostrar éste dialogo de ayuda.

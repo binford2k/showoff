@@ -76,6 +76,8 @@ nl:
     title: Help
     next: Ga naar de volgende slide.
     prev: Ga naar de vorige slide.
+    nextsec: Ga naar de volgende deel.
+    prevsec: Ga naar de vorige deel.
     contents: Toon de inhoudsopgave.
     follow: Schakel volgmodus in.
     help: Toon dit scherm.

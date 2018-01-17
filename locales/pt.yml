@@ -76,6 +76,8 @@ pt:
     title: Ajuda
     next: Ir para o próximo slide.
     prev: Ir para o slide anterior.
+    nextsec: Ir para a próxima seção.
+    prevsec: Ir para a seção anterior.
     contents: Mostrar o Índice.
     follow: Alternar modo seguidor.
     help: Mostrar esta ajuda.
