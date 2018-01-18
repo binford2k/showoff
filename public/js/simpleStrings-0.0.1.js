@@ -34,7 +34,9 @@
         var text = item.clone().children().remove().end().text();
 
         var re = /{{([^}]+)}}/;
+        var found = false;
         while(m = re.exec(text)) {
+            found = true;
           var keyword = m[1];
           var newText = keyword.split('.')
                 .reduce(function(o,i){return o[i]}, settings.strings);
@@ -42,7 +44,9 @@
               text = text.replace('{{'+keyword+'}}', newText);
           }
         }
-        item.text(text);
+        if (found == true) {
+          item.text(text);
+        }
 
         return item;
       }
