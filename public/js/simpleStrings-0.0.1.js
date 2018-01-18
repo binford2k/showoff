@@ -37,7 +37,7 @@
         while(m = re.exec(text)) {
           var keyword = m[1];
           var newText = keyword.split('.')
-                .reduce((o, i) => o[i], settings.strings);
+                .reduce(function(o,i){return o[i]}, settings.strings);
           if(newText !== undefined) {
               text = text.replace('{{'+keyword+'}}', newText);
           }
