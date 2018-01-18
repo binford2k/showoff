@@ -33,15 +33,14 @@
         item = $(item);
         var text = item.text();
 
-        if(matches = text.match(/{{([^}]*)}}/) ) {
-          $.each(matches, function() {
-              var keyword = this;
-              if(keyword in settings.strings) {
-                  text = text.replace('{{'+keyword+'}}', settings.strings[keyword]);
-              }
-          });
-          item.text(text);
+        var re = /{{([^}]+)}}/;
+        while(m = re.exec(text)) {
+          var keyword = m[1];
+          if(keyword in settings.strings) {
+            text = text.replace('{{'+keyword+'}}', settings.strings[keyword]);
+          }
         }
+        item.text(text);
 
         return item;
       }
