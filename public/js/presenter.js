@@ -688,6 +688,26 @@ function presNextStep()
 	update();
 }
 
+function presPrevSec()
+{
+  prevSec();
+  try { slaveWindow.prevSec(false) } catch (e) {};
+  try { nextWindow.gotoSlide(nextSlideNum()) } catch (e) {};
+  postSlide();
+
+  update();
+}
+
+function presNextSec()
+{
+  nextSec();
+  try { slaveWindow.nextSec(false) } catch (e) {};
+  try { nextWindow.gotoSlide(nextSlideNum()) } catch (e) {};
+  postSlide();
+
+  update();
+}
+
 function postSlide() {
 	if(currentSlide) {
     // clear out any existing rendered forms
@@ -773,7 +793,9 @@ function presenterKeyDown(event){
   switch(getAction(event)) {
     case 'DEBUG':     toggleDebug();      break;
     case 'PREV':      presPrevStep();     break; // Watch that this uses presPrevStep and not prevStep
+    case 'PREVSEC':   presPrevSec();      break; // Same here
     case 'NEXT':      presNextStep();     break; // Same here
+    case 'NEXTSEC':   presNextSec();      break; // Same here
     case 'REFRESH':   reloadSlides();     break;
     case 'RELOAD':    reloadSlides(true); break;
     case 'CONTENTS':  toggleContents();   break;

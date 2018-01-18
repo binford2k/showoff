@@ -76,6 +76,8 @@ de:
     title: Hilfe
     next: Zur nächsten Folie.
     prev: Zur vorherigen Folie.
+    nextsec: Zur nächsten Sektion.
+    prevsec: Zur vorherigen Sektion.
     contents: Anzeigen des Inhaltsverzeichnisses.
     follow: Mitverfolgen ein/aussschalten.
     help: Anzeigen der Hilfe.

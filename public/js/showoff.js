@@ -1554,6 +1554,34 @@ function nextStep(updatepv)
   }
 }
 
+function prevSec(updatepv)
+{
+  $(currentSlide).find('video').each(function() {
+    console.log('Pausing videos on ' + currentSlide.attr('id'))
+    $(this).get(0).pause();
+  });
+
+  var curSec = currentSlide.attr('data-section');
+  var prevSec = $('li:has(a.navSection:contains('+curSec+'))')
+        .prev('li').find('ul li a:first').attr('rel');
+  gotoSlide(prevSec);
+  track();
+}
+
+function nextSec(updatepv)
+{
+  $(currentSlide).find('video').each(function() {
+    console.log('Pausing videos on ' + currentSlide.attr('id'))
+    $(this).get(0).pause();
+  });
+
+  var curSec = currentSlide.attr('data-section');
+  var nextSec = $('li:has(a.navSection:contains('+curSec+'))')
+        .next('li').find('ul li a:first').attr('rel');
+  gotoSlide(nextSec);
+  track();
+}
+
 // carrying on our grand tradition of overwriting functions of the same name with presenter.js
 function postSlide() {
 	if(currentSlide) {
@@ -1658,7 +1686,9 @@ function keyDown(event){
   switch(getAction(event)) {
     case 'DEBUG':     toggleDebug();      break;
     case 'PREV':      prevStep();         break;
+    case 'PREVSEC':   prevSec();          break;
     case 'NEXT':      nextStep();         break;
+    case 'NEXTSEC':   nextSec();          break;
     case 'REFRESH':   reloadSlides();     break;
     case 'RELOAD':    reloadSlides(true); break;
     case 'CONTENTS':  toggleContents();   break;

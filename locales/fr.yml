@@ -76,6 +76,8 @@ fr:
     title: Aider
     next: Passer à la diapositive suivante.
     prev: Passer à la diapositive précédente.
+    nextsec: Passer à la section suivante.
+    prevsec: Passer à la section précédente.
     contents: Afficher le menu de la table des matières.
     follow: Activer le mode de suivi.
     help: Afficher cette fenêtre d'aide.
