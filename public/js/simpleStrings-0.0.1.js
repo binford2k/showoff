@@ -33,18 +33,16 @@
         item = $(item);
         var text = item.clone().children().remove().end().text();
 
-        if(matches = text.match(/{{([^}]*)}}/) ) {
-          matches.shift();
-          $.each(matches, function() {
-              var keyword = this;
-              var newText = keyword.split('.')
-                    .reduce((o, i) => o[i], settings.strings);
-              if(newText !== undefined) {
-                  text = text.replace('{{'+keyword+'}}', newText);
-              }
-          });
-          item.text(text);
+        var re = /{{([^}]+)}}/;
+        while(m = re.exec(text)) {
+          var keyword = m[1];
+          var newText = keyword.split('.')
+                .reduce((o, i) => o[i], settings.strings);
+          if(newText !== undefined) {
+              text = text.replace('{{'+keyword+'}}', newText);
+          }
         }
+        item.text(text);
 
         return item;
       }
