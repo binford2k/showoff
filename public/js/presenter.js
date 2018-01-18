@@ -701,11 +701,11 @@ function presPrevSec()
 function presNextSec()
 {
   nextSec();
-	try { slaveWindow.nextSec(false) } catch (e) {};
+  try { slaveWindow.nextSec(false) } catch (e) {};
   try { nextWindow.gotoSlide(nextSlideNum()) } catch (e) {};
-	postSlide();
+  postSlide();
 
-	update();
+  update();
 }
 
 function postSlide() {
@@ -793,7 +793,7 @@ function presenterKeyDown(event){
   switch(getAction(event)) {
     case 'DEBUG':     toggleDebug();      break;
     case 'PREV':      presPrevStep();     break; // Watch that this uses presPrevStep and not prevStep
-    case 'PREVSEC':   presNextSec();      break; // Same here
+    case 'PREVSEC':   presPrevSec();      break; // Same here
     case 'NEXT':      presNextStep();     break; // Same here
     case 'NEXTSEC':   presNextSec();      break; // Same here
     case 'REFRESH':   reloadSlides();     break;
