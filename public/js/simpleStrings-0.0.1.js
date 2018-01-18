@@ -31,7 +31,7 @@
 
       function translate(item) {
         item = $(item);
-        var text = item.text();
+        var text = item.clone().children().remove().end().text();
 
         if(matches = text.match(/^{{(.*)}}$/) ) {
           keyword = matches[1];
