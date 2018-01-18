@@ -745,6 +745,16 @@ function currentSlideFromName(name) {
   	    found = count;
   	    return false;
   	  }
+      var dataSection = $(slide).attr("data-section").toLowerCase();
+      // firstText is usually a header for the slide
+      var firstText = $(slide).find(".content :first").text().replace(/ /g, '_').toLowerCase();
+      var decodedName = decodeURIComponent(name).toLowerCase();
+      if (decodedName == dataSection+'/'+firstText
+          || name == dataSection
+          || decodedName == firstText  ) {
+        found = count;
+        return false;
+      }
   	  count++;
   	});
 	}
