@@ -654,20 +654,6 @@ function update() {
   }
 }
 
-// Tell the showoff server that we're a presenter, giving the socket time to initialize
-function register() {
-  setTimeout( function() {
-    try {
-      ws.send(JSON.stringify({ message: 'register' }));
-    }
-    catch(e) {
-      console.log("Registration failed. Sleeping");
-      // try again, until the socket finally lets us register
-      register();
-    }
-  }, 5000);
-}
-
 function presPrevStep()
 {
   prevStep();
