@@ -34,10 +34,13 @@
         var text = item.clone().children().remove().end().text();
 
         if(matches = text.match(/{{([^}]*)}}/) ) {
+          matches.shift();
           $.each(matches, function() {
               var keyword = this;
-              if(keyword in settings.strings) {
-                  text = text.replace('{{'+keyword+'}}', settings.strings[keyword]);
+              var newText = keyword.split('.')
+                    .reduce((o, i) => o[i], settings.strings);
+              if(newText !== undefined) {
+                  text = text.replace('{{'+keyword+'}}', newText);
               }
           });
           item.text(text);
