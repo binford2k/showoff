@@ -29,14 +29,22 @@
         strings: {}
       }, options );
 
+      // look up from the translation table using dot notation
+      // returns undefined on miss
+      function lookup(keyword) {
+        return keyword.split('.').reduce(function(obj, key){
+          if(obj != undefined) { return obj[key] }
+        }, settings.strings);
+      }
+
       function interpolate(text) {
         var tokens  = [];
         var pattern = /{{([^}]+)}}/g
         while (item = pattern.exec(text)) { tokens.push(item[1] ) };
 
         tokens.forEach(function(keyword){
-          if(keyword in settings.strings) {
-            text = text.replace('{{'+keyword+'}}', settings.strings[keyword]);
+          if(translation = lookup(keyword)) {
+            text = text.replace('{{'+keyword+'}}', translation);
           }
         });
 
