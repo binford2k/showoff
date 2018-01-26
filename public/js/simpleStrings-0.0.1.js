@@ -30,13 +30,13 @@
       }, options );
 
       function interpolate(text) {
-        var re = /{{([^}]+)}}/;
-        while(m = re.exec(text)) {
-          var keyword = m[1];
+        var tokens = text.split(/{{([^}]+)}}/).filter(Boolean);
+
+        tokens.forEach(function(keyword){
           if(keyword in settings.strings) {
             text = text.replace('{{'+keyword+'}}', settings.strings[keyword]);
           }
-        }
+        });
 
         return text;
       }
