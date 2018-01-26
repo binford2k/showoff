@@ -31,7 +31,7 @@
 
       function translate(item) {
         item = $(item);
-        var text = item.text();
+        var text = item.clone().children().remove().end().text();
 
         var re = /{{([^}]+)}}/;
         while(m = re.exec(text)) {
@@ -73,7 +73,7 @@
           // nested if because we don't want images to match the final else
           if(item.attr('src').match(/.*\.svg$/i)) {
             inline_svg(item, function(){
-              $(this).find('text, p').each(function(){
+              $(this).find('text, tspan, p').each(function(){
                 translate(this);
               });
             });
@@ -81,7 +81,7 @@
         }
         else if(item.is('svg')) {
           // svg images already inlined. Translate by finding all texty elements
-          item.find('text, p').each(function(){
+          item.find('text, tspan, p').each(function(){
             translate(this);
           });
         }
