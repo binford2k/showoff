@@ -30,7 +30,9 @@
       }, options );
 
       function interpolate(text) {
-        var tokens = text.split(/{{([^}]+)}}/).filter(Boolean);
+        var tokens  = [];
+        var pattern = /{{([^}]+)}}/g
+        while (item = pattern.exec(text)) { tokens.push(item[1] ) };
 
         tokens.forEach(function(keyword){
           if(keyword in settings.strings) {
