@@ -2,14 +2,14 @@
     var translations = {
       en: {
         'greeting': 'Hello there!',
-        'farewell': "Goodbye.'
+        'farewell': 'Goodbye.'
       },
       fr: {
         'greeting': 'Bonjour!',
-        'farewell': "Au revoir.'}.
+        'farewell': 'Au revoir.'},
       es: {
         'greeting': 'Hola!',
-        'farewell': "Adios amigo.'
+        'farewell': 'Adios amigo.'
       }
     };
 
