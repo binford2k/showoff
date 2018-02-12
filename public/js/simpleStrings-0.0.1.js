@@ -29,20 +29,33 @@
         strings: {}
       }, options );
 
-      function translate(item) {
-        item = $(item);
-        var text = item.text();
+      function interpolate(text) {
+        var tokens  = [];
+        var pattern = /{{([^}]+)}}/g
+        while (item = pattern.exec(text)) { tokens.push(item[1] ) };
 
-        var re = /{{([^}]+)}}/;
-        while(m = re.exec(text)) {
-          var keyword = m[1];
+        tokens.forEach(function(keyword){
           if(keyword in settings.strings) {
             text = text.replace('{{'+keyword+'}}', settings.strings[keyword]);
           }
-        }
-        item.text(text);
+        });
 
-        return item;
+        return text;
+      }
+
+      function translate(item) {
+        // iterate through nodes contained in this element, including plain text nodes and other elements
+        return $(item).contents()
+          .each(function() {
+            if(this.nodeType == 3) {
+              // translate directly if it's text
+              this.replaceWith(interpolate(this.textContent));
+            }
+            else {
+              // otherwise recurse inside and try again
+              translate(this);
+            }
+          });
       }
 
       function inline_svg(img, callback) {
