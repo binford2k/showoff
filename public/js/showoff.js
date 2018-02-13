@@ -1374,9 +1374,15 @@ function parseMessage(data) {
         break;
 
       case 'presenter':
-        console.log(command['status']);
         if(command['status']) {
-          alert('This is an audience view designed for interactivity. If you are placing this window on a projector, you should use the display view instead.');
+          if($('#preso').hasClass('display')) {
+            if(!window.opener) {
+              alert('There is a problem with your presenter. Please reload the page and reopen the Display View.');
+            }
+          }
+          else {
+            alert('This is an audience view designed for interactivity. If you are placing this window on a projector, you should use the Display View instead.');
+          }
         }
 
     }
