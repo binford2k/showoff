@@ -135,6 +135,12 @@ function setupPreso(load_slides, prefix) {
         delete document.cookieHash['tourVersion'];
       }
     });
+
+    // if we have a presenter cookie, but not a window opener, then it means
+    // that we've just loaded the page directly.
+    if(document.cookieHash['presenter'] && !window.opener) {
+      alert('This is an audience view designed for interactivity. If you are placing this window on a projector, you should use the Display View instead.');
+    }
   }
 
   $("#help-modal").dialog({
