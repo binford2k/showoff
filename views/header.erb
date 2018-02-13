@@ -53,6 +53,7 @@
     editUrl     = "<%= @edit %>";
     interactive = <%= @interactive %>;
     master      = <%= master_presenter? %>;
+    presenter   = <%= valid_presenter_cookie? %>;
 
     keymap               = <%= JSON.pretty_generate @keymap %>;
     keycode_dictionary   = <%= JSON.pretty_generate @keycode_dictionary %>;
