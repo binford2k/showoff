@@ -1275,6 +1275,25 @@ function reconnectControlChannel() {
   connectControlChannel();
 }
 
+// Tell the showoff server that we're a presenter, giving the socket time to initialize
+function register() {
+  setTimeout( function() {
+    try {
+      if($('body').hasClass('presenter')) {
+        ws.send(JSON.stringify({ message: 'register' }));
+      }
+      else {
+        ws.send(JSON.stringify({ message: 'presenter?'}));
+      }
+    }
+    catch(e) {
+      console.log("Registration failed. Sleeping");
+      // try again, until the socket finally lets us register
+      register();
+    }
+  }, 5000);
+}
+
 function connected() {
   console.log('Control socket opened');
   $("#feedbackSidebar .interactive").removeClass("disabled");
@@ -1359,6 +1378,18 @@ function parseMessage(data) {
 
         annotations[setting] = value;
         break;
+
+      case 'presenter':
+        if(command['status']) {
+          if($('#preso').hasClass('display')) {
+            if(!window.opener) {
+              alert('There is a problem with your presenter. Please reload the page and reopen the Display View.');
+            }
+          }
+          else {
+            alert('This is an audience view designed for interactivity. If you are placing this window on a projector, you should use the Display View instead.');
+          }
+        }
 
     }
   }

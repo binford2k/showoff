@@ -1817,6 +1817,10 @@ class ShowOff < Sinatra::Application
                 @logger.warn "Registered new presenter: #{remote}"
               end
 
+            when 'presenter?'
+              @logger.warn "is presenter? (#{valid_presenter_cookie?})"
+              ws.send( { 'message' => 'presenter', 'status' => valid_presenter_cookie? }.to_json )
+
             when 'track'
               remote = valid_presenter_cookie? ? 'presenter' : request.cookies['client_id']
               slide  = control['slide']
