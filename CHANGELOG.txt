@@ -1,3 +1,9 @@
+0.19.4
+  * Move to next/previous sections.
+  * Improved SVG localization.
+  * Allow internal links to slides via title.
+  * Warn the presenter if they open the audience view instead of display view.
+
 0.19.3
   * Dereference symlinks in compatibility themes for the syntax highlighter.
   * This resolves an issue with older RubyGems versions which cannot unpack links properly.

@@ -57,9 +57,11 @@ For example:
 This lets you keep the ability to emit an HTML document from your Markdown source
 file -- say, for a TextMate preview or a GitHub rendering
 
-You can link to specific slides using either a slide number, or a name. The number
-can be found in the URL of your browser, and the name is shown in the debug output
-or in the status bar of the presenter view.
+You can link to specific slides using either a slide number, the name of the
+slide, or the GitHub style normalized version of the first line of text on the
+slide. The number can be found in the URL of your browser, and the name is shown
+in the debug output or in the status bar of the presenter view. Normalized names
+have all non alpha-numeric characters replaced with a hyphen.
 
 == Markdown Format
 
