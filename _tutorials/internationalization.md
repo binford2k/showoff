@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Validating Code
-headline: Validating code blocks on slides
+title: Localization
+headline: Localized Presentations
 ---
 
 ## {{ page.headline }}
@@ -10,8 +10,8 @@ Showoff makes it easy to localize your content. It can even present multiple
 translations simultaneously! You'll need to do all the hard work of translating
 your material, of course.
 
-You can try out an example in the *Internationalization* section of this
-[demo presentation](https://github.com/binford2k/showoff_demo.git):
+You can see what it looks like in the *Internationalization* section of this
+[demo presentation](https://github.com/binford2k/showoff_demo.git).
 
     $ docker run -p 9090:9090 binford2k/showoff showoff serve -u https://github.com/binford2k/showoff_demo.git 
 
@@ -30,7 +30,7 @@ country language code in the commands below:
 Now translate each copy, via any service or process that works for you. If you're
 translating by hand, a reasonable workflow might be to select the language you
 want to translate to and then page through the presentation, editing each slide
-by clicking its name in the Presenter view. See the [Quickstart](quickstart.html)
+by clicking its name in the Presenter view. See the [Quickstart](/quickstart.html)
 for more information.
 
 Now, any time an audience member loads your presentation and you've got a
