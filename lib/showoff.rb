@@ -505,8 +505,9 @@ class ShowOff < Sinatra::Application
         end
 
         # Apply the template to the slide and replace the key to generate the content of the slide
-        sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
-        sl = Tilt[:markdown].new(nil, nil, @engine_options) { sl }.render
+        sl = process_custom_syntax(template.gsub(/~~~CONTENT~~~/, slide.text)) if settings.showoff_config['parser'] == 'v2'
+        sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text)) unless settings.showoff_config['parser'] == 'v2'
+        sl = Tilt[:markdown].new(nil, nil, engine_options) { sl }.render
         sl = build_forms(sl, content_classes)
         sl = update_p_classes(sl)
         sl = process_content_for_section_tags(sl, name, opts)
@@ -577,6 +578,163 @@ class ShowOff < Sinatra::Application
       result
     end
 
+    # This method defines several custom additions to markdown
+    # :matchers is an array of regular expressions that define the custom syntax
+    # :block defines a code block to be run against the match_data
+    # These are processed by gsub so the block should return the final result
+    def custom_syntax_templates
+      { 
+        "script" => {
+          :matchers => [
+            /\!SLIDE(?<classes>[^\[]*?)(?<script>[^\[]*)\[(?<script_args>[^\]])\]/
+          ],
+          :block => proc { |match_data|
+            %Q(!SLIDE #{match_data[:classes]}\n\n<script>#{match_data[:script]}\(#{match_data[:script_args]}\)</script>)
+          }
+        },
+        "current" => {
+          :matchers => [
+            /~~~CURRENT_SLIDE~~~/
+          ],
+          :block => proc { |match_data|
+            @slide_count.to_s
+          }
+        },
+        "section_major" => {
+          :matchers => [
+            /~~~SECTION:MAJOR~~~/
+          ],
+          :block => proc { |match_data|
+            @section_major.to_s
+          }
+        },
+        "section_minor" => {
+          :matchers => [
+            /~~~SECTION:MINOR~~~/
+          ],
+          :block => proc { |match_data|
+            @section_minor += 1
+            @section_minor.to_s
+          }
+        },
+        "font_awesome" => {
+          :matchers => [
+            /\[(?<icon>fa-.*)\]/
+          ],
+          :block => proc { |match_data|
+            %Q(\n<i class="fa #{match_data[:icon]}"></i>\n)
+          }
+        },
+        "callout" => {
+          :matchers => [
+            /^\.(?=callout)(?<classes>[\S]*?)\s(?<inner>.*?)\n\n/m
+          ],
+          :block => proc { |match_data|
+            classes = match_data[:classes].gsub('.',' ')
+            inner = match_data[:inner]
+            %Q(\n<div markdown="1" class="callout #{classes}">\n\n#{inner}\n\n</div>\n\n)
+          }
+        },
+        "section" => {
+          :matchers => [
+            /^~~~SECTION:(?<classes>[^~]*?)~~~$(?<inner>.*?)^~~~ENDSECTION~~~$/m
+          ],
+          :block => proc { |match_data|
+            classes = match_data[:classes].gsub('.',' ')
+            inner = match_data[:inner]
+            %Q(\n<div markdown="1" class="notes-section #{classes}">\n\n#{inner}\n\n</div>\n\n)
+          },
+        },
+        "code" => {
+          :matchers => [
+            /^\s{3,}@@@\s(?<languages>.*?)$\s{3,}(?<text>.*?)\n\n/m
+          ],
+          :block => proc { |match_data|
+            css = match_data[:languages].split.collect {|l| "language-#{l.downcase}" }.join(' ')
+            text = match_data[:text].gsub(/^\s{4}/,'')
+            %Q(\n<pre class="highlight"><code class="#{css}">#{text}</code></pre>\n)
+          }
+        },
+        "paragraph" => {
+          :matchers => [
+            /^\.(?!break|comment)(?<classes>\S*) (?<inner>.+?)\n\n/m
+          ],
+          :block => proc { |match_data|
+            inner = match_data[:inner]
+            classes = match_data[:classes].gsub('.', ' ')
+            %Q(\n<p markdown="1" class="#{classes}">\n\n#{inner}\n\n</p>\n\n)
+          },
+        },
+        "pagebreak" => {
+          :matchers => [
+            /^~~~PAGEBREAK~~~$/
+          ],
+          :block => proc {
+            %Q(<div class="pagebreak">continued...</div>)
+          }
+        },
+        "form" => {
+          :matchers => [
+            /^~~~FORM:(?<title>[^~]*)~~~$/
+          ],
+          :block => proc { |match_data|
+            %Q(<div class="form wrapper" title="#{match_data[:title]}"></div>)
+          }
+        },
+        # Check for any kind of options
+        "config" => {
+          :matchers => [
+            /^~~~CONFIG:(?<setting>.*?)~~~$/
+          ],
+          :block => proc { |match_data|
+            settings.showoff_config[match_data[:setting]] if settings.showoff_config.key?(match_data[:setting])
+          }
+        },
+        # Load and replace any file tags
+        "file" => {
+          :matchers => [
+            /^~~~FILE:(?<name>[^:~]*):?(?<languages>.*)?~~~$/
+          ],
+          :block => proc { |match_data|
+            # make a list of code highlighting classes to include
+            css = match_data[:languages].split.collect {|l| "language-#{l.downcase}" }.join(' ')
+
+            # get the file content and parse out html entities
+            file = File.read(File.join(settings.pres_dir, '_files', match_data[:name])) rescue "Nonexistent file: #{match_data[:name]}"
+            file = "Empty file: #{match_data[:name]}" if file.empty?
+            file = HTMLEntities.new.encode(file) rescue "HTML parsing of #{match_data[:name]} failed"
+
+            %Q(<pre class="highlight"><code class="#{css}">#{file}</code></pre>)
+          }
+        },
+        # Remove comments and breaks from final html
+        "comment_break" => {
+          :matchers => [
+            /\.(?:break|comment)( .*)?/
+          ],
+          :block => proc { "<p></p>"}
+        },
+      }
+    end
+
+
+    # This method processes the content of the slide and replaces
+    # content markers with their actual value information
+    def process_custom_syntax(content)
+      return unless content
+
+      result = content
+      custom_syntax_templates.each do |name, syntax|
+        syntax[:matchers].each do |matcher|
+          result.gsub!(matcher) {
+            syntax[:block].($~)
+          }
+        end
+      end
+
+      result
+    end
+
     # replace section tags with classed div tags
     def process_content_for_section_tags(content, name = nil, opts = {})
       return unless content
@@ -610,6 +768,16 @@ class ShowOff < Sinatra::Application
           end
         end
       end
+       
+      # Add classes to images
+      doc.css('i').each do |image|
+        alt_text = image['alt']
+        classes = /^\.\S*?/.match(alt_text).to_s
+        classes.gsub(/\./,' ')
+
+        image['class'] << classes
+      end
+
 
       doc.css('.callout.glossary').each do |item|
         next unless item.content =~ /^([^|]+)\|([^:]+):(.*)$/
