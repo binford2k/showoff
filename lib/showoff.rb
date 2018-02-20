@@ -321,14 +321,14 @@ class ShowOff < Sinatra::Application
         next unless File.directory? entry
 
         locale = File.basename(entry)
-        langs.update(locale => get_language_name(locale))
+        langs[locale] ||= get_language_name(locale)
       end
 
       return langs unless File.file? 'locales/strings.json'
       strings = JSON.parse(File.read('locales/strings.json')) rescue {}
 
       strings.keys.each do |locale|
-        langs.update(locale => get_language_name(locale))
+        langs[locale] ||= get_language_name(locale)
       end
 
       langs
