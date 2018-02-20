@@ -30,7 +30,7 @@ country language code in the commands below:
 Now translate each copy, via any service or process that works for you. If you're
 translating by hand, a reasonable workflow might be to select the language you
 want to translate to and then page through the presentation, editing each slide
-by clicking its name in the Presenter view. See the [Quickstart](/quickstart.html)
+by clicking its name in the Presenter view. See the [Quickstart]({{ site.github.url }}/quickstart.html)
 for more information.
 
 Now, any time an audience member loads your presentation and you've got a
@@ -54,4 +54,4 @@ Examples:
 
 ## Documentation
 
-See the [User Manual](/documentation/INTERNATIONALIZATION_rdoc.html)
+See the [User Manual]({{ site.github.url }}/documentation/INTERNATIONALIZATION_rdoc.html)
