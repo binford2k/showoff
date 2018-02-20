@@ -135,7 +135,7 @@ In the the root of your presentation directory, simply run `showoff skeleton`:
 Run Showoff and open the Presenter window. You'll see a not-very-interesting
 presentation fill the screen. Now it's your job to fill it. Flip through the
 slides, and when you see one you want to edit, simply click its name in the
-upper left of the window.
+below the preview pane.
 
 Showoff will open it in whatever editor you have registered to open Markdown
 files, making quick work of fleshing out your outline.
