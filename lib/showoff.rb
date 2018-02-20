@@ -544,7 +544,7 @@ class ShowOff < Sinatra::Application
             if match[2] == lang or match[2] == locale.to_s
                 result.sub!(match[0], match[3])
             else
-                result.sub!(match[0], '')
+                result.sub!(match[0], "\n")
             end
         end
 
