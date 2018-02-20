@@ -316,12 +316,22 @@ class ShowOff < Sinatra::Application
 
     # return a hash of all language codes available and the long name description of each
     def language_names
-      Dir.glob('locales/*').inject({}) do |memo, entry|
-        next memo unless File.directory? entry
+      langs = {}
+      Dir.glob('locales/*').each do |entry|
+        next unless File.directory? entry
 
         locale = File.basename(entry)
-        memo.update(locale => get_language_name(locale))
+        langs.update(locale => get_language_name(locale))
       end
+
+      return langs unless File.file? 'locales/strings.json'
+      strings = JSON.parse(File.read('locales/strings.json')) rescue {}
+
+      strings.keys.each do |locale|
+        langs.update(locale => get_language_name(locale))
+      end
+
+      langs
     end
 
     # returns the minimized canonical version of the current selected content locale
