@@ -13,8 +13,14 @@ The actions you may choose from are:
 [NEXT]
   Advance to the next slide.
 
+[NEXTSEC]
+  Advance to the next section.
+
 [PREV]
   Move to the previous slide.
+
+[PREVSEC]
+  Move to the previous section.
 
 [FOLLOW]
   Toggle the current window in and out of follow mode. When enabled, the window
@@ -69,10 +75,10 @@ The default mapping is:
       'd'           => 'DEBUG',
       'up'          => 'PREV',
       'left'        => 'PREV',
-      'pageup'      => 'PREV',
+      'pageup'      => 'PREVSEC',
       'down'        => 'NEXT',
       'right'       => 'NEXT',
-      'pagedown'    => 'NEXT',
+      'pagedown'    => 'NEXTSEC',
       'r'           => 'RELOAD',
       'c'           => 'CONTENTS',
       't'           => 'CONTENTS',
