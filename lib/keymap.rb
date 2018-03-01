@@ -1,14 +1,21 @@
 module Keymap
   def self.default()
     {
-      'space'       => 'NEXT',
       'd'           => 'DEBUG',
-      'up'          => 'PREV',
-      'left'        => 'PREV',
-      'pageup'      => 'PREVSEC',
+      'space'       => 'NEXT',
       'down'        => 'NEXT',
       'right'       => 'NEXT',
-      'pagedown'    => 'NEXTSEC',
+      'pagedown'    => 'NEXT',
+      'up'          => 'PREV',
+      'left'        => 'PREV',
+      'pageup'      => 'PREV',
+      'SPACE'       => 'NEXTSEC',
+      'DOWN'        => 'NEXTSEC',
+      'RIGHT'       => 'NEXTSEC',
+      'PAGEDOWN'    => 'NEXTSEC',
+      'UP'          => 'PREVSEC',
+      'LEFT'        => 'PREVSEC',
+      'PAGEUP'      => 'PREVSEC',
       'R'           => 'RELOAD',
       'r'           => 'REFRESH',
       'c'           => 'CONTENTS',
@@ -169,6 +176,13 @@ module Keymap
       "`"           => "~",
       "="           => "+",
       "-"           => "_",
+      "space"       => "SPACE",
+      "down"        => "DOWN",
+      "right"       => "RIGHT",
+      "pagedown"    => "PAGEDOWN",
+      "up"          => "UP",
+      "left"        => "LEFT",
+      "pageup"      => "PAGEUP",
     }
   end
 
