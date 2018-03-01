@@ -35,8 +35,7 @@ Gem::Specification.new do |s|
   s.add_dependency      "sinatra-websocket"
   # workaround a bad dependency in sinatra-websocket
   s.add_dependency      "thin", "~> 1.3"
-  # workaround a semver violation & API breakage in Commonmarker
-  s.add_dependency      "commonmarker", "<= 0.14.4"
+  s.add_dependency      "commonmarker"
 
   s.add_development_dependency "mg"
   s.description       = <<-desc
