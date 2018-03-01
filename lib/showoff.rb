@@ -506,6 +506,7 @@ class ShowOff < Sinatra::Application
 
         # Apply the template to the slide and replace the key to generate the content of the slide
         sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
+        sl = process_content_for_language(sl, I18n.locale)
         sl = Tilt[:markdown].new(nil, nil, @engine_options) { sl }.render
         sl = build_forms(sl, content_classes)
         sl = update_p_classes(sl)
@@ -533,6 +534,21 @@ class ShowOff < Sinatra::Application
         end
       end
       final
+    end
+
+    def process_content_for_language(content, locale)
+        lang = locale.to_s.split('-').first
+        result = content
+
+        content.scan(/^((~~~LANG:([\w-]+)~~~\n)(.+?)(\n~~~ENDLANG~~~\n))/m).each do |match|
+            if match[2] == lang or match[2] == locale.to_s
+                result.sub!(match[0], match[3])
+            else
+                result.sub!(match[0], "\n")
+            end
+        end
+
+        result
     end
 
     # This method processes the content of the slide and replaces

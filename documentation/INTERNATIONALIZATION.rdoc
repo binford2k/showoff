@@ -20,6 +20,9 @@ If you'd like to contribute a translation file, please follow the
 Showoff will present each user with content in the language of their choice.
 It is the author's job to create the translations in the first place.
 
+
+=== Using a language directory
+
 When the presentation is loaded, Showoff matches the language setting of the
 user's browser against the <tt>locales</tt> directory. If it finds a subdirectory
 matching the language, or one of the fallbacks, then that content will be served.
@@ -39,6 +42,25 @@ Images or other media should also be located in the localized directory. This
 allows you to translate any images with text as well. If you don't need this,
 you can symlink the directory, or you can use relative parent paths
 (<tt>../../</tt>) to point to the correct images.
+
+
+=== Using `LANG` tags in content
+
+If you prefer not to duplicate your files in a directory per language, you can
+use LANG tags in the content to mark which content should appear depending on
+the language:
+
+```
+This content will always appear
+
+~~~LANG:en-GB~~~
+This content will only appear in British English
+~~~ENDLANG~~~
+
+~~~LANG:en~~~
+This content will appear for all English localizations
+~~~ENDLANG~~~
+```
 
 == String Replacement
 
