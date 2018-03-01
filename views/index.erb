@@ -3,60 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <%= erb :header %>
-
-  <script type="text/javascript">
-    // We want the audience members to see automatic tours. We can assume that they won't be
-    // using many server domains like the presenter might.
-    var autoTour = true;
-
-    $( document ).ready(function() {
-      if(presenter && !window.opener) {
-        alert('This is an audience view designed for interactivity. If you are placing this window on a projector, you should use the Display View instead.');
-      }
-
-      tours['showoff:activity'] = [
-        {
-          element: ".currentSlide .activityToggle",
-          intro: I18n.t('tour.activity.complete')
-        }
-      ];
-
-      tours['showoff:form'] = [
-        {
-          element: ".currentSlide input.save",
-          intro: I18n.t('tour.form.save')
-        }
-      ];
-
-      tours['showoff:menu'] = [
-        {
-          element: "#hamburger",
-          intro: I18n.t('tour.menu.start')
-        },
-        {
-          element: "#navToggle",
-          intro: I18n.t('tour.menu.navigation')
-        },
-        {
-          element: "#fileDownloads",
-          intro: I18n.t('tour.menu.download')
-        },
-        {
-          element: "#paceFaster",
-          intro: I18n.t('tour.menu.pace')
-        },
-        {
-          element: "#questionToggle",
-          intro: I18n.t('tour.menu.questions')
-        },
-        {
-          element: "#feedbackToggle",
-          intro: I18n.t('tour.menu.feedback')
-        }
-      ].filter(function(item) { return (document.querySelector(item['element'])) });
-      // display tips for only the enabled features
-    });
-  </script>
 </head>
 
 <body>
@@ -174,6 +120,60 @@
 <div id="pauseScreen">
   <%= @pause_msg %>
 </div>
+
+  <script defer type="text/javascript">
+    // We want the audience members to see automatic tours. We can assume that they won't be
+    // using many server domains like the presenter might.
+    var autoTour = true;
+
+    $( document ).ready(function() {
+      if(presenter && !window.opener) {
+        alert('This is an audience view designed for interactivity. If you are placing this window on a projector, you should use the Display View instead.');
+      }
+
+      tours['showoff:activity'] = [
+        {
+          element: ".currentSlide .activityToggle",
+          intro: I18n.t('tour.activity.complete')
+        }
+      ];
+
+      tours['showoff:form'] = [
+        {
+          element: ".currentSlide input.save",
+          intro: I18n.t('tour.form.save')
+        }
+      ];
+
+      tours['showoff:menu'] = [
+        {
+          element: "#hamburger",
+          intro: I18n.t('tour.menu.start')
+        },
+        {
+          element: "#navToggle",
+          intro: I18n.t('tour.menu.navigation')
+        },
+        {
+          element: "#fileDownloads",
+          intro: I18n.t('tour.menu.download')
+        },
+        {
+          element: "#paceFaster",
+          intro: I18n.t('tour.menu.pace')
+        },
+        {
+          element: "#questionToggle",
+          intro: I18n.t('tour.menu.questions')
+        },
+        {
+          element: "#feedbackToggle",
+          intro: I18n.t('tour.menu.feedback')
+        }
+      ].filter(function(item) { return (document.querySelector(item['element'])) });
+      // display tips for only the enabled features
+    });
+  </script>
 
 </body>
 </html>
