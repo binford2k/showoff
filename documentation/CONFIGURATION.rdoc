@@ -66,19 +66,27 @@ The actions you may choose from are:
 
 Place a JSON file in <tt>~/.showoff/keymap.json</tt> with any keybindings you'd
 like. You only need to include the keys you want to map, you don't need to
-include all of them.
+include all of them. Note that an UPPERCASED keyword indicates the shifted form
+of that keyword. For example <tt>RIGHT</tt> stands for <tt>shift-right</tt>.
 
 The default mapping is:
 
     {
-      "space"       : "NEXT",
       "d"           : "DEBUG",
-      "up"          : "PREV",
-      "left"        : "PREV",
-      "pageup"      : "PREVSEC",
+      "space"       : "NEXT",
       "down"        : "NEXT",
       "right"       : "NEXT",
-      "pagedown"    : "NEXTSEC",
+      "pagedown"    : "NEXT",
+      "up"          : "PREV",
+      "left"        : "PREV",
+      "pageup"      : "PREV",
+      "SPACE"       : "NEXTSEC",
+      "DOWN"        : "NEXTSEC",
+      "RIGHT"       : "NEXTSEC",
+      "PAGEDOWN"    : "NEXTSEC",
+      "UP"          : "PREVSEC",
+      "LEFT"        : "PREVSEC",
+      "PAGEUP"      : "PREVSEC",
       "r"           : "RELOAD",
       "c"           : "CONTENTS",
       "t"           : "CONTENTS",
