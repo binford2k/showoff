@@ -1,7 +1,14 @@
+0.19.5
+  * Reverted hotkey change, sorry about that!
+      * Trigger section navigation by pressing SHIFT along with any standard navigation key.
+  * Added per-slide content translations via `~~~LANG~~~` tags. (@raphink)
+  * Prevent IE from triggering hotkeys when typing in a form.
+  * Reordered javascript loading for more predictable behaviour.
+
 0.19.4
-  * Move to next/previous sections.
-  * Improved SVG localization.
-  * Allow internal links to slides via title.
+  * Move to next/previous sections.  (@raphink)
+  * Improved SVG localization.  (@raphink)
+  * Allow internal links to slides via title.  (@raphink)
   * Warn the presenter if they open the audience view instead of display view.
 
 0.19.3
