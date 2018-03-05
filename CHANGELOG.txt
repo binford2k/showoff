@@ -1,3 +1,6 @@
+0.19.6
+  * Reverted IE hotkey fix that broke presentation navigation in many cases.
+
 0.19.5
   * Reverted hotkey change, sorry about that!
       * Trigger section navigation by pressing SHIFT along with any standard navigation key.
