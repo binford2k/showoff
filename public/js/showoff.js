@@ -1693,10 +1693,6 @@ function keyDown(event){
   if (event.ctrlKey || event.altKey || event.metaKey) {
     return true;
   }
-  // in case the user is typing in text fields
-  if (document.activeElement.type.substring(0,4) === "text") {
-    return true;
-  }
 
   switch(getAction(event)) {
     case 'DEBUG':     toggleDebug();      break;
