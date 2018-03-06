@@ -721,11 +721,13 @@ function showTour(name, record) {
 // get the value of an option=value class applied to a slide
 function getSlideOption(option) {
   var classes = currentSlide.attr('class').split(' ');
-  var match   = classes.find(function(item){
-    return (item.indexOf(option+'=') == 0);
-  });
 
-  return (match ? match.split('=')[1] : null);
+  for (var i=0; i < classes.length; i++) {
+    var item = classes[i].split('=');
+    if(item.length == 2 && item[0] == option) {
+      return item[1]
+    }
+  }
 }
 
 function checkSlideParameter() {
