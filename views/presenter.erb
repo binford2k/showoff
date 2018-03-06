@@ -3,11 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <%= erb :header %>
-  <link rel="stylesheet" href="<%= @asset_path %>/css/presenter.css?v=<%= SHOWOFF_VERSION %>" type="text/css"/>
-  <link href="<%= @asset_path %>/css/TimeCircles-89ac5ae.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/presenter.css?v=<%= SHOWOFF_VERSION %>" />
+  <link rel="stylesheet" type="text/css" href="css/TimeCircles-89ac5ae.css" />
 
-  <script type="text/javascript" src="<%= @asset_path %>/js/TimeCircles-89ac5ae.js"></script>
-  <script type="text/javascript" src="<%= @asset_path %>/js/presenter.js?v=<%= SHOWOFF_VERSION %>"></script>
+  <script type="text/javascript" src="js/TimeCircles-89ac5ae.js"></script>
+  <script type="text/javascript" src="js/presenter.js?v=<%= SHOWOFF_VERSION %>"></script>
 </head>
 
 <body class="presenter">
@@ -63,7 +63,7 @@
         <div class="right obscure"> </div>
         <span id="paceSlow"><%= I18n.t('presenter.pace.faster') %></span>
         <span id="paceFast"><%= I18n.t('presenter.pace.slower') %></span>
-        <img id="paceMarker" src="<%= @asset_path %>/css/paceMarker.png" />
+        <img id="paceMarker" src="css/paceMarker.png" />
       </div>
       <% end %>
 
@@ -83,7 +83,7 @@
     <div id="presenter">
       <div id="frame">
         <div id="preview">
-          <img id="disconnected" src="<%= @asset_path %>/css/disconnected-large.png" />
+          <img id="disconnected" src="css/disconnected-large.png" />
           <div id="prevSlide" class="thumb"><div class="container"></div><h3 class="label"><%= I18n.t('presenter.preview.previous') %></h3></div>
           <div id="nextSlide" class="thumb"><div class="container"></div><h3 class="label"><%= I18n.t('presenter.preview.next') %></h3></div>
           <div id="preso"><%= I18n.t('loading') %></div>

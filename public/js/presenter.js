@@ -43,8 +43,8 @@ $(document).ready(function(){
     notesFontSize('increase');
   });
 
-  $('#statslink').click(function(e) { presenterPopupToggle('/stats', e); });
-  $('#downloadslink').click(function(e) { presenterPopupToggle('/download', e); });
+  $('#statslink').click(function(e) { presenterPopupToggle('stats', e); });
+  $('#downloadslink').click(function(e) { presenterPopupToggle('download', e); });
 
   $('#layoutSelector').change(function(e) { chooseLayout(e.target.value); });
   chooseLayout(null);
@@ -82,7 +82,7 @@ $(document).ready(function(){
 
     $('#topbar #update').click( function(e) {
       e.preventDefault();
-      $.get("/getpage", function(data) {
+      $.get("getpage", function(data) {
         gotoSlide(data);
       });
     });
@@ -154,7 +154,7 @@ $(document).ready(function(){
   setInterval(function() { updatePace() }, 1000);
 
   setInterval(function() {
-    $.getJSON("/stats_data", function( json ) {
+    $.getJSON("stats_data", function( json ) {
       var percent = json['stray_p'];
       if(percent > 25) {
         $('#topbar #statslink').addClass('warning');
@@ -250,7 +250,7 @@ function editSlide() {
 // call the edit endpoint to open up a local file editor
 function openEditor() {
   var slide = $("span#slideFile").text().replace(/:\d+$/, '');
-  var link  = '/edit/' + slide + ".md";
+  var link  = 'edit/' + slide + ".md";
   $.get(link);
 }
 
@@ -277,11 +277,11 @@ function openSlave()
 {
   try {
     if(windowIsClosed(slaveWindow)){
-        slaveWindow = window.open('/' + window.location.hash, 'toolbar');
+        slaveWindow = window.open(window.location.hash, 'toolbar');
     }
     else if(slaveWindow.location.hash != window.location.hash) {
       // maybe we need to reset content?
-      slaveWindow.location.href = '/' + window.location.hash;
+      slaveWindow.location.href = window.location.hash;
     }
 
     // give the window time to load before poking at it
@@ -451,7 +451,7 @@ function blankStyledWindow(title, dimensions, classes, resizable) {
     // them into elements again in the context of the other document.
     // Because IE.
 
-    $(newWindow.document.head).append('<base href="' + window.location.origin + '"/>');
+    $(newWindow.document.head).append('<base href="' + location.origin + location.root + '"/>');
     $('link[rel="stylesheet"]').each(function() {
       var href  = $(this).attr('href');
       var style = '<link rel="stylesheet" type="text/css" href="' + href + '">'
@@ -508,7 +508,7 @@ function printDialog() {
 function printSlides(section)
 {
   try {
-    var printWindow = window.open('/print/'+section);
+    var printWindow = window.open('print/'+section);
     printWindow.window.print();
   }
   catch(e) {

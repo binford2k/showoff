@@ -24,23 +24,23 @@
   <% else %>
     <% ['font-awesome-4.4.0/css/font-awesome.min.css', 'mermaid-6.0.0.css', "highlight/#{@highlightStyle}.css",
         'showoff.css', 'onepage.css'].each do |css_file| %>
-      <link rel="stylesheet" href="<%= @asset_path %>/css/<%= css_file %>" type="text/css"/>
+      <link rel="stylesheet" href="css/<%= css_file %>" type="text/css"/>
     <% end %>
 
     <% css_files.each do |css_file| %>
-      <link rel="stylesheet" href="<%= @asset_path %>/file/<%= css_file %>" type="text/css"/>
+      <link rel="stylesheet" href="file/<%= css_file %>" type="text/css"/>
     <% end %>
 
     <% ['jquery-2.1.4.min.js', 'showoff.js', 'highlight.pack-9.2.0.js',
         'bigtext-0.1.8.js', 'simpleStrings-0.0.1.js', 'mermaid-6.0.0-min.js'].each do |js_file| %>
-      <script type="text/javascript" src="<%= @asset_path %>/js/<%= js_file %>"></script>
+      <script type="text/javascript" src="js/<%= js_file %>"></script>
     <% end %>
     <% js_files.each do |js_file| %>
-      <script type="text/javascript" src="<%= @asset_path %>/file/<%= js_file %>"></script>
+      <script type="text/javascript" src="file/<%= js_file %>"></script>
     <% end %>
     <% if @languages %>
       <% @languages.each do |l| %>
-        <script type="text/javascript" src="<%= @asset_path %>/js<%= l %>"></script>
+        <script type="text/javascript" src="js<%= l %>"></script>
       <% end %>
     <% end %>
 
