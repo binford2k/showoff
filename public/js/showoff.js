@@ -22,10 +22,12 @@ var section = 'handouts'; // default to showing handout notes for display view
 var slideStartTime = new Date().getTime()
 var activityIncomplete = false; // slides won't advance when this is on
 
-var loadSlidesBool
-var loadSlidesPrefix
+var loadSlidesBool;
 
 var mode = { track: true, follow: true };
+
+// Make sure we have a sane value here
+location.root = location.root || location.pathname;
 
 // global variable to register tours with
 var tours = {};
@@ -52,7 +54,7 @@ document.cookie.split(';').forEach( function(item) {
 
 $(document).on('click', 'code.execute', executeCode);
 
-function setupPreso(load_slides, prefix) {
+function setupPreso(load_slides) {
 	if (preso_started) {
 		alert("already started");
 		return;
@@ -73,8 +75,7 @@ function setupPreso(load_slides, prefix) {
 
 	// Load slides fetches images
 	loadSlidesBool = load_slides;
-	loadSlidesPrefix = prefix || '/';
-	loadSlides(loadSlidesBool, loadSlidesPrefix);
+	loadSlides(loadSlidesBool);
 
   setupSideMenu();
 
@@ -177,8 +178,8 @@ function setupPreso(load_slides, prefix) {
 
 }
 
-function loadSlides(load_slides, prefix, reload, hard) {
-  var url = loadSlidesPrefix + "slides";
+function loadSlides(load_slides, reload, hard) {
+  var url = "slides";
   if (reload) {
     url += "?cache=clear";
   }
@@ -192,18 +193,18 @@ function loadSlides(load_slides, prefix, reload, hard) {
       }
       else {
         $("#slides img").batchImageLoad({
-          loadingCompleteCallback: initializePresentation(prefix)
+          loadingCompleteCallback: initializePresentation()
         });
       }
     })
   } else {
     $("#slides img").batchImageLoad({
-      loadingCompleteCallback: initializePresentation(prefix)
+      loadingCompleteCallback: initializePresentation()
     })
   }
 }
 
-function initializePresentation(prefix) {
+function initializePresentation() {
 	// unhide for height to work in static mode
   $("#slides").show();
 
@@ -399,7 +400,7 @@ function setupSideMenu() {
 
   $('#fileDownloads').click(function() {
     closeMenu();
-    window.open('/download');
+    window.open('download');
   })
 
   $("#paceSlower").click(function() {
@@ -1259,7 +1260,8 @@ function renderForm(form) {
 function connectControlChannel() {
   if (interactive) {
     protocol     = (location.protocol === 'https:') ? 'wss://' : 'ws://';
-    ws           = new WebSocket(protocol + location.host + '/control');
+    path         = (location.root + '/control').replace('//', '/').replace('/presenter','');;
+    ws           = new WebSocket(protocol + location.host + path);
     ws.onopen    = function()  { connected();          };
     ws.onclose   = function()  { disconnected();       }
     ws.onmessage = function(m) { parseMessage(m.data); };
@@ -1794,7 +1796,7 @@ function reloadSlides (hard) {
   }
 
   if (confirm(message)) {
-    loadSlides(loadSlidesBool, loadSlidesPrefix, true, hard);
+    loadSlides(loadSlidesBool, true, hard);
   }
 }
 
@@ -1914,7 +1916,7 @@ function executeRemoteCode(lang, codeDiv) {
   var path  = slide.attr('ref');
 
   setExecutionSignal(true, codeDiv);
-  $.get('/execute/'+lang, {path: path, index: index}, function(result) {
+  $.get('execute/'+lang, {path: path, index: index}, function(result) {
     if (result != null) print(result);
     setExecutionSignal(false, codeDiv);
   });
@@ -1992,11 +1994,11 @@ function setupPreShow(seconds) {
     $.each(data, function(i, n) {
       if(n == "preshow.json") {
         // has a descriptions file
-        $.getJSON("/file/_preshow/preshow.json", false, function(data) {
+        $.getJSON("file/_preshow/preshow.json", false, function(data) {
           preshow_des = data;
         })
       } else {
-        $('#preshow').append('<img ref="' + n + '" src="/file/_preshow/' + n + '"/>');
+        $('#preshow').append('<img ref="' + n + '" src="file/_preshow/' + n + '"/>');
       }
     })
     preshow_images      = $('#preshow > img');
@@ -2061,7 +2063,7 @@ function stopPreShow() {
 	$('#tips').remove();
 	$('#preshow_timer').remove();
 
-	loadSlides(loadSlidesBool, loadSlidesPrefix);
+	loadSlides(loadSlidesBool);
 }
 
 function nextPreShowImage() {
@@ -2114,7 +2116,7 @@ function setupStats(data)
     }
   });
 
-  var location = window.location.pathname == '/presenter' ? '#' : '/#';
+  var location = window.location.pathname == 'presenter' ? '#' : '/#';
   var viewers  = data['viewers'];
   if (viewers) {
     if (viewers.length == 1 && viewers[0][3] == 'current') {
