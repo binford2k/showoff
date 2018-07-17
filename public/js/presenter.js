@@ -277,11 +277,11 @@ function openSlave()
 {
   try {
     if(windowIsClosed(slaveWindow)){
-        slaveWindow = window.open(window.location.hash, 'toolbar');
+        slaveWindow = window.open('./' + window.location.hash, 'toolbar');
     }
     else if(slaveWindow.location.hash != window.location.hash) {
       // maybe we need to reset content?
-      slaveWindow.location.href = window.location.hash;
+      slaveWindow.location.href = './' + window.location.hash;
     }
 
     // give the window time to load before poking at it
