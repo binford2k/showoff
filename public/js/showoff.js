@@ -149,7 +149,6 @@ function setupPreso(load_slides) {
     buttons: buttons
   });
 
-  $("#synchronize").button();
   $("#synchronize").click(function() {
     synchronize();
   });
