@@ -15,7 +15,7 @@
     <%= inline_css(['showoff.css', 'onepage.css'], 'public/css') %>
     <%= inline_css(css_files) %>
 
-    <%= inline_js(['jquery-2.1.4.min.js', 'showoff.js', 'highlight.pack-9.2.0.js'], 'public/js') %>
+    <%= inline_js(['jquery-2.1.4.min.js', 'showoff.js', 'highlight.pack-9.2.0.js', 'highlightjs-line-numbers.min.js'], 'public/js') %>
     <%= inline_js(['bigtext-0.1.8.js', 'simpleStrings-0.0.1.js', 'mermaid-6.0.0-min.js'], 'public/js') %>
 
     <%= inline_js(@languages, 'public/js') if @languages %>
@@ -32,7 +32,7 @@
     <% end %>
 
     <% ['jquery-2.1.4.min.js', 'showoff.js', 'highlight.pack-9.2.0.js',
-        'bigtext-0.1.8.js', 'simpleStrings-0.0.1.js', 'mermaid-6.0.0-min.js'].each do |js_file| %>
+        'highlightjs-line-numbers.min.js', 'bigtext-0.1.8.js', 'simpleStrings-0.0.1.js', 'mermaid-6.0.0-min.js'].each do |js_file| %>
       <script type="text/javascript" src="js/<%= js_file %>"></script>
     <% end %>
     <% js_files.each do |js_file| %>
