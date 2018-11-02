@@ -239,6 +239,12 @@ function initializePresentation() {
       // syntax highlight the code
       hljs.highlightBlock(block);
 
+      // add line numbers if requested with `:numbers`
+      var opt = $(block).attr("class").match(/\blanguage-\w+:(\w+)/)[1];
+      if (opt === 'numbers') {
+        hljs.lineNumbersBlock(block);
+      }
+
       // then add focus on any lines marked
       highlightLines(block);
 
