@@ -240,9 +240,11 @@ function initializePresentation() {
       hljs.highlightBlock(block);
 
       // add line numbers if requested with `:numbers`
-      var opt = $(block).attr("class").match(/\blanguage-\w+:(\w+)/)[1];
-      if (opt === 'numbers') {
-        hljs.lineNumbersBlock(block);
+      var langMatch = $(block).attr("class").match(/\blanguage-\w+:(\w+)/);
+      if (langMatch != undefined) {
+        if (langMatch[1] === 'numbers') {
+          hljs.lineNumbersBlock(block);
+        }
       }
 
       // then add focus on any lines marked
