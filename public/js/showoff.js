@@ -4,7 +4,7 @@ var ShowOff = {};
 
 var preso_started = false
 var slidenum = 0
-var presenterSlideNum = 0
+var presenterSlideNum = null
 var slideTotal = 0
 var slides
 var currentSlide
