@@ -666,8 +666,11 @@ pre.highlight tr:not(:last-child) {
 }
 
 .executing:hover { cursor: wait; }
-/* End code execution */
 
+.execute.numbers {
+  padding-bottom: 1.5em;
+}
+/* End code execution */
 
 #tips, #preshow_timer {
   display:inline;
