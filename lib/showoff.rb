@@ -586,6 +586,9 @@ class ShowOff < Sinatra::Application
 
       result.gsub!(/\[(fa-.*)\]/, '<i class="fa \1"></i>')
 
+      # For fenced code blocks, translate the space separated classes into one
+      # colon separated string so Commonmarker doesn't ignore the rest
+      result.gsub!(/^`{3} *(.+)$/) {|s| "``` #{$1.split.join(':')}"}
 
       result
     end
@@ -1094,8 +1097,10 @@ class ShowOff < Sinatra::Application
           # catch fenced code blocks from commonmarker
           if (lang and lang.start_with? 'language-' )
             pre.set_attribute('class', 'highlight')
+            # turn the colon separated name back into classes
+            code.set_attribute('class', lang.gsub(':', ' '))
 
-          # or weve started a code block with a Showoff language tag
+          # or we've started a code block with a Showoff language tag
           elsif out.strip[0, 3] == '@@@'
             lines = out.split("\n")
             lang  = lines.shift.gsub('@@@', '').strip
