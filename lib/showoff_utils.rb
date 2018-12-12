@@ -704,7 +704,7 @@ module MarkdownConfig
       when 'kramdown'
         Tilt.prefer Tilt::KramdownTemplate, "markdown"
 
-      when 'commonmarker'
+      when 'commonmarker', 'commonmark'
         Tilt.prefer Tilt::CommonMarkerTemplate, "markdown"
 
       else
