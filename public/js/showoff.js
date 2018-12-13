@@ -235,23 +235,16 @@ function initializePresentation() {
   $('body').removeClass('busy');
 
   $('pre.highlight code').each(function(i, block) {
-    // expand lang args as block classes
-    var langOptsStr = $(block).attr("class").match(/\blanguage-\w+\?(\S+)\b/);
-    if (langOptsStr != undefined) {
-      var langOpts = langOptsStr[1].split("&");
-      for(i=0; i<langOpts.length; i++) {
-        $(block).addClass(langOpts[i]);
-      }
-    }
-
     try {
       // syntax highlight the code
       hljs.highlightBlock(block);
 
-      // add line numbers if requested
-      var numbers = $(block).attr("class").match(/\bnumbers\b/);
-      if (numbers != undefined) {
-        hljs.lineNumbersBlock(block);
+      // add line numbers if requested with `:numbers`
+      var langMatch = $(block).attr("class").match(/\blanguage-\w+:(\w+)/);
+      if (langMatch != undefined) {
+        if (langMatch[1] === 'numbers') {
+          hljs.lineNumbersBlock(block);
+        }
       }
 
       // then add focus on any lines marked
