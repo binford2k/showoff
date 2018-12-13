@@ -242,6 +242,10 @@ function initializePresentation() {
       // then add focus on any lines marked
       highlightLines(block);
 
+      if($(block).hasClass('numbers')) {
+        hljs.lineNumbersBlock(block);
+      }
+
     } catch(e) {
       console.log('Syntax highlighting failed on ' + $(this).closest('div.slide').attr('id'));
       console.log('Syntax highlighting failed for ' + $(this).attr('class'));
