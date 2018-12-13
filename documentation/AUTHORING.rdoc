@@ -204,9 +204,15 @@ scaled to the largest size that both height and width fit within the slide.
 Showoff uses {Highlight.js}[https://highlightjs.org] (version 9.2.0) to highlight
 code blocks. If you begin a code block with *four spaces* and three @-signs followed
 by a programming language name, that line will be stripped and the rest of the block
-will become sparkly and colorful. You can uppercase the name if you like.
+will become sparkly and colorful. You can uppercase the name if you like, and if you
+add the `numbers` keyword, it will be rendered with line numbers.
 
     @@@ Ruby
+    10.times { puts "Whee!" }
+
+With line numbers:
+
+    @@@ Ruby numbers
     10.times { puts "Whee!" }
 
 To highlight a specific line in your snippet of code, simply prefix it with a <tt>*</tt>.
