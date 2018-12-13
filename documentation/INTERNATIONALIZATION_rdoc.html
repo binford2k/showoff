@@ -58,6 +58,8 @@
     <li><a href="#label-Internationalization">Internationalization</a>
     <li><a href="#label-User+Interface">User Interface</a>
     <li><a href="#label-Content+Translation">Content Translation</a>
+    <li><a href="#label-Using+a+language+directory">Using a language directory</a>
+    <li><a href="#label-Using+-60LANG-60+tags+in+content">Using `LANG` tags in content</a>
     <li><a href="#label-String+Replacement">String Replacement</a>
     <li><a href="#label-Browser+Configuration">Browser Configuration</a>
   </ul>
@@ -123,6 +125,8 @@ provided</a>.</p>
 choice. It is the author&#39;s job to create the translations in the first
 place.</p>
 
+<h3 id="label-Using+a+language+directory">Using a language directory<span><a href="#label-Using+a+language+directory">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
 <p>When the presentation is loaded, Showoff matches the language setting of
 the user&#39;s browser against the <code>locales</code> directory. If it
 finds a subdirectory matching the language, or one of the fallbacks, then
@@ -146,6 +150,20 @@ presentation. The same relative paths will be used to reference each slide.</p>
 This allows you to translate any images with text as well. If you don&#39;t
 need this, you can symlink the directory, or you can use relative parent
 paths (<code>../../</code>) to point to the correct images.</p>
+
+<h3 id="label-Using+-60LANG-60+tags+in+content">Using `LANG` tags in content<span><a href="#label-Using+-60LANG-60+tags+in+content">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>If you prefer not to duplicate your files in a directory per language, you
+can use LANG tags in the content to mark which content should appear
+depending on the language:</p>
+
+<p>“` This content will always appear</p>
+
+<p>~~~LANG:en-GB~~~ This content will only appear in British English
+~~~ENDLANG~~~</p>
+
+<p>~~~LANG:en~~~ This content will appear for all English localizations
+~~~ENDLANG~~~ “`</p>
 
 <h2 id="label-String+Replacement">String Replacement<span><a href="#label-String+Replacement">&para;</a> <a href="#top">&uarr;</a></span></h2>
 

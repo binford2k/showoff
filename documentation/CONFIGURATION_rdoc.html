@@ -168,19 +168,28 @@ view.</p>
 
 <p>Place a JSON file in <code>~/.showoff/keymap.json</code> with any
 keybindings you&#39;d like. You only need to include the keys you want to
-map, you don&#39;t need to include all of them.</p>
+map, you don&#39;t need to include all of them. Note that an UPPERCASED
+keyword indicates the shifted form of that keyword. For example
+<code>RIGHT</code> stands for <code>shift-right</code>.</p>
 
 <p>The default mapping is:</p>
 
 <pre>{
-  &quot;space&quot;       : &quot;NEXT&quot;,
   &quot;d&quot;           : &quot;DEBUG&quot;,
-  &quot;up&quot;          : &quot;PREV&quot;,
-  &quot;left&quot;        : &quot;PREV&quot;,
-  &quot;pageup&quot;      : &quot;PREVSEC&quot;,
+  &quot;space&quot;       : &quot;NEXT&quot;,
   &quot;down&quot;        : &quot;NEXT&quot;,
   &quot;right&quot;       : &quot;NEXT&quot;,
-  &quot;pagedown&quot;    : &quot;NEXTSEC&quot;,
+  &quot;pagedown&quot;    : &quot;NEXT&quot;,
+  &quot;up&quot;          : &quot;PREV&quot;,
+  &quot;left&quot;        : &quot;PREV&quot;,
+  &quot;pageup&quot;      : &quot;PREV&quot;,
+  &quot;SPACE&quot;       : &quot;NEXTSEC&quot;,
+  &quot;DOWN&quot;        : &quot;NEXTSEC&quot;,
+  &quot;RIGHT&quot;       : &quot;NEXTSEC&quot;,
+  &quot;PAGEDOWN&quot;    : &quot;NEXTSEC&quot;,
+  &quot;UP&quot;          : &quot;PREVSEC&quot;,
+  &quot;LEFT&quot;        : &quot;PREVSEC&quot;,
+  &quot;PAGEUP&quot;      : &quot;PREVSEC&quot;,
   &quot;r&quot;           : &quot;RELOAD&quot;,
   &quot;c&quot;           : &quot;CONTENTS&quot;,
   &quot;t&quot;           : &quot;CONTENTS&quot;,
