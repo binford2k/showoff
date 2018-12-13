@@ -239,16 +239,12 @@ function initializePresentation() {
       // syntax highlight the code
       hljs.highlightBlock(block);
 
-      // add line numbers if requested with `:numbers`
-      var langMatch = $(block).attr("class").match(/\blanguage-\w+:(\w+)/);
-      if (langMatch != undefined) {
-        if (langMatch[1] === 'numbers') {
-          hljs.lineNumbersBlock(block);
-        }
-      }
-
       // then add focus on any lines marked
       highlightLines(block);
+
+      if($(block).hasClass('numbers')) {
+        hljs.lineNumbersBlock(block);
+      }
 
     } catch(e) {
       console.log('Syntax highlighting failed on ' + $(this).closest('div.slide').attr('id'));
