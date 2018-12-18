@@ -1192,7 +1192,7 @@ form .element {
 }
 
   .callout:before {
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
     font-style: normal;
     font-weight: normal;
     font-size: 2em;
@@ -1201,7 +1201,7 @@ form .element {
     left: 0.3em;
   }
   .callout:after {
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
     font-style: normal;
     font-weight: normal;
     font-size: 1.5em;
