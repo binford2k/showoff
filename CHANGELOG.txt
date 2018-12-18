@@ -1,3 +1,29 @@
+0.20.0
+  * Update Font Awesome to the latest
+  * Prevented tours from loading every time you use the presenter
+  * Fix PDFkit printing
+  * Add languages from strings.json to the language selector
+  * Add ability to line-number code blocks
+  * Some minor UI cleanups
+  * The usual IE mitigations
+  * Removed the asset_path handling. Please read note below.
+
+Prior versions of Showoff used a pretty fragile form of path munging that allowed
+it to handle serving multiple presentations with the same server. That's not been
+a fully supported use case for years now, and it prevented other kinds of usage,
+like using a reverse proxy to run multiple services on different paths on a web
+server. If this behaviour is important to you, then please pin to v0.19.6 and
+file a ticket explaining your use case.
+
+Going forward, the supported method for running multiple presentations from the
+same base URL will be to configure something like nginx to proxy different paths
+to multiple Showoff instances running. Simplifying in this way will also make it
+far far easier to run multiple containerized instances.
+
+Also note that this was a rather large and invasive change, so I expect that
+testing may not catch all issues. Please report any problems you find!
+
+
 0.19.6
   * Reverted IE hotkey fix that broke presentation navigation in many cases.
 
