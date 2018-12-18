@@ -110,3 +110,10 @@ Each browser is configured somewhat differently. For example, the language
 selection for Safari on macOS lives in the OS system preferences. On the other
 hand, Chrome has built-in language selection underneath the *Advanced* section
 of the settings and Firefox puts it under the *Content* section.
+
+== On the command-line
+
+When generating a static HTML representation of your presentation, you may use
+the <tt>--lang</tt> argument for language selection.
+
+  $ showoff static --lang de
