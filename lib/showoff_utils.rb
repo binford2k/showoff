@@ -568,7 +568,7 @@ class ShowOffUtils
   end
 
   def self.showoff_pdf_options(dir = '.')
-    opts = get_config_option(dir, 'pdf_options', {:page_size => 'Letter', :orientation => 'Landscape'})
+    opts = get_config_option(dir, 'pdf_options', {:page_size => 'Letter', :orientation => 'Landscape', :print_media_type => true})
     Hash[opts.map {|k, v| [k.to_sym, v]}] # keys must be symbols
   end
 
