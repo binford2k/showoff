@@ -675,12 +675,12 @@ function showTour(name, record) {
       if(record) {
         clientTours.push(name);
         document.cookieHash['tours'] = clientTours;
-        document.cookie = "tours="+JSON.stringify(clientTours);
+        document.cookie = "tours="+JSON.stringify(clientTours)+"; max-age=31536000; path=/;";
       }
 
       // this keeps track of the version of the presenter tour we've seen
       if(name == 'showoff:presenter:auto') {
-        document.cookie = "tourVersion="+tourVersion;
+        document.cookie = "tourVersion="+tourVersion+"; max-age=31536000; path=/;";
         document.cookieHash['tourVersion'] = tourVersion;
 
         // we don't need this anymore; let's save a byte or three
