@@ -586,7 +586,7 @@ class ShowOff < Sinatra::Application
         result.gsub!(match[0], "<pre class=\"highlight\"><code class=\"#{css}\">#{file}</code></pre>")
       end
 
-      result.gsub!(/\[(fa-.*)\]/, '<i class="fa \1"></i>')
+      result.gsub!(/\[(fa\w?)-(\S*)\]/, '<i class="\1 fa-\2"></i>')
 
       # For fenced code blocks, translate the space separated classes into one
       # colon separated string so Commonmarker doesn't ignore the rest
