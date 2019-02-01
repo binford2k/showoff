@@ -512,7 +512,7 @@ img#disconnected {
   background-color: #dedede;
 }
 #askedQuestions li:hover:after {
-  font-family: FontAwesome;
+  font-family: "Font Awesome 5 Free";
   font-style: normal;
   font-weight: normal;
   text-decoration: inherit;
@@ -652,7 +652,7 @@ pre.highlight tr:not(:last-child) {
 }
 
 .execute:after {
-  font-family: FontAwesome;
+  font-family: "Font Awesome 5 Free";
   content: "\F144";
   position: absolute;
   right: .5em;
@@ -815,7 +815,7 @@ form .element {
 .slide.answerkey input::before {
   margin-left: -1em;
   vertical-align: top;
-  font-family: FontAwesome;
+  font-family: "Font Awesome 5 Free";
   font-weight: bold;
   text-decoration: none;
 }
@@ -1065,7 +1065,7 @@ form .element {
 
 /* Add the disclosure triangles */
 #stats div.row:before {
-  font-family: FontAwesome;
+  font-family: "Font Awesome 5 Free";
   font-style: normal;
   font-weight: normal;
   font-size: 1.25em;
@@ -1265,7 +1265,7 @@ a.term {
   text-decoration: none;
 }
 a.term:after {
-  font-family: FontAwesome;
+  font-family: "Font Awesome 5 Free";;
   font-size: 0.8em;
   vertical-align: super;
   content: "\f27b";
