@@ -10,8 +10,7 @@
   <% end %>
 
   <% if @inline %>
-
-    <%= inline_css(['font-awesome-4.4.0/css/font-awesome.min.css', 'mermaid-6.0.0.css', "highlight/#{@highlightStyle}.css"], 'public/css') %>
+    <%= inline_css(['font-awesome-5.6.1/css/all.min.css', 'mermaid-6.0.0.css', "highlight/#{@highlightStyle}.css"], 'public/css') %>
     <%= inline_css(['showoff.css', 'onepage.css'], 'public/css') %>
     <%= inline_css(css_files) %>
 
@@ -22,7 +21,7 @@
     <%= inline_js(js_files) %>
 
   <% else %>
-    <% ['font-awesome-4.4.0/css/font-awesome.min.css', 'mermaid-6.0.0.css', "highlight/#{@highlightStyle}.css",
+    <% ['font-awesome-5.6.1/css/all.min.css', 'mermaid-6.0.0.css', "highlight/#{@highlightStyle}.css",
         'showoff.css', 'onepage.css'].each do |css_file| %>
       <link rel="stylesheet" href="css/<%= css_file %>" type="text/css"/>
     <% end %>
