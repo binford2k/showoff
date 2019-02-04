@@ -71,6 +71,10 @@
       $('img').simpleStrings({strings: user_translations});
       $('svg').simpleStrings({strings: user_translations});
       $('.translate').simpleStrings({strings: user_translations});
+
+      <% if @printpage %>
+        window.print();
+      <% end %>
     });
   </script>
 

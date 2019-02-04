@@ -1847,14 +1847,14 @@ var removeResults = function() {
   try { slaveWindow.removeResults() } catch (e) {};
 };
 
-var print = function(text) {
+var displayHUD = function(text) {
 	removeResults();
 	var _results = $('<div>').addClass('results').html('<pre>' + String(text).substring(0, 1500) + '</pre>');
 	$('body').append(_results);
 	_results.click(removeResults);
 
 	// if we're a presenter, mirror this on the display window
-  try { slaveWindow.print(text) } catch (e) {};
+  try { slaveWindow.displayHUD(text) } catch (e) {};
 };
 
 // Execute the first visible executable code block
@@ -1910,7 +1910,7 @@ function executeLocalCode(lang, codeDiv) {
   catch(e) {
     result = e.message;
   };
-  if (result != null) print(result);
+  if (result != null) displayHUD(result);
 }
 
 // request the server to execute a code block by path and index
@@ -1921,7 +1921,7 @@ function executeRemoteCode(lang, codeDiv) {
 
   setExecutionSignal(true, codeDiv);
   $.get('execute/'+lang, {path: path, index: index}, function(result) {
-    if (result != null) print(result);
+    if (result != null) displayHUD(result);
     setExecutionSignal(false, codeDiv);
   });
 }
