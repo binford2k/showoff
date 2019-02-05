@@ -192,6 +192,7 @@
     }
     #timerSection #pauseTimer {
       float: left;
+      position: absolute;
       display: none;
     }
     #timerSection #stopTimer {
