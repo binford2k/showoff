@@ -1312,7 +1312,6 @@ class ShowOff < Sinatra::Application
     def print(section=nil)
       @slides = get_slides_html(:static=>true, :toc=>true, :print=>true, :section=>section)
       @favicon = settings.showoff_config['favicon']
-      @printpage = true
       erb :onepage
     end
 
