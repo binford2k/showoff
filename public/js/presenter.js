@@ -36,7 +36,7 @@ $(document).ready(function(){
   $("#notes-wrapper .fa-minus").click( function() {
     notesFontSize('decrease');
   });
-  $("#notes-wrapper .fa-dot-circle-o").click( function() {
+  $("#notes-wrapper .fa-circle").click( function() {
     notesFontSize('reset');
   });
   $("#notes-wrapper .fa-plus").click( function() {
