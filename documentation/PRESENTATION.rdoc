@@ -41,6 +41,8 @@ includes all current configuration keys, which will be described below.
       "templates" : {
           "special" : "simple.tpl"
       },
+      "scripts": "assets/animations.js",
+      "styles": "assets/branding.css",
       "pause_msg": "Paused !!!",
       "sections": [
         "Intro/intro.md",
@@ -115,6 +117,11 @@ The configuration settings you may use are listed below. Please see the
   [password]
     The password for protected pages.
 
+[scripts]
+  Showoff will automatically include all javascript files in the root directory
+  of a presentation. This is a list of additional scripts to include afterwards.
+  This can be either a string path or an array of string paths.
+
 [sections]
   The slide definitions for the presentation.
 
@@ -136,6 +143,11 @@ The configuration settings you may use are listed below. Please see the
 
 [standalone]
   If you set this to <tt>true</tt>, then audience interactivity features will be disabled.
+
+[styles]
+  Showoff will automatically include all stylesheets in the root directory of a
+  presentation. This is a list of additional stylesheets to include afterwards.
+  This can be either a string path or an array of string paths.
 
 [templates]
   A hash of templates to be used.
