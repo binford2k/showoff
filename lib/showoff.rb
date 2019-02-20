@@ -254,11 +254,15 @@ class ShowOff < Sinatra::Application
 
   helpers do
     def css_files
-      Dir.glob("#{settings.pres_dir}/*.css").map { |path| File.basename(path) }
+      base  = Dir.glob("#{settings.pres_dir}/*.css").map { |path| File.basename(path) }
+      extra = Array(settings.showoff_config['styles'])
+      base + extra
     end
 
     def js_files
-      Dir.glob("#{settings.pres_dir}/*.js").map { |path| File.basename(path) }
+      base  = Dir.glob("#{settings.pres_dir}/*.js").map { |path| File.basename(path) }
+      extra = Array(settings.showoff_config['scripts'])
+      base + extra
     end
 
     def preshow_files
