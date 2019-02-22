@@ -1516,6 +1516,11 @@ class ShowOff < Sinatra::Application
         Dir.glob("#{pres_dir}/*.{css,js}").each { |path|
           FileUtils.copy(path, File.join(file_dir, File.basename(path)))
         }
+        (Array(showoff_config['scripts']) + Array(showoff_config['styles'])).each { |path|
+          dest = File.join(file_dir, path)
+          FileUtils.mkdir_p(dest)
+          FileUtils.copy(path, dest)
+        }
 
         # ... and copy all needed image files
         [/img src=[\"\'].\/file\/(.*?)[\"\']/, /style=[\"\']background(?:-image): url\(\'file\/(.*?)'/].each do |regex|
