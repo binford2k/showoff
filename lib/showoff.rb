@@ -1313,9 +1313,14 @@ class ShowOff < Sinatra::Application
       content
     end
 
-    def print(section=nil)
+    def print(section=nil, munged=false)
       @slides = get_slides_html(:static=>true, :toc=>true, :print=>true, :section=>section)
       @favicon = settings.showoff_config['favicon']
+
+      unless munged
+        @baseurl = '../' * section.split('/').count
+      end
+
       erb :onepage
     end
 
@@ -1479,7 +1484,7 @@ class ShowOff < Sinatra::Application
         data = showoff.send(what, opt)
       when 'print'
         opt ||= 'handouts'
-        data = showoff.send(what, opt)
+        data = showoff.send(what, opt, true)
       else
         data = showoff.send(what, true)
       end
