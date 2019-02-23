@@ -1,3 +1,10 @@
+0.2.1
+  * Font Awesome changed a lot of class names and the like. This fixes them.
+  * Added the ability to specify additional styles and scripts in your presentation.
+  * Fixed a couple path problems.
+  * Switched to a better way of printing from the presenter
+  * UI fixes
+
 0.20.0
   * Update Font Awesome to the latest
   * Prevented tours from loading every time you use the presenter
