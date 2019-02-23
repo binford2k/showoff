@@ -1518,12 +1518,9 @@ class ShowOff < Sinatra::Application
         pres_dir = showoff.settings.pres_dir
 
         # ..., copy all user-defined styles and javascript files
-        Dir.glob("#{pres_dir}/*.{css,js}").each { |path|
-          FileUtils.copy(path, File.join(file_dir, File.basename(path)))
-        }
-        (Array(showoff_config['scripts']) + Array(showoff_config['styles'])).each { |path|
+        showoff.css_files.each { |path|
           dest = File.join(file_dir, path)
-          FileUtils.mkdir_p(dest)
+          FileUtils.mkdir_p(File.dirname(dest))
           FileUtils.copy(path, dest)
         }
 
@@ -1540,12 +1537,16 @@ class ShowOff < Sinatra::Application
           end
         end
         # copy images from css too
-        Dir.glob("#{pres_dir}/*.css").each do |css_path|
+        showoff.css_files.each do |css_path|
           File.open(css_path) do |file|
             data = file.read
             data.scan(/url\([\"\']?(?!https?:\/\/)(.*?)[\"\']?\)/).flatten.each do |path|
               path.gsub!(/(\#.*)$/, '') # get rid of the anchor
               path.gsub!(/(\?.*)$/, '') # get rid of the query
+
+              # resolve relative paths in the stylesheet
+              path = "#{File.dirname(css_path)}/#{path}" unless path.start_with? '/'
+
               logger.debug path
               dir = File.dirname(path)
               FileUtils.makedirs(File.join(file_dir, dir))
