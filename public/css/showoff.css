@@ -630,6 +630,11 @@ pre.highlight td.hljs-ln-code {
     padding-left: 0.5em;
 }
 
+pre.highlight tr:hover {
+    background-color: yellow;
+    cursor: pointer;
+}
+
 /* Do not add borders to line-numbered lines */
 pre.highlight tr:not(:last-child) {
     border-bottom: none;
