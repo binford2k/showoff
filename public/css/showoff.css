@@ -623,10 +623,16 @@ pre.highlight td.hljs-ln-numbers {
     width: 1.5em;
     text-align: right;
     padding-right: 0.5em;
+    background-color: white;
 }
 
 pre.highlight td.hljs-ln-code {
     padding-left: 0.5em;
+}
+
+pre.highlight tr:hover {
+    background-color: yellow;
+    cursor: pointer;
 }
 
 /* Do not add borders to line-numbered lines */
