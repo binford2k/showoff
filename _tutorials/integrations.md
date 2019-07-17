@@ -39,9 +39,9 @@ Simultaneous editing of multiple slide files is easy to do.
 "edit": "https://github.com/username/presentation/edit/master/",
 ```
 
-Showoff must be started with the `--edit` flag.
+Showoff must be started with the `--review` flag.
 
-    $ showoff serve --edit
+    $ showoff serve --review
 
 **Note**: Clicking on the title in the upper left of the Presenter view will
 open the editor associated with Markdown files on your local machine, as shown
