@@ -573,7 +573,21 @@ class ShowOff < Sinatra::Application
 
       # Now check for any kind of options
       content.scan(/(~~~CONFIG:(.*?)~~~)/).each do |match|
-        result.gsub!(match[0], settings.showoff_config[match[1]]) if settings.showoff_config.key?(match[1])
+        parts = match[1].split('.') # Use dots ('.') to separate Hash keys
+        if parts.size > 1
+          value = settings.showoff_config.dig(parts[0]).to_h.dig(*parts[1..-1])
+        else
+          value = settings.showoff_config.fetch(parts[0],nil)
+        end
+
+        unless value.is_a?(String)
+          msg = "#{match[0]} refers to a non-String data type (#{value.class})"
+          msg = "#{match[0]}: not found in settings data" if value.nil?
+          @logger.warn(msg)
+          next
+        end
+
+        result.gsub!(match[0], value)
       end
 
       # Load and replace any file tags
