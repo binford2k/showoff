@@ -68,7 +68,9 @@ class ShowOffUtils
 
   def self.skeleton(config)
     if config
-      FileUtils.cp(config, '.')
+      unless File.expand_path(config) == File.expand_path(File.basename(config),'.')
+        FileUtils.cp(config, '.')
+      end
       ShowOffUtils.presentation_config_file = File.basename(config)
     end
 
