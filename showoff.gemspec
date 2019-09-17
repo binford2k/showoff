@@ -11,7 +11,6 @@ Gem::Specification.new do |s|
   s.license           = 'MIT'
   s.email             = "eduteam@puppet.com"
   s.authors           = ["Scott Chacon","Ben Ford"]
-  s.has_rdoc          = false
   s.require_path      = "lib"
   s.executables       = %w( showoff )
   s.files             = %w( README.md Rakefile LICENSE )
