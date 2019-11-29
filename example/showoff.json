@@ -10,7 +10,8 @@
     {"section":"one"},
     {"section":"two"},
     {"section":"three"},
-    {"section":"four"}
+    {"section":"four"},
+    {"section":"highlights"}
   ],
   "data_string": "foo",
   "data_list": ["foo","bar","baz"],

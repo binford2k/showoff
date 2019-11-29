@@ -519,6 +519,7 @@ img#disconnected {
   padding: 0 8px;
   float: right;
   content: "\f057"; /* fa-times-circle */
+  font-weight: 600;
 }
 #askedQuestions li.closed {
   text-decoration: line-through;
@@ -662,6 +663,7 @@ pre.highlight tr:not(:last-child) {
   content: "\F144";
   position: absolute;
   right: .5em;
+  font-weight: 600;
 }
 
 .executing:after {
@@ -824,6 +826,7 @@ form .element {
   font-family: "Font Awesome 5 Free";
   font-weight: bold;
   text-decoration: none;
+  font-weight: 600;
 }
   /* Be careful with order here; these rules depend on cascading order */
   .slide.answerkey input::before,
@@ -1076,6 +1079,7 @@ form .element {
   font-weight: normal;
   font-size: 1.25em;
   text-decoration: inherit;
+  font-weight: 600;
 }
   #stats div.row.top:hover:before {
     position: absolute;
@@ -1205,6 +1209,7 @@ form .element {
     text-decoration: inherit;
     position: absolute;
     left: 0.3em;
+    font-weight: 600;
   }
   .callout:after {
     font-family: "Font Awesome 5 Free";
@@ -1216,6 +1221,7 @@ form .element {
     left: 0.5em;
     top: 0.65em;
     color: #fff;
+    font-weight: 600;
   }
 
   .callout.info,
@@ -1276,6 +1282,7 @@ a.term:after {
   vertical-align: super;
   content: "\f27b";
   text-decoration: none;/* fa-commenting-o */
+  font-weight: 600;
 }
 
 
