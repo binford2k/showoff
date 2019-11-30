@@ -16,7 +16,7 @@ module Wrapper
   program_desc <<-desc
   A web based presentation engine with awesome interaction features.
 
-    ShowOff uses Markdown files with a few custom extensions to generate slides
+    Showoff uses Markdown files with a few custom extensions to generate slides
     that are served locally for presentation via web browser. Your audience can
     view presentations directly as well, and interact with you in many ways.
 
@@ -43,9 +43,9 @@ module Wrapper
 
     c.action do |global_options,options,args|
       dir_name = args.first || '.'
-      ShowOffUtils.create(dir_name,!options[:n],options[:d])
+      ShowoffUtils.create(dir_name,!options[:n],options[:d])
       if options[:n]
-        puts "Add slides and update #{dir_name}/#{ShowOffUtils.presentation_config_file}"
+        puts "Add slides and update #{dir_name}/#{ShowoffUtils.presentation_config_file}"
       end
       if args.empty?
         puts "Run 'showoff serve' to see your new slideshow"
@@ -63,7 +63,7 @@ module Wrapper
     c.flag [:f,:file]
 
     c.action do |global_options,options,args|
-      ShowOffUtils.skeleton(options[:f])
+      ShowoffUtils.skeleton(options[:f])
       puts "done. run 'showoff serve' to see your slideshow"
     end
   end
@@ -79,7 +79,7 @@ module Wrapper
     c.switch [:j,:json]
 
     c.action do |global_options,options,args|
-      ShowOffUtils.info(options[:f], options[:j])
+      ShowoffUtils.info(options[:f], options[:j])
     end
   end
 
@@ -91,7 +91,7 @@ module Wrapper
     c.flag [:f,:file]
 
     c.action do |global_options,options,args|
-      ShowOffUtils.validate(options[:f])
+      ShowoffUtils.validate(options[:f])
     end
   end
 
@@ -100,7 +100,7 @@ module Wrapper
   command :github do |c|
     c.action do |global_options,options,args|
       puts "Generating static content"
-      ShowOffUtils.github
+      ShowoffUtils.github
       puts "I've updated your 'gh-pages' branch with the static version of your presentation."
       puts "Push it to GitHub to publish it. Probably something like:"
       puts
@@ -126,16 +126,16 @@ module Wrapper
       raise "Name must start with a letter and can only contain lowercase letters, numbers, and dashes." unless args.first =~ /^[a-z][a-z1-9-]*$/
 
       unless system('git remote get-url heroku')
-        ShowOffUtils.command("heroku create #{args[0]}", "Please ensure that the heroku gem is installed and you're logged in.")
+        ShowoffUtils.command("heroku create #{args[0]}", "Please ensure that the heroku gem is installed and you're logged in.")
       end
 
-      if ShowOffUtils.heroku(args[0],options[:f],options[:p])
-        ShowOffUtils.command('bundle install', 'Please ensure that the bundler gem is installed.')
+      if ShowoffUtils.heroku(args[0],options[:f],options[:p])
+        ShowoffUtils.command('bundle install', 'Please ensure that the bundler gem is installed.')
 
         begin
-          ShowOffUtils.command('git add Procfile Gemfile Gemfile.lock config.ru')
-          ShowOffUtils.command('git commit -m "Herokuized by Showoff"')
-          ShowOffUtils.command('git push heroku master')
+          ShowoffUtils.command('git add Procfile Gemfile Gemfile.lock config.ru')
+          ShowoffUtils.command('git commit -m "Herokuized by Showoff"')
+          ShowoffUtils.command('git push heroku master')
         rescue => e
           puts 'Git operations failed. Please correct issues, then manually commit the following files:'
           puts ' * Procfile'
@@ -239,7 +239,7 @@ module Wrapper
       puts "
   -------------------------
 
-  Your ShowOff presentation is now starting up.
+  Your Showoff presentation is now starting up.
 
   To view it plainly, visit [ #{url} ]
 
@@ -255,8 +255,8 @@ module Wrapper
       end
 
       if options[:url]
-        ShowOffUtils.clone(options[:git_url], options[:git_branch], options[:git_path]) do
-          ShowOff.run!(options) do |server|
+        ShowoffUtils.clone(options[:git_url], options[:git_branch], options[:git_path]) do
+          Showoff.run!(options) do |server|
             if options[:ssl]
               server.ssl         = true
               server.ssl_options = ssl_options
@@ -265,7 +265,7 @@ module Wrapper
         end
 
       else
-        ShowOff.run!(options) do |server|
+        Showoff.run!(options) do |server|
           if options[:ssl]
             server.ssl         = true
             server.ssl_options = ssl_options
@@ -302,7 +302,7 @@ module Wrapper
 
     c.action do |global_options,options,args|
       title = args.join(" ")
-      ShowOffUtils.add_slide(:dir => options[:d],
+      ShowoffUtils.add_slide(:dir => options[:d],
                              :name => options[:n],
                              :title => title,
                              :number => !options[:u],
@@ -323,7 +323,7 @@ module Wrapper
     c.flag [:l, :lang, :language, :locale]
 
     c.action do |global_options,options,args|
-      ShowOff.do_static(args, options)
+      Showoff.do_static(args, options)
     end
   end
 
@@ -332,7 +332,7 @@ module Wrapper
   long_desc 'Creates a PDF version of the presentation as {name}.pdf'
   command [:pdf] do |c|
     c.action do |global_options,options,args|
-      ShowOff.do_static(['pdf'].concat args)
+      Showoff.do_static(['pdf'].concat args)
     end
   end
 

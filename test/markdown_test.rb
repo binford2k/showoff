@@ -7,12 +7,12 @@ rescue LoadError
   do_maruku = false
 end
 
-context "ShowOff Maruku tests" do
+context "Showoff Maruku tests" do
  
   def app
     opt = {:verbose => false, :pres_dir => "test/fixtures/maruku", :pres_file => 'showoff.json'}
-    ShowOff.set opt
-    ShowOff.new
+    Showoff.set opt
+    Showoff.new
   end
  
   setup do
@@ -36,7 +36,7 @@ context "ShowOff Maruku tests" do
   end
  
   test "maruku can math mode" do
-    assert_equal "maruku", ShowOffUtils.showoff_markdown("test/fixtures/maruku")
+    assert_equal "maruku", ShowoffUtils.showoff_markdown("test/fixtures/maruku")
   end
  
  
