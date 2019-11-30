@@ -1,7 +1,7 @@
 = Slide Format
 
 You can break your slides up into sections of however many subdirectories deep
-you need.  ShowOff will recursively check all the directories mentioned in
+you need.  Showoff will recursively check all the directories mentioned in
 your <tt>showoff.json</tt> file for any markdown files (.md).  Each markdown file can
 have any number of slides in it, separating each slide with the '!SLIDE'
 keyword and one or more optional slide styles.
@@ -24,7 +24,7 @@ the following contents:
 
 That represents two slides, the first contains just a large title, and the
 second is faded into view showing the title and three bullets that are then
-incrementally shown. In order for ShowOff to see those slides, your
+incrementally shown. In order for Showoff to see those slides, your
 <tt>showoff.json</tt> file needs to look something like this:
 
     {

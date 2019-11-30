@@ -1,4 +1,4 @@
-class ShowOffUtils
+class ShowoffUtils
 
   # Helper method to parse a comma separated options string and stores
   # the result in a dictionrary
@@ -59,7 +59,7 @@ class ShowOffUtils
       FileUtils.mkdir_p('_images')
 
       # create showoff.json
-      File.open(ShowOffUtils.presentation_config_file, 'w+') do |f|
+      File.open(ShowoffUtils.presentation_config_file, 'w+') do |f|
         sections = dirs.collect {|dir| {"section" => dir} }
         f.puts JSON.pretty_generate({ "name" => "My Preso", "sections" => sections })
       end
@@ -71,7 +71,7 @@ class ShowOffUtils
       unless File.expand_path(config) == File.expand_path(File.basename(config),'.')
         FileUtils.cp(config, '.')
       end
-      ShowOffUtils.presentation_config_file = File.basename(config)
+      ShowoffUtils.presentation_config_file = File.basename(config)
     end
 
     # Create asset directories
@@ -100,8 +100,8 @@ class ShowOffUtils
   end
 
   def self.info(config, json = false)
-    ShowOffUtils.presentation_config_file = config
-    showoff = ShowOff.new!
+    ShowoffUtils.presentation_config_file = config
+    showoff = Showoff.new!
     content = showoff.slides(false, true)
     dom     = Nokogiri::HTML(content)
 
@@ -131,7 +131,7 @@ class ShowOffUtils
   end
 
   def self.validate(config)
-    showoff    = ShowOff.new!(:pres_file  => config)
+    showoff    = Showoff.new!(:pres_file  => config)
     validators = showoff.settings.showoff_config['validators'] || {}
     files      = []
     errors     = []
@@ -203,10 +203,10 @@ class ShowOffUtils
       file.puts 'require "showoff"'
       file.puts 'require "showoff/version"'
       if password.nil?
-        file.puts 'run ShowOff.new'
+        file.puts 'run Showoff.new'
       else
         file.puts 'require "rack"'
-        file.puts 'showoff_app = ShowOff.new'
+        file.puts 'showoff_app = Showoff.new'
         file.puts 'protected_showoff = Rack::Auth::Basic.new(showoff_app) do |username, password|'
         file.puts	"\tpassword == '#{password}'"
         file.puts 'end'
@@ -219,7 +219,7 @@ class ShowOffUtils
 
   # generate a static version of the site into the gh-pages branch
   def self.github
-    ShowOff.do_static(nil)
+    Showoff.do_static(nil)
     FileUtils.touch 'static/.nojekyll'
     `git add -f static`
     sha = `git write-tree`.chomp
@@ -326,12 +326,12 @@ class ShowOffUtils
     puts "Creating #{dir}..."
     Dir.mkdir dir
 
-    showoff_json = JSON.parse(File.read(ShowOffUtils.presentation_config_file))
+    showoff_json = JSON.parse(File.read(ShowoffUtils.presentation_config_file))
     showoff_json["section"] = dir
-    File.open(ShowOffUtils.presentation_config_file,'w') do |file|
+    File.open(ShowoffUtils.presentation_config_file,'w') do |file|
       file.puts JSON.generate(showoff_json)
     end
-    puts "#{ShowOffUtils.presentation_config_file} updated"
+    puts "#{ShowoffUtils.presentation_config_file} updated"
   end
 
   def self.blank?(string)
@@ -432,7 +432,7 @@ class ShowOffUtils
 
     begin
       unless data
-        index = File.join(dir, ShowOffUtils.presentation_config_file)
+        index = File.join(dir, ShowoffUtils.presentation_config_file)
         data  = JSON.parse(File.read(index)) rescue ["."] # default boring showoff.json
       end
 
@@ -584,7 +584,7 @@ class ShowOffUtils
   end
 
   def self.get_config_option(dir, option, default = nil)
-    index = File.join(dir, ShowOffUtils.presentation_config_file)
+    index = File.join(dir, ShowoffUtils.presentation_config_file)
     if File.exist?(index)
       data = JSON.parse(File.read(index))
       if data.is_a?(Hash)
@@ -643,7 +643,7 @@ class ShowOffUtils
   #
   #   create_file_if_needed("config.ru",false) do |file|
   #     file.puts "require 'showoff'"
-  #     file.puts "run ShowOff.new"
+  #     file.puts "run Showoff.new"
   #   end
   #
   # Returns true if the file was created
@@ -672,7 +672,7 @@ module MarkdownConfig
     require 'tilt'
     require 'tilt/erb'
 
-    renderer = ShowOffUtils.showoff_markdown(dir_name)
+    renderer = ShowoffUtils.showoff_markdown(dir_name)
     begin
       # Load markdown configuration
       case renderer
@@ -686,7 +686,7 @@ module MarkdownConfig
         require 'maruku/ext/math'
 
         # Load maruku options
-        opts = ShowOffUtils.showoff_renderer_options(dir_name,
+        opts = ShowoffUtils.showoff_renderer_options(dir_name,
                                                      { :use_tex      => false,
                                                        :png_dir      => 'images',
                                                        :html_png_url => '/file/images/'})
@@ -720,7 +720,7 @@ module MarkdownConfig
   end
 
   def self.defaults(dir_name)
-    case ShowOffUtils.showoff_markdown(dir_name)
+    case ShowoffUtils.showoff_markdown(dir_name)
     when 'rdiscount'
       {
         :autolink          => true,

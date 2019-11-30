@@ -28,7 +28,7 @@ end
 
 require 'tilt'
 
-class ShowOff < Sinatra::Application
+class Showoff < Sinatra::Application
 
   attr_reader :cached_image_size
 
@@ -92,13 +92,13 @@ class ShowOff < Sinatra::Application
 
     settings.pres_dir = File.expand_path(settings.pres_dir)
     if (settings.pres_file and settings.pres_file != 'showoff.json')
-      ShowOffUtils.presentation_config_file = settings.pres_file
+      ShowoffUtils.presentation_config_file = settings.pres_file
     end
 
     # Load configuration for page size and template from the
     # configuration JSON file
-    if File.exist?(ShowOffUtils.presentation_config_file)
-      showoff_json = JSON.parse(File.read(ShowOffUtils.presentation_config_file))
+    if File.exist?(ShowoffUtils.presentation_config_file)
+      showoff_json = JSON.parse(File.read(ShowoffUtils.presentation_config_file))
       settings.showoff_config = showoff_json
 
       # Set options for encoding, template and page size
@@ -205,7 +205,7 @@ class ShowOff < Sinatra::Application
       Thread.new do
         loop do
           sleep 30
-          ShowOff.flush
+          Showoff.flush
         end
       end
     end
@@ -214,7 +214,7 @@ class ShowOff < Sinatra::Application
     MarkdownConfig::setup(settings.pres_dir)
 
     # Process renderer config options
-    @engine_options = ShowOffUtils.showoff_renderer_options(settings.pres_dir)
+    @engine_options = ShowoffUtils.showoff_renderer_options(settings.pres_dir)
 
   end
   # save stats to disk
@@ -245,7 +245,7 @@ class ShowOff < Sinatra::Application
 
   def self.pres_dir_current
     opt = {:pres_dir => Dir.pwd}
-    ShowOff.set opt
+    Showoff.set opt
   end
 
   def require_ruby_files
@@ -369,7 +369,7 @@ class ShowOff < Sinatra::Application
 
         # Parse the context string for options and content classes
         if context and context.match(/(\[(.*?)\])?(.*)/)
-          options = ShowOffUtils.parse_options($2)
+          options = ShowoffUtils.parse_options($2)
           @tpl = options["tpl"] if options["tpl"]
           @bg = options["bg"] if options["bg"]
           @classes += $3.strip.chomp('>').split if $3
@@ -1165,7 +1165,7 @@ class ShowOff < Sinatra::Application
     def get_slides_html(opts={:static=>false, :pdf=>false, :toc=>false, :supplemental=>nil, :section=>nil})
       sections = nil
       Dir.chdir(get_locale_dir('locales', @locale)) do
-        sections = ShowOffUtils.showoff_sections(settings.pres_dir, settings.showoff_config, @logger)
+        sections = ShowoffUtils.showoff_sections(settings.pres_dir, settings.showoff_config, @logger)
       end
 
       if sections
@@ -1233,9 +1233,9 @@ class ShowOff < Sinatra::Application
 
     def index(static=false)
       if static
-        @title = ShowOffUtils.showoff_title(settings.pres_dir)
+        @title = ShowoffUtils.showoff_title(settings.pres_dir)
         @slides = get_slides_html(:static=>static)
-        @pause_msg = ShowOffUtils.pause_msg
+        @pause_msg = ShowoffUtils.pause_msg
       end
 
       # Display favicon in the window if configured
@@ -1317,7 +1317,7 @@ class ShowOff < Sinatra::Application
       @logger.info "Generating locale: #{@locale}"
 
       # If we're displaying from a repository, let's update it
-      ShowOffUtils.update(settings.verbose) if settings.url
+      ShowoffUtils.update(settings.verbose) if settings.url
 
       @@slide_titles = []
       content = get_slides_html(:static=>static, :merged=>merged)
@@ -1464,7 +1464,7 @@ class ShowOff < Sinatra::Application
 
       # PDFKit.new takes the HTML and any options for wkhtmltopdf
       # run `wkhtmltopdf --extended-help` for a full list of options
-      kit = PDFKit.new(html, ShowOffUtils.showoff_pdf_options(settings.pres_dir))
+      kit = PDFKit.new(html, ShowoffUtils.showoff_pdf_options(settings.pres_dir))
 
       # Save the PDF to a file
       kit.to_file(name)
@@ -1478,11 +1478,11 @@ class ShowOff < Sinatra::Application
       what   = args[0] || "index"
       opt    = args[1]
 
-      ShowOffUtils.presentation_config_file = opts[:f]
+      ShowoffUtils.presentation_config_file = opts[:f]
 
       # Sinatra now aliases new to new!
       # https://github.com/sinatra/sinatra/blob/v1.3.3/lib/sinatra/base.rb#L1369
-      showoff = ShowOff.new!
+      showoff = Showoff.new!
 
       name = showoff.instance_variable_get(:@pres_name)
       path = showoff.instance_variable_get(:@root_path)
@@ -1964,8 +1964,8 @@ class ShowOff < Sinatra::Application
   # gawd, this whole routing scheme is bollocks
   get %r{/([^/]*)/?([^/]*)} do
     @locale    = locale(request.cookies['locale'])
-    @title     = ShowOffUtils.showoff_title(settings.pres_dir)
-    @pause_msg = ShowOffUtils.pause_msg
+    @title     = ShowoffUtils.showoff_title(settings.pres_dir)
+    @pause_msg = ShowoffUtils.pause_msg
     what = params[:captures].first
     opt  = params[:captures][1]
     what = 'index' if "" == what
@@ -2003,7 +2003,7 @@ class ShowOff < Sinatra::Application
   end
 
   at_exit do
-    ShowOff.flush
+    Showoff.flush
   end
 
 end
