@@ -642,13 +642,13 @@ to use and the file to load the font from. Remember that the path to the font sh
 include the <tt>file/</tt> prefix.
 
     @font-face {
-    	font-family: 'Tibetan Bold';
-    	src: URL('file/NotoSansTibetan-Bold.ttf') format ('ttf');
+      font-family: 'Tibetan Bold';
+      src: URL('file/NotoSansTibetan-Bold.ttf') format ('ttf');
     }
 
     @font-face {
-    	font-family: 'Tibetan';
-    	src: URL('file/NotoSansTibetan-Regular.ttf') format ('ttf');
+      font-family: 'Tibetan';
+      src: URL('file/NotoSansTibetan-Regular.ttf') format ('ttf');
     }
 
 Then you can use that named <tt>font-family</tt> anywhere in your styles.
@@ -700,7 +700,7 @@ explicitly mark the location using a special command:
 
 [~~~NUM_SLIDES~~~] is replaced by the total number of slides
 
-[~~~CONFIG:*~~~] is replaced by any value (*) from the <tt>showoff.json</tt> configuration. This can be used to specify an author, venue, etc. A simple example would be <tt>~~~CONFIG:author~~~</tt>
+[~~~CONFIG:*~~~] is replaced by any (String) value (*) from the <tt>showoff.json</tt> configuration. This can be used to specify an author, venue, etc. A simple example would be <tt>~~~CONFIG:author~~~</tt>.  You can also dereference Hash keys using periods: <tt>~~~CONFIG:data_hash.foo.bar~~</tt>.
 
 The usage of these replacements is not limited to templates, but
 anywhere in your slides.

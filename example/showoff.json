@@ -12,5 +12,12 @@
     {"section":"three"},
     {"section":"four"},
     {"section":"highlights"}
-  ]
+  ],
+  "data_string": "foo",
+  "data_list": ["foo","bar","baz"],
+  "data_hash": {
+    "foo": {
+      "bar": "baz"
+    }
+  }
 }
