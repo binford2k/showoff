@@ -1,0 +1,3 @@
+class Showoff::Slide
+
+end
