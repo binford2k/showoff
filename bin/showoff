@@ -343,6 +343,11 @@ module Wrapper
 
     if global[:dev]
       require 'showoff_ng'
+
+      if options[:file]
+        root = args.first || '.'
+        Showoff::Config.load(root, options[:file])
+      end
     else
       require 'showoff'
     end
