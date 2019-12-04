@@ -2,14 +2,8 @@ class Showoff::Presentation::Section
   attr_reader :slides, :name
 
   def initialize(name, files)
-    @name = name
-    @slides = files.map do |filename|
-      # Files might define multiple slides
-      getSlides(filename).map do |content|
-        Showoff::Presentation::Slide.new(name, content)
-      end
-    end
-    @slides.flatten!
+    @name   = name
+    @slides = files.map { |filename| loadSlides(filename) }.flatten
   end
 
   def render
@@ -23,7 +17,7 @@ class Showoff::Presentation::Section
   #
   # Source:
   #  https://github.com/puppetlabs/showoff/blob/3f43754c84f97be4284bb34f9bc7c42175d45226/lib/showoff.rb#L396-L414
-  def getSlides(filename)
+  def loadSlides(filename)
     content = File.read(File.join(Showoff::Config.root, filename))
 
     # if there are no !SLIDE markers, then make every H1 define a new slide
@@ -33,8 +27,9 @@ class Showoff::Presentation::Section
 
     output = []
     until content.empty?
-      content, marker, slide = content.rpartition(/^<?!SLIDE(.*)>?/)
-      output.unshift marker+slide
+      # $1 is the slide marker context
+      content, marker, slide = content.rpartition(/^<?!SLIDE\s?([^>]*)>?/)
+      output.unshift Showoff::Presentation::Slide.new($1, slide)
     end
 
     output
