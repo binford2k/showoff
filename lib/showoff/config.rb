@@ -22,6 +22,8 @@ class Showoff::Config
     @@root     = File.expand_path(root)
     @@config   = JSON.parse(File.read(File.join(@@root, path)))
     @@sections = self.expand_sections
+
+    self.load_defaults!
   end
 
   # Expand and normalize all the different variations that the sections structure
@@ -152,6 +154,43 @@ class Showoff::Config
 
   def self.path(path)
     File.expand_path(File.join(@@root, path)).sub(/^#{@@root}\//, '')
+  end
+
+  def self.load_defaults!
+    # use a symbol which cannot clash with a string key loaded from json
+    renderer = @@config['markdown'] || :autodetected
+    defaults = case renderer
+      when 'rdiscount'
+        {
+          :autolink          => true,
+        }
+      when 'maruku'
+        {
+          :use_tex           => false,
+          :png_dir           => 'images',
+          :html_png_url      => '/file/images/',
+        }
+      when 'bluecloth'
+        {
+          :auto_links        => true,
+          :definition_lists  => true,
+          :superscript       => true,
+          :tables            => true,
+        }
+      when 'kramdown'
+        {}
+      else
+        {
+          :autolink          => true,
+          :no_intra_emphasis => true,
+          :superscript       => true,
+          :tables            => true,
+          :underline         => true,
+        }
+      end
+
+    @@config[renderer] ||= {}
+    @@config[renderer]   = defaults.merge!(@@config[renderer])
   end
 
 end

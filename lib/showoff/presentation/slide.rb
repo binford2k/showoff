@@ -1,5 +1,3 @@
-require 'tilt'
-
 class Showoff::Presentation::Slide
   attr_reader :options, :markdown, :classes
 
@@ -8,16 +6,14 @@ class Showoff::Presentation::Slide
     @template = "default"
     @classes  = []
     @options  = {}
-    parseContext!(context)
+    setContext!(context)
   end
 
-  # This is where the magic starts!
   def render
-    # add the real slide rendering logic here
-    Tilt[:markdown].new(nil, nil, @engine_options) { @markdown }.render
+    Showoff::Compiler.new(@options).render(@markdown)
   end
 
-  def parseContext!(context)
+  def setContext!(context)
     return unless context
     return unless matches = context.match(/(\[(.*?)\])?(.*)/)
 
