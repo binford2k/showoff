@@ -3,7 +3,8 @@ class Showoff::Presentation::Section
 
   def initialize(name, files)
     @name   = name
-    @slides = files.map { |filename| loadSlides(filename) }.flatten
+    @slides = []
+    files.each { |filename| loadSlides(filename) }
   end
 
   def render
@@ -18,6 +19,8 @@ class Showoff::Presentation::Section
   # Source:
   #  https://github.com/puppetlabs/showoff/blob/3f43754c84f97be4284bb34f9bc7c42175d45226/lib/showoff.rb#L396-L414
   def loadSlides(filename)
+    return unless filename.end_with? '.md'
+
     content = File.read(File.join(Showoff::Config.root, filename))
 
     # if there are no !SLIDE markers, then make every H1 define a new slide
@@ -25,14 +28,17 @@ class Showoff::Presentation::Section
       content = content.gsub(/^# /m, "<!SLIDE>\n# ")
     end
 
-    output = []
-    until content.empty?
-      # $1 is the slide marker context
-      content, marker, slide = content.rpartition(/^<?!SLIDE\s?([^>]*)>?/)
-      output.unshift Showoff::Presentation::Slide.new($1, slide)
+    slides = content.split(/^<?!SLIDE\s?([^>]*)>?/)
+    slides.shift # has an extra empty string because the regex matches the entire source string.
+
+    seq = slides.size > 2 ? 1 : nil
+
+    slides.each_slice(2) do |slide|
+      @slides << Showoff::Presentation::Slide.new(slide[0], slide[1], :section => @name, :name => filename, :seq => seq)
+      seq +=1 if seq
+      # TODO: section title bull poopy
     end
 
-    output
   end
 
 end
