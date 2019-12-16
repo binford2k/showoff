@@ -9,8 +9,8 @@
       data-section="<%= section %>" data-title="<%= name %>" data-transition="<%= transition %>" >
   <div class="content <%= classes.join(' ') %>" ref="<%= ref %>">
     <% if section_title %>
-<!-- renderers like wkhtmltopdf need an <h1> tag to use for a section title, but only when printing. -->
-      <h1 class=\"section_title\">#{section_title}</h1>
+      <!-- renderers like wkhtmltopdf need an <h1> tag to use for a section title -->
+      <h1 class="section_title"><%= section_title %></h1>
     <% end %>
 
     <%= content %>

@@ -2,8 +2,9 @@ class Showoff::Presentation::Section
   attr_reader :slides, :name
 
   def initialize(name, files)
-    @name   = name
-    @slides = []
+    @name          = name
+    @section_title = name
+    @slides        = []
     files.each { |filename| loadSlides(filename) }
   end
 
@@ -12,9 +13,9 @@ class Showoff::Presentation::Section
   end
 
   # Gets the raw file content from disk and partitions it by slide markers into
-  # raw content for each slide.
+  # content for each slide.
   #
-  # Returns an array of strings
+  # Returns an array of Slide objects
   #
   # Source:
   #  https://github.com/puppetlabs/showoff/blob/3f43754c84f97be4284bb34f9bc7c42175d45226/lib/showoff.rb#L396-L414
@@ -33,10 +34,15 @@ class Showoff::Presentation::Section
 
     seq = slides.size > 2 ? 1 : nil
 
-    slides.each_slice(2) do |slide|
-      @slides << Showoff::Presentation::Slide.new(slide[0], slide[1], :section => @name, :name => filename, :seq => seq)
+    slides.each_slice(2) do |data|
+      slide = Showoff::Presentation::Slide.new(data[0], data[1], :section => @name, :name => filename, :seq => seq)
+
+      # parsed from subsection slides and carried forward across slides until a new subsection title comes up
+      # This should be replaced with section titles/names in showoff.json hashes
+      @section_title = slide.updateSectionTitle(@section_title)
+
+      @slides << slide
       seq +=1 if seq
-      # TODO: section title bull poopy
     end
 
   end
