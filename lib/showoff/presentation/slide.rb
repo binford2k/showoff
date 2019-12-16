@@ -5,7 +5,6 @@ class Showoff::Presentation::Slide
 
   def initialize(options, content, context={})
     @markdown   = content
-    @template   = 'default'
     @transition = 'none'
     @classes    = []
     setOptions!(options)
@@ -14,6 +13,13 @@ class Showoff::Presentation::Slide
 
   def render
     content = Showoff::Compiler.new(@options).render(@markdown)
+
+    # if a template file has been specified for this slide, load from disk and render it
+    # TODO: how many people are actually using templates?!
+    if tpl_file = Showoff::Config.get('template', @template)
+      template = File.read(tpl_file)
+      content  = template.gsub(/~~~CONTENT~~~/, content)
+    end
 
     ERB.new(File.read(File.join('views','slide.erb')), nil, '-').result(binding)
   end

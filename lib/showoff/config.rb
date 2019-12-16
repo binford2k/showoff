@@ -6,8 +6,10 @@ class Showoff::Config
     @@config.keys
   end
 
-  def self.get(setting)
-    @@config[setting]
+  def self.get(*settings)
+    settings.reduce(@@config) do |lookup, element|
+      lookup[element] rescue nil
+    end
   end
 
   def self.sections
