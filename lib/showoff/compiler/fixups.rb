@@ -36,4 +36,15 @@ class Showoff::Compiler::Fixups
       doc
     end
 
+    # Ensure that all links open in a new window. Perhaps move some of this to glossary.rb
+    def self.updateLinks(doc)
+      doc.search('a').each do |link|
+        next unless link['href']
+        next if link['href'].start_with? '#'
+        # Add a target so we open all external links from notes in a new window
+        link.set_attribute('target', '_blank')
+      end
+
+      doc
+    end
 end

@@ -14,7 +14,10 @@ class Showoff::Presentation::Slide
   end
 
   def render
-    options = {:form => @form}
+    options = { :form => @form,
+                :name => @name,
+                :seq  => @seq,
+              }
     content = Showoff::Compiler.new(options).render(@markdown)
 
     # if a template file has been specified for this slide, load from disk and render it

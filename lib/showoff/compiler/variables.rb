@@ -54,11 +54,17 @@ class Showoff::Compiler
       result.gsub!(match[0], "<pre class=\"highlight\"><code class=\"#{css}\">#{file}</code></pre>")
     end
 
+    # insert font awesome icons
     result.gsub!(/\[(fa\w?)-(\S*)\]/, '<i class="\1 fa-\2"></i>')
 
     # For fenced code blocks, translate the space separated classes into one
     # colon separated string so Commonmarker doesn't ignore the rest
     result.gsub!(/^`{3} *(.+)$/) {|s| "``` #{$1.split.join(':')}"}
+
+    # escape any tags left and ensure they're in distinctly separate p tags so
+    # that renderers that accept a string of tildes for fenced code blocks don't blow up.
+    # @todo This is terrible and we need to design a better tag syntax.
+    result.gsub!(/^~~~(.*?)~~~/, "\n\\~~~\\1~~~\n")
 
     result
   end

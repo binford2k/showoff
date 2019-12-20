@@ -19,8 +19,22 @@ class Showoff::Config
     @@sections
   end
 
+  # Absolute root of presentation
   def self.root
     @@root
+  end
+
+  # Relative path to an item in the presentation directory structure
+  def self.path(path)
+    File.expand_path(File.join(@@root, path)).sub(/^#{@@root}\//, '')
+  end
+
+  # Identifies whether we're including a given notes section
+  #
+  # @param section [String] The name of the notes section of interest.
+  # @return [Boolean] Whether to include this section in the output
+  def self.includeSection?(section)
+    return true # todo make this work
   end
 
   def self.load(root, path)
@@ -155,10 +169,6 @@ class Showoff::Config
     end
 
     sections
-  end
-
-  def self.path(path)
-    File.expand_path(File.join(@@root, path)).sub(/^#{@@root}\//, '')
   end
 
   def self.load_defaults!

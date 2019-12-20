@@ -7,9 +7,12 @@ class Showoff::Compiler
   require 'showoff/compiler/i18n'
   require 'showoff/compiler/variables'
   require 'showoff/compiler/fixups'
+  require 'showoff/compiler/notes'
+  require 'showoff/compiler/glossary'
 
   def initialize(options)
     @options = options
+    @profile = profile
   end
 
   # Configures Tilt with the selected engine and options.
@@ -69,11 +72,14 @@ class Showoff::Compiler
     content = interpolateVariables(content)
 #     content = selectLanguage(content)
 
-    html = Tilt[:markdown].new(nil, nil, profile) { content }.render
+    html = Tilt[:markdown].new(nil, nil, @profile) { content }.render
     doc  = Nokogiri::HTML::DocumentFragment.parse(html)
 
     doc = renderForms(doc)
     doc = Fixups.updateClasses(doc)
+    doc = Fixups.updateLinks(doc)
+    doc = Notes.render(doc, @profile, @options) # must pass in extra context because this will render markdown itself
+    doc = Glossary.render(doc)
 
   end
 
