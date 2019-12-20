@@ -6,10 +6,13 @@ class Showoff::Config
     @@config.keys
   end
 
-  def self.get(*settings)
-    settings.reduce(@@config) do |lookup, element|
-      lookup[element] rescue nil
-    end
+  # Retrieve settings from the config hash.
+  # If multiple arguments are given then it will dig down through data
+  # structures argument by argument.
+  #
+  # Returns the data type & value requested, nil on error.
+  def self.get(*setting)
+    @@config.dig(*setting) rescue nil
   end
 
   def self.sections
@@ -188,6 +191,7 @@ class Showoff::Config
           :superscript       => true,
           :tables            => true,
           :underline         => true,
+          :escape_html       => false,
         }
       end
 

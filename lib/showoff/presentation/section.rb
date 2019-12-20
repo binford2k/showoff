@@ -2,9 +2,8 @@ class Showoff::Presentation::Section
   attr_reader :slides, :name
 
   def initialize(name, files)
-    @name          = name
-    @section_title = name
-    @slides        = []
+    @name   = name
+    @slides = []
     files.each { |filename| loadSlides(filename) }
   end
 
@@ -32,16 +31,13 @@ class Showoff::Presentation::Section
     slides = content.split(/^<?!SLIDE\s?([^>]*)>?/)
     slides.shift # has an extra empty string because the regex matches the entire source string.
 
+    # this is a counter keeping track of how many slides came from the file.
+    # It kicks in at 2 because at this point, slides are a tuple of (options, content)
     seq = slides.size > 2 ? 1 : nil
 
+    # iterate each slide tuple and add slide objects to the array
     slides.each_slice(2) do |data|
-      slide = Showoff::Presentation::Slide.new(data[0], data[1], :section => @name, :name => filename, :seq => seq)
-
-      # parsed from subsection slides and carried forward across slides until a new subsection title comes up
-      # This should be replaced with section titles/names in showoff.json hashes
-      @section_title = slide.updateSectionTitle(@section_title)
-
-      @slides << slide
+      @slides << Showoff::Presentation::Slide.new(data[0], data[1], :section => @name, :name => filename, :seq => seq)
       seq +=1 if seq
     end
 

@@ -1,3 +1,4 @@
-class Showoff::Compiler::I18n
+# adds translation and internationalization to the compiler
+class Showoff::Compiler
 
 end
