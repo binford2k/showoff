@@ -29,6 +29,7 @@ module Wrapper
     the showoff.json file.
   desc
   switch :dev, :desc => "Use the next-gen development version of Showoff"
+  switch :debug, :desc => "Show application backtraces on crash"
 
   desc 'Create new showoff presentation'
   long_desc 'This command helps start a new showoff presentation by setting up the proper directory structure for you.  It takes the directory name you would like showoff to create for you.'
@@ -340,6 +341,10 @@ module Wrapper
     # Pre logic here
     # Return true to proceed; false to abort and not call the
     # chosen command
+
+    if global[:debug]
+      ENV['GLI_DEBUG'] = 'true'
+    end
 
     if global[:dev]
       require 'showoff_ng'

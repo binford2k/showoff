@@ -11,6 +11,7 @@ class Showoff::Presentation
   end
 
   def render
+    Showoff::State.reset([:slide_count, :section_major, :section_minor])
     @sections.map(&:render).join("\n")
   end
 

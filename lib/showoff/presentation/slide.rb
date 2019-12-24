@@ -9,25 +9,35 @@ class Showoff::Presentation::Slide
     @classes    = []
     setOptions!(options)
     setContext!(context)
-
-    Showoff::State.increment(:slide_count)
   end
 
   def render
+    Showoff::State.increment(:slide_count)
     options = { :form => @form,
                 :name => @name,
                 :seq  => @seq,
               }
-    content = Showoff::Compiler.new(options).render(@markdown)
+
+    content, notes = Showoff::Compiler.new(options).render(@markdown)
 
     # if a template file has been specified for this slide, load from disk and render it
-    # TODO: how many people are actually using templates?!
+    # @todo How many people are actually using these limited templates?!
     if tpl_file = Showoff::Config.get('template', @template)
       template = File.read(tpl_file)
       content  = template.gsub(/~~~CONTENT~~~/, content)
     end
 
     ERB.new(File.read(File.join('views','slide.erb')), nil, '-').result(binding)
+  end
+
+  # This is a list of classes that we want applied *only* to content, and not to the slide,
+  # typically so that overly aggressive selectors don't match more than they should.
+  #
+  # @see
+  #     https://github.com/puppetlabs/showoff/blob/3f43754c84f97be4284bb34f9bc7c42175d45226/lib/showoff.rb#L734-L737
+  def slideClasses
+    blacklist = ['bigtext']
+    @classes.reject { |klass| blacklist.include? klass }
   end
 
   # options are key=value elements within the [] brackets

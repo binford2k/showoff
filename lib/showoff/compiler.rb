@@ -9,6 +9,7 @@ class Showoff::Compiler
   require 'showoff/compiler/fixups'
   require 'showoff/compiler/notes'
   require 'showoff/compiler/glossary'
+  require 'showoff/compiler/downloads'
 
   def initialize(options)
     @options = options
@@ -68,6 +69,7 @@ class Showoff::Compiler
     profile
   end
 
+  # @todo I think the update_image_paths() malarky is redundant. Verify that.
   def render(content)
     content = interpolateVariables(content)
 #     content = selectLanguage(content)
@@ -78,9 +80,17 @@ class Showoff::Compiler
     doc = renderForms(doc)
     doc = Fixups.updateClasses(doc)
     doc = Fixups.updateLinks(doc)
-    doc = Notes.render(doc, @profile, @options) # must pass in extra context because this will render markdown itself
+    doc = Fixups.updateSyntaxHighlighting(doc)
+    doc = Fixups.updateCommandlineBlocks(doc)
     doc = Glossary.render(doc)
+    doc = Downloads.scanForFiles(doc, @options)
 
+    # This call must be last in the chain because it separates notes from the
+    # content and returns them separately. If it's not last, then the notes
+    # won't have all the compilation steps applied to them.
+    #
+    # must pass in extra context because this will render markdown itself
+    Notes.render(doc, @profile, @options)
   end
 
 end

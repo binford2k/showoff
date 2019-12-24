@@ -4,24 +4,26 @@
   else
     bgstyle=''
   end
-%>
-<div id="<%= id %>" class="slide <%= classes.join(' ') %>" style="<%= bgstyle %>"
+-%>
+<div id="<%= id %>" class="slide <%= slideClasses.join(' ') %>" style="<%= bgstyle %>"
       data-section="<%= section %>" data-title="<%= name %>" data-transition="<%= transition %>" >
   <div class="content <%= classes.join(' ') %>" ref="<%= ref %>">
-    <% if section_title %>
+    <% if section_title -%>
       <!-- renderers like wkhtmltopdf need an <h1> tag to use for a section title -->
       <h1 class="section_title"><%= section_title %></h1>
-    <% end %>
+    <% end -%>
 
     <%= content %>
 
   </div>
-
-  <% if classes.include? 'activity' %>
+  <% notes.each do |section| -%>
+    <%= section %>
+  <% end -%>
+  <% if classes.include? 'activity' -%>
     <span class="activityToggle">'
       <label for="activity-<%= ref %>"><%= I18n.t('activity_complete') %></label>" />
       <input type="checkbox" class="activity" name="activity-<%= ref %>" id="activity-<%= ref %>" />
     </span>
-  <% end %>
+  <% end -%>
   <canvas class="annotations"></canvas>
 </div>
