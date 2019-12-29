@@ -708,7 +708,7 @@ pre.highlight tr:not(:last-child) {
   text-decoration: none;
 }
 #toc a::after {
-  content: leader(".") target-counter(attr(href), page);
+  content: leader(".") target-counter(attr(href url), page);
 }
 
 /**********************************

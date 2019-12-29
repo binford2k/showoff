@@ -13,7 +13,7 @@ class Showoff::Compiler::Downloads
   #
   # @see
   #     https://github.com/puppetlabs/showoff/blob/3f43754c84f97be4284bb34f9bc7c42175d45226/lib/showoff.rb#L1056-L1073
-  def self.scanForFiles(doc, options)
+  def self.scanForFiles!(doc, options)
     current = Showoff::State.get(:slide_count)
     doc.search('p.download').each do |container|
       links = container.text.gsub(/^\.download ?/, '')

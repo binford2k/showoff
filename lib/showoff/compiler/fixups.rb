@@ -10,7 +10,7 @@ class Showoff::Compiler::Fixups
     #     The slide document
     # @return [Nokogiri::HTML::DocumentFragment]
     #     The document with classes applied.
-    def self.updateClasses(doc)
+    def self.updateClasses!(doc)
       doc.search('p').select {|p| p.text.start_with? '.'}.each do |p|
         # The first string of plain text in the paragraph
         node = p.children.first
@@ -39,10 +39,11 @@ class Showoff::Compiler::Fixups
     end
 
     # Ensure that all links open in a new window. Perhaps move some of this to glossary.rb
-    def self.updateLinks(doc)
+    def self.updateLinks!(doc)
       doc.search('a').each do |link|
         next unless link['href']
         next if link['href'].start_with? '#'
+        next if link['href'].start_with? 'glossary://'
         # Add a target so we open all external links from notes in a new window
         link.set_attribute('target', '_blank')
       end
@@ -53,7 +54,7 @@ class Showoff::Compiler::Fixups
     # This munges code blocks to ensure the proper syntax highlighting
     # @see
     #     https://github.com/puppetlabs/showoff/blob/3f43754c84f97be4284bb34f9bc7c42175d45226/lib/showoff.rb#L1105-L1133
-    def self.updateSyntaxHighlighting(doc)
+    def self.updateSyntaxHighlighting!(doc)
       doc.search('pre').each do |pre|
         pre.search('code').each do |code|
           out  = code.text
@@ -87,7 +88,7 @@ class Showoff::Compiler::Fixups
     # @see
     #     https://github.com/puppetlabs/showoff/blob/3f43754c84f97be4284bb34f9bc7c42175d45226/lib/showoff.rb#L1107
     #     https://github.com/puppetlabs/showoff/blob/3f43754c84f97be4284bb34f9bc7c42175d45226/lib/showoff.rb#L1135-L1163
-    def self.updateCommandlineBlocks(doc)
+    def self.updateCommandlineBlocks!(doc)
       parser = CommandlineParser.new
       doc.search('.commandline > pre > code').each do |code|
         out = code.text

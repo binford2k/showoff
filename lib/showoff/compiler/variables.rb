@@ -10,20 +10,20 @@ class Showoff::Compiler
   #     Had side effects of altering state datastore.
   # @see
   #     https://github.com/puppetlabs/showoff/blob/3f43754c84f97be4284bb34f9bc7c42175d45226/lib/showoff.rb#L557-L614
-  def interpolateVariables(content)
+  def interpolateVariables!(content)
     # update counters, incrementing section:minor if needed
-    result = content.gsub("~~~CURRENT_SLIDE~~~", Showoff::State.get(:slide_count).to_s)
-    result.gsub!("~~~SECTION:MAJOR~~~", Showoff::State.get(:section_major).to_s)
-    if result.include? "~~~SECTION:MINOR~~~"
+    content.gsub!("~~~CURRENT_SLIDE~~~", Showoff::State.get(:slide_count).to_s)
+    content.gsub!("~~~SECTION:MAJOR~~~", Showoff::State.get(:section_major).to_s)
+    if content.include? "~~~SECTION:MINOR~~~"
       Showoff::State.increment(:section_minor)
-      result.gsub!("~~~SECTION:MINOR~~~", Showoff::State.get(:section_minor).to_s)
+      content.gsub!("~~~SECTION:MINOR~~~", Showoff::State.get(:section_minor).to_s)
     end
 
     # scan for pagebreak tags. Should really only be used for handout notes or supplemental materials
-    result.gsub!("~~~PAGEBREAK~~~", '<div class="pagebreak">continued...</div>')
+    content.gsub!("~~~PAGEBREAK~~~", '<div class="pagebreak">continued...</div>')
 
     # replace with form rendering placeholder
-    result.gsub!(/~~~FORM:([^~]*)~~~/, '<div class="form wrapper" title="\1"></div>')
+    content.gsub!(/~~~FORM:([^~]*)~~~/, '<div class="form wrapper" title="\1"></div>')
 
     # Now check for any kind of options
     content.scan(/(~~~CONFIG:(.*?)~~~)/).each do |match|
@@ -37,7 +37,7 @@ class Showoff::Compiler
         next
       end
 
-      result.gsub!(match[0], value)
+      content.gsub!(match[0], value)
     end
 
     # Load and replace any file tags
@@ -51,21 +51,21 @@ class Showoff::Compiler
       file = "Empty file: #{name}" if file.empty?
       file = HTMLEntities.new.encode(file) rescue "HTML encoding of #{name} failed"
 
-      result.gsub!(match[0], "<pre class=\"highlight\"><code class=\"#{css}\">#{file}</code></pre>")
+      content.gsub!(match[0], "<pre class=\"highlight\"><code class=\"#{css}\">#{file}</code></pre>")
     end
 
     # insert font awesome icons
-    result.gsub!(/\[(fa\w?)-(\S*)\]/, '<i class="\1 fa-\2"></i>')
+    content.gsub!(/\[(fa\w?)-(\S*)\]/, '<i class="\1 fa-\2"></i>')
 
     # For fenced code blocks, translate the space separated classes into one
     # colon separated string so Commonmarker doesn't ignore the rest
-    result.gsub!(/^`{3} *(.+)$/) {|s| "``` #{$1.split.join(':')}"}
+    content.gsub!(/^`{3} *(.+)$/) {|s| "``` #{$1.split.join(':')}"}
 
     # escape any tags left and ensure they're in distinctly separate p tags so
     # that renderers that accept a string of tildes for fenced code blocks don't blow up.
     # @todo This is terrible and we need to design a better tag syntax.
-    result.gsub!(/^~~~(.*?)~~~/, "\n\\~~~\\1~~~\n")
+    content.gsub!(/^~~~(.*?)~~~/, "\n\\~~~\\1~~~\n")
 
-    result
+    content
   end
 end

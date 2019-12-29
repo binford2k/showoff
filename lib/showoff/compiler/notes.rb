@@ -20,7 +20,7 @@ class Showoff::Compiler::Notes
   #     https://github.com/puppetlabs/showoff/blob/3f43754c84f97be4284bb34f9bc7c42175d45226/lib/showoff.rb#L616-L716
   # @note
   #     A ton of the functionality in the original method got refactored to its logical location
-  def self.render(doc, profile, options = {})
+  def self.render!(doc, profile, options = {})
     # Turn tags into classed divs.
     doc.search('p').select {|p| p.text.start_with?('~~~SECTION:') }.each do |p|
       klass = p.text.match(/~~~SECTION:([^~]*)~~~/)[1]

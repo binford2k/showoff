@@ -10,6 +10,7 @@ class Showoff::Compiler
   require 'showoff/compiler/notes'
   require 'showoff/compiler/glossary'
   require 'showoff/compiler/downloads'
+  require 'showoff/compiler/table_of_contents'
 
   def initialize(options)
     @options = options
@@ -69,28 +70,33 @@ class Showoff::Compiler
     profile
   end
 
+  # Compiles markdown and all Showoff extensions into the final HTML output and notes.
+  #
+  # @param content [String] markdown content.
+  # @return [[String, Array<String>]] A tuple of (html content, array of notes contents)
+  #
   # @todo I think the update_image_paths() malarky is redundant. Verify that.
   def render(content)
-    content = interpolateVariables(content)
-#     content = selectLanguage(content)
+    interpolateVariables!(content)
+#   selectLanguage!(content)
 
     html = Tilt[:markdown].new(nil, nil, @profile) { content }.render
     doc  = Nokogiri::HTML::DocumentFragment.parse(html)
 
-    doc = renderForms(doc)
-    doc = Fixups.updateClasses(doc)
-    doc = Fixups.updateLinks(doc)
-    doc = Fixups.updateSyntaxHighlighting(doc)
-    doc = Fixups.updateCommandlineBlocks(doc)
-    doc = Glossary.render(doc)
-    doc = Downloads.scanForFiles(doc, @options)
+    Form.render!(doc, @options)
+    Fixups.updateClasses!(doc)
+    Fixups.updateLinks!(doc)
+    Fixups.updateSyntaxHighlighting!(doc)
+    Fixups.updateCommandlineBlocks!(doc)
+    Glossary.render!(doc)
+    Downloads.scanForFiles!(doc, @options)
 
     # This call must be last in the chain because it separates notes from the
     # content and returns them separately. If it's not last, then the notes
     # won't have all the compilation steps applied to them.
     #
     # must pass in extra context because this will render markdown itself
-    Notes.render(doc, @profile, @options)
+    Notes.render!(doc, @profile, @options)
   end
 
 end
