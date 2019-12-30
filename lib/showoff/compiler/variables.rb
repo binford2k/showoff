@@ -1,5 +1,5 @@
 # Adds variable interpolation to the compiler
-class Showoff::Compiler
+class Showoff::Compiler::Variables
   #
   #
   # @param content [String]
@@ -10,7 +10,7 @@ class Showoff::Compiler
   #     Had side effects of altering state datastore.
   # @see
   #     https://github.com/puppetlabs/showoff/blob/3f43754c84f97be4284bb34f9bc7c42175d45226/lib/showoff.rb#L557-L614
-  def interpolateVariables!(content)
+  def self.interpolate!(content)
     # update counters, incrementing section:minor if needed
     content.gsub!("~~~CURRENT_SLIDE~~~", Showoff::State.get(:slide_count).to_s)
     content.gsub!("~~~SECTION:MAJOR~~~", Showoff::State.get(:section_major).to_s)
@@ -55,7 +55,7 @@ class Showoff::Compiler
     end
 
     # insert font awesome icons
-    content.gsub!(/\[(fa\w?)-(\S*)\]/, '<i class="\1 fa-\2"></i>')
+    content.gsub!(/\[(fa\w?)-(\S*) ?(.*)\]/, '<i class="\1 fa-\2 \3"></i>')
 
     # For fenced code blocks, translate the space separated classes into one
     # colon separated string so Commonmarker doesn't ignore the rest

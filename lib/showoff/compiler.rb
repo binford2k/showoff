@@ -58,8 +58,11 @@ class Showoff::Compiler
       when 'commonmarker', 'commonmark'
         Tilt.prefer Tilt::CommonMarkerTemplate, "markdown"
 
-      else
+      when 'redcarpet', :default
         Tilt.prefer Tilt::RedcarpetTemplate, "markdown"
+
+      else
+        raise 'Unsupported markdown renderer'
 
       end
     rescue LoadError
@@ -77,7 +80,7 @@ class Showoff::Compiler
   #
   # @todo I think the update_image_paths() malarky is redundant. Verify that.
   def render(content)
-    interpolateVariables!(content)
+    Variables::interpolate!(content)
 #   selectLanguage!(content)
 
     html = Tilt[:markdown].new(nil, nil, @profile) { content }.render

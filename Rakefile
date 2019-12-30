@@ -67,20 +67,28 @@ task 'doc:website' => [:doc] do
   end
 end
 
-desc "Run tests"
-task :test do
-  require 'rake/testtask'
+# These tests are currently unmaintained.
+# @todo: port and delete
+#
+# desc "Run tests"
+# task :test do
+#   require 'rake/testtask'
+#
+#   Rake::TestTask.new do |t|
+#     t.libs << 'lib'
+#     t.pattern = 'test/**/*_test.rb'
+#     t.verbose = false
+#   end
+#
+#   suffix = "-n #{ENV['TEST']}" if ENV['TEST']
+#   sh "turn test/*_test.rb #{suffix}"
+# end
 
-  Rake::TestTask.new do |t|
-    t.libs << 'lib'
-    t.pattern = 'test/**/*_test.rb'
-    t.verbose = false
-  end
-
-  suffix = "-n #{ENV['TEST']}" if ENV['TEST']
-  sh "turn test/*_test.rb #{suffix}"
+desc "Run RSpec unit tests"
+task :spec do
+  ENV["LOG_SPEC_ORDER"] = "true"
+  sh %{rspec #{ENV['TEST'] || ENV['TESTS'] || 'spec'}}
 end
-
 
 desc 'Validate translation files'
 task 'lang:check' do

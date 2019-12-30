@@ -173,7 +173,8 @@ class Showoff::Config
 
   def self.load_defaults!
     # use a symbol which cannot clash with a string key loaded from json
-    renderer = @@config['markdown'] || :autodetected
+    @@config['markdown'] ||= :default
+    renderer = @@config['markdown']
     defaults = case renderer
       when 'rdiscount'
         {
