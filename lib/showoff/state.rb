@@ -79,11 +79,11 @@ class Showoff::State
   end
 
 
-  def self.reset(keys=nil)
-    if keys
-      Array(keys).each { |key| @@state.delete(key) }
-    else
+  def self.reset(*keys)
+    if keys.empty?
       @@state = {}
+    else
+      keys.each { |key| @@state.delete(key) }
     end
   end
 end
