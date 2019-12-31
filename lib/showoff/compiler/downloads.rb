@@ -72,6 +72,7 @@ class Showoff::Compiler::Downloads
 
   def self.enableFiles(index)
     record = Showoff::State.getAtIndex(:downloads, index)
+    return unless record
 
     record[:enabled] = true
     Showoff::State.setAtIndex(:downloads, index, record)
@@ -79,7 +80,12 @@ class Showoff::Compiler::Downloads
 
   def self.getFiles(index)
     record = Showoff::State.getAtIndex(:downloads, index)
-    record[:slides] if record[:enabled]
+
+    if (record and record[:enabled])
+      record[:slides]
+    else
+      []
+    end
   end
 
 end
