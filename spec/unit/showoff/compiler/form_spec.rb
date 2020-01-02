@@ -63,53 +63,6 @@ EOF
     expect(doc.search('select').size).to eq(5)
   end
 
-  it "renders parses checkbox elements from the input string" do
-#     markdown = File.read(File.join(fixtures, 'forms', 'radios.md'))
-#     content  = Tilt[:markdown].new(nil, nil, {}) { markdown }.render
-    content = <<-EOF
-<h1>Testing radio buttons</h1>
-<p>smartphone = () iPhone () Android () other -&gt; Any other phone not listed</p>
-<p>awake -&gt; Are you paying attention? = (x) No () Yes</p>
-<p>continent -&gt; Which continent is largest? =
-() Africa
-() Americas
-(=) Asia
-() Australia
-() Europe</p>
-EOF
-
-    doc = Nokogiri::HTML::DocumentFragment.parse(content)
-
-    expect(doc).to be_a(Nokogiri::HTML::DocumentFragment)
-    expect(Showoff::Compiler::Form).to receive(:form_element).with(
-      'foo_smartphone',
-      'smartphone',
-      'smartphone',
-      false,
-      '() iPhone () Android () other -> Any other phone not listed',
-      'smartphone = () iPhone () Android () other -> Any other phone not listed',
-    ).and_return('')
-    expect(Showoff::Compiler::Form).to receive(:form_element).with(
-      'foo_awake',
-      'awake',
-      'Are you paying attention?',
-      false,
-      '(x) No () Yes',
-      'awake -> Are you paying attention? = (x) No () Yes',
-    ).and_return('')
-    expect(Showoff::Compiler::Form).to receive(:form_element).with(
-      'foo_continent',
-      'continent',
-      'Which continent is largest?',
-      false,
-      '', # this may be incorrect
-      "continent -> Which continent is largest? =\n() Africa\n() Americas\n(=) Asia\n() Australia\n() Europe",
-    ).and_return('')
-
-    # This call mutates the passed in object and invokes the form rendering
-    Showoff::Compiler::Form.render!(doc, :form => 'foo')
-  end
-
   # @todo this test suite needs a lotta lotta work. This only scratches the surface
 end
 
