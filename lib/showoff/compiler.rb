@@ -3,7 +3,7 @@ require 'tilt/erb'
 require 'nokogiri'
 
 class Showoff::Compiler
-  require 'showoff/compiler/forms'
+  require 'showoff/compiler/form'
   require 'showoff/compiler/i18n'
   require 'showoff/compiler/variables'
   require 'showoff/compiler/fixups'
