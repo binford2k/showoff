@@ -197,7 +197,7 @@ class Showoff::Compiler::Form
         value = $1
         label = $2
       else
-        value = label = item[1]
+        value = label = item[1].strip
       end
 
       str << self.form_element_check_or_radio(type, id, code, value, label, modifier)

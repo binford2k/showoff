@@ -41,6 +41,25 @@ EOF
     )
   end
 
+  it 'generates the proper HTML markup for a radio button set' do
+    html = Showoff::Compiler::Form.form_element_check_or_radio_set(
+      'radio',
+      'foo_smartphone',
+      'smartphone',
+      [["", "iPhone "], ["", "Android "], ["", "other -> Any other phone not listed"]],
+    )
+    doc = Nokogiri::HTML::DocumentFragment.parse(html)
+
+    expect(doc.children.size).to eq(6)
+    expect(doc.search('label.response').size).to eq(3)
+    expect(doc.search('input[type=radio].response').size).to eq(3)
+    expect(doc.search('#foo_smartphone_iPhone').size).to eq(1)
+    expect(doc.search('#foo_smartphone_Android').size).to eq(1)
+    expect(doc.search('#foo_smartphone_other').size).to eq(1)
+    expect(doc.search('input[type=radio].response.correct').empty?).to be_truthy
+    expect(doc.search('input[type=radio]').select {|i| i.attribute('checked') }.empty?).to be_truthy
+  end
+
 ################################################################################
 
   it "parses single line tokenized name radio button markup" do
@@ -82,6 +101,24 @@ EOF
       '(x) No () Yes',
       'awake -> Are you paying attention? = (x) No () Yes',
     )
+  end
+
+  it 'generates the proper HTML markup for a tokenized name radio button set' do
+    html = Showoff::Compiler::Form.form_element_check_or_radio_set(
+      'radio',
+      'foo_awake',
+      'awake',
+      [["x", "No "], ["", "Yes"]],
+    )
+    doc = Nokogiri::HTML::DocumentFragment.parse(html)
+
+    expect(doc.children.size).to eq(4)
+    expect(doc.search('label.response').size).to eq(2)
+    expect(doc.search('input[type=radio].response').size).to eq(2)
+    expect(doc.search('#foo_awake_No').size).to eq(1)
+    expect(doc.search('#foo_awake_Yes').size).to eq(1)
+    expect(doc.search('input[type=radio].response.correct').empty?).to be_truthy
+    expect(doc.search('input[type=radio]').select {|i| i.attribute('checked') }.size).to eq(1)
   end
 
 ################################################################################
@@ -130,8 +167,102 @@ EOF
     )
   end
 
-  it 'marks the proper answer as correct'
-  it 'selects the proper default option'
+  it 'renders items for a multiline radio button set' do
+    expect(Showoff::Compiler::Form).to receive(:form_element_check_or_radio).with(
+      'radio',
+      'foo_continent',
+      'continent',
+      'Africa',
+      'Africa',
+      '',
+    ).and_return('x')
+    expect(Showoff::Compiler::Form).to receive(:form_element_check_or_radio).with(
+      'radio',
+      'foo_continent',
+      'continent',
+      'Americas',
+      'Americas',
+      '',
+    ).and_return('x')
+    expect(Showoff::Compiler::Form).to receive(:form_element_check_or_radio).with(
+      'radio',
+      'foo_continent',
+      'continent',
+      'Asia',
+      'Asia',
+      '=',
+    ).and_return('x')
+    expect(Showoff::Compiler::Form).to receive(:form_element_check_or_radio).with(
+      'radio',
+      'foo_continent',
+      'continent',
+      'Australia',
+      'Australia',
+      '',
+    ).and_return('x')
+    expect(Showoff::Compiler::Form).to receive(:form_element_check_or_radio).with(
+      'radio',
+      'foo_continent',
+      'continent',
+      'Europe',
+      'Europe',
+      '',
+    ).and_return('x')
+
+    html = Showoff::Compiler::Form.form_element_multiline(
+      'foo_continent',
+      'continent',
+      "continent -> Which continent is largest? =\n() Africa\n() Americas\n(=) Asia\n() Australia\n() Europe",
+    )
+    doc = Nokogiri::HTML::DocumentFragment.parse(html)
+
+    expect(doc.search('li').size).to eq(5)
+  end
+
+  it 'generates the proper HTML markup for a multiline radio button element' do
+    html = Showoff::Compiler::Form.form_element_check_or_radio(
+      'radio',
+      'foo_continent',
+      'continent',
+      'Africa',
+      'Africa',
+      '',
+    )
+    doc = Nokogiri::HTML::DocumentFragment.parse(html)
+
+    expect(doc.children.size).to eq(2)
+    expect(doc.search('label.response').size).to eq(1)
+    expect(doc.search('label.response').first.text).to eq('Africa')
+    expect(doc.search('input[type=radio].response').size).to eq(1)
+    expect(doc.search('input[type=radio].response').first[:value]).to eq('Africa')
+
+    expect(doc.search('#foo_continent_Africa').size).to eq(1)
+    expect(doc.search('input[type=radio].response.correct').empty?).to be_truthy
+    expect(doc.search('input[type=radio]').select {|i| i.attribute('checked') }.size).to eq(0)
+  end
+
+  it 'generates the proper HTML markup for a multiline correct radio button element' do
+    html = Showoff::Compiler::Form.form_element_check_or_radio(
+      'radio',
+      'foo_continent',
+      'continent',
+      'Asia',
+      'Asia',
+      '=',
+    )
+    doc = Nokogiri::HTML::DocumentFragment.parse(html)
+
+    expect(doc.children.size).to eq(2)
+    expect(doc.search('label.response').size).to eq(1)
+    expect(doc.search('label.response').first.text).to eq('Asia')
+    expect(doc.search('input[type=radio].response').size).to eq(1)
+    expect(doc.search('input[type=radio].response').first[:value]).to eq('Asia')
+
+    expect(doc.search('#foo_continent_Asia').size).to eq(1)
+    expect(doc.search('input[type=radio].response').size).to eq(1)
+    expect(doc.search('input[type=radio]').select {|i| i.attribute('checked') }.size).to eq(0)
+  end
+
   # @todo this test suite needs a lotta lotta work. This only scratches the surface
 end
 
