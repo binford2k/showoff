@@ -130,13 +130,16 @@ class Showoff::Compiler::Form
     str << '<option value="">----</option>'
 
     items.each do |item|
-      if item =~ /\((\w+)\)/
+      selected = classes = ''
+      case item
+      when /\((\w+)\)/
         item     = $1
         selected = 'selected'
-      else
-        selected = ''
+      when /\[(\w+)\]/
+        item     = $1
+        classes  = 'correct'
       end
-      str << "<option value='#{item}' #{selected}>#{item}</option>"
+      str << "<option value='#{item}' class='#{classes}' #{selected}>#{item}</option>"
     end
     str << '</select>'
   end
