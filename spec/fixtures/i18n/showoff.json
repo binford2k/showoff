@@ -1,0 +1,7 @@
+{
+  "name": "Languages",
+  "description": "This has a few simple translations.",
+  "sections": [
+    "content.md"
+  ]
+}

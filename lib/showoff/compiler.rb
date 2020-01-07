@@ -4,9 +4,9 @@ require 'nokogiri'
 
 class Showoff::Compiler
   require 'showoff/compiler/form'
-  require 'showoff/compiler/i18n'
   require 'showoff/compiler/variables'
   require 'showoff/compiler/fixups'
+  require 'showoff/compiler/i18n'
   require 'showoff/compiler/notes'
   require 'showoff/compiler/glossary'
   require 'showoff/compiler/downloads'
@@ -81,7 +81,7 @@ class Showoff::Compiler
   # @todo I think the update_image_paths() malarky is redundant. Verify that.
   def render(content)
     Variables::interpolate!(content)
-#   selectLanguage!(content)
+    I18n.selectLanguage!(content)
 
     html = Tilt[:markdown].new(nil, nil, @profile) { content }.render
     doc  = Nokogiri::HTML::DocumentFragment.parse(html)

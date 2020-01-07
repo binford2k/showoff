@@ -23,12 +23,12 @@ class Showoff::Compiler::Form
 
       button = Nokogiri::XML::Node.new('input', doc).add_class('display')
         button.set_attribute('type', 'button')
-        button.set_attribute('value', 'forms.display')
+        button.set_attribute('value', I18n.t('forms.display'))
         tools.add_child(button)
 
       submit = Nokogiri::XML::Node.new('input', doc).add_class('save')
         submit.set_attribute('type', 'submit')
-        submit.set_attribute('value', 'forms.save')
+        submit.set_attribute('value', I18n.t('forms.save'))
         submit.set_attribute('disabled', 'disabled')
         tools.add_child(submit)
 

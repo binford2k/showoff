@@ -1,0 +1,17 @@
+{
+  "en": {
+    "greeting": "Hello!"
+  },
+  "es": {
+    "greeting": "Hola!"
+  },
+  "fr": {
+    "greeting": "Bonjour!"
+  },
+  "de": {
+    "greeting": "Hallo!"
+  },
+  "ja": {
+    "greeting": "こんにちは!"
+  }
+}

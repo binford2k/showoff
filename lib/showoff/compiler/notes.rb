@@ -56,7 +56,7 @@ class Showoff::Compiler::Notes
       doc.add_child '<div class="notes-section notes"></div>' if doc.search('div.notes-section.notes').empty?
       doc.search('div.notes-section.notes').each do |section|
         text = Tilt[:markdown].new(nil, nil, options[:profile]) { File.read(filename) }.render
-        frag = "<div class=\"personal\"><h1>presenter.notes.personal</h1>#{text}</div>" # @todo add back i18n #{I18n.t('presenter.notes.personal')}
+        frag = "<div class=\"personal\"><h1>#{I18n.t('presenter.notes.personal')}</h1>#{text}</div>"
         section.prepend_child(frag)
       end
     end

@@ -21,7 +21,7 @@ class Showoff::Presentation::Section
   def loadSlides(filename)
     return unless filename.end_with? '.md'
 
-    content = File.read(File.join(Showoff::Config.root, filename))
+    content = File.read(File.join(Showoff::Locale.contentPath, filename))
 
     # if there are no !SLIDE markers, then make every H1 define a new slide
     unless content =~ /^\<?!SLIDE/m
@@ -37,7 +37,8 @@ class Showoff::Presentation::Section
 
     # iterate each slide tuple and add slide objects to the array
     slides.each_slice(2) do |data|
-      @slides << Showoff::Presentation::Slide.new(data[0], data[1], :section => @name, :name => filename, :seq => seq)
+      options, content = data
+      @slides << Showoff::Presentation::Slide.new(options, content, :section => @name, :name => filename, :seq => seq)
       seq +=1 if seq
     end
 
