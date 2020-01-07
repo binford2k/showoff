@@ -37,7 +37,7 @@ class Showoff::Config
     return true # todo make this work
   end
 
-  def self.load(root, path)
+  def self.load(root, path = 'showoff.json')
     @@root     = File.expand_path(root)
     @@config   = JSON.parse(File.read(File.join(@@root, path)))
     @@sections = self.expand_sections
@@ -101,6 +101,7 @@ class Showoff::Config
   def self.legacy_sections(data)
     # each entry in sections can be:
     # - "filename.md"
+    # - "directory"
     # - { "section": "filename.md" }
     # - { "section": "directory" }
     # - { "section": [ "array.md, "of.md, "files.md"] }
@@ -118,7 +119,7 @@ class Showoff::Config
       if entry.include? 'include'
         file = entry['include']
         path = File.dirname(file)
-        data = JSON.parse(File.read(file))
+        data = JSON.parse(File.read(File.join(@@root, file)))
         if data.is_a? Array
           if path == '.'
             section = data
@@ -135,18 +136,8 @@ class Showoff::Config
       # and I don't want to waste time on legacy functionality.
 
       # Normalize to a proper path from presentation root
-      filename = self.path(entry)
-      # and then strip out the locale directory, if there is one
-      filename.sub!(/^(locales\/[\w-]+\/)/, '')
-      locale = $1
-
-      if File.directory? filename
-        path = entry
-        sections[path] ||= []
-        Dir.glob("#{filename}/**/*.md").sort.each do |slidefile|
-          fullpath = locale.nil? ? slidefile : "#{locale}/#{slidefile}"
-          sections[path] << fullpath
-        end
+      if File.directory? File.join(@@root, entry)
+        sections[entry] = Dir.glob("#{entry}/**/*.md", :base => @@root)
       else
         path = File.dirname(entry)
 
@@ -164,7 +155,7 @@ class Showoff::Config
         path = "#{path} (#{counters[path]})" unless counters[path] == 1
 
         sections[path] ||= []
-        sections[path]  << filename
+        sections[path]  << entry
       end
     end
 
