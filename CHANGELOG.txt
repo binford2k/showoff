@@ -1,4 +1,4 @@
-0.2.1
+0.20.1
   * Font Awesome changed a lot of class names and the like. This fixes them.
   * Added the ability to specify additional styles and scripts in your presentation.
   * Fixed a couple path problems.
