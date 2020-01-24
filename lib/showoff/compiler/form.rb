@@ -32,7 +32,7 @@ class Showoff::Compiler::Form
         submit.set_attribute('disabled', 'disabled')
         tools.add_child(submit)
 
-      form = Nokogiri::XML::Node.new('form', doc).add_class('tools')
+      form = Nokogiri::XML::Node.new('form', doc)
         form.set_attribute('id', title)
         form.set_attribute('action', "form/#{title}")
         form.set_attribute('method', 'POST')
