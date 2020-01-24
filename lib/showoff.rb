@@ -1518,6 +1518,8 @@ class Showoff < Sinatra::Application
         ["js", "css"].each { |dir|
           FileUtils.copy_entry("#{my_path}/#{dir}", "#{out}/#{dir}", false, false, true)
         }
+
+        # @todo: uh. I don't know how this ever worked. my_path is showoff and name is presentation.
         # And copy the directory
         Dir.glob("#{my_path}/#{name}/*").each { |subpath|
           base = File.basename(subpath)

@@ -91,6 +91,7 @@ class Showoff::Compiler
     Fixups.updateLinks!(doc)
     Fixups.updateSyntaxHighlighting!(doc)
     Fixups.updateCommandlineBlocks!(doc)
+    Fixups.updateImagePaths!(doc, @options)
     Glossary.render!(doc)
     Downloads.scanForFiles!(doc, @options)
 
