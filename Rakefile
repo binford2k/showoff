@@ -87,7 +87,11 @@ end
 desc "Run RSpec unit tests"
 task :spec do
   ENV["LOG_SPEC_ORDER"] = "true"
-  sh %{rspec #{ENV['TEST'] || ENV['TESTS'] || 'spec'}}
+  if ENV['verbose'] == 'true'
+    sh %{rspec #{ENV['TEST'] || ENV['TESTS'] || 'spec'} -fd}
+  else
+    sh %{rspec #{ENV['TEST'] || ENV['TESTS'] || 'spec'}}
+  end
 end
 
 desc 'Validate translation files'
