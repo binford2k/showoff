@@ -6,7 +6,7 @@ RSpec.describe Showoff::Config do
 
     it "loads configuration from disk" do
       expect(Showoff::Config.root).to eq(fixtures)
-      expect(Showoff::Config.keys).to eq(['name', 'description', 'protected', 'version', 'feedback', 'parsers', 'sections', 'markdown', :default])
+      expect(Showoff::Config.keys).to eq(['name', 'description', 'protected', 'version', 'feedback', 'parsers', 'sections', 'markdown', :default, 'pdf_options'])
     end
 
     it "calculates relative paths" do
@@ -42,7 +42,7 @@ RSpec.describe Showoff::Config do
 
     it "loads configuration from disk" do
       expect(Showoff::Config.root).to eq(fixtures)
-      expect(Showoff::Config.keys).to eq(['name', 'description', 'protected', 'version', 'feedback', 'parsers', 'sections', 'markdown', :default])
+      expect(Showoff::Config.keys).to eq(['name', 'description', 'protected', 'version', 'feedback', 'parsers', 'sections', 'markdown', :default, 'pdf_options'])
     end
 
     it "expands sections" do
@@ -60,7 +60,7 @@ RSpec.describe Showoff::Config do
 
     it "loads configuration from disk" do
       expect(Showoff::Config.root).to eq(fixtures)
-      expect(Showoff::Config.keys).to eq(['name', 'description', 'protected', 'version', 'feedback', 'parsers', 'sections', 'markdown', 'maruku'])
+      expect(Showoff::Config.keys).to eq(['name', 'description', 'protected', 'version', 'feedback', 'parsers', 'sections', 'markdown', 'maruku', 'pdf_options'])
     end
 
     it "loads proper markdown profile" do
