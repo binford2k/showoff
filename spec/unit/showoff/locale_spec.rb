@@ -1,6 +1,6 @@
 RSpec.describe Showoff::Locale do
   before(:each) do
-    Showoff::Config.load(File.join(fixtures, 'i18n'), 'showoff.json')
+    Showoff::Config.load(File.join(fixtures, 'i18n', 'showoff.json'))
   end
 
   it "selects a default content language" do

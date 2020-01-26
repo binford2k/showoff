@@ -1,6 +1,6 @@
 RSpec.describe Showoff::Compiler::Notes do
   before(:each) do
-    Showoff::Config.load(File.join(fixtures, 'notes'), 'showoff.json')
+    Showoff::Config.load(File.join(fixtures, 'notes', 'showoff.json'))
   end
 
   it 'handles slides with no notes sections' do

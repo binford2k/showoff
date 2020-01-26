@@ -148,6 +148,62 @@ EOF
     expect(code[2].classes).to eq(['language-ruby', 'goodbye'])
   end
 
+  context "image path cleanup" do
+    it "cleans up image paths for slide in presentation root" do
+      content = <<-EOF
+<h1>This is a simple HTML slide with image tags</h1>
+<p><img src="_images/hackerrrr.jpg" alt="Hackerrrr"></p>
+<p><img src="/_images/another.jpg" alt="Another silly picture"></p>
+EOF
+      doc = Nokogiri::HTML::DocumentFragment.parse(content)
+
+      # This call mutates the passed in object
+      Showoff::Compiler::Fixups.updateImagePaths!(doc, {:name => 'foo.md'})
+      imgs = doc.search('img')
+
+      expect(doc).to be_a(Nokogiri::HTML::DocumentFragment)
+      expect(imgs.length).to eq(2)
+      expect(imgs[0][:src]).to eq('_images/hackerrrr.jpg')
+      expect(imgs[1][:src]).to eq('/_images/another.jpg')
+    end
+
+    it "cleans up image paths for slide in directory" do
+      content = <<-EOF
+<h1>This is a simple HTML slide with image tags</h1>
+<p><img src="../_images/hackerrrr.jpg" alt="Hackerrrr"></p>
+<p><img src="/_images/another.jpg" alt="Another silly picture"></p>
+EOF
+      doc = Nokogiri::HTML::DocumentFragment.parse(content)
+
+      # This call mutates the passed in object
+      Showoff::Compiler::Fixups.updateImagePaths!(doc, {:name => 'testing/foo.md'})
+      imgs = doc.search('img')
+
+      expect(doc).to be_a(Nokogiri::HTML::DocumentFragment)
+      expect(imgs.length).to eq(2)
+      expect(imgs[0][:src]).to eq('_images/hackerrrr.jpg')
+      expect(imgs[1][:src]).to eq('/_images/another.jpg')
+    end
+
+    it "cleans up image paths for slide in deeply nested directory" do
+      content = <<-EOF
+<h1>This is a simple HTML slide with image tags</h1>
+<p><img src="../../../_images/hackerrrr.jpg" alt="Hackerrrr"></p>
+<p><img src="/_images/another.jpg" alt="Another silly picture"></p>
+EOF
+      doc = Nokogiri::HTML::DocumentFragment.parse(content)
+
+      # This call mutates the passed in object
+      Showoff::Compiler::Fixups.updateImagePaths!(doc, {:name => 'foo/bar/baz/testing.md'})
+      imgs = doc.search('img')
+
+      expect(doc).to be_a(Nokogiri::HTML::DocumentFragment)
+      expect(imgs.length).to eq(2)
+      expect(imgs[0][:src]).to eq('_images/hackerrrr.jpg')
+      expect(imgs[1][:src]).to eq('/_images/another.jpg')
+    end
+  end
+
   # I don't actually know precisely what this routine does yet.....
   it "correctly munges commandline blocks"
 

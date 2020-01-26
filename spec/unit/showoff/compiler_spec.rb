@@ -27,7 +27,7 @@ RSpec.describe Showoff::Compiler do
 
   # note that this test is basically a simple integration test of all the compiler components.
   it "renders content as expected" do
-    Showoff::Config.load(fixtures, 'base.json')
+    Showoff::Config.load(File.join(fixtures, 'base.json'))
 
     content, notes = Showoff::Compiler.new({:name => 'foo'}).render("#Hi there!\n\n.callout The Internet is serious business.")
 

@@ -1,7 +1,7 @@
 RSpec.describe Showoff::Presentation::Section do
 
   it 'loads files from disk and splits them into slides' do
-    Showoff::Config.load(File.join(fixtures, 'slides'), 'showoff.json')
+    Showoff::Config.load(File.join(fixtures, 'slides', 'showoff.json'))
     name, files = Showoff::Config.sections.first
     section = Showoff::Presentation::Section.new(name, files)
 

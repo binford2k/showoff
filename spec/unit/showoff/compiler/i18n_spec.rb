@@ -1,6 +1,6 @@
 RSpec.describe Showoff::Compiler::I18n do
   before(:each) do
-    Showoff::Config.load(File.join(fixtures, 'i18n'), 'showoff.json')
+    Showoff::Config.load(File.join(fixtures, 'i18n', 'showoff.json'))
   end
 
   it "selects the correct language" do

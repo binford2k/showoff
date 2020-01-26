@@ -1,7 +1,7 @@
 RSpec.describe Showoff::Config do
   context 'base configuration' do
     before(:each) do
-      Showoff::Config.load(fixtures, 'base.json')
+      Showoff::Config.load(File.join(fixtures, 'base.json'))
     end
 
     it "loads configuration from disk" do
@@ -37,7 +37,7 @@ RSpec.describe Showoff::Config do
 
   context 'with named hash sections' do
     before(:each) do
-      Showoff::Config.load(fixtures, 'namedhash.json')
+      Showoff::Config.load(File.join(fixtures, 'namedhash.json'))
     end
 
     it "loads configuration from disk" do
@@ -55,7 +55,7 @@ RSpec.describe Showoff::Config do
 
   context 'with configured markdown renderer' do
     before(:each) do
-      Showoff::Config.load(fixtures, 'renderer.json')
+      Showoff::Config.load(File.join(fixtures, 'renderer.json'))
     end
 
     it "loads configuration from disk" do

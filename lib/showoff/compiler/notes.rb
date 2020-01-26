@@ -51,7 +51,7 @@ class Showoff::Compiler::Notes
       File.join(Showoff::Config.root, '_notes', "#{options[:name]}.md"),
     ].find {|path| File.file?(path) }
 
-    if filename and Showoff::Config.includeSection?('notes')
+    if filename and Showoff::Config.includeNotes?('notes')
       # Make sure we've got a notes div to hang personal notes from
       doc.add_child '<div class="notes-section notes"></div>' if doc.search('div.notes-section.notes').empty?
       doc.search('div.notes-section.notes').each do |section|

@@ -121,6 +121,10 @@ class Showoff::Compiler::Fixups
       doc
     end
 
+    # Because source slide files can be nested in arbitrarily deep directories we
+    # need to simplify paths to images when we flatten it out to a single HTML file.
+    # @see
+    #     https://github.com/puppetlabs/showoff/blob/220d6eef4c5942eda625dd6edc5370c7490eced7/lib/showoff.rb#L1076-L1103
     def self.updateImagePaths!(doc, options={})
       doc.search('img').each do |img|
         slide_dir = File.dirname(options[:name])
