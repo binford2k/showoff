@@ -12,6 +12,9 @@ notifications:
 
 matrix:
   include:
+    - rvm: 2.0
+      env: "CHECK=spec"
+
     - rvm: 2.3
       env: "CHECK=spec"
 
