@@ -25,7 +25,7 @@ class Showoff::Locale
       languages = I18n.available_locales
       @@contentLocale = I18n.fallbacks[I18n.locale].select { |f| languages.include? f }.first
     else
-      locales = Dir.glob('*',  :base => "#{Showoff::Config.root}/locales")
+      locales = Dir.glob("#{Showoff::Config.root}/locales/*").map {|e| File.basename e }
       locales.delete 'strings.json'
 
       @@contentLocale = with_locale(user_locale) do |str|
