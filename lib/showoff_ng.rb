@@ -16,6 +16,8 @@ class Showoff
 
     makeSnapshot(presentation)
 
+    generatePDF if Showoff::State.get(:format) == 'pdf'
+
 #     puts '------------------'
 #     presentation.sections.each do |section|
 #       puts section.name
@@ -25,6 +27,12 @@ class Showoff
 #     end
   end
 
+  # Generate a static HTML snapshot of the presentation in the `static` directory.
+  # Note that the `Showoff::Presentation` determines the format of the generated
+  # presentation based on the content requested.
+  #
+  # @see
+  #     https://github.com/puppetlabs/showoff/blob/220d6eef4c5942eda625dd6edc5370c7490eced7/lib/showoff.rb#L1506-L1574
   def self.makeSnapshot(presentation)
     FileUtils.mkdir_p 'static'
     File.write(File.join('static', 'index.html'), presentation.static)
@@ -47,6 +55,39 @@ class Showoff
       rescue Errno::ENOENT => e
         puts "Missing source file: #{path}"
       end
+    end
+  end
+
+  # Generate a PDF version of the presentation in the current directory. This
+  # requires that the HTML snaphot exists, and it will *remove* that snapshot
+  # if the PDF generation is successful.
+  #
+  # @note
+  #     wkhtmltopdf is terrible and will often report hard failures even after
+  #     successfully building a PDF. Therefore, we check file existence and
+  #     display different error messaging.
+  # @see
+  #     https://github.com/puppetlabs/showoff/blob/220d6eef4c5942eda625dd6edc5370c7490eced7/lib/showoff.rb#L1447-L1471
+  def self.generatePDF
+    begin
+      require 'pdfkit'
+      output = Showoff::Config.get('name')+'.pdf'
+
+      kit = PDFKit.new(File.new('static/index.html'), Showoff::Config.get('pdf_options'))
+      kit.to_file(output)
+      File.rm_rf('static')
+
+    rescue RuntimeError => e
+      if File.exist? output
+        puts "Your PDF was generated, but PDFkit reported an error. Inspect the file #{output} for suitability."
+        puts "You might try loading `static/index.html` in a web browser and checking the developer console for 404 errors."
+      else
+        puts "Generating your PDF with wkhtmltopdf was not successful."
+        puts "Try running the following command manually to see what it's failing on."
+        puts e.message.sub('--quiet', '')
+      end
+    rescue LoadError
+      puts 'Generating a PDF version of your presentation requires the `pdfkit` gem.'
     end
 
   end

@@ -74,7 +74,7 @@ class Showoff::Presentation
     case Showoff::State.get(:format)
     when 'web'
       template = 'index.erb'
-    when 'print', 'supplemental'
+    when 'print', 'supplemental', 'pdf'
       template = 'onepage.erb'
     end
 

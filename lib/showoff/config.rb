@@ -201,6 +201,16 @@ class Showoff::Config
 
     @@config[renderer] ||= {}
     @@config[renderer]   = defaults.merge!(@@config[renderer])
+
+    # run `wkhtmltopdf --extended-help` for a full list of valid options here
+    pdf_defaults = {
+      :page_size        => 'Letter',
+      :orientation      => 'Portrait',
+      :print_media_type => true,
+      :quiet            => false}
+
+    @@config['pdf_options'] ||= {}
+    @@config['pdf_options']   = pdf_defaults.merge!(@@config['pdf_options'])
   end
 
 end
