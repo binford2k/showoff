@@ -33,13 +33,15 @@ class Showoff::Config
   #
   # @param section [String] The name of the notes section of interest.
   # @return [Boolean] Whether to include this section in the output
-  def self.includeSection?(section)
+  def self.includeNotes?(section)
     return true # todo make this work
   end
 
-  def self.load(root, path = 'showoff.json')
-    @@root     = File.expand_path(root)
-    @@config   = JSON.parse(File.read(File.join(@@root, path)))
+  def self.load(path = 'showoff.json')
+    raise 'Presentation file does not exist at the specified path' unless File.exist? path
+
+    @@root     = File.dirname(path)
+    @@config   = JSON.parse(File.read(path))
     @@sections = self.expand_sections
 
     self.load_defaults!

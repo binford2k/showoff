@@ -8,6 +8,9 @@ class Showoff
   GEMROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
   def self.do_static(args, options)
+    Showoff::State.set(:format, args[0] || 'web')
+    Showoff::State.set(:supplemental, args[1]) if args[0] == 'supplemental'
+
     Showoff::Locale.setContentLocale(options[:language])
     presentation = Showoff::Presentation.new(options)
 

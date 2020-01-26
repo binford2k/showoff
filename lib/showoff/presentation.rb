@@ -13,7 +13,7 @@ class Showoff::Presentation
     end
 
     # weird magic variables the presentation expects
-    @baseurl   = nil
+    @baseurl   = nil # this doesn't appear to have ever been used
     @title     = Showoff::Config.get('name')    || I18n.t('name')
     @favicon   = Showoff::Config.get('favicon') || 'favicon.ico'
     @feedback  = Showoff::Config.get('feedback') # note: the params check is obsolete
@@ -35,7 +35,7 @@ class Showoff::Presentation
 
     @highlightStyle = Showoff::Config.get('highlight') || 'default'
 
-    if options[:section]
+    if Showoff::State.get(:supplemental)
       @wrapper_classes = ['supplemental']
     end
   end
@@ -70,13 +70,23 @@ class Showoff::Presentation
     # This singleton guard removes ordering coupling between assets() & static()
     @doc  ||= compile
     @slides = @doc.to_html
-    ERB.new(File.read(File.join('views','index.erb')), nil, '-').result(binding)
+
+    case Showoff::State.get(:format)
+    when 'web'
+      template = 'index.erb'
+    when 'print', 'supplemental'
+      template = 'onepage.erb'
+    end
+
+    ERB.new(File.read(File.join('views', template)), nil, '-').result(binding)
   end
 
   # Generates a list of all image/font/etc files used by the presentation. This
   # will only identify the sources of <img> tags and files referenced by the
   # CSS url() function.
   #
+  # @see
+  #     https://github.com/puppetlabs/showoff/blob/220d6eef4c5942eda625dd6edc5370c7490eced7/lib/showoff.rb#L1509-L1573
   # @returns [Array]
   #     List of assets, such as images or fonts, used by the presentation.
   def assets

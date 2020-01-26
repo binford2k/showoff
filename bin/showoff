@@ -350,8 +350,7 @@ module Wrapper
       require 'showoff_ng'
 
       if options[:file]
-        root = args.first || '.'
-        Showoff::Config.load(root, options[:file])
+        Showoff::Config.load(options[:file])
       end
     else
       require 'showoff'

@@ -26,7 +26,7 @@ class Showoff::Compiler::Notes
       klass = p.text.match(/~~~SECTION:([^~]*)~~~/)[1]
 
       # Don't bother creating this if we don't want to use it
-      next unless Showoff::Config.includeSection?(klass)
+      next unless Showoff::Config.includeNotes?(klass)
 
       notes = Nokogiri::XML::Node.new('div', doc).add_class("notes-section #{klass}")
       nodes = []

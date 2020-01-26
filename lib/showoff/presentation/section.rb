@@ -5,6 +5,29 @@ class Showoff::Presentation::Section
     @name   = name
     @slides = []
     files.each { |filename| loadSlides(filename) }
+
+    # merged output means that we just want to generate *everything*. This is used by internal,
+    # methods such as content validation, where we want all content represented.
+    # https://github.com/puppetlabs/showoff/blob/220d6eef4c5942eda625dd6edc5370c7490eced7/lib/showoff.rb#L429-L453
+    unless Showoff::State.get(:merged)
+      if Showoff::State.get(:supplemental)
+        # if we're looking for supplemental material, only include the content we want
+        @slides.select! {|slide| slide.classes.include? 'supplemental' }
+        @slides.select! {|slide| slide.classes.include? Showoff::State.get(:supplemental) }
+      else
+        # otherwise just skip all supplemental material completely
+        @slides.reject! {|slide| slide.classes.include? 'supplemental' }
+      end
+
+      case Showoff::State.get(:format)
+      when 'web'
+        @slides.reject! {|slide| slide.classes.include? 'toc' }
+        @slides.reject! {|slide| slide.classes.include? 'printonly' }
+      when 'print', 'supplemental'
+        @slides.reject! {|slide| slide.classes.include? 'noprint' }
+      end
+    end
+
   end
 
   def render
