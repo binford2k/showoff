@@ -32,7 +32,9 @@ RSpec.describe Showoff::Config do
       expect(Showoff::Config.sections).to be_a(Hash)
       expect(Showoff::Config.sections['.']).to be_an(Array)
       expect(Showoff::Config.sections['.']).to all be_a(String)
-      expect(Showoff::Config.sections['.']).to eq(['Overview.md', 'Content.md', 'Conclusion.md'])
+
+      expect(Showoff::Config.sections['.']).to eq(['Overview.md', 'Content.md'])
+      expect(Showoff::Config.sections.keys).to eq(['.', 'slides', '. (2)'])
     end
   end
 

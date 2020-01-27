@@ -139,7 +139,8 @@ class Showoff::Config
 
       # Normalize to a proper path from presentation root
       if File.directory? File.join(@@root, entry)
-        sections[entry] = Dir.glob("#{entry}/**/*.md", :base => @@root)
+        sections[entry] = Dir.glob("#{@@root}/#{entry}/**/*.md").map {|e| e.sub(/^#{@@root}\//, '') }
+        lastpath = entry
       else
         path = File.dirname(entry)
 
