@@ -1535,7 +1535,12 @@ class Showoff < Sinatra::Application
 
         # ..., copy all user-defined styles and javascript files
         showoff.css_files.each { |path|
-          dest = File.join(file_dir, path)
+          dest = File.join(out, path)
+          FileUtils.mkdir_p(File.dirname(dest))
+          FileUtils.copy(path, dest)
+        }
+        showoff.js_files.each { |path|
+          dest = File.join(out, path)
           FileUtils.mkdir_p(File.dirname(dest))
           FileUtils.copy(path, dest)
         }
