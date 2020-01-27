@@ -81,7 +81,7 @@ class Showoff::Config
 
           # get relative paths to each slide in the array
           sections[key] = data.map do |filename|
-            self.path(filename)
+            Pathname.new("#{path}/#{filename}").cleanpath.to_path
           end
         end
       else
@@ -208,9 +208,10 @@ class Showoff::Config
       :orientation      => 'Portrait',
       :print_media_type => true,
       :quiet            => false}
+    pdf_options = @@config['pdf_options'] || {}
+    pdf_options = Hash[pdf_options.map {|k, v| [k.to_sym, v]}]
 
-    @@config['pdf_options'] ||= {}
-    @@config['pdf_options']   = pdf_defaults.merge!(@@config['pdf_options'])
+    @@config['pdf_options'] = pdf_defaults.merge!(pdf_options)
   end
 
 end

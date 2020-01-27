@@ -1,0 +1,15 @@
+{
+  "name": "Complext",
+  "description": "This presentation should have some weird ways you can define slides",
+  "pdf_options": {
+    "orientation": "Landscape",
+    "quiet": true
+  },
+  "sections": {
+    "Overview":          "Overview/content.json"                       ,
+    "About":           [ "Shared/about.md" ]                           ,
+    "Environment":     [ "environment/one.md", "environment/two.md" ]  ,
+    "Conclusion":      [ "conclusion.md", "end.md" ]                   ,
+    "Appendix":          "Shared/Appendix/content.json"
+  }
+}
