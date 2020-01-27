@@ -71,6 +71,9 @@ class Showoff::Presentation
     @doc  ||= compile
     @slides = @doc.to_html
 
+    # All static snapshots should be non-interactive by definition
+    @interactive = false
+
     case Showoff::State.get(:format)
     when 'web'
       template = 'index.erb'
