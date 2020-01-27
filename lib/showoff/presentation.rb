@@ -59,7 +59,7 @@ class Showoff::Presentation
   # dynamically loaded after the page is displayed. This increases perceived
   # responsiveness.
   def index
-    ERB.new(File.read(File.join('views','index.erb')), nil, '-').result(binding)
+    ERB.new(File.read(File.join(Showoff::GEMROOT, 'views','index.erb')), nil, '-').result(binding)
   end
 
   def slides
@@ -78,7 +78,7 @@ class Showoff::Presentation
       template = 'onepage.erb'
     end
 
-    ERB.new(File.read(File.join('views', template)), nil, '-').result(binding)
+    ERB.new(File.read(File.join(Showoff::GEMROOT, 'views', template)), nil, '-').result(binding)
   end
 
   # Generates a list of all image/font/etc files used by the presentation. This
@@ -124,7 +124,7 @@ class Showoff::Presentation
   end
 
   def erb(template)
-    ERB.new(File.read(File.join('views', "#{template}.erb")), nil, '-').result(binding)
+    ERB.new(File.read(File.join(Showoff::GEMROOT, 'views', "#{template}.erb")), nil, '-').result(binding)
   end
 
   def css_files

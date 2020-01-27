@@ -27,7 +27,7 @@ class Showoff::Presentation::Slide
       content  = template.gsub(/~~~CONTENT~~~/, content)
     end
 
-    ERB.new(File.read(File.join('views','slide.erb')), nil, '-').result(binding)
+    ERB.new(File.read(File.join(Showoff::GEMROOT, 'views','slide.erb')), nil, '-').result(binding)
   end
 
   # This is a list of classes that we want applied *only* to content, and not to the slide,
