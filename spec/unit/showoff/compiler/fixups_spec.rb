@@ -164,7 +164,7 @@ EOF
       expect(doc).to be_a(Nokogiri::HTML::DocumentFragment)
       expect(imgs.length).to eq(2)
       expect(imgs[0][:src]).to eq('_images/hackerrrr.jpg')
-      expect(imgs[1][:src]).to eq('/_images/another.jpg')
+      expect(imgs[1][:src]).to eq('_images/another.jpg')
     end
 
     it "cleans up image paths for slide in directory" do
@@ -182,7 +182,7 @@ EOF
       expect(doc).to be_a(Nokogiri::HTML::DocumentFragment)
       expect(imgs.length).to eq(2)
       expect(imgs[0][:src]).to eq('_images/hackerrrr.jpg')
-      expect(imgs[1][:src]).to eq('/_images/another.jpg')
+      expect(imgs[1][:src]).to eq('_images/another.jpg')
     end
 
     it "cleans up image paths for slide in deeply nested directory" do
@@ -200,7 +200,7 @@ EOF
       expect(doc).to be_a(Nokogiri::HTML::DocumentFragment)
       expect(imgs.length).to eq(2)
       expect(imgs[0][:src]).to eq('_images/hackerrrr.jpg')
-      expect(imgs[1][:src]).to eq('/_images/another.jpg')
+      expect(imgs[1][:src]).to eq('_images/another.jpg')
     end
   end
 

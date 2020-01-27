@@ -129,8 +129,11 @@ class Showoff::Compiler::Fixups
       doc.search('img').each do |img|
         slide_dir = File.dirname(options[:name])
 
-        # does the image path start from the preso root?
-        unless img[:src].start_with? '/'
+        # We need to turn all URLs into relative from the root. If it starts with '/'
+        # then we can assume the author meant to start the path at the presentation root.
+        if img[:src].start_with? '/'
+          img[:src] = img[:src][1..-1]
+        else
           # clean up the path and remove some of the relative nonsense
           img[:src] = Pathname.new(File.join(slide_dir, img[:src])).cleanpath.to_path
         end
