@@ -20,8 +20,8 @@
     <%= section %>
   <% end -%>
   <% if classes.include? 'activity' -%>
-    <span class="activityToggle">'
-      <label for="activity-<%= ref %>"><%= I18n.t('activity_complete') %></label>" />
+    <span class="activityToggle">
+      <label for="activity-<%= ref %>"><%= I18n.t('activity_complete') %></label>
       <input type="checkbox" class="activity" name="activity-<%= ref %>" id="activity-<%= ref %>" />
     </span>
   <% end -%>
