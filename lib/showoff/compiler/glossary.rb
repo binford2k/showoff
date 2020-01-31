@@ -25,7 +25,8 @@ class Showoff::Compiler::Glossary
       glossary = (item.attr('class').split - ['callout', 'glossary']).first
       address  = glossary ? "#{glossary}/#{$2}" : $2
 
-      link = Nokogiri::XML::Node.new('a', doc).add_class('processed label')
+      link = Nokogiri::XML::Node.new('a', doc)
+      link.add_class('processed label')
       link.set_attribute('href', "glossary://#{address}")
       link.content = $1
 
@@ -51,7 +52,8 @@ class Showoff::Compiler::Glossary
       label = link.clone
       label.add_class('label processed')
 
-      definition = Nokogiri::XML::Node.new('p', doc).add_class("callout glossary #{name}")
+      definition = Nokogiri::XML::Node.new('p', doc)
+      definition.add_class("callout glossary #{name}")
       definition.set_attribute('data-term', term)
       definition.set_attribute('data-text', text)
       definition.set_attribute('data-target', target)
@@ -84,7 +86,8 @@ class Showoff::Compiler::Glossary
   def self.generatePage!(doc)
       doc.search('.slide.glossary .content').each do |glossary|
         name = (glossary.attr('class').split - ['content', 'glossary']).first
-        list = Nokogiri::XML::Node.new('ul', doc).add_class('glossary terms')
+        list = Nokogiri::XML::Node.new('ul', doc)
+        list.add_class('glossary terms')
         seen = []
 
         doc.search('.callout.glossary').each do |item|
@@ -117,11 +120,13 @@ class Showoff::Compiler::Glossary
 
           entry = Nokogiri::XML::Node.new('li', doc)
 
-          label = Nokogiri::XML::Node.new('a', doc).add_class('label')
+          label = Nokogiri::XML::Node.new('a', doc)
+          label.add_class('label')
           label.set_attribute('id', anchor)
           label.content = term
 
-          link = Nokogiri::XML::Node.new('a', doc).add_class('return')
+          link = Nokogiri::XML::Node.new('a', doc)
+          label.add_class('return')
           link.set_attribute('href', "##{href}")
           link.content = '↩'
 

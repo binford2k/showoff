@@ -26,7 +26,8 @@ class Showoff::Compiler::TableOfContents
       title = heads.empty? ? slide['data-title'] : heads.first.text
       href  = "##{slide['id']}"
 
-      entry = Nokogiri::XML::Node.new('li', doc).add_class('tocentry')
+      entry = Nokogiri::XML::Node.new('li', doc)
+      entry.add_class('tocentry')
       link  = Nokogiri::XML::Node.new('a', doc)
       link.set_attribute('href', href)
       link.content = title
@@ -35,7 +36,8 @@ class Showoff::Compiler::TableOfContents
       if (section and slide['data-section'] == section['data-section'])
         section.add_child(entry)
       else
-        section = Nokogiri::XML::Node.new('ol', doc).add_class('major')
+        section = Nokogiri::XML::Node.new('ol', doc)
+        section.add_class('major')
         section.set_attribute('data-section', slide['data-section'])
         entry.add_child(section)
         toc.add_child(entry)

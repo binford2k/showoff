@@ -6,6 +6,8 @@ class Showoff
   require 'showoff/locale'
   require 'showoff/logger'
 
+  require 'showoff/monkeypatches'
+
   GEMROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
   def self.do_static(args, options)

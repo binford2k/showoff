@@ -18,15 +18,18 @@ class Showoff::Compiler::Form
     return unless title
 
     begin
-      tools = Nokogiri::XML::Node.new('div', doc).add_class('tools')
+      tools = Nokogiri::XML::Node.new('div', doc)
+        tools.add_class('tools')
         doc.add_child(tools)
 
-      button = Nokogiri::XML::Node.new('input', doc).add_class('display')
+      button = Nokogiri::XML::Node.new('input', doc)
+        button.add_class('display')
         button.set_attribute('type', 'button')
         button.set_attribute('value', I18n.t('forms.display'))
         tools.add_child(button)
 
-      submit = Nokogiri::XML::Node.new('input', doc).add_class('save')
+      submit = Nokogiri::XML::Node.new('input', doc)
+        submit.add_class('save')
         submit.set_attribute('type', 'submit')
         submit.set_attribute('value', I18n.t('forms.save'))
         submit.set_attribute('disabled', 'disabled')
