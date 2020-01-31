@@ -6,6 +6,9 @@ class Showoff
   require 'showoff/locale'
   require 'showoff/logger'
 
+  # @todo: Do we really need Ruby 2.0 support?
+  require 'showoff/monkeypatches'
+
   GEMROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
   def self.do_static(args, options)

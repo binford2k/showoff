@@ -28,7 +28,8 @@ class Showoff::Compiler::Notes
       # Don't bother creating this if we don't want to use it
       next unless Showoff::Config.includeNotes?(klass)
 
-      notes = Nokogiri::XML::Node.new('div', doc).add_class("notes-section #{klass}")
+      notes = Nokogiri::XML::Node.new('div', doc)
+      notes.add_class("notes-section #{klass}")
       nodes = []
       iter = p.next_sibling
       until iter.text == '~~~ENDSECTION~~~' do
