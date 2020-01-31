@@ -332,8 +332,15 @@ module Wrapper
   arg_name 'name'
   long_desc 'Creates a PDF version of the presentation as {name}.pdf'
   command [:pdf] do |c|
+    c.desc 'JSON file used to describe presentation'
+    c.default_value "showoff.json"
+    c.flag [:f, :file, :pres_file]
+
+    c.desc 'Language code to generate.'
+    c.flag [:l, :lang, :language, :locale]
+
     c.action do |global_options,options,args|
-      Showoff.do_static(['pdf'].concat args)
+      Showoff.do_static(['pdf'].concat(args), options)
     end
   end
 
