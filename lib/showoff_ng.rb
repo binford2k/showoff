@@ -4,6 +4,7 @@ class Showoff
   require 'showoff/presentation'
   require 'showoff/state'
   require 'showoff/locale'
+  require 'showoff/logger'
 
   GEMROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
@@ -53,7 +54,7 @@ class Showoff
       begin
         FileUtils.copy(src, dest)
       rescue Errno::ENOENT => e
-        puts "Missing source file: #{path}"
+        Showoff::Logger.warn "Missing source file: #{path}"
       end
     end
   end
@@ -79,15 +80,15 @@ class Showoff
 
     rescue RuntimeError => e
       if File.exist? output
-        puts "Your PDF was generated, but PDFkit reported an error. Inspect the file #{output} for suitability."
-        puts "You might try loading `static/index.html` in a web browser and checking the developer console for 404 errors."
+        Showoff::Logger.warn "Your PDF was generated, but PDFkit reported an error. Inspect the file #{output} for suitability."
+        Showoff::Logger.warn "You might try loading `static/index.html` in a web browser and checking the developer console for 404 errors."
       else
-        puts "Generating your PDF with wkhtmltopdf was not successful."
-        puts "Try running the following command manually to see what it's failing on."
-        puts e.message.sub('--quiet', '')
+        Showoff::Logger.error "Generating your PDF with wkhtmltopdf was not successful."
+        Showoff::Logger.error "Try running the following command manually to see what it's failing on."
+        Showoff::Logger.error e.message.sub('--quiet', '')
       end
     rescue LoadError
-      puts 'Generating a PDF version of your presentation requires the `pdfkit` gem.'
+      Showoff::Logger.error 'Generating a PDF version of your presentation requires the `pdfkit` gem.'
     end
 
   end

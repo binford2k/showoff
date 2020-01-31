@@ -89,9 +89,9 @@ class Showoff::Config
       end
 
     rescue => e
-      logger.error "There was a problem with the presentation file #{index}"
-      logger.error e.message
-      logger.debug e.backtrace
+      Showoff::Logger.error "There was a problem with the presentation file #{index}"
+      Showoff::Logger.error e.message
+      Showoff::Logger.debug e.backtrace
       sections = {}
     end
 

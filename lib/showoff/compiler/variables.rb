@@ -33,7 +33,7 @@ class Showoff::Compiler::Variables
       unless value.is_a?(String)
         msg = "#{match[0]} refers to a non-String data type (#{value.class})"
         msg = "#{match[0]}: not found in settings data" if value.nil?
-        @logger.warn(msg)
+        Showoff::Logger.warn(msg)
         next
       end
 

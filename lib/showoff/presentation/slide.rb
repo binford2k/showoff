@@ -63,7 +63,7 @@ class Showoff::Presentation::Slide
         when 'transition'
           @transition = val
         else
-          $logger.warning "Unknown slide option: #{key}=#{val}"
+          Showoff::Logger.warn "Unknown slide option: #{key}=#{val}"
         end
       end
     end

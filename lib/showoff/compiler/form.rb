@@ -56,8 +56,8 @@ class Showoff::Compiler::Form
       end
 
     rescue Exception => e
-      @logger.warn "Form parsing failed: #{e.message}"
-      @logger.debug "Backtrace:\n\t#{e.backtrace.join("\n\t")}"
+      Showoff::Logger.warn "Form parsing failed: #{e.message}"
+      Showoff::Logger.debug "Backtrace:\n\t#{e.backtrace.join("\n\t")}"
     end
 
     doc
@@ -103,7 +103,7 @@ class Showoff::Compiler::Form
     when ''                            # value =                                             (radio/checkbox list)
       str << self.form_element_multiline(id, code, text)
     else
-      @logger.warn "Unmatched form element: #{rhs}"
+      Showoff::Logger.warn "Unmatched form element: #{rhs}"
     end
     str << '</div>'
   end
