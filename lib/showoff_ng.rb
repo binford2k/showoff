@@ -75,7 +75,7 @@ class Showoff
 
       kit = PDFKit.new(File.new('static/index.html'), Showoff::Config.get('pdf_options'))
       kit.to_file(output)
-      File.rm_rf('static')
+      FileUtils.rm_rf('static')
 
     rescue RuntimeError => e
       if File.exist? output
