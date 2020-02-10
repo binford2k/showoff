@@ -14,6 +14,7 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require 'showoff/version'
 require 'showoff_ng'
 
 # helper method to return the base path of the fixtures directory

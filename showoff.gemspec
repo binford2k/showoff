@@ -32,8 +32,6 @@ Gem::Specification.new do |s|
   s.add_dependency      "iso-639"
   s.add_dependency      "rack-contrib"
   s.add_dependency      "sinatra-websocket"
-  # workaround a bad dependency in sinatra-websocket
-  s.add_dependency      "thin", "~> 1.3"
   s.add_dependency      "commonmarker"
 
   s.add_development_dependency "mg"

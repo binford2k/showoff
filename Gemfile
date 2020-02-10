@@ -2,10 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'tilt', :git => 'https://github.com/rtomayko/tilt'
-
 group :development do
-  gem "turn"
   gem "rack-test"
   gem "pdf-inspector"
 end

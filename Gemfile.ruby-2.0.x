@@ -7,7 +7,6 @@ gem 'i18n', '1.2.0'
 gem 'nokogiri', '1.6.8.1'
 
 group :development do
-  gem "turn"
   gem "rack-test"
   gem "pdf-inspector"
 end
