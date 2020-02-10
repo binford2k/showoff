@@ -17,9 +17,9 @@
   <script type="text/javascript" src="js/showoff.js?v=<%= SHOWOFF_VERSION %>"></script>
 
   <% css_files.each do |css_file| %>
-    <link rel="stylesheet" type="text/css" href="file/<%= css_file %>" />
+    <link rel="stylesheet" type="text/css" href="<%= css_file %>" />
   <% end %>
 
   <% js_files.each do |js_file| %>
-    <script type="text/javascript" src="file/<%= js_file %>"></script>
+    <script type="text/javascript" src="<%= js_file %>"></script>
   <% end %>

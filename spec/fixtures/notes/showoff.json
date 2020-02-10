@@ -1,0 +1,9 @@
+{
+  "name": "Notes test",
+  "description": "This is a simple presentation with a variety of notes.",
+  "sections": [
+    "standalone.md",
+    "content.md",
+    "separate.md"
+  ]
+}

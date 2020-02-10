@@ -1,0 +1,29 @@
+{
+  "name": "Basic Showoff config file",
+  "description": "This is a description.",
+  "protected": [
+    "presenter",
+    "onepage",
+    "print"
+  ],
+  "version": "0.20.0",
+  "feedback": true,
+  "parsers" : {
+    "shell": "cat"
+  },
+  "sections": {
+    "Overview": [
+      "title.md",
+      "intro.md",
+      "about.md"
+    ],
+    "Content": [
+      "one.md",
+      "two.md"
+    ],
+    "Conclusion": [
+      "summary.md",
+      "end.md"
+    ]
+  }
+}

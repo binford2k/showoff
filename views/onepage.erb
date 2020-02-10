@@ -18,7 +18,6 @@
     <%= inline_js(['jquery-2.1.4.min.js', 'showoff.js', 'highlight.pack-9.15.10.js', 'highlightjs-line-numbers.min.js'], 'public/js') %>
     <%= inline_js(['bigtext-0.1.8.js', 'simpleStrings-0.0.1.js', 'mermaid-6.0.0-min.js'], 'public/js') %>
 
-    <%= inline_js(@languages, 'public/js') if @languages %>
     <%= inline_js(js_files) %>
 
   <% else %>
@@ -28,7 +27,7 @@
     <% end %>
 
     <% css_files.each do |css_file| %>
-      <link rel="stylesheet" href="file/<%= css_file %>" type="text/css"/>
+      <link rel="stylesheet" href="<%= css_file %>" type="text/css"/>
     <% end %>
 
     <% ['jquery-2.1.4.min.js', 'showoff.js', 'highlight.pack-9.15.10.js',
@@ -36,12 +35,7 @@
       <script type="text/javascript" src="js/<%= js_file %>"></script>
     <% end %>
     <% js_files.each do |js_file| %>
-      <script type="text/javascript" src="file/<%= js_file %>"></script>
-    <% end %>
-    <% if @languages %>
-      <% @languages.each do |l| %>
-        <script type="text/javascript" src="js<%= l %>"></script>
-      <% end %>
+      <script type="text/javascript" src="<%= js_file %>"></script>
     <% end %>
 
   <% end %>

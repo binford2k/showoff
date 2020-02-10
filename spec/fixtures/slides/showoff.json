@@ -1,0 +1,9 @@
+{
+  "name": "Slides and sections",
+  "description": "This just has some slides.",
+  "sections": [
+    "first.md",
+    "content.md",
+    "last.md"
+  ]
+}

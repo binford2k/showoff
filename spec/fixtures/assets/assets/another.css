@@ -1,0 +1,13 @@
+#preso, .slide {
+  width: 1400px;
+  height: 1024px;
+}
+
+.content {
+  font-family: 'Calibre',Helvetica,Tahoma,Arial,sans-serif;
+  font-size: 1.5em;
+}
+
+.slide {
+  background-image: url(tile.jpg)
+}

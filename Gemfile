@@ -16,6 +16,8 @@ end
 
 group :test do
   gem 'rake'
+  gem 'rspec'
+  gem 'pry'
 end
 
 gem 'rack-contrib'

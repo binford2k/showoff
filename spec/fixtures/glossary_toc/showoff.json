@@ -1,0 +1,7 @@
+{
+  "name": "Glossary and TOC test",
+  "description": "This is a simple presentation that generates a TOC and glossary.",
+  "sections": [
+    "content.md"
+  ]
+}

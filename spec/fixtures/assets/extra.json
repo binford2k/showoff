@@ -1,0 +1,11 @@
+{
+  "name": "Slides and sections",
+  "description": "This just has some slides.",
+  "sections": [
+    "first.md",
+    "content.md",
+    "last.md"
+  ],
+  "styles": ["assets/another.css"],
+  "scripts": ["assets/another.js"]
+}

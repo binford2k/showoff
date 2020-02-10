@@ -1,7 +1,7 @@
 #! /usr/bin/env ruby
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
-require 'showoff'
+#require 'showoff'
 require 'showoff/version'
 require 'rubygems'
 require 'fidget'
@@ -28,7 +28,8 @@ module Wrapper
     The simplest use case is to run `showoff serve` from the directory containing
     the showoff.json file.
   desc
-
+  switch :dev, :desc => "Use the next-gen development version of Showoff"
+  switch :debug, :desc => "Show application backtraces on crash"
 
   desc 'Create new showoff presentation'
   long_desc 'This command helps start a new showoff presentation by setting up the proper directory structure for you.  It takes the directory name you would like showoff to create for you.'
@@ -331,15 +332,37 @@ module Wrapper
   arg_name 'name'
   long_desc 'Creates a PDF version of the presentation as {name}.pdf'
   command [:pdf] do |c|
+    c.desc 'JSON file used to describe presentation'
+    c.default_value "showoff.json"
+    c.flag [:f, :file, :pres_file]
+
+    c.desc 'Language code to generate.'
+    c.flag [:l, :lang, :language, :locale]
+
     c.action do |global_options,options,args|
-      Showoff.do_static(['pdf'].concat args)
+      Showoff.do_static(['pdf'].concat(args), options)
     end
   end
 
   pre do |global,command,options,args|
     # Pre logic here
-    # Return true to proceed; false to abourt and not call the
+    # Return true to proceed; false to abort and not call the
     # chosen command
+
+    if global[:debug]
+      ENV['GLI_DEBUG'] = 'true'
+    end
+
+    if global[:dev]
+      require 'showoff_ng'
+
+      if options[:file]
+        Showoff::Config.load(options[:file])
+      end
+    else
+      require 'showoff'
+    end
+
     true
   end
 
