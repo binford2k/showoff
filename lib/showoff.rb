@@ -1987,6 +1987,8 @@ class Showoff < Sinatra::Application
       if (what != "favicon.ico")
         if ['supplemental', 'print'].include? what
           data = send(what, opt)
+        elsif File.file? what
+          data = File.read(what)
         else
           data = send(what)
         end
