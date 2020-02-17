@@ -1988,7 +1988,7 @@ class Showoff < Sinatra::Application
         if ['supplemental', 'print'].include? what
           data = send(what, opt)
         elsif File.file? what
-          data = File.read(what)
+          data = File.open(what)
         else
           data = send(what)
         end
