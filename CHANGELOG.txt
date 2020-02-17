@@ -1,3 +1,21 @@
+0.20.2
+  * Added styling for preshow images (thanks @iversond #903)
+  * Styling improvements for numbered code blocks (thanks @raphink #904)
+  * Corrected Font Awesome style updates (#905, #909)
+  * Fixed a version check (thanks @op-ct #906)
+  * Fixed an error with `showoff skeleton` (thanks @op-ct #907)
+  * Update highlight.js (thanks @abuxton #912)
+  * Adds nested hash syntax when using config data in presentation templates (thanks @op-ct #911)
+
+This also starts a complete rearchitecting of Showoff that will make the codebase
+far easier to improve and maintain. This work is 99% in parallel to the legacy
+codebase so that there should be few or no breaking changes. Currently only the
+`static`, `static supplemental/print/pdf`, and `pdf` subcommands have been implemented.
+You can use the new engine for these commands with the `--dev` command line argument.
+
+Please file issues if you see *any* breakage or new oddities.
+
+
 0.20.1
   * Font Awesome changed a lot of class names and the like. This fixes them.
   * Added the ability to specify additional styles and scripts in your presentation.
