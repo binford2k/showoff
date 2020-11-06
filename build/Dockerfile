@@ -7,4 +7,4 @@ RUN apk add --no-cache ruby ruby-dev zlib-dev build-base git cmake busybox \
         && rm -rf `gem environment gemdir`/gems/commonmarker-*/test \
         && rm -rf `gem environment gemdir`/cache
 
-CMD ["showoff", "serve"]
+ENTRYPOINT ["showoff", "serve"]
