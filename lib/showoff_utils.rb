@@ -736,6 +736,10 @@ module MarkdownConfig
       }
     when 'kramdown'
       {}
+    when 'commonmarker'
+      {
+        :UNSAFE            => true,
+      }
     else
       {
         :autolink          => true,
