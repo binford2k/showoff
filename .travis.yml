@@ -12,15 +12,14 @@ notifications:
 
 matrix:
   include:
-    - rvm: 2.0
-      env: "CHECK=spec"
-      gemfile: Gemfile.ruby-2.0.x
-
-    - rvm: 2.3
-      env: "CHECK=spec"
-
     - rvm: 2.5
       env: "CHECK=spec"
 
     - rvm: 2.6
+      env: "CHECK=spec"
+
+    - rvm: 2.7
+      env: "CHECK=spec"
+
+    - rvm: 3.0
       env: "CHECK=spec"

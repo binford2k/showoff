@@ -19,22 +19,22 @@ Gem::Specification.new do |s|
   s.files            += Dir.glob("views/**/*")
   s.files            += Dir.glob("public/**/*")
   s.files            += Dir.glob("locales/**/*")
-  s.add_dependency      "sinatra", "~> 1.3"
-  s.add_dependency      "gli",     ">= 2.0"
-  s.add_dependency      "tilt",    ">= 2.0.3"
-  s.add_dependency      "fidget",  ">= 0.0.3"
-  s.add_dependency      "json"
-  s.add_dependency      "parslet"
-  s.add_dependency      "htmlentities"
-  s.add_dependency      "redcarpet"
-  s.add_dependency      "nokogiri"
-  s.add_dependency      "i18n"
-  s.add_dependency      "iso-639"
-  s.add_dependency      "rack-contrib"
-  s.add_dependency      "sinatra-websocket"
-  s.add_dependency      "commonmarker"
+  s.add_dependency      "commonmarker",      "~> 0.21"
+  s.add_dependency      "fidget",            "~> 0.0"
+  s.add_dependency      "gli",               "~> 2.20"
+  s.add_dependency      "htmlentities",      "~> 4.3"
+  s.add_dependency      "i18n",              "~> 1.8"
+  s.add_dependency      "iso-639",           "~> 0.3"
+  s.add_dependency      "json",              "~> 2.5"
+  s.add_dependency      "nokogiri",          "~> 1.11"
+  s.add_dependency      "parslet",           "~> 2.0"
+  s.add_dependency      "rack-contrib",      "~> 2.3"
+  s.add_dependency      "redcarpet",         "~> 3.5"
+  s.add_dependency      "sinatra",           "~> 2.1"
+  s.add_dependency      "sinatra-websocket", "~> 0.3"
+  s.add_dependency      "tilt",              "~> 2.0"
 
-  s.add_development_dependency "mg"
+  s.add_development_dependency "mg",         "~> 0.0"
   s.description       = <<-desc
   Showoff is a Sinatra web app that reads simple configuration files for a
   presentation.  It is sort of like a Keynote web app engine.  I am using it
