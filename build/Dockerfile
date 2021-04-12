@@ -1,4 +1,4 @@
-FROM gliderlabs/alpine
+FROM alpine
 MAINTAINER Ben Ford <ben.ford@puppet.com>
 WORKDIR /var/cache/showoff
 RUN apk add --no-cache ruby ruby-dev zlib-dev build-base git cmake busybox \
