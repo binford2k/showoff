@@ -1,3 +1,8 @@
+0.20.3
+  * Container improvements (thanks @raphink #922, #924)
+  * Default Commonmarker to UNSAFE, which allows more flexibilty in the raw HTML we can use. (thanks @raphink #923)
+  * Dependency and test matrix cleanups (thanks @jmeridth #925)
+
 0.20.2
   * Added styling for preshow images (thanks @iversond #903)
   * Styling improvements for numbered code blocks (thanks @raphink #904)
