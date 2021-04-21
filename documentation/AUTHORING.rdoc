@@ -333,7 +333,7 @@ For example:
 
 == Rendering Diagrams
 
-Showoff includes the {Mermaid}[http://knsv.github.io/mermaid] diagram renderer, which allows
+Showoff includes the {Mermaid}[https://mermaid-js.github.io/] diagram renderer, which allows
 you to describe diagrams with a simple language and style them with CSS. To do so, create a
 code block using a highlight style of <tt>render-diagram</tt>.
 
@@ -356,7 +356,7 @@ For example:
         Create tests for renderer           :2d
         Add to mermaid                      :1d
 
-See http://knsv.github.io/mermaid/index.html#flowcharts-basic-syntax for a syntax tutorial.
+See https://mermaid-js.github.io/mermaid/#/flowchart for a syntax tutorial.
 
 
 = Forms
