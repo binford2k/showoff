@@ -1810,7 +1810,7 @@ class Showoff < Sinatra::Application
     end
   end
 
-  get %r{(?:image|file)/(.*)} do
+  get %r{/(?:image|file)/(.*)} do
     path = params[:captures].first
     full_path = File.join(settings.pres_dir, path)
     if File.exist?(full_path)
