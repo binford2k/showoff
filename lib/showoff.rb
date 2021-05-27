@@ -619,12 +619,12 @@ class Showoff < Sinatra::Application
 
       # because this is post markdown rendering, we may need to shift a <p> tag around
       # remove the tags if they're by themselves
-      result = content.gsub(/<p>~~~SECTION:([^~]*)~~~<\/p>/, '<div class="notes-section \1">')
-      result.gsub!(/<p>~~~ENDSECTION~~~<\/p>/, '</div>')
+      result = content.gsub(/<p>!SECTION:([^!]*)!<\/p>/, '<div class="notes-section \1">')
+      result.gsub!(/<p>!ENDSECTION!<\/p>/, '</div>')
 
       # shove it around the div if it belongs to the contained element
-      result.gsub!(/(<p>)?~~~SECTION:([^~]*)~~~/, '<div class="notes-section \2">\1')
-      result.gsub!(/~~~ENDSECTION~~~(<\/p>)?/, '\1</div>')
+      result.gsub!(/(<p>)?!SECTION:([^!]*)!/, '<div class="notes-section \2">\1')
+      result.gsub!(/!ENDSECTION!(<\/p>)?/, '\1</div>')
 
       # Turn this into a document for munging
       doc = Nokogiri::HTML::DocumentFragment.parse(result)
