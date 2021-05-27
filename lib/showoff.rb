@@ -60,7 +60,7 @@ class Showoff < Sinatra::Application
   set :url, nil
 
   set :block_rx_mark, %r{(?:~~~|!)}
-  set :block_rx_store, %r{([^~!]*)}
+  set :block_rx_store, %r{[^~!]*}
 
   # automatically select the translation based on the user's configured browser language
   use Rack::Locale
@@ -511,8 +511,7 @@ class Showoff < Sinatra::Application
         end
 
         # Apply the template to the slide and replace the key to generate the content of the slide
-        rx_mark = settings.block_rx_mark
-        sl = process_content_for_replacements(template.gsub(/#{rx_mark}CONTENT#{rx_mark}/, slide.text))
+        sl = process_content_for_replacements(template.gsub(block_rx_mark('CONTENT'), slide.text))
         sl = process_content_for_language(sl, I18n.locale)
         sl = Tilt[:markdown].new(nil, nil, @engine_options) { sl }.render
         sl = build_forms(sl, content_classes)
@@ -547,8 +546,7 @@ class Showoff < Sinatra::Application
         lang = locale.to_s.split('-').first
         result = content
 
-        rx_mark = settings.block_rx_mark
-        content.scan(/^((#{rx_mark}LANG:([\w-]+)#{rx_mark}\n)(.+?)(\n#{rx_mark}ENDLANG#{rx_mark}\n))/m).each do |match|
+        content.scan(/^((#{block_rx_store('LANG', /[\w-]+/)}\n)(.+?)(\n#{block_rx_mark('ENDLANG')}\n))/m).each do |match|
             if match[2] == lang or match[2] == locale.to_s
                 result.sub!(match[0], match[3])
             else
@@ -563,21 +561,21 @@ class Showoff < Sinatra::Application
     # content markers with their actual value information
     def process_content_for_replacements(content)
       # update counters, incrementing section:minor if needed
-      result = content.gsub("~~~CURRENT_SLIDE~~~", @slide_count.to_s)
-      result.gsub!("~~~SECTION:MAJOR~~~", @section_major.to_s)
-      if result.include? "~~~SECTION:MINOR~~~"
+      result = content.gsub(block_rx_mark('CURRENT_SLIDE'), @slide_count.to_s)
+      result.gsub!(block_rx_mark('SECTION:MAJOR'), @section_major.to_s)
+      if result.match? block_rx_mark('SECTION:MINOR')
         @section_minor += 1
-        result.gsub!("~~~SECTION:MINOR~~~", @section_minor.to_s)
+        result.gsub!(block_rx_mark('SECTION:MINOR'), @section_minor.to_s)
       end
 
       # scan for pagebreak tags. Should really only be used for handout notes or supplemental materials
-      result.gsub!("~~~PAGEBREAK~~~", '<div class="pagebreak">continued...</div>')
+      result.gsub!(block_rx_mark('PAGEBREAK'), '<div class="pagebreak">continued...</div>')
 
       # replace with form rendering placeholder
-      result.gsub!(/~~~FORM:([^~]*)~~~/, '<div class="form wrapper" title="\1"></div>')
+      result.gsub!(block_rx_store('FORM'), '<div class="form wrapper" title="\1"></div>')
 
       # Now check for any kind of options
-      content.scan(/(~~~CONFIG:(.*?)~~~)/).each do |match|
+      content.scan(/(#{block_rx_store('CONFIG', /.*?/)})/).each do |match|
         parts = match[1].split('.') # Use dots ('.') to separate Hash keys
         if parts.size > 1
           value = settings.showoff_config.dig(parts[0]).to_h.dig(*parts[1..-1])
@@ -596,7 +594,7 @@ class Showoff < Sinatra::Application
       end
 
       # Load and replace any file tags
-      content.scan(/(~~~FILE:([^:~]*):?(.*)?~~~)/).each do |match|
+      content.scan(/(#{block_rx_store('FILE', /[^:~]*/)})/).each do |match|
         # make a list of code highlighting classes to include
         css  = match[2].split.collect {|i| "language-#{i.downcase}" }.join(' ')
 
@@ -623,10 +621,10 @@ class Showoff < Sinatra::Application
       %r{#{rx_mark}#{tag}#{rx_mark}}
     end
 
-    def block_rx_store(tag)
+    def block_rx_store(tag, rx_store=nil)
       rx_mark = settings.block_rx_mark
-      rx_store = settings.block_rx_store
-      %r{#{rx_mark}#{tag}:#{rx_store}#{rx_mark}}
+      rx_store ||= settings.block_rx_store
+      %r{#{rx_mark}#{tag}:(#{rx_store})#{rx_mark}}
     end
 
     # replace section tags with classed div tags
@@ -757,7 +755,7 @@ class Showoff < Sinatra::Application
 
     def process_content_for_all_slides(content, num_slides, opts={})
       # this has to be text replacement for now, since the string can appear in any context
-      content.gsub!("~~~NUM_SLIDES~~~", num_slides.to_s)
+      content.gsub!(block_rx_mark('NUM_SLIDES'), num_slides.to_s)
       doc = Nokogiri::HTML::DocumentFragment.parse(content)
 
       # Should we build a table of contents?
@@ -781,6 +779,7 @@ class Showoff < Sinatra::Application
 
         # swap out the tag, if found, with the table of contents
         doc.at('p:contains("~~~TOC~~~")').replace(toc) rescue nil
+        doc.at('p:contains("!TOC!")').replace(toc) rescue nil
       end
 
       doc.css('.slide.glossary .content').each do |glossary|
