@@ -59,6 +59,9 @@ class Showoff < Sinatra::Application
   set :encoding, nil
   set :url, nil
 
+  set :block_rx_mark, %r{(~~~|!)}
+  set :block_rx_store, %{([^~!]*)}
+
   # automatically select the translation based on the user's configured browser language
   use Rack::Locale
 
@@ -619,12 +622,14 @@ class Showoff < Sinatra::Application
 
       # because this is post markdown rendering, we may need to shift a <p> tag around
       # remove the tags if they're by themselves
-      result = content.gsub(/<p>!SECTION:([^!]*)!<\/p>/, '<div class="notes-section \1">')
-      result.gsub!(/<p>!ENDSECTION!<\/p>/, '</div>')
+      rx_mark = settings.block_rx_mark
+      rx_store = settings.block_rx_store
+      result = content.gsub(/<p>#{rx_mark}SECTION:#{rx_store}#{rx_mark}<\/p>/, '<div class="notes-section \1">')
+      result.gsub!(/<p>#{rx_mark}ENDSECTION#{rx_mark}<\/p>/, '</div>')
 
       # shove it around the div if it belongs to the contained element
-      result.gsub!(/(<p>)?!SECTION:([^!]*)!/, '<div class="notes-section \2">\1')
-      result.gsub!(/!ENDSECTION!(<\/p>)?/, '\1</div>')
+      result.gsub!(/(<p>)?#{rx_mark}SECTION:#{rx_store}#{rx_mark}/, '<div class="notes-section \2">\1')
+      result.gsub!(/#{rx_mark}ENDSECTION#{rx_mark}(<\/p>)?/, '\1</div>')
 
       # Turn this into a document for munging
       doc = Nokogiri::HTML::DocumentFragment.parse(result)
