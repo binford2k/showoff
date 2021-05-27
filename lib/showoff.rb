@@ -511,7 +511,8 @@ class Showoff < Sinatra::Application
         end
 
         # Apply the template to the slide and replace the key to generate the content of the slide
-        sl = process_content_for_replacements(template.gsub(/~~~CONTENT~~~/, slide.text))
+        rx_mark = settings.block_rx_mark
+        sl = process_content_for_replacements(template.gsub(/#{rx_mark}CONTENT#{rx_mark}/, slide.text))
         sl = process_content_for_language(sl, I18n.locale)
         sl = Tilt[:markdown].new(nil, nil, @engine_options) { sl }.render
         sl = build_forms(sl, content_classes)
@@ -546,7 +547,8 @@ class Showoff < Sinatra::Application
         lang = locale.to_s.split('-').first
         result = content
 
-        content.scan(/^((~~~LANG:([\w-]+)~~~\n)(.+?)(\n~~~ENDLANG~~~\n))/m).each do |match|
+        rx_mark = settings.block_rx_mark
+        content.scan(/^((#{rx_mark}LANG:([\w-]+)#{rx_mark}\n)(.+?)(\n#{rx_mark}ENDLANG#{rx_mark}\n))/m).each do |match|
             if match[2] == lang or match[2] == locale.to_s
                 result.sub!(match[0], match[3])
             else
@@ -616,20 +618,29 @@ class Showoff < Sinatra::Application
       result
     end
 
+    def block_rx_mark(tag)
+      rx_mark = settings.block_rx_mark
+      %r{#{rx_mark}#{tag}#{rx_mark}}
+    end
+
+    def block_rx_store(tag)
+      rx_mark = settings.block_rx_mark
+      rx_store = settings.block_rx_store
+      %r{#{rx_mark}#{tag}:#{rx_store}#{rx_mark}}
+    end
+
     # replace section tags with classed div tags
     def process_content_for_section_tags(content, name = nil, opts = {})
       return unless content
 
       # because this is post markdown rendering, we may need to shift a <p> tag around
       # remove the tags if they're by themselves
-      rx_mark = settings.block_rx_mark
-      rx_store = settings.block_rx_store
-      result = content.gsub(/<p>#{rx_mark}SECTION:#{rx_store}#{rx_mark}<\/p>/, '<div class="notes-section \1">')
-      result.gsub!(/<p>#{rx_mark}ENDSECTION#{rx_mark}<\/p>/, '</div>')
+      result = content.gsub(/<p>#{block_rx_store('SECTION')}<\/p>/, '<div class="notes-section \1">')
+      result.gsub!(/<p>#{block_rx_mark('ENDSECTION')}<\/p>/, '</div>')
 
       # shove it around the div if it belongs to the contained element
-      result.gsub!(/(<p>)?#{rx_mark}SECTION:#{rx_store}#{rx_mark}/, '<div class="notes-section \2">\1')
-      result.gsub!(/#{rx_mark}ENDSECTION#{rx_mark}(<\/p>)?/, '\1</div>')
+      result.gsub!(/(<p>)?#{block_rx_store('SECTION')}/, '<div class="notes-section \2">\1')
+      result.gsub!(/#{block_rx_mark('ENDSECTION')}(<\/p>)?/, '\1</div>')
 
       # Turn this into a document for munging
       doc = Nokogiri::HTML::DocumentFragment.parse(result)
