@@ -67,7 +67,7 @@ class Showoff::Compiler
       end
     rescue LoadError
       puts "ERROR: The #{renderer} markdown rendering engine does not appear to be installed correctly."
-      exit! 1
+      exit 1
     end
 
     profile
