@@ -173,7 +173,7 @@ class ShowoffUtils
     puts "Found #{errors.size} errors."
     unless errors.empty?
       errors.each { |err| puts " * #{err}" }
-      exit!
+      exit 1
     end
   end
 
@@ -715,7 +715,7 @@ module MarkdownConfig
       end
     rescue LoadError
       puts "ERROR: The #{renderer} markdown rendering engine does not appear to be installed correctly."
-      exit! 1
+      exit 1
     end
   end
 
