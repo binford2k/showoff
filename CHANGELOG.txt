@@ -1,3 +1,7 @@
+0.20.4
+	* Improved the output of showoff validate (thanks to @ccactus @932)
+	* Fixed image serving (thanks to @CircleCode and @RincewindsHat)
+
 0.20.3
   * Container improvements (thanks @raphink #922, #924)
   * Default Commonmarker to UNSAFE, which allows more flexibilty in the raw HTML we can use. (thanks @raphink #923)
