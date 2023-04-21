@@ -62,6 +62,20 @@ you'll need to install both Ruby and the Ruby DevKit for compiling native extens
     gem install showoff
 
 
+Alternatively, you can run Showoff using docker:
+
+    docker run --rm -it -p 9090:9090 -v $(pwd):/var/cache/showoff binford2k/showoff
+
+
+Or build the image yourself:
+
+    docker build -t Dockerfile local/showoff .
+
+
+And run using the locally built image:
+
+    docker run --rm -it -p 9090:9090 -v $(pwd):/var/cache/showoff local/showoff 
+
 ## Documentation
 
 Please see the user manual on the [Showoff homepage](http://puppetlabs.github.io/showoff)
