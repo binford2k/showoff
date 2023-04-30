@@ -69,7 +69,7 @@ Alternatively, you can run Showoff using docker:
 
 Or build the image yourself:
 
-    docker build -t Dockerfile local/showoff .
+    docker build -t local/showoff .
 
 
 And run using the locally built image:
