@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.files            += Dir.glob("views/**/*")
   s.files            += Dir.glob("public/**/*")
   s.files            += Dir.glob("locales/**/*")
-  s.add_dependency      "commonmarker",      "~> 0.21"
+  s.add_dependency      "commonmarker",      ">= 0.21", "< 2.0"
   s.add_dependency      "fidget",            "~> 0.0"
   s.add_dependency      "gli",               "~> 2.20"
   s.add_dependency      "htmlentities",      "~> 4.3"
