@@ -64,7 +64,7 @@ you'll need to install both Ruby and the Ruby DevKit for compiling native extens
 
 ## Documentation
 
-Please see the user manual on the [Showoff homepage](http://puppetlabs.github.io/showoff)
+Please see the user manual on the [Showoff homepage](http://binford2k.github.io/showoff)
 for further information.
 
 You can also generate a nice & pretty local copy of the user manual by running
