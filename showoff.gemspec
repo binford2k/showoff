@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.add_dependency      "parslet",           "~> 2.0"
   s.add_dependency      "rack-contrib",      "~> 2.3"
   s.add_dependency      "redcarpet",         "~> 3.5"
-  s.add_dependency      "sinatra",           "~> 2.1"
+  s.add_dependency      "sinatra",           ">= 2.1", "< 5.0"
   s.add_dependency      "sinatra-websocket", "~> 0.3"
   s.add_dependency      "tilt",              "~> 2.0"
 
